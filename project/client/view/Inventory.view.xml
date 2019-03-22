@@ -1,0 +1,227 @@
+<mvc:View controllerName="victoria.controller.Inventory" xmlns="sap.ui.commons"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:m="sap.m"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:table="sap.ui.table"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" 
+	xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="inventory"
+		navButtonPress="onNavBack" showNavButton="true" title="Manage Inventory"
+		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+			<f:SimpleForm id="SimpleFormChange354"
+						editable="true"
+						layout="ResponsiveGridLayout"
+						labelSpanS="2"
+						labelSpanL="2"
+						labelSpanM="2"
+						emptySpanS="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						adjustLabelSpan="false"
+						columnsL="2"
+						columnsM="2"
+						class="editableForm">				
+						<f:content>
+							<core:Title text="Primary"></core:Title>
+							<m:Label text="Entry Date" ></m:Label>
+							<DatePicker class="sapUiTinyMarginTop"
+								id="dateEntry"
+								width="200px"
+								valueFormat="yyyy-MM-dd"
+								change="dateChanged"
+								value="{path:'objectView>/dateValue',
+								 type:'sap.ui.model.type.Date', 
+								 formatOptions: { style: 'medium', strictParsing: true}}"
+								/>
+							
+							<m:Label text="Entry Type"/>
+							<m:Select
+								id="idEntryType" width="200px"
+								selectedKey="2"
+								items="{
+									path: '/InventoryTransactionTypes'
+								}">
+								<core:Item key="{Id}" text="{TypeName}" />
+							</m:Select>
+							
+							<m:Label text="Customer Code" labelFor="customerCode"/>
+							<m:Input width="200px"
+								id="customerCode"
+								type="Text"
+								showSuggestion="true"
+								value="{objectView>/CustomerCode}"
+								suggestionItems="{/Customers}" 
+								suggestionItemSelected="selectedCustomer">
+								<m:suggestionItems>
+									<core:Item text="{Company}" key="{Id}"/>
+								</m:suggestionItems>
+							</m:Input>
+							<m:Title level="H3" id="lblCustomer" class="sapUiTinyMarginTop"/>
+							
+							
+							<core:Title text="Product Data"></core:Title>
+							<m:Label text="Product Code" labelFor="productInput"/>
+							<m:Input width="200px"
+								id="productInput"
+								type="Text"
+								showSuggestion="true"
+								value="{objectView>/ProductCode}"
+								suggestionItems="{/Products}" 
+								suggestionItemSelected="selectedProduct">
+								<m:suggestionItems>
+									<core:Item text="{ProductCode}" key="{Id}"/>
+								</m:suggestionItems>
+							</m:Input>
+							<m:Title level="H3" id="lblProduct" class="sapUiTinyMarginTop"/>
+							
+							<m:Label text="Quantity"/>
+							<m:Input width="200px"
+								id="idQty"
+								type="Number"
+								value="{objectView>/Qty}">
+							</m:Input>
+							
+							<m:Label text="Weight(gm)"/>
+							<m:Input width="200px"
+								id="idWeight"
+								type="Number"
+								value="{objectView>/Weight}">
+							</m:Input>
+							
+							
+							<m:Label text="Remarks"/>
+							<m:Input width="200px"
+								id="idRemarks"
+								type="Text"
+								value="{objectView>/Remarks}">
+							</m:Input>
+							
+							<m:Button text="Submit" press="onSubmit"></m:Button>
+							<m:Button text="Clear" press="onClear"></m:Button>
+						</f:content>
+					</f:SimpleForm>	
+			<l:BlockLayout id="BlockLayout" background="{/selectedBackground}">
+				<l:BlockLayoutRow accentCells="Accent1">
+					<l:BlockLayoutCell id="Accent1" width="50%"
+						title="Jama Entries">
+						<table:Table id="Jama" rowHeight="25px"
+							visibleRowCount="10" enableSelectAll="false" rows="{jama>/items}">
+
+							<table:columns>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Date" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{
+										  path: 'jama>Date',
+										  	type: 'sap.ui.model.type.Date',
+									         formatOptions: {
+									           pattern: 'dd.MM.yyyy'
+									         }
+										  }" />
+										<TextView editable="true" text="{
+										  path: 'jama>Date',
+										  	type: 'sap.ui.model.type.Date',
+									         formatOptions: {
+									           pattern: 'HH:mm'
+									         }
+										  }" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="250px">
+									<Label text="Item" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{jama>ProductCode}" />
+										<TextView editable="true" text="{jama>Category}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column>
+									<Label text="Account" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{jama>CustomerCode}" />
+										<TextView editable="true" text="{jama>City}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column>
+									<Label text="Quantity/Wt." />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{jama>Weight} gm" />
+										<TextView editable="true" text="{jama>Qty}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+							</table:columns>
+						</table:Table>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell title="Naam Entries" width="50%">
+						<table:Table id="Naam" rowHeight="25px"
+							visibleRowCount="10" enableSelectAll="false" rows="{naam>/items}">
+
+							<table:columns>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Date" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{
+										  	path: 'naam>Date',
+										  	type: 'sap.ui.model.type.Date',
+									         formatOptions: {
+									           pattern: 'dd.MM.yyyy'
+									         }
+										  }" />
+										<TextView editable="true" text="{
+										  path: 'naam>Date',
+										  	type: 'sap.ui.model.type.Date',
+									         formatOptions: {
+									           pattern: 'HH:mm'
+									         }
+										  }" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="250px">
+									<Label text="Item" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{naam>ProductCode}" />
+										<TextView editable="true" text="{naam>Category}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column>
+									<Label text="Account" />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{naam>CustomerCode}" />
+										<TextView editable="true" text="{naam>City}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+								<table:Column>
+									<Label text="Quantity/Wt." />
+									<table:template>
+									<l:VerticalLayout>
+										<TextView editable="true" text="{naam>Weight} gm" />
+										<TextView editable="true" text="{naam>Qty}" />
+										</l:VerticalLayout>
+									</table:template>
+								</table:Column>
+							</table:columns>
+						</table:Table>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+
+
+		</semantic:content>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

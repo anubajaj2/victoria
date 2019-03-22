@@ -1,0 +1,425 @@
+<mvc:View controllerName="victoria.controller.sales" xmlns="sap.ui.commons"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:m="sap.m"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:table="sap.ui.table"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="sales"
+		navButtonPress="onNavBack" showNavButton="true" title="Sales"
+		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+
+			<m:VBox class="sapUiSmallMargin">
+				<f:Form id="salesBhav" editable="true" ariaLabelledBy="Title1"
+					title="Bhav Data">
+					<f:layout>
+						<f:ResponsiveGridLayout emptySpanL="0"
+							labelMinWidth="10" />
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Silver Bhav(per Kg)" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idBhavs" type="Text"  width="200px"
+											value="{salesHeaderModel>/BhavS}">
+										</m:Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement>
+									<m:Button text="Generate Bill Number" press="onGenerateBillNumber"/>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<l:GridData span="L6 M6 S12" />
+							</f:layoutData>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L6 M6 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Gold Bhav (Per 10gm)" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idBhavG" type="Text" width="200px"
+											value="{salesHeaderModel>/BhavG}">
+										</m:Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+				<f:Form id="salesFormToolbar" editable="true" ariaLabelledBy="Title1"
+					title="Order Header Data">
+					<f:layout>
+						<f:ResponsiveGridLayout emptySpanL="0"
+
+							labelMinWidth="10" />
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Order Type" />
+									</f:label>
+									<f:fields>
+										<m:Select id="idOrderType" width="200px" selectedKey="0"
+											items="{
+													path: '/OrderTypes' }">
+											<core:Item key="{Id}" text="{Type}" />
+										</m:Select>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<l:GridData span="L3 M8 S12" />
+							</f:layoutData>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L3 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Bill No" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idBillNum" type="Text" width="200px"
+											value="{salesHeaderModel>/BillNo}">
+										</m:Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L3 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Date" />
+									</f:label>
+									<f:fields>
+										<DatePicker class="sapUiTinyMarginTop" id="idSDate"
+											width="200px" valueFormat="yyyy-MM-dd" change="dateChanged"
+											value="{path:'salesHeaderModel>/Date',
+								 type:'sap.ui.model.type.Date', 
+								 formatOptions: { style: 'medium', strictParsing: true}}" />
+									</f:fields>
+
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L3 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Customer" />
+									</f:label>
+									<f:fields>
+										<m:Input width="200px" id="idSCustCde" type="Text"
+											showSuggestion="true" value="{salesHeaderModel>/CustomerCode}"
+											suggestionItems="{/Customers}" suggestionItemSelected="selectedCustomer">
+											<m:suggestionItems>
+												<core:Item text="{Company}" key="{Id}" />
+											</m:suggestionItems>
+										</m:Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+				<f:Form id="orderDetails" editable="true" ariaLabelledBy="Title1"
+					title="Add Products in Order">
+					<f:layout>
+						<f:ResponsiveGridLayout emptySpanL="0"
+							labelMinWidth="10" />
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Product Code" />
+									</f:label>
+									<f:fields>
+										<m:Input width="110px" id="idProductCode" type="Text"
+											showSuggestion="true" value="{salesItemModel>ItemCode}"
+											suggest="handleSuggest"
+											suggestionItems="{path:'/Products' 
+											, templateShareable:false}"
+											suggestionItemSelected="selectedProduct">
+											<m:suggestionItems>
+												<core:Item text="{ProductName}" key="{Id}" />
+											</m:suggestionItems>
+										</m:Input>
+										<m:Label
+											text="{salesHeaderModel>/Hindi},{salesHeaderModel>/Category},{salesHeaderModel>/PType}" />
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<l:GridData span="L4 M8 S12" />
+							</f:layoutData>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L4 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Tunch" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idTunch" type="Text" width="200px"
+											value="{salesHeaderModel>/Tunch}">
+										</m:Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L4 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Making" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idMaking" type="Text" width="200px"
+											value="{salesHeaderModel>/Making}">
+										</m:Input>
+										<m:Input id="idMakingExtra" type="Text" width="200px"
+											value="{salesHeaderModel>/MakingExtra}">
+										</m:Input>
+									</f:fields>
+
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L4 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Weight" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idWeight" type="Text" width="200px"
+											value="{salesHeaderModel>/Weight}">
+										</m:Input>
+										<m:Input id="idWeightLess" type="Text" width="200px"
+											value="{salesHeaderModel>/WeightLess}">
+										</m:Input>
+									</f:fields>
+
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+
+						<f:FormContainer>
+							<f:layoutData>
+								<l:GridData span="L4 M8 S12" />
+							</f:layoutData>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<m:Label text="Quantity" />
+									</f:label>
+									<f:fields>
+										<m:Input id="idPcs" type="Text" width="200px"
+											value="{salesHeaderModel>/Pcs}">
+										</m:Input>
+										<m:Input id="idPcsExtra" type="Text" width="200px"
+											value="{salesHeaderModel>/PcsExtra}">
+										</m:Input>
+									</f:fields>
+
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+				<m:Button text="Create" press="createNewRow" width="200px" />
+			</m:VBox>
+			<l:BlockLayout id="BlklayoutSales" background="{/selectedBackground}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell id="BlkCellSales" width="50%"
+						title="Total Fine: {salesHeaderModel>/TotSlv} , Total Gold: {salesHeaderModel>/TotGold}, 
+							   Total Cash: {salesHeaderModel>/TotCash}, Total Pcs: {salesHeaderModel>/TotPcs},
+							   Gross Silver: {salesHeaderModel>/GrossSlv}, Gross Gold: {salesHeaderModel>/GrossGld}">
+						<table:Table id="Orders" rowHeight="25px"
+							visibleRowCount="10" enableSelectAll="false" cellClick="oncellClick">
+							<table:columns>
+								<table:Column width="110px" enableColumnFreeze="true">
+									<Label text="Item Code" />
+									<table:template>
+										<m:Input width="110px" id="salesProductInput" type="Text"
+											showSuggestion="true" value="{salesItemModel>ItmCode}"
+											suggest="handleSuggest"
+											suggestionItems="{path:'/Products' 
+											, templateShareable:false}">
+											<m:suggestionItems>
+												<core:Item text="{ProductCode}" key="{Id}" />
+											</m:suggestionItems>
+										</m:Input>
+
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Description" />
+									<table:template>
+										<TextView text="{salesItemModel>description}" id="idSDesc"
+											editable="true" />
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Weight" />
+									<table:template>
+										<TextField editable="true" value="{salesItemModel>Weight}"
+											id="idSWght" liveChange="onLiveChangeQty" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Tunch" />
+									<table:template>
+										<TextField editable="true" value="{salesItemModel>Tunch}"
+											id="idSTnch" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="QTY" />
+									<table:template>
+										<TextField editable="true" value="{salesItemModel>Qty}"
+											id="idSQty" liveChange="onLiveChangeQty" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Making" />
+									<table:template>
+										<TextField editable="true" value="{salesItemModel>Making}"
+											id="idSMkng" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="FineS" />
+									<table:template>
+										<TextView text="{salesItemModel>Fines}" id="idSFS" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="FineG" />
+									<table:template>
+										<TextView text="{salesItemModel>FinesG}" id="idSFG" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Cash" />
+									<table:template>
+										<TextView text="{salesItemModel>Cash}" id="idSCash" />
+									</table:template>
+								</table:Column>
+							</table:columns>
+						</table:Table>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+			<l:BlockLayout id="BlkReceipt" background="{/selectedBackground}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell id="BlkReceiver" width="50%"
+						title="Receipt/Payment">
+						<table:Table id="Receipt" rowHeight="25px"
+							rows="{TransData>/TransData}" visibleRowCount="5"
+							cellClick="oncellClickReceipt">
+							<table:columns>
+								<table:Column width="110px" enableColumnFreeze="true">
+									<Label text="Entry Type" />
+									<table:template>
+										<m:ComboBox
+											items="{
+												path: '/Transactiontypes',
+												sorter: { path: 'Text' }
+											}"
+											value="{TransData>Transactiontype}">
+											<core:Item key="{Key}" text="{Text}" />
+										</m:ComboBox>
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Amount/Weight" />
+									<table:template>
+										<m:Input value="{TransData>Weight}" id="idAmount"
+											editable="true" />
+									</table:template>
+								</table:Column>
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Tunch" />
+									<table:template>
+										<m:Input editable="true" value="{TransData>Tunch}" id="idTunchq"
+											liveChange="onChangeTunch" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Remarks" />
+									<table:template>
+										<m:Input editable="true" text="{TransData>Remarks}"
+											id="idRemarkss" />
+									</table:template>
+								</table:Column>
+
+								<table:Column enableColumnFreeze="true" width="110px">
+									<Label text="Fine" />
+									<table:template>
+										<m:Text editable="true" text="{TransData>fine}" id="idSTnchf" />
+									</table:template>
+								</table:Column>
+
+							</table:columns>
+						</table:Table>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+			<m:OverflowToolbar id="otbFooter">
+				<m:ToolbarSpacer />
+				<m:Button type="Accept" text="Save" press="onSave">
+					<m:layoutData>
+						<m:OverflowToolbarLayoutData
+							moveToOverflow="false" />
+					</m:layoutData>
+				</m:Button>
+			</m:OverflowToolbar>
+		</semantic:content>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

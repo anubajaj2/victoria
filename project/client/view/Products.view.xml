@@ -1,0 +1,141 @@
+<mvc:View
+	controllerName="victoria.controller.Products"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<semantic:FullscreenPage
+		id="products"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="Manage Products"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+		<f:SimpleForm 
+			minWidth="1024"
+			maxContainerCols="2"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanL="3"
+			labelSpanM="3"
+			emptySpanL="4"
+			emptySpanM="4"
+			columnsL="1"
+			columnsM="1"
+			class="editableForm">
+			<f:content>
+ 			    <Label text="Product Code" labelFor="productInput"/>
+				<Input
+					id="productInput"
+					type="Text"
+					showSuggestion="true"
+					value="{productModel>/ProductCode}"
+					suggestionItems="{/Products}" 
+					suggestionItemSelected="selectedProduct">
+					<suggestionItems>
+						<core:Item text="{ProductCode}" key="{Id}"/>
+					</suggestionItems>
+				</Input>
+	 
+				<Label text="Category"/>
+				<ComboBox
+					id="idCategory"
+					type="Text"
+					value="{productModel>/Category}"
+					items="{
+						path: '/Categorys'
+					}">
+					<core:Item key="{Id}" text="{Category}" />
+				</ComboBox>
+				
+				<Label text="Type"/>
+				<Select
+					id="idDescription"
+					selectedKey="{productModel>/Description}"
+					items="{
+						path: 'fixed>/items'
+					}">
+					<core:Item key="{fixed>text}" text="{fixed>text}" />
+				</Select>
+		
+				
+				<Label text="Product Name"/>
+				<Input
+					id="idProductName"
+					type="Text"
+					value="{productModel>/ProductName}">
+				</Input>
+				
+				<Label text="Hindi Name"/>
+				<Input
+					id="idHindi"
+					type="Text"
+					value="{productModel>/Hindi}">
+				</Input>
+				
+				<Label text="Tunch"/>
+				<Input
+					id="idStandardCost"
+					type="Number"
+					value="{productModel>/StandardCost}">
+				</Input>
+				
+				<Label text="Wastage"/>
+				<Input
+					id="idReorderLevel"
+					type="Number"
+					value="{productModel>/ReorderLevel}">
+				</Input>
+				
+				<Label text="Customer Tunch"/>
+				<Input
+					id="idListPrice"
+					type="Decimal"
+					value="{productModel>/ListPrice}">
+				</Input>
+				
+				<Label text="Alert Quantity"/>
+				<Input
+					id="idTargetLevel"
+					type="Number"
+					value="{productModel>/TargetLevel}">
+				</Input>
+				
+				<Label text="Making"/>
+				<Input
+					id="idMinimumReorderQuantity"
+					type="Number"
+					value="{productModel>/MinimumReorderQuantity}">
+				</Input>
+				
+				<Label text="Price Per Gm/Pc."/>
+				<Select
+					id="idQuantityPerUnit"
+					selectedKey="{productModel>/QuantityPerUnit}"
+					items="{
+						path: 'per>/items'
+					}">
+					<core:Item key="{per>text}" text="{per>text}" />
+				</Select>
+				
+				
+				
+				
+			</f:content>
+		</f:SimpleForm>
+			
+ 		</semantic:content>
+		<semantic:customFooterContent>
+				<Button text="Save" type="Accept" press="Save"/>
+				<Button text="Delete" type="Reject" press="deleteProduct"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+
+</mvc:View>

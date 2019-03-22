@@ -1,0 +1,22 @@
+<mvc:View
+	controllerName="victoria.controller.Suppliers"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar">
+
+	<semantic:FullscreenPage
+		id="products"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="Manage Products"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+			
+ 		</semantic:content>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

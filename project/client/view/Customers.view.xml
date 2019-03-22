@@ -1,0 +1,124 @@
+<mvc:View
+	controllerName="victoria.controller.Customers"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<semantic:FullscreenPage
+		id="customers"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="Manage Customers"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+		<f:SimpleForm 
+			minWidth="1024"
+			maxContainerCols="2"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanL="3"
+			labelSpanM="3"
+			emptySpanL="4"
+			emptySpanM="4"
+			columnsL="1"
+			columnsM="1"
+			class="editableForm">
+			<f:content>
+ 			    <Label text="Customer Code" labelFor="customerCode"/>
+				<Input
+					id="customerCode"
+					type="Text"
+					showSuggestion="true"
+					value="{customerModel>/Company}"
+					suggestionItems="{/Customers}" 
+					suggestionItemSelected="selectedCustomer">
+					<suggestionItems>
+						<core:Item text="{Company}" key="{Id}"/>
+					</suggestionItems>
+				</Input>
+	 
+				<Label text="Name"/>
+				<ComboBox
+					id="idName"
+					type="Text"
+					value="{customerModel>/FirstName}">
+				</ComboBox>
+				
+				<Label text="Address"/>
+				<Input
+					id="idAddress"
+					type="Text"
+					value="{customerModel>/Address}">
+				</Input>
+				
+				<Label text="Group"/>
+				<ComboBox
+					id="idGroup"
+					selectedKey="{customerModel>/Standardgroup}"
+					items="{
+						path: '/Standardgroups'
+					}">
+					<core:Item key="{Id}" text="{Name}" />
+				</ComboBox>
+				
+				<Label text="Custom Group"/>
+				<ComboBox
+					id="idCustomGrp"
+					selectedKey="{customerModel>/Customgroup}"
+					items="{
+						path: '/Customgroups'
+					}">
+					<core:Item key="{Id}" text="{Name}" />
+				</ComboBox>
+				
+				<Label text="City"/>
+				<ComboBox
+					id="idCity"
+					selectedKey="{customerModel>/Citycode}"
+					items="{
+						path: '/Citycodes'
+					}">
+					<core:Item key="{Code}" text="{Name}" />
+				</ComboBox>
+		
+				
+				<Label text="Mobile Phone"/>
+				<Input
+					id="idMobilePhone"
+					type="Text"
+					value="{customerModel>/MobilePhone}">
+				</Input>
+				
+				<Label text="Interest"/>
+				<Input
+					id="idZipPostalCode"
+					type="Decimal"
+					value="{customerModel>/ZipPostalCode}">
+				</Input>
+				
+		
+				<Label text="Send SMS"/>
+				<Switch 
+					id="idSendSMS"
+					state="{customerModel>/HasInterest}">
+				</Switch >
+				
+				
+			</f:content>
+		</f:SimpleForm>
+			
+ 		</semantic:content>
+		<semantic:customFooterContent>
+				<Button text="Save" type="Accept" press="Save"/>
+				<Button text="Delete" type="Reject" press="deleteProduct"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+
+</mvc:View>

@@ -10,6 +10,7 @@ var express = require('express');
 var fs = require('fs');
 var app = express();
 app = module.exports = loopback();
+
 // parse application/json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

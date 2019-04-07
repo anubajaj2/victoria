@@ -13,8 +13,8 @@
 				<items>
 					<StandardListItem id="Customers" icon="sap-icon://customer" title="Customer" description=""></StandardListItem>
 					<StandardListItem id="Products" icon="sap-icon://add-product" title="Material" description=""></StandardListItem>
-					<StandardListItem id="city" icon="sap-icon://map" title="City" description=""></StandardListItem>
-					<StandardListItem id="group" icon="sap-icon://overview-chart" title="Group" description=""></StandardListItem>
+					<StandardListItem id="City" icon="sap-icon://map" title="City" description=""></StandardListItem>
+					<StandardListItem id="Group" icon="sap-icon://overview-chart" title="Group" description=""></StandardListItem>
 
 					<StandardListItem id="Inventory" icon="sap-icon://collections-insight" title="Entry" description=""></StandardListItem>
 					<StandardListItem id="sales" icon="sap-icon://crm-sales" title="Retail Sales" description=""></StandardListItem>

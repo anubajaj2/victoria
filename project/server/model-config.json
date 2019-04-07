@@ -48,10 +48,6 @@
     "dataSource": "mongoatlas",
     "public": false
   },
-  "Customer": {
-    "dataSource": "mongoatlas",
-    "public": true
-  },
   "AppUser": {
     "dataSource": "mongoatlas",
     "public": true

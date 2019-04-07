@@ -129,6 +129,16 @@
 								"target": ["donald", "Customers"]
 							},
 							{
+								"pattern": "City",
+								"name": "City",
+								"target": ["donald", "City"]
+							},
+							{
+								"pattern": "Group",
+								"name": "Group",
+								"target": ["donald", "Group"]
+							},
+							{
 								"pattern": "Inventory",
 								"name": "Inventory",
 								"target": ["donald", "Inventory"]
@@ -201,6 +211,24 @@
 					"clearAggregation": true,
 					"viewName": "Customers",
 					"viewId": "idCustomers",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"City": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "City",
+					"viewId": "idCity",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"Group": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "Group",
+					"viewId": "idGroup",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

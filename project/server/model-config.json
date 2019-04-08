@@ -55,5 +55,14 @@
   "Account": {
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "Group": {
+      "dataSource": "mongoatlas",
+      "public": true
+  },
+    "City": {
+      "dataSource": "mongoatlas",
+      "public": true
   }
+
 }

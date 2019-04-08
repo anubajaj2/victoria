@@ -1,6 +1,6 @@
 {
-  "name": "City",
-  "plural": "City",
+  "name": "Group",
+  "plural": "Group",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -31,4 +31,5 @@
     }
   ],
   "methods": {}
+}
 }

@@ -50,6 +50,13 @@ sap.ui.define([
 //				// Store original busy indicator delay, so it can be restored later on
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "groupModel");
+				var a ={"groupCode":"123","groupName" : "ABC", "description" : "test"
+	};
+	debugger;
+	this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Group", "POST", {}, a, this)
+	.then(function(oData) {
+
+	 });
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
 //						// Restore original busy indicator delay for the object view
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);

@@ -32,11 +32,16 @@
 			class="editableForm">
 			<f:content>
  			    <Label text="City Code" labelFor="cityCode"/>
-				<Input
+				<!-- <Input
 					id="cityCode"
 					type="Text"
 					value="{cityModel>/cityCode}">
-				</Input>
+				</Input> -->
+
+				<ComboBox value="{cityModel>/cityCode}" change="cityCodeCheck"
+	items="{cityModelInfo>/results}">
+	<core:Item key="{cityModelInfo>cityCode}" text="{cityModelInfo>cityCode}" />
+</ComboBox>
 
 				<Label text="City Name"/>
         <Input
@@ -45,11 +50,11 @@
 					value="{cityModel>/cityName}">
 				</Input>
 
-				<Label text="City Description"/>
+				<Label text="State"/>
 				<Input
-					id="cityDescription"
+					id="cityState"
 					type="Text"
-					value="{customerModel>/description}">
+					value="{cityModel>/state}">
 				</Input>
 
 			</f:content>
@@ -57,7 +62,7 @@
 
  		</semantic:content>
 		<semantic:customFooterContent>
-      <Button text="Edit" type="Edit" press="editCity"/>
+      <!-- <Button text="Edit" type="Edit" press="editCity"/> -->
 				<Button text="Save" type="Accept" press="saveCity"/>
 				<Button text="Delete" type="Reject" press="deleteCity"/>
 		</semantic:customFooterContent>

@@ -1,6 +1,6 @@
 {
   "name": "City",
-  "plural": "City",
+  "plural": "Cities",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -15,10 +15,14 @@
       "type": "string",
       "required": true
     },
-    "description": {
+    "state": {
       "type": "string",
       "required": true
-    },
+    }
+  },
+  "scope":{
+
+  },
   "validations": [],
   "relations": {
   },
@@ -31,5 +35,4 @@
     }
   ],
   "methods": {}
-}
 }

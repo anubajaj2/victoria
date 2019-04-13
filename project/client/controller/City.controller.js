@@ -41,7 +41,7 @@ sap.ui.define([
 					oViewModel = new JSONModel({
 						"cityCode": "",
 				        "cityName": "",
-				        "description": ""
+				        "state": ""
 
 				        });
 
@@ -50,6 +50,17 @@ sap.ui.define([
 //				// Store original busy indicator delay, so it can be restored later on
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "cityModel");
+
+				var oRouter = this.getRouter();
+			oRouter.getRoute("City").attachMatched(this._onRouteMatched, this);
+
+	 // 			var a ={"cityCode":"1","cityName" : "Bangalore", "state" : "KA"
+	 // };
+	// debugger;
+	 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/City", "POST", {}, a, this)
+	 // .then(function(oData) {
+	 //
+	 //  });
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
 //						// Restore original busy indicator delay for the object view
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
@@ -70,7 +81,121 @@ sap.ui.define([
 
 
 
+_onRouteMatched : function(){
+	var that = this;
+	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	 "/Cities", "GET", {}, {}, this)
+		.then(function(oData) {
+			var oModelCity = new JSONModel();
+	oModelCity.setData(oData);
+	that.getView().setModel(oModelCity, "cityModelInfo");
 
+		}).catch(function(oError) {
+				sap.m.MessageBox.error("cannot fetch the data");
+		});
+
+},
+
+cityCodeCheck : function(oEvent){
+	var cityModel = this.getView().getModel("cityModel");
+	var cityCode = cityModel.getData().cityCode;
+	var cityJson = this.getView().getModel("cityModelInfo").getData().results;
+
+	function getCityCode(cityCode) {
+				return cityJson.filter(
+					function (data) {
+						return data.cityCode === cityCode;
+					}
+				);
+			}
+
+			var found = getCityCode(cityCode);
+			if(found.length > 0){
+				cityModel.getData().cityName = found[0].cityName;
+				cityModel.getData().state = found[0].state;
+				cityModel.refresh();
+			}else{
+				cityModel.getData().cityName = "";
+				cityModel.getData().state = "";
+				cityModel.refresh();
+			}
+
+},
+
+deleteCity : function(){
+	var that = this;
+	 var cityModel = this.getView().getModel("cityModel");
+	 var cityCode = cityModel.getData().cityCode;
+	 var cityJson = this.getView().getModel("cityModelInfo").getData().results;
+	 function getCityCode(cityCode) {
+				return cityJson.filter(
+					function (data) {
+						return data.cityCode === cityCode;
+					}
+				);
+			}
+
+			var found = getCityCode(cityCode);
+			if(found.length > 0){
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/Cities('" + found[0].id + "')", "DELETE", {},{}, this)
+					.then(function(oData) {
+					sap.m.MessageBox.success("Deleted successfully");
+					cityModel.getData().cityCode = "";
+					cityModel.getData().cityName = "";
+					cityModel.getData().state = "";
+					cityModel.refresh();
+					that._onRouteMatched();
+					}).catch(function(oError) {
+							sap.m.MessageBox.error("Could not delete the entry");
+					});
+
+			}
+			else{
+				sap.m.MessageBox.error("Data not available");
+			}
+
+},
+
+saveCity : function(){
+	var that = this;
+	 var cityModel = this.getView().getModel("cityModel");
+	 var cityCode = cityModel.getData().cityCode;
+	 var cityJson = this.getView().getModel("cityModelInfo").getData().results;
+	 function getCityCode(cityCode) {
+	 			return cityJson.filter(
+	 				function (data) {
+	 					return data.cityCode === cityCode;
+	 				}
+	 			);
+	 		}
+
+	 		var found = getCityCode(cityCode);
+	 		if(found.length > 0){
+
+	 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	 			 "/Cities('"+found[0].id+"')", "PUT", {},cityModel.getData() , this)
+					.then(function(oData) {
+	 				sap.m.MessageBox.success("Data saved successfully");
+					that._onRouteMatched();
+	 				}).catch(function(oError) {
+	 						sap.m.MessageBox.error("Data could not be saved");
+	 				});
+
+	 		}
+			else{
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/City", "POST", {},cityModel.getData() , this)
+					.then(function(oData) {
+					sap.m.MessageBox.success("Data saved successfully");
+					that._onRouteMatched();
+					}).catch(function(oError) {
+							sap.m.MessageBox.error("Data could not be saved");
+					});
+			}
+
+},
 
 
 			/* =========================================================== */
@@ -91,7 +216,13 @@ sap.ui.define([
 					});
 					this._bindView("/" + sObjectPath);
 				}.bind(this));
+
+
 			},
+
+			getRouter: function () {
+			return sap.ui.core.UIComponent.getRouterFor(this);
+		},
 
 			/**
 			 * Binds the view to the object path.

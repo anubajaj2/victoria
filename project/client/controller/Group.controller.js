@@ -50,13 +50,15 @@ sap.ui.define([
 //				// Store original busy indicator delay, so it can be restored later on
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "groupModel");
-				var a ={"groupCode":"123","groupName" : "ABC", "description" : "test"
-	};
-	debugger;
-	this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Group", "POST", {}, a, this)
-	.then(function(oData) {
-
-	 });
+				var oRouter = this.getRouter();
+			oRouter.getRoute("Group").attachMatched(this._onRouteMatched, this);
+	// 			var a ={"groupCode":"123","groupName" : "ABC", "description" : "test"
+	// };
+	// debugger;
+	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Group", "POST", {}, a, this)
+	// .then(function(oData) {
+	//
+	//  });
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
 //						// Restore original busy indicator delay for the object view
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
@@ -75,7 +77,121 @@ sap.ui.define([
 			 * @public
 			 */
 
+			 _onRouteMatched : function(){
+			 	var that = this;
+			 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			 	 "/Groups", "GET", {}, {}, this)
+			 		.then(function(oData) {
+			 			var oModelGroup = new JSONModel();
+			 	oModelGroup.setData(oData);
+			 	that.getView().setModel(oModelGroup, "groupModelInfo");
 
+			 		}).catch(function(oError) {
+			 				sap.m.MessageBox.error("cannot fetch the data");
+			 		});
+
+			 },
+
+			 groupCodeCheck : function(oEvent){
+			 	var groupModel = this.getView().getModel("groupModel");
+			 	var groupCode = groupModel.getData().groupCode;
+			 	var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+
+			 	function getGroupCode(groupCode) {
+			 				return groupJson.filter(
+			 					function (data) {
+			 						return data.groupCode === groupCode;
+			 					}
+			 				);
+			 			}
+
+			 			var found = getGroupCode(groupCode);
+			 			if(found.length > 0){
+			 				groupModel.getData().groupName = found[0].groupName;
+			 				groupModel.getData().description = found[0].description;
+			 				groupModel.refresh();
+			 			}else{
+			 				groupModel.getData().groupName = "";
+			 				groupModel.getData().description = "";
+			 				groupModel.refresh();
+			 			}
+
+			 },
+
+			 deleteGroup : function(){
+			 	var that = this;
+			 	 var groupModel = this.getView().getModel("groupModel");
+			 	 var groupCode = groupModel.getData().groupCode;
+			 	 var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+			 	 function getGroupCode(groupCode) {
+			 				return groupJson.filter(
+			 					function (data) {
+			 						return data.groupCode === groupCode;
+			 					}
+			 				);
+			 			}
+
+			 			var found = getGroupCode(groupCode);
+			 			if(found.length > 0){
+
+			 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			 				 "/Groups('" + found[0].id + "')", "DELETE", {},{}, this)
+			 					.then(function(oData) {
+			 					sap.m.MessageBox.success("Deleted successfully");
+								groupModel.getData().groupCode = "";
+			 					groupModel.getData().groupName = "";
+			 					groupModel.getData().description = "";
+			 					groupModel.refresh();
+			 					that._onRouteMatched();
+			 					}).catch(function(oError) {
+			 							sap.m.MessageBox.error("Could not delete the entry");
+			 					});
+
+			 			}
+			 			else{
+			 				sap.m.MessageBox.error("Data not available");
+			 			}
+
+			 },
+
+			 saveGroup : function(){
+			 	var that = this;
+			 	 var groupModel = this.getView().getModel("groupModel");
+			 	 var groupCode = groupModel.getData().groupCode;
+			 	 var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+			 	 function getGroupCode(groupCode) {
+			 	 			return groupJson.filter(
+			 	 				function (data) {
+			 	 					return data.groupCode === groupCode;
+			 	 				}
+			 	 			);
+			 	 		}
+
+			 	 		var found = getGroupCode(groupCode);
+			 	 		if(found.length > 0){
+
+			 	 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			 	 			 "/Groups('"+found[0].id+"')", "PUT", {},groupModel.getData() , this)
+			 					.then(function(oData) {
+			 	 				sap.m.MessageBox.success("Data saved successfully");
+			 					that._onRouteMatched();
+			 	 				}).catch(function(oError) {
+			 	 						sap.m.MessageBox.error("Data could not be saved");
+			 	 				});
+
+			 	 		}
+			 			else{
+			 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			 				 "/Group", "POST", {},groupModel.getData() , this)
+			 					.then(function(oData) {
+			 					sap.m.MessageBox.success("Data saved successfully");
+			 					that._onRouteMatched();
+			 					}).catch(function(oError) {
+			 							sap.m.MessageBox.error("Data could not be saved");
+			 					});
+			 			}
+
+			 },
 
 
 
@@ -93,12 +209,16 @@ sap.ui.define([
 			_onObjectMatched : function (oEvent) {
 				var sObjectId =  oEvent.getParameter("arguments").objectId;
 				this.getModel().metadataLoaded().then( function() {
-					var sObjectPath = this.getModel().createKey("city", {
+					var sObjectPath = this.getModel().createKey("group", {
 						Id :  sObjectId
 					});
 					this._bindView("/" + sObjectPath);
 				}.bind(this));
 			},
+
+			getRouter: function () {
+			return sap.ui.core.UIComponent.getRouterFor(this);
+		},
 
 			/**
 			 * Binds the view to the object path.

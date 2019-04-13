@@ -60,7 +60,7 @@
       "dataSource": "mongoatlas",
       "public": true
   },
-    "City": {
+  "City": {
       "dataSource": "mongoatlas",
       "public": true
   }

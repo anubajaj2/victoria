@@ -32,11 +32,16 @@
 			class="editableForm">
 			<f:content>
  			    <Label text="Group Code" labelFor="groupCode"/>
-				<Input
+				<!-- <Input
 					id="groupCode"
 					type="Text"
 					value="{groupModel>/groupCode}">
-				</Input>
+				</Input> -->
+
+				<ComboBox value="{groupModel>/groupCode}" change="groupCodeCheck"
+	items="{groupModelInfo>/results}">
+	<core:Item key="{groupModelInfo>groupCode}" text="{groupModelInfo>groupCode}" />
+</ComboBox>
 
 				<Label text="Group Name"/>
         <Input
@@ -57,9 +62,8 @@
 
  		</semantic:content>
 		<semantic:customFooterContent>
-      <Button text="Edit" type="Edit" press="editCity"/>
-				<Button text="Save" type="Accept" press="saveCity"/>
-				<Button text="Delete" type="Reject" press="deleteCity"/>
+				<Button text="Save" type="Accept" press="saveGroup"/>
+				<Button text="Delete" type="Reject" press="deleteGroup"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

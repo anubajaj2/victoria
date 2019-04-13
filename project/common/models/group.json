@@ -1,6 +1,6 @@
 {
   "name": "Group",
-  "plural": "Group",
+  "plural": "Groups",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -18,7 +18,11 @@
     "description": {
       "type": "string",
       "required": true
-    },
+    }
+  },
+  "scope":{
+
+  },
   "validations": [],
   "relations": {
   },
@@ -31,5 +35,4 @@
     }
   ],
   "methods": {}
-}
 }

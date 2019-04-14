@@ -1,0 +1,70 @@
+{
+  "name": "Product",
+  "plural": "Products",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Category": {
+      "type": "string",
+      "required": true
+    },
+    "Type": {
+      "type": "string",
+      "required": true
+    },
+    "CustomerTunch": {
+      "type": "string",
+      "required": true
+    },
+    "Making": {
+      "type": "string",
+      "required": true
+    },
+    "ProductCode": {
+      "type": "string",
+      "required": true
+    },
+    "ProductName": {
+      "type": "string",
+      "required": true
+    },
+    "PricePerUnit": {
+      "type": "string",
+      "required": true
+    },
+    "Wastage": {
+      "type": "string",
+      "required": true
+    },
+    "Tunch": {
+      "type": "string",
+      "required": true
+    },
+    "AlertQuantity": {
+      "type": "string",
+      "required": true
+    },
+    "HindiName": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

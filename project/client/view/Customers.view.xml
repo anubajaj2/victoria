@@ -18,7 +18,7 @@
 		busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content>
-		<f:SimpleForm 
+		<f:SimpleForm
 			minWidth="1024"
 			maxContainerCols="2"
 			editable="true"
@@ -32,43 +32,51 @@
 			class="editableForm">
 			<f:content>
  			    <Label text="Customer Code" labelFor="customerCode"/>
-				<Input
+				<!-- <Input
 					id="customerCode"
 					type="Text"
 					showSuggestion="true"
 					value="{customerModel>/Company}"
-					suggestionItems="{/Customers}" 
+					suggestionItems="{/Customers}"
 					suggestionItemSelected="selectedCustomer">
 					<suggestionItems>
 						<core:Item text="{Company}" key="{Id}"/>
 					</suggestionItems>
-				</Input>
-	 
+				</Input> -->
+
+				<ComboBox value="{customerModel>/CustomerCode}" change="customerCodeCheck"
+	items="{customerModelInfo>/results}">
+	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
+</ComboBox>
+
 				<Label text="Name"/>
-				<ComboBox
+				<!-- <ComboBox
 					id="idName"
 					type="Text"
 					value="{customerModel>/FirstName}">
-				</ComboBox>
-				
+				</ComboBox> -->
+				<Input
+					id="idName"
+					type="Text"
+					value="{customerModel>/Name}">
+				</Input>
+
 				<Label text="Address"/>
 				<Input
 					id="idAddress"
 					type="Text"
 					value="{customerModel>/Address}">
 				</Input>
-				
+
 				<Label text="Group"/>
 				<ComboBox
 					id="idGroup"
-					selectedKey="{customerModel>/Standardgroup}"
-					items="{
-						path: '/Standardgroups'
-					}">
-					<core:Item key="{Id}" text="{Name}" />
+					value="{customerModel>/Group}"
+					items="{groupModelInfo>/results}">
+					<core:Item key="{groupModelInfo>groupName}" text="{groupModelInfo>groupName}" />
 				</ComboBox>
-				
-				<Label text="Custom Group"/>
+
+				<!-- <Label text="Custom Group"/>
 				<ComboBox
 					id="idCustomGrp"
 					selectedKey="{customerModel>/Customgroup}"
@@ -76,48 +84,46 @@
 						path: '/Customgroups'
 					}">
 					<core:Item key="{Id}" text="{Name}" />
-				</ComboBox>
-				
+				</ComboBox> -->
+
 				<Label text="City"/>
 				<ComboBox
 					id="idCity"
-					selectedKey="{customerModel>/Citycode}"
-					items="{
-						path: '/Citycodes'
-					}">
-					<core:Item key="{Code}" text="{Name}" />
+					value="{customerModel>/City}"
+				items="{cityModelInfo>/results}">
+					<core:Item key="{cityModelInfo>cityName}" text="{cityModelInfo>cityName}" />
 				</ComboBox>
-		
-				
+
+
 				<Label text="Mobile Phone"/>
 				<Input
 					id="idMobilePhone"
 					type="Text"
 					value="{customerModel>/MobilePhone}">
 				</Input>
-				
-				<Label text="Interest"/>
+
+				<Label text="Secondary Phone"/>
 				<Input
-					id="idZipPostalCode"
-					type="Decimal"
-					value="{customerModel>/ZipPostalCode}">
+					id="idSecondaryPhone"
+					type="Text"
+					value="{customerModel>/SecondaryPhone}">
 				</Input>
-				
-		
-				<Label text="Send SMS"/>
-				<Switch 
+
+
+				<!-- <Label text="Send SMS"/>
+				<Switch
 					id="idSendSMS"
 					state="{customerModel>/HasInterest}">
-				</Switch >
-				
-				
+				</Switch > -->
+
+
 			</f:content>
 		</f:SimpleForm>
-			
+
  		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="Save"/>
-				<Button text="Delete" type="Reject" press="deleteProduct"/>
+				<Button text="Save" type="Accept" press="SaveCustomer"/>
+				<Button text="Delete" type="Reject" press="deleteCustomer"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

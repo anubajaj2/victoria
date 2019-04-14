@@ -18,7 +18,7 @@
 		busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content>
-		<f:SimpleForm 
+		<f:SimpleForm
 			minWidth="1024"
 			maxContainerCols="2"
 			editable="true"
@@ -32,108 +32,128 @@
 			class="editableForm">
 			<f:content>
  			    <Label text="Product Code" labelFor="productInput"/>
-				<Input
+				<!-- <Input
 					id="productInput"
 					type="Text"
 					showSuggestion="true"
 					value="{productModel>/ProductCode}"
-					suggestionItems="{/Products}" 
+					suggestionItems="{/Products}"
 					suggestionItemSelected="selectedProduct">
 					<suggestionItems>
 						<core:Item text="{ProductCode}" key="{Id}"/>
 					</suggestionItems>
-				</Input>
-	 
+				</Input> -->
+				<ComboBox value="{productModel>/ProductCode}" change="productCodeCheck"
+	items="{productModelInfo>/results}">
+	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
+</ComboBox>
+
 				<Label text="Category"/>
 				<ComboBox
 					id="idCategory"
 					type="Text"
 					value="{productModel>/Category}"
 					items="{
-						path: '/Categorys'
+						path: 'per>/items'
 					}">
-					<core:Item key="{Id}" text="{Category}" />
+					<core:Item key="{per>text}" text="{per>text}" />
 				</ComboBox>
-				
+
 				<Label text="Type"/>
-				<Select
+				<!-- <Select
 					id="idDescription"
 					selectedKey="{productModel>/Description}"
 					items="{
 						path: 'fixed>/items'
 					}">
 					<core:Item key="{fixed>text}" text="{fixed>text}" />
-				</Select>
-		
-				
+				</Select> -->
+
+				<ComboBox
+					id="idType"
+					type="Text"
+					value="{productModel>/Type}"
+					items="{
+						path: 'fixed>/items'
+					}">
+					<core:Item key="{fixed>text}" text="{fixed>text}" />
+				</ComboBox>
+
+
 				<Label text="Product Name"/>
 				<Input
 					id="idProductName"
 					type="Text"
 					value="{productModel>/ProductName}">
 				</Input>
-				
+
 				<Label text="Hindi Name"/>
 				<Input
 					id="idHindi"
 					type="Text"
-					value="{productModel>/Hindi}">
+					value="{productModel>/HindiName}">
 				</Input>
-				
+
 				<Label text="Tunch"/>
 				<Input
 					id="idStandardCost"
 					type="Number"
-					value="{productModel>/StandardCost}">
+					value="{productModel>/Tunch}">
 				</Input>
-				
+
 				<Label text="Wastage"/>
 				<Input
 					id="idReorderLevel"
 					type="Number"
-					value="{productModel>/ReorderLevel}">
+					value="{productModel>/Wastage}">
 				</Input>
-				
+
 				<Label text="Customer Tunch"/>
 				<Input
 					id="idListPrice"
 					type="Decimal"
-					value="{productModel>/ListPrice}">
+					value="{productModel>/CustomerTunch}">
 				</Input>
-				
+
 				<Label text="Alert Quantity"/>
 				<Input
 					id="idTargetLevel"
 					type="Number"
-					value="{productModel>/TargetLevel}">
+					value="{productModel>/AlertQuantity}">
 				</Input>
-				
+
 				<Label text="Making"/>
 				<Input
 					id="idMinimumReorderQuantity"
 					type="Number"
-					value="{productModel>/MinimumReorderQuantity}">
+					value="{productModel>/Making}">
 				</Input>
-				
-				<Label text="Price Per Gm/Pc."/>
-				<Select
+
+				<Label text="Price"/>
+				<!-- <Select
 					id="idQuantityPerUnit"
 					selectedKey="{productModel>/QuantityPerUnit}"
 					items="{
 						path: 'per>/items'
 					}">
 					<core:Item key="{per>text}" text="{per>text}" />
-				</Select>
-				
-				
-				
-				
+				</Select> -->
+				<Input
+					id="idPricePerUnit"
+					type="Number"
+					value="{productModel>/PricePerUnit}">
+				</Input>
+
+
+
+
+
 			</f:content>
 		</f:SimpleForm>
-			
+
  		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="Save"/>
+				<Button text="Save" type="Accept" press="SaveProduct"/>
 				<Button text="Delete" type="Reject" press="deleteProduct"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>

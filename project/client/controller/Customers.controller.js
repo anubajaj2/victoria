@@ -41,12 +41,13 @@ sap.ui.define([
 					oViewModel = new JSONModel({
 						"Id": "",
 				        "City": "",
-				        "MobilePhone": 0,
+				        "MobilePhone": "0",
 				        "Address": "",
-				        "Company": "",
-				        "FirstName": "",
-				        "ZipPostalCode": 0,
-				        "LastName": ""
+				        "CustomerCode": "",
+				        "Name": "",
+				        "SecondaryPhone": "0",
+								"Group": ""
+
 				        });
 				var oViewModel1 = new JSONModel({
 					"items":[{"text": "Sikar"},{"text": "Churu"},{"text": "Jaipur"}]
@@ -61,12 +62,170 @@ sap.ui.define([
 				this.setModel(oViewModel, "customerModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				var oRouter = this.getRouter();
+			oRouter.getRoute("Customers").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
 //						// Restore original busy indicator delay for the object view
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
 //					}
 //				);
 			},
+
+			getRouter: function () {
+			return sap.ui.core.UIComponent.getRouterFor(this);
+		},
+
+			_onRouteMatched : function(){
+				var that = this;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/Customers", "GET", {}, {}, this)
+					.then(function(oData) {
+						var oModelCustomer = new JSONModel();
+				oModelCustomer.setData(oData);
+				that.getView().setModel(oModelCustomer, "customerModelInfo");
+
+					}).catch(function(oError) {
+							sap.m.MessageBox.error("cannot fetch the data");
+					});
+
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					 "/Cities", "GET", {}, {}, this)
+						.then(function(oData) {
+							var oModelCity = new JSONModel();
+					oModelCity.setData(oData);
+					that.getView().setModel(oModelCity, "cityModelInfo");
+
+						}).catch(function(oError) {
+								sap.m.MessageBox.error("cannot fetch the data");
+						});
+
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						 "/Groups", "GET", {}, {}, this)
+							.then(function(oData) {
+								var oModelGroup = new JSONModel();
+						oModelGroup.setData(oData);
+						that.getView().setModel(oModelGroup, "groupModelInfo");
+
+							}).catch(function(oError) {
+									sap.m.MessageBox.error("cannot fetch the data");
+							});
+
+			},
+
+			customerCodeCheck : function(){
+				var customerModel = this.getView().getModel("customerModel");
+ 			 var customerCode = customerModel.getData().CustomerCode;
+ 			 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+ 			 function getCustomerCode(customerCode) {
+ 						return customerJson.filter(
+ 							function (data) {
+ 								return data.CustomerCode === customerCode;
+ 							}
+ 						);
+ 					}
+
+ 					var found = getCustomerCode(customerCode);
+					if(found.length > 0){
+						customerModel.getData().City = found[0].City;
+						customerModel.getData().MobilePhone = found[0].MobilePhone;
+						customerModel.getData().Address = found[0].Address;
+						customerModel.getData().Name = found[0].Name;
+						customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
+						customerModel.getData().Group = found[0].Group;
+						customerModel.refresh();
+						}else{
+							customerModel.getData().City = "";
+							customerModel.getData().MobilePhone = "0";
+							customerModel.getData().Address = "";
+							customerModel.getData().CustomerCode = ""
+							customerModel.getData().Name = "";
+							customerModel.getData().SecondaryPhone = "0";
+							customerModel.getData().Group = "";
+							customerModel.refresh();
+						}
+			},
+
+			SaveCustomer : function(){
+				var that = this;
+				 var customerModel = this.getView().getModel("customerModel");
+				 var customerCode = customerModel.getData().CustomerCode;
+				 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+				 function getCustomerCode(customerCode) {
+							return customerJson.filter(
+								function (data) {
+									return data.CustomerCode === customerCode;
+								}
+							);
+						}
+
+						var found = getCustomerCode(customerCode);
+						if(found.length > 0){
+
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Customers('"+found[0].id+"')", "PUT", {},customerModel.getData() , this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Data saved successfully");
+								that._onRouteMatched();
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Data could not be saved");
+								});
+
+						}
+						else{
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Customer", "POST", {},customerModel.getData() , this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Data saved successfully");
+								that._onRouteMatched();
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Data could not be saved");
+								});
+						}
+
+			},
+
+			deleteCustomer : function(){
+				var that = this;
+				var customerModel = this.getView().getModel("customerModel");
+				var customerCode = customerModel.getData().CustomerCode;
+				var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+				function getCustomerCode(customerCode) {
+						 return customerJson.filter(
+							 function (data) {
+								 return data.CustomerCode === customerCode;
+							 }
+						 );
+					 }
+
+					 var found = getCustomerCode(customerCode);
+					 if(found.length > 0){
+
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Customers('" + found[0].id + "')", "DELETE", {},{}, this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Deleted successfully");
+								customerModel.getData().City = "";
+								customerModel.getData().MobilePhone = "0";
+								customerModel.getData().Address = "";
+								customerModel.getData().CustomerCode = ""
+								customerModel.getData().Name = "";
+								customerModel.getData().SecondaryPhone = "0";
+								customerModel.getData().Group = "";
+								customerModel.refresh();
+								that._onRouteMatched();
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Could not delete the entry");
+								});
+
+						}
+						else{
+							sap.m.MessageBox.error("Data not available");
+						}
+
+			},
+
+
+
 			selectedCustomer: function(oEvent){
 				var item = oEvent.getParameter("selectedItem");
 				var key = item.getText();

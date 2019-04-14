@@ -39,19 +39,17 @@ sap.ui.define([
 				//Making : MinimumReorderQuantity
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
-						"Category": "Payal 80T",
-				        "Description": "",
-				        "Discontinued": 0,
-				        "ListPrice": 0,
-				        "MinimumReorderQuantity": 0,
+						"Category": "",
+				        "Type": "",
+				        "CustomerTunch": 0,
+				        "Making": 0,
 				        "ProductCode": "",
 				        "ProductName": "",
-				        "QuantityPerUnit": "gm",
-				        "ReorderLevel": 0,
-				        "StandardCost": 0,
-				        "SupplierIds": "1",
-				        "TargetLevel": 500,
-				        "Hindi":""
+				        "PricePerUnit": 0,
+				        "Wastage": 0,
+				        "Tunch": 0,
+				        "AlertQuantity": 0,
+				        "HindiName":""
 				        });
 				var oViewModel1 = new JSONModel({
 					"items":[{"text": "Silver"},{"text": "Gold"},{"text": "GS"}]
@@ -59,7 +57,7 @@ sap.ui.define([
 				var oViewModel2 = new JSONModel({
 					"items":[{"text": "gm"},{"text": "pcs"}]
 				});
-				
+
 //				this.getRouter().getRoute("Products").attachPatternMatched(this._onObjectMatched, this);
 //
 //				// Store original busy indicator delay, so it can be restored later on
@@ -67,12 +65,163 @@ sap.ui.define([
 				this.setModel(oViewModel, "productModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				var oRouter = this.getRouter();
+			oRouter.getRoute("Products").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
 //						// Restore original busy indicator delay for the object view
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
 //					}
 //				);
 			},
+
+			getRouter: function () {
+			return sap.ui.core.UIComponent.getRouterFor(this);
+		},
+
+			_onRouteMatched : function(){
+				var that = this;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/Products", "GET", {}, {}, this)
+					.then(function(oData) {
+						var oModelProduct = new JSONModel();
+				oModelProduct.setData(oData);
+				that.getView().setModel(oModelProduct, "productModelInfo");
+
+					}).catch(function(oError) {
+							sap.m.MessageBox.error("cannot fetch the data");
+					});
+
+			},
+
+			productCodeCheck : function(){
+				var productModel = this.getView().getModel("productModel");
+ 			 var productCode = productModel.getData().ProductCode;
+ 			 var productJson = this.getView().getModel("productModelInfo").getData().results;
+ 			 function getProductCode(productCode) {
+ 						return productJson.filter(
+ 							function (data) {
+ 								return data.ProductCode === productCode;
+ 							}
+ 						);
+ 					}
+
+ 					var found = getProductCode(productCode);
+ 					if(found.length > 0){
+						productModel.getData().Category = found[0].Category;
+						productModel.getData().Type = found[0].Type;
+						productModel.getData().CustomerTunch = found[0].CustomerTunch;
+						productModel.getData().Making = found[0].Making;
+						productModel.getData().ProductName = found[0].ProductName;
+						productModel.getData().PricePerUnit = found[0].PricePerUnit;
+						productModel.getData().Wastage = found[0].Wastage;
+						productModel.getData().Tunch = found[0].Tunch;
+						productModel.getData().AlertQuantity = found[0].AlertQuantity;
+						productModel.getData().HindiName = found[0].HindiName;
+						productModel.refresh();
+						}else{
+							productModel.getData().Category = "";
+							productModel.getData().Type = "";
+							productModel.getData().CustomerTunch = 0;
+							productModel.getData().Making = 0;
+							productModel.getData().ProductCode = "";
+							productModel.getData().ProductName = "";
+							productModel.getData().PricePerUnit = 0;
+							productModel.getData().Wastage = 0;
+							productModel.getData().Tunch = 0;
+							productModel.getData().AlertQuantity = 0;
+							productModel.getData().HindiName = "";
+							productModel.refresh();
+
+						}
+			},
+
+			SaveProduct : function(){
+				var that = this;
+				 var productModel = this.getView().getModel("productModel");
+				 var productCode = productModel.getData().ProductCode;
+				 var productJson = this.getView().getModel("productModelInfo").getData().results;
+				 function getProductCode(productCode) {
+							return productJson.filter(
+								function (data) {
+									return data.ProductCode === productCode;
+								}
+							);
+						}
+
+						var found = getProductCode(productCode);
+						if(found.length > 0){
+
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Products('"+found[0].id+"')", "PUT", {},productModel.getData() , this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Data saved successfully");
+								that._onRouteMatched();
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Data could not be saved");
+								});
+
+						}
+						else{
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Product", "POST", {},productModel.getData() , this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Data saved successfully");
+								that._onRouteMatched();
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Data could not be saved");
+								});
+						}
+
+			},
+
+			deleteProduct : function(){
+				var that = this;
+				var productModel = this.getView().getModel("productModel");
+ 			 var productCode = productModel.getData().ProductCode;
+ 			 var productJson = this.getView().getModel("productModelInfo").getData().results;
+ 			 function getProductCode(productCode) {
+ 						return productJson.filter(
+ 							function (data) {
+ 								return data.ProductCode === productCode;
+ 							}
+ 						);
+ 					}
+
+ 					var found = getProductCode(productCode);
+ 					if(found.length > 0){
+
+							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							 "/Products('" + found[0].id + "')", "DELETE", {},{}, this)
+								.then(function(oData) {
+								sap.m.MessageBox.success("Deleted successfully");
+								productModel.getData().Category = "";
+								productModel.getData().Type = "";
+								productModel.getData().CustomerTunch = 0;
+								productModel.getData().Making = 0;
+								productModel.getData().ProductCode = "";
+								productModel.getData().ProductName = "";
+								productModel.getData().PricePerUnit = 0;
+								productModel.getData().Wastage = 0;
+								productModel.getData().Tunch = 0;
+								productModel.getData().AlertQuantity = 0;
+								productModel.getData().HindiName = "";
+								productModel.refresh();
+								that._onRouteMatched();
+
+								}).catch(function(oError) {
+										sap.m.MessageBox.error("Could not delete the entry");
+								});
+
+						}
+						else{
+							sap.m.MessageBox.error("Data not available");
+						}
+
+			},
+
+
+
+
 			selectedProduct: function(oEvent){
 				var item = oEvent.getParameter("selectedItem");
 				var key = item.getText();
@@ -129,7 +278,7 @@ sap.ui.define([
 							}
 						}
 					};
-				
+
 				this.getModel().create("/Products",updatedData,{
 					success: function(){
 						MessageToast.show("Created successfully");
@@ -175,15 +324,15 @@ sap.ui.define([
 				this.getModel("productModel").setProperty("/StandardCost", 0);
 				this.getModel("productModel").setProperty("/TargetLevel", 500);
 			},
-			deleteProduct: function(){
-				var that = this;
-				this.getModel().remove("/Products("+ that.getModel("productModel").getProperty("/Id")+ ")",{
-					success: function(){
-						MessageToast.show("Deleted successfully");
-						that.clearValues();
-					}
-				});
-			},
+			// deleteProduct: function(){
+			// 	var that = this;
+			// 	this.getModel().remove("/Products("+ that.getModel("productModel").getProperty("/Id")+ ")",{
+			// 		success: function(){
+			// 			MessageToast.show("Deleted successfully");
+			// 			that.clearValues();
+			// 		}
+			// 	});
+			// },
 			Save: function(){
 				var that = this;
 				var aFilters = [];
@@ -192,7 +341,7 @@ sap.ui.define([
 				this.getModel().read("/Products",{
 					filters: aFilters,
 					success: function(data){
-						
+
 						if(data.results.length === 0){
 							that.createNewProduct();
 						}
@@ -203,7 +352,7 @@ sap.ui.define([
 				} );
 			},
 			Delete: function(){
-				
+
 			},
 
 			/* =========================================================== */

@@ -123,7 +123,6 @@ sap.ui.define([
 							productModel.getData().Type = "";
 							productModel.getData().CustomerTunch = 0;
 							productModel.getData().Making = 0;
-							productModel.getData().ProductCode = "";
 							productModel.getData().ProductName = "";
 							productModel.getData().PricePerUnit = 0;
 							productModel.getData().Wastage = 0;

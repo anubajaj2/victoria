@@ -137,7 +137,6 @@ sap.ui.define([
 							customerModel.getData().City = "";
 							customerModel.getData().MobilePhone = "0";
 							customerModel.getData().Address = "";
-							customerModel.getData().CustomerCode = ""
 							customerModel.getData().Name = "";
 							customerModel.getData().SecondaryPhone = "0";
 							customerModel.getData().Group = "";

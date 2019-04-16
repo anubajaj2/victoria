@@ -50,6 +50,12 @@ sap.ui.define([
 //				// Store original busy indicator delay, so it can be restored later on
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "groupModel");
+				var oViewDetailModel = new JSONModel({
+					"buttonText" : "Save",
+					"deleteEnabled" : false
+
+				});
+				this.setModel(oViewDetailModel, "viewModel");
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Group").attachMatched(this._onRouteMatched, this);
 	// 			var a ={"groupCode":"123","groupName" : "ABC", "description" : "test"
@@ -96,6 +102,7 @@ sap.ui.define([
 			 	var groupModel = this.getView().getModel("groupModel");
 			 	var groupCode = groupModel.getData().groupCode;
 			 	var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+				var viewModel = this.getView().getModel("viewModel");
 
 			 	function getGroupCode(groupCode) {
 			 				return groupJson.filter(
@@ -109,13 +116,25 @@ sap.ui.define([
 			 			if(found.length > 0){
 			 				groupModel.getData().groupName = found[0].groupName;
 			 				groupModel.getData().description = found[0].description;
+							viewModel.setProperty("/buttonText", "Update");
+							viewModel.setProperty("/deleteEnabled", true);
 			 				groupModel.refresh();
 			 			}else{
 			 				groupModel.getData().groupName = "";
 			 				groupModel.getData().description = "";
+							viewModel.setProperty("/buttonText", "Save");
+							viewModel.setProperty("/deleteEnabled", false);
 			 				groupModel.refresh();
 			 			}
 
+			 },
+
+			 clearGroup : function(){
+				 var groupModel = this.getView().getModel("groupModel");
+				 groupModel.getData().groupName = "";
+					groupModel.getData().description = "";
+					groupModel.getData().groupCode = "";
+					groupModel.refresh();
 			 },
 
 			 deleteGroup : function(){

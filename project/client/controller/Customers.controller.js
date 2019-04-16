@@ -62,6 +62,12 @@ sap.ui.define([
 				this.setModel(oViewModel, "customerModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				var oViewDetailModel = new JSONModel({
+					"buttonText" : "Save",
+					"deleteEnabled" : false
+
+				});
+				this.setModel(oViewDetailModel, "viewModel");
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Customers").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
@@ -116,6 +122,7 @@ sap.ui.define([
 				var customerModel = this.getView().getModel("customerModel");
  			 var customerCode = customerModel.getData().CustomerCode;
  			 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+			 var viewModel = this.getView().getModel("viewModel");
  			 function getCustomerCode(customerCode) {
  						return customerJson.filter(
  							function (data) {
@@ -132,6 +139,8 @@ sap.ui.define([
 						customerModel.getData().Name = found[0].Name;
 						customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
 						customerModel.getData().Group = found[0].Group;
+						viewModel.setProperty("/buttonText", "Update");
+						viewModel.setProperty("/deleteEnabled", true);
 						customerModel.refresh();
 						}else{
 							customerModel.getData().City = "";
@@ -140,8 +149,22 @@ sap.ui.define([
 							customerModel.getData().Name = "";
 							customerModel.getData().SecondaryPhone = "0";
 							customerModel.getData().Group = "";
+							viewModel.setProperty("/buttonText", "Save");
+							viewModel.setProperty("/deleteEnabled", false);
 							customerModel.refresh();
 						}
+			},
+
+			clearCustomer : function(){
+				var customerModel = this.getView().getModel("customerModel");
+			 customerModel.getData().City = "";
+				customerModel.getData().MobilePhone = "0";
+				customerModel.getData().Address = "";
+				customerModel.getData().Name = "";
+				customerModel.getData().CustomerCode = "";
+				customerModel.getData().SecondaryPhone = "0";
+				customerModel.getData().Group = "";
+				customerModel.refresh();
 			},
 
 			SaveCustomer : function(){

@@ -31,7 +31,7 @@
 			columnsM="1"
 			class="editableForm">
 			<f:content>
- 			    <Label text="Group Code" labelFor="groupCode"/>
+ 			    <Label text="Group Code" labelFor="groupCode" required="true"/>
 				<!-- <Input
 					id="groupCode"
 					type="Text"
@@ -62,8 +62,9 @@
 
  		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="saveGroup"/>
-				<Button text="Delete" type="Reject" press="deleteGroup"/>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="saveGroup"/>
+				<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearGroup"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

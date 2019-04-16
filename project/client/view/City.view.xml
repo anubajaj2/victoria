@@ -31,7 +31,7 @@
 			columnsM="1"
 			class="editableForm">
 			<f:content>
- 			    <Label text="City Code" labelFor="cityCode"/>
+ 			    <Label text="City Code" labelFor="cityCode" required="true"/>
 				<!-- <Input
 					id="cityCode"
 					type="Text"
@@ -63,8 +63,9 @@
  		</semantic:content>
 		<semantic:customFooterContent>
       <!-- <Button text="Edit" type="Edit" press="editCity"/> -->
-				<Button text="Save" type="Accept" press="saveCity"/>
-				<Button text="Delete" type="Reject" press="deleteCity"/>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="saveCity"/>
+				<Button text="Delete" type="Reject" press="deleteCity" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearCity"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

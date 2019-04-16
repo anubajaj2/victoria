@@ -31,7 +31,7 @@
 			columnsM="1"
 			class="editableForm">
 			<f:content>
- 			    <Label text="Product Code" labelFor="productInput"/>
+ 			    <Label text="Product Code" labelFor="productInput" required="true"/>
 				<!-- <Input
 					id="productInput"
 					type="Text"
@@ -153,8 +153,9 @@
 
  		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="SaveProduct"/>
-				<Button text="Delete" type="Reject" press="deleteProduct"/>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveProduct"/>
+				<Button text="Delete" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearProduct"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

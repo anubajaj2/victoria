@@ -51,6 +51,12 @@ sap.ui.define([
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "cityModel");
 
+				var oViewDetailModel = new JSONModel({
+					"buttonText" : "Save",
+					"deleteEnabled" : false
+
+				});
+				this.setModel(oViewDetailModel, "viewModel");
 				var oRouter = this.getRouter();
 			oRouter.getRoute("City").attachMatched(this._onRouteMatched, this);
 
@@ -100,6 +106,8 @@ cityCodeCheck : function(oEvent){
 	var cityModel = this.getView().getModel("cityModel");
 	var cityCode = cityModel.getData().cityCode;
 	var cityJson = this.getView().getModel("cityModelInfo").getData().results;
+var viewModel = this.getView().getModel("viewModel");
+
 
 	function getCityCode(cityCode) {
 				return cityJson.filter(
@@ -113,13 +121,25 @@ cityCodeCheck : function(oEvent){
 			if(found.length > 0){
 				cityModel.getData().cityName = found[0].cityName;
 				cityModel.getData().state = found[0].state;
+				viewModel.setProperty("/buttonText", "Update");
+				viewModel.setProperty("/deleteEnabled", true);
 				cityModel.refresh();
 			}else{
 				cityModel.getData().cityName = "";
 				cityModel.getData().state = "";
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
 				cityModel.refresh();
 			}
 
+},
+
+clearCity : function(){
+		var cityModel = this.getView().getModel("cityModel");
+		cityModel.getData().cityName = "";
+		cityModel.getData().cityCode = "";
+		cityModel.getData().state = "";
+		cityModel.refresh();
 },
 
 deleteCity : function(){

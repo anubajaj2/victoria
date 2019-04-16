@@ -122,8 +122,9 @@
 
  		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="SaveCustomer"/>
-				<Button text="Delete" type="Reject" press="deleteCustomer"/>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveCustomer"/>
+				<Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearCustomer"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

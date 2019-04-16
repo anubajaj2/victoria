@@ -65,6 +65,12 @@ sap.ui.define([
 				this.setModel(oViewModel, "productModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				var oViewDetailModel = new JSONModel({
+					"buttonText" : "Save",
+					"deleteEnabled" : false
+
+				});
+				this.setModel(oViewDetailModel, "viewModel");
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Products").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
@@ -97,6 +103,7 @@ sap.ui.define([
 				var productModel = this.getView().getModel("productModel");
  			 var productCode = productModel.getData().ProductCode;
  			 var productJson = this.getView().getModel("productModelInfo").getData().results;
+			 var viewModel = this.getView().getModel("viewModel");
  			 function getProductCode(productCode) {
  						return productJson.filter(
  							function (data) {
@@ -117,6 +124,8 @@ sap.ui.define([
 						productModel.getData().Tunch = found[0].Tunch;
 						productModel.getData().AlertQuantity = found[0].AlertQuantity;
 						productModel.getData().HindiName = found[0].HindiName;
+						viewModel.setProperty("/buttonText", "Update");
+						viewModel.setProperty("/deleteEnabled", true);
 						productModel.refresh();
 						}else{
 							productModel.getData().Category = "";
@@ -129,9 +138,28 @@ sap.ui.define([
 							productModel.getData().Tunch = 0;
 							productModel.getData().AlertQuantity = 0;
 							productModel.getData().HindiName = "";
+							viewModel.setProperty("/buttonText", "Save");
+							viewModel.setProperty("/deleteEnabled", false);
 							productModel.refresh();
 
 						}
+			},
+
+			clearProduct : function(){
+				var productModel = this.getView().getModel("productModel");
+				productModel.getData().Category = "";
+				productModel.getData().Type = "";
+				productModel.getData().ProductCode = "";
+				productModel.getData().CustomerTunch = 0;
+				productModel.getData().Making = 0;
+				productModel.getData().ProductName = "";
+				productModel.getData().PricePerUnit = 0;
+				productModel.getData().Wastage = 0;
+				productModel.getData().Tunch = 0;
+				productModel.getData().AlertQuantity = 0;
+				productModel.getData().HindiName = "";
+				productModel.refresh();
+
 			},
 
 			SaveProduct : function(){

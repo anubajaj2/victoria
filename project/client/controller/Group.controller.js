@@ -85,6 +85,29 @@ sap.ui.define([
 
 			 _onRouteMatched : function(){
 			 	var that = this;
+				var viewModel = this.getView().getModel("viewModel");
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				var odataModel = new JSONModel({
+					"groupCodeState" : "None"
+
+
+				});
+				this.setModel(odataModel, "dataModel");
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/Customers", "GET", {}, {}, this)
+					.then(function(oData) {
+						var oModelCustomer = new JSONModel();
+				oModelCustomer.setData(oData);
+				that.getView().setModel(oModelCustomer, "customerModelInfo");
+
+					}).catch(function(oError) {
+							sap.m.MessageBox.error("cannot fetch the data");
+					});
+
+
+
 			 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			 	 "/Groups", "GET", {}, {}, this)
 			 		.then(function(oData) {
@@ -95,6 +118,17 @@ sap.ui.define([
 			 		}).catch(function(oError) {
 			 				sap.m.MessageBox.error("cannot fetch the data");
 			 		});
+
+			 },
+
+			 additionalInfoValidation : function(){
+			 	var customerModel = this.getView().getModel("groupModel");
+			 	var oDataModel = this.getView().getModel("dataModel");
+			 	if(customerModel.getData().groupCode === ""){
+			 			oDataModel.setProperty("/groupCodeState", "Error");
+			 	}else{
+			 		oDataModel.setProperty("/groupCodeState", "None");
+			 	}
 
 			 },
 
@@ -118,12 +152,16 @@ sap.ui.define([
 			 				groupModel.getData().description = found[0].description;
 							viewModel.setProperty("/buttonText", "Update");
 							viewModel.setProperty("/deleteEnabled", true);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
 			 				groupModel.refresh();
 			 			}else{
 			 				groupModel.getData().groupName = "";
 			 				groupModel.getData().description = "";
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
 			 				groupModel.refresh();
 			 			}
 
@@ -131,9 +169,15 @@ sap.ui.define([
 
 			 clearGroup : function(){
 				 var groupModel = this.getView().getModel("groupModel");
+				 var viewModel = this.getView().getModel("viewModel");
+		 		var dataModel = this.getView().getModel("dataModel");
 				 groupModel.getData().groupName = "";
 					groupModel.getData().description = "";
 					groupModel.getData().groupCode = "";
+					viewModel.setProperty("/codeEnabled", true);
+					viewModel.setProperty("/buttonText", "Save");
+					viewModel.setProperty("/deleteEnabled", false);
+					dataModel.setProperty("/groupCode", "None");
 					groupModel.refresh();
 			 },
 
@@ -152,7 +196,7 @@ sap.ui.define([
 
 			 			var found = getGroupCode(groupCode);
 			 			if(found.length > 0){
-
+							if (!this.customerGroupInfo(found[0].groupName)){
 			 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			 				 "/Groups('" + found[0].id + "')", "DELETE", {},{}, this)
 			 					.then(function(oData) {
@@ -165,6 +209,9 @@ sap.ui.define([
 			 					}).catch(function(oError) {
 			 							sap.m.MessageBox.error("Could not delete the entry");
 			 					});
+							}else{
+								sap.m.MessageBox.error("Group already in use.Cannot be deleted");
+							}
 
 			 			}
 			 			else{
@@ -173,11 +220,35 @@ sap.ui.define([
 
 			 },
 
+			 customerGroupInfo : function(groupName){
+			 	var customerModel = this.getView().getModel("customerModelInfo");
+			 	var oDataCustomer =  customerModel.getData().results;
+			 	function getCustomerGroup(cityName) {
+			 			return oDataCustomer.filter(
+			 				function (data) {
+			 					return data.Group === groupName;
+			 				}
+			 			);
+			 		}
+
+			 		var found = getCustomerGroup(groupName);
+			 		if(found.length > 0){
+			 			return true;
+			 		}else{
+			 			return false;
+			 		}
+			 },
+
 			 saveGroup : function(){
 			 	var that = this;
 			 	 var groupModel = this.getView().getModel("groupModel");
 			 	 var groupCode = groupModel.getData().groupCode;
 			 	 var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+				 if(groupCode.getData().groupCode === "" ){
+					 this.additionalInfoValidation();
+					sap.m.MessageBox.error("Please fill the required fields");
+					return;
+				}
 			 	 function getGroupCode(groupCode) {
 			 	 			return groupJson.filter(
 			 	 				function (data) {

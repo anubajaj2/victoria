@@ -44,7 +44,8 @@
 					</suggestionItems>
 				</Input> -->
 				<ComboBox value="{productModel>/ProductCode}" change="productCodeCheck"
-	items="{productModelInfo>/results}">
+	items="{productModelInfo>/results}" valueState="{dataModel>/ProductCodeState}" valueStateText="Product Code cannot be blank"
+											enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
 </ComboBox>
 
@@ -91,7 +92,8 @@
 				<Input
 					id="idHindi"
 					type="Text"
-					value="{productModel>/HindiName}">
+					value="{productModel>/HindiName}"
+					class = "hinditext">
 				</Input>
 
 				<Label text="Tunch"/>

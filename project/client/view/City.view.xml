@@ -39,7 +39,7 @@
 				</Input> -->
 
 				<ComboBox value="{cityModel>/cityCode}" change="cityCodeCheck"
-	items="{cityModelInfo>/results}">
+	items="{cityModelInfo>/results}" valueState="{dataModel>/cityCodeState}" valueStateText="City Code cannot be blank" enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{cityModelInfo>cityCode}" text="{cityModelInfo>cityCode}" />
 </ComboBox>
 

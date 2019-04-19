@@ -1,4 +1,6 @@
 /*global location*/
+// jQuery.sap.require("victoria.utils.google");
+// jQuery.sap.require("victoria.utils.test");
 sap.ui.define([
 		"victoria/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
@@ -71,6 +73,46 @@ sap.ui.define([
 
 				});
 				this.setModel(oViewDetailModel, "viewModel");
+
+				// setTimeout(function() {
+				// 		google.load("elements", "1", {
+				// 							packages : "keyboard"
+				// });
+			 //
+				// function onLoad() {
+				// 							var kbd = new google.elements.keyboard.Keyboard(
+				// 																	[ google.elements.keyboard.LayoutCode.HINDI ]);
+				// 		}
+				// 		google.setOnLoadCallback(onLoad);
+				// 	 }, 5000);
+			 //
+				// 	 google.load("elements", "1", {
+				// 						 packages : "keyboard"
+			 // });
+
+			//  google.load("elements", "1", {
+		 // 						packages : "keyboard"
+		 // });
+			//  function onLoad() {
+			// 							 var kbd = new google.elements.keyboard.Keyboard(
+			// 																	 [ google.elements.keyboard.LayoutCode.HINDI ]);
+			// 		 }
+			// 		 google.setOnLoadCallback(onLoad);
+
+// 				sap.ui.getCore().attachInit(function(){
+//
+// 					google.load("elements", "1", {
+// 											packages : "keyboard"
+// 				});
+//
+// 				function onLoad() {
+// 											var kbd = new google.elements.keyboard.Keyboard(
+// 																					[ google.elements.keyboard.LayoutCode.HINDI ]);
+// 						}
+// 						google.setOnLoadCallback(onLoad);
+//
+// });
+
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Products").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
@@ -86,6 +128,16 @@ sap.ui.define([
 
 			_onRouteMatched : function(){
 				var that = this;
+				var viewModel = this.getView().getModel("viewModel");
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				var odataModel = new JSONModel({
+					"ProductCodeState" : "None"
+
+
+				});
+				this.setModel(odataModel, "dataModel");
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Products", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -96,6 +148,17 @@ sap.ui.define([
 					}).catch(function(oError) {
 							sap.m.MessageBox.error("cannot fetch the data");
 					});
+
+			},
+
+			additionalInfoValidation : function(){
+				var customerModel = this.getView().getModel("productModel");
+				var oDataModel = this.getView().getModel("dataModel");
+				if(customerModel.getData().ProductCode === ""){
+						oDataModel.setProperty("/ProductCodeState", "Error");
+				}else{
+					oDataModel.setProperty("/ProductCodeState", "None");
+				}
 
 			},
 
@@ -126,6 +189,8 @@ sap.ui.define([
 						productModel.getData().HindiName = found[0].HindiName;
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
+						viewModel.setProperty("/codeEnabled", false);
+						this.additionalInfoValidation();
 						productModel.refresh();
 						}else{
 							productModel.getData().Category = "";
@@ -140,6 +205,8 @@ sap.ui.define([
 							productModel.getData().HindiName = "";
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
 							productModel.refresh();
 
 						}
@@ -147,6 +214,8 @@ sap.ui.define([
 
 			clearProduct : function(){
 				var productModel = this.getView().getModel("productModel");
+				var viewModel = this.getView().getModel("viewModel");
+				var dataModel = this.getView().getModel("dataModel");
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
 				productModel.getData().ProductCode = "";
@@ -158,6 +227,10 @@ sap.ui.define([
 				productModel.getData().Tunch = 0;
 				productModel.getData().AlertQuantity = 0;
 				productModel.getData().HindiName = "";
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				dataModel.setProperty("/ProductCode", "None");
 				productModel.refresh();
 
 			},
@@ -167,6 +240,12 @@ sap.ui.define([
 				 var productModel = this.getView().getModel("productModel");
 				 var productCode = productModel.getData().ProductCode;
 				 var productJson = this.getView().getModel("productModelInfo").getData().results;
+
+				 if(productModel.getData().ProductCode === "" ){
+					 this.additionalInfoValidation();
+					sap.m.MessageBox.error("Please fill the required fields");
+					return;
+				}
 				 function getProductCode(productCode) {
 							return productJson.filter(
 								function (data) {

@@ -39,7 +39,7 @@
 				</Input> -->
 
 				<ComboBox value="{groupModel>/groupCode}" change="groupCodeCheck"
-	items="{groupModelInfo>/results}">
+	items="{groupModelInfo>/results}" valueState="{dataModel>/groupCodeState}" valueStateText="Group Code cannot be blank" enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{groupModelInfo>groupCode}" text="{groupModelInfo>groupCode}" />
 </ComboBox>
 

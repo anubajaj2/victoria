@@ -89,6 +89,28 @@ sap.ui.define([
 
 _onRouteMatched : function(){
 	var that = this;
+	var viewModel = this.getView().getModel("viewModel");
+	viewModel.setProperty("/codeEnabled", true);
+	viewModel.setProperty("/buttonText", "Save");
+	viewModel.setProperty("/deleteEnabled", false);
+	var odataModel = new JSONModel({
+		"cityCodeState" : "None"
+
+
+	});
+	this.setModel(odataModel, "dataModel");
+	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	 "/Customers", "GET", {}, {}, this)
+		.then(function(oData) {
+			var oModelCustomer = new JSONModel();
+	oModelCustomer.setData(oData);
+	that.getView().setModel(oModelCustomer, "customerModelInfo");
+
+		}).catch(function(oError) {
+				sap.m.MessageBox.error("cannot fetch the data");
+		});
+
+
 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 	 "/Cities", "GET", {}, {}, this)
 		.then(function(oData) {
@@ -99,6 +121,17 @@ _onRouteMatched : function(){
 		}).catch(function(oError) {
 				sap.m.MessageBox.error("cannot fetch the data");
 		});
+
+},
+
+additionalInfoValidation : function(){
+	var customerModel = this.getView().getModel("cityModel");
+	var oDataModel = this.getView().getModel("dataModel");
+	if(customerModel.getData().cityCode === ""){
+			oDataModel.setProperty("/cityCodeState", "Error");
+	}else{
+		oDataModel.setProperty("/cityCodeState", "None");
+	}
 
 },
 
@@ -123,12 +156,16 @@ var viewModel = this.getView().getModel("viewModel");
 				cityModel.getData().state = found[0].state;
 				viewModel.setProperty("/buttonText", "Update");
 				viewModel.setProperty("/deleteEnabled", true);
+				viewModel.setProperty("/codeEnabled", false);
+				this.additionalInfoValidation();
 				cityModel.refresh();
 			}else{
 				cityModel.getData().cityName = "";
 				cityModel.getData().state = "";
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
+				viewModel.setProperty("/codeEnabled", false);
+				this.additionalInfoValidation();
 				cityModel.refresh();
 			}
 
@@ -136,9 +173,15 @@ var viewModel = this.getView().getModel("viewModel");
 
 clearCity : function(){
 		var cityModel = this.getView().getModel("cityModel");
+		var viewModel = this.getView().getModel("viewModel");
+		var dataModel = this.getView().getModel("dataModel");
 		cityModel.getData().cityName = "";
 		cityModel.getData().cityCode = "";
 		cityModel.getData().state = "";
+		viewModel.setProperty("/codeEnabled", true);
+		viewModel.setProperty("/buttonText", "Save");
+		viewModel.setProperty("/deleteEnabled", false);
+		dataModel.setProperty("/cityCode", "None");
 		cityModel.refresh();
 },
 
@@ -157,7 +200,7 @@ deleteCity : function(){
 
 			var found = getCityCode(cityCode);
 			if(found.length > 0){
-
+				if (!this.customerCityInfo(found[0].cityName)){
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Cities('" + found[0].id + "')", "DELETE", {},{}, this)
 					.then(function(oData) {
@@ -171,6 +214,9 @@ deleteCity : function(){
 							sap.m.MessageBox.error("Could not delete the entry");
 					});
 
+			}else{
+				sap.m.MessageBox.error("City already in use.Cannot be deleted");
+			}
 			}
 			else{
 				sap.m.MessageBox.error("Data not available");
@@ -178,11 +224,35 @@ deleteCity : function(){
 
 },
 
+customerCityInfo : function(cityName){
+	var customerModel = this.getView().getModel("customerModelInfo");
+	var oDataCustomer =  customerModel.getData().results;
+	function getCustomerCity(cityName) {
+			return oDataCustomer.filter(
+				function (data) {
+					return data.City === cityName;
+				}
+			);
+		}
+
+		var found = getCustomerCity(cityName);
+		if(found.length > 0){
+			return true;
+		}else{
+			return false;
+		}
+},
+
 saveCity : function(){
 	var that = this;
 	 var cityModel = this.getView().getModel("cityModel");
 	 var cityCode = cityModel.getData().cityCode;
 	 var cityJson = this.getView().getModel("cityModelInfo").getData().results;
+	 if(cityModel.getData().cityCode === "" ){
+		 this.additionalInfoValidation();
+		sap.m.MessageBox.error("Please fill the required fields");
+		return;
+	}
 	 function getCityCode(cityCode) {
 	 			return cityJson.filter(
 	 				function (data) {

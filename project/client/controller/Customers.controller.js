@@ -64,10 +64,12 @@ sap.ui.define([
 				this.setModel(oViewModel2, "per");
 				var oViewDetailModel = new JSONModel({
 					"buttonText" : "Save",
-					"deleteEnabled" : false
+					"deleteEnabled" : false,
+					"codeEnabled" : true
 
 				});
 				this.setModel(oViewDetailModel, "viewModel");
+
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Customers").attachMatched(this._onRouteMatched, this);
 //				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
@@ -83,6 +85,18 @@ sap.ui.define([
 
 			_onRouteMatched : function(){
 				var that = this;
+				var viewModel = this.getView().getModel("viewModel");
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				var odataModel = new JSONModel({
+					"CustomerCodeState" : "None",
+					"CityState" : "None",
+					"GroupState" : "None",
+					"NameState" : "None"
+
+				});
+				this.setModel(odataModel, "dataModel");
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Customers", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -118,6 +132,32 @@ sap.ui.define([
 
 			},
 
+			additionalInfoValidation : function(){
+				var customerModel = this.getView().getModel("customerModel");
+				var oDataModel = this.getView().getModel("dataModel");
+				if(customerModel.getData().CustomerCode === ""){
+						oDataModel.setProperty("/CustomerCodeState", "Error");
+				}else{
+					oDataModel.setProperty("/CustomerCodeState", "None");
+				}
+				if(customerModel.getData().Name === ""){
+						oDataModel.setProperty("/NameState", "Error");
+				}else{
+					oDataModel.setProperty("/NameState", "None");
+				}
+				if(customerModel.getData().Group === ""){
+						oDataModel.setProperty("/GroupState", "Error");
+				}else{
+					oDataModel.setProperty("/GroupState", "None");
+				}
+				if(customerModel.getData().City === ""){
+						oDataModel.setProperty("/CityState", "Error");
+				}else{
+					oDataModel.setProperty("/CityState", "None");
+				}
+
+			},
+
 			customerCodeCheck : function(){
 				var customerModel = this.getView().getModel("customerModel");
  			 var customerCode = customerModel.getData().CustomerCode;
@@ -141,6 +181,8 @@ sap.ui.define([
 						customerModel.getData().Group = found[0].Group;
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
+						viewModel.setProperty("/codeEnabled", false);
+						this.additionalInfoValidation();
 						customerModel.refresh();
 						}else{
 							customerModel.getData().City = "";
@@ -151,12 +193,16 @@ sap.ui.define([
 							customerModel.getData().Group = "";
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
 							customerModel.refresh();
 						}
 			},
 
 			clearCustomer : function(){
 				var customerModel = this.getView().getModel("customerModel");
+				var viewModel = this.getView().getModel("viewModel");
+				var dataModel = this.getView().getModel("dataModel");
 			 customerModel.getData().City = "";
 				customerModel.getData().MobilePhone = "0";
 				customerModel.getData().Address = "";
@@ -164,6 +210,13 @@ sap.ui.define([
 				customerModel.getData().CustomerCode = "";
 				customerModel.getData().SecondaryPhone = "0";
 				customerModel.getData().Group = "";
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				dataModel.setProperty("/CustomerCodeState", "None");
+				dataModel.setProperty("/CityState", "None");
+				dataModel.setProperty("/GroupState", "None");
+				dataModel.setProperty("/NameState", "None");
 				customerModel.refresh();
 			},
 
@@ -172,6 +225,12 @@ sap.ui.define([
 				 var customerModel = this.getView().getModel("customerModel");
 				 var customerCode = customerModel.getData().CustomerCode;
 				 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+
+				 if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
+					 sap.m.MessageBox.error("Please fill the required fields");
+					 return;
+				 }
+
 				 function getCustomerCode(customerCode) {
 							return customerJson.filter(
 								function (data) {
@@ -211,6 +270,10 @@ sap.ui.define([
 				var customerModel = this.getView().getModel("customerModel");
 				var customerCode = customerModel.getData().CustomerCode;
 				var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+				if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
+					sap.m.MessageBox.error("Please fill the required fields");
+					return;
+				}
 				function getCustomerCode(customerCode) {
 						 return customerJson.filter(
 							 function (data) {

@@ -1,3 +1,11 @@
 .sample td{
   border:1px solid black;
 }
+
+@font-face {
+  font-family: kruti dev ;
+  src: local( 'victoria/utils/Devlys_010.ttf' ) format("truetype");
+}
+.hinditext {
+    font-family: Devlys Normal;
+}

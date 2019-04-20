@@ -9,11 +9,11 @@
   "properties": {
     "Category": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Type": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "CustomerTunch": {
       "type": "string",
@@ -21,7 +21,7 @@
     },
     "Making": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "ProductCode": {
       "type": "string",
@@ -29,27 +29,27 @@
     },
     "ProductName": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "PricePerUnit": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Wastage": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Tunch": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "AlertQuantity": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "HindiName": {
       "type": "string",
-      "required": true
+      "required": false
     }
   },
   "scope":{

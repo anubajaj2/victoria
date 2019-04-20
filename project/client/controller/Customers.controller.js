@@ -97,6 +97,7 @@ sap.ui.define([
 
 				});
 				this.setModel(odataModel, "dataModel");
+				this.clearCustomer();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Customers", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -105,7 +106,7 @@ sap.ui.define([
 				that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 					}).catch(function(oError) {
-							sap.m.MessageBox.error("cannot fetch the data");
+							MessageToast.show("cannot fetch the data");
 					});
 
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -116,7 +117,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCity, "cityModelInfo");
 
 						}).catch(function(oError) {
-								sap.m.MessageBox.error("cannot fetch the data");
+								MessageToast.show("cannot fetch the data");
 						});
 
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -127,7 +128,7 @@ sap.ui.define([
 						that.getView().setModel(oModelGroup, "groupModelInfo");
 
 							}).catch(function(oError) {
-									sap.m.MessageBox.error("cannot fetch the data");
+									MessageToast.show("cannot fetch the data");
 							});
 
 			},
@@ -183,6 +184,7 @@ sap.ui.define([
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
 						this.additionalInfoValidation();
+						this.getView().byId("idName").focus();
 						customerModel.refresh();
 						}else{
 							customerModel.getData().City = "";
@@ -195,6 +197,7 @@ sap.ui.define([
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
 							this.additionalInfoValidation();
+							this.getView().byId("idName").focus();
 							customerModel.refresh();
 						}
 			},
@@ -227,7 +230,7 @@ sap.ui.define([
 				 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 
 				 if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
-					 sap.m.MessageBox.error("Please fill the required fields");
+					 MessageToast.show("Please fill the required fields");
 					 return;
 				 }
 
@@ -245,10 +248,10 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Customers('"+found[0].id+"')", "PUT", {},customerModel.getData() , this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Data saved successfully");
+								MessageToast.show("Data saved successfully");
 								that._onRouteMatched();
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Data could not be saved");
+										MessageToast.show("Data could not be saved");
 								});
 
 						}
@@ -256,10 +259,10 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Customer", "POST", {},customerModel.getData() , this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Data saved successfully");
+								MessageToast.show("Data saved successfully");
 								that._onRouteMatched();
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Data could not be saved");
+										MessageToast.show("Data could not be saved");
 								});
 						}
 
@@ -271,7 +274,7 @@ sap.ui.define([
 				var customerCode = customerModel.getData().CustomerCode;
 				var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 				if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
-					sap.m.MessageBox.error("Please fill the required fields");
+					MessageToast.show("Please fill the required fields");
 					return;
 				}
 				function getCustomerCode(customerCode) {
@@ -288,7 +291,7 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Customers('" + found[0].id + "')", "DELETE", {},{}, this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Deleted successfully");
+								MessageToast.show("Deleted successfully");
 								customerModel.getData().City = "";
 								customerModel.getData().MobilePhone = "0";
 								customerModel.getData().Address = "";
@@ -299,12 +302,12 @@ sap.ui.define([
 								customerModel.refresh();
 								that._onRouteMatched();
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Could not delete the entry");
+										MessageToast.show("Could not delete the entry");
 								});
 
 						}
 						else{
-							sap.m.MessageBox.error("Data not available");
+							MessageToast.show("Data not available");
 						}
 
 			},

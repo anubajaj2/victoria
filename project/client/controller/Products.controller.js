@@ -138,6 +138,7 @@ sap.ui.define([
 
 				});
 				this.setModel(odataModel, "dataModel");
+				this.clearProduct();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Products", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -146,7 +147,7 @@ sap.ui.define([
 				that.getView().setModel(oModelProduct, "productModelInfo");
 
 					}).catch(function(oError) {
-							sap.m.MessageBox.error("cannot fetch the data");
+							MessageToast.show("cannot fetch the data");
 					});
 
 			},
@@ -191,6 +192,7 @@ sap.ui.define([
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
 						this.additionalInfoValidation();
+						this.getView().byId("idProductName").focus();
 						productModel.refresh();
 						}else{
 							productModel.getData().Category = "";
@@ -207,6 +209,7 @@ sap.ui.define([
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
 							this.additionalInfoValidation();
+							this.getView().byId("idProductName").focus();
 							productModel.refresh();
 
 						}
@@ -243,7 +246,7 @@ sap.ui.define([
 
 				 if(productModel.getData().ProductCode === "" ){
 					 this.additionalInfoValidation();
-					sap.m.MessageBox.error("Please fill the required fields");
+					MessageToast.show("Please fill the required fields");
 					return;
 				}
 				 function getProductCode(productCode) {
@@ -260,10 +263,10 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Products('"+found[0].id+"')", "PUT", {},productModel.getData() , this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Data saved successfully");
+								MessageToast.show("Data saved successfully");
 								that._onRouteMatched();
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Data could not be saved");
+										MessageToast.show("Data could not be saved");
 								});
 
 						}
@@ -271,10 +274,10 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Product", "POST", {},productModel.getData() , this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Data saved successfully");
+								MessageToast.show("Data saved successfully");
 								that._onRouteMatched();
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Data could not be saved");
+										MessageToast.show("Data could not be saved");
 								});
 						}
 
@@ -299,7 +302,7 @@ sap.ui.define([
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Products('" + found[0].id + "')", "DELETE", {},{}, this)
 								.then(function(oData) {
-								sap.m.MessageBox.success("Deleted successfully");
+								MessageToast.show("Deleted successfully");
 								productModel.getData().Category = "";
 								productModel.getData().Type = "";
 								productModel.getData().CustomerTunch = 0;
@@ -315,12 +318,12 @@ sap.ui.define([
 								that._onRouteMatched();
 
 								}).catch(function(oError) {
-										sap.m.MessageBox.error("Could not delete the entry");
+										MessageToast.show("Could not delete the entry");
 								});
 
 						}
 						else{
-							sap.m.MessageBox.error("Data not available");
+							MessageToast.show("Data not available");
 						}
 
 			},

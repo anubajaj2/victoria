@@ -49,6 +49,13 @@
 	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
 </ComboBox>
 
+<Label text="Product Name"/>
+<Input
+	id="idProductName"
+	type="Text"
+	value="{productModel>/ProductName}">
+</Input>
+
 				<Label text="Category"/>
 				<ComboBox
 					id="idCategory"
@@ -81,12 +88,7 @@
 				</ComboBox>
 
 
-				<Label text="Product Name"/>
-				<Input
-					id="idProductName"
-					type="Text"
-					value="{productModel>/ProductName}">
-				</Input>
+
 
 				<Label text="Hindi Name"/>
 				<Input

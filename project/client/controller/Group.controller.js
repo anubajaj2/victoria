@@ -95,6 +95,7 @@ sap.ui.define([
 
 				});
 				this.setModel(odataModel, "dataModel");
+				this.clearGroup();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Customers", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -103,7 +104,7 @@ sap.ui.define([
 				that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 					}).catch(function(oError) {
-							sap.m.MessageBox.error("cannot fetch the data");
+							MessageToast.show("cannot fetch the data");
 					});
 
 
@@ -116,7 +117,7 @@ sap.ui.define([
 			 	that.getView().setModel(oModelGroup, "groupModelInfo");
 
 			 		}).catch(function(oError) {
-			 				sap.m.MessageBox.error("cannot fetch the data");
+			 				MessageToast.show("cannot fetch the data");
 			 		});
 
 			 },
@@ -154,6 +155,7 @@ sap.ui.define([
 							viewModel.setProperty("/deleteEnabled", true);
 							viewModel.setProperty("/codeEnabled", false);
 							this.additionalInfoValidation();
+							this.getView().byId("groupName").focus();
 			 				groupModel.refresh();
 			 			}else{
 			 				groupModel.getData().groupName = "";
@@ -162,6 +164,7 @@ sap.ui.define([
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
 							this.additionalInfoValidation();
+							this.getView().byId("groupName").focus();
 			 				groupModel.refresh();
 			 			}
 
@@ -200,22 +203,22 @@ sap.ui.define([
 			 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			 				 "/Groups('" + found[0].id + "')", "DELETE", {},{}, this)
 			 					.then(function(oData) {
-			 					sap.m.MessageBox.success("Deleted successfully");
+			 					MessageToast.show("Deleted successfully");
 								groupModel.getData().groupCode = "";
 			 					groupModel.getData().groupName = "";
 			 					groupModel.getData().description = "";
 			 					groupModel.refresh();
 			 					that._onRouteMatched();
 			 					}).catch(function(oError) {
-			 							sap.m.MessageBox.error("Could not delete the entry");
+			 							MessageToast.show("Could not delete the entry");
 			 					});
 							}else{
-								sap.m.MessageBox.error("Group already in use.Cannot be deleted");
+								MessageToast.show("Group already in use.Cannot be deleted");
 							}
 
 			 			}
 			 			else{
-			 				sap.m.MessageBox.error("Data not available");
+			 				MessageToast.show("Data not available");
 			 			}
 
 			 },
@@ -246,7 +249,7 @@ sap.ui.define([
 			 	 var groupJson = this.getView().getModel("groupModelInfo").getData().results;
 				 if(groupCode.getData().groupCode === "" ){
 					 this.additionalInfoValidation();
-					sap.m.MessageBox.error("Please fill the required fields");
+					MessageToast.show("Please fill the required fields");
 					return;
 				}
 			 	 function getGroupCode(groupCode) {
@@ -263,10 +266,10 @@ sap.ui.define([
 			 	 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			 	 			 "/Groups('"+found[0].id+"')", "PUT", {},groupModel.getData() , this)
 			 					.then(function(oData) {
-			 	 				sap.m.MessageBox.success("Data saved successfully");
+			 	 				MessageToast.show("Data saved successfully");
 			 					that._onRouteMatched();
 			 	 				}).catch(function(oError) {
-			 	 						sap.m.MessageBox.error("Data could not be saved");
+			 	 						MessageToast.show("Data could not be saved");
 			 	 				});
 
 			 	 		}
@@ -274,10 +277,10 @@ sap.ui.define([
 			 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			 				 "/Group", "POST", {},groupModel.getData() , this)
 			 					.then(function(oData) {
-			 					sap.m.MessageBox.success("Data saved successfully");
+			 					MessageToast.show("Data saved successfully");
 			 					that._onRouteMatched();
 			 					}).catch(function(oError) {
-			 							sap.m.MessageBox.error("Data could not be saved");
+			 							MessageToast.show("Data could not be saved");
 			 					});
 			 			}
 

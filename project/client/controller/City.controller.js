@@ -99,6 +99,7 @@ _onRouteMatched : function(){
 
 	});
 	this.setModel(odataModel, "dataModel");
+	this.clearCity();
 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 	 "/Customers", "GET", {}, {}, this)
 		.then(function(oData) {
@@ -107,7 +108,7 @@ _onRouteMatched : function(){
 	that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 		}).catch(function(oError) {
-				sap.m.MessageBox.error("cannot fetch the data");
+				MessageToast.show("cannot fetch the data");
 		});
 
 
@@ -119,7 +120,7 @@ _onRouteMatched : function(){
 	that.getView().setModel(oModelCity, "cityModelInfo");
 
 		}).catch(function(oError) {
-				sap.m.MessageBox.error("cannot fetch the data");
+				MessageToast.show("cannot fetch the data");
 		});
 
 },
@@ -158,6 +159,7 @@ var viewModel = this.getView().getModel("viewModel");
 				viewModel.setProperty("/deleteEnabled", true);
 				viewModel.setProperty("/codeEnabled", false);
 				this.additionalInfoValidation();
+				this.getView().byId("cityName").focus();
 				cityModel.refresh();
 			}else{
 				cityModel.getData().cityName = "";
@@ -165,6 +167,7 @@ var viewModel = this.getView().getModel("viewModel");
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
 				viewModel.setProperty("/codeEnabled", false);
+				this.getView().byId("cityName").focus();
 				this.additionalInfoValidation();
 				cityModel.refresh();
 			}
@@ -204,22 +207,22 @@ deleteCity : function(){
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Cities('" + found[0].id + "')", "DELETE", {},{}, this)
 					.then(function(oData) {
-					sap.m.MessageBox.success("Deleted successfully");
+					MessageToast.show("Deleted successfully");
 					cityModel.getData().cityCode = "";
 					cityModel.getData().cityName = "";
 					cityModel.getData().state = "";
 					cityModel.refresh();
 					that._onRouteMatched();
 					}).catch(function(oError) {
-							sap.m.MessageBox.error("Could not delete the entry");
+							MessageToast.show("Could not delete the entry");
 					});
 
 			}else{
-				sap.m.MessageBox.error("City already in use.Cannot be deleted");
+				MessageToast.show("City already in use.Cannot be deleted");
 			}
 			}
 			else{
-				sap.m.MessageBox.error("Data not available");
+				MessageToast.show("Data not available");
 			}
 
 },
@@ -250,7 +253,7 @@ saveCity : function(){
 	 var cityJson = this.getView().getModel("cityModelInfo").getData().results;
 	 if(cityModel.getData().cityCode === "" ){
 		 this.additionalInfoValidation();
-		sap.m.MessageBox.error("Please fill the required fields");
+		MessageToast.show("Please fill the required fields");
 		return;
 	}
 	 function getCityCode(cityCode) {
@@ -267,10 +270,10 @@ saveCity : function(){
 	 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 	 			 "/Cities('"+found[0].id+"')", "PUT", {},cityModel.getData() , this)
 					.then(function(oData) {
-	 				sap.m.MessageBox.success("Data saved successfully");
+	 				MessageToast.show("Data saved successfully");
 					that._onRouteMatched();
 	 				}).catch(function(oError) {
-	 						sap.m.MessageBox.error("Data could not be saved");
+	 						MessageToast.show("Data could not be saved");
 	 				});
 
 	 		}
@@ -278,10 +281,10 @@ saveCity : function(){
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/City", "POST", {},cityModel.getData() , this)
 					.then(function(oData) {
-					sap.m.MessageBox.success("Data saved successfully");
+					MessageToast.show("Data saved successfully");
 					that._onRouteMatched();
 					}).catch(function(oError) {
-							sap.m.MessageBox.error("Data could not be saved");
+							MessageToast.show("Data could not be saved");
 					});
 			}
 

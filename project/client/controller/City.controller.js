@@ -99,7 +99,7 @@ _onRouteMatched : function(){
 
 	});
 	this.setModel(odataModel, "dataModel");
-	this.clearCity();
+
 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 	 "/Customers", "GET", {}, {}, this)
 		.then(function(oData) {
@@ -122,7 +122,7 @@ _onRouteMatched : function(){
 		}).catch(function(oError) {
 				MessageToast.show("cannot fetch the data");
 		});
-
+this.clearCity();
 },
 
 additionalInfoValidation : function(){

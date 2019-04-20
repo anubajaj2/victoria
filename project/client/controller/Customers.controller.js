@@ -97,7 +97,7 @@ sap.ui.define([
 
 				});
 				this.setModel(odataModel, "dataModel");
-				this.clearCustomer();
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Customers", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -130,7 +130,7 @@ sap.ui.define([
 							}).catch(function(oError) {
 									MessageToast.show("cannot fetch the data");
 							});
-
+this.clearCustomer();
 			},
 
 			additionalInfoValidation : function(){

@@ -138,7 +138,7 @@ sap.ui.define([
 
 				});
 				this.setModel(odataModel, "dataModel");
-				this.clearProduct();
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Products", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -149,7 +149,7 @@ sap.ui.define([
 					}).catch(function(oError) {
 							MessageToast.show("cannot fetch the data");
 					});
-
+this.clearProduct();
 			},
 
 			additionalInfoValidation : function(){

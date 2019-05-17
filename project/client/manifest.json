@@ -157,6 +157,11 @@
 								"pattern": "Suppliers",
 								"name": "Suppliers",
 								"target": ["donald", "Suppliers"]
+							},
+							{
+								"pattern": "pendingOrders",
+								"name": "pendingOrders",
+								"target":["donald","pendingOrders"]
 							}
 
 						]
@@ -265,6 +270,15 @@
 					"clearAggregation": true,
 					"viewName": "Suppliers",
 					"viewId": "idSuppliers",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"pendingOrders": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "pendingOrders",
+					"viewId":"idpendingOrders",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

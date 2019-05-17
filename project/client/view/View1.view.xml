@@ -20,8 +20,9 @@
 					<StandardListItem id="sales" icon="sap-icon://crm-sales" title="Retail Sales" description=""></StandardListItem>
 					<StandardListItem id="salesws" icon="sap-icon://my-sales-order" title="Wholesale Sales" description=""></StandardListItem>
 					<StandardListItem id="Suppliers" icon="sap-icon://capital-projects" title="Booking" description=""></StandardListItem>
-					<StandardListItem id="kacchi" icon="sap-icon://crm-service-manager" title="Kacchi" description=""></StandardListItem>
+					<StandardListItem id="Kacchi" icon="sap-icon://crm-service-manager" title="Kacchi" description=""></StandardListItem>
 					<StandardListItem id="editEntry" icon="sap-icon://signature" title="Edit Entry" description=""></StandardListItem>
+					<StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="Pending Orders" description=""></StandardListItem>
 
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>

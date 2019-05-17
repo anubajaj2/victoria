@@ -154,6 +154,11 @@
 								"target": ["donald", "sales"]
 							},
 							{
+								"pattern": "salesws",
+								"name": "salesws",
+								"target": ["donald", "salesws"]
+							},
+							{
 								"pattern": "Suppliers",
 								"name": "Suppliers",
 								"target": ["donald", "Suppliers"]
@@ -256,6 +261,15 @@
 					"clearAggregation": true,
 					"viewName": "sales",
 					"viewId": "idsales",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"salesws": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "salesws",
+					"viewId": "idsalesws",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

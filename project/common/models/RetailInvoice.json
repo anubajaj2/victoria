@@ -1,0 +1,42 @@
+{
+  "name": "RetailInvoice",
+  "plural": "RetailInvoices",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "OrderId": {
+      "type": "string",
+      "required": false
+    },
+    "OrderDate": {
+      "type": "date",
+      "required": false
+    },
+    "CreatedBy": {
+      "type": "string",
+      "required": true
+    },
+    "CreatedOn": {
+      "type": "date",
+      "required": false
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

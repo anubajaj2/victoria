@@ -71,6 +71,10 @@
   "Product": {
       "dataSource": "mongoatlas",
       "public": true
+  },
+  "RetailInvoice": {
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

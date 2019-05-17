@@ -1,0 +1,12 @@
+<mvc:View
+  controllerName="victoria.controller.pendingOrders"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:semantic="sap.m.semantic">
+  	<semantic:FullscreenPage
+      id="pendingOrders"
+      navButtonPress="onNavBack"
+      showNavButton="true"
+      title="Pending Orders">
+    </semantic:FullscreenPage>
+  </mvc:View>

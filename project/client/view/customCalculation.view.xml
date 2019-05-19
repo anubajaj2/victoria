@@ -7,24 +7,26 @@
 
 		<semantic:content id="test11">
       <f:SimpleForm id="idSimple" editable="true" layout="ResponsiveGridLayout"
-        labelSpanXL="2" columnsXL="8" emptySpanXL="2">
+        labelSpanL="2" columnsL="8" emptySpanL="2">
         <f:content>
           <Label text="22/20"></Label>
-          <Input></Input>
+          <Input>
+          </Input>
           <Label text="Gold Returns"></Label>
-          <Input></Input>
+          <Input>
+          </Input>
           <Label text="22/22"></Label>
           <Input>
-            <layoutData>
-            <l:GridData span="XL2"></l:GridData/>
-          </layoutData>
           </Input>
           <Label text="Silver Returns"></Label>
-          <Input></Input>
+          <Input>
+          </Input>
           <Label text="Gold"></Label>
-          <Input></Input>
+          <Input>
+          </Input>
           <Label text="Silver"></Label>
-          <Input></Input>
+          <Input>
+          </Input>
         </f:content>
         </f:SimpleForm>
 

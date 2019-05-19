@@ -167,7 +167,13 @@
 								"pattern": "pendingOrders",
 								"name": "pendingOrders",
 								"target":["donald","pendingOrders"]
+							},
+							{
+								"pattern": "customCalculation",
+								"name": "customCalculation",
+								"target":["donald","customCalculation"]
 							}
+
 
 						]
 					}
@@ -293,6 +299,15 @@
 					"clearAggregation": true,
 					"viewName": "pendingOrders",
 					"viewId":"idpendingOrders",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"customCalculation": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "customCalculation",
+					"viewId":"idcustomCalculation",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

@@ -5,13 +5,13 @@
   xmlns:semantic="sap.m.semantic"
   xmlns:mvc="sap.ui.core.mvc">
 <semantic:FullscreenPage
-  id="kacchi"
+  id="Kacchi"
   title="Kacchi"
   navButtonPress="onNavButton"
   showNavButton="true">
-  <semantic:content>
-      <Button text="test"/>
-  </semantic:content>
+  <!-- <semantic:content> -->
+      <!-- <Button text="test"/> -->
+  <!-- </semantic:content> -->
 
 </semantic:FullscreenPage>
 </mvc:Views>

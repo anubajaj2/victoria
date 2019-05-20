@@ -6,8 +6,10 @@
 		navButtonPress="onNavBack" showNavButton="true" title="Wholesale Sales Test">
 
 		<semantic:content id="test1">
-
-
+			<m:VBox class="sapUiSmallMargin">
+			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
+			</core:Fragment>
+		</m:VBox>
 		</semantic:content>
 
 	</semantic:FullscreenPage>

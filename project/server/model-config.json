@@ -75,6 +75,10 @@
   "RetailInvoice": {
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "Kacchi": {
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

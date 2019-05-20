@@ -159,6 +159,11 @@
 								"target": ["donald", "salesws"]
 							},
 							{
+								"pattern": "Kacchi",
+								"name": "Kacchi",
+								"target": ["donald", "Kacchi"]
+							},							
+							{
 								"pattern": "Suppliers",
 								"name": "Suppliers",
 								"target": ["donald", "Suppliers"]
@@ -281,6 +286,15 @@
 					"clearAggregation": true,
 					"viewName": "salesws",
 					"viewId": "idsalesws",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"Kacchi": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "Kacchi",
+					"viewId": "idKacchi",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

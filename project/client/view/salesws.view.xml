@@ -11,15 +11,12 @@
 			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
 			</core:Fragment>
 		</m:VBox>
+	</semantic:content>
 
-		<m:VBox class="sapUiSmallMargin">
-		</m:VBox>
-
-		<m:VBox class="sapUiSmallMargin">
-			<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
-			</core:Fragment>
-		</m:VBox>
-		</semantic:content>
+	<semantic:content id="WSTable">
+		<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
+		</core:Fragment>
+</semantic:content>
 
 		<semantic:customFooterContent>
 				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveCustomer"/>

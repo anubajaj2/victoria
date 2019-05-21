@@ -10,11 +10,7 @@
 			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
 			</core:Fragment>
 		</m:VBox>
-		</semantic:content>
-		<semantic:content id="semanticTable">
-			<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
-			</core:Fragment>
-		</semantic:content>
+
 	</semantic:FullscreenPage>
 
 </mvc:View>

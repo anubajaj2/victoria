@@ -1,0 +1,75 @@
+<core:FragmentDefinition
+  xmlns="sap.ui.table"
+  xmlns:m="sap.m"
+  xmlns:core="sap.ui.core">
+
+<Table id="returnTable"
+  selectionMode="MultiToggle">
+ <columns>
+   <Column>
+     <label>
+       <m:Text text="{i18n>type}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>weight}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>tunch}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>quantity}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>bhav}"></m:Text>
+       </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>amount}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>rem}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>subTot}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+</columns>
+</Table>
+</core:FragmentDefinition>

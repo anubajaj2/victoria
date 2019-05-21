@@ -1,6 +1,7 @@
 <mvc:View controllerName="victoria.controller.salesws" xmlns="sap.ui.commons"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:m="sap.m"
-	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns:m="sap.m"	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="salesws"
 		navButtonPress="onNavBack" showNavButton="true" title="Wholesale Sales Test">
@@ -10,7 +11,21 @@
 			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
 			</core:Fragment>
 		</m:VBox>
+
+		<m:VBox class="sapUiSmallMargin">
+		</m:VBox>
+
+		<m:VBox class="sapUiSmallMargin">
+			<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
+			</core:Fragment>
+		</m:VBox>
 		</semantic:content>
+
+		<semantic:customFooterContent>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveCustomer"/>
+				<Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearCustomer"/>
+		</semantic:customFooterContent>
 
 	</semantic:FullscreenPage>
 

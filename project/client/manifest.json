@@ -180,7 +180,7 @@
 							},
 							{
 								"pattern": "customerOrders",
-								"name": "CustomerOrders",
+								"name": "customerOrders",
 								"target":["donald","customerOrders"]
 							}
 
@@ -327,6 +327,15 @@
 					"clearAggregation": true,
 					"viewName": "customCalculation",
 					"viewId":"idcustomCalculation",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"customerOrders": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "CustomerOrders",
+					"viewId":"idcustomerOrders",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

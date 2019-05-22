@@ -1,7 +1,8 @@
-sap.ui.define(["sap/ui/core/mvc/Controller"],
-function (Controller) {
-  "use strict";
-  return Controller.extend("victoria.controller.CustomerOrders", {
+sap.ui.define(
+  ["victoria/controller/BaseController"],
+  function (BaseController) {
+      "use strict";
+  return BaseController.extend("victoria.controller.CustomerOrders", {
 
     onInit: function () {
 

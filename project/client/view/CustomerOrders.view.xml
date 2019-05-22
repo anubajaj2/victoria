@@ -1,0 +1,16 @@
+<mvc:View controllerName="victoria.controller.CustomerOrders"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m"
+  xmlns:semantic="sap.m.semantic">
+  <semantic:FullscreenPage
+    id="customerOrders"
+    navButtonPress=""
+    showNavButton="true"
+    title="Customer Orders"
+    busy="{objectView>/busy}"
+    busyIndicatorDelay="{objectView>/delay}">
+    <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.CustOrderHeader" type="XML">
+      </core:Fragment>
+    </semantic:content>
+  </semantic:FullscreenPage>
+</mvc:View>

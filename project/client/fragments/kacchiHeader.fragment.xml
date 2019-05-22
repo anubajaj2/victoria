@@ -1,0 +1,42 @@
+<core:FragmentDefinition
+xmlns = "sap.m"
+xmlns:l = "sap.ui.layout"
+xmlns:f="sap.ui.layout.form"
+xmlns:core ="sap.ui.core">
+
+<f:Form id="orderHeader" editable="true">
+  <f:layout>
+    <f:GridLayout
+      labelSpanM="1" labelSpanL="1" labelSpanXL="1"
+      emptySpanM="0" emptySpanL="0" emptySpanXL="0"
+      columnsM="0" columnsL="0" columnsXL="0"
+      singleContainerFullSize="false">
+    </f:GridLayout>
+  </f:layout>
+  <f:formContainers>
+        <f:FormContainer>
+              <f:formElements>
+              <f:FormElement label="{i18n>Date}">
+                <f:fields>
+                  <Input type="Date"></Input>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>Customer}">
+                <f:fields>
+                  <Input showValueHelp="true" valueHelpRequest="onF4Help">
+                    <layoutData>
+                    <l:GridData span="L3 M3"></l:GridData>
+                  </layoutData>
+                  </Input>
+                  <Input editable="false">
+                  </Input>
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+            <f:layoutData>
+              <f:GridContainerData halfGrid="true"></f:GridContainerData>
+            </f:layoutData>
+        </f:FormContainer>
+  </f:formContainers>
+</f:Form>
+</core:FragmentDefinition>

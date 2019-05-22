@@ -1,0 +1,109 @@
+<core:FragmentDefinition
+xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" >
+	<VBox class="sapUiSmallMargin">
+	<f:Form id="idForm1" editable="true">
+		<f:layout>
+			<f:ResponsiveGridLayout
+			   labelSpanXL="2"
+          labelSpanL="2"
+          labelSpanM="2"
+          labelSpanS="12"
+          adjustLabelSpan="false"
+          emptySpanXL="0"
+          emptySpanL="0"
+          emptySpanM="0"
+          emptySpanS="0"
+          columnsXL="3"
+          columnsL="2"
+          columnsM="2"
+          singleContainerFullSize="false"></f:ResponsiveGridLayout>
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer>
+				<f:formElements>
+					<f:FormElement label="{i18n>Cash}">
+						<f:fields>
+							<Input width="50%" value=""/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>Gold}">
+						<f:fields>
+							<Input width="50%" value=""/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>Silver}">
+						<f:fields>
+							<Input width="50%" value=""/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>rem}">
+						<f:fields>
+							<Input  value=""></Input>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+				<f:layoutData>
+					<f:GridContainerData halfGrid="true"></f:GridContainerData>
+				</f:layoutData>
+			</f:FormContainer>
+			<f:FormContainer>
+				<f:formElements>
+					<f:FormElement>
+						<f:fields>
+							<CheckBox text="{i18n>Chandi}" selected="true">
+								<layoutData>
+									<l:GridData span="L3"></l:GridData>
+								</layoutData>
+							</CheckBox>
+							<CheckBox text="{i18n>Sona}" selected="true">
+								<layoutData>
+									<l:GridData span="L3"></l:GridData>
+								</layoutData>
+							</CheckBox>
+							<CheckBox text="{i18n>Kacchi}" selected="true">
+								<layoutData>
+									<l:GridData span="L3"></l:GridData>
+								</layoutData>
+							</CheckBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>weight}">
+						<f:fields>
+							<Input>
+								<layoutData>
+									<l:GridData span="L3"></l:GridData>
+								</layoutData>
+							</Input>
+							<Label text="{i18n>tunch}">
+								</Label>
+							<Input>
+								<layoutData>
+									<l:GridData span="L3"></l:GridData>
+								</layoutData>
+							</Input>
+							<Button text="{i18n>Calculate}" press="onCalculate"></Button>
+							</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>DueDate}">
+							<f:fields>
+								<Input>
+									<layoutData>
+										<l:GridData span="L4"></l:GridData>
+									</layoutData>
+								</Input>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement>
+							<f:fields>
+								<Button text="{i18n>Send}" press="onSend"></Button>
+								<Button text="{i18n>Clear}" press="onClear"></Button>
+								<Button text="{i18n>master}" press="onMasterClear"></Button>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
+	</VBox>
+</core:FragmentDefinition>

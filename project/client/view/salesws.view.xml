@@ -18,6 +18,13 @@
 		</core:Fragment>
 </semantic:content>
 
+<semantic:content id="test1">
+	<m:VBox class="sapUiSmallMargin">
+	<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
+	</core:Fragment>
+</m:VBox>
+</semantic:content>
+
 		<semantic:customFooterContent>
 				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveCustomer"/>
 				<Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>

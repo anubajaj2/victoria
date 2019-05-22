@@ -14,6 +14,22 @@
     "Customer": {
       "type": "string",
       "required": true
+    },
+    "PaggaNo": {
+      "type": "Number",
+      "required": false
+    },
+    "Weight": {
+      "type": "String",
+      "required": false
+    },
+    "Tunch": {
+      "type": "String",
+      "required": false
+    },
+    "Fine": {
+      "type": "String",
+      "required": false
     }
   },
   "scope":{

@@ -1,0 +1,62 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+<VBox class="sapUiSmallMargin">
+<f:Form id="FormChange480_12120" editable="true">
+<f:title>
+<core:Title/>
+</f:title>
+<f:layout>
+<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+</f:layout>
+<f:formContainers>
+<f:FormContainer editable="true">
+<f:formElements>
+<f:FormElement label="{i18n>coDate}" >
+<f:fields>
+<DatePicker class="sapUiTinyMarginTop"
+		id="idCoDate"
+		width="200px"
+		valueFormat="yyyy-MM-dd"
+		change="dateChanged"
+		showValueHelp="true">
+<layoutData>
+<l:GridData span="XL3 L3 M2 S4"/>
+</layoutData>
+</DatePicker>
+<Text text="Del Date">
+<layoutData>
+<l:GridData span="XL1 L1 M2 S4"/>
+</layoutData>
+</Text>
+<DatePicker class="sapUiTinyMarginTop"
+		id="idCoDelDate"
+		width="200px"
+		valueFormat="yyyy-MM-dd"
+		change="dateChanged"
+		showValueHelp="true">
+<layoutData>
+<l:GridData span="XL3 L3 M2 S4"/>
+</layoutData>
+</DatePicker>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>coCustomer}">
+<f:fields>
+<Input>
+<layoutData>
+<l:GridData span="XL3 L3 M2 S4"/>
+</layoutData>
+</Input>
+<Input value="" editable="false">
+<layoutData>
+<l:GridData span="XL5 L5 M2 S4"/>
+</layoutData>
+</Input>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</VBox>
+</core:FragmentDefinition>

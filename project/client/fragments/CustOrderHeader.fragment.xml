@@ -11,8 +11,13 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 <f:formContainers>
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="{i18n>coDate}" >
+<f:FormElement>
 <f:fields>
+<Text text="{i18n>coDate}">
+	<layoutData>
+	<l:GridData span="XL1 L1 M2 S4"/>
+	</layoutData>
+</Text>
 <DatePicker class="sapUiTinyMarginTop"
 		id="idCoDate"
 		width="200px"
@@ -22,7 +27,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
 </DatePicker>
-<Text text="Del Date">
+<Text text="{i18n>coDelDate}">
 <layoutData>
 <l:GridData span="XL1 L1 M2 S4"/>
 </layoutData>
@@ -38,8 +43,13 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </DatePicker>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="{i18n>coCustomer}">
+<f:FormElement>
 <f:fields>
+	<Text text="{i18n>coCustomer}">
+		<layoutData>
+		<l:GridData span="XL1 L1 M2 S4"/>
+		</layoutData>
+	</Text>
 <Input id="idcoCustomer"
 showValueHelp="true">
 <layoutData>
@@ -48,7 +58,7 @@ showValueHelp="true">
 </Input>
 <Input id="idcoCustomerText" value="" editable="false">
 <layoutData>
-<l:GridData span="XL5 L5 M2 S4"/>
+<l:GridData span="XL4 L4 M2 S4"/>
 </layoutData>
 </Input>
 </f:fields>

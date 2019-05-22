@@ -1,0 +1,43 @@
+<core:FragmentDefinition
+  xmlns="sap.ui.table"
+  xmlns:m="sap.m"
+  xmlns:core="sap.ui.core">
+
+<Table id="kacchiTable"
+  selectionMode="MultiToggle" visibleRowCount="40" alternateRowColors="true" enableBusyIndicator="true">
+ <columns>
+   <Column>
+     <label>
+       <m:Text text="{i18n>paggaNo}"></m:Text>
+     </label>
+     <template>
+			 <m:Input maxLength="6" type="Number"></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>weight}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>tunch}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>fine}"></m:Text>
+     </label>
+     <template>
+				<m:Text></m:Text>
+			</template>
+   </Column>
+</columns>
+</Table>
+</core:FragmentDefinition>

@@ -1,0 +1,58 @@
+{
+  "name": "OrderReturn",
+  "plural": "OrderReturns",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Type": {
+      "type": "string",
+      "required": false
+    },
+    "Weight": {
+      "type": "string",
+      "required": false
+    },
+    "Tunch": {
+      "type": "string",
+      "required": false
+    },
+    "Qty": {
+      "type": "string",
+      "required": false
+    },
+    "Bhav": {
+      "type": "string",
+      "required": false
+    },
+    "Amount": {
+      "type": "string",
+      "required": false
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "SubTotal": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

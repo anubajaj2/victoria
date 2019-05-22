@@ -1,0 +1,42 @@
+{
+  "name": "OrderHeader",
+  "plural": "OrderHeaders",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "OrderNo": {
+      "type": "string",
+      "required": true
+    },
+    "Date": {
+      "type": "string",
+      "required": false
+    },
+    "Customer": {
+      "type": "string",
+      "required": false
+    },
+    "CustomerName": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

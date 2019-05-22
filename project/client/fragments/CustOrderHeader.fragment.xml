@@ -9,7 +9,7 @@
 emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
-<f:FormContainer editable="true">
+<f:FormContainer>
 <f:formElements>
 <f:FormElement label="{i18n>coDate}" >
 <f:fields>
@@ -17,8 +17,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 		id="idCoDate"
 		width="200px"
 		valueFormat="yyyy-MM-dd"
-		change="dateChanged"
-		showValueHelp="true">
+		change="dateChanged">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
@@ -32,8 +31,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 		id="idCoDelDate"
 		width="200px"
 		valueFormat="yyyy-MM-dd"
-		change="dateChanged"
-		showValueHelp="true">
+		change="dateChanged">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
@@ -42,12 +40,13 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </f:FormElement>
 <f:FormElement label="{i18n>coCustomer}">
 <f:fields>
-<Input>
+<Input id="idcoCustomer"
+showValueHelp="true">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
 </Input>
-<Input value="" editable="false">
+<Input id="idcoCustomerText" value="" editable="false">
 <layoutData>
 <l:GridData span="XL5 L5 M2 S4"/>
 </layoutData>

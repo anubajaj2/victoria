@@ -11,7 +11,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 <f:formContainers>
 <f:FormContainer>
 <f:formElements>
-<f:FormElement>
+<f:FormElement label="">
 <f:fields>
 <Text text="{i18n>coDate}">
 	<layoutData>
@@ -43,7 +43,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </DatePicker>
 </f:fields>
 </f:FormElement>
-<f:FormElement>
+<f:FormElement label="">
 <f:fields>
 	<Text text="{i18n>coCustomer}">
 		<layoutData>

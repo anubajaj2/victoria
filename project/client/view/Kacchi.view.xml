@@ -5,9 +5,12 @@
 
 	<semantic:FullscreenPage id="Kacchi"
 		navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
+  <!-- <semantic:customHeaderContent>
+  <Button text="Save Status" 			type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	<Button text="Transfer Status"  type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	</semantic:customHeaderContent> -->
 
-
-	<semantic:content id="test1">  
+	<semantic:content id="idContent">
     <m:VBox class="sapUiSmallMargin">
       <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">
       </core:Fragment>
@@ -21,8 +24,7 @@
 
       <semantic:customFooterContent>
           <Button text="Print" type="Emphasized"  icon="sap-icon://print" press=""/>
-          <Button text="Transfer" type="Accept" icon="sap-icon://shipping-status" press=""/>
-          <Button text="Save" type="Accept" icon="sap-icon://save" press=""/>
+          <Button text="Transfer" type="Accept" icon="sap-icon://shipping-status"  press=""/>
           <Button text="Clear Screen" type="Reject" icon="sap-icon://decline" press=""/>
       </semantic:customFooterContent>
 

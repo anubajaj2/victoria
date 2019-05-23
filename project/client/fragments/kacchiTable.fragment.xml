@@ -5,6 +5,14 @@
 
 <Table id="kacchiTable"
   selectionMode="MultiToggle" visibleRowCount="40" alternateRowColors="true" enableBusyIndicator="true">
+  <toolbar>
+    <m:Toolbar>
+      <m:Button icon="sap-icon://save" text="Save" type="Accept" tooltip="Save"/>
+      <m:ToolbarSpacer />
+      <m:Button icon="sap-icon://delete" tooltip="Delete"/>
+      <m:Button icon="sap-icon://action-settings" tooltip="Settings"/>
+    </m:Toolbar>
+  </toolbar>
  <columns>
    <Column>
      <label>

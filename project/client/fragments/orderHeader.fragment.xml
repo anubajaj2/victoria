@@ -2,14 +2,14 @@
 xmlns = "sap.m"
 xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
-xmlns:core ="sap.ui.core">
-
+xmlns:core ="sap.ui.core" width="160px">
+<VBox class="sapUiSmallMargin">
 <f:Form id="orderHeader" editable="true">
   <f:layout>
-    <f:GridLayout
-      labelSpanM="2" labelSpanL="2" labelSpanXL="2"
-      emptySpanM="0" emptySpanL="0" emptySpanXL="0"
-      columnsM="10" columnsL="10" columnsXL="10"
+    <f:GridLayout hSpacing="1" vSpacing="1"
+      labelSpanXl="2" labelSpanL="2" labelSpanM="2"
+      emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+      columnsXL="10" columnsL="8" columnsM="6"
       singleContainerFullSize="false">
     </f:GridLayout>
   </f:layout>
@@ -19,14 +19,17 @@ xmlns:core ="sap.ui.core">
             <f:formElements>
               <f:FormElement label="{i18n>OrderNo}">
                 <f:fields>
-                  <Input>
+                  <Input id="orderno"
+                     showValueHelp="true"
+                     valueHelpRequest="valueHelpOrder">
                     <layoutData>
-                    <l:GridData indent="L3 M3"></l:GridData>
+                    <l:GridData span="L5 M5"></l:GridData>
                   </layoutData>
                   </Input>
                   <Button text="{i18n>C}">
                     <layoutData>
-                    <l:GridData indent="L1 M1"></l:GridData>
+                    <!-- <l:GridData indent="L1 M1"></l:GridData> -->
+                    <l:GridData span="L1 M1"></l:GridData>
                   </layoutData>
                   </Button>
                   <Button icon="sap-icon://nav-back">
@@ -43,12 +46,16 @@ xmlns:core ="sap.ui.core">
               </f:FormElement>
               <f:FormElement label="{i18n>Date}">
                 <f:fields>
-                  <Input type="Date"></Input>
+                  <Input type="Date">
+                    <layoutData>
+                    <l:GridData indent="L5 M5"></l:GridData>
+                  </layoutData>
+                  </Input>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
-                  <Input>
+                  <Input id="customer" showValueHelp="true" valueHelpRequest="valueHelpCustomer">
                     <layoutData>
                     <l:GridData span="L3 M3"></l:GridData>
                   </layoutData>
@@ -62,6 +69,8 @@ xmlns:core ="sap.ui.core">
               <f:GridContainerData halfGrid="true"></f:GridContainerData>
             </f:layoutData>
         </f:FormContainer>
+  </f:formContainers>
+  <f:formContainers>
     <!-- //tunch detail -->
         <f:FormContainer>
           <f:formElements>
@@ -83,4 +92,5 @@ xmlns:core ="sap.ui.core">
         </f:FormContainer>
   </f:formContainers>
 </f:Form>
+</VBox>
 </core:FragmentDefinition>

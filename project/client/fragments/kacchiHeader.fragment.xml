@@ -4,39 +4,73 @@ xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
 xmlns:core ="sap.ui.core">
 
-<f:Form id="orderHeader" editable="true">
-  <f:layout>
-    <f:GridLayout
-      labelSpanM="1" labelSpanL="1" labelSpanXL="1"
-      emptySpanM="0" emptySpanL="0" emptySpanXL="0"
-      columnsM="0" columnsL="0" columnsXL="0"
-      singleContainerFullSize="false">
-    </f:GridLayout>
-  </f:layout>
-  <f:formContainers>
-        <f:FormContainer>
-              <f:formElements>
-              <f:FormElement label="{i18n>Date}">
-                <f:fields>
-                  <Input type="Date"></Input>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>Customer}">
-                <f:fields>
-                  <Input showValueHelp="true" valueHelpRequest="onF4Help">
-                    <layoutData>
-                    <l:GridData span="L3 M3"></l:GridData>
-                  </layoutData>
-                  </Input>
-                  <Input editable="false">
-                  </Input>
-                </f:fields>
-              </f:FormElement>
-            </f:formElements>
-            <f:layoutData>
-              <f:GridContainerData halfGrid="true"></f:GridContainerData>
-            </f:layoutData>
-        </f:FormContainer>
-  </f:formContainers>
-</f:Form>
+		<f:Form id="idKacchiHead"
+			editable="true"
+			ariaLabelledBy="Title1">
+			<f:toolbar>
+				<Toolbar id="TB1">
+					<!-- <Title id="Title1" text="" level="H4" titleStyle=""/> -->
+					<ToolbarSpacer />
+					<Button icon="sap-icon://status-completed" text="Save Status" type="Accept"/>
+					<Button icon="sap-icon://status-completed" text="Transfer Status" type="Default"/>
+				</Toolbar>
+			</f:toolbar>
+
+			<f:layout>
+				<f:ResponsiveGridLayout
+					llabelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+          emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="">
+							<f:fields>
+                <Text text="{i18n>coDate}">
+                	<layoutData>
+                	<l:GridData span="XL1 L1 M2 S4"/>
+                	</layoutData>
+                </Text>
+                <DatePicker class="sapUiTinyMarginTop"
+                		width="250px"
+                		valueFormat="yyyy-MM-dd"
+                		change="dateChanged">
+                <layoutData>
+                <l:GridData span="XL4 L5 M2 S4"/>
+                </layoutData>
+              </DatePicker>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="">
+							<f:fields>
+                <Text text="{i18n>coCustomer}">
+                  <layoutData>
+              		<l:GridData span="XL1 L1 M2 S4"/>
+              		</layoutData>
+                </Text>
+								<Input id="idCust" showValueHelp="true">
+                  <layoutData>
+										<l:GridData span="XL3 L3 M2 S4" />
+									</layoutData>
+                </Input>
+								<Input editable="false">
+									<layoutData>
+										<l:GridData span="XL3 L3 M2 S4" />
+									</layoutData>
+								</Input>
+							</f:fields>
+            </f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer ariaLabelledBy="Title3">
+					<!-- <f:toolbar>
+						<Toolbar>
+							<Title id="Title3" text="" level="H5" titleStyle="H5"/>
+							<ToolbarSpacer />
+							<Button icon="sap-icon://save" text="Save" type="Accept"/>
+						</Toolbar>
+					</f:toolbar> -->
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
 </core:FragmentDefinition>

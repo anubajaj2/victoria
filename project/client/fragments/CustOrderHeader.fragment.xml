@@ -19,7 +19,6 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 	</layoutData>
 </Text>
 <DatePicker class="sapUiTinyMarginTop"
-		id="idCoDate"
 		width="200px"
 		valueFormat="yyyy-MM-dd"
 		change="dateChanged">

@@ -1,0 +1,51 @@
+<mvc:View controllerName="victoria.controller.demo"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns="sap.m"	xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table"
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="Kacchi"
+		navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
+  <!-- <semantic:customHeaderContent>
+  <Button text="Save Status" 			type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	<Button text="Transfer Status"  type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	</semantic:customHeaderContent> -->
+
+	<semantic:content id="idContent">
+    <f:SimpleForm>
+			<f:content>
+				<Label text="Date" />
+				<DatePicker id="someDate" valueFormat="dd.MM.yyyy"
+          displayFormat="dd.MM.yyyy" value="{local>/newLead/date}" ></DatePicker>
+
+				<Label text="Customer Name" />
+				<Input id="idCustNo" showValueHelp="true" valueHelpRequest="onValueHelp"/>
+				<Text id="idCustName" text="" />
+
+				<Label text="Material" />
+				<ComboBox id="idMaterial" items="{/Products}">
+					<items>
+						<core:Item key="{id}" text="{ProductCode} {ProductName}" />
+					</items>
+				</ComboBox>
+				<Button text="Save" press="onSave" />
+
+			</f:content>
+		</f:SimpleForm>
+
+		<t:Table rows="/Demos">
+			<t:columns>
+				<t:Column><Label text="Date" />
+					<t:template><Text text="{CrDate}" /></t:template>
+				</t:Column>
+				<t:Column><Label text="Customer" />
+					<t:template><Text text="{Customer}" /></t:template>
+				</t:Column>
+				<t:Column><Label text="Material" />
+					<t:template><Text text="{Material}" /></t:template>
+				</t:Column>
+			</t:columns>
+		</t:Table>
+	</semantic:content>
+	</semantic:FullscreenPage>
+
+</mvc:View>

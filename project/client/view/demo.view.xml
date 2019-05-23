@@ -15,16 +15,16 @@
 			<f:content>
 				<Label text="Date" />
 				<DatePicker id="someDate" valueFormat="dd.MM.yyyy"
-          displayFormat="dd.MM.yyyy" value="{local>/newLead/date}" ></DatePicker>
+          displayFormat="dd.MM.yyyy" value="{local>/demoData/CrDate}" ></DatePicker>
 
 				<Label text="Customer Name" />
 				<Input id="idCustNo" showValueHelp="true" valueHelpRequest="onValueHelp"/>
 				<Text id="idCustName" text="" />
 
 				<Label text="Material" />
-				<ComboBox id="idMaterial" items="{/Products}">
+				<ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect">
 					<items>
-						<core:Item key="{id}" text="{ProductCode} {ProductName}" />
+						<core:Item key="{id}" text="{ProductCode} {ProductName}"/>
 					</items>
 				</ComboBox>
 				<Button text="Save" press="onSave" />
@@ -32,7 +32,7 @@
 			</f:content>
 		</f:SimpleForm>
 
-		<t:Table rows="/Demos">
+		<t:Table rows="{/Demos}">
 			<t:columns>
 				<t:Column><Label text="Date" />
 					<t:template><Text text="{CrDate}" /></t:template>

@@ -12,5 +12,17 @@
       <core:Fragment fragmentName="victoria.fragments.CustOrderHeader" type="XML">
       </core:Fragment>
     </semantic:content>
+    <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.CustOrderMaterial" type="XML">
+      </core:Fragment>
+    </semantic:content>
+    <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.CustOrderTable" type="XML">
+      </core:Fragment>
+    </semantic:content>
+    <semantic:customFooterContent>
+        <Button text="{i18n>coSave}" type="Accept" press="onSave"/>
+        <Button text="{i18n>coClear}" type="Reject" press="onClear"/>
+    </semantic:customFooterContent>
   </semantic:FullscreenPage>
 </mvc:View>

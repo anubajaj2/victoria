@@ -1,0 +1,71 @@
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns="sap.ui.table">
+  <Table id="idCoTable" rows="">
+    <toolbar>
+  <m:Toolbar>
+    <m:content>
+      <m:Title id="idCoTitle" text="{i18n>coTableTitle}" />
+      <m:ToolbarSpacer/>
+      <m:Button
+        icon="sap-icon://delete"
+        press="onDeleteSelection"/>
+    </m:content>
+  </m:Toolbar>
+</toolbar>
+<columns>
+    <Column>
+      <m:Label text="{i18n>coDate}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coDelivDate}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coCustName}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coItemName}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coQty}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coWeight}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coMaking}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coRemarks}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+    <Column>
+      <m:Label text="{i18n>coKarigar}" />
+      <template>
+        <m:Text text=""></m:Text>
+      </template>
+    </Column>
+  </columns>
+  </Table>
+</core:FragmentDefinition>

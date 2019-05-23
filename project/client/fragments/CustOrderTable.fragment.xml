@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:m="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns="sap.ui.table">
-  <Table id="idCoTable" rows="">
+  <Table id="idCoTable" rows="" selectionMode="None">
     <toolbar>
   <m:Toolbar>
     <m:content>

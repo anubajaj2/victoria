@@ -1,34 +1,26 @@
 {
-  "name": "Kacchi",
-  "plural": "Kacchis",
+  "name": "OrderHeader",
+  "plural": "OrderHeaders",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "OrderNo": {
+      "type": "string",
+      "required": true
+    },
     "Date": {
-      "type": "date",
+      "type": "string",
       "required": false
     },
     "Customer": {
       "type": "string",
-      "required": true
-    },
-    "PaggaNo": {
-      "type": "Number",
       "required": false
     },
-    "Weight": {
-      "type": "String",
-      "required": false
-    },
-    "Tunch": {
-      "type": "String",
-      "required": false
-    },
-    "Fine": {
-      "type": "String",
+    "CustomerName": {
+      "type": "string",
       "required": false
     }
   },

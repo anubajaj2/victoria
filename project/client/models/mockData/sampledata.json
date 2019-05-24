@@ -98,6 +98,11 @@
 		"Extra2": "",
 		"id": ""
 	},
+	"demoData": {
+		"CrDate":"",
+		"Customer":"",
+		"Material":""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

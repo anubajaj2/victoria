@@ -6,32 +6,168 @@
 		navButtonPress="onNavBack" showNavButton="true" title="Custom Calculation Test">
 
 		<semantic:content id="test11">
-      <f:SimpleForm id="idSimple" editable="true" layout="ResponsiveGridLayout"
-        labelSpanL="2" columnsL="8" emptySpanL="2">
-        <f:content>
-          <Label text="22/20"></Label>
-          <Input>
-          </Input>
-          <Label text="Gold Returns"></Label>
-          <Input>
-          </Input>
-          <Label text="22/22"></Label>
-          <Input>
-          </Input>
-          <Label text="Silver Returns"></Label>
-          <Input>
-          </Input>
-          <Label text="Gold"></Label>
-          <Input>
-          </Input>
-          <Label text="Silver"></Label>
-          <Input>
-          </Input>
-        </f:content>
-        </f:SimpleForm>
+			<VBox class="sapUiSmallMargin">
+				<f:Form id="idCalculation" editable="true"
+					title="Retail Calculation Customizing">
+					<f:layout>
+						<f:GridLayout
+							labelSpanM="2" labelSpanL="2" labelSpanXL="2"
+							emptySpanM="0" emptySpanL="0" emptySpanXL="0"
+							columnsM="10" columnsL="10" columnsXL="10"
+							singleContainerFullSize="false">
+						</f:GridLayout>
+					</f:layout>
+					<f:formContainers>
+					<f:FormContainer>
+					<f:formElements>
+					<f:FormElement label="22/20">
+						<f:fields>
+							<Input>
+								<layoutData>
+								<l:GridData indent="L3 M3"></l:GridData>
+							</layoutData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="22/22">
+						<f:fields>
+							<Input>
+							</Input>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement label="Gold">
+					<f:fields>
+						<Input>
+						</Input>
+				</f:fields>
+			</f:FormElement>
+			<f:FormElement label="Silver">
+				<f:fields>
+					<Input>
+					</Input>
+			</f:fields>
+		</f:FormElement>
+			</f:formElements>
+			<f:layoutData>
+				<f:GridContainerData halfGrid="true"></f:GridContainerData>
+			</f:layoutData>
+		</f:FormContainer>
+		<f:FormContainer>
+		<f:formElements>
+		<f:FormElement label="Gold Returns">
+			<f:fields>
+				<Input>
+					<layoutData>
+					<l:GridData indent="L3 M3"></l:GridData>
+				</layoutData>
+				</Input>
+			</f:fields>
+		</f:FormElement>
+		<f:FormElement label="Silver Returns">
+			<f:fields>
+				<Input>
+				</Input>
+		</f:fields>
+	</f:FormElement>
+</f:formElements>
+<f:layoutData>
+	<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+	</f:formContainers>
+</f:Form>
 
+<f:Form id="idWholesale" editable="true"
+	title="Wholesale Calculation Customizing">
+	<f:layout>
+		<f:GridLayout
+			labelSpanM="2" labelSpanL="2" labelSpanXL="2"
+			emptySpanM="0" emptySpanL="0" emptySpanXL="0"
+			columnsM="10" columnsL="10" columnsXL="10"
+			singleContainerFullSize="false">
+		</f:GridLayout>
+	</f:layout>
+	<f:formContainers>
+	<f:FormContainer>
+	<f:formElements>
+	<f:FormElement label="Gold">
+		<f:fields>
+			<Input>
+				<layoutData>
+				<l:GridData indent="L3 M3"></l:GridData>
+			</layoutData>
+			</Input>
+		</f:fields>
+	</f:FormElement>
+	<f:FormElement label="Silver">
+		<f:fields>
+			<Input>
+			</Input>
+	</f:fields>
+</f:FormElement>
+<f:FormElement label="Kaccha Gold">
+	<f:fields>
+		<Input>
+		</Input>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Kaccha Silver">
+<f:fields>
+	<Input>
+	</Input>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+<f:FormContainer>
+<f:formElements>
+<f:FormElement label="Gold Returns">
+<f:fields>
+<Input>
+	<layoutData>
+	<l:GridData indent="L3 M3"></l:GridData>
+</layoutData>
+</Input>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Silver Returns">
+<f:fields>
+<Input>
+</Input>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Kaccha Gold R">
+<f:fields>
+<Input>
+	<layoutData>
+	<l:GridData indent="L3 M3"></l:GridData>
+</layoutData>
+</Input>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Kaccha Silver R">
+<f:fields>
+<Input>
+</Input>
+</f:fields>
+</f:FormElement>
+
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</VBox>
 		</semantic:content>
-
+		<semantic:customFooterContent>
+				<Button text="Save" type="Accept" press="SaveCalculation"/>
+				<Button text="Cancel" type="Reject" press="ClearCalculation"/>
+		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 
 </mvc:View>

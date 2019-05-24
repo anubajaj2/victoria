@@ -1,0 +1,140 @@
+<!-- <core:FragmentDefinition
+    xmlns:t="sap.ui.table"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+<Table id="OrderReturn"
+  selectionMode="MultiToggle">
+
+    <columns>
+      <Column>
+        <Label text="{i18n>type}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>weight}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>tunch}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>quantity}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>bhav}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>amt}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>rem}"></Label>
+      </Column>
+      <Column>
+        <Label text="{i18n>subTot}"></Label>
+      </Column>
+      </columns>
+      <items>
+        <InputListItem>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+             <Input></Input>
+        </InputListItem>
+      </items>
+</Table>
+</core:FragmentDefinition> -->
+
+
+<core:FragmentDefinition
+  xmlns="sap.ui.table"
+  xmlns:m="sap.m"
+  xmlns:core="sap.ui.core">
+
+<Table id="OrderReturn"
+  selectionMode="MultiToggle"
+  rows=""
+  visibleRowCount="5">
+  <toolbar>
+  <m:Toolbar>
+    <m:Title text="{i18n>return}"></m:Title>
+      <m:ToolbarSpacer></m:ToolbarSpacer>
+      <m:Button icon="sap-icon://delete"
+        iconFirst="true"
+        text="{i18n>del}"
+        tooltip="{i18n>retunTable}"
+        press="onDelete">
+      </m:Button>
+  </m:Toolbar>
+</toolbar>
+ <columns>
+   <Column>
+     <label>
+       <m:Text text="{i18n>type}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>weight}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>tunch}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>quantity}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>bhav}"></m:Text>
+       </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>amount}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>rem}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+   </Column>
+   <Column>
+     <label>
+       <m:Text text="{i18n>subTot}"></m:Text>
+     </label>
+     <template>
+				<m:Input></m:Input>
+			</template>
+    </Column>
+</columns>
+</Table>
+
+</core:FragmentDefinition>

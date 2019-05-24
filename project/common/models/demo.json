@@ -1,36 +1,40 @@
 {
-  "name": "Kacchi",
-  "plural": "Kacchis",
+  "name": "Demo",
+  "plural": "Demos",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "Date": {
+    "CrDate": {
       "type": "date",
-      "required": false
+      "required": true
     },
     "Customer": {
       "type": "string",
       "required": true
     },
-    "PaggaNo": {
-      "type": "Number",
-      "required": false
+    "Material": {
+      "type": "string",
+      "required": true
     },
-    "Weight": {
-      "type": "String",
-      "required": false
-    },
-    "Tunch": {
-      "type": "String",
-      "required": false
-    },
-    "Fine": {
-      "type": "String",
-      "required": false
-    }
+    "CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
   },
   "scope":{
 

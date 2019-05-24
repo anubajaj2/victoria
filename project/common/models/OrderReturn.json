@@ -1,34 +1,42 @@
 {
-  "name": "Kacchi",
-  "plural": "Kacchis",
+  "name": "OrderReturn",
+  "plural": "OrderReturns",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "Date": {
-      "type": "date",
-      "required": false
-    },
-    "Customer": {
+    "Type": {
       "type": "string",
-      "required": true
-    },
-    "PaggaNo": {
-      "type": "Number",
       "required": false
     },
     "Weight": {
-      "type": "String",
+      "type": "string",
       "required": false
     },
     "Tunch": {
-      "type": "String",
+      "type": "string",
       "required": false
     },
-    "Fine": {
-      "type": "String",
+    "Qty": {
+      "type": "string",
+      "required": false
+    },
+    "Bhav": {
+      "type": "string",
+      "required": false
+    },
+    "Amount": {
+      "type": "string",
+      "required": false
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "SubTotal": {
+      "type": "string",
       "required": false
     }
   },

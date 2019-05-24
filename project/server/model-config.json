@@ -79,6 +79,22 @@
   "Kacchi": {
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "OrderReturn":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "OrderHeader":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "CustomCalculation":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "Demo":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

@@ -1,17 +1,33 @@
-<mvc:Views
-  controllerName = "victoria.controller.Kacchi"
-  xmlns ="sap.m"
-  xmlns:core="sap.ui.core"
-  xmlns:semantic="sap.m.semantic"
-  xmlns:mvc="sap.ui.core.mvc">
-<semantic:FullscreenPage
-  id="Kacchi"
-  title="Kacchi"
-  navButtonPress="onNavButton"
-  showNavButton="true">
-  <!-- <semantic:content> -->
-      <!-- <Button text="test"/> -->
-  <!-- </semantic:content> -->
+<mvc:View controllerName="victoria.controller.Kacchi" xmlns="sap.ui.commons"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns:m="sap.m"	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
-</semantic:FullscreenPage>
-</mvc:Views>
+	<semantic:FullscreenPage id="Kacchi"
+		navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
+  <!-- <semantic:customHeaderContent>
+  <Button text="Save Status" 			type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	<Button text="Transfer Status"  type="Emphasized"  icon="sap-icon://status-completed" press="" />
+	</semantic:customHeaderContent> -->
+
+	<semantic:content id="idContent">
+    <m:VBox class="sapUiSmallMargin">
+      <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">
+      </core:Fragment>
+    </m:VBox>
+
+			<m:VBox class="sapUiSmallMargin">
+			     <core:Fragment fragmentName="victoria.fragments.kacchiTable" type="XML">
+			     </core:Fragment>
+		  </m:VBox>
+      </semantic:content>
+
+      <semantic:customFooterContent>
+          <Button text="Print" type="Emphasized"  icon="sap-icon://print" press=""/>
+          <Button text="Transfer" type="Accept" icon="sap-icon://shipping-status"  press=""/>
+          <Button text="Clear Screen" type="Reject" icon="sap-icon://decline" press=""/>
+      </semantic:customFooterContent>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

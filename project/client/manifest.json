@@ -162,7 +162,7 @@
 								"pattern": "Kacchi",
 								"name": "Kacchi",
 								"target": ["donald", "Kacchi"]
-							},							
+							},
 							{
 								"pattern": "Suppliers",
 								"name": "Suppliers",
@@ -177,6 +177,16 @@
 								"pattern": "customCalculation",
 								"name": "customCalculation",
 								"target":["donald","customCalculation"]
+							},
+							{
+								"pattern": "customerOrders",
+								"name": "customerOrders",
+								"target":["donald","customerOrders"]
+							},
+							{
+								"pattern": "demo",
+								"name": "demo",
+								"target":["donald","demo"]
 							}
 
 
@@ -322,6 +332,24 @@
 					"clearAggregation": true,
 					"viewName": "customCalculation",
 					"viewId":"idcustomCalculation",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"customerOrders": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "CustomerOrders",
+					"viewId":"idcustomerOrders",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"demo": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "demo",
+					"viewId":"idDemo",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

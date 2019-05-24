@@ -41,6 +41,11 @@
   },
   "validations": [],
   "relations": {
+    "ToDemos":{
+      "type":"hasMany",
+      "model":"Demo",
+      "foreignKey": "Customer"
+    }
   },
   "acls": [
     {

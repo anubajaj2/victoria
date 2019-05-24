@@ -34,6 +34,10 @@ sap.ui.define([
 		oEventBus: undefined,
 		oTestcaseListModel: undefined,
 		sUrlTargetSystem: undefined,
+		allMasterData: {
+			"customers": [],
+			"materials": []
+		},
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
 		 * @public
@@ -47,6 +51,24 @@ sap.ui.define([
 			// 	}).catch(function(oError) {
 			// 		var oPopover = that.getErrorMessage(oError);
 			// 	});
+			var that = this;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
+				.then(function(oData) {
+					for (var i = 0; i < oData.results.length; i++) {
+						that.allMasterData.customers[oData.results[i].id] = oData.results[i];
+					}
+				}).catch(function(oError) {
+					var oPopover = that.getErrorMessage(oError);
+				});
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", null, null, this)
+				.then(function(oData) {
+					for (var i = 0; i < oData.results.length; i++) {
+						that.allMasterData.materials[oData.results[i].id] = oData.results[i];
+					}
+				}).catch(function(oError) {
+					var oPopover = that.getErrorMessage(oError);
+				});
+
 		},
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();

@@ -1,0 +1,48 @@
+{
+  "name": "CollaborationCenter",
+  "plural": "CollaborationCenters",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Material": {
+      "type": "string",
+      "required": true
+    },
+    "Qty": {
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":3
+    },
+    "Weight": {
+      "type": "number",
+      "required": true
+    },
+    "Remarks": {
+      "type": "string",
+      "required": true
+    }
+  },
+    "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

@@ -92,6 +92,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "CollaborationCenter":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },  
   "Demo":{
     "dataSource": "mongoatlas",
     "public": true

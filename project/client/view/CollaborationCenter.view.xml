@@ -5,7 +5,7 @@
     id="CCenter"
     navButtonPress=""
     showNavButton="true"
-    title="CCenter"
+    title="{i18n>CCenter}"
     busy="{objectView>/busy}"
     busyIndicatorDelay="{objectView>/delay}">
     <semantic:content>

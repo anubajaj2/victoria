@@ -1,51 +1,51 @@
 <core:FragmentDefinition
-  xmlns="sap.ui.table"
-  xmlns:m="sap.m"
+  xmlns:t="sap.ui.table"
+  xmlns="sap.m"
   xmlns:core="sap.ui.core">
 
-<Table id="kacchiTable"
+<t:Table id="kacchiTable"
   selectionMode="MultiToggle" visibleRowCount="40" alternateRowColors="true" enableBusyIndicator="true">
-  <toolbar>
-    <m:Toolbar>
-      <m:Button icon="sap-icon://save" text="Save" type="Accept" tooltip="Save"/>
-      <m:ToolbarSpacer />
-      <m:Button icon="sap-icon://delete" tooltip="Delete"/>
-      <m:Button icon="sap-icon://action-settings" tooltip="Settings"/>
-    </m:Toolbar>
-  </toolbar>
- <columns>
-   <Column>
-     <label>
-       <m:Text text="{i18n>paggaNo}"></m:Text>
-     </label>
-     <template>
-			 <m:Input maxLength="6" type="Number"></m:Input>
-			</template>
-   </Column>
-   <Column>
-     <label>
-       <m:Text text="{i18n>weight}"></m:Text>
-     </label>
-     <template>
-				<m:Text></m:Text>
-			</template>
-   </Column>
-   <Column>
-     <label>
-       <m:Text text="{i18n>tunch}"></m:Text>
-     </label>
-     <template>
-				<m:Text></m:Text>
-			</template>
-   </Column>
-   <Column>
-     <label>
-       <m:Text text="{i18n>fine}"></m:Text>
-     </label>
-     <template>
-				<m:Text></m:Text>
-			</template>
-   </Column>
-</columns>
-</Table>
+  <t:toolbar>
+    <Toolbar>
+      <Button icon="sap-icon://save" text="Save" type="Accept" tooltip="Save"/>
+      <ToolbarSpacer />
+      <Button icon="sap-icon://delete" tooltip="Delete"/>
+      <Button icon="sap-icon://action-settings" tooltip="Settings"/>
+    </Toolbar>
+  </t:toolbar>
+ <t:columns>
+   <t:Column>
+     <t:label>
+       <Text text="{i18n>paggaNo}"></Text>
+     </t:label>
+     <t:template>
+			 <Input maxLength="6" type="Number"></Input>
+     </t:template>
+   </t:Column>
+   <t:Column>
+     <t:label>
+       <Text text="{i18n>weight}"></Text>
+     </t:label>
+     <t:template>
+				<Text></Text>
+			</t:template>
+   </t:Column>
+   <t:Column>
+     <t:label>
+       <Text text="{i18n>tunch}"></Text>
+     </t:label>
+     <t:template>
+				<Text></Text>
+			</t:template>
+   </t:Column>
+   <t:Column>
+     <t:label>
+       <Text text="{i18n>fine}"></Text>
+     </t:label>
+     <t:template>
+				<Text></Text>
+			</t:template>
+   </t:Column>
+</t:columns>
+</t:Table>
 </core:FragmentDefinition>

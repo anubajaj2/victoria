@@ -1,53 +1,3 @@
-<!-- <core:FragmentDefinition
-    xmlns:t="sap.ui.table"
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core">
-
-<Table id="OrderReturn"
-  selectionMode="MultiToggle">
-
-    <columns>
-      <Column>
-        <Label text="{i18n>type}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>weight}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>tunch}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>quantity}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>bhav}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>amt}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>rem}"></Label>
-      </Column>
-      <Column>
-        <Label text="{i18n>subTot}"></Label>
-      </Column>
-      </columns>
-      <items>
-        <InputListItem>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-             <Input></Input>
-        </InputListItem>
-      </items>
-</Table>
-</core:FragmentDefinition> -->
-
-
 <core:FragmentDefinition
   xmlns="sap.ui.table"
   xmlns:m="sap.m"
@@ -55,8 +5,8 @@
 
 <Table id="OrderReturn"
   selectionMode="MultiToggle"
-  rows=""
-  visibleRowCount="5">
+  visibleRowCount="5"
+  rows="{returnModel>/TransData}">
   <toolbar>
   <m:Toolbar>
     <m:Title text="{i18n>return}"></m:Title>
@@ -75,7 +25,7 @@
        <m:Text text="{i18n>type}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>type}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -83,7 +33,7 @@
        <m:Text text="{i18n>weight}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value='{returnModel>weight}'></m:Input>
 			</template>
    </Column>
    <Column>
@@ -91,7 +41,7 @@
        <m:Text text="{i18n>tunch}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>tunch}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -99,7 +49,7 @@
        <m:Text text="{i18n>quantity}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>qty}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -107,7 +57,7 @@
        <m:Text text="{i18n>bhav}"></m:Text>
        </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>bhav}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -115,7 +65,7 @@
        <m:Text text="{i18n>amount}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>amount}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -123,7 +73,7 @@
        <m:Text text="{i18n>rem}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>remarks}"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -131,10 +81,9 @@
        <m:Text text="{i18n>subTot}"></m:Text>
      </label>
      <template>
-				<m:Input></m:Input>
+				<m:Input value="{returnModel>subtotal}"></m:Input>
 			</template>
     </Column>
 </columns>
 </Table>
-
 </core:FragmentDefinition>

@@ -16,11 +16,13 @@
       "required": true
     },
     "Qty": {
-      "type": "string",
-      "required": true
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":3
     },
     "Weight": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Remarks": {

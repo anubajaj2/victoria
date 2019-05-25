@@ -5,8 +5,9 @@
 <core:Title/>
 </f:title>
 <f:layout>
-<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+<f:GridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="12" labelSpanS="12"
+              emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+              columnsXL="10" columnsL="10" columnsM="8" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
 <f:FormContainer>
@@ -34,6 +35,27 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </f:fields>
 </f:FormElement>
 </f:formElements>
+<f:layoutData>
+  <f:GridContianerData halfGrid="true"></f:GridContianerData>
+</f:layoutData>
+</f:FormContainer>
+
+<f:FormContainer title="">
+<f:formElements>
+<f:FormElement label="{i18n>coWeight}">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>coMaking}">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+  <f:GridContianerData halfGrid="true"></f:GridContianerData>
+</f:layoutData>
 </f:FormContainer>
 </f:formContainers>
 </f:Form>

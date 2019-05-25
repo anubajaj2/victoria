@@ -3,15 +3,15 @@
   xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout"
   xmlns:semantic="sap.m.semantic">
   <semantic:FullscreenPage
-    id="CCenter"
+    id="collaborationCenter"
     navButtonPress="onNavBack"
     showNavButton="true"
     title="Collaboration Center">
-      <semantic:content>
+      <!-- <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.CollaborationCenter" type="XML"></core:Fragment>
         <core:Fragment fragmentName="victoria.fragments.CollaborationCenter2" type="XML"></core:Fragment>
           <core:Fragment fragmentName="victoria.fragments.CollaborationCenter3" type="XML">
       </core:Fragment>
-    </semantic:content>
+    </semantic:content> -->
   </semantic:FullscreenPage>
 </mvc:View>

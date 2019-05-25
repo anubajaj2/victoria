@@ -95,7 +95,11 @@
   "CollaborationCenter":{
     "dataSource": "mongoatlas",
     "public": true
-  },  
+  },
+  "orderItems":{
+    "dataSource": "mongoatlas",
+    "public": true
+  }
   "Demo":{
     "dataSource": "mongoatlas",
     "public": true

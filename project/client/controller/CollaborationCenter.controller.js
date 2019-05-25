@@ -1,10 +1,10 @@
-sap.ui.define(["sap/ui/core/mvc/Controller"],
-function (Controller) {
+
+sap.ui.define(["victoria/controller/BaseController"],
+function (BaseController) {
   "use strict";
-  return Controller.extend("victoria.controller.CollaborationCenter", {
+  return BaseController.extend("victoria.controller.CollaborationCenter", {
+     onInit: function () {
 
-    onInit: function () {
-
-    }
+     }  
   });
 });

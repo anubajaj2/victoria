@@ -1,51 +1,40 @@
 {
-  "name": "Customer",
-  "plural": "Customers",
+  "name": "CollaborationCenter",
+  "plural": "CollaborationCenters",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "City": {
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Material": {
       "type": "string",
       "required": true
     },
-    "MobilePhone": {
-      "type": "string",
+    "Qty": {
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":3
+    },
+    "Weight": {
+      "type": "number",
       "required": true
     },
-    "Address": {
-      "type": "string",
-      "required": true
-    },
-    "CustomerCode": {
-      "type": "string",
-      "required": true
-    },
-    "Name": {
-      "type": "string",
-      "required": true
-    },
-    "SecondaryPhone": {
-      "type": "string",
-      "required": true
-    },
-    "Group": {
+    "Remarks": {
       "type": "string",
       "required": true
     }
   },
-  "scope":{
+    "scope":{
 
   },
   "validations": [],
   "relations": {
-    "ToDemos":{
-      "type":"hasMany",
-      "model":"Demo",
-      "foreignKey": "Customer"
-    }
   },
   "acls": [
     {

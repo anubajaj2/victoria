@@ -184,6 +184,11 @@
 								"target":["donald","customerOrders"]
 							},
 							{
+								"pattern": "CollaborationCenter",
+								"name": "CollaborationCenter",
+								"target":["donald","CollaborationCenter"]
+							},
+							{
 								"pattern": "demo",
 								"name": "demo",
 								"target":["donald","demo"]
@@ -341,6 +346,15 @@
 					"clearAggregation": true,
 					"viewName": "CustomerOrders",
 					"viewId":"idcustomerOrders",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"CollaborationCenter": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "CollaborationCenter",
+					"viewId":"idcollaborationCenter",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

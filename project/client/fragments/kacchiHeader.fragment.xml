@@ -11,8 +11,21 @@ xmlns:core ="sap.ui.core">
 				<Toolbar id="TB1">
 					<!-- <Title id="Title1" text="" level="H4" titleStyle=""/> -->
 					<ToolbarSpacer />
-					<Button icon="sap-icon://status-completed" text="Save Status" type="Accept"/>
-					<Button icon="sap-icon://status-completed" text="Transfer Status" type="Default"/>
+							<core:Icon
+										src="sap-icon://status-completed"
+										class="size1"
+										color="green"
+										size="30px" alt="Save Status" tooltip="Save Status">
+							</core:Icon>
+							<core:Icon
+										src="sap-icon://status-completed"
+										class="size1"
+										color="blue"
+										size="30px" alt="Save Status" tooltip="Transfer Status">
+							</core:Icon>
+
+					<!-- <Button icon="sap-icon://status-completed" text="Save Status" type="Accept"/>
+					<Button icon="sap-icon://status-completed" text="Transfer Status" type="Default"/> -->
 				</Toolbar>
 			</f:toolbar>
 

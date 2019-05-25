@@ -32,19 +32,28 @@
 			</f:content>
 		</f:SimpleForm>
 
-		<t:Table rows="{/Demos}">
-			<t:columns>
-				<t:Column><Label text="Date" />
-					<t:template><Text text="{CrDate}" /></t:template>
-				</t:Column>
-				<t:Column><Label text="Customer" />
-					<t:template><Text text="{Customer}" /></t:template>
-				</t:Column>
-				<t:Column><Label text="Material" />
-					<t:template><Text text="{Material}" /></t:template>
-				</t:Column>
-			</t:columns>
-		</t:Table>
+		<Table items="{/Demos}" updateFinished="onUpdateFinished">
+			<columns>
+				<Column><Label text="Date" />
+				</Column>
+				<Column><Label text="Customer" />
+
+				</Column>
+				<Column><Label text="Material" />
+					
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{CrDate}" />
+						<Text text="{Customer}" />
+						<Text text="{Material}" />
+					</cells>
+
+				</ColumnListItem>
+			</items>
+		</Table>
 	</semantic:content>
 	</semantic:FullscreenPage>
 

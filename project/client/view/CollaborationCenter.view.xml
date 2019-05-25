@@ -6,14 +6,12 @@
     id="CCenter"
     navButtonPress="onNavBack"
     showNavButton="true"
-    title="Collaboration Center"
-    busy="{objectView>/busy}"
-    busyIndicatorDelay="{objectView>/delay}">
-    <semantic:content>
-      <!-- <core:Fragment fragmentName="victoria.fragments.CollaborationCenter" type="XML"></core:Fragment>
+    title="Collaboration Center">
+      <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.CollaborationCenter" type="XML"></core:Fragment>
         <core:Fragment fragmentName="victoria.fragments.CollaborationCenter2" type="XML"></core:Fragment>
           <core:Fragment fragmentName="victoria.fragments.CollaborationCenter3" type="XML">
-      </core:Fragment> -->
+      </core:Fragment>
     </semantic:content>
   </semantic:FullscreenPage>
 </mvc:View>

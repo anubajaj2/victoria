@@ -28,7 +28,7 @@
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="analytical" icon="sap-icon://bar-chart" title="Analytical Panel" description=""></StandardListItem>
-					<StandardListItem id="demo" icon="sap-icon://collaborate" title="CollaborationCenter" description=""></StandardListItem>
+					<StandardListItem id="idcollaborate" icon="sap-icon://collaborate" title="Collaboration Center" description=""></StandardListItem>
 					<StandardListItem id="demo" icon="sap-icon://bar-chart" title="anubhav" description=""></StandardListItem>
 
 				</items>

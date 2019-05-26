@@ -345,7 +345,7 @@
 					"controlId":"__xmlview0--idSplitApp",
 					"clearAggregation": true,
 					"viewName": "CustomerOrders",
-					"viewId":"idCustomerOrders",
+					"viewId":"idCustomerOrders1",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

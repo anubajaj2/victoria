@@ -6,6 +6,9 @@ sap.ui.define(
 
     onInit: function () {
 
-    }
+    },
+    onValueHelp: function(){
+      this.getCustomerPopup();
+    },
   });
 });

@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core"
   xmlns="sap.m" xmlns:t="sap.ui.table">
-  <t:Table visibleRowCount="20">
+  <t:Table rows="{localModel>/orderItems}" visibleRowCount="20">
     <t:columns>
       <t:Column>
         <t:label>
@@ -15,7 +15,7 @@
           <Text text="Description"></Text>
         </t:label>
         <t:template>
-        <Text></Text>
+        <Text text="{localModel>description}"></Text>
         </t:template>
       </t:Column>
       <t:Column>
@@ -23,7 +23,7 @@
           <Text text="Qty"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="3"></Input>
+        <Input value="{localModel>qty}" maxLength="3"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -31,7 +31,7 @@
           <Text text="QtyD"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="3"></Input>
+        <Input value="{localModel>qtyD}" maxLength="3"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -39,7 +39,7 @@
           <Text text="Weight"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="5"></Input>
+        <Input value="{localModel>weight}" maxLength="5"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -47,7 +47,7 @@
           <Text text="WeightD"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="5"></Input>
+        <Input value="{localModel>weightD}" maxLength="5"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -55,7 +55,7 @@
           <Text text="Making"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="5"></Input>
+        <Input value="{localModel>making}" maxLength="5"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -63,7 +63,7 @@
           <Text text="MakingD"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="5"></Input>
+        <Input value="{localModel>makingD}" maxLength="5"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -71,7 +71,7 @@
           <Text text="Tunch"></Text>
         </t:label>
         <t:template>
-        <Text></Text>
+        <Text text="{localModel>tunch}"></Text>
         </t:template>
       </t:Column>
       <t:Column>
@@ -79,7 +79,7 @@
           <Text text="Remarks"></Text>
         </t:label>
         <t:template>
-        <Input maxLength="80"></Input>
+        <Input value="{localModel>remarks}" maxLength="80"></Input>
         </t:template>
       </t:Column>
       <t:Column>
@@ -87,7 +87,7 @@
           <Text text="Sub-total"></Text>
         </t:label>
         <t:template>
-        <Text></Text>
+        <Text text="{localModel>subTotal}"></Text>
         </t:template>
       </t:Column>
     </t:columns>

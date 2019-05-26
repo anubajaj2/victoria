@@ -9,12 +9,16 @@ sap.ui.define(
           onValueHelp: function(){
             this.getCustomerPopup();
           },
+
           onConfirm: function(oEvent){
             //whatever customer id selected push that in local model
-            debugger;
               var myData = this.getView().getModel("local").getProperty("/demoData");
               myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
               this.getView().getModel("local").setProperty("/demoData", myData);
+              // added by sweta to populate the selected cust to the input field
+              var selVal = oEvent.getParameter("selectedItem").getValue();
+              this.getView().byId("idCustNo").setValue(selVal);
+              // End of addition by Sweta
           },
           onUpdateFinished: function(oEvent){
             debugger;

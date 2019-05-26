@@ -1,0 +1,75 @@
+{
+  "name": "Order Detail",
+  "plural": "Order Details",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+
+  "properties": {
+    "OrderNo": {
+      "type": "string",
+      "required": true
+    },
+    "material": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": false
+    },
+    "qty": {
+      "type": "string",
+      "required": false
+    },
+    "qtyD": {
+      "type": "string",
+      "required": true
+    },
+    "weight": {
+      "type": "string",
+      "required": false
+    },
+    "weightD": {
+      "type": "string",
+      "required": false
+    },
+    "making": {
+      "type": "string",
+      "required": false
+    },
+    "makingD": {
+      "type": "string",
+      "required": false
+    },
+    "tunch": {
+      "type": "string",
+      "required": false
+    },
+    "remarks": {
+      "type": "string",
+      "required": false
+    },
+    "subTotal": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

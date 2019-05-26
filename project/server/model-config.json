@@ -95,7 +95,7 @@
   "CustomerOrder":{
     "dataSource": "mongoatlas",
     "public": true
-  },
+  }, 
   "CollaborationCenter":{
     "dataSource": "mongoatlas",
     "public": true

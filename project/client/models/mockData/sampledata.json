@@ -122,6 +122,21 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"customerOrder":{
+		"Date":"",
+		"DelDate":"",
+		"Customer":"",
+		"Material":"",
+		"Qty":"",
+		"Weight":"",
+		"Making":"",
+		"Karigar":"",
+		"Remarks":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"orderReturn":{
 		"OrderNo":"",
 		"Type":"",
@@ -132,21 +147,6 @@
 		"Amount":"",
 		"Remarks":"",
 		"SubTot":"",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"CustomerOrder"{
-		"Date":"",
-		"DelDate":"",
-		"Customer":"",
-		"Material":"",
-		"Qty":"",
-		"Weight":"",
-		"Making":"",
-		"Karigar":"",
-		"Remarks":"",
 		"CreatedBy":"",
 		"CreatedOn":"",
 		"ChangedBy":"",

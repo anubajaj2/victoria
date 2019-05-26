@@ -179,6 +179,7 @@ sap.ui.define([
 			return [title, intro, number, id];
 
 		},
+
 		/**
 		 * Convenience method for getting the view model by name in every controller of the application.
 		 * @public

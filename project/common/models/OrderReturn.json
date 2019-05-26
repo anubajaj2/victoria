@@ -7,37 +7,41 @@
     "validateUpsert": true
   },
   "properties": {
+    "orderNo":{
+      "type":"sring",
+      "required":"true"
+    },
     "Type": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Weight": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Tunch": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Qty": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Bhav": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Amount": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Remarks": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "SubTotal": {
       "type": "string",
-      "required": false
+      "required": true
     }
   },
   "scope":{

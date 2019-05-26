@@ -53,27 +53,9 @@ sap.ui.define(
                         this.onGetModel,
                         this);
 
-                // //create structure of an array
-                // var oTransData = new JSONModel();
-                // var aTtype = [];
-                // for (var i = 1; i <=5; i++) {
-                //   var oRetailtab = {
-                //     "type":" ",
-                //     "weight":" ",
-                //     "tunch":" ",
-                //     "qty":" ",
-                //     "bhav":" ",
-                //     "amount":" ",
-                //     "remarks":" ",
-                //     "subtotal":" "
-                //   };
-                //     aTtype.push(oRetailtab);
-                // }
-                // oTransData.setData({
-                //     "TransData": aTtype
-                // });
-                // this.setModel(oTransData, "returnModel");
+// Item Table as input table
                 this.orderItem();
+// Return Item Table as input table
                 this.orderReturn();
 
 
@@ -126,6 +108,9 @@ sap.ui.define(
                 // });
                 // this.setModel(oTransData, "TransData");
             },
+            valueHelpCustomer:function(){
+              this.getCustomerPopup();
+            }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()
 //                     .getModel();

@@ -25,7 +25,9 @@
        <m:Text text="{i18n>type}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>type}"></m:Input>
+				<m:Input value="{returnModel>type}"
+          showValueHelp="true"
+          valueHelpRequest="onTypeHelp"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -33,15 +35,18 @@
        <m:Text text="{i18n>weight}"></m:Text>
      </label>
      <template>
-				<m:Input value='{returnModel>weight}'></m:Input>
-			</template>
+				<!-- <m:Text value='{returnModel>weight}'></m:Text> -->
+        <m:Input text="{returnModel>weight}"
+          editable="false"></m:Input>
+      </template>
    </Column>
    <Column>
      <label>
        <m:Text text="{i18n>tunch}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>tunch}"></m:Input>
+				<m:Input value="{returnModel>tunch}"
+          maxLength="3"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -49,7 +54,8 @@
        <m:Text text="{i18n>quantity}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>qty}"></m:Input>
+				<m:Input value="{returnModel>qty}"
+          maxLength="3"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -57,7 +63,8 @@
        <m:Text text="{i18n>bhav}"></m:Text>
        </label>
      <template>
-				<m:Input value="{returnModel>bhav}"></m:Input>
+				<m:Input value="{returnModel>bhav}"
+          maxLength="5"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -65,7 +72,8 @@
        <m:Text text="{i18n>amount}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>amount}"></m:Input>
+				<m:Input value="{returnModel>amount}"
+          maxLength="5"></m:Input>
 			</template>
    </Column>
    <Column>
@@ -73,7 +81,8 @@
        <m:Text text="{i18n>rem}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>remarks}"></m:Input>
+				<m:Input value="{returnModel>remarks}"
+          maxLength="80"></m:Input>
 			</template>
    </Column>
    <Column>

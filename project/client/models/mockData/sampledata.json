@@ -111,6 +111,32 @@
 		"Customer":"",
 		"Material":""
 	},
+	"orderHeader":{
+		"OrderNo":"",
+		"Date":"",
+		"Customer":"",
+		"GoldBhav":"",
+		"SilverBhav":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
+	"orderReturn":{
+		"OrderNo":"",
+		"Type":"",
+		"Weight":"",
+		"Tunch":"",
+		"Qty":"",
+		"Bhav":"",
+		"Amount":"",
+		"Remarks":"",
+		"SubTot":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

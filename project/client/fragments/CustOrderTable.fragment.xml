@@ -1,66 +1,41 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-
-  <Table items="{/Demos}" updateFinished="onUpdateFinished">
-    <columns>
-      <Column><Label text="Date" />
-      </Column>
-      <Column><Label text="Customer" />
-
-      </Column>
-      <Column><Label text="Material" />
-
-      </Column>
-    </columns>
-    <items>
-      <ColumnListItem>
-        <cells>
-          <Text text="{CrDate}" />
-          <Text text="{Customer}" />
-          <Text text="{Material}" />
-        </cells>
-
-      </ColumnListItem>
-    </items>
-  </Table>
-  <Table id="idCoTable" items="">
-    <toolbar>
-  <m:Toolbar>
-    <m:content>
-      <m:Title id="idCoTitle" text="{i18n>coTableTitle}" />
-      <m:ToolbarSpacer/>
-      <m:Button
+<Table id="idCoTable" items="">
+  <headerToolbar>
+    <content>
+      <Title id="idCoTitle" text="{i18n>coTableTitle}" />
+      <ToolbarSpacer/>
+      <Button
         icon="sap-icon://delete"
         press="onDeleteSelection"/>
-    </m:content>
-  </m:Toolbar>
-</toolbar>
+    <content>
+  </headerToolbar>
 <columns>
     <Column>
-      <m:Label text="{i18n>coDate}" />
+      <Label text="{i18n>coDate}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coDelivDate}" />
+      <Label text="{i18n>coDelivDate}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coCustName}" />
+      <Label text="{i18n>coCustName}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coItemName}" />
+      <Label text="{i18n>coItemName}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coQty}" />
+      <Label text="{i18n>coQty}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coWeight}" />
+      <Label text="{i18n>coWeight}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coMaking}" />
+      <Label text="{i18n>coMaking}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coRemarks}" />
+      <Label text="{i18n>coRemarks}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coKarigar}" />
+      <Label text="{i18n>coKarigar}" />
     </Column>
   </columns>
   <items>

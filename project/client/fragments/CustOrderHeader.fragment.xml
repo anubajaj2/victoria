@@ -20,8 +20,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </Text>
 <DatePicker id="idCoDate" class="sapUiTinyMarginTop"
 		valueFormat="dd.MM.yyyy"
-		displayFormat="dd.MM.yyyy"
-		value="{local>/customerOrder/Date}"></DatePicker>
+		displayFormat="dd.MM.yyyy">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
@@ -34,8 +33,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 <DatePicker id="idCoDelDate" class="sapUiTinyMarginTop"
 		width="200px"
 		valueFormat="dd.MM.yyyy"
-		displayFormat="dd.MM.yyyy"
-		value="{local>/customerOrder/DelDate}"></DatePicker>
+		displayFormat="dd.MM.yyyy">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>
@@ -49,7 +47,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 		<l:GridData span="XL1 L1 M2 S4"/>
 		</layoutData>
 	</Text>
-<Input id="idcoCustomer" showValueHelp="true" valueHelpRequest="onValueHelp">
+<Input id="idCoCustomer" showValueHelp="true" valueHelpRequest="onValueHelp">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>

@@ -47,7 +47,7 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 		<l:GridData span="XL1 L1 M2 S4"/>
 		</layoutData>
 	</Text>
-<Input id="idCoCustomer" showValueHelp="true" valueHelpRequest="onValueHelp">
+<Input id="idCoCustomer" value="" showValueHelp="true" valueHelpRequest="onValueHelp">
 <layoutData>
 <l:GridData span="XL3 L3 M2 S4"/>
 </layoutData>

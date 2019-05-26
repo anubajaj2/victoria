@@ -5,12 +5,12 @@
 <core:Title/>
 </f:title>
 <f:layout>
-<f:GridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="12" labelSpanS="12"
+<f:GridLayout labelSpanXL="2" labelSpanL="2" 
               emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
               columnsXL="10" columnsL="10" columnsM="8" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
-<f:FormContainer>
+<f:FormContainer title="">
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>

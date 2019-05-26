@@ -137,6 +137,21 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"CustomerOrder"{
+		"Date":"",
+		"DelDate":"",
+		"Customer":"",
+		"Material":"",
+		"Qty":"",
+		"Weight":"",
+		"Making":"",
+		"Karigar":"",
+		"Remarks":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

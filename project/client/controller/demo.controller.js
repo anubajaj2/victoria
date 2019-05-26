@@ -16,8 +16,10 @@ sap.ui.define(
               myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
               this.getView().getModel("local").setProperty("/demoData", myData);
               // added by sweta to populate the selected cust to the input field
-              var selVal = oEvent.getParameter("selectedItem").getValue();
-              this.getView().byId("idCustNo").setValue(selVal);
+              var selCust = oEvent.getParameter("selectedItem").getLabel();
+              var selCustName = oEvent.getParameter("selectedItem").getValue();
+              this.getView().byId("idCustNo").setValue(selCust);
+              this.getView().byId("idCustName").setText(selCustName);
               // End of addition by Sweta
           },
           onUpdateFinished: function(oEvent){

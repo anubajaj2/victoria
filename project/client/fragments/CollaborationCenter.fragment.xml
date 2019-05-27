@@ -8,12 +8,12 @@
           labelSpanS="12"
           adjustLabelSpan="false"
           emptySpanXL="0"
-          emptySpanL="2"
+          emptySpanL="0"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="2"
-          columnsL="2"
-          columnsM="2"
+          columnsXL="1"
+          columnsL="1"
+          columnsM="1"
           singleContainerFullSize="false"
 		/>
 	</f:layout>
@@ -27,7 +27,10 @@
 							<l:GridData span="L1"></l:GridData>
 						</layoutData>
 					</Input>
-					<Input editable="false"></Input>
+					<Input editable="false">
+						<layoutData>
+							<l:GridData span="L3"></l:GridData>
+						</layoutData></Input>
 				</f:fields>
 			</f:FormElement>
 		</f:formElements>

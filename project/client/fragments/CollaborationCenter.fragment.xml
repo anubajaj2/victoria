@@ -29,7 +29,7 @@
 					</Input>
 					<Input editable="false">
 						<layoutData>
-							<l:GridData span="L3"></l:GridData>
+							<l:GridData span="L2"></l:GridData>
 						</layoutData></Input>
 				</f:fields>
 			</f:FormElement>

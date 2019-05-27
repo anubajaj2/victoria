@@ -2,18 +2,18 @@
 <f:Form id="idForm1" editable="true">
 	<f:layout>
 		<f:ResponsiveGridLayout
-		 labelSpanXL="1"
-          labelSpanL="1"
-          labelSpanM="1"
+		 labelSpanXL="2"
+          labelSpanL="2"
+          labelSpanM="2"
           labelSpanS="12"
           adjustLabelSpan="false"
           emptySpanXL="0"
           emptySpanL="0"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="2"
-          columnsL="2"
-          columnsM="2"
+          columnsXL="4"
+          columnsL="4"
+          columnsM="4"
           singleContainerFullSize="false"
 		/>
 	</f:layout>
@@ -24,12 +24,12 @@
 				<f:fields>
 					<Input showValueHelp="true" valueHelpRequest="onValueHelpRequest">
 						<layoutData>
-							<l:GridData span="L1"></l:GridData>
+							<l:GridData span="L3 M3"></l:GridData>
 						</layoutData>
 					</Input>
 					<Input editable="false">
 						<layoutData>
-							<l:GridData span="L2"></l:GridData>
+							<l:GridData span="L3 M3"></l:GridData>
 						</layoutData></Input>
 				</f:fields>
 			</f:FormElement>

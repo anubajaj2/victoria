@@ -11,9 +11,9 @@
           emptySpanL="4"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="1"
-          columnsL="1"
-          columnsM="1"
+          columnsXL="4"
+          columnsL="4"
+          columnsM="4"
           singleContainerFullSize="false"/>
 
 	</f:layout>

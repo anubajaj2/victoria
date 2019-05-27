@@ -8,7 +8,7 @@
   },
   "properties": {
     "OrderNo": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Date": {

@@ -31,7 +31,7 @@
                           <l:content>
          <Label text="{i18n>coWeight}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
          <layoutData>
-         <l:GridData span="L1"/>
+         <l:GridData span="L5"/>
          </layoutData>
          </Label>
          <Input value="" enabled="true" width="100%">

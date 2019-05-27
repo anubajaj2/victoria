@@ -2,9 +2,9 @@
 <f:Form id="idForm1" editable="true">
 	<f:layout>
 		<f:ResponsiveGridLayout
-		 labelSpanXL="3"
-          labelSpanL="3"
-          labelSpanM="3"
+		 labelSpanXL="2"
+          labelSpanL="2"
+          labelSpanM="2"
           labelSpanS="12"
           adjustLabelSpan="false"
           emptySpanXL="0"

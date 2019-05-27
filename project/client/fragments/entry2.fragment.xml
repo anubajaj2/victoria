@@ -52,12 +52,12 @@
 						<f:fields>
 							<CheckBox text="{i18n>Chandi}" selected="true">
 								<layoutData>
-									<l:GridData span="L3"></l:GridData>
+									<l:GridData span="L1"></l:GridData>
 								</layoutData>
 							</CheckBox>
 							<CheckBox text="{i18n>Sona}" selected="true">
 								<layoutData>
-									<l:GridData span="L3"></l:GridData>
+									<l:GridData span="L1"></l:GridData>
 								</layoutData>
 							</CheckBox>
 							<CheckBox text="{i18n>Kacchi}" selected="true">

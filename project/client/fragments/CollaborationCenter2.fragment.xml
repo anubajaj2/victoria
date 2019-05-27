@@ -24,20 +24,17 @@
 					<f:fields>
 						<Input>
 							<layoutData>
-								<l:GridData span="L3"></l:GridData>
+								<l:GridData span="L1"></l:GridData>
 							</layoutData>
 						</Input>
-						<layoutData>
-							<l:GridData span="L3"></l:GridData>
-						</layoutData>
          <Label text="{i18n>coWeight}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
          <layoutData>
-         <l:GridData span="L3"/>
+         <l:GridData span="L1"/>
          </layoutData>
          </Label>
          <Input value="" enabled="true" width="100%">
          <layoutData>
-        <l:GridData span="L3"/>
+        <l:GridData span="L1"/>
         </layoutData>
         </Input>
        <!-- </l:content>

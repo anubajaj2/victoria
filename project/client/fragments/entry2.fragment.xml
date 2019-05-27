@@ -62,7 +62,7 @@
 							</CheckBox>
 							<CheckBox text="{i18n>Kacchi}" selected="true">
 								<layoutData>
-									<l:GridData span="L3"></l:GridData>
+									<l:GridData span="L1"></l:GridData>
 								</layoutData>
 							</CheckBox>
 						</f:fields>

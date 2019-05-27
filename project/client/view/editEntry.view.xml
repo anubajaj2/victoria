@@ -6,6 +6,8 @@
     showNavButton="true"
     title="Edit Entry">
     <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.entry1" type="XML"></core:Fragment>
+
 
     </semantic:content>
   </semantic:FullscreenPage>

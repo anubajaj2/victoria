@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+  xmlns:f="sap.ui.layout.form">
+  <VBox class="sapUiSmallMargin">
+  <f:Form id="idcust1" editable="true">
+    <f:layout>
+      <f:ResponsiveGridLayout
+        labelSpanXL="2"
+        labelSpanL="2"
+        labelSpanM="2"
+        labelSpanS="12"
+        adjustLabelSpan="false"
+        emptySpanXL="0"
+        emptySpanL="4"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="2"
+        columnsL="2"
+        columnsM="2"
+        singleContainerFullSize="false"/>
+    </f:layout>
+    <f:formContainers>
+      <f:FormContainer>
+    <f:formElements>
+      <f:FormElement label="{i18n>Date}">
+        <f:fields>
+          <Input width="auto" value="" id="idDate"/>
+          <CheckBox text="Continue Entry" selected="true">
+          <layoutData>
+            <l:GridData span="XL4 L3 M5 S6"/>
+          </layoutData>
+        </CheckBox>
+        </f:fields>
+      </f:FormElement>
+      <f:FormElement label="{i18n>Customer}">
+        <f:fields>
+          <Input  showValueHelp="true" valueHelpOnly="true"
+            valueHelpRequest="onValueHelpRequest" value="" id="idCust">
+            <layoutData>
+              <l:GridData span="XL4 L3 M5 S6"/>
+            </layoutData>
+          </Input>
+          <Input value="" editable="false"/>
+        </f:fields>
+      </f:FormElement>
+      </f:formElements>
+      <f:layoutData>
+        <f:GridContainerData halfGrid="true">
+        </f:GridContainerData>
+      </f:layoutData>
+      </f:FormContainer>
+      <f:FormContainer>
+        <f:formElements>
+          <f:FormElement label="{i18n>Cash}">
+            <f:fields>
+            <Input id="idCash" value=""/>
+          </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>Gold}">
+            <f:fields>
+              <Input id="idGold" value=""/>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>Silver}">
+            <f:fields>
+              <Input id="idSilver" value=""/>
+            </f:fields>
+          </f:FormElement>
+        </f:formElements>
+      </f:FormContainer>
+    </f:formContainers>
+  </f:Form>
+</VBox>
+</core:FragmentDefinition>

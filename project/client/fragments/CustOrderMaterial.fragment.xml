@@ -15,15 +15,15 @@
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
-<Input value=""/>
+<Input value="" showValueHelp="true" valueHelpRequest="onValueHelpMat"/>
 <Input value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coComb}">
 <f:fields>
-<Input value="" placeholder="{i18n>coQty}"/>
-<Input value="" placeholder="{i18n>coWeight}"/>
-<Input value="" placeholder="{i18n>coMaking}"/>
+<Input value="" id="idCoQty" type="Number"   placeholder="{i18n>coQty}"/>
+<Input value="" id="idCoWeight" type="Number" placeholder="{i18n>coWeight}"/>
+<Input value="" id="idCoMaking" type="Number"  placeholder="{i18n>coMaking}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">

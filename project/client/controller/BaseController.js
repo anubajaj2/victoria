@@ -114,6 +114,24 @@ sap.ui.define([
 
 		},
 
+		getMaterialPopup: function() {
+			if (!this.searchPopup) {
+				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.searchPopup);
+				var title = this.getView().getModel("i18n").getProperty("matSearch");
+				this.searchPopup.setTitle(title);
+				this.searchPopup.bindAggregation("items",{
+					path: '/Products',
+					template: new sap.m.DisplayListItem({
+						label: "{ProductCode}",
+						value: "{ProductName}"
+					})
+				});
+			}
+			this.searchPopup.open();
+
+		},
+
 		getDialogPopup: function() {
 			if (!this.oDialogPopup) {
 				this.oDialogPopup = new sap.ui.xmlfragment("idDialog","victoria.fragments.Dialog", this);

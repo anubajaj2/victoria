@@ -11,6 +11,10 @@ sap.ui.define(
       this.getCustomerPopup();
     },
 
+    onValueHelpMat: function(){
+      this.getMaterialPopup();
+    },
+
     onConfirm: function(oEvent){
       //whatever customer id selected push that in local model
       debugger;

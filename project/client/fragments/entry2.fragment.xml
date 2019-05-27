@@ -13,9 +13,9 @@
           emptySpanL="0"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="5"
-          columnsL="5"
-          columnsM="5"
+          columnsXL="3"
+          columnsL="3"
+          columnsM="3"
           singleContainerFullSize="false"></f:ResponsiveGridLayout>
 		</f:layout>
 		<f:formContainers>

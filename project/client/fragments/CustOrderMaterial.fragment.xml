@@ -1,15 +1,17 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-<VBox class="sapUiSmallMargin">
+<VBox class="sapUISmallMargin">
 <f:Form id="idCoForm2" editable="true">
 <f:title>
 <core:Title/>
 </f:title>
 <f:layout>
-<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+  <f:GridLayout labelSpanXL="2" labelSpanL="2"
+              emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false"
+              columnsXL="2" columnsL="2" columnsM="8" singleContainerFullSize="false">
+  </f:GridLayout>
 </f:layout>
 <f:formContainers>
-<f:FormContainer>
+<f:FormContainer title="Order Details">
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
@@ -17,9 +19,11 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 <Input value="" editable="false"/>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="{i18n>coQty}">
+<f:FormElement label="{i18n>coComb}">
 <f:fields>
-<Input value=""/>
+<Input value="" placeholder="{i18n>coQty}"/>
+<Input value="" placeholder="{i18n>coWeight}"/>
+<Input value="" placeholder="{i18n>coMaking}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">
@@ -34,6 +38,37 @@ emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM
 </f:fields>
 </f:FormElement>
 </f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+
+<f:FormContainer title="Advances/Picture">
+<f:formElements>
+<f:FormElement label="Cash Advance">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Gold Advance">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Silver Advance">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="Picture">
+<f:fields>
+<Input value=""/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
 </f:FormContainer>
 </f:formContainers>
 </f:Form>

@@ -7,7 +7,41 @@
 		navButtonPress="onNavBack" showNavButton="true" title="Sales"
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
 
-		<semantic:content>
+		<semantic:content id="Header">
+			<m:VBox class="sapUiSmallMargin"
+				alignContent="sap.m.FlexAlignContent.Start">
+			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
+			</core:Fragment>
+		</m:VBox>
+	</semantic:content>
+
+	<semantic:content id="WSTable">
+		<m:VBox class="sapUiSmallMargin"
+			alignContent="sap.m.FlexAlignContent.Start">
+		<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
+		</core:Fragment>
+		</m:VBox>
+	</semantic:content>
+
+	<semantic:content id="Return">
+	<m:VBox class="sapUiSmallMargin">
+	<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
+	</core:Fragment>
+	</m:VBox>
+	</semantic:content>
+
+	<semantic:customFooterContent>
+			<Button text="Print"    type="Accept" press="onPrint"/>
+			<Button text="Transfer" type="Accept" press="onTransfer"/>
+			<Button text="Save"     type="Reject" press="onSaveOrder"/>
+			<Button text="Clear"    type="Ghost"  press="clearData"/>
+	</semantic:customFooterContent>
+
+</semantic:FullscreenPage>
+
+</mvc:View>
+
+		<!-- <semantic:content>
 
 			<m:VBox class="sapUiSmallMargin">
 				<f:Form id="salesBhav" editable="true" ariaLabelledBy="Title1"
@@ -114,7 +148,7 @@
 										<DatePicker class="sapUiTinyMarginTop" id="idSDate"
 											width="200px" valueFormat="yyyy-MM-dd" change="dateChanged"
 											value="{path:'salesHeaderModel>/Date',
-								 type:'sap.ui.model.type.Date', 
+								 type:'sap.ui.model.type.Date',
 								 formatOptions: { style: 'medium', strictParsing: true}}" />
 									</f:fields>
 
@@ -162,7 +196,7 @@
 										<m:Input width="110px" id="idProductCode" type="Text"
 											showSuggestion="true" value="{salesItemModel>ItemCode}"
 											suggest="handleSuggest"
-											suggestionItems="{path:'/Products' 
+											suggestionItems="{path:'/Products'
 											, templateShareable:false}"
 											suggestionItemSelected="selectedProduct">
 											<m:suggestionItems>
@@ -268,7 +302,7 @@
 			<l:BlockLayout id="BlklayoutSales" background="{/selectedBackground}">
 				<l:BlockLayoutRow>
 					<l:BlockLayoutCell id="BlkCellSales" width="50%"
-						title="Total Fine: {salesHeaderModel>/TotSlv} , Total Gold: {salesHeaderModel>/TotGold}, 
+						title="Total Fine: {salesHeaderModel>/TotSlv} , Total Gold: {salesHeaderModel>/TotGold},
 							   Total Cash: {salesHeaderModel>/TotCash}, Total Pcs: {salesHeaderModel>/TotPcs},
 							   Gross Silver: {salesHeaderModel>/GrossSlv}, Gross Gold: {salesHeaderModel>/GrossGld}">
 						<table:Table id="Orders" rowHeight="25px"
@@ -280,7 +314,7 @@
 										<m:Input width="110px" id="salesProductInput" type="Text"
 											showSuggestion="true" value="{salesItemModel>ItmCode}"
 											suggest="handleSuggest"
-											suggestionItems="{path:'/Products' 
+											suggestionItems="{path:'/Products'
 											, templateShareable:false}">
 											<m:suggestionItems>
 												<core:Item text="{ProductCode}" key="{Id}" />
@@ -418,8 +452,8 @@
 					</m:layoutData>
 				</m:Button>
 			</m:OverflowToolbar>
-		</semantic:content>
+		</semantic:content> -->
 
-	</semantic:FullscreenPage>
+	<!-- </semantic:FullscreenPage>
 
-</mvc:View>
+</mvc:View> -->

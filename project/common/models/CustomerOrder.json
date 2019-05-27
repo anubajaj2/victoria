@@ -1,37 +1,45 @@
 {
-  "name": "OrderReturn",
-  "plural": "OrderReturns",
+  "name": "CustomerOrder",
+  "plural": "CustomerOrders",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "orderNo":{
-      "type":"sring",
-      "required":"true"
+    "Date": {
+      "type": "date",
+      "required": true
     },
-    "Type": {
+    "DelDate": {
+      "type": "date",
+      "required": true
+    },
+    "Customer": {
       "type": "string",
       "required": true
     },
-    "Weight": {
-      "type": "string",
-      "required": true
-    },
-    "Tunch": {
+    "Material": {
       "type": "string",
       "required": true
     },
     "Qty": {
-      "type": "string",
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":3
+    },
+    "Weight": {
+      "type": "number",
       "required": true
     },
-    "Bhav": {
-      "type": "string",
-      "required": true
+    "Making": {
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
-    "Amount": {
+    "Karigar": {
       "type": "string",
       "required": true
     },
@@ -39,9 +47,21 @@
       "type": "string",
       "required": true
     },
-    "SubTotal": {
+    "CreatedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "CreatedBy": {
       "type": "string",
-      "required": true
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
     }
   },
   "scope":{

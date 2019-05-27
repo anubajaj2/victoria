@@ -12,16 +12,16 @@
       "required": true
     },
     "Date": {
-      "type": "string",
-      "required": false
+      "type": "date",
+      "required": true
     },
     "Customer": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "CustomerName": {
       "type": "string",
-      "required": false
+      "required": true
     }
   },
   "scope":{

@@ -1,47 +1,60 @@
 {
-  "name": "OrderReturn",
-  "plural": "OrderReturns",
+  "name": "Order Detail",
+  "plural": "Order Details",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
+
   "properties": {
-    "orderNo":{
-      "type":"sring",
-      "required":"true"
-    },
-    "Type": {
+    "OrderNo": {
       "type": "string",
       "required": true
     },
-    "Weight": {
+    "material": {
       "type": "string",
       "required": true
     },
-    "Tunch": {
+    "description": {
+      "type": "string",
+      "required": false
+    },
+    "qty": {
+      "type": "string",
+      "required": false
+    },
+    "qtyD": {
       "type": "string",
       "required": true
     },
-    "Qty": {
+    "weight": {
       "type": "string",
-      "required": true
+      "required": false
     },
-    "Bhav": {
+    "weightD": {
       "type": "string",
-      "required": true
+      "required": false
     },
-    "Amount": {
+    "making": {
       "type": "string",
-      "required": true
+      "required": false
     },
-    "Remarks": {
+    "makingD": {
       "type": "string",
-      "required": true
+      "required": false
     },
-    "SubTotal": {
+    "tunch": {
       "type": "string",
-      "required": true
+      "required": false
+    },
+    "remarks": {
+      "type": "string",
+      "required": false
+    },
+    "subTotal": {
+      "type": "string",
+      "required": false
     }
   },
   "scope":{

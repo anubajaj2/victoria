@@ -179,6 +179,7 @@ sap.ui.define([
 			return [title, intro, number, id];
 
 		},
+
 		/**
 		 * Convenience method for getting the view model by name in every controller of the application.
 		 * @public
@@ -392,6 +393,55 @@ sap.ui.define([
 			// 	.catch(function(oError) {
 			// 		jQuery.sap.log.error("Could not obtain data");
 			// 	});
+		},
+		orderItem:function(){
+			//create json model
+			var oOrderItem = new JSONModel();
+			//create array
+			var array=[];
+			//loop the array values
+			for (var i=1;i<=20;i++){
+				var oItem={
+					"material":"",
+					"description":"",
+					"qty":"",
+					"qtyd":"",
+					"weight":"",
+					"weightd":"",
+					"making":"",
+					"makingd":"",
+					"tunch":"",
+					"remarks":"",
+					"subTot":""
+				};
+				array.push(oItem);
+			}
+			//set the Data
+			oOrderItem.setData("itemData",array)
+			//set the model
+			this.setModel(oOrderItem,"orderItems");
+		},
+		orderReturn :function(){
+			//create structure of an array
+			var oTransData = new JSONModel();
+			var aTtype = [];
+			for (var i = 1; i <=5; i++) {
+				var oRetailtab = {
+					"type":" ",
+					"weight":" ",
+					"tunch":" ",
+					"qty":" ",
+					"bhav":" ",
+					"amount":" ",
+					"remarks":" ",
+					"subtotal":" "
+				};
+					aTtype.push(oRetailtab);
+			}
+			oTransData.setData({
+					"TransData": aTtype
+			});
+			this.setModel(oTransData, "returnModel");
 		}
 
 	});

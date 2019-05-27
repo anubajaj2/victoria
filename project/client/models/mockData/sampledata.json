@@ -98,10 +98,59 @@
 		"Extra2": "",
 		"id": ""
 	},
+	"kacchiData":{
+		"Date":"",
+		"Customer":"",
+		"PaggaNo":"",
+		"Weight":"",
+		"Tunch":"",
+		"Fine":""
+	},
 	"demoData": {
 		"CrDate":"",
 		"Customer":"",
 		"Material":""
+	},
+	"orderHeader":{
+		"OrderNo":"",
+		"Date":"",
+		"Customer":"",
+		"GoldBhav":"",
+		"SilverBhav":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
+		"customerOrder":{
+		"Date":"",
+		"DelDate":"",
+		"Customer":"",
+		"Material":"",
+		"Qty":"",
+		"Weight":"",
+		"Making":"",
+		"Karigar":"",
+		"Remarks":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
+	"orderReturn":{
+		"OrderNo":"",
+		"Type":"",
+		"Weight":"",
+		"Tunch":"",
+		"Qty":"",
+		"Bhav":"",
+		"Amount":"",
+		"Remarks":"",
+		"SubTot":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
 	},
 	"countries": [{
 		"name": "Afghanistan",

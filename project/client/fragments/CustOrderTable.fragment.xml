@@ -1,71 +1,57 @@
-<core:FragmentDefinition xmlns:m="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns="sap.ui.table">
-  <Table id="idCoTable" rows="" selectionMode="None">
-    <toolbar>
-  <m:Toolbar>
-    <m:content>
-      <m:Title id="idCoTitle" text="{i18n>coTableTitle}" />
-      <m:ToolbarSpacer/>
-      <m:Button
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+<Table id="idCoTable">
+  <headerToolbar>
+      <OverflowToolbar>
+              <Title id="idCoTitle" text="{i18n>coTableTitle}" />
+      <ToolbarSpacer/>
+      <Button
         icon="sap-icon://delete"
         press="onDeleteSelection"/>
-    </m:content>
-  </m:Toolbar>
-</toolbar>
+      </OverflowToolbar>
+  </headerToolbar>
 <columns>
     <Column>
-      <m:Label text="{i18n>coDate}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coDate}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coDelivDate}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coDelivDate}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coCustName}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coCustName}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coItemName}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coItemName}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coQty}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coQty}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coWeight}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coWeight}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coMaking}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coMaking}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coRemarks}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coRemarks}" />
     </Column>
     <Column>
-      <m:Label text="{i18n>coKarigar}" />
-      <template>
-        <m:Text text=""></m:Text>
-      </template>
+      <Label text="{i18n>coKarigar}" />
     </Column>
   </columns>
+  <items>
+    <ColumnListItem>
+      <cells>
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+        <Text text="" />
+      </cells>
+    </ColumnListItem>
+  </items>
   </Table>
 </core:FragmentDefinition>

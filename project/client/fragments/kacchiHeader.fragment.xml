@@ -9,7 +9,6 @@ xmlns:core ="sap.ui.core">
 			ariaLabelledBy="Title1">
 			<f:toolbar>
 				<Toolbar id="TB1">
-					<!-- <Title id="Title1" text="" level="H4" titleStyle=""/> -->
 					<ToolbarSpacer />
 							<core:Icon
 										src="sap-icon://status-completed"
@@ -23,9 +22,6 @@ xmlns:core ="sap.ui.core">
 										color="blue"
 										size="30px" alt="Save Status" tooltip="Transfer Status">
 							</core:Icon>
-
-					<!-- <Button icon="sap-icon://status-completed" text="Save Status" type="Accept"/>
-					<Button icon="sap-icon://status-completed" text="Transfer Status" type="Default"/> -->
 				</Toolbar>
 			</f:toolbar>
 
@@ -44,10 +40,12 @@ xmlns:core ="sap.ui.core">
                 	<l:GridData span="XL1 L1 M2 S4"/>
                 	</layoutData>
                 </Text>
-                <DatePicker class="sapUiTinyMarginTop"
+                <DatePicker id="idDate" class="sapUiTinyMarginTop"
                 		width="250px"
-                		valueFormat="yyyy-MM-dd"
-                		change="dateChanged">
+                		valueFormat="dd.mm.yyyy"
+										displayFormat="dd.mm.yyyy"
+                		change="dateChanged"
+										value="{local>/kacchiData/Date}">
                 <layoutData>
                 <l:GridData span="XL4 L5 M2 S4"/>
                 </layoutData>
@@ -61,7 +59,7 @@ xmlns:core ="sap.ui.core">
               		<l:GridData span="XL1 L1 M2 S4"/>
               		</layoutData>
                 </Text>
-								<Input id="idCust" showValueHelp="true">
+								<Input id="idCust" showValueHelp="true" valueHelpRequest="onCustValueHelp" >
                   <layoutData>
 										<l:GridData span="XL3 L3 M2 S4" />
 									</layoutData>

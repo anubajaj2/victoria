@@ -28,5 +28,26 @@ sap.ui.define(
         this.getView().byId("idcoCustomerText").setValue(selCustName);
         // End of addition by Sweta
     },
+
+    onSave: function(){
+      var that = this;
+      that.getView().setBusy(true);
+      var myData = this.getView().getModel("local").getProperty("/customerOrder");
+      myData.Date =  this.getView().byId("idCoDate").getDateValue();
+      myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+      myData.Qty = this.getView().byId("idCoQty").getValue();
+      myData.Weight = this.getView().byId("idCoWeight").getValue();
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
+                                "POST", {}, myData, this)
+      .then(function(oData) {
+        that.getView().setBusy(false);
+        sap.m.MessageToast.show("Data Saved Successfully");
+
+      }).catch(function(oError) {
+        that.getView().setBusy(false);
+        var oPopover = that.getErrorMessage(oError);
+      });
+      ;
+    }
   });
 });

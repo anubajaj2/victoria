@@ -88,6 +88,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "orderItems":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "CustomCalculation":{
     "dataSource": "mongoatlas",
     "public": true
@@ -95,7 +99,7 @@
   "CustomerOrder":{
     "dataSource": "mongoatlas",
     "public": true
-  }, 
+  },
   "CollaborationCenter":{
     "dataSource": "mongoatlas",
     "public": true

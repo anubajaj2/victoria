@@ -108,8 +108,18 @@ sap.ui.define(
                 // });
                 // this.setModel(oTransData, "TransData");
             },
+            //customer value help
             valueHelpCustomer:function(){
               this.getCustomerPopup();
+
+            },
+            //on order valuehelp,get the exsisting order from //DB
+            valueHelpOrder:function(){
+              this.getOrderlist();
+            },
+            //on order create Button
+            orderCreate:function(){
+
             }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()

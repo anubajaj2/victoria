@@ -115,12 +115,12 @@ sap.ui.define([
 		},
 
 		getMaterialPopup: function() {
-			if (!this.searchPopup) {
-				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
-				this.getView().addDependent(this.searchPopup);
+			if (!this.matSearchPopup) {
+				this.matSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.matSearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("matSearch");
-				this.searchPopup.setTitle(title);
-				this.searchPopup.bindAggregation("items",{
+				this.matSearchPopup.setTitle(title);
+				this.matSearchPopup.bindAggregation("items",{
 					path: '/Products',
 					template: new sap.m.DisplayListItem({
 						label: "{ProductCode}",
@@ -128,7 +128,7 @@ sap.ui.define([
 					})
 				});
 			}
-			this.searchPopup.open();
+			this.matSearchPopup.open();
 
 		},
 

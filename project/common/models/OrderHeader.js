@@ -8,7 +8,8 @@ module.exports = function(OrderHeader) {
       //Read only max order no for given, if order is found, +1 and create
       //if not found, give it as order no 1
       OrderHeader.findOne(
-        { order: 'OrderNo DESC' }
+        { order: 'OrderNo DESC'}
+        // { where: {  "date":{Date.now()}}
 
       ).then(function(record){
         if(record){

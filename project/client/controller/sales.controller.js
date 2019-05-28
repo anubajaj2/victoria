@@ -53,6 +53,8 @@ sap.ui.define(
                         this.onGetModel,
                         this);
 
+//get the order details
+              this.getOrderlist();
 // Item Table as input table
                 this.orderItem();
 // Return Item Table as input table

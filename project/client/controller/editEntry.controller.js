@@ -9,7 +9,7 @@ function (BaseController) {
       this.getCustomerPopup();
     },
     onConfirm: function () {
-debugger;
+
     }
 
   });

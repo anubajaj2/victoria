@@ -118,6 +118,17 @@
 "Weight":"",
 "Remarks":"",
 },
+"editEntryData":{
+"Date":"",
+"Customer":"",
+"Cash":"",
+"Gold":"",
+"Silver":"",
+"Remarks":"",
+"Weight":"",
+"Tunch":"",
+"Due Date":"",
+},
 	"orderHeader":{
 		"OrderNo":"",
 		"Date":"",

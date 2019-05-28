@@ -73,13 +73,13 @@ sap.ui.define(
       for (var i = 0; i < noOfItems; i++) {
         debugger;
         //Read the GUID from the Screen
-        var customerId = oTable.getItems()[i].getCells()[1].getText();
+        var customerId = oTable.getItems()[i].getCells()[2].getText();
         var customerData = this.allMasterData.customers[customerId];
-        oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+        oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
-        var materialId = oTable.getItems()[i].getCells()[2].getText();
+        var materialId = oTable.getItems()[i].getCells()[3].getText();
         var materialData = this.allMasterData.materials[materialId];
-        oTable.getItems()[i].getCells()[2].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+        oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
         //Find the customer data for that Guid in customer collection
         //Change the data on UI table with semantic information

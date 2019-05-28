@@ -152,6 +152,22 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"CustomCalculation":{
+	"22/20": "",
+	"22/22": "",
+	"Gold": "",
+	"Silver": "",
+	"Gold Returns": "",
+	"Silver Returns": "",
+	"Gold": "",
+	"Silver": "",
+	"Kaccha Gold": "",
+	"Kaccha Silver": "",
+	"Gold Returns": "",
+	"Silver Returns": "",
+	"Kaccha Gold R": "",
+	"Kaccha Silver R": ""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

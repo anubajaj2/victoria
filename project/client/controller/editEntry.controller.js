@@ -4,6 +4,12 @@ function (BaseController) {
   return BaseController.extend("victoria.controller.editEntry",{
     onInit: function () {
 
+    },
+    onValueHelpRequest: function () {
+      this.getCustomerPopup();
+    },
+    onConfirm: function () {
+      debugger;
     }
 
   });

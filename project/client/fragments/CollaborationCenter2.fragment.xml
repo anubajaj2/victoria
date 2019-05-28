@@ -2,18 +2,18 @@
 <f:Form id="idForm2" editable="true">
 	<f:layout>
 		<f:ResponsiveGridLayout
-		labelSpanXL="1"
-          labelSpanL="1"
+		labelSpanXL="2"
+          labelSpanL="2"
           labelSpanM="2"
           labelSpanS="12"
           adjustLabelSpan="false"
           emptySpanXL="0"
-          emptySpanL="1"
+          emptySpanL="2"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="1"
-          columnsL="1"
-          columnsM="1"
+          columnsXL="2"
+          columnsL="2"
+          columnsM="2"
           singleContainerFullSize="false"/>
 
 	</f:layout>
@@ -27,8 +27,6 @@
 								<l:GridData span="L1"></l:GridData>
 							</layoutData>
 						</Input>
-						   <l:Grid>
-                          <l:content>
          <Label text="{i18n>coWeight}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
          <layoutData>
          <l:GridData span="L1"/>
@@ -36,16 +34,16 @@
          </Label>
          <Input value="" enabled="true" width="100%">
          <layoutData>
-        <l:GridData span="L2"/>
+        <l:GridData span="L1"/>
         </layoutData>
         </Input>
-       </l:content>
-       </l:Grid>
+       <!-- </l:content>
+       </l:Grid> -->
 					</f:fields>
 				</f:FormElement>
 				<f:FormElement label="{i18n>rem}">
 				<f:fields>
-					<Input width="50%"></Input>
+					<Input width="auto"></Input>
 				</f:fields>
 			</f:FormElement>
 			</f:formElements>

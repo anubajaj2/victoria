@@ -28,7 +28,23 @@
     "Remarks": {
       "type": "string",
       "required": true
-    }
+    },
+     "CreatedOn": {
+        "type": "date",
+        "default": "null"
+      },
+      "CreatedBy": {
+        "type": "string",
+        "default": "null"
+      },
+      "ChangedOn": {
+        "type": "date",
+        "default": "null"
+      },
+      "ChangedBy": {
+        "type": "string",
+        "default": "null"
+      }
   },
     "scope":{
 

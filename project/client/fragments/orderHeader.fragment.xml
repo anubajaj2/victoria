@@ -26,7 +26,7 @@ xmlns:core ="sap.ui.core" width="160px">
                     <l:GridData span="L5 M5"></l:GridData>
                   </layoutData>
                   </Input>
-                  <Button text="{i18n>C}">
+                  <Button text="{i18n>C}" press="orderCreate">
                     <layoutData>
                     <!-- <l:GridData indent="L1 M1"></l:GridData> -->
                     <l:GridData span="L1 M1"></l:GridData>

@@ -1,13 +1,18 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-<Table id="idCoTable">
+<Table
+      id="idCoTable"
+      items="{/CustomerOrders}"
+      growing="true"
+      mode="MultiSelect"
+      updateFinished="onUpdateFinished">
   <headerToolbar>
-      <OverflowToolbar>
-              <Title id="idCoTitle" text="{i18n>coTableTitle}" />
+      <Toolbar>
+        <Title id="idCoTitle" text="{i18n>coTableTitle}" />
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"
         press="onDeleteSelection"/>
-      </OverflowToolbar>
+      </Toolbar>
   </headerToolbar>
 <columns>
     <Column>
@@ -41,15 +46,15 @@
   <items>
     <ColumnListItem>
       <cells>
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
-        <Text text="" />
+        <Text text="{Date}" />
+        <Text text="{DelDate}" />
+        <Text text="{Customer}" />
+        <Text text="{Material}" />
+        <Text text="{Qty}" />
+        <Text text="{Weight}" />
+        <Text text="{Making}" />
+        <Text text="{Remarks}" />
+        <Text text="{Karigar}" />
       </cells>
     </ColumnListItem>
   </items>

@@ -1,16 +1,12 @@
 {
-  "name": "OrderHeader",
-  "plural": "OrderHeaders",
+  "name": "EditEntry",
+  "plural": "EditEntrys",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "OrderNo": {
-      "type": "number",
-      "required": true
-    },
     "Date": {
       "type": "date",
       "required": true
@@ -19,17 +15,33 @@
       "type": "string",
       "required": true
     },
-    "CustomerName": {
-      "type": "string",
+    "Cash": {
+      "type": "number",
       "required": true
     },
-    "Goldbhav":{
-      "type": "string",
+    "Gold": {
+      "type": "number",
       "required": true
     },
-    "SilverBhav":{
-      "type": "string",
+    "Silver": {
+      "type": "number",
       "required": true
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "Weight": {
+      "type": "number",
+      "required": true
+    },
+    "Tunch": {
+      "type": "number",
+      "required": true
+    },
+    "Due Date": {
+      "type": "date",
+      "required": false
     },
     "CreatedOn": {
       "type": "date",

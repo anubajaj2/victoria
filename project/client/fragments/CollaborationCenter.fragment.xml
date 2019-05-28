@@ -24,10 +24,13 @@
 				<f:fields>
 					<Input showValueHelp="true" valueHelpRequest="onValueHelpRequest">
 						<layoutData>
-							<l:GridData span="L3"></l:GridData>
+							<l:GridData span="L3 M3"></l:GridData>
 						</layoutData>
 					</Input>
-					<Input></Input>
+					<Input editable="false">
+						<layoutData>
+							<l:GridData span="L3 M3"></l:GridData>
+						</layoutData></Input>
 				</f:fields>
 			</f:FormElement>
 		</f:formElements>

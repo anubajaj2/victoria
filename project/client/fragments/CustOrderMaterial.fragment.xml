@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+  <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
 <VBox class="sapUISmallMargin">
 <f:Form id="idCoForm2" editable="true">
 <f:title>
@@ -15,8 +15,8 @@
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
-<Input value="" showValueHelp="true" valueHelpRequest="onValueHelpMat"/>
-<Input value="" editable="false"/>
+<Input id="idCoMaterial" value="" showValueHelp="true" valueHelpRequest="onValueHelpMat"/>
+<Input id="idCoMatName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coComb}">
@@ -28,13 +28,13 @@
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">
 <f:fields>
-<Input value=""/>
+<Input id="idCoKarigar" value="" showValueHelp="true" valueHelpRequest="onValueHelp"/>
 <Input value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coRemarks}">
 <f:fields>
-<Input value=""/>
+<Input id="idCoRemarks" value=""/>
 </f:fields>
 </f:FormElement>
 </f:formElements>
@@ -47,22 +47,22 @@
 <f:formElements>
 <f:FormElement label="Cash Advance">
 <f:fields>
-<Input value=""/>
+<Input id="idCoCash" value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Gold Advance">
 <f:fields>
-<Input value=""/>
+<Input id="idCoGold" value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Advance">
 <f:fields>
-<Input value=""/>
+<Input id="idCoSilver" value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Picture">
 <f:fields>
-<Input value=""/>
+<Input id="idCoPicture" value=""/>
 </f:fields>
 </f:FormElement>
 </f:formElements>

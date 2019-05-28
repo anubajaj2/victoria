@@ -105,14 +105,40 @@ sap.ui.define([
 				this.searchPopup.bindAggregation("items",{
 					path: '/Customers',
 					template: new sap.m.DisplayListItem({
+							 id: "idCoCustPopup",
 						label: "{CustomerCode}",
 						value: "{Name} - {City}"
 					})
 				});
 			}
 			this.searchPopup.open();
-
 		},
+
+		//order number details - sakshi
+				getOrderlist:function(oData){
+					var that = this;
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders", "GET", null, null, this)
+						.then(function(oData) {
+							for (var i = 0; i < oData.results.length; i++) {
+								that.allMasterData.customers[oData.results[i].id] = oData.results[i];
+							}
+						}).catch(function(oError) {
+							var oPopover = that.getErrorMessage(oError);
+						});
+
+						//call the popup screen dynamically
+						if(!this.orderPopup){
+							debugger;
+							//call the popupfragment and pass the values
+							this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
+							this.getView().addDependent(this.oOrderno);
+						}
+						this.orderPopup.open();
+				},
+
+				onCancel:function(){
+					this.searchPopup().close();
+				},
 
 		getMaterialPopup: function() {
 			if (!this.matSearchPopup) {
@@ -123,6 +149,7 @@ sap.ui.define([
 				this.matSearchPopup.bindAggregation("items",{
 					path: '/Products',
 					template: new sap.m.DisplayListItem({
+							id: "idCoMatPopup",
 						label: "{ProductCode}",
 						value: "{ProductName}"
 					})

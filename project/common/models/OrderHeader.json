@@ -8,7 +8,7 @@
   },
   "properties": {
     "OrderNo": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Date": {
@@ -22,6 +22,30 @@
     "CustomerName": {
       "type": "string",
       "required": true
+    },
+    "Goldbhav":{
+      "type": "string",
+      "required": true
+    },
+    "SilverBhav":{
+      "type": "string",
+      "required": true
+    },
+    "CreatedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
     }
   },
   "scope":{

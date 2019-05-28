@@ -8,12 +8,12 @@
           labelSpanS="12"
           adjustLabelSpan="false"
           emptySpanXL="0"
-          emptySpanL="2"
+          emptySpanL="0"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="2"
-          columnsL="2"
-          columnsM="2"
+          columnsXL="10"
+          columnsL="10"
+          columnsM="10"
           singleContainerFullSize="false"/>
 
 	</f:layout>
@@ -24,17 +24,17 @@
 					<f:fields>
 						<Input>
 							<layoutData>
-								<l:GridData span="L1"></l:GridData>
+								<l:GridData span="XL4 L4"></l:GridData>
 							</layoutData>
 						</Input>
          <Label text="{i18n>coWeight}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
          <layoutData>
-         <l:GridData span="L1"/>
+         <l:GridData span="XL4 L4"/>
          </layoutData>
          </Label>
          <Input value="" enabled="true" width="100%">
          <layoutData>
-        <l:GridData span="L1"/>
+        <l:GridData span="XL4 L4"/>
         </layoutData>
         </Input>
        <!-- </l:content>

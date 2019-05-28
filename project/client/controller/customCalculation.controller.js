@@ -66,15 +66,18 @@ this.ClearCalculation();
 
   SaveCalculation : function(){
     var that = this;
-     var calculationModel = this.getView().getModel("calculationModel");
+    that.getView.setBusy(true);
+     var calculationModel = this.getView().getModel("local").getProperty("/CustomCalculation");
      // var calculationJson = this.getView().getModel("calculationModelInfo").getData().results;
 
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
            "/CustomCalculation", "POST", {},calculationModel.getData() , this)
             .then(function(oData) {
+              that.getView.setBusy(false);
             MessageToast.show("Data saved successfully");
             that._onRouteMatched();
             }).catch(function(oError) {
+              that.getView.setBusy(false);
                 MessageToast.show("Data could not be saved");
             });
         },

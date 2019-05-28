@@ -22,7 +22,7 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input value="{local>/CustomCalculation/22/20}">
+							<Input value="{local>/CustomCalculation/First}">
 								<layoutData>
 								<l:GridData indent="L3 M3"></l:GridData>
 							</layoutData>
@@ -31,13 +31,13 @@
 					</f:FormElement>
 					<f:FormElement label="22/22">
 						<f:fields>
-							<Input value="{local>/CustomCalculation/22/22}">
+							<Input value="{local>/CustomCalculation/Second}">
 							</Input>
 					</f:fields>
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
-						<Inputvalue="{local>/CustomCalculation/Gold}">
+						<Input value="{local>/CustomCalculation/Gold}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
@@ -126,11 +126,11 @@
 <f:formElements>
 <f:FormElement label="Gold Returns">
 <f:fields>
-<Input>
+<Input value="{local>/CustomCalculation/Gold Returns1}">
 	<layoutData>
 	<l:GridData indent="L3 M3"></l:GridData>
 </layoutData>
-</Input value="{local>/CustomCalculation/Gold Returns1}">
+</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Returns">
@@ -141,7 +141,7 @@
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input value="{local>/CustomCalculation/Kaccha Gold R}">
+<Input value="{local>/CustomCalculation/Kaccha Gold1}">
 	<layoutData>
 	<l:GridData indent="L3 M3"></l:GridData>
 </layoutData>

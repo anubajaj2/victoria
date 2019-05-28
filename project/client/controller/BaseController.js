@@ -105,6 +105,7 @@ sap.ui.define([
 				this.searchPopup.bindAggregation("items",{
 					path: '/Customers',
 					template: new sap.m.DisplayListItem({
+							 id: "idCoCustPopup",
 						label: "{CustomerCode}",
 						value: "{Name} - {City}"
 					})
@@ -148,6 +149,7 @@ sap.ui.define([
 				this.matSearchPopup.bindAggregation("items",{
 					path: '/Products',
 					template: new sap.m.DisplayListItem({
+							id: "idCoMatPopup",
 						label: "{ProductCode}",
 						value: "{ProductName}"
 					})

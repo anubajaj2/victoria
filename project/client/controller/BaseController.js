@@ -52,6 +52,7 @@ sap.ui.define([
 			// 		var oPopover = that.getErrorMessage(oError);
 			// 	});
 			var that = this;
+			debugger;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -115,9 +116,10 @@ sap.ui.define([
 		},
 
 		//order number details - sakshi
-				getOrderlist:function(oData){
+				getOrderlist:function(){
 					var that = this;
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders", "GET", null, null, this)
+					debugger;
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
 						.then(function(oData) {
 							for (var i = 0; i < oData.results.length; i++) {
 								that.allMasterData.customers[oData.results[i].id] = oData.results[i];
@@ -125,14 +127,16 @@ sap.ui.define([
 						}).catch(function(oError) {
 							var oPopover = that.getErrorMessage(oError);
 						});
+				},
 
-						//call the popup screen dynamically
+				orderPopup:function(){
+					//call the popup screen dynamically
 						if(!this.orderPopup){
-							debugger;
-							//call the popupfragment and pass the values
-							this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
-							this.getView().addDependent(this.oOrderno);
-						}
+								debugger;
+					//call the popupfragment and pass the values
+					 this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
+					 this.getView().addDependent(this.oOrderPopup);
+								}
 						this.orderPopup.open();
 				},
 

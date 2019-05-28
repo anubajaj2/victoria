@@ -1,13 +1,17 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-<Table id="idCoTable" items="{/CustomerOrders}" updateFinished="onUpdateFinished">
+<Table
+      id="idCoTable"
+      items="{/CustomerOrders}"
+      selectionMode="MultiToggle"
+      title="{i18n>coTableTitle}"
+      updateFinished="onUpdateFinished">
   <headerToolbar>
-      <OverflowToolbar>
-              <Title id="idCoTitle" text="{i18n>coTableTitle}" />
+      <Toolbar>
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"
         press="onDeleteSelection"/>
-      </OverflowToolbar>
+      </Toolbar>
   </headerToolbar>
 <columns>
     <Column>

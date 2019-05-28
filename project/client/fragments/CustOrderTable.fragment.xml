@@ -2,11 +2,12 @@
 <Table
       id="idCoTable"
       items="{/CustomerOrders}"
-      selectionMode="MultiToggle"
-      title="{i18n>coTableTitle}"
+      growing="true"
+      mode="MultiSelect"
       updateFinished="onUpdateFinished">
   <headerToolbar>
       <Toolbar>
+        <Title id="idCoTitle" text="{i18n>coTableTitle}" />
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"

@@ -45,7 +45,9 @@
       "type":"hasMany",
       "model":"Demo",
       "foreignKey": "Customer"
+    }
     },
+    "relations":{
     "ToCustomerOrders":{
       "type":"hasMany",
       "model":"CustomerOrder",

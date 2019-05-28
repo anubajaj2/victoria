@@ -111,6 +111,13 @@
 		"Customer":"",
 		"Material":""
 	},
+	"collaborationData": {
+"Date":"",
+"Material":"",
+"Qty":"",
+"Weight":"",
+"Remarks":"",
+},
 	"orderHeader":{
 		"OrderNo":"",
 		"Date":"",

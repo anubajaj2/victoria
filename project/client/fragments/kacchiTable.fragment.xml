@@ -3,43 +3,49 @@
   xmlns:m="sap.m"
   xmlns:core="sap.ui.core">
 
-  <Table id="idCustTable" rows="{/Kacchis}"
+  <Table id="idCustTable" rows="{kacciLocalModel>/superman}"
         selectionMode="MultiToggle"
-				visibleRowCount="10"
+				visibleRowCount="5"
 				ariaLabelledBy="title">
-    <toolbar>
-      <m:Toolbar>
-        <m:content>
-          <m:Button text= "Save" type="Accept" icon="sap-icon://save" press="onSave"/>
-          <m:ToolbarSpacer/>
-          <m:Button icon="sap-icon://delete" press=""/>
-          <m:Button icon="sap-icon://settings" press=""/>
-        </m:content>
-      </m:Toolbar>
-    </toolbar>
+        <toolbar>
+        <m:Toolbar>
+          <m:content>
+            <m:Title id="title" text="" />
+            <m:ToolbarSpacer/>
+            <m:Button
+              icon="sap-icon://delete"
+              tooltip="Delete"
+              press=""/>
+            <m:Button
+              icon="sap-icon://settings"
+              tooltip="Settings"
+              press=""/>
+          </m:content>
+        </m:Toolbar>
+      </toolbar>
   <columns>
     <Column>
       <m:Label text="{i18n>PaggaNo}" />
       <template>
-        <m:Input />
+        <m:Input value="{kacciLocalModel>PaggaNo}"/>
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>weight}" />
       <template>
-        <m:Text />
+        <m:Input value="{kacciLocalModel>Weight}"/>
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>tunch}" />
       <template>
-        <m:Text />
+        <m:Input value="{kacciLocalModel>Tunch}"/>
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>fine}" />
       <template>
-        <m:Text />
+        <m:Input value="{kacciLocalModel>Fine}"/>
       </template>
     </Column>
   </columns>

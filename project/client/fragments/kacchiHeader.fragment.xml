@@ -37,17 +37,17 @@ xmlns:core ="sap.ui.core">
 							<f:fields>
                 <Text text="{i18n>coDate}">
                 	<layoutData>
-                	<l:GridData span="XL1 L1 M2 S4"/>
+                	<l:GridData span="XL1 L1 "/>
                 	</layoutData>
                 </Text>
                 <DatePicker id="idDate" class="sapUiTinyMarginTop"
                 		width="250px"
-                		valueFormat="dd.mm.yyyy"
-										displayFormat="dd.mm.yyyy"
+                		valueFormat="dd.MM.yyyy"
+										displayFormat="dd.MM.yyyy"
                 		change="dateChanged"
 										value="{local>/kacchiData/Date}">
                 <layoutData>
-                <l:GridData span="XL4 L5 M2 S4"/>
+                <l:GridData span="XL3 L3 "/>
                 </layoutData>
               </DatePicker>
 							</f:fields>
@@ -59,28 +59,30 @@ xmlns:core ="sap.ui.core">
               		<l:GridData span="XL1 L1 M2 S4"/>
               		</layoutData>
                 </Text>
-								<Input id="idCust" showValueHelp="true" valueHelpRequest="onCustValueHelp" >
+								<Input id="idCustNo" showValueHelp="true" valueHelpRequest="onCustValueHelp" >
                   <layoutData>
 										<l:GridData span="XL3 L3 M2 S4" />
 									</layoutData>
                 </Input>
-								<Input editable="false">
+								<Text id="idCustName" text="">
+								<!-- <Input editable="false"> -->
 									<layoutData>
 										<l:GridData span="XL3 L3 M2 S4" />
 									</layoutData>
-								</Input>
+								</Text>
+								<!-- </Input> -->
 							</f:fields>
             </f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
 				<f:FormContainer ariaLabelledBy="Title3">
-					<!-- <f:toolbar>
+					<f:toolbar>
 						<Toolbar>
 							<Title id="Title3" text="" level="H5" titleStyle="H5"/>
 							<ToolbarSpacer />
 							<Button icon="sap-icon://save" text="Save" type="Accept"/>
 						</Toolbar>
-					</f:toolbar> -->
+					</f:toolbar>
 				</f:FormContainer>
 			</f:formContainers>
 		</f:Form>

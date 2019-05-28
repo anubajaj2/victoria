@@ -88,6 +88,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "orderItem":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "CustomCalculation":{
     "dataSource": "mongoatlas",
     "public": true

@@ -111,6 +111,24 @@
 		"Customer":"",
 		"Material":""
 	},
+	"collaborationData": {
+"Date":"",
+"Material":"",
+"Qty":"",
+"Weight":"",
+"Remarks":"",
+},
+"editEntryData":{
+"Date":"",
+"Customer":"",
+"Cash":"",
+"Gold":"",
+"Silver":"",
+"Remarks":"",
+"Weight":"",
+"Tunch":"",
+"Due Date":"",
+},
 	"orderHeader":{
 		"OrderNo":"",
 		"Date":"",
@@ -151,6 +169,22 @@
 		"CreatedOn":"",
 		"ChangedBy":"",
 		"ChangedOn":""
+	},
+	"CustomCalculation":{
+	"First": "",
+	"Second": "",
+	"Gold": "",
+	"Silver": "",
+	"Gold Returns": "",
+	"Silver Returns": "",
+	"Gold1": "",
+	"Silver1": "",
+	"Kaccha Gold": "",
+	"Kaccha Silver": "",
+	"Gold Returns1": "",
+	"Silver Returns1": "",
+	"Kaccha Gold R": "",
+	"Kaccha Silver R": ""
 	},
 	"countries": [{
 		"name": "Afghanistan",

@@ -62,7 +62,23 @@
     "Kaccha Silver R": {
       "type": "Number",
       "required": false
-    }
+    },
+    "CreatedOn": {
+       "type": "date",
+       "default": "null"
+     },
+     "CreatedBy": {
+       "type": "string",
+       "default": "null"
+     },
+     "ChangedOn": {
+       "type": "date",
+       "default": "null"
+     },
+     "ChangedBy": {
+       "type": "string",
+       "default": "null"
+     }
   },
   "scope":{
 
@@ -76,7 +92,7 @@
       "principalType": "ROLE",
       "principalId": "$unauthenticated",
       "permission": "DENY"
-    } 
+    }
   ],
   "methods": {}
 }

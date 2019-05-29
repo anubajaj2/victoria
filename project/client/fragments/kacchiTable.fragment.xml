@@ -5,7 +5,7 @@
 
   <Table id="idCustTable" rows="{kacciLocalModel>/superman}"
         selectionMode="MultiToggle"
-				visibleRowCount="5"
+				visibleRowCount="20"
 				ariaLabelledBy="title">
         <toolbar>
         <m:Toolbar>

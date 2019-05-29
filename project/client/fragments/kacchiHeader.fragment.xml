@@ -45,7 +45,7 @@ xmlns:core ="sap.ui.core">
                 		valueFormat="dd.MM.yyyy"
 										displayFormat="dd.MM.yyyy"
                 		change="dateChanged"
-										value="{local>/kacchiData/Date}">
+										value="">
                 <layoutData>
                 <l:GridData span="XL3 L3 "/>
                 </layoutData>
@@ -75,7 +75,7 @@ xmlns:core ="sap.ui.core">
             </f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
-				<f:FormContainer ariaLabelledBy="Title3">
+				<!-- <f:FormContainer ariaLabelledBy="Title3">
 					<f:toolbar>
 						<Toolbar>
 							<Title id="Title3" text="" level="H5" titleStyle="H5"/>
@@ -83,7 +83,7 @@ xmlns:core ="sap.ui.core">
 							<Button icon="sap-icon://save" text="Save" type="Accept"/>
 						</Toolbar>
 					</f:toolbar>
-				</f:FormContainer>
+				</f:FormContainer> -->
 			</f:formContainers>
 		</f:Form>
 </core:FragmentDefinition>

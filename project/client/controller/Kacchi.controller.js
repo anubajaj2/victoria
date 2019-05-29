@@ -1,22 +1,37 @@
 /*global location*/
 sap.ui.define(
-    ["victoria/controller/BaseController"],
-    function (BaseController) {
+    ["victoria/controller/BaseController",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/routing/History", "victoria/models/formatter",
+    "sap/m/MessageToast", "sap/ui/model/Filter"],
+    function (BaseController,JSONModel,History,formatter,MessageToast,Filter) {
         "use strict";
 
         return BaseController.extend("victoria.controller.Kacchi", {
-          onInit:function(){
-            var kachhi = [
-              {"PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              {"PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              {"PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              {"PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              {"PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""}
-            ];
-            var oModel = new sap.ui.model.json.JSONModel();
-            oModel.setData({"superman": kachhi});
-            this.getView().setModel(oModel,"kacciLocalModel");
+            formatter: formatter,
+            oKacchiItem: {
+                PaggaNo: "",
+                Weight: "",
+                Tunch: "",
+                Fine: 0
+
+            },
+          oKacchiItemModel: new JSONModel([this.oKacchiItem]),       
+
+            onInit:function(){
+              var kachhi = [
+                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""}
+              ];
+              var oModel = new sap.ui.model.json.JSONModel();
+              oModel.setData({"superman": kachhi});
+              this.setModel(oModel,"kacciLocalModel");
           },
+
+
           onCustValueHelp: function(){
             this.getCustomerPopup();
           },

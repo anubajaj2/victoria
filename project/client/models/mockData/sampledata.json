@@ -104,7 +104,11 @@
 		"PaggaNo":"",
 		"Weight":"",
 		"Tunch":"",
-		"Fine":""
+		"Fine":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
 	},
 	"demoData": {
 		"CrDate":"",

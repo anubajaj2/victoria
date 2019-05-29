@@ -11,7 +11,7 @@
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"
-        press="onDeleteSelection"/>
+        press="onDelete"/>
       </Toolbar>
   </headerToolbar>
 <columns>

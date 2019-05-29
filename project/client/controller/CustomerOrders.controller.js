@@ -34,14 +34,11 @@ sap.ui.define(
           myData.Karigar = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }
         else{
-          // added by sweta to populate the selected cust to the input field
-          debugger;
           var selCust = oEvent.getParameter("selectedItem").getLabel();
           var selCustName = oEvent.getParameter("selectedItem").getValue();
           this.getView().byId("idCoCustomer").setValue(selCust);
           this.getView().byId("idcoCustomerText").setValue(selCustName);
           myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-          // End of addition by Sweta
         }
 
         this.getView().getModel("local").setProperty("/customerOrder", myData);
@@ -58,6 +55,9 @@ sap.ui.define(
       myData.Making = this.getView().byId("idCoMaking").getValue();
       //myData.Karigar = this.getView().byId("idCoKarigar").getValue();
       myData.Remarks = this.getView().byId("idCoRemarks").getValue();
+      myData.Cash = this.getView().byId("idCoCash").getValue();
+      myData.Gold = this.getView().byId("idCoGold").getValue();
+      myData.Silver = this.getView().byId("idCoSilver").getValue();
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
@@ -70,6 +70,27 @@ sap.ui.define(
       });
       ;
     },
+
+    onDelete: function(){
+      debugger;
+      var aSelectedLines = this.byId("idCoTable").getSelectedItems();
+      if (aSelectedLines.length) {
+        for(var i=0; i < aSelectedLines.length; i++){
+          var myUrl = aSelectedLines[i].getBindingContext().sPath;
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
+                                    "DELETE", {}, {}, this);
+        }
+        .then(function(oData) {
+          that.getView().setBusy(false);
+          sap.m.MessageToast.show("Data Deleted Successfully");
+
+        }).catch(function(oError) {
+          that.getView().setBusy(false);
+          var oPopover = that.getErrorMessage(oError);
+        });
+      }
+    },
+
     onUpdateFinished: function(oEvent){
       debugger;
       var oTable = oEvent.getSource();
@@ -80,7 +101,6 @@ sap.ui.define(
       var cell;
       debugger;
       for (var i = 0; i < noOfItems; i++) {
-        debugger;
         //Read the GUID from the Screen
         var customerId = oTable.getItems()[i].getCells()[2].getText();
         var customerData = this.allMasterData.customers[customerId];

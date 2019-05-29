@@ -113,12 +113,14 @@ sap.ui.define([
 					})
 				});
 			}
-			debugger;
 			this.fieldId = oEvent.getSource().getId();
 			if (this.fieldId.split("--")[2] === "idCoKarigar") {
 			var title = this.getView().getModel("i18n").getProperty("karigarSearch");
 			this.searchPopup.setTitle(title);
-			}
+		}else{
+			var title = this.getView().getModel("i18n").getProperty("customer");
+			this.searchPopup.setTitle(title);
+		}
 			this.searchPopup.open();
 		},
 

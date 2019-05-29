@@ -32,7 +32,7 @@
          <l:GridData span="L1"/>
          </layoutData>
          </Label>
-         <Input value="{local>/collaborationData/Weight}" enabled="true" width="100%">
+         <Input id="idWeight" value="{local>/collaborationData/Weight}" enabled="true" width="100%">
          <layoutData>
         <l:GridData span="L1"/>
         </layoutData>
@@ -43,7 +43,7 @@
 				</f:FormElement>
 				<f:FormElement label="{i18n>rem}">
 				<f:fields>
-					<Input value="{local>/collaborationData/Remarks}" width="auto"></Input>
+					<Input id="idrem" value="{local>/collaborationData/Remarks}" width="auto"></Input>
 				</f:fields>
 			</f:FormElement>
 			</f:formElements>

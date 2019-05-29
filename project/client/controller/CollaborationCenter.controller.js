@@ -18,7 +18,22 @@ function (BaseController) {
       this.getView().getModel("local").getProperty("/collaborationData",myData);
     },
     onSave: function () {
-      debugger;
+
+      var that=this;
+      that.getView().setBusy(true);
+      var myData= this.getView().getModel("local").getProperty("/collaborationData");
+      myData.Qty=this.getView().byId("idQty").getValue();
+      myData.Weight=this.getView().byId("idWeight").getValue();
+      myData.Remarks=this.getView().byId("idrem").getValue();
+      this.ODataHelper.callOData(this.ownerComponent().getModel(), "/CollaborationCenters", POST, {}, myData, this)
+      .then(function(oData){
+        that.getView().setBusy(false);
+        sap.m.MessageToast.show("Data Saved Successfully");
+      }).catch(function(oError){
+        that.getView().setBusy(false);
+        var oPopover = that.getErrorMessage(oError);
+
+      });
       // this.getView().setBusy(true);
       // var myData = this.getView().getModel("local").getProperty("/collaborationData");
       // myData.Qty= this.getView().byId("idQty").get

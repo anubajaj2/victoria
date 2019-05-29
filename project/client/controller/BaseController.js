@@ -97,11 +97,18 @@ sap.ui.define([
 			}
 
 		},
+		fieldId:"",
 		getCustomerPopup: function() {
+			this.fieldId = oEvent.getSource().getId();
+
 			if (!this.searchPopup) {
 				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.searchPopup);
-				var title = this.getView().getModel("i18n").getProperty("customer");
+				if (this.fieldId==="idCoKarigar") {
+					var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+				}else{
+					var title = this.getView().getModel("i18n").getProperty("customer");
+				}
 				this.searchPopup.setTitle(title);
 				this.searchPopup.bindAggregation("items",{
 					path: '/Customers',

@@ -3,7 +3,7 @@
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="customCalculation"
-		navButtonPress="onNavBack" showNavButton="true" title="Custom Calculation Test">
+		navButtonPress="onNavBack" showNavButton="true" title="Customizing">
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">

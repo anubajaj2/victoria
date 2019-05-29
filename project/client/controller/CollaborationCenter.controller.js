@@ -25,7 +25,7 @@ function (BaseController) {
       myData.Qty=this.getView().byId("idQty").getValue();
       myData.Weight=this.getView().byId("idWeight").getValue();
       myData.Remarks=this.getView().byId("idrem").getValue();
-      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CollaborationCenters", POST, {}, myData, this)
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CollaborationCenters", "POST", {}, myData, this)
       .then(function(oData){
         that.getView().setBusy(false);
         sap.m.MessageToast.show("Data Saved Successfully");

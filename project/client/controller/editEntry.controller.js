@@ -5,8 +5,16 @@ function (BaseController) {
     onInit: function () {
 
     },
+    CustomerPopup: function () {
+      if(!this.searchPopup){
+        this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);
+        this.getView().addDependent(this.searchPopup);
+      }
+      this.searchPopup.open();
+    },
+    
     onValueHelpRequest: function () {
-      this.getCustomerPopup();
+      this.CustomerPopup();
     }
     // onConfirm: function(oEvent){
     //   //whatever customer id selected push that in local model

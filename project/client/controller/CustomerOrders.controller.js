@@ -37,7 +37,7 @@ sap.ui.define(
           var selCust = oEvent.getParameter("selectedItem").getLabel();
           var selCustName = oEvent.getParameter("selectedItem").getValue();
           this.getView().byId("idCoCustomer").setValue(selCust);
-          this.getView().byId("idcoCustomerText").setValue(selCustName);
+          this.getView().byId("idCoCustomerText").setValue(selCustName);
           myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }
 
@@ -81,6 +81,24 @@ sap.ui.define(
                                     "DELETE", {}, {}, this);
         }
       }
+    },
+    onClear: function(){
+      this.byId("idCoDate").setValue("");
+      this.byId("idCoDelDate").setValue("");
+      this.byId("idCoCustomer").setValue("");
+      this.byId("idCoCustomerText").setValue("");
+      this.byId("idCoMaterial").setValue("");
+      this.byId("idCoMatName").setValue("");
+      this.byId("idCoQty").setValue("0");
+      this.byId("idCoWeight").setValue("0");
+      this.byId("idCoMaking").setValue("0");
+      this.byId("idCoRemarks").setValue("");
+      this.byId("idCoCash").setValue("0");
+      this.byId("idCoGold").setValue("0");
+      this.byId("idCoSilver").setValue("0");
+      this.byId("idCoPicture").setValue("");
+      this.byId("idCoKarigar").setValue("");
+      this.byId("idCoKarigarName").setValue("");
     },
 
     onUpdateFinished: function(oEvent){

@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
   <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content>
-	<Table id="idTable" class="sapUiContentPadding" items="{/Entrys}" Mode="MultiSelect"
+	<Table id="idTable" class="sapUiContentPadding" items="{/Entrys}" mode="MultiSelect"
 	updateFinished="onUpdateFinished">
   <headerToolbar>
     <Toolbar>
@@ -32,7 +32,7 @@
         	</columns>
           <items>
           <ColumnListItem>
-          <cells>        
+          <cells>
 					<Text text="{}"></Text>
           <Text text="{}"></Text>
           <Text text="{}"></Text>

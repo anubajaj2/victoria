@@ -139,7 +139,7 @@
 								"target": ["donald", "Group"]
 							},
 							{
-								"pattern": "Inventory",
+								"pattern": "Entry",
 								"name": "Inventory",
 								"target": ["donald", "Inventory"]
 							},
@@ -277,7 +277,7 @@
 					"transition": "slide",
 					"controlId":"__xmlview0--idSplitApp",
 					"clearAggregation": true,
-					"viewName": "Inventory",
+					"viewName": "Entry",
 					"viewId": "idInventory",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"

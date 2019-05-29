@@ -7,78 +7,78 @@
     "validateUpsert": true
   },
   "properties": {
-    "22/20": {
-      "type": "Number",
-      "required": false
+    "First": {
+      "type": "String",
+      "required": true
     },
-    "22/20": {
-      "type": "Number",
-      "required": false
+    "Second": {
+      "type": "string",
+      "required": true
     },
     "Gold": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Silver": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Gold Returns": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Silver Returns": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
-    "Gold": {
-      "type": "Number",
+    "Gold1": {
+      "type": "string",
       "required": false
     },
-    "Silver": {
-      "type": "Number",
+    "Silver1": {
+      "type": "string",
       "required": false
     },
     "Kaccha Gold": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Kaccha Silver": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
-    "Gold Returns": {
-      "type": "Number",
+    "Gold Returns1": {
+      "type": "string",
       "required": false
     },
-    "Silver Returns": {
-      "type": "Number",
+    "Silver Returns1": {
+      "type": "string",
       "required": false
     },
     "Kaccha Gold R": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Kaccha Silver R": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
+    "CreatedBy": {
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    },
     "CreatedOn": {
-       "type": "date",
-       "default": "null"
-     },
-     "CreatedBy": {
-       "type": "string",
-       "default": "null"
-     },
-     "ChangedOn": {
-       "type": "date",
-       "default": "null"
-     },
-     "ChangedBy": {
-       "type": "string",
-       "default": "null"
-     }
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "string",
+      "default": "null"
+    }
   },
   "scope":{
 

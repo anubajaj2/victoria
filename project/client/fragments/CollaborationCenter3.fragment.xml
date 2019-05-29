@@ -42,12 +42,12 @@
 		</items>
 	</Table>
 		</content>
-			<footer>
+			<!-- <footer>
 			<Toolbar>
 				<ToolbarSpacer/>
 				<Button text="{i18n>coSave}" press="onSave" type="Emphasized"/>
 				<Button text="{i18n>coClear}" press="onClear" type="Reject"/>
 				</Toolbar>
-		</footer>
+		</footer> -->
 			</Page>
 </core:FragmentDefinition>

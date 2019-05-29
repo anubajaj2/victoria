@@ -13,5 +13,9 @@
           <core:Fragment fragmentName="victoria.fragments.CollaborationCenter3" type="XML">
       </core:Fragment>
     </semantic:content>
+    <semantic:customFooterContent>
+        <Button text="{i18n>coSave}" type="Accept" press="onSave"/>
+        <Button text="{i18n>coClear}" type="Reject" press="onClear"/>
+    </semantic:customFooterContent>
   </semantic:FullscreenPage>
 </mvc:View>

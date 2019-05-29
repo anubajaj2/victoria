@@ -53,8 +53,11 @@ sap.ui.define(
       myData.Qty = this.getView().byId("idCoQty").getValue();
       myData.Weight = this.getView().byId("idCoWeight").getValue();
       myData.Making = this.getView().byId("idCoMaking").getValue();
-      //myData.Karigar = this.getView().byId("idCoKarigar").getValue();
       myData.Remarks = this.getView().byId("idCoRemarks").getValue();
+      myData.Cash = this.getView().byId("idCoCash").getValue();
+      myData.Gold = this.getView().byId("idCoGold").getValue();
+      myData.Silver = this.getView().byId("idCoSilver").getValue();
+      myData.Picture = this.getView().byId("idCoPicture").getValue();
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {

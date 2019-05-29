@@ -20,7 +20,7 @@ function (BaseController) {
     onSave: function () {
 
       var that=this;
-      that.getView().setBusy(false);
+      that.getView().setBusy(true);
       var myData= this.getView().getModel("local").getProperty("/collaborationData");
       myData.Qty=this.getView().byId("idQty").getValue();
       myData.Weight=this.getView().byId("idWeight").getValue();

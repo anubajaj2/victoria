@@ -5,7 +5,7 @@
 	xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="inventory"
-		navButtonPress="onNavBack" showNavButton="true" title="Manage Inventory"
+		navButtonPress="onNavBack" showNavButton="true" title="Entry"
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content>

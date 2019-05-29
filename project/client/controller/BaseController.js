@@ -98,7 +98,7 @@ sap.ui.define([
 
 		},
 		fieldId:"",
-		getCustomerPopup: function() {
+		getCustomerPopup: function(oEvent) {
 			this.fieldId = oEvent.getSource().getId();
 
 			if (!this.searchPopup) {
@@ -151,7 +151,7 @@ sap.ui.define([
 					this.searchPopup().close();
 				},
 
-		getMaterialPopup: function() {
+		getMaterialPopup: function(oEvent) {
 			if (!this.matSearchPopup) {
 				this.matSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.matSearchPopup);

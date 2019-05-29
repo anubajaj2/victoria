@@ -3,6 +3,7 @@
       id="idCoTable"
       items="{/CustomerOrders}"
       growing="true"
+      growingThreshold="10"
       mode="MultiSelect"
       updateFinished="onUpdateFinished">
   <headerToolbar>

@@ -22,7 +22,7 @@
 			<f:formElements>
 				<f:FormElement label="{i18n>coQty}">
 					<f:fields>
-						<Input>
+						<Input id="idQty" value="{local>/collaborationData/Qty}">
 							<layoutData>
 								<l:GridData span="L1"></l:GridData>
 							</layoutData>
@@ -32,7 +32,7 @@
          <l:GridData span="L1"/>
          </layoutData>
          </Label>
-         <Input value="" enabled="true" width="100%">
+         <Input value="{local>/collaborationData/Weight}" enabled="true" width="100%">
          <layoutData>
         <l:GridData span="L1"/>
         </layoutData>
@@ -43,7 +43,7 @@
 				</f:FormElement>
 				<f:FormElement label="{i18n>rem}">
 				<f:fields>
-					<Input width="auto"></Input>
+					<Input value="{local>/collaborationData/Remarks}" width="auto"></Input>
 				</f:fields>
 			</f:FormElement>
 			</f:formElements>

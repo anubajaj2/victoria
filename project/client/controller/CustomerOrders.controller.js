@@ -7,8 +7,8 @@ sap.ui.define(
     onInit: function () {
 
     },
-    onValueHelp: function(){
-      this.getCustomerPopup();
+    onValueHelp: function(oEvent){
+      this.getCustomerPopup(oEvent);
     },
 
     onValueHelpMat: function(){
@@ -17,6 +17,7 @@ sap.ui.define(
 
     onConfirm: function(oEvent){
       //whatever customer id selected push that in local model
+        debugger;
         var myData = this.getView().getModel("local").getProperty("/customerOrder");
         if(oEvent.getSource().getTitle() === "Material Search"){
           var selMat = oEvent.getParameter("selectedItem").getLabel();
@@ -24,7 +25,15 @@ sap.ui.define(
           this.getView().byId("idCoMaterial").setValue(selMat);
           this.getView().byId("idCoMatName").setValue(selMatName);
           myData.Material = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-        }else{
+        }else if (oEvent.getSource().getTitle() === "Karigar Search") {
+
+          var selKarigar = oEvent.getParameter("selectedItem").getLabel();
+          var selKarigarName = oEvent.getParameter("selectedItem").getValue();
+          this.getView().byId("idCoKarigar").setValue(selKarigar);
+          this.getView().byId("idCoKarigarName").setValue(selKarigarName);
+          myData.Karigar = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+        }
+        else{
           // added by sweta to populate the selected cust to the input field
           debugger;
           var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -47,7 +56,7 @@ sap.ui.define(
       myData.Qty = this.getView().byId("idCoQty").getValue();
       myData.Weight = this.getView().byId("idCoWeight").getValue();
       myData.Making = this.getView().byId("idCoMaking").getValue();
-      myData.Karigar = this.getView().byId("idCoKarigar").getValue();
+      //myData.Karigar = this.getView().byId("idCoKarigar").getValue();
       myData.Remarks = this.getView().byId("idCoRemarks").getValue();
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)

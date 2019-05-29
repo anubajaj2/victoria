@@ -29,7 +29,7 @@
 <f:FormElement label="{i18n>coKarigar}">
 <f:fields>
 <Input id="idCoKarigar" value="" showValueHelp="true" valueHelpRequest="onValueHelp"/>
-<Input value="" editable="false"/>
+<Input id="idCoKarigarName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coRemarks}">

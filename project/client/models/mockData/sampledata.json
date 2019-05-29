@@ -120,7 +120,7 @@
 "Material":"",
 "Qty":"",
 "Weight":"",
-"Remarks":"",
+"Remarks":""
 },
 "editEntryData":{
 "Date":"",
@@ -131,7 +131,7 @@
 "Remarks":"",
 "Weight":"",
 "Tunch":"",
-"Due Date":"",
+"Due Date":""
 },
 	"orderHeader":{
 		"OrderNo":"",

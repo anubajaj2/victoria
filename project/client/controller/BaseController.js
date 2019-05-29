@@ -98,7 +98,7 @@ sap.ui.define([
 
 		},
 		fieldId:"",
-		getCustomerPopup: function() {
+		getCustomerPopup: function(oEvent) {
 			if (!this.searchPopup) {
 				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.searchPopup);
@@ -112,6 +112,12 @@ sap.ui.define([
 						value: "{Name} - {City}"
 					})
 				});
+			}
+			debugger;
+			this.fieldId = oEvent.getSource().getId();
+			if (this.fieldId.split("--")[2] === "idCoKarigar") {
+			var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+			this.searchPopup.setTitle(title);
 			}
 			this.searchPopup.open();
 		},

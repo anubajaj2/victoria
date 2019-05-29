@@ -55,9 +55,6 @@ sap.ui.define(
       myData.Making = this.getView().byId("idCoMaking").getValue();
       //myData.Karigar = this.getView().byId("idCoKarigar").getValue();
       myData.Remarks = this.getView().byId("idCoRemarks").getValue();
-      myData.Cash = this.getView().byId("idCoCash").getValue();
-      myData.Gold = this.getView().byId("idCoGold").getValue();
-      myData.Silver = this.getView().byId("idCoSilver").getValue();
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {

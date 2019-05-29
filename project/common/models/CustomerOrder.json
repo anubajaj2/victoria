@@ -47,18 +47,6 @@
       "type": "string",
       "required": true
     },
-    "Cash": {
-      "type": "number",
-      "required": true
-    },
-    "Gold": {
-      "type": "number",
-      "required": true
-    },
-    "Silver": {
-      "type": "number",
-      "required": true
-    },
     "CreatedOn": {
       "type": "date",
       "default": "null"

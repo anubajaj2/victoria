@@ -39,7 +39,7 @@
               <l:GridData span="XL4 L3 M5 S6"/>
             </layoutData>
           </Input>
-          <Input value="" editable="false"/>
+          <Input id="idCustText" value="" editable="false"/>
         </f:fields>
       </f:FormElement>
       </f:formElements>

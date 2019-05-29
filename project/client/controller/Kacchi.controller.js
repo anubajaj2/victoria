@@ -16,7 +16,7 @@ sap.ui.define(
                 Fine: 0
 
             },
-          oKacchiItemModel: new JSONModel([this.oKacchiItem]),       
+          oKacchiItemModel: new JSONModel([this.oKacchiItem]),
 
             onInit:function(){
               var kachhi = [

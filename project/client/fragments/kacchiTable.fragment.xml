@@ -27,13 +27,13 @@
     <Column>
       <m:Label text="{i18n>PaggaNo}" />
       <template>
-        <m:Input value="{kacciLocalModel>PaggaNo}"/>
+        <m:Input value="{kacciLocalModel>PaggaNo}" />
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>weight}" />
       <template>
-        <m:Input value="{kacciLocalModel>Weight}"/>
+        <m:Input value="{kacciLocalModel>Weight}" />
       </template>
     </Column>
     <Column>

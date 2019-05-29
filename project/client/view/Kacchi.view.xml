@@ -5,7 +5,7 @@
 
 	<semantic:FullscreenPage id="Kacchi"
 		navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
-	<semantic:content id="idContent">		
+	<semantic:content id="idContent">
     <VBox class="sapUiSmallMargin">
       <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">
       </core:Fragment>

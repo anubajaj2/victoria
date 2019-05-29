@@ -77,14 +77,6 @@ sap.ui.define(
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
                                     "DELETE", {}, {}, this);
         }
-        .then(function(oData) {
-          that.getView().setBusy(false);
-          sap.m.MessageToast.show("Data Deleted Successfully");
-
-        }).catch(function(oError) {
-          that.getView().setBusy(false);
-          var oPopover = that.getErrorMessage(oError);
-        });
       }
     },
 

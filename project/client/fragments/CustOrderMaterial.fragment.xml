@@ -47,17 +47,17 @@
 <f:formElements>
 <f:FormElement label="Cash Advance">
 <f:fields>
-<Input id="idCoCash" value=""/>
+<Input  value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Gold Advance">
 <f:fields>
-<Input id="idCoGold" value=""/>
+<Input value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Advance">
 <f:fields>
-<Input id="idCoSilver" value=""/>
+<Input value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Picture">

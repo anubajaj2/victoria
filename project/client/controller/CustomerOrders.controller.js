@@ -7,12 +7,12 @@ sap.ui.define(
     onInit: function () {
 
     },
-    onValueHelp: function(oEvent){
-      this.getCustomerPopup(oEvent);
+    onValueHelp: function(){
+      this.getCustomerPopup();
     },
 
-    onValueHelpMat: function(oEvent){
-      this.getMaterialPopup(oEvent);
+    onValueHelpMat: function(){
+      this.getMaterialPopup();
     },
 
     onConfirm: function(oEvent){

@@ -1,58 +1,55 @@
 <core:FragmentDefinition xmlns="sap.ui.table" xmlns:m="sap.m" xmlns:core="sap.ui.core">
-			<m:Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
-				<m:content>
+			<Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+				<content>
 				<Table
-				rows=""
+				items="{/CollaborationCenters}"
 				title=""
 				selectionMode="MultiToggle"
-				visibleRowCount="10">
-         	<extension>
-			<m:Toolbar>
-				<m:Title id="idTitle" text="{i18n>coDisplayTitle}"></m:Title>
-				<m:ToolbarSpacer/>
-				<m:Button icon="sap-icon://delete" press="onDelete"></m:Button>
-			</m:Toolbar>
-			</extension>
-		<columns>
+				visibleRowCount="10"
+				updateFinished="onUpdateFinished">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="idTitle" text="{i18n>coDisplayTitle}"></Title>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" press="onDelete"></Button>
+					</Toolbar>
+				</headerToolbar>
+      		<columns>
 					<Column>
-						<m:Label text="{i18n>coDate}" />
-						<template>
-							<m:Text text="" />
-						</template>
+						<Label text="{i18n>coDate}" />
 					</Column>
 					<Column>
-						<m:Label text="{i18n>coMaterial}" />
-						<template>
-							<m:Text text=""/>
-						</template>
+						<Label text="{i18n>coMaterial}" />
 					</Column>
 					<Column>
-						<m:Label text="{i18n>coQty}" />
-						<template>
-							<m:Text text="" />
-						</template>
+						<Label text="{i18n>coQty}" />
 					</Column>
 					<Column>
-						<m:Label text="{i18n>coWeight}" />
-						<template>
-							<m:Text text=""/>
-						</template>
+						<Label text="{i18n>coWeight}" />
 					</Column>
 					<Column>
-						<m:Label text="{i18n>coRemarks}" />
-						<template>
-							<m:Text text=""/>
-						</template>
+						<Label text="{i18n>coRemarks}" />
 					</Column>
 		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{Date}"/>
+					<Text text="{Material}"/>
+					<Text text="{Qty}"/>
+					<Text text="{Weight}"/>
+					<Text text="{Remarks}"/>
+				</cells>
+			</ColumnListItem>
+		</items>
 	</Table>
-		</m:content>
-			<m:footer>
-			<m:Toolbar>
-				<m:ToolbarSpacer/>
-				<m:Button text="{i18n>coSave}" press="onSave" type="Emphasized"/>
-				<m:Button text="{i18n>coClear}" press="onClear" type="Reject"/>
-				</m:Toolbar>
-		</m:footer>
-			</m:Page>
+		</content>
+			<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>coSave}" press="onSave" type="Emphasized"/>
+				<Button text="{i18n>coClear}" press="onClear" type="Reject"/>
+				</Toolbar>
+		</footer>
+			</Page>
 </core:FragmentDefinition>

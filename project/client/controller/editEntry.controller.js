@@ -14,7 +14,7 @@ function (BaseController) {
         this.searchPopup.bindAggregation("items",{
           path: '/Customers',
           template: new sap.m.DisplayListItem({
-            id: "idCustPopup",
+            id: "idCoCustPopup",
             label:"{CustomerCode}",
             value:"{Name}-{City}"
           })

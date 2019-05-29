@@ -47,6 +47,22 @@
       "type": "string",
       "required": true
     },
+    "Cash": {
+      "type": "number",
+      "required": false
+    },
+    "Gold": {
+      "type": "number",
+      "required": false
+    },
+    "Silver": {
+      "type": "number",
+      "required": false
+    },
+    "Picture": {
+      "type": "string",
+      "default": "null"
+    },
     "CreatedOn": {
       "type": "date",
       "default": "null"

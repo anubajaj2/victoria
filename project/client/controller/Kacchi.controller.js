@@ -13,27 +13,44 @@ sap.ui.define(
                 PaggaNo: "",
                 Weight: "",
                 Tunch: "",
-                Fine: 0
+                Fine: "",
 
             },
-          oKacchiItemModel: new JSONModel([this.oKacchiItem]),
+          // oKacchiItemModel: new JSONModel([this.oKacchiItem]),
 
             onInit:function(){
-              var kachhi = [
-                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-                {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""}
-              ];
-              var oModel = new sap.ui.model.json.JSONModel();
-              oModel.setData({"superman": kachhi});
-              this.setModel(oModel,"kacciLocalModel");
+              var oKacchiItem = new JSONModel();
+        			//create array
+        			var array=[];
+        			//loop the array values
+        			for (var i=1;i<=20;i++){
+        				var oItem={
+                  PaggaNo: "",
+                  Weight: "",
+                  Tunch: "",
+                  Fine: ""
+        				};
+        				array.push(oItem);
+        			}
+              oKacchiItem.setData({
+        					"kachhiData": array
+        			});
+        			this.setModel(oKacchiItem, "kacciLocalModel");
+              // var kachhi = [
+              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
+              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""}
+              // ];
+              // var oModel = new sap.ui.model.json.JSONModel();
+              // oModel.setData({"superman": kachhi});
+              // this.setModel(oModel,"kacciLocalModel");
           },
 
 
-          onCustValueHelp: function(){
-            this.getCustomerPopup();
+          onCustValueHelp: function(oEvent){
+            this.getCustomerPopup(oEvent);
           },
 
           onConfirm: function(oEvent){

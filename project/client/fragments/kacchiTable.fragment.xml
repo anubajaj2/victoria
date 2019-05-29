@@ -3,7 +3,7 @@
   xmlns:m="sap.m"
   xmlns:core="sap.ui.core">
 
-  <Table id="idCustTable" rows="{kacciLocalModel>/superman}"
+  <Table id="idCustTable" rows="{kacciLocalModel>/kachhiData}"
         selectionMode="MultiToggle"
 				visibleRowCount="20"
 				ariaLabelledBy="title">

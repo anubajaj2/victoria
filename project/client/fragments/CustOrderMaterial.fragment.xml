@@ -47,7 +47,7 @@
 <f:formElements>
 <f:FormElement label="Cash Advance">
 <f:fields>
-<Input id="idCoCash" value=""/>
+<Input id="idCoCash" type="Number" value=""/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Gold Advance">

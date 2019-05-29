@@ -7,6 +7,15 @@ function (BaseController) {
      onValueHelpRequest: function () {
        this.getMaterialPopup();
 
+     },
+     onConfirm: function (oEvent) {
+       var selMat = oEvent.getParameter("selectedItem").getLabel();
+       var selMatText = oEvent.getParameter("selectedItem").getValue();
+       this.getView().byId("idMat").setValue(selMat);
+       this.getView().byId("idMatText").setValue(selMatText);
+      var myData= this.getView().getModel("local").getProperty("/collaborationCenterData");
+      myData.Material=oEvent.getParameter("selectedItem").getKey();
+      this.getView().getModel("local").getProperty("/collaborationCenterData",myData);
      }
   });
 });

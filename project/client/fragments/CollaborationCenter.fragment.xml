@@ -22,12 +22,12 @@
 		<f:formElements>
 			<f:FormElement label="{i18n>coMaterial}">
 				<f:fields>
-					<Input showValueHelp="true" valueHelpRequest="onValueHelpRequest">
+					<Input id="idMat" showValueHelp="true" valueHelpRequest="onValueHelpRequest">
 						<layoutData>
 							<l:GridData span="L3 M3"></l:GridData>
 						</layoutData>
 					</Input>
-					<Input editable="false">
+					<Input id="idMatText" editable="false">
 						<layoutData>
 							<l:GridData span="L3 M3"></l:GridData>
 						</layoutData></Input>

@@ -36,7 +36,8 @@ sap.ui.define([
 		sUrlTargetSystem: undefined,
 		allMasterData: {
 			"customers": [],
-			"materials": []
+			"materials": [],
+			"orderHeader":[]
 		},
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
@@ -113,14 +114,14 @@ sap.ui.define([
 					})
 				});
 			}
-			this.fieldId = oEvent.getSource().getId();
-			if (this.fieldId.split("--")[2] === "idCoKarigar") {
-			var title = this.getView().getModel("i18n").getProperty("karigarSearch");
-			this.searchPopup.setTitle(title);
-		}else{
-			var title = this.getView().getModel("i18n").getProperty("customer");
-			this.searchPopup.setTitle(title);
-		}
+		// 	this.fieldId = oEvent.getSource().getId();
+		// 	if (this.fieldId.split("--")[2] === "idCoKarigar") {
+		// 	var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+		// 	this.searchPopup.setTitle(title);
+		// }else{
+		// 	var title = this.getView().getModel("i18n").getProperty("customer");
+		// 	this.searchPopup.setTitle(title);
+		// }
 			this.searchPopup.open();
 		},
 
@@ -128,14 +129,16 @@ sap.ui.define([
 				getOrderlist:function(){
 					var that = this;
 					debugger;
+
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
 						.then(function(oData) {
 							for (var i = 0; i < oData.results.length; i++) {
-								that.allMasterData.customers[oData.results[i].id] = oData.results[i];
+								that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
 							}
 						}).catch(function(oError) {
 							var oPopover = that.getErrorMessage(oError);
 						});
+						this.orderPopup();
 				},
 
 				orderPopup:function(){
@@ -144,13 +147,17 @@ sap.ui.define([
 								debugger;
 					//call the popupfragment and pass the values
 					 this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
-					 this.getView().addDependent(this.oOrderPopup);
-								}
+					 this.getView().addDependent(this.orderPopup);
+					 this.orderPopup.bindAggregation("items",{
+						 path:"/OrderHeaders",
+						 template:new sap.m.DisplayListItem({
+							 	id:"orderList",
+								label: "{OrderHeaders}",
+								value: "{OrderNo}"
+						 })
+					 });
+					}
 						this.orderPopup.open();
-				},
-
-				onCancel:function(){
-					this.searchPopup().close();
 				},
 
 		getMaterialPopup: function() {
@@ -500,7 +507,24 @@ sap.ui.define([
 					"TransData": aTtype
 			});
 			this.setModel(oTransData, "returnModel");
+		},
+		orderHeader:function(){
+			var orderHeader = new JSONModel();
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth();
+			var yyyy = today.getFullYear();
+			var today = dd+'.'+mm+'.'+yyyy;
+			var orderheaderfield ={
+				"OrderNo":"",
+				"Date": today,
+				"Customer":"",
+				"CustomerName":"",
+				"Gbhav":"22/20",
+				"SBhav":"22/22"
+			}
+			orderHeader.setData({'orderHeader': orderheaderfield});
+		this.setModel(orderHeader,"orderHeader_t")
 		}
-
 	});
 });

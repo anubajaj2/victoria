@@ -2,7 +2,8 @@
 sap.ui.define(
     ["victoria/controller/BaseController",
         "sap/ui/model/json/JSONModel",
-        "sap/ui/core/routing/History", "victoria/models/formatter",
+        "sap/ui/core/routing/History",
+        "victoria/models/formatter",
         "sap/m/MessageToast", "sap/ui/model/Filter"],
     function (BaseController, JSONModel, History, formatter,
               MessageToast, Filter) {
@@ -53,8 +54,12 @@ sap.ui.define(
                         this.onGetModel,
                         this);
 
-//get the order details
-              this.getOrderlist();
+// set the default date as system date
+          debugger;
+          this.orderHeader();
+            // var orderData = this.getOwnerComponent().getModel("local").getProperty('orderHeader');
+            // orderData.date =new Date();
+            // this.getView().getModel("local").setProperty("/orderHeaders",orderData);
 // Item Table as input table
                 this.orderItem();
 // Return Item Table as input table
@@ -112,16 +117,35 @@ sap.ui.define(
             },
             //customer value help
             valueHelpCustomer:function(){
+              debugger;
               this.getCustomerPopup();
-
+            },
+            onConfirm:function(){
+              var ocustomer = this.getOwnerComponent().getModel("local").getProperty('orderHeader');
             },
             //on order valuehelp,get the exsisting order from //DB
             valueHelpOrder:function(){
               this.getOrderlist();
             },
             //on order create Button
-            orderCreate:function(){
-
+            orderCreate:function(oEvent){
+              // get the data from screen in local model
+              debugger;
+              // var orderData = this.getView().getModel("/orderHeader");
+              var orderData=this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+              // myData.OrderNo = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+              // myData.Date = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+              this.getView().getModel("local").setProperty("/orderHeader", orderData);
+              //call the odata promise method to post the data
+              this.ODataHelper.callOData(this.getOwnerComponent().getModel() ,
+                                        "/OrderHeaders",
+                                        "POST", {},orderData, this)
+              .then(function(){
+                sap.m.MessageToast.show("data created");
+              })
+              .catch(function(){
+                sap.m.MessageToast.show("data not created");
+              })
             }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()

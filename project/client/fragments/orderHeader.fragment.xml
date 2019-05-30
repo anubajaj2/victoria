@@ -46,17 +46,19 @@ xmlns:core ="sap.ui.core" width="160px">
               </f:FormElement>
               <f:FormElement label="{i18n>Date}">
                 <f:fields>
-                  <Input type="Date">
-                  <!-- <DatePicker id="odate" valueFormat="dd.mm.yyyy"/> -->
+                  <DatePicker id="date" valueFormat="dd.mm.yyyy"
+                    displayFormat="dd.mm.yyyy" value="{orderHeader_t>/Date}"/>
+                  <!-- <Input type="Date">
                     <layoutData>
                     <l:GridData indent="L5 M5"></l:GridData>
-                  </layoutData>
-                  </Input>
+                  </layoutData> -->
+                  <!-- </Input> -->
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
-                  <Input id="customer" showValueHelp="true" valueHelpRequest="valueHelpCustomer">
+                  <Input id="customer" showValueHelp="true"
+                    valueHelpRequest="valueHelpCustomer">
                     <layoutData>
                     <l:GridData span="L3 M3"></l:GridData>
                   </layoutData>
@@ -77,13 +79,13 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
-                <Input></Input>
-                <Input></Input>
+                <Input editable="true" value="{orderHeader_t>/orderHeader>/Gbhav}"></Input>
+                <Input editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-                <Input></Input>
+                <Input editable="true" value="{orderHeader_t>/orderHeader>/Sbhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

@@ -38,7 +38,7 @@ sap.ui.define(
               oKacchiItem.setData({
         					"kachhiData": array
         			});
-        			this.setModel(oKacchiItem, "kachhiLocalModel");
+        			this.getView().setModel(oKacchiItem, "kachhiLocalModel");
           },
 
 

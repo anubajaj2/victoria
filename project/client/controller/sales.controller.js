@@ -116,9 +116,9 @@ sap.ui.define(
                 // this.setModel(oTransData, "TransData");
             },
             //customer value help
-            valueHelpCustomer:function(){
+            valueHelpCustomer:function(oEvent){
               debugger;
-              this.getCustomerPopup();
+              this.getCustomerPopup(oEvent);
             },
             onConfirm:function(){
               var ocustomer = this.getOwnerComponent().getModel("local").getProperty('orderHeader');

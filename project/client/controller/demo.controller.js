@@ -6,8 +6,8 @@ sap.ui.define(
 
         return BaseController.extend("victoria.controller.demo", {
 
-          onValueHelp: function(){
-            this.getCustomerPopup();
+          onValueHelp: function(oEvent){
+            this.getCustomerPopup(oEvent);
           },
 
           onConfirm: function(oEvent){

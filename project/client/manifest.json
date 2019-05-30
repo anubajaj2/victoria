@@ -139,9 +139,9 @@
 								"target": ["donald", "Group"]
 							},
 							{
-								"pattern": "Inventory",
-								"name": "Inventory",
-								"target": ["donald", "Inventory"]
+								"pattern": "Entry",
+								"name": "Entry",
+								"target": ["donald", "Entry"]
 							},
 							{
 								"pattern": "Products",
@@ -273,12 +273,12 @@
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},
-				"Inventory": {
+				"Entry": {
 					"transition": "slide",
 					"controlId":"__xmlview0--idSplitApp",
 					"clearAggregation": true,
-					"viewName": "Inventory",
-					"viewId": "idInventory",
+					"viewName": "Entry",
+					"viewId": "idEntry",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

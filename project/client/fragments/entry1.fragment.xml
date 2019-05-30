@@ -23,8 +23,10 @@
     <f:formElements>
       <f:FormElement label="{i18n>Date}">
         <f:fields>
-          <Input width="auto" value="" id="idDate"/>
-          <CheckBox text="Continue Entry" selected="true">
+
+          <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
+            displayFormat="dd.MM.yyyy" value="" ></DatePicker>
+          <CheckBox text="Continue Entry" wrapping="true" selected="false">
           <layoutData>
             <l:GridData span="XL4 L3 M5 S6"/>
           </layoutData>

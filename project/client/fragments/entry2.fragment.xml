@@ -50,7 +50,15 @@
 				<f:formElements>
 					<f:FormElement>
 						<f:fields>
-							<CheckBox text="{i18n>Chandi}" selected="true">
+              <RadioButtonGroup columns="3" class="sapUiMediumMarginBottom">
+                <buttons>
+                  <RadioButton id="RB-1" text="{i18n>Chandi}" />
+                  <RadioButton id="RB-2" text="{i18n>Sona}"/>
+                  <RadioButton id="RB-3" text="{i18n>Kacchi}"/>
+                </buttons>
+                </RadioButtonGroup>
+
+							<!-- <CheckBox text="{i18n>Chandi}" selected="true">
 								<layoutData>
 									<l:GridData span="L8"></l:GridData>
 								</layoutData>
@@ -64,7 +72,7 @@
 								<layoutData>
 									<l:GridData span="L8"></l:GridData>
 								</layoutData>
-							</CheckBox>
+							</CheckBox> -->
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>weight}">

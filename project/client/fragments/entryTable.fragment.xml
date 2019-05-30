@@ -1,48 +1,54 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
-		<content>
-	<Table id="idTable" class="sapUiContentPadding" items="{/Entrys}" mode="MultiSelect"
-	updateFinished="onUpdateFinished">
-  <headerToolbar>
-    <Toolbar>
-      <Title id="idTitle" text="{i18n>allEntries}"></Title>
-      <ToolbarSpacer/>
-      <Button icon="sap-icon://delete" press="onDelete"></Button>
-    </Toolbar>
-  </headerToolbar>
-			<columns>
+<core:FragmentDefinition xmlns="sap.ui.table" xmlns:m="sap.m" xmlns:core="sap.ui.core">
+  <m:Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+		<m:content>
+	<Table id="idTable" class="sapUiContentPadding" rows="" selectionMode="MultiToggle"
+	visibleRowCount="10">
+		<extension>
+			<m:Toolbar>
+				<m:Title id="idTitle" text="All Entries"></m:Title>
+				<m:ToolbarSpacer/>
+				<m:Button icon="sap-icon://delete" press="onDelete"></m:Button>
+			</m:Toolbar>
+		</extension>
+		<columns>
 			<Column>
-				<Label text="{i18n>Date}"></Label>
-		</Column>
-			<Column>
-				<Label text="{i18n>custcode}"></Label>
+				<m:Label text="{i18n>Date}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
 			</Column>
 			<Column>
-				<Label text="{i18n>amount}"></Label>
+				<m:Label text="{i18n>custcode}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
 			</Column>
 			<Column>
-				<Label text="{i18n>Gold}"></Label>
+				<m:Label text="{i18n>amount}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
 			</Column>
 			<Column>
-				<Label text="{i18n>Silver}"></Label>
+				<m:Label text="{i18n>Gold}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
 			</Column>
 			<Column>
-				<Label text="{i18n>Remarks}"></Label>
-				</Column>
-        	</columns>
-          <items>
-          <ColumnListItem>
-          <cells>
-					<Text text="{}"></Text>
-          <Text text="{}"></Text>
-          <Text text="{}"></Text>
-          <Text text="{}"></Text>
-          <Text text="{}"></Text>
-          <Text text="{}"></Text>
-        </cells>
-      </ColumnListItem>
-    </items>
+				<m:Label text="{i18n>Silver}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
+			</Column>
+			<Column>
+				<m:Label text="{i18n>Remarks}"></m:Label>
+				<template>
+					<m:Text text=""></m:Text>
+				</template>
+			</Column>
+		</columns>
 	</Table>
-	</content>
-	</Page>
+	</m:content>
+	</m:Page>
 </core:FragmentDefinition>

@@ -14,49 +14,76 @@ sap.ui.define(
                 Weight: "",
                 Tunch: "",
                 Fine: ""
+
             },
           // oKacchiItemModel: new JSONModel([this.oKacchiItem]),
 
             onInit:function(){
-              var oTransData = new JSONModel();
-        			var aTtype = [];
-        			for (var i = 1; i <=20; i++) {
-        				var oKacchiTab = {
-        					"PaggaNo":" ",
-        					"Weight":" ",
-        					"Tunch":" ",
-        					"Fine":" "
+              var oKacchiItem = new JSONModel();
+        			//create array
+        			var array=[];
+        			//loop the array values
+        			for (var i=1;i<=20;i++){
+        				var oItem={
+                  Date: "",
+                  Customer:"",
+                  PaggaNo: "",
+                  Weight: "",
+                  Tunch: "",
+                  Fine: ""
         				};
-        					aTtype.push(oKacchiTab);
-        			}
-        			oTransData.setData({
-        					"superman": aTtype
+                	array.push(oItem);
+                }
+
+              oKacchiItem.setData({
+        					"kachhiData": array
         			});
-        			this.setModel(oTransData, "kacciLocalModel");
-              // var kachhi = [
-              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""},
-              //   {"Customer" :"", "PaggaNo" : "", "Weight" : "", "Tunch" : "", "Fine" : ""}
-              // ];
-              // var oModel = new sap.ui.model.json.JSONModel();
-              // oModel.setData({"superman": kachhi});
-              // this.setModel(oModel,"kacciLocalModel");
+        			this.getView().setModel(oKacchiItem, "kachhiLocalModel");
           },
 
 
           onCustValueHelp: function(oEvent){
-            debugger;
             this.getCustomerPopup(oEvent);
           },
+          onSave: function(oEvent){
+            debugger;
+            var that = this;
+            // var oKachhiTableData = this.getView().getModel("kacciLocalModel");
+            // var oTableRows = this.byId("idCustTable").getRows();
+            // var oTableLength = oTableRows.length;
+            // var selectedRows = this.getView().byId("idCustTable").getSelectedIndices().length;
+            // var myData = this.getView().getModel("local").getProperty("/kacchiData");
+            //     myData.Date = this.getView().byId("idDate").getDateValue();
+            //     myData.PaggaNo = this.getView().byId("idCustTable").getModel("kacciLocalModel").getData("kachhiData").kachhiData[0].P;
+            //     if(selectedRows){
+            //       for(var i=0; i < selectedRows; i++){
+            //         debugger;
+            //           var rows = this.getView().byId("idCustTable").getModel("kachhiLocalModel").getData("kachhiData");
+            //       }
+            //     }
+                // if (selectedRows) {
+                //   for(var i=0; i < selectedRows; i++){
+                //     myData = this.getView().byId(“idCustTable");
+                //     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
+                //                               "POST", {}, myData, this)
+                //   }
+                //   .then(function(oData) {
+          			// 		that.getView().setBusy(false);
+          			// 		sap.m.MessageToast.show("Data Saved Successfully");
+                //
+          			// 	}).catch(function(oError) {
+          			// 		that.getView().setBusy(false);
+          			// 		var oPopover = that.getErrorMessage(oError);
+          			// 	});
+                // }
+            },
 
           onConfirm: function(oEvent){
             debugger;
             //whatever customer id selected push that in local model
-              // var myData = this.getView().getModel("local").getProperty("/demoData");
-              // myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-              // this.getView().getModel("local").setProperty("/demoData", myData);
+              var myData = this.getView().getModel("local").getProperty("/kacchiData");
+              myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+              this.getView().getModel("local").setProperty("/kacchiData", myData);
               // added by sweta to populate the selected cust and text to the input field
               var selCust = oEvent.getParameter("selectedItem").getLabel();
               var selCustName = oEvent.getParameter("selectedItem").getValue();

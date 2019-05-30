@@ -163,6 +163,24 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"orderItem":{
+		"OrderNo":"",
+		"material":"",
+		"description":"",
+		"qty": "",
+		"qtyD": "",
+		"weight":"",
+		"weightD":"",
+		"making": "",
+		"makingD": "",
+		"tunch": "",
+		"remarks":"",
+		"subTotal":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"orderReturn":{
 		"OrderNo":"",
 		"Type":"",
@@ -192,7 +210,11 @@
 	"Gold Returns1": "",
 	"Silver Returns1": "",
 	"Kaccha Gold R": "",
-	"Kaccha Silver R": ""
+	"Kaccha Silver R": "",
+	"CreatedBy":"",
+	"CreatedOn":"",
+	"ChangedBy":"",
+	"ChangedOn":""
 	},
 	"countries": [{
 		"name": "Afghanistan",

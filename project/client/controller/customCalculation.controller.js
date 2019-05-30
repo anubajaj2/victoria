@@ -5,7 +5,7 @@ sap.ui.define([
   "sap/m/MessageToast",
 ],
 function(BaseController, JSONModel, History, MessageToast){
-  "use strict";
+  // "use strict";
 
   return BaseController.extend("victoria.controller.customCalculation", {
 	// onInit : function () {
@@ -68,19 +68,34 @@ function(BaseController, JSONModel, History, MessageToast){
     var that = this;
     that.getView().setBusy(true);
     var myData = this.getView().getModel("local").getProperty("/CustomCalculation");
-     this.getView().getModel("local").setProperty("/CustomCalculation", myData);
+    // myData.First = this.getView().byId("idFirst").getValue();
+    // myData.Second = this.getView().byId("idSecond").getValue();
+    // myData.Gold = this.getView().byId("idGold").getValue();
+    // myData.Silver = this.getView().byId("idSilver").getValue();
+    // myData.GoldReturns = this.getView().byId("idGoldR").getValue();
+    // myData.SilverReturns = this.getView().byId("idSilverR").getValue();
+    // myData.Gold1 = this.getView().byId("idGold1").getValue();
+    // myData.Silver1 = this.getView().byId("idSilver1").getValue();
+    // myData.KacchaGold = this.getView().byId("idKacchaGold").getValue();
+    // myData.KacchaSilver = this.getView().byId("idKacchaSilver").getValue();
+    // myData.GoldReturns1 = this.getView().byId("idGoldR1").getValue();
+    // myData.SilverReturns1 = this.getView().byId("idSilverR1").getValue();
+    // myData.KacchaGoldR = this.getView().byId("idKacchaGoldR").getValue();
+    // myData.KacchaSilverR = this.getView().byId("idKacchaSilverR").getValue();
+     // this.getView().getModel("local").setProperty("/CustomCalculation", myData);
      // var calculationJson = this.getView().getModel("calculationModelInfo").getData().results;
 
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-           "/CustomCalculations", "POST", {},myData , this)
+           "/CustomCalculations", "POST", {}, myData , this)
             .then(function(oData) {
               that.getView().setBusy(false);
             MessageToast.show("Data saved successfully");
-            that._onRouteMatched();
+            // that._onRouteMatched();
             }).catch(function(oError) {
               that.getView().setBusy(false);
-                MessageToast.show("Data could not be saved");
+              var oPopover = that.getErrorMessage(oError);
             });
+            ;
         }
 
 

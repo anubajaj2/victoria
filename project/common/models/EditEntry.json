@@ -1,6 +1,6 @@
 {
-  "name": "Entry",
-  "plural": "Entrys",
+  "name": "EditEntry",
+  "plural": "EditEntrys",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

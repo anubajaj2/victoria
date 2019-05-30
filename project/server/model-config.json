@@ -104,12 +104,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-
-  "Entry":{
+  "EditEntry":{
     "dataSource": "mongoatlas",
     "public": true
   },
-
   "Demo":{
     "dataSource": "mongoatlas",
     "public": true

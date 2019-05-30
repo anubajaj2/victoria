@@ -8,74 +8,102 @@
   },
   "properties": {
     "First": {
-      "type": "String",
-      "required": true
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Second": {
-      "type": "string",
-      "required": true
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Gold": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Silver": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Gold Returns": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Silver Returns": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Gold1": {
-      "type": "string",
-      "required": false
+      "type": "number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Silver1": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Kaccha Gold": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Kaccha Silver": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Gold Returns1": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Silver Returns1": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Kaccha Gold R": {
-      "type": "string",
-      "required": false
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "Kaccha Silver R": {
-      "type": "string",
-      "required": false
-    },
-    "CreatedBy": {
-      "type": "date",
-      "default": "null"
-    },
-    "ChangedBy": {
-      "type": "string",
-      "default": "null"
+      "type": "Number",
+      "required": true,
+      "minimum":1,
+      "maximum":4
     },
     "CreatedOn": {
       "type": "date",
       "default": "null"
     },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
     "ChangedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedBy": {
       "type": "string",
       "default": "null"
     }

@@ -17,23 +17,23 @@
     },
     "Customer": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "CustomerName": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Goldbhav":{
       "type": "string",
-      "required": true
+      "required": false
     },
     "SilverBhav":{
       "type": "string",
-      "required": true
+      "required": false
     },
     "CreatedOn": {
       "type": "date",
-      "default": "null"
+      "required": false
     },
     "CreatedBy": {
       "type": "string",
@@ -41,7 +41,7 @@
     },
     "ChangedOn": {
       "type": "date",
-      "default": "null"
+      "required": false
     },
     "ChangedBy": {
       "type": "string",

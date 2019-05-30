@@ -9,13 +9,13 @@ sap.ui.define(
 
         return BaseController.extend("victoria.controller.Kacchi", {
             formatter: formatter,
-            // oKacchiItem: {
-            //     PaggaNo: "",
-            //     Weight: "",
-            //     Tunch: "",
-            //     Fine: ""
-            //
-            // },
+            oKacchiItem: {
+                PaggaNo: "",
+                Weight: "",
+                Tunch: "",
+                Fine: ""
+
+            },
           // oKacchiItemModel: new JSONModel([this.oKacchiItem]),
 
             onInit:function(){
@@ -51,15 +51,16 @@ sap.ui.define(
             // var oKachhiTableData = this.getView().getModel("kacciLocalModel");
             // var oTableRows = this.byId("idCustTable").getRows();
             // var oTableLength = oTableRows.length;
-            var selectedRows = this.getView().byId("idCustTable").getSelectedIndices().length;
-            var myData = this.getView().getModel("local").getProperty("/kacchiData");
-                myData.Date = this.getView().byId("idDate").getDateValue();
-                if(selectedRows){
-                  for(var i=0; i < selectedRows; i++){
-                    debugger;
-                      var rows = this.getView().byId("idCustTable").getModel("kachhiLocalModel").getData("kachhiData");
-                  }
-                }
+            // var selectedRows = this.getView().byId("idCustTable").getSelectedIndices().length;
+            // var myData = this.getView().getModel("local").getProperty("/kacchiData");
+            //     myData.Date = this.getView().byId("idDate").getDateValue();
+            //     myData.PaggaNo = this.getView().byId("idCustTable").getModel("kacciLocalModel").getData("kachhiData").kachhiData[0].P;
+            //     if(selectedRows){
+            //       for(var i=0; i < selectedRows; i++){
+            //         debugger;
+            //           var rows = this.getView().byId("idCustTable").getModel("kachhiLocalModel").getData("kachhiData");
+            //       }
+            //     }
                 // if (selectedRows) {
                 //   for(var i=0; i < selectedRows; i++){
                 //     myData = this.getView().byId(“idCustTable");

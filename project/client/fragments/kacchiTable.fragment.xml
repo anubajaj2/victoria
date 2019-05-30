@@ -27,25 +27,25 @@
     <Column>
       <m:Label text="{i18n>PaggaNo}" />
       <template>
-        <m:Input value="{kacciLocalModel>PaggaNo}" />
+        <m:Input id="idPagga" value="{kacciLocalModel>PaggaNo}" />
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>weight}" />
       <template>
-        <m:Input value="{kacciLocalModel>Weight}" />
+        <m:Input id="idWeight" value="{kacciLocalModel>Weight}" />
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>tunch}" />
       <template>
-        <m:Input value="{kacciLocalModel>Tunch}"/>
+        <m:Input id="idTunch" value="{kacciLocalModel>Tunch}"/>
       </template>
     </Column>
     <Column>
       <m:Label text="{i18n>fine}" />
       <template>
-        <m:Input value="{kacciLocalModel>Fine}"/>
+        <m:Input id="idFine" value="{kacciLocalModel>Fine}"/>
       </template>
     </Column>
   </columns>

@@ -45,7 +45,7 @@ xmlns:core ="sap.ui.core">
                 		valueFormat="dd.MM.yyyy"
 										displayFormat="dd.MM.yyyy"
                 		change="dateChanged"
-										value="">
+										value="{kachhiLocalModel>/kachhiData/Date}">
                 <layoutData>
                 <l:GridData span="XL3 L3 "/>
                 </layoutData>

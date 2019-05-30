@@ -16,7 +16,7 @@
       "required": true
     },
     "PaggaNo": {
-      "type": "Number",
+      "type": "string",
       "required": false
     },
     "Weight": {

@@ -16,6 +16,7 @@ sap.ui.define(
                 Fine: ""
 
             },
+            // "myData": [],
           // oKacchiItemModel: new JSONModel([this.oKacchiItem]),
 
             onInit:function(){
@@ -48,34 +49,25 @@ sap.ui.define(
           onSave: function(oEvent){
             debugger;
             var that = this;
-            // var oKachhiTableData = this.getView().getModel("kacciLocalModel");
-            // var oTableRows = this.byId("idCustTable").getRows();
-            // var oTableLength = oTableRows.length;
-            // var selectedRows = this.getView().byId("idCustTable").getSelectedIndices().length;
-            // var myData = this.getView().getModel("local").getProperty("/kacchiData");
-            //     myData.Date = this.getView().byId("idDate").getDateValue();
-            //     myData.PaggaNo = this.getView().byId("idCustTable").getModel("kacciLocalModel").getData("kachhiData").kachhiData[0].P;
-            //     if(selectedRows){
-            //       for(var i=0; i < selectedRows; i++){
-            //         debugger;
-            //           var rows = this.getView().byId("idCustTable").getModel("kachhiLocalModel").getData("kachhiData");
-            //       }
-            //     }
-                // if (selectedRows) {
-                //   for(var i=0; i < selectedRows; i++){
-                //     myData = this.getView().byId(“idCustTable");
-                //     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
-                //                               "POST", {}, myData, this)
-                //   }
-                //   .then(function(oData) {
-          			// 		that.getView().setBusy(false);
-          			// 		sap.m.MessageToast.show("Data Saved Successfully");
-                //
-          			// 	}).catch(function(oError) {
-          			// 		that.getView().setBusy(false);
-          			// 		var oPopover = that.getErrorMessage(oError);
-          			// 	});
-                // }
+                  for(var i=0; i < 5; i++){
+                    var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
+                    if(myData){
+                      myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer;
+                      myData.Date = this.getView().byId("idDate").getDateValue();
+                      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
+                                                    "POST", {}, myData, this)
+
+                        .then(function(oData) {
+                					that.getView().setBusy(false);
+                					sap.m.MessageToast.show("Data Saved Successfully");
+
+                				}).catch(function(oError) {
+                					that.getView().setBusy(false);
+                					var oPopover = that.getErrorMessage(oError);
+                				});
+                    }
+                  }
+                
             },
 
           onConfirm: function(oEvent){

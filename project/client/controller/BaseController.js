@@ -487,7 +487,7 @@ formatter: formatter,
 				array.push(oItem);
 			}
 			//set the Data
-			oOrderItem.setData("itemData",array)
+			oOrderItem.setData({"itemData" : array});
 			//set the model
 			this.setModel(oOrderItem,"orderItems");
 		},

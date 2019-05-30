@@ -1,7 +1,11 @@
 /*global location*/
 sap.ui.define(
-    ["victoria/controller/BaseController"],
-    function (BaseController) {
+    ["victoria/controller/BaseController",
+    "sap/ui/model/json/JSONModel",
+    "victoria/models/formatter"],
+    function (BaseController,
+              JSONModel,
+              formatter) {
         "use strict";
 
         return BaseController.extend("victoria.controller.salesws", {
@@ -128,7 +132,7 @@ sap.ui.define(
                 "subTotal": ""
               }
             ];
-            var oModel= new sap.ui.model.json.JSONModel();
+            var oModel= new JSONModel();
             oModel.setData({"orderItems":orderItems});
             sap.ui.getCore().setModel(oModel,"localModel");
           }

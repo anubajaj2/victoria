@@ -15,8 +15,10 @@
 	</semantic:content>
 
 	<semantic:content id="WSTable">
+			<m:VBox class="sapUiSmallMargin">
 		<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
 		</core:Fragment>
+		</m:VBox>
 </semantic:content>
 
 <semantic:content id="Return">

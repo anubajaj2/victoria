@@ -1,95 +1,108 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core"
-  xmlns="sap.m" xmlns:t="sap.ui.table">
-  <t:Table rows="{localModel>/orderItems}" visibleRowCount="20">
-    <t:columns>
-      <t:Column>
-        <t:label>
-          <Text text="Material"></Text>
-        </t:label>
-        <t:template>
-        <Input showValueHelp="true" valueHelpRequest="onF4Help"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Description"></Text>
-        </t:label>
-        <t:template>
-        <Text text="{localModel>description}"></Text>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Qty"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>qty}" maxLength="3"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="QtyD"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>qtyD}" maxLength="3"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Weight"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>weight}" maxLength="5"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="WeightD"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>weightD}" maxLength="5"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Making"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>making}" maxLength="5"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="MakingD"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>makingD}" maxLength="5"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Tunch"></Text>
-        </t:label>
-        <t:template>
-        <Text text="{localModel>tunch}"></Text>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Remarks"></Text>
-        </t:label>
-        <t:template>
-        <Input value="{localModel>remarks}" maxLength="80"></Input>
-        </t:template>
-      </t:Column>
-      <t:Column>
-        <t:label>
-          <Text text="Sub-total"></Text>
-        </t:label>
-        <t:template>
-        <Text text="{localModel>subTotal}"></Text>
-        </t:template>
-      </t:Column>
-    </t:columns>
-  </t:Table>
+  xmlns="sap.ui.table"
+  xmlns:m="sap.m">
+  <Table id="orderItems"
+    rows="{orderItems>/itemData}" visibleRowCount="20">
+    <toolbar>
+    <m:Toolbar>
+      <m:Title text="Order Items"></m:Title>
+        <m:ToolbarSpacer></m:ToolbarSpacer>
+        <m:Button icon="sap-icon://delete"
+          iconFirst="true"
+          text="{i18n>del}"
+            press="onDelete">
+        </m:Button>
+    </m:Toolbar>
+  </toolbar>
+    <columns>
+      <Column>
+        <label>
+          <m:Text text="Material"></m:Text>
+        </label>
+        <template>
+        <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onF4Help"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Description"></m:Text>
+        </label>
+        <template>
+        <m:Text text="{orderItems>description}"></m:Text>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Qty"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>qty}" maxLength="3"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="QtyD"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>qtyd}" maxLength="3"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Weight"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>weight}" maxLength="5"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="WeightD"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>weightd}" maxLength="5"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Making"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>making}" maxLength="5"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="MakingD"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>makingd}" maxLength="5"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Tunch"></m:Text>
+        </label>
+        <template>
+        <m:Text text="{orderItems>tunch}"></m:Text>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Remarks"></m:Text>
+        </label>
+        <template>
+        <m:Input value="{orderItems>remarks}" maxLength="80"></m:Input>
+        </template>
+      </Column>
+      <Column>
+        <label>
+          <m:Text text="Sub-total"></m:Text>
+        </label>
+        <template>
+        <m:Text text="{orderItems>subTot}"></m:Text>
+        </template>
+      </Column>
+    </columns>
+  </Table>
 </core:FragmentDefinition>

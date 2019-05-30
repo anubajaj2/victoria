@@ -50,11 +50,11 @@
 				<f:formElements>
 					<f:FormElement>
 						<f:fields>
-              <RadioButtonGroup columns="3" class="sapUiMediumMarginBottom">
+              <RadioButtonGroup columns="3" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
                 <buttons>
                   <RadioButton id="RB-1" text="{i18n>Chandi}" />
-                  <RadioButton id="RB-2" text="{i18n>Sona}"/>
-                  <RadioButton id="RB-3" text="{i18n>Kacchi}"/>
+                  <RadioButton id="RB-2" text="{i18n>Sona}" />
+                  <RadioButton id="RB-3" text="{i18n>Kacchi}" />
                 </buttons>
                 </RadioButtonGroup>
 
@@ -75,34 +75,38 @@
 							</CheckBox> -->
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="{i18n>weight}">
+					<f:FormElement label="{i18n>coWeight}">
 						<f:fields>
-							<Input>
+							<Input id="idweight">
 								<layoutData>
 									<l:GridData span="L3"></l:GridData>
 								</layoutData>
 							</Input>
-							<Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
-								</Label>
-							<Input>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>tunch}">
+            <f:fields>
+							<!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
+								</Label> -->
+							<Input id="idtunch">
 								<layoutData>
-									<l:GridData span="L3"></l:GridData>
+									<l:GridData span="L8"></l:GridData>
 								</layoutData>
 							</Input>
 							<Button text="{i18n>Calculate}" press="onCalculate"></Button>
 							</f:fields>
 							</f:FormElement>
+            </f:formElements>
+            <f:layoutData>
+              <f:GridContainerData halfGrid="true"></f:GridContainerData>
+            </f:layoutData>
+          </f:FormContainer>
+          <f:FormContainer>
+            <f:formElements>
 							<f:FormElement label="{i18n>DueDate}">
 							<f:fields>
-								<Input>
-									<layoutData>
-										<l:GridData span="L4"></l:GridData>
-									</layoutData>
-								</Input>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement>
-							<f:fields>
+                <DatePicker id="DueDateId" valueFormat="dd.MM.yyyy"
+                  displayFormat="dd.MM.yyyy" value="" ></DatePicker>
 								<Button text="{i18n>Send}" press="onSend"></Button>
 								<Button text="{i18n>Clear}" press="onClear"></Button>
 								<Button text="{i18n>master}" press="onMasterClear"></Button>

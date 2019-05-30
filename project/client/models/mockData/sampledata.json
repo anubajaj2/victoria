@@ -133,6 +133,17 @@
 "Tunch":"",
 "Due Date":""
 },
+"EntryData":{
+"Date":"",
+"Customer":"",
+"Cash":"",
+"Gold":"",
+"Silver":"",
+"Remarks":"",
+"Weight":"",
+"Tunch":"",
+"Due Date":""
+},
 	"orderHeader":{
 		"OrderNo":"",
 		"Date":"",

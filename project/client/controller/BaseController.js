@@ -6,8 +6,9 @@ sap.ui.define([
 	"victoria/dbapi/dbapi",
 	"sap/m/MessageBox",
 	'sap/m/MessagePopover',
-	'sap/m/MessageItem'
-], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageItem) {
+	'sap/m/MessageItem',
+	"victoria/models/formatter",
+], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageItem , formatter) {
 	"use strict";
 	var oTargetField;
 	var oSDCField;
@@ -15,6 +16,9 @@ sap.ui.define([
 	var oSystemField;
 	var oClientField;
 	return Controller.extend("victoria.controller.BaseController", {
+
+formatter: formatter,
+
 		/**
 		 * Global Variables used in all controllers
 		 * Defining the formatters here allows the use in all controllers that extends the base controller
@@ -39,6 +43,7 @@ sap.ui.define([
 			"materials": [],
 			"orderHeader":[]
 		},
+
 		/**
 		 * Convenience method for accessing the router in every controller of the application.
 		 * @public
@@ -126,11 +131,12 @@ sap.ui.define([
 		},
 
 		//order number details - sakshi
-				getOrderlist:function(){
+				getOrderlist:function(oEvent){
 					var that = this;
 					debugger;
 
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel('local'),
+																		"/OrderHeaders", "GET", null, null, this)
 						.then(function(oData) {
 							for (var i = 0; i < oData.results.length; i++) {
 								that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
@@ -138,7 +144,6 @@ sap.ui.define([
 						}).catch(function(oError) {
 							var oPopover = that.getErrorMessage(oError);
 						});
-						this.orderPopup();
 				},
 
 				orderPopup:function(){
@@ -510,18 +515,14 @@ sap.ui.define([
 		},
 		orderHeader:function(){
 			var orderHeader = new JSONModel();
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth();
-			var yyyy = today.getFullYear();
-			var today = dd+'.'+mm+'.'+yyyy;
+			var today = formatter.getFormattedDate('0');
 			var orderheaderfield ={
 				"OrderNo":"",
-				"Date": today,
+				"Date":today,
 				"Customer":"",
 				"CustomerName":"",
-				"Gbhav":"22/20",
-				"SBhav":"22/22"
+				"Gbhav":22/20,
+				"SBhav":22/22
 			}
 			orderHeader.setData({'orderHeader': orderheaderfield});
 		this.setModel(orderHeader,"orderHeader_t")

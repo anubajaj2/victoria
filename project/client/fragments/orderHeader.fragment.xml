@@ -19,7 +19,7 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:formElements>
               <f:FormElement label="{i18n>OrderNo}">
                 <f:fields>
-                  <Input id="orderno"
+                  <Input id="orderno" width="50%"
                      showValueHelp="true"
                      valueHelpRequest="valueHelpOrder">
                     <layoutData>
@@ -46,24 +46,25 @@ xmlns:core ="sap.ui.core" width="160px">
               </f:FormElement>
               <f:FormElement label="{i18n>Date}">
                 <f:fields>
-                  <DatePicker id="date" valueFormat="dd.mm.yyyy"
-                    displayFormat="dd.mm.yyyy" value="{orderHeader_t>/Date}"/>
-                  <!-- <Input type="Date">
-                    <layoutData>
-                    <l:GridData indent="L5 M5"></l:GridData>
-                  </layoutData> -->
-                  <!-- </Input> -->
+                    <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
+                      displayFormat="dd.MM.yyyy"
+                      value="{
+                      path:'orderHeader_t>/Date',
+                      formatter:'.formatter.getFormattedDate'}"
+                      width="50%">
+                    </DatePicker>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
                   <Input id="customer" showValueHelp="true"
-                    valueHelpRequest="valueHelpCustomer">
+                    valueHelpRequest="valueHelpCustomer" width="50%"
+                    required="true">
                     <layoutData>
                     <l:GridData span="L3 M3"></l:GridData>
                   </layoutData>
                   </Input>
-                  <Input id="custName" editable="false"/>
+                  <Input id="custName" editable="false" width="50%"/>
                   <!-- </Input> -->
                 </f:fields>
               </f:FormElement>
@@ -79,13 +80,13 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/orderHeader>/Gbhav}"></Input>
+                <Input editable="true" value="{orderHeader_t>/Gbhav}"></Input>
                 <Input editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/orderHeader>/Sbhav}"></Input>
+                <Input editable="true" value="{orderHeader_t>/Sbhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

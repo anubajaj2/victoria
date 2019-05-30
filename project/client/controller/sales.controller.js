@@ -120,12 +120,29 @@ sap.ui.define(
               debugger;
               this.getCustomerPopup(oEvent);
             },
-            onConfirm:function(){
-              var ocustomer = this.getOwnerComponent().getModel("local").getProperty('orderHeader');
+            onConfirm:function(oEvent){
+              debugger;
+              var osource = oEvent.getSource.getId();
+              if (osource.split("--"[2]==="customer")) {
+              //whatever customer id selected push that in local model
+                var myData = this.getView().getModel("local").getProperty("/orderHeader");
+                myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                this.getView().getModel("local").setProperty("/orderHeader", myData);
+                var selCust = oEvent.getParameter("selectedItem").getLabel();
+                var selCustName = oEvent.getParameter("selectedItem").getValue();
+                this.getView().byId("idCustNo").setValue(selCust);
+                this.getView().byId("idCustName").setText(selCustName);
+              }
+              else {
+                if (osource.split("--")[2]==="orderHeader") {
+                    var myData = this.getView().getModel("local").getProperty("/orderHeader");
+                }
+
+              }
             },
             //on order valuehelp,get the exsisting order from //DB
-            valueHelpOrder:function(){
-              this.getOrderlist();
+            valueHelpOrder:function(oEvent){
+              this.getOrderlist(oEvent);
             },
             //on order create Button
             orderCreate:function(oEvent){
@@ -137,7 +154,7 @@ sap.ui.define(
               // myData.Date = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
               this.getView().getModel("local").setProperty("/orderHeader", orderData);
               //call the odata promise method to post the data
-              this.ODataHelper.callOData(this.getOwnerComponent().getModel() ,
+              this.ODataHelper.callOData(this.getOwnerComponent().getModel('local') ,
                                         "/OrderHeaders",
                                         "POST", {},orderData, this)
               .then(function(){

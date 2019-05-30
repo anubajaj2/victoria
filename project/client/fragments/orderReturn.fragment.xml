@@ -6,6 +6,7 @@
 <Table id="OrderReturn"
   selectionMode="MultiToggle"
   visibleRowCount="5"
+  thrshold="20"
   rows="{returnModel>/TransData}">
   <toolbar>
   <m:Toolbar>

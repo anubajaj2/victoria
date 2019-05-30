@@ -24,11 +24,11 @@
       "required": false
     },
     "Goldbhav":{
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "SilverBhav":{
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "CreatedOn": {

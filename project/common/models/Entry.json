@@ -1,0 +1,77 @@
+{
+  "name": "Entry",
+  "plural": "Entrys",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Customer": {
+      "type": "string",
+      "required": true
+    },
+    "Cash": {
+      "type": "number",
+      "required": true
+    },
+    "Gold": {
+      "type": "number",
+      "required": true
+    },
+    "Silver": {
+      "type": "number",
+      "required": true
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "Weight": {
+      "type": "number",
+      "required": true
+    },
+    "Tunch": {
+      "type": "number",
+      "required": true
+    },
+    "Due Date": {
+      "type": "date",
+      "required": false
+    },
+    "CreatedOn": {
+      "type": "date"
+
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date"    
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

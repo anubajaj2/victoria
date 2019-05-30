@@ -55,7 +55,23 @@
     "subTotal": {
       "type": "string",
       "required": false
-    }
+    },
+    "CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
   },
   "scope":{
 

@@ -50,7 +50,7 @@
         </f:GridContainerData>
       </f:layoutData>
       </f:FormContainer>
-      <f:FormContainer>
+      <!-- <f:FormContainer>
         <f:formElements>
           <f:FormElement label="{i18n>Cash}">
             <f:fields>
@@ -68,7 +68,7 @@
             </f:fields>
           </f:FormElement>
         </f:formElements>
-      </f:FormContainer>
+      </f:FormContainer> -->
     </f:formContainers>
   </f:Form>
 </VBox>

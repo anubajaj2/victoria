@@ -163,6 +163,24 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"orderItem":{
+		"OrderNo":"",
+		"material":"",
+		"description":"",
+		"qty": "",
+		"qtyD": "",
+		"weight":"",
+		"weightD":"",
+		"making": "",
+		"makingD": "",
+		"tunch": "",
+		"remarks":"",
+		"subTotal":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"orderReturn":{
 		"OrderNo":"",
 		"Type":"",

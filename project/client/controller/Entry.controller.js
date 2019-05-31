@@ -13,8 +13,8 @@ function (BaseController,JSONModel) {
           Gold:0,
           Silver:0,
           Remarks:"",
-          Weight:"",
-          Tunch:"",
+          Weight:0,
+          Tunch:0,
           DueDate:""
         });
         	this.setModel(oViewModel, "objectView");

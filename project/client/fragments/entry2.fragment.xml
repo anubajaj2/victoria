@@ -23,22 +23,22 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>Cash}">
 						<f:fields>
-							<Input id="idCash" width="50%" value=""/>
+							<Input id="idCash" width="50%" value="{objectView>/Cash}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Gold}">
 						<f:fields>
-							<Input id="idGold" width="50%" value=""/>
+							<Input id="idGold" width="50%" value="{objectView>/Gold}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Silver}">
 						<f:fields>
-							<Input id="idSilver" width="50%" value=""/>
+							<Input id="idSilver" width="50%" value="{objectView>/Silver}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Remarks}">
 						<f:fields>
-							<Input id="idRemarks" value=""></Input>
+							<Input id="idRemarks" value="{objectView>/Remarks}"></Input>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -77,7 +77,7 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>coWeight}">
 						<f:fields>
-							<Input id="idweight">
+							<Input id="idweight" value="{objectView>/Weight}">
 								<layoutData>
 									<l:GridData span="L3"></l:GridData>
 								</layoutData>
@@ -88,7 +88,7 @@
             <f:fields>
 							<!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
 								</Label> -->
-							<Input id="idtunch">
+							<Input id="idtunch" value="{objectView>/Tunch}">
 								<layoutData>
 									<l:GridData span="L8"></l:GridData>
 								</layoutData>

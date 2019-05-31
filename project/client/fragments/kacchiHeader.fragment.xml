@@ -27,63 +27,42 @@ xmlns:core ="sap.ui.core">
 
 			<f:layout>
 				<f:ResponsiveGridLayout
-					llabelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-          emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false" />
+					labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12"
+					emptySpanXL="0"	emptySpanL="0" emptySpanM="0" emptySpanS="0"
+					columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false" adjustLabelSpan="false" />
 			</f:layout>
 			<f:formContainers>
 				<f:FormContainer>
 					<f:formElements>
-						<f:FormElement label="">
+						<f:FormElement label="{i18n>coDate}">
 							<f:fields>
-                <Text text="{i18n>coDate}">
-                	<layoutData>
-                	<l:GridData span="XL1 L1 "/>
-                	</layoutData>
-                </Text>
                 <DatePicker id="idDate" class="sapUiTinyMarginTop"
                 		width="250px"
                 		valueFormat="dd.MM.yyyy"
 										displayFormat="dd.MM.yyyy"
-                		change="dateChanged"
-										value="{kachhiLocalModel>/kachhiData/Date}">
-                <layoutData>
-                <l:GridData span="XL3 L3 "/>
-                </layoutData>
+                		change="onDateChanged"
+										value="">
               </DatePicker>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="">
+						<f:FormElement label="{i18n>coCustomer}">
 							<f:fields>
-                <Text text="{i18n>coCustomer}">
+								<Input id="idCustNo" showValueHelp="true" valueHelpOnly="true"
+											 valueHelpRequest="onCustValueHelp" required="true">
                   <layoutData>
-              		<l:GridData span="XL1 L1 M2 S4" />
-              		</layoutData>
-                </Text>
-								<Input id="idCustNo" showValueHelp="true" valueHelpRequest="onCustValueHelp" >
-                  <layoutData>
-										<l:GridData span="XL3 L3 M2 S4" />
+										<l:GridData span="XL3 L3 M2" />
 									</layoutData>
                 </Input>
-								<Text id="idCustName" text="">
-								<!-- <Input editable="false"> -->
-									<layoutData>
-										<l:GridData span="XL3 L3 M2 S4" />
-									</layoutData>
-								</Text>
-								<!-- </Input> -->
+								<Input id="idCustName" editable="false" width="40%">
+									<!-- <layoutData>
+										<l:GridData span="XL4 L4 M3" />
+									</layoutData> -->
+								</Input>
 							</f:fields>
             </f:FormElement>
 					</f:formElements>
 				</f:FormContainer>
-				<!-- <f:FormContainer ariaLabelledBy="Title3">
-					<f:toolbar>
-						<Toolbar>
-							<Title id="Title3" text="" level="H5" titleStyle="H5"/>
-							<ToolbarSpacer />
-							<Button icon="sap-icon://save" text="Save" type="Accept"/>
-						</Toolbar>
-					</f:toolbar>
-				</f:FormContainer> -->
 			</f:formContainers>
 		</f:Form>
 </core:FragmentDefinition>

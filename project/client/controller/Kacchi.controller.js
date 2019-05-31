@@ -40,20 +40,49 @@ sap.ui.define(
         					"kachhiData": array
         			});
         			this.getView().setModel(oKacchiItem, "kachhiLocalModel");
+              this.byId("idDate").setDateValue(new Date());
           },
 
+          onDateChanged: function(oEvent){
+            debugger;
+            var oDate = oEvent.getParameters().value;
+            if(oDate){
+              this.getView().byId("idCustNo").focus();
+            }
 
+          },
           onCustValueHelp: function(oEvent){
-            this.getCustomerPopup(oEvent);
+              if(!this.searchPopup){
+                this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);
+                this.getView().addDependent(this.searchPopup);
+                var title= this.getView().getModel("i18n").getProperty("customer");
+                this.searchPopup.setTitle(title);
+                this.searchPopup.bindAggregation("items",{
+                  path: '/Customers',
+                  template: new sap.m.DisplayListItem({
+                    id: "idCustPopup",
+                    label:"{CustomerCode}",
+                    value:"{Name}-{City}"
+                  })
+
+                });
+              }
+              this.searchPopup.open();
+            // this.getCustomerPopup(oEvent);
           },
           onSave: function(oEvent){
             debugger;
             var that = this;
-                  for(var i=0; i < 5; i++){
+            that.getView().setBusy(true);
+                  for(var i=0; i < 20; i++){
                     var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
-                    if(myData){
+                    if(myData.PaggaNo.length > 0 &&
+                       myData.Weight.length  > 0 &&
+                       myData.Tunch.length   > 0 &&
+                       myData.Fine.length    > 0 ){
                       myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer;
                       myData.Date = this.getView().byId("idDate").getDateValue();
+                      // aKachhi.push(myData);
                       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
                                                     "POST", {}, myData, this)
 
@@ -65,9 +94,20 @@ sap.ui.define(
                 					that.getView().setBusy(false);
                 					var oPopover = that.getErrorMessage(oError);
                 				});
+                      }
                     }
+              },
+            onDelete:function(){
+                debugger;
+                var aSelectedLines = this.byId("idCustTable").getSelectedItems();
+                if (aSelectedLines.length) {
+                  for(var i=0; i < aSelectedLines.length; i++){
+                    var myUrl = aSelectedLines[i].getBindingContext().sPath;
+                    this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
+                                              "DELETE", {}, {}, this);
                   }
-                
+                }
+
             },
 
           onConfirm: function(oEvent){
@@ -82,6 +122,7 @@ sap.ui.define(
               if(selCust){
                 this.getView().byId("idCustNo").setValue(selCust);
                 this.getView().byId("idCustName").setText(selCustName);
+                this.getView().byId("idPagga").focus();
               }
               // End of addition by Sweta
           }

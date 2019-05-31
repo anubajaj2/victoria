@@ -3,47 +3,43 @@
   xmlns:m="sap.m"
   xmlns:core="sap.ui.core">
 
-  <Table id="idCustTable" rows="{kachhiLocalModel>/kachhiData}"
+  <Table id="idCustTable"
+        rows="{kachhiLocalModel>/kachhiData}"
         selectionMode="MultiToggle"
 				visibleRowCount="20"
-				ariaLabelledBy="title">
-        <toolbar>
-        <m:Toolbar>
-          <m:content>
-            <m:Title id="title" text="" />
-            <m:ToolbarSpacer/>
-            <m:Button
-              icon="sap-icon://delete"
-              tooltip="Delete"
-              press=""/>
-            <m:Button
-              icon="sap-icon://settings"
-              tooltip="Settings"
-              press=""/>
-          </m:content>
-        </m:Toolbar>
-      </toolbar>
+        growing="true"
+        growingThreshold="10">
+        <extension>
+    			<m:Toolbar>
+    				<m:Title id="idTitle" text="Kachhi Entries"></m:Title>
+    				<m:ToolbarSpacer/>
+    				<m:Button icon="sap-icon://delete"
+                      press="onDelete">
+            </m:Button>
+            <m:Button icon="sap-icon://settings" press=""></m:Button>
+    			</m:Toolbar>
+    		</extension>
   <columns>
     <Column>
-      <m:Label text="{i18n>PaggaNo}" />
+      <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
       <template>
-        <m:Input id="idPagga" value="{kachhiLocalModel>PaggaNo}" />
+        <m:Input required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}" />
       </template>
     </Column>
     <Column>
-      <m:Label text="{i18n>weight}" />
+      <m:Label design="Bold" text="{i18n>weight}" />
       <template>
-        <m:Input id="idWeight" value="{kachhiLocalModel>Weight}" />
+        <m:Input id="idWeight" required="true" type="Number" value="{kachhiLocalModel>Weight}" />
       </template>
     </Column>
     <Column>
-      <m:Label text="{i18n>tunch}" />
+      <m:Label design="Bold" text="{i18n>tunch}" />
       <template>
-        <m:Input id="idTunch" value="{kachhiLocalModel>Tunch}"/>
+        <m:Input id="idTunch" required="true" type="Number" value="{kachhiLocalModel>Tunch}"/>
       </template>
     </Column>
     <Column>
-      <m:Label text="{i18n>fine}" />
+      <m:Label design="Bold" text="{i18n>fine}" />
       <template>
         <m:Input id="idFine" value="{kachhiLocalModel>Fine}"/>
       </template>

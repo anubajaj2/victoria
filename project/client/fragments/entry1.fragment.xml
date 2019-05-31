@@ -25,8 +25,8 @@
         <f:fields>
 
           <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
-            displayFormat="dd.MM.yyyy" value="{path:'objectView>/dateValue',
-             type:'sap.ui.model.type.Date', 
+            displayFormat="long" value="{path:'objectView>/dateValue',
+             type:'sap.ui.model.type.Date',
              formatOptions: { style: 'medium', strictParsing: true}}" ></DatePicker>
           <CheckBox text="Continue Entry" wrapping="true" selected="false">
           <layoutData>

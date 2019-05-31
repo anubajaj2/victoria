@@ -23,22 +23,22 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>Cash}">
 						<f:fields>
-							<Input width="50%" value=""/>
+							<Input id="idCash" width="50%" value=""/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Gold}">
 						<f:fields>
-							<Input width="50%" value=""/>
+							<Input id="idGold" width="50%" value=""/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Silver}">
 						<f:fields>
-							<Input width="50%" value=""/>
+							<Input id="idSilver" width="50%" value=""/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Remarks}">
 						<f:fields>
-							<Input  value=""></Input>
+							<Input id="idRemarks" value=""></Input>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>

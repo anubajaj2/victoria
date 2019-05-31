@@ -29,26 +29,8 @@ function (BaseController) {
       this.CustomerPopup();
     },
     onRadioButtonSelect: function (oEvent) {
-      
 
-      // var focus = sap.ui.getCore().byId("idweight");
-      // window.setTimeout(function(){
-     	// 		focus.focus();
-     	// 	},0);
-
-      //
-      // jQuery.sap.delayedCall(0, this, function() {
-      // sap.ui.getCore().byId("idweight").focus();
-    //   jQuery.sap.delayedCall(0, this, function() {
-    // this.byId("idweight").focus();
- // });
 },
-
-    // var oWeight = this.getView().byId("idweight");
-    // jQuery.sap.delayedCall(0, this, function() {
-    //   oWeight.focus();
-    // });
-
     onConfirm: function (oEvent) {
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -57,9 +39,30 @@ function (BaseController) {
      this.getView().byId("idCustText").setValue(selCustName);
      myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
      this.getView().getModel("local").getProperty("/EntryData",myData);
+   },
+   onSend: function (oEvent) {
+     var that=this;
+     that.getView().setBusy(true);
+     var myData = this.getView().getModel("local").getProperty("/EntryData");
+     myData.Date = this.getView().byId("DateId").getDateValue();
+     myData.Gold = this.getView().byId("idGold").getValue();
+     myData.Cash = this.getView().byId("idCash").getValue();
+     myData.Silver = this.getView().byId("idSilver").getValue();
+     myData.Remarks = this.getView().byId("idRemarks").getValue();
+     myData.Weight = this.getView().byId("idweight").getValue();
+     myData.Tunch = this.getView().byId("idtunch").getValue();
+     // myData.Due Date = this.getView().byId("DueDateId").getDateValue();
+     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/EntryData",
+                               "POST", {}, myData, this)
+     .then(function(oData) {
+       that.getView().setBusy(false);
+       sap.m.MessageToast.show("Data Saved Successfully");
 
-
-    }
+     }).catch(function(oError) {
+       that.getView().setBusy(false);
+       var oPopover = that.getErrorMessage(oError);
+     });
+   }
 
   });
 

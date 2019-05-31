@@ -39,7 +39,7 @@
       "type": "number",
       "required": true
     },
-    "Due Date": {
+    "DueDate": {
       "type": "date",
       "required": false
     },
@@ -52,7 +52,7 @@
       "default": "null"
     },
     "ChangedOn": {
-      "type": "date"    
+      "type": "date"
     },
     "ChangedBy": {
       "type": "string",

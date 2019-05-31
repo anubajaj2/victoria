@@ -1,8 +1,25 @@
-sap.ui.define(["victoria/controller/BaseController"],
-function (BaseController) {
+sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel"],
+function (BaseController,JSONModel) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
     onInit: function () {
+      var iOriginalBusyDelay,
+        oViewModel = new JSONModel({
+          busy : false,
+          delay : 0,
+          dateValue: new Date(),
+          Customer:"",
+          Cash:0,
+          Gold:0,
+          Silver:0,
+          Remarks:"",
+          Weight:"",
+          Tunch:"",
+          DueDate:""
+        });
+        	this.setModel(oViewModel, "objectView");
+
+
 
     },
     CustomerPopup: function (Evt) {

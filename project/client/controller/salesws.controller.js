@@ -11,6 +11,11 @@ sap.ui.define(
 
         return BaseController.extend("victoria.controller.salesws", {
           onInit: function (){
+            this.orderHeader();
+  // Item Table as input table
+                  this.orderItem();
+  // Return Item Table as input table
+                  this.orderReturn();
           }
         });
 

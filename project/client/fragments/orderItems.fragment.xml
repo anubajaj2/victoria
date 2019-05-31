@@ -2,17 +2,19 @@
   xmlns="sap.ui.table"
   xmlns:m="sap.m">
   <Table id="orderItems"
-    rows="{orderItems>/itemData}" visibleRowCount="20">
-    <toolbar>
+    rows="{orderItems>/itemData}" visibleRowCount="20"
+    class="sapUiContentPadding">
+  <toolbar>
     <m:Toolbar>
+      <m:content>
       <m:Title text="Order Items"></m:Title>
-        <m:ToolbarSpacer></m:ToolbarSpacer>
+        <m:ToolbarSpacer/>
         <m:Button icon="sap-icon://delete"
           iconFirst="true"
-          text="{i18n>del}"
             press="onDelete">
         </m:Button>
-    </m:Toolbar>
+      </m:content>
+      </m:Toolbar>
   </toolbar>
     <columns>
       <Column>

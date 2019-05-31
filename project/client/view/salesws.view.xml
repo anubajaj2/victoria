@@ -4,7 +4,8 @@
 	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="salesws"
-		navButtonPress="onNavBack" showNavButton="true" title="Wholesale Sales Test">
+		navButtonPress="onNavBack" showNavButton="true" title="Wholesale Sales Test"
+		class="sapUiContentPadding">
 
 		<semantic:content id="Header">
 			<m:VBox class="sapUiSmallMargin"

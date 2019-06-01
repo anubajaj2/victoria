@@ -80,13 +80,13 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/Gbhav}"></Input>
-                <Input editable="true"></Input>
+                <Input type="Number" editable="true" value="{orderHeader_t>/Gbhav}"></Input>
+                <Input type="Number" editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/Sbhav}"></Input>
+                <Input type="Number" editable="true" value="{orderHeader_t>/Sbhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

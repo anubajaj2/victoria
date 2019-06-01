@@ -117,33 +117,35 @@ sap.ui.define(
               debugger;
               this.getCustomerPopup(oEvent);
             },
-            onPayDateChange: function(oEvent) {
-              debugger;
-			        var dateString = oEvent.getSource().getValue();
-			        var from = dateString.split(".");
-			        var dateObject = new Date(from[2], from[1] - 1, from[0]);
-			        var newDate = new Date(from[2], from[1] - 1, from[0]);
-			        var PaymentDueDate = this.formatter.getIncrementDate(dateObject, 1);
-			        this.getView().getModel("local").setProperty("/orderHeader_t/Date", PaymentDueDate);
-              },
+            // onPayDateChange: function(oEvent) {
+            //   debugger;
+			      //   var dateString = oEvent.getSource().getValue();
+			      //   var from = dateString.split(".");
+			      //   var dateObject = new Date(from[2], from[1] - 1, from[0]);
+			      //   var newDate = new Date(from[2], from[1] - 1, from[0]);
+			      //   var PaymentDueDate = this.formatter.getIncrementDate(dateObject, 1);
+			      //   this.getView().getModel("local").setProperty("/orderHeader_t/Date", PaymentDueDate);
+            //   },
 
             onConfirm:function(oEvent){
               debugger;
-              var osource = oEvent.getSource.getId();
-              if (osource.split("--"[2]==="customer")) {
-              //whatever customer id selected push that in local model
-                var myData = this.getView().getModel("local").getProperty("/orderHeader");
-                myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-                this.getView().getModel("local").setProperty("/orderHeader", myData);
+              var oId = oEvent.getParameter('selectedItem').getId();
+              var oSource = oId.split("-"[0])
+              if (oSource[0] === 'idCoCustPopup'){
+
                 var selCust = oEvent.getParameter("selectedItem").getLabel();
                 var selCustName = oEvent.getParameter("selectedItem").getValue();
-                this.getView().byId("idCustNo").setValue(selCust);
-                this.getView().byId("idCustName").setText(selCustName);
+                this.getView().byId("customerId").setValue(selCust);
+                this.getView().byId("custName").setText(selCustName);
+                // //whatever customer id selected push that in local model
+                // var myData = this.getView().getModel("local").getProperty("/orderHeader");
+                // myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                // this.getView().getModel("local").setProperty("/orderHeader", myData);
               }
               else {
-                if (osource.split("--")[2]==="orderHeader") {
-                    var myData = this.getView().getModel("local").getProperty("/orderHeader");
-                }
+              //   if (osource.split("--")[2]==="orderHeader") {
+              //       var myData = this.getView().getModel("local").getProperty("/orderHeader");
+              //   }
 
               }
             },
@@ -161,6 +163,8 @@ sap.ui.define(
               orderData.Date      = this.getView().byId('DateId').getValue();
               orderData.Goldbhav  = this.getView().byId('Gbhav1Id').getValue();
               orderData.Silverbhav= this.getView().byId('sbhav').getValue();
+
+        
               // if (orderData.Customer === " ") {
               //
                 // else {

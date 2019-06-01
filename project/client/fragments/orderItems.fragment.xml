@@ -7,7 +7,7 @@
         <extension>
     <m:Toolbar>
       <m:content>
-      <m:Title text="Order Items"></m:Title>
+      <m:Title text="{i18n>orderItems}"></m:Title>
         <m:ToolbarSpacer/>
         <m:Button icon="sap-icon://delete"
           iconFirst="true"
@@ -19,7 +19,7 @@
     <columns>
       <Column>
         <label>
-          <m:Text text="Material"></m:Text>
+          <m:Text text="{i18n>material}"></m:Text>
         </label>
         <template>
         <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onF4Help"></m:Input>
@@ -27,7 +27,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Description"></m:Text>
+          <m:Text text="{i18n>description}"></m:Text>
         </label>
         <template>
         <m:Text text="{orderItems>description}"></m:Text>
@@ -35,7 +35,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Qty"></m:Text>
+          <m:Text text="{i18n>qty}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>qty}" maxLength="3"></m:Input>
@@ -43,7 +43,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="QtyD"></m:Text>
+          <m:Text text="{i18n>qtyD}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>qtyd}" maxLength="3"></m:Input>
@@ -51,7 +51,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Weight"></m:Text>
+          <m:Text text="{i18n>weight}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>weight}" maxLength="5"></m:Input>
@@ -59,7 +59,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="WeightD"></m:Text>
+          <m:Text text="{i18n>weightD}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>weightd}" maxLength="5"></m:Input>
@@ -67,7 +67,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Making"></m:Text>
+          <m:Text text="{i18n>making}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>making}" maxLength="5"></m:Input>
@@ -75,7 +75,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="MakingD"></m:Text>
+          <m:Text text="{i18n>makingD}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>makingd}" maxLength="5"></m:Input>
@@ -83,7 +83,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Tunch"></m:Text>
+          <m:Text text="{i18n>tunch}"></m:Text>
         </label>
         <template>
         <m:Text text="{orderItems>tunch}"></m:Text>
@@ -91,7 +91,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Remarks"></m:Text>
+          <m:Text text="{i18n>remarks}"></m:Text>
         </label>
         <template>
         <m:Input value="{orderItems>remarks}" maxLength="80"></m:Input>
@@ -99,7 +99,7 @@
       </Column>
       <Column>
         <label>
-          <m:Text text="Sub-total"></m:Text>
+          <m:Text text="{i18n>subTotal}"></m:Text>
         </label>
         <template>
         <m:Text text="{orderItems>subTot}"></m:Text>

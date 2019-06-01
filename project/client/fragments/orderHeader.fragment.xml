@@ -64,7 +64,7 @@ xmlns:core ="sap.ui.core" width="160px">
                     <l:GridData span="L3 M3"></l:GridData>
                   </layoutData>
                   </Input>
-                  <Input id="custName" editable="false" width="50%"/>
+                  <Text id ="custName" text="" width="50%"/>
                   <!-- </Input> -->
                 </f:fields>
               </f:FormElement>

@@ -56,10 +56,7 @@ sap.ui.define(
 
 // set the default date as system date
           debugger;
-          this.orderHeader();
-            // var orderData = this.getOwnerComponent().getModel("local").getProperty('orderHeader');
-            // orderData.date =new Date();
-            // this.getView().getModel("local").setProperty("/orderHeaders",orderData);
+          this.getView().byId("DateId").setDateValue( new Date());
 // Item Table as input table
                 this.orderItem();
 // Return Item Table as input table
@@ -120,6 +117,16 @@ sap.ui.define(
               debugger;
               this.getCustomerPopup(oEvent);
             },
+            onPayDateChange: function(oEvent) {
+              debugger;
+			        var dateString = oEvent.getSource().getValue();
+			        var from = dateString.split(".");
+			        var dateObject = new Date(from[2], from[1] - 1, from[0]);
+			        var newDate = new Date(from[2], from[1] - 1, from[0]);
+			        var PaymentDueDate = this.formatter.getIncrementDate(dateObject, 1);
+			        this.getView().getModel("local").setProperty("/orderHeader_t/Date", PaymentDueDate);
+              },
+
             onConfirm:function(oEvent){
               debugger;
               var osource = oEvent.getSource.getId();
@@ -149,20 +156,26 @@ sap.ui.define(
               // get the data from screen in local model
               debugger;
               // var orderData = this.getView().getModel("/orderHeader");
-              var orderData=this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-              // myData.OrderNo = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-              // myData.Date = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-              this.getView().getModel("local").setProperty("/orderHeader", orderData);
-              //call the odata promise method to post the data
-              this.ODataHelper.callOData(this.getOwnerComponent().getModel('local') ,
-                                        "/OrderHeaders",
-                                        "POST", {},orderData, this)
-              .then(function(){
-                sap.m.MessageToast.show("data created");
-              })
-              .catch(function(){
-                sap.m.MessageToast.show("data not created");
-              })
+              var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+              orderData.Customer  = this.getView().byId('customerId').getValue();
+              orderData.Date      = this.getView().byId('DateId').getValue();
+              orderData.Goldbhav  = this.getView().byId('Gbhav1Id').getValue();
+              orderData.Silverbhav= this.getView().byId('sbhav').getValue();
+              // if (orderData.Customer === " ") {
+              //
+                // else {
+                  this.getView().getModel("local").setProperty("/orderHeader", orderData);
+                  //call the odata promise method to post the data
+                  this.ODataHelper.callOData(this.getOwnerComponent().getModel('local') ,
+                                            "/OrderHeaders",
+                                            "POST", {},orderData, this)
+                  .then(function(){
+                    sap.m.MessageToast.show("data created");
+                  })
+                  .catch(function(){
+                    sap.m.MessageToast.show("data not created");
+                  })
+                // }}
             }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()

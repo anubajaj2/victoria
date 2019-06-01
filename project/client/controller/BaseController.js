@@ -512,20 +512,6 @@ formatter: formatter,
 					"TransData": aTtype
 			});
 			this.setModel(oTransData, "returnModel");
-		},
-		orderHeader:function(){
-			var orderHeader = new JSONModel();
-			var today = formatter.getFormattedDate('0');
-			var orderheaderfield ={
-				"OrderNo":"",
-				"Date":today,
-				"Customer":"",
-				"CustomerName":"",
-				"Gbhav":22/20,
-				"SBhav":22/22
-			}
-			orderHeader.setData({'orderHeader': orderheaderfield});
-		this.setModel(orderHeader,"orderHeader_t")
 		}
 	});
 });

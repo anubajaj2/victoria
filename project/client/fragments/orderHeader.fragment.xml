@@ -19,7 +19,7 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:formElements>
               <f:FormElement label="{i18n>OrderNo}">
                 <f:fields>
-                  <Input id="orderno" width="50%"
+                  <Input id="idOrderNo" width="50%"
                      showValueHelp="true"
                      valueHelpRequest="valueHelpOrder">
                     <layoutData>
@@ -47,17 +47,17 @@ xmlns:core ="sap.ui.core" width="160px">
               <f:FormElement label="{i18n>Date}">
                 <f:fields>
                     <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
+                      required="true"
                       displayFormat="dd.MM.yyyy"
-                      value="{
-                      path:'orderHeader_t>/Date',
-                      formatter:'.formatter.getFormattedDate'}"
+                      change="onPayDateChange"
+                      value=""
                       width="50%">
                     </DatePicker>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
-                  <Input id="customer" showValueHelp="true"
+                  <Input id="customerId" showValueHelp="true"
                     valueHelpRequest="valueHelpCustomer" width="50%"
                     required="true">
                     <layoutData>
@@ -80,13 +80,15 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/Gbhav}"></Input>
-                <Input editable="true"></Input>
+                <Input id ="Gbhav1Id" editable="true"
+                value=""></Input>
+                <Input id="Gbhav2Id" editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-                <Input editable="true" value="{orderHeader_t>/Sbhav}"></Input>
+                <Input editable="true" id="sbhav"
+                  value=""></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

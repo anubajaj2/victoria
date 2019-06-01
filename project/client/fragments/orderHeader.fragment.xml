@@ -64,7 +64,7 @@ xmlns:core ="sap.ui.core" width="160px">
                     <l:GridData span="L3 M3"></l:GridData>
                   </layoutData>
                   </Input>
-                  <Input id="custName" editable="false" width="50%"/>
+                  <Text id ="custName" text="" width="50%"/>
                   <!-- </Input> -->
                 </f:fields>
               </f:FormElement>
@@ -80,15 +80,24 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
+<<<<<<< HEAD
                 <Input id ="Gbhav1Id" editable="true"
                 value=""></Input>
                 <Input id="Gbhav2Id" editable="true"></Input>
+=======
+                <Input type="Number" editable="true" value="{orderHeader_t>/Gbhav}"></Input>
+                <Input type="Number" editable="true"></Input>
+>>>>>>> 5fe145ff12e6d3c40417146f0840fd07b3521934
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
+<<<<<<< HEAD
                 <Input editable="true" id="sbhav"
                   value=""></Input>
+=======
+                <Input type="Number" editable="true" value="{orderHeader_t>/Sbhav}"></Input>
+>>>>>>> 5fe145ff12e6d3c40417146f0840fd07b3521934
               </f:fields>
             </f:FormElement>
           </f:formElements>

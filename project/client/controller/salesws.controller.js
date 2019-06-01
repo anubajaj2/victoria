@@ -16,7 +16,22 @@ sap.ui.define(
                   this.orderItem();
   // Return Item Table as input table
                   this.orderReturn();
-          }
+          },
+          valueHelpCustomer: function (oEvent) {
+            this.getCustomerPopup(oEvent);
+          },
+          onConfirm: function(oEvent){
+            debugger;
+            //whatever customer id selected push that in local model
+              var myData = this.getView().getModel("local").getProperty("/orderHeader");
+              myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+              this.getView().getModel("local").setProperty("/demoData", myData);
+              var selCust = oEvent.getParameter("selectedItem").getLabel();
+              var selCustName = oEvent.getParameter("selectedItem").getValue();
+              this.getView().byId("customer").setValue(selCust);
+              this.getView().byId("custName").setText(selCustName);
+              // End of addition by Sweta
+          },
         });
 
     });

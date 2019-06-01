@@ -65,7 +65,6 @@ xmlns:core ="sap.ui.core" width="160px">
                   </layoutData>
                   </Input>
                   <Text id ="custName" text="" width="50%"/>
-                  <!-- </Input> -->
                 </f:fields>
               </f:FormElement>
             </f:formElements>
@@ -80,35 +79,15 @@ xmlns:core ="sap.ui.core" width="160px">
           <f:formElements>
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
-<<<<<<< HEAD
-                <Input id ="Gbhav1Id" editable="true"
-                value=""></Input>
-                <Input id="Gbhav2Id" editable="true"></Input>
-=======
-<<<<<<< HEAD
-                <Input id ="Gbhav1Id" editable="true"
-                value=""></Input>
-                <Input id="Gbhav2Id" editable="true"></Input>
-=======
-                <Input type="Number" editable="true" value="{orderHeader_t>/Gbhav}"></Input>
+                <Input type="Number" editable="true"
+                  value="{orderHeader_t>/Gbhav}"></Input>
                 <Input type="Number" editable="true"></Input>
->>>>>>> 5fe145ff12e6d3c40417146f0840fd07b3521934
->>>>>>> 398a4c69eea118e4df06b9f5fb3a8d6abef4fdd7
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-<<<<<<< HEAD
-                <Input editable="true" id="sbhav"
-                  value=""></Input>
-=======
-<<<<<<< HEAD
-                <Input editable="true" id="sbhav"
-                  value=""></Input>
-=======
-                <Input type="Number" editable="true" value="{orderHeader_t>/Sbhav}"></Input>
->>>>>>> 5fe145ff12e6d3c40417146f0840fd07b3521934
->>>>>>> 398a4c69eea118e4df06b9f5fb3a8d6abef4fdd7
+                <Input type="Number" editable="true"
+                value="{orderHeader_t>/Sbhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

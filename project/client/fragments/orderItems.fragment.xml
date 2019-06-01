@@ -4,7 +4,7 @@
   <Table id="orderItems"
     rows="{orderItems>/itemData}" visibleRowCount="20"
     class="sapUiContentPadding">
-  <toolbar>
+        <extension>
     <m:Toolbar>
       <m:content>
       <m:Title text="Order Items"></m:Title>
@@ -15,7 +15,7 @@
         </m:Button>
       </m:content>
       </m:Toolbar>
-  </toolbar>
+    </extension>
     <columns>
       <Column>
         <label>

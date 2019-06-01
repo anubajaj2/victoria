@@ -474,15 +474,15 @@ formatter: formatter,
 				var oItem={
 					"material":"",
 					"description":"",
-					"qty":"",
-					"qtyd":"",
-					"weight":"",
-					"weightd":"",
-					"making":"",
-					"makingd":"",
-					"tunch":"",
+					"qty":"0",
+					"qtyd":"0",
+					"weight":"0",
+					"weightd":"0",
+					"making":"0",
+					"makingd":"0",
+					"tunch":"0",
 					"remarks":"",
-					"subTot":""
+					"subTot":"0"
 				};
 				array.push(oItem);
 			}

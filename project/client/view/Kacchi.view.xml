@@ -18,7 +18,7 @@
       </semantic:content>
 
       <semantic:customFooterContent>
-				<Button text="Save" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+				<Button text="Save" liveChange="onChange" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
         <Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
 				<Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
         <Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>

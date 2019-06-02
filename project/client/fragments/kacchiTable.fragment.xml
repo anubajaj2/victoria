@@ -33,10 +33,10 @@
   <items>
     <ColumnListItem>
       <cells>
-        <Input id="idPagga" type="Number" value="{kachhiLocalModel>PaggaNo}" />
-        <Input id="idWeight" required="true" type="Number" value="{kachhiLocalModel>Weight}" />
-        <Input id="idTunch" required="true" type="Number" value="{kachhiLocalModel>Tunch}" />
-        <Input id="idFine" type="Number" value="{kachhiLocalModel>Fine}" />
+        <Input liveChange="onChange" id="idPagga"  type="Number" value="{kachhiLocalModel>PaggaNo}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+        <Input id="idWeight" required="true" type="Number" value="{kachhiLocalModel>Weight}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}" />
+        <Input id="idTunch" required="true" type="Number" value="{kachhiLocalModel>Tunch}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+        <Input id="idFine" type="Number" value="{kachhiLocalModel>Fine}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </cells>
     </ColumnListItem>
   </items>

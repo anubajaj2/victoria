@@ -27,6 +27,7 @@ sap.ui.define(
 		//loop the array values
 		for (var i=1;i<=20;i++){
 			var oItem={
+        id:"",
         Date: "",
         Customer:"",
         PaggaNo: "",
@@ -39,7 +40,11 @@ sap.ui.define(
       }
 
     oKacchiItem.setData({
-				"kachhiData": array
+				"kachhiData": array,
+        "kacchiHeader": {
+          "cdate": new Date(),
+          "customer": ""
+        }
 		});
 		this.getView().setModel(oKacchiItem, "kachhiLocalModel");
     this.byId("idDate").setDateValue(new Date());
@@ -59,8 +64,8 @@ sap.ui.define(
   onSave: function(oEvent){
     debugger;
     var that = this;
-    that.getView().setBusy(true);
           for(var i=0; i < 20; i++){
+            this.getView().setBusy(true);
              var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
              myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer
              myData.Date = this.getView().byId("idDate").getDateValue();
@@ -75,6 +80,17 @@ sap.ui.define(
                 .then(function(oData) {
         					that.getView().setBusy(false);
         					sap.m.MessageToast.show("Data Saved Successfully");
+                  //read the data which is Saved
+                  debugger;
+                  var id = oData.id;
+                  var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
+                  for (var i = 0; i < allItems.length; i++) {
+                    if( allItems[i].PaggaNo === oData.PaggaNo){
+                      allItems[i].id = id;
+                      break;
+                    }
+                  }
+                  that.getView().getModel("kachhiLocalModel").setProperty("/kachhiData",allItems);
 
         				}).catch(function(oError) {
         					that.getView().setBusy(false);
@@ -82,6 +98,12 @@ sap.ui.define(
         				});
               }
 
+            }
+      },
+      onChange: function() {
+          	var cust = this.getView().getModel("kachhiLocalModel").getProperty("/kacchiHeader/customer");
+            if(!cust){
+              this.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
             }
       },
   onClear:function(){

@@ -163,7 +163,7 @@ sap.ui.define(
               var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
               // orderData.Customer  = this.getView().byId('customerId').getValue();
               orderData.Date      = this.getView().byId('DateId').getValue();
-              orderData.Goldbhav  = this.getView().byId('Gbhav1Id').getValue();
+              orderData.Goldbhav1  = this.getView().byId('Gbhav1Id').getValue();
               orderData.Silverbhav= this.getView().byId('sbhav').getValue();
 
 
@@ -172,7 +172,7 @@ sap.ui.define(
                 // else {
                   this.getView().getModel("local").setProperty("/orderHeaders", orderData);
                   //call the odata promise method to post the data
-                  this.ODataHelper.callOData(this.getOwnerComponent().getModel('local') ,
+                  this.ODataHelper.callOData(this.getOwnerComponent().getModel('') ,
                                             "/OrderHeaders",
                                             "POST", {},orderData, this)
                   .then(function(oData){

@@ -19,11 +19,11 @@
       "type": "string",
       "required": false
     },
-    "CustomerName": {
-      "type": "string",
+    "Goldbhav1":{
+      "type": "number",
       "required": false
     },
-    "Goldbhav":{
+    "Goldbhav2":{
       "type": "number",
       "required": false
     },

@@ -146,15 +146,12 @@
 "DueDate":""
 },
 	"orderHeader":{
-		"OrderNo":"",
-		"Date":"",
-		"Customer":"",
-		"GoldBhav":"",
-		"SilverBhav":"",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+	  "OrderNo": 0,
+	  "Date": "",
+	  "Customer": "",
+	  "Goldbhav1": 0,
+		"Goldbhav2":0,
+	  "SilverBhav": 0
 	},
 		"customerOrder":{
 		"Date":"",

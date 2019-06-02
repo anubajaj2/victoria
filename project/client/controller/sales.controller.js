@@ -159,11 +159,11 @@ sap.ui.define(
               that.getView().setBusy(true);
               // get the data from screen in local model
               debugger;
-              // var orderData = this.getView().getModel("/orderHeader");
-              var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+              // var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeaders');
+              var orderData = this.getView().getModel('local').getProperty('/orderHeader')
               // orderData.Customer  = this.getView().byId('customerId').getValue();
               orderData.Date      = this.getView().byId('DateId').getValue();
-              orderData.Goldbhav1  = this.getView().byId('Gbhav1Id').getValue();
+              orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
               orderData.Silverbhav= this.getView().byId('sbhav').getValue();
 
 
@@ -172,15 +172,15 @@ sap.ui.define(
                 // else {
                   this.getView().getModel("local").setProperty("/orderHeaders", orderData);
                   //call the odata promise method to post the data
-                  this.ODataHelper.callOData(this.getOwnerComponent().getModel('') ,
-                                            "/OrderHeaders",
-                                            "POST", {},orderData, this)
-                  .then(function(oData){
-                    sap.m.MessageToast.show("data created");
-                  })
-                  .catch(function(oData){
-                    sap.m.MessageToast.show("data not created");
-                  })
+                  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders",
+                                            "POST", {}, orderData, this)
+                  .then(function(oData) {
+                    that.getView().setBusy(false);
+                    sap.m.MessageToast.show("Data Saved Successfully");
+                     }).catch(function(oError) {
+                    that.getView().setBusy(false);
+                    var oPopover = that.getErrorMessage(oError);
+                		});
                 // }}
             }
 //             onGetModel: function (oEvent) {

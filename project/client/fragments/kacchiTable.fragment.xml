@@ -1,49 +1,44 @@
-<core:FragmentDefinition
-  xmlns="sap.ui.table"
-  xmlns:m="sap.m"
-  xmlns:core="sap.ui.core">
-
-  <Table id="idCustTable"
-        rows="{kachhiLocalModel>/kachhiData}"
-        selectionMode="MultiToggle"
-				visibleRowCount="20"
-        growing="true"
-        growingThreshold="10">
-        <extension>
-    			<m:Toolbar>
-    				<m:Title id="idTitle" text="Kachhi Entries"></m:Title>
-    				<m:ToolbarSpacer/>
-    				<m:Button icon="sap-icon://delete"
-                      press="onDelete">
-            </m:Button>
-            <m:Button icon="sap-icon://settings" press=""></m:Button>
-    			</m:Toolbar>
-    		</extension>
-  <columns>
-    <Column>
-      <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
-      <template>
-        <m:Input required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}" />
-      </template>
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+<Table
+      id="idCustTable"
+      items="{kachhiLocalModel>/kachhiData}"
+      growing="true"
+      growingThreshold="10"
+      mode="MultiSelect"
+      contextualWidth="Auto"
+      updateFinished="onUpdateFinished">
+  <headerToolbar>
+      <Toolbar>
+        <Title id="Kachhi" text="Kachhi Entries" />
+      <ToolbarSpacer/>
+      <Button
+        icon="sap-icon://delete"
+        press="onDelete"/>
+      </Toolbar>
+  </headerToolbar>
+<columns>
+    <Column hAlign="Center">
+      <Label text="{i18n>PaggaNo}" />
     </Column>
-    <Column>
-      <m:Label design="Bold" text="{i18n>weight}" />
-      <template>
-        <m:Input id="idWeight" required="true" type="Number" value="{kachhiLocalModel>Weight}" />
-      </template>
+    <Column hAlign="Center">
+      <Label text="{i18n>weight}" />
     </Column>
-    <Column>
-      <m:Label design="Bold" text="{i18n>tunch}" />
-      <template>
-        <m:Input id="idTunch" required="true" type="Number" value="{kachhiLocalModel>Tunch}"/>
-      </template>
+    <Column hAlign="Center">
+      <Label text="{i18n>tunch}" />
     </Column>
-    <Column>
-      <m:Label design="Bold" text="{i18n>fine}" />
-      <template>
-        <m:Input id="idFine" value="{kachhiLocalModel>Fine}"/>
-      </template>
+    <Column hAlign="Center">
+      <Label text="{i18n>fine}" />
     </Column>
   </columns>
-</Table>
+  <items>
+    <ColumnListItem>
+      <cells>
+        <Input id="idPagga" type="Number" value="{kachhiLocalModel>PaggaNo}" />
+        <Input id="idWeight" required="true" type="Number" value="{kachhiLocalModel>Weight}" />
+        <Input id="idTunch" required="true" type="Number" value="{kachhiLocalModel>Tunch}" />
+        <Input id="idFine" type="Number" value="{kachhiLocalModel>Fine}" />
+      </cells>
+    </ColumnListItem>
+  </items>
+  </Table>
 </core:FragmentDefinition>

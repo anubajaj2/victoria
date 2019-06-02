@@ -16,19 +16,19 @@
       "required": true
     },
     "PaggaNo": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "Weight": {
-      "type": "String",
+      "type": "number",
       "required": false
     },
     "Tunch": {
-      "type": "String",
+      "type": "number",
       "required": false
     },
     "Fine": {
-      "type": "String",
+      "type": "number",
       "required": false
     },
     "CreatedOn": {

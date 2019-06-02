@@ -38,7 +38,7 @@
           <m:Text text="{i18n>qty}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>qty}" maxLength="3"></m:Input>
+        <m:Input type="Number" value="{orderItems>qty}" maxLength="3"></m:Input>
         </template>
       </Column>
       <Column>
@@ -46,7 +46,7 @@
           <m:Text text="{i18n>qtyD}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>qtyd}" maxLength="3"></m:Input>
+        <m:Input type="Number" value="{orderItems>qtyd}" maxLength="3"></m:Input>
         </template>
       </Column>
       <Column>
@@ -54,7 +54,7 @@
           <m:Text text="{i18n>weight}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>weight}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>weight}" maxLength="5"></m:Input>
         </template>
       </Column>
       <Column>
@@ -62,7 +62,7 @@
           <m:Text text="{i18n>weightD}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>weightd}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>weightd}" maxLength="5"></m:Input>
         </template>
       </Column>
       <Column>
@@ -70,7 +70,7 @@
           <m:Text text="{i18n>making}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>making}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>making}" maxLength="5"></m:Input>
         </template>
       </Column>
       <Column>
@@ -78,7 +78,7 @@
           <m:Text text="{i18n>makingD}"></m:Text>
         </label>
         <template>
-        <m:Input value="{orderItems>makingd}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>makingd}" maxLength="5"></m:Input>
         </template>
       </Column>
       <Column>

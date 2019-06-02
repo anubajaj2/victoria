@@ -11,7 +11,9 @@ sap.ui.define(
 
         return BaseController.extend("victoria.controller.salesws", {
           onInit: function (){
-            this.orderHeader();
+            debugger;
+          this.getView().byId("DateId").setDateValue( new Date());
+            // this.orderHeader();
   // Item Table as input table
                   this.orderItem();
   // Return Item Table as input table

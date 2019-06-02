@@ -137,10 +137,10 @@ sap.ui.define(
                 var selCustName = oEvent.getParameter("selectedItem").getValue();
                 this.getView().byId("customerId").setValue(selCust);
                 this.getView().byId("custName").setText(selCustName);
-                // //whatever customer id selected push that in local model
-                // var myData = this.getView().getModel("local").getProperty("/orderHeader");
-                // myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-                // this.getView().getModel("local").setProperty("/orderHeader", myData);
+                //whatever customer id selected push that in local model
+                var myData = this.getView().getModel("local").getProperty("/orderHeader");
+                myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                this.getView().getModel("local").setProperty("/orderHeader", myData);
               }
               else {
               //   if (osource.split("--")[2]==="orderHeader") {
@@ -155,28 +155,30 @@ sap.ui.define(
             },
             //on order create Button
             orderCreate:function(oEvent){
+              var that = this;
+              that.getView().setBusy(true);
               // get the data from screen in local model
               debugger;
               // var orderData = this.getView().getModel("/orderHeader");
               var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-              orderData.Customer  = this.getView().byId('customerId').getValue();
+              // orderData.Customer  = this.getView().byId('customerId').getValue();
               orderData.Date      = this.getView().byId('DateId').getValue();
               orderData.Goldbhav  = this.getView().byId('Gbhav1Id').getValue();
               orderData.Silverbhav= this.getView().byId('sbhav').getValue();
 
-        
+
               // if (orderData.Customer === " ") {
               //
                 // else {
-                  this.getView().getModel("local").setProperty("/orderHeader", orderData);
+                  this.getView().getModel("local").setProperty("/orderHeaders", orderData);
                   //call the odata promise method to post the data
                   this.ODataHelper.callOData(this.getOwnerComponent().getModel('local') ,
                                             "/OrderHeaders",
                                             "POST", {},orderData, this)
-                  .then(function(){
+                  .then(function(oData){
                     sap.m.MessageToast.show("data created");
                   })
-                  .catch(function(){
+                  .catch(function(oData){
                     sap.m.MessageToast.show("data not created");
                   })
                 // }}

@@ -7,19 +7,22 @@
   selectionMode="MultiToggle"
   visibleRowCount="5"
   thrshold="20"
-  rows="{returnModel>/TransData}">
-  <toolbar>
-  <m:Toolbar>
-    <m:Title text="{i18n>return}"></m:Title>
-      <m:ToolbarSpacer></m:ToolbarSpacer>
-      <m:Button icon="sap-icon://delete"
-        iconFirst="true"
-        text="{i18n>del}"
-        tooltip="{i18n>retunTable}"
-        press="onDelete">
-      </m:Button>
-  </m:Toolbar>
-</toolbar>
+  rows="{returnModel>/TransData}"
+  class="sapUiContentPadding">
+
+<extension>
+    <m:Toolbar>
+        <m:content>
+          <m:Title text="{i18n>orderItems}"></m:Title>
+    <m:ToolbarSpacer/>
+    <m:Button icon="sap-icon://delete"
+              iconFirst="true"
+              press="onDelete">
+    </m:Button>
+    </m:content>
+    </m:Toolbar>
+</extension>
+
  <columns>
    <Column>
      <label>
@@ -46,7 +49,7 @@
        <m:Text text="{i18n>tunch}"></m:Text>
      </label>
      <template>
-				<m:Input value="{returnModel>tunch}"
+				<m:Input id ="tunchid" value="{returnModel>tunch}"
           maxLength="3"></m:Input>
 			</template>
    </Column>

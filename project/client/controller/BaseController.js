@@ -135,7 +135,7 @@ formatter: formatter,
 					var that = this;
 					debugger;
 
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel('local'),
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel('orderLocalModel'),
 																		"/OrderHeaders", "GET", null, null, this)
 						.then(function(oData) {
 							for (var i = 0; i < oData.results.length; i++) {
@@ -498,11 +498,11 @@ formatter: formatter,
 			for (var i = 1; i <=5; i++) {
 				var oRetailtab = {
 					"type":" ",
-					"weight":" ",
-					"tunch":" ",
-					"qty":" ",
+					"weight":"0",
+					"tunch":"0",
+					"qty":"0",
 					"bhav":" ",
-					"amount":" ",
+					"amount":"0",
 					"remarks":" ",
 					"subtotal":" "
 				};
@@ -512,6 +512,29 @@ formatter: formatter,
 					"TransData": aTtype
 			});
 			this.setModel(oTransData, "returnModel");
-		}
+		},
+
+orderHeader:function(){
+	var oOrderHeader = new JSONModel();
+	debugger;
+	// var oOrderHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+	var orderHeader = {
+		"OrderNo": 0,
+	  "Date": new Date(),
+	  "Customer": "",
+	  "Goldbhav1":"0",
+	  "Goldbhav2":"0",
+	  "SilverBhav":"0",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	};
+	oOrderHeader.setData({
+		"Header":orderHeader
+	});
+	this.setModel(oOrderHeader ,"orderLocalModel");
+}
+
 	});
 });

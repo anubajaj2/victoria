@@ -8,40 +8,56 @@
   },
   "properties": {
     "orderNo":{
-      "type":"sring",
-      "required":"true"
+      "type":"number",
+      "required":true
     },
     "Type": {
       "type": "string",
       "required": true
     },
     "Weight": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Tunch": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Qty": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Bhav": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Amount": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Remarks": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "SubTotal": {
-      "type": "string",
+      "type": "number",
       "required": true
+    },
+    "CreatedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date",
+      "default": "null"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
     }
   },
   "scope":{

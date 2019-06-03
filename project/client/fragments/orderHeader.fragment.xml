@@ -64,7 +64,10 @@ xmlns:core ="sap.ui.core" width="160px">
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
                   <Input id="customerId" showValueHelp="true"
-                    valueHelpRequest="valueHelpCustomer" width="50%"
+                    valueHelpRequest="valueHelpCustomer"
+                    valueLiveUpdate="true"
+                    LiveChange="OnCustChange"
+                    width="50%"
                     required="true">
                     <layoutData>
                     <l:GridData span="L3 M3"></l:GridData>
@@ -86,14 +89,23 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="Gbhav1Id"
-                  value="{orderHeader_t>/Gbhav}"></Input>
-                <Input type="Number" id="Gbhav2Id" editable="true"></Input>
+                  valueLiveUpdate="true"
+                  LiveChange="OnCustChange"
+                  value="{orderLocalModel>Goldbhav1}">
+                </Input>
+                <Input type="Number" id="Gbhav2Id"
+                  valueLiveUpdate="true"
+                  LiveChange="OnCustChange"
+                  value="{orderLocalModel>Goldbhav2}"
+                  editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
-                <Input type="Number" editable="true" id="sbhav"
-                value="{orderHeader_t>/Sbhav}"></Input>
+                <Input type="Number" editable="true" id="sbhavid"
+                  valueLiveUpdate="true"
+                  LiveChange="OnCustChange"
+                value="{orderLocalModel>SilverBhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

@@ -4,7 +4,9 @@ sap.ui.define(
         "sap/ui/model/json/JSONModel",
         "sap/ui/core/routing/History",
         "victoria/models/formatter",
-        "sap/m/MessageToast", "sap/ui/model/Filter"],
+        "sap/m/MessageToast",
+        "sap/m/MessageBox",
+        "sap/ui/model/Filter"],
     function (BaseController, JSONModel, History, formatter,
               MessageToast, Filter) {
         "use strict";
@@ -23,28 +25,28 @@ sap.ui.define(
              *
              * @public
              */
-            productId: "",
-            customerId: "",
-            globalDate: "",
-            aItems: [],
-            rowIndex: null,
-            sDescription: null,
-            iFine: null,
-            oSalesItem: {
-                ItmCode: "",
-                ItmId: "",
-                description: "",
-                Weight: 0,
-                Tunch: 0,
-                Qty: 0,
-                Making: 0,
-                FineS: 0,
-                FineG: 0,
-                Cash: 0,
-                PType: ""
-
-            },
-            oSalesItemModel: new JSONModel([this.oSalesItem]),
+            // productId: "",
+            // customerId: "",
+            // globalDate: "",
+            // aItems: [],
+            // rowIndex: null,
+            // sDescription: null,
+            // iFine: null,
+            // oSalesItem: {
+            //     ItmCode: "",
+            //     ItmId: "",
+            //     description: "",
+            //     Weight: 0,
+            //     Tunch: 0,
+            //     Qty: 0,
+            //     Making: 0,
+            //     FineS: 0,
+            //     FineG: 0,
+            //     Cash: 0,
+            //     PType: ""
+            //
+            // },
+            // oSalesItemModel: new JSONModel([this.oSalesItem]),
             onInit: function () {
 
                 this.router = sap.ui.core.UIComponent
@@ -55,62 +57,13 @@ sap.ui.define(
                         this);
 
 // set the default date as system date
-          debugger;
           this.getView().byId("DateId").setDateValue( new Date());
+          //header form
+                this.orderHeader();
 // Item Table as input table
                 this.orderItem();
 // Return Item Table as input table
                 this.orderReturn();
-
-
-                // // Create new sales model
-                // var oSalesHeaderModel = new JSONModel({
-                //     BillNo: 0,
-                //     Date: new Date(),
-                //     OrderType: "",
-                //     CustomerCode: "",
-                //     CustomerId: "",
-                //     ProductId: "",
-                //     ProductName: "",
-                //     Weight: 0,
-                //     WeightLess: 0,
-                //     Tunch: 0,
-                //     Making: 0,
-                //     MakingExtra: 0,
-                //     Pcs: 0,
-                //     PcsExtra: 0,
-                //     Hindi: "",
-                //     Category: "",
-                //     PType: "",
-                //     TotGold: 0,
-                //     TotCash: 0,
-                //     TotSlv: 0,
-                //     GrossSlv: 0,
-                //     TotalPcs: 0,
-                //     GrossGld: 0,
-                //     BhavS: 0,
-                //     BhavG: 0
-                // });
-                // this.setModel(oSalesHeaderModel, "salesHeaderModel");
-                //
-                // this.setModel(this.oSalesItemModel, "SalesItemModel");
-                //
-                //
-                // var oTransData = new JSONModel();
-                // var aTtype = [];
-                // for (var i = 0; i < 5; i++) {
-                //     var line = {
-                //         "Remarks": "",
-                //         "Transactiontype": 0,
-                //         "Tunch": "",
-                //         "Weight": ""
-                //     };
-                //     aTtype.push(line);
-                // }
-                // oTransData.setData({
-                //     "TransData": aTtype
-                // });
-                // this.setModel(oTransData, "TransData");
             },
             //customer value help
             valueHelpCustomer:function(oEvent){
@@ -138,9 +91,9 @@ sap.ui.define(
                 this.getView().byId("customerId").setValue(selCust);
                 this.getView().byId("custName").setText(selCustName);
                 //whatever customer id selected push that in local model
-                var myData = this.getView().getModel("local").getProperty("/orderHeader");
+                var myData = this.getView().getModel("orderLocalModel").getProperty("/Header");
                 myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-                this.getView().getModel("local").setProperty("/orderHeader", myData);
+                this.getView().getModel("orderLocalModel").setProperty("/orderHeader", myData);
               }
               else {
               //   if (osource.split("--")[2]==="orderHeader") {
@@ -153,6 +106,7 @@ sap.ui.define(
             valueHelpOrder:function(oEvent){
               this.getOrderlist(oEvent);
             },
+
             //on order create Button
             orderCreate:function(oEvent){
               var that = this;
@@ -160,17 +114,22 @@ sap.ui.define(
               // get the data from screen in local model
               debugger;
               // var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeaders');
-              var orderData = this.getView().getModel('local').getProperty('/orderHeader')
-              // orderData.Customer  = this.getView().byId('customerId').getValue();
+              var orderData = this.getView().getModel('orderLocalModel').getProperty('/Header')
+              // var orderData = this.getView().getModel('local').getProperty('/orderHeader')
               orderData.Date      = this.getView().byId('DateId').getValue();
               orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
-              orderData.Silverbhav= this.getView().byId('sbhav').getValue();
+              orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
+              orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
 
-
-              // if (orderData.Customer === " ") {
-              //
-                // else {
-                  this.getView().getModel("local").setProperty("/orderHeaders", orderData);
+              // orderData.Customer = this.getView().getModel("local").getProperty("/orderHeader").Customer
+              // orderData.Customer = this.getView().getModel("orderLocalModel").getProperty("/Header").Customer
+              debugger;
+              if (orderData.Customer === "") {
+              this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
+              that.getView().setBusy(false);
+              }
+              else {
+                  this.getView().getModel("orderLocalModel").setProperty("/Headers", orderData);
                   //call the odata promise method to post the data
                   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders",
                                             "POST", {}, orderData, this)
@@ -181,8 +140,12 @@ sap.ui.define(
                     that.getView().setBusy(false);
                     var oPopover = that.getErrorMessage(oError);
                 		});
-                // }}
-            }
+                }
+            },
+
+        OnCustChange:function(){
+          debugger;
+        }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()
 //                     .getModel();

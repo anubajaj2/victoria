@@ -1,4 +1,4 @@
-<mvc:View controllerName="victoria.controller.sales" xmlns="sap.ui.commons"
+<mvc:View controllerName="victoria.controller.sales"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:m="sap.m"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:table="sap.ui.table"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
@@ -31,14 +31,12 @@
 	</semantic:content>
 
 	<semantic:customFooterContent>
-			<Button text="Print"    type="Accept" press="onPrint"/>
-			<Button text="Transfer" type="Accept" press="onTransfer"/>
-			<Button text="Save"     type="Reject" press="onSaveOrder"/>
-			<Button text="Clear"    type="Ghost"  press="clearData"/>
+		<m:Button text="Save" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+		<m:Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
+		<m:Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
+		<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
 	</semantic:customFooterContent>
-
 </semantic:FullscreenPage>
-
 </mvc:View>
 
 		<!-- <semantic:content>

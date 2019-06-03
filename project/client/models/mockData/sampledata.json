@@ -149,9 +149,13 @@
 	  "OrderNo": 0,
 	  "Date": "",
 	  "Customer": "",
-	  "Goldbhav1": 0,
+	  "Goldbhav1":0,
 		"Goldbhav2":0,
-	  "SilverBhav": 0
+	  "SilverBhav":0,
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
 	},
 		"customerOrder":{
 		"Date":"",

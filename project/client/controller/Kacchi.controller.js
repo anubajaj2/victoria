@@ -12,13 +12,13 @@ sap.ui.define(
 
   return BaseController.extend("victoria.controller.Kacchi", {
       formatter: formatter,
-      oKacchiItem: {
-      PaggaNo: "",
-      Weight: "",
-      Tunch: "",
-      Fine: ""
-
-      },
+      // oKacchiItem: {
+      // PaggaNo: "",
+      // Weight: "",
+      // Tunch: "",
+      // Fine: ""
+      //
+      // },
 
   onInit:function(){
     var oKacchiItem = new JSONModel();
@@ -30,10 +30,10 @@ sap.ui.define(
         id:"",
         Date: "",
         Customer:"",
-        PaggaNo: "",
-        Weight: "",
-        Tunch: "",
-        Fine: "",
+        PaggaNo: 0,
+        Weight: 0,
+        Tunch: 0,
+        Fine: 0,
         status:true
 			};
       	array.push(oItem);
@@ -51,11 +51,11 @@ sap.ui.define(
 },
 
   onDateChanged: function(oEvent){
-    debugger;
-    var oDate = oEvent.getParameters().value;
-    if(oDate){
-      this.getView().byId("idCustNo").focus();
-    }
+    // debugger;
+    // var oDate = oEvent.getParameters().value;
+    // if(oDate){
+    //   this.getView().byId("idCustNo").focus();
+    // }
 
   },
   onCustValueHelp: function(oEvent){
@@ -161,9 +161,12 @@ sap.ui.define(
       var selCust = oEvent.getParameter("selectedItem").getLabel();
       var selCustName = oEvent.getParameter("selectedItem").getValue();
       if(selCust){
+        // var custNumText = this.getView().getModel("kachhiLocalModel").getProperty("/kacchiHeader");
+        // custNumText.customer = selCust;
+        // this.getView().getModel("kachhiLocalModel").setProperty("/kacchiHeader", custNumText);
         this.getView().byId("idCustNo").setValue(selCust);
         this.getView().byId("idCustName").setValue(selCustName);
-        this.getView().byId("idPagga").focus();
+        // this.getView().byId("idPagga").focus();
       }
       // End of addition by Sweta
   }

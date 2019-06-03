@@ -1,7 +1,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
 <Table
       id="idCoTable"
-      items="{/CustomerOrders}"
+      items="{
+             path: '/CustomerOrders',
+             sorter: {path: 'DelDate'}
+             }"
       growing="true"
       growingThreshold="10"
       mode="MultiSelect"

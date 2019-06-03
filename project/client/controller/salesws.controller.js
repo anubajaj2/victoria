@@ -10,12 +10,12 @@ sap.ui.define(
         "use strict";
 
         return BaseController.extend("victoria.controller.salesws", {
-          onInit: function (){
+          onInit: function (oEvent){
             debugger;
           this.getView().byId("DateId").setDateValue( new Date());
             // this.orderHeader();
   // Item Table as input table
-                  this.orderItem();
+                  this.orderItem(oEvent);
   // Return Item Table as input table
                   this.orderReturn();
           },

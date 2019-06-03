@@ -47,7 +47,7 @@ sap.ui.define(
             //
             // },
             // oSalesItemModel: new JSONModel([this.oSalesItem]),
-            onInit: function () {
+            onInit: function (oEvent) {
 
                 this.router = sap.ui.core.UIComponent
                     .getRouterFor(this);
@@ -61,7 +61,7 @@ sap.ui.define(
           //header form
                 this.orderHeader();
 // Item Table as input table
-                this.orderItem();
+                this.orderItem(oEvent);
 // Return Item Table as input table
                 this.orderReturn();
             },

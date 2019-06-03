@@ -26,7 +26,7 @@
           <DatePicker id="DateId" valueFormat="dd.MM.yyyy" required="true" change="onPayDateChange"
             displayFormat="dd.MM.yyyy" value="{path:'objectView>/dateValue'}"></DatePicker>
 
-          <CheckBox text="Continue Entry" wrapping="true" selected="false">
+          <CheckBox text="{i18n>contEntry}" wrapping="true" selected="false">
           <layoutData>
             <l:GridData span="XL4 L3 M5 S6"/>
           </layoutData>

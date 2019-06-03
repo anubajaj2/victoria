@@ -42,14 +42,15 @@ xmlns:core ="sap.ui.core">
                 		valueFormat="dd.MM.yyyy"
 										displayFormat="dd.MM.yyyy"
                 		change="onDateChanged"
-										value="{kachhiLocalModel>cdate}">
+										value="{path:'kachhiLocalModel>/cdate',
+				             				formatOptions: { style: 'medium', strictParsing: true}}">
               </DatePicker>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>coCustomer}">
 							<f:fields>
 								<Input id="idCustNo" showValueHelp="true" valueHelpOnly="true"
-											 valueHelpRequest="onCustValueHelp" required="true" value="{kachhiLocalModel>customer}">
+											 valueHelpRequest="onCustValueHelp" required="true" value="">
                   <layoutData>
 										<l:GridData span="XL3 L3 M2" />
 									</layoutData>

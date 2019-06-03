@@ -6,7 +6,10 @@
       growingThreshold="10"
       mode="MultiSelect"
       contextualWidth="Auto"
-      updateFinished="onUpdateFinished">
+      updateFinished="onUpdateFinished"
+      inset = "true"
+      keyboardMode = "Edit"
+      >
   <headerToolbar>
       <Toolbar>
         <Title id="Kachhi" text="Kachhi Entries" />

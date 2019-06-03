@@ -23,11 +23,9 @@
     <f:formElements>
       <f:FormElement label="{i18n>Date}">
         <f:fields>
+          <DatePicker id="DateId" valueFormat="dd.MM.yyyy" required="true" change="onPayDateChange"
+            displayFormat="dd.MM.yyyy" value="{path:'objectView>/dateValue'}"></DatePicker>
 
-          <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
-            displayFormat="long" value="{path:'objectView>/dateValue',
-             type:'sap.ui.model.type.Date',
-             formatOptions: { style: 'medium', strictParsing: true}}" ></DatePicker>
           <CheckBox text="Continue Entry" wrapping="true" selected="false">
           <layoutData>
             <l:GridData span="XL4 L3 M5 S6"/>

@@ -18,9 +18,7 @@ function (BaseController,JSONModel) {
           DueDate:""
         });
         	this.setModel(oViewModel, "objectView");
-
-
-
+          this.getView().byId("DateId").setDateValue( new Date());
     },
     CustomerPopup: function (Evt) {
       if(!this.searchPopup){

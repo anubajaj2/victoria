@@ -22,7 +22,7 @@
           <m:Text text="{i18n>material}"></m:Text>
         </label>
         <template>
-        <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onF4Help"></m:Input>
+        <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input>
         </template>
       </Column>
       <Column>

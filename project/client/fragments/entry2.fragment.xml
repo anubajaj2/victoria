@@ -23,7 +23,8 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>Cash}">
 						<f:fields>
-							<Input id="idCash" width="50%" value="{objectView>/Cash}"/>
+							<Input id="idCash" width="50%" value="{path:'objectView>/Cash',
+                                                      formatter:'.formatter.formatCurrency'}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>Gold}">
@@ -77,7 +78,7 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>coWeight}">
 						<f:fields>
-							<Input id="idweight" value="{objectView>/Weight}">
+							<Input id="idweight"  value="{objectView>/Weight}">
 								<layoutData>
 									<l:GridData span="L3"></l:GridData>
 								</layoutData>

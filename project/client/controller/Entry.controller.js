@@ -1,7 +1,8 @@
-sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel"],
-function (BaseController,JSONModel) {
+sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel","victoria/models/formatter"],
+function (BaseController,JSONModel,formatter) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
+    formatter:formatter,
     onInit: function () {
       var iOriginalBusyDelay,
         oViewModel = new JSONModel({
@@ -9,7 +10,7 @@ function (BaseController,JSONModel) {
           delay : 0,
           dateValue: new Date(),
           Customer:"",
-          Cash:0,
+          Cash:1400,
           Gold:0,
           Silver:0,
           Remarks:"",
@@ -19,7 +20,9 @@ function (BaseController,JSONModel) {
         });
         	this.setModel(oViewModel, "objectView");
           this.getView().byId("DateId").setDateValue( new Date());
+
     },
+
     CustomerPopup: function (Evt) {
       if(!this.searchPopup){
         this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);
@@ -44,6 +47,19 @@ function (BaseController,JSONModel) {
       this.CustomerPopup();
     },
     onRadioButtonSelect: function (oEvent) {
+      debugger;
+  oEvent=this.getView().byId("idweight").attachLiveChange();
+      // oEvent= this.getView().byId("idweight");
+      // .addEventDelegate({ onAfterRendering: function ()
+      //   { oEvent.selectedKey("idw");
+      //   }
+      // });
+      // var oInput = this.getView().byId("idweight");
+      // .addEventDelegate({
+      //   onAfterRendering: function() {
+      //     oInput.fireselect();
+      //   }
+      // });
 
 },
     onConfirm: function (oEvent) {

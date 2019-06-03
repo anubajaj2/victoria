@@ -1,4 +1,4 @@
-sap.ui.define([], function() {
+sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 	return {
 		getFormattedDate: function(monthInc) {
 			var dateObj = new Date();
@@ -103,7 +103,12 @@ sap.ui.define([], function() {
 				case "V": return "Video";
 				case "A": return "Live and Video";
 			}
+		},
+		formatCurrency: function (a,b){
+			var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+			return oCurrencyFormat.format(a,b);
 		}
+
 
 
 

@@ -18,7 +18,7 @@
 		valueFormat="dd.MM.yyyy"
 		displayFormat="dd.MM.yyyy"
 		value="{
-		path:'customerOrder/Date',
+		path:'coView/Date',
 		formatter:'.formatter.getFormattedDate'
 		}">
 		<layoutData>
@@ -34,14 +34,14 @@
 		valueFormat="dd.MM.yyyy"
 		displayFormat="dd.MM.yyyy"
 		value="{
-		parts: [{path: 'DelDate'},{path: '1'}],
+		parts: [{path: 'coView/DelDate'},{path: '1'}],
 		formatter:'.formatter.getFormattedDate'}">
 </DatePicker>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coCustomer}">
 <f:fields>
-<Input id="idCoCustomer" value="" showValueHelp="true" valueHelpRequest="onValueHelp"></Input>
+<Input id="idCoCustomer" value="{coView>Customer}" showValueHelp="true" valueHelpRequest="onValueHelp"></Input>
 <Input id="idCoCustomerText" value="" editable="false"></Input>
 </f:fields>
 </f:FormElement>

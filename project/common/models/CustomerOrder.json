@@ -45,7 +45,8 @@
     },
     "Remarks": {
       "type": "string",
-      "required": false
+      "required": false,
+      "maximum": 250
     },
     "Cash": {
       "type": "number",

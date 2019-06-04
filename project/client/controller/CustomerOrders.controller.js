@@ -6,7 +6,12 @@ sap.ui.define(
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
     onInit: function () {
-
+      this.byId("idCoQty").setValue("0");
+      this.byId("idCoWeight").setValue("0");
+      this.byId("idCoMaking").setValue("0");
+      this.byId("idCoCash").setValue("0");
+      this.byId("idCoGold").setValue("0");
+      this.byId("idCoSilver").setValue("0");
     },
     onValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);

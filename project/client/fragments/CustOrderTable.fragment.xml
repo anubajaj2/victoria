@@ -6,7 +6,7 @@
              sorter: {path: 'DelDate'}
              }"
       growing="true"
-      growingThreshold="10"
+      growingThreshold="20"
       mode="MultiSelect"
       updateFinished="onUpdateFinished">
   <headerToolbar>

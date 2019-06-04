@@ -29,12 +29,12 @@
 </m:VBox>
 </semantic:content>
 
-		<semantic:customFooterContent>
-				<Button text="Print"    type="Accept" press="onPrint"/>
-				<Button text="Transfer" type="Accept" press="onTransfer"/>
-				<Button text="Save"     type="Reject" press="onSaveOrder"/>
-				<Button text="Clear"    type="Ghost"  press="clearData"/>
-		</semantic:customFooterContent>
+<semantic:customFooterContent>
+	<m:Button text="Save" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+	<m:Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
+	<m:Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
+	<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+</semantic:customFooterContent>
 
 	</semantic:FullscreenPage>
 

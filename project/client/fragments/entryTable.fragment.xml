@@ -2,7 +2,7 @@
   <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content>
 	<Table id="idTable" class="sapUiContentPadding" items="{/Entrys}" mode="MultiSelect" growing="true"
-	  growingThreshold="20">
+	  growingThreshold="20" updateFinished="onUpdateFinished">
     <headerToolbar>
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>

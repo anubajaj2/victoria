@@ -4,6 +4,17 @@ function (BaseController,JSONModel,formatter) {
   return BaseController.extend("victoria.controller.Entry",{
     formatter:formatter,
     onInit: function () {
+      var that = this;
+      debugger;
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
+        .then(function(oData) {
+          for (var i = 0; i < oData.results.length; i++) {
+            that.allMasterData.customers[oData.results[i].id] = oData.results[i];
+          }
+        }).catch(function(oError) {
+          var oPopover = that.getErrorMessage(oError);
+        });
+
       var iOriginalBusyDelay,
         oViewModel = new JSONModel({
           busy : false,
@@ -20,8 +31,7 @@ function (BaseController,JSONModel,formatter) {
         });
         	this.setModel(oViewModel, "objectView");
           this.getView().byId("DateId").setDateValue( new Date());
-
-    },
+      },
 
     CustomerPopup: function (Evt) {
       if(!this.searchPopup){
@@ -36,32 +46,22 @@ function (BaseController,JSONModel,formatter) {
             label:"{CustomerCode}",
             value:"{Name}-{City}"
           })
-
         });
       }
       this.searchPopup.open();
     },
 
     onValueHelpRequest: function () {
-
       this.CustomerPopup();
     },
+
     onRadioButtonSelect: function (oEvent) {
       debugger;
-  oEvent=this.getView().byId("idweight").attachLiveChange();
-      // oEvent= this.getView().byId("idweight");
-      // .addEventDelegate({ onAfterRendering: function ()
-      //   { oEvent.selectedKey("idw");
-      //   }
-      // });
-      // var oInput = this.getView().byId("idweight");
-      // .addEventDelegate({
-      //   onAfterRendering: function() {
-      //     oInput.fireselect();
-      //   }
-      // });
-
+    jQuery.sap.delayedCall(500, this, function() {
+        this.getView().byId("idweight").focus();
+    });
 },
+
     onConfirm: function (oEvent) {
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -71,7 +71,9 @@ function (BaseController,JSONModel,formatter) {
      myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
      this.getView().getModel("local").getProperty("/EntryData",myData);
    },
+
    onSend: function (oEvent) {
+     debugger;
      var that=this;
      that.getView().setBusy(true);
      var myData = this.getView().getModel("local").getProperty("/EntryData");
@@ -83,7 +85,7 @@ function (BaseController,JSONModel,formatter) {
      myData.Weight = this.getView().byId("idweight").getValue();
      myData.Tunch = this.getView().byId("idtunch").getValue();
      myData.DueDate = this.getView().byId("DueDateId").getDateValue();
-     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/EntryData",
+     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
                                "POST", {}, myData, this)
      .then(function(oData) {
        that.getView().setBusy(false);
@@ -94,6 +96,7 @@ function (BaseController,JSONModel,formatter) {
        var oPopover = that.getErrorMessage(oError);
      });
    },
+
    onDelete: function(){
      debugger;
      var aSelectedLines = this.byId("idTable").getSelectedItems();
@@ -105,8 +108,9 @@ function (BaseController,JSONModel,formatter) {
        }
      }
    },
+
    onClear: function(){
-     this.byId("DateId").setValue("");
+       this.getView().byId("DateId").setDateValue( new Date());
      this.byId("idCust").setValue("");
      this.byId("idCustText").setValue("");
      this.byId("idweight").setValue("0");
@@ -114,33 +118,29 @@ function (BaseController,JSONModel,formatter) {
      this.byId("idCash").setValue("0");
      this.byId("idGold").setValue("0");
      this.byId("idSilver").setValue("0");
+     this.byId("idtunch").setValue("0");
 
+   },
+
+   allMasterData: {
+     "customers":[]
+   },
+
+   onUpdateFinished: function (oEvent) {
+     debugger;
+     var oTable = oEvent.getSource();
+     var itemList = oTable.getItems();
+      var noOfItems = itemList.length;
+      var value1;
+      var id;
+      var cell;
+      for (var i=0; i < noOfItems; i++) {
+        var customerId = oTable.getItems()[i].getCells()[1].getText();
+        var customerData = this.allMasterData.customers[customerId];
+        oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+
+      }
    }
-   // onUpdateFinished: function(oEvent){
-   //   debugger;
-   //   var oTable = oEvent.getSource();
-   //   var itemList = oTable.getItems();
-   //   var noOfItems = itemList.length;
-   //   var value1;
-   //   var id;
-   //   var cell;
-   //   debugger;
-   //   for (var i = 0; i < noOfItems; i++) {
-   //     //Read the GUID from the Screen
-   //     var customerId = oTable.getItems()[i].getCells()[2].getText();
-   //     var customerData = this.allMasterData.customers[customerId];
-   //     oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
-   //
-   //     // var materialId = oTable.getItems()[i].getCells()[3].getText();
-   //     // var materialData = this.allMasterData.materials[materialId];
-   //     // oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
-   //
-   //     //Find the customer data for that Guid in customer collection
-   //     //Change the data on UI table with semantic information
-   //   }
-   // }
-
-
   });
 
 });

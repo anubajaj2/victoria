@@ -32,11 +32,20 @@ sap.ui.define(
               var selCustName = oEvent.getParameter("selectedItem").getValue();
               this.getView().byId("customerId").setValue(selCust);
               this.getView().byId("custName").setText(selCustName);
-              // End of addition by Sweta
+              debugger;
+              if (this.searchPopup) {
+                this.searchPopup.destroy();
+              }
           },
           onMaterialF4: function(oEvent) {
             this.getMaterialPopup(oEvent);
           },
+          onExit : function () {
+      			debugger;
+      					if (this.searchPopup) {
+      						this.searchPopup.destroy();
+      					}
+      				}
         });
 
     });

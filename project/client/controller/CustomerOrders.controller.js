@@ -1,20 +1,41 @@
 sap.ui.define([
   "victoria/controller/BaseController",
+  "sap/ui/model/json/JSONModel",
   "victoria/models/formatter",
   "sap/m/MessageToast",
   "sap/m/MessageBox"
-],function (BaseController, formatter, MessageToast, MessageBox) {
+],function (BaseController, JSONModel, formatter, MessageToast, MessageBox) {
       "use strict";
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
-  //  onInit: function () {
-  //    this.byId("idCoQty").setValue("0");
-  //    this.byId("idCoWeight").setValue("0");
-  //    this.byId("idCoMaking").setValue("0");
-  //    this.byId("idCoCash").setValue("0");
-  //    this.byId("idCoGold").setValue("0");
-  //    this.byId("idCoSilver").setValue("0");
-  //},
+    onInit: function () {
+      BaseController.prototype.onInit.apply(this);
+      var iOriginalBusyDelay,
+        oViewModel = new JSONModel({
+          busy : false,
+          delay : 0,
+          Date: new Date(),
+          DelDate: new Date(),
+          Customer:"",
+          Material:"",
+          Qty:0,
+          Weight: 0,
+          Making: 0,
+          Karigar:"",
+          Remarks:"",
+          Cash:0,
+          Gold:0,
+          Silver:0,
+          Picture: ""
+        });
+        this.setModel(oViewModel, "coView");
+      //this.byId("idCoQty").setValue("0");
+      //this.byId("idCoWeight").setValue("0");
+    //  this.byId("idCoMaking").setValue("0");
+      //this.byId("idCoCash").setValue("0");
+      //this.byId("idCoGold").setValue("0");
+      //this.byId("idCoSilver").setValue("0");
+  },
     onValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);
     },

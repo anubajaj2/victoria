@@ -489,6 +489,8 @@ formatter: formatter,
 			//loop the array values
 			for (var i=1;i<=20;i++){
 				var oItem={
+					"OrderNo":"",
+					"itemNo":"",
 					"material":"",
 					"description":"",
 					"qty":"0",
@@ -500,6 +502,10 @@ formatter: formatter,
 					"tunch":"0",
 					"remarks":"",
 					"subTot":"0",
+					"CreatedBy":"",
+					"CreatedOn":"",
+					"ChangedBy":"",
+					"ChangedOn":""
 				};
 				array.push(oItem);
 			}

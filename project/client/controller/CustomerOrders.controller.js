@@ -1,18 +1,20 @@
-sap.ui.define(
-  ["victoria/controller/BaseController",
-  "victoria/models/formatter"],
-  function (BaseController,formatter) {
+sap.ui.define([
+  "victoria/controller/BaseController",
+  "victoria/models/formatter",
+  "sap/m/MessageToast",
+  "sap/m/MessageBox"
+],function (BaseController, formatter, MessageToast, MessageBox) {
       "use strict";
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
-    onInit: function () {
-      this.byId("idCoQty").setValue("0");
-      this.byId("idCoWeight").setValue("0");
-      this.byId("idCoMaking").setValue("0");
-      this.byId("idCoCash").setValue("0");
-      this.byId("idCoGold").setValue("0");
-      this.byId("idCoSilver").setValue("0");
-    },
+  //  onInit: function () {
+  //    this.byId("idCoQty").setValue("0");
+  //    this.byId("idCoWeight").setValue("0");
+  //    this.byId("idCoMaking").setValue("0");
+  //    this.byId("idCoCash").setValue("0");
+  //    this.byId("idCoGold").setValue("0");
+  //    this.byId("idCoSilver").setValue("0");
+  //},
     onValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);
     },
@@ -67,6 +69,7 @@ sap.ui.define(
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
+        debugger;
         that.getView().setBusy(false);
         sap.m.MessageToast.show("Data Saved Successfully");
 
@@ -79,15 +82,28 @@ sap.ui.define(
 
     onDelete: function(){
       debugger;
-      var aSelectedLines = this.byId("idCoTable").getSelectedItems();
-      if (aSelectedLines.length) {
-        for(var i=0; i < aSelectedLines.length; i++){
-          var myUrl = aSelectedLines[i].getBindingContext().sPath;
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
-                                    "DELETE", {}, {}, this);
-        }
-      }
-    },
+      var that = this;
+      sap.m.MessageBox.confirm("Do you want to delete the selected entries",{
+    title: "Confirm",                                    // default
+    styleClass: "",                                      // default
+    initialFocus: null,                                  // default
+    textDirection: sap.ui.core.TextDirection.Inherit,     // default
+    onClose : function(sButton){
+      debugger;
+      if (sButton === MessageBox.Action.OK) {
+        var aSelectedLines = that.byId("idCoTable").getSelectedItems();
+        if (aSelectedLines.length) {
+          for(var i=0; i < aSelectedLines.length; i++){
+            var myUrl = aSelectedLines[i].getBindingContext().sPath;
+            that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+                                      "DELETE", {}, {}, that);
+          } //end for
+        } //end if aSelectedLines
+        sap.m.MessageToast.show("Selected lines are deleted");
+      } //end if sButton
+    }
+});
+},
     onClear: function(){
       this.byId("idCoDate").setValue("");
       this.byId("idCoDelDate").setValue("");

@@ -83,9 +83,10 @@ sap.ui.define(
                   //read the data which is Saved
                   debugger;
                   var id = oData.id;
+                  var pagga = oData.PaggaNo;
                   var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
                   for (var i = 0; i < allItems.length; i++) {
-                    if( allItems[i].PaggaNo === oData.PaggaNo){
+                    if( allItems[i].PaggaNo == oData.PaggaNo){
                       allItems[i].id = id;
                       break;
                     }
@@ -101,7 +102,8 @@ sap.ui.define(
             }
       },
       onChange: function() {
-          	var cust = this.getView().getModel("kachhiLocalModel").getProperty("/kacchiHeader/customer");
+        debugger;
+          	var cust = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData/Customer");
             if(!cust){
               this.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
             }

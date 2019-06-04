@@ -4,66 +4,75 @@ xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
 xmlns:core ="sap.ui.core">
 
-		<f:Form id="idKacchiHead"
-			editable="true"
-			ariaLabelledBy="Title1">
-			<f:toolbar>
-				<Toolbar id="TB1">
-					<ToolbarSpacer />
-							<core:Icon
-										src="sap-icon://status-completed"
-										class="size1"
-										color="green"
-										size="30px" alt="Save Status" tooltip="Save Status">
-							</core:Icon>
-							<core:Icon
-										src="sap-icon://status-completed"
-										class="size1"
-										color="blue"
-										size="30px" alt="Save Status" tooltip="Transfer Status">
-							</core:Icon>
-				</Toolbar>
-			</f:toolbar>
+<f:Form id="idKacchiHead"
+	editable="true"
+	ariaLabelledBy="Title1">
+<f:toolbar>
+	<Toolbar id="TB1">
+		<ToolbarSpacer />
+			<core:Icon
+						src="sap-icon://status-completed"
+						class="size1"
+						color="green"
+						size="30px" alt="Save Status" tooltip="Save Status">
+			</core:Icon>
+			<core:Icon
+						src="sap-icon://status-completed"
+						class="size1"
+						color="blue"
+						size="30px" alt="Save Status" tooltip="Transfer Status">
+			</core:Icon>
+	</Toolbar>
+</f:toolbar>
 
-			<f:layout>
-				<f:ResponsiveGridLayout
-					labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12"
-					emptySpanXL="0"	emptySpanL="0" emptySpanM="0" emptySpanS="0"
-					columnsXL="1" columnsL="1" columnsM="1"
-					singleContainerFullSize="false" adjustLabelSpan="false" />
-			</f:layout>
-			<f:formContainers>
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement label="{i18n>coDate}">
-							<f:fields>
-                <DatePicker id="idDate" class="sapUiTinyMarginTop"
-                		width="250px"
-                		valueFormat="dd.MM.yyyy"
-										displayFormat="dd.MM.yyyy"
-                		change="onDateChanged"
-										value="{path:'kachhiLocalModel>/cdate',
-				             				formatOptions: { style: 'medium', strictParsing: true}}">
-              </DatePicker>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="{i18n>coCustomer}">
-							<f:fields>
-								<Input id="idCustNo" showValueHelp="true" valueHelpOnly="true"
-											 valueHelpRequest="onCustValueHelp" required="true" value="">
-                  <layoutData>
-										<l:GridData span="XL3 L3 M2" />
-									</layoutData>
-                </Input>
-								<Input id="idCustName" editable="false" width="40%">
-									<!-- <layoutData>
-										<l:GridData span="XL4 L4 M3" />
-									</layoutData> -->
-								</Input>
-							</f:fields>
-            </f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
-			</f:formContainers>
-		</f:Form>
+	<f:layout>
+		<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+		emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+	</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement label="">
+					<f:fields>
+						<Text text="{i18n>coDate}">
+							<layoutData>
+							<l:GridData span="XL1 L1 M2 S4"/>
+							</layoutData>
+						</Text>
+            <DatePicker id="idDate" class="sapUiTinyMarginTop"
+          		valueFormat="dd.MM.yyyy"
+							displayFormat="dd.MM.yyyy"
+          		change="onDateChanged"
+							value="{path:'kachhiLocalModel>/cdate',
+	             				formatOptions: { style: 'medium', strictParsing: true}}">
+						<layoutData>
+						<l:GridData span="XL3 L3 M2 S4"/>
+						</layoutData>
+          </DatePicker>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement label="">
+					<f:fields>
+						<Text text="{i18n>coCustomer}">
+							<layoutData>
+							<l:GridData span="XL1 L1 M2 S4"/>
+							</layoutData>
+						</Text>
+						<Input id="idCustNo" showValueHelp="true" valueHelpOnly="true"
+									 valueHelpRequest="onCustValueHelp" required="true" liveChange="onChange" value="">
+								 <layoutData>
+								 <l:GridData span="XL3 L3 M2 S4"/>
+								 </layoutData>
+					  </Input>
+						<Input id="idCustName" editable="false">
+							<layoutData>
+							<l:GridData span="XL4 L4 M2 S4"/>
+							</layoutData>
+						</Input>
+					</f:fields>
+        </f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+	</f:formContainers>
+</f:Form>
 </core:FragmentDefinition>

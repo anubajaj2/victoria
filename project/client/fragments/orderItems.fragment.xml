@@ -81,7 +81,7 @@
         <m:Input type="Number" value="{orderItems>makingd}" maxLength="5"></m:Input>
         </template>
       </Column>
-      <Column>
+      <Column visible="{visModel>/rows1}">
         <label>
           <m:Text text="{i18n>tunch}"></m:Text>
         </label>

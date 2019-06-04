@@ -1,9 +1,10 @@
 sap.ui.define(
-  ["victoria/controller/BaseController"],
-  function (BaseController) {
+  ["victoria/controller/BaseController",
+  "victoria/models/formatter"],
+  function (BaseController,formatter) {
       "use strict";
   return BaseController.extend("victoria.controller.CustomerOrders", {
-
+    formatter: formatter,
     onInit: function () {
 
     },

@@ -13,7 +13,7 @@
     },
     "DelDate": {
       "type": "date",
-      "required": true
+      "required": false
     },
     "Customer": {
       "type": "string",
@@ -35,17 +35,17 @@
     },
     "Making": {
       "type": "number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Karigar": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Remarks": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Cash": {
       "type": "number",

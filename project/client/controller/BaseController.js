@@ -464,7 +464,23 @@ formatter: formatter,
 			// 		jQuery.sap.log.error("Could not obtain data");
 			// 	});
 		},
-		orderItem:function(){
+		orderItem:function(oEvent){
+			//create the model to set the getProperty
+			//visible or // NOT
+			debugger;
+			var oVisModel = new sap.ui.model.json.JSONModel({
+          rows1: true
+        });
+
+			this.setModel(oVisModel,"visModel");
+			var viewId = oEvent.getSource().getId();
+			var viewName = viewId.split('---')[1];
+			if(viewName ==='idsales')
+			{
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1",false);
+			};
+
 			//create json model
 			var oOrderItem = new JSONModel();
 			//create array
@@ -482,7 +498,7 @@ formatter: formatter,
 					"makingd":"0",
 					"tunch":"0",
 					"remarks":"",
-					"subTot":"0"
+					"subTot":"0",
 				};
 				array.push(oItem);
 			}

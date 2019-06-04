@@ -89,23 +89,17 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="Gbhav1Id"
-                  valueLiveUpdate="true"
-                  LiveChange="OnCustChange"
                   value="{orderLocalModel>Goldbhav1}">
                 </Input>
                 <Input type="Number" id="Gbhav2Id"
-                  valueLiveUpdate="true"
-                  LiveChange="OnCustChange"
-                  value="{orderLocalModel>Goldbhav2}"
+                  value="{orderLocalModel>/Goldbhav2}"
                   editable="true"></Input>
               </f:fields>
             </f:FormElement>
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="sbhavid"
-                  valueLiveUpdate="true"
-                  LiveChange="OnCustChange"
-                value="{orderLocalModel>SilverBhav}"></Input>
+                value="{orderLocalModel>/SilverBhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>
@@ -117,3 +111,4 @@ xmlns:core ="sap.ui.core" width="160px">
 </f:Form>
 </VBox>
 </core:FragmentDefinition>
+  

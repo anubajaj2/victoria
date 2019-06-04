@@ -1,65 +1,54 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
 <VBox class="sapUiSmallMargin">
 <f:Form id="idCoForm1" editable="true">
-<f:title>
-<core:Title/>
-</f:title>
 <f:layout>
-<f:ResponsiveGridLayout labelSpanXL="1" labelSpanL="1" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+	<f:GridLayout hSpacing="1" vSpacing="1"
+		labelSpanXl="4" labelSpanL="4" labelSpanM="2"
+		emptySpanXL="4" emptySpanL="4" emptySpanM="0"
+		columnsXL="4" columnsL="4" columnsM="10"
+		singleContainerFullSize="false" >
+	</f:GridLayout>
 </f:layout>
 <f:formContainers>
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="">
+<f:FormElement label="{i18n>coDate}">
 <f:fields>
-<Text text="{i18n>coDate}">
-	<layoutData>
-	<l:GridData span="XL1 L1 M2 S4"/>
-	</layoutData>
-</Text>
-<DatePicker id="idCoDate" class="sapUiTinyMarginTop"
+<DatePicker id="idCoDate"
 		valueFormat="dd.MM.yyyy"
-		displayFormat="dd.MM.yyyy">
-<layoutData>
-<l:GridData span="XL3 L3 M2 S4"/>
-</layoutData>
-</DatePicker>
-<Text text="{i18n>coDelDate}">
-<layoutData>
-<l:GridData span="XL1 L1 M2 S4"/>
-</layoutData>
-</Text>
-<DatePicker id="idCoDelDate" class="sapUiTinyMarginTop"
-		width="200px"
-		valueFormat="dd.MM.yyyy"
-		displayFormat="dd.MM.yyyy">
-<layoutData>
-<l:GridData span="XL3 L3 M2 S4"/>
-</layoutData>
+		displayFormat="dd.MM.yyyy"
+		value="{
+		path:'customerOrder/Date',
+		formatter:'.formatter.getFormattedDate'
+		}">
+		<layoutData>
+		<l:GridData span="XL3 L3 "/>
+		</layoutData>
 </DatePicker>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="">
+<f:FormElement label="{i18n>coDelDate}">
 <f:fields>
-	<Text text="{i18n>coCustomer}">
-		<layoutData>
-		<l:GridData span="XL1 L1 M2 S4"/>
-		</layoutData>
-	</Text>
-<Input id="idCoCustomer" value="" showValueHelp="true" valueHelpRequest="onValueHelp">
-<layoutData>
-<l:GridData span="XL3 L3 M2 S4"/>
-</layoutData>
-</Input>
-<Input id="idCoCustomerText" value="" editable="false">
-<layoutData>
-<l:GridData span="XL4 L4 M2 S4"/>
-</layoutData>
-</Input>
+<DatePicker id="idCoDelDate"
+		width="50%"
+		valueFormat="dd.MM.yyyy"
+		displayFormat="dd.MM.yyyy"
+		value="{
+		parts: [{path: 'DelDate'},{path: '1'}],
+		formatter:'.formatter.getFormattedDate'}">
+</DatePicker>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>coCustomer}">
+<f:fields>
+<Input id="idCoCustomer" value="" showValueHelp="true" valueHelpRequest="onValueHelp"></Input>
+<Input id="idCoCustomerText" value="" editable="false"></Input>
 </f:fields>
 </f:FormElement>
 </f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
 </f:FormContainer>
 </f:formContainers>
 </f:Form>

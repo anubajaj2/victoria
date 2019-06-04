@@ -33,7 +33,7 @@
     },
     "CreatedOn": {
       "type": "date",
-      "required": false
+      "required": "null"
     },
     "CreatedBy": {
       "type": "string",
@@ -41,7 +41,7 @@
     },
     "ChangedOn": {
       "type": "date",
-      "required": false
+      "required": "null"
     },
     "ChangedBy": {
       "type": "string",

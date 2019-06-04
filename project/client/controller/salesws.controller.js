@@ -111,6 +111,55 @@ sap.ui.define(
                   });
               }
           },
+          onSave: function(oEvent){
+            debugger;
+            var that = this;
+                  for(var i=0; i < 20; i++){
+                    this.getView().setBusy(true);
+                     var myData = this.getView().getModel("orderItems").getProperty("/itemData")[i];
+                    // myData.OrderNo = this.getView().getModel("local").getProperty("/orderItem").OrderNo
+                     myData.OrderNo = this.getView().byId('idOrderNo').getValue();
+                     myData.material = this.getView().getModel("local").getProperty("/orderItem")[i].material;
+                    if( myData.OrderNo   !== "" &&
+                        // myData.itemNo   !== "" &&
+                        myData.material  !== "" &&
+                        myData.qty       !== "" &&
+                        myData.qtyD      !== "" &&
+                        myData.weight    !== "" &&
+                        myData.weightD   !== "" &&
+                        myData.making    !== "" &&
+                        myData.makingD   !== "" &&
+                        myData.tunch     !== "" &&
+                        myData.remarks   !== "" &&
+                        myData.subTotal  !== "" &&
+                        ){
+                      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderItems",
+                                                    "POST", {}, myData, this)
+
+                        .then(function(oData) {
+                					that.getView().setBusy(false);
+                					sap.m.MessageToast.show("Data Saved Successfully");
+                          //read the data which is Saved
+                          debugger;
+                          var id = oData.id;
+                          var material = oData.material;
+                          var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+                          for (var i = 0; i < allItems.length; i++) {
+                            if( allItems[i].material == material){
+                              allItems[i].itemNo = id;
+                              break;
+                            }
+                          }
+                          that.getView().getModel("orderItems").setProperty("/itemData",allItems);
+
+                				}).catch(function(oError) {
+                					that.getView().setBusy(false);
+                					var oPopover = that.getErrorMessage(oError);
+                				});
+                      }
+
+                    }
+              },
           onExit : function () {
       			debugger;
       					if (this.searchPopup) {

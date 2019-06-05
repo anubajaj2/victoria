@@ -31,7 +31,7 @@
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>weight}" />
       <template>
-        <m:Input id="idWeight" fieldGroupIds="kachhiInputs" required="true" type="Number" value="{kachhiLocalModel>Weight}"
+        <m:Input id="idWeight" liveChange="onliveChange" fieldGroupIds="kachhiInputs" required="true" type="Number" value="{kachhiLocalModel>Weight}"
           enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>

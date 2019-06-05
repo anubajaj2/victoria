@@ -37,20 +37,25 @@ sap.ui.define(
             });
   },
   onliveChange: function(oEvent){
+
+    var oCurrentRow = oEvent.getSource().getParent();
     debugger;
- //    var newValue = oEvent.getParameter("value");
- //    if (newValue){
- //    for(var i=0; i < 20; i++){
- //      var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
- //      if(myData.PaggaNo  !== 0 &&
- //         myData.Weight   !== 0 &&
- //         newValue        !== 0 ){
- //
- //       myData.Fine =  myData.Weight * newValue;
- //       this.getView().getModel("kachhiLocalModel").setProperty("/kachhiData", myData)[i];
- //     }
- //   }
- // }
+    var cells = oCurrentRow.getCells();
+    cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
+   //  var newValue = oEvent.getParameter("value");
+   //  if (newValue){
+   //  for(var i=0; i < 20; i++){
+   //    var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
+   //    if(myData.PaggaNo  !== 0 &&
+   //       myData.Weight   !== 0 &&
+   //       newValue        !== 0 ){
+   //
+   //     myData.Fine =  myData.Weight * newValue / 100;
+   //
+   //   }
+   // }
+   // this.getView().getModel("kachhiLocalModel").setProperty("/kachhiData", myData);
+   //}
   },
   createModel : function(){
     var oKacchiItem = new JSONModel();

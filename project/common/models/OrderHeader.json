@@ -53,6 +53,11 @@
   },
   "validations": [],
   "relations": {
+    "ToCustomers":{
+      "type":"belongsTo",
+      "model":"Customer",
+      "foreignKey":"Customer"
+    }
   },
   "acls": [
     {

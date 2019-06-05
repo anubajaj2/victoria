@@ -157,6 +157,10 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"orderHeaderTemp":{
+	  "CustomerId": "",
+		"CustomerName": ""
+	},
 		"customerOrder":{
 		"Date":"",
 		"DelDate":"",

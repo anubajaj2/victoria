@@ -95,6 +95,11 @@ sap.ui.define(
                 var selCustName = oEvent.getParameter("selectedItem").getValue();
                 this.getView().byId("customerId").setValue(selCust);
                 this.getView().byId("custName").setText(selCustName);
+                this.getView().getModel("local").setProperty("/orderHeader/Customer",
+                                oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+                this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+                                                selCust);
+
                 //whatever customer id selected push that in local model
                 var ORData = this.getView().getModel("orderLocalModel")
                 ORData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
@@ -118,20 +123,20 @@ sap.ui.define(
               that.getView().setBusy(true);
               // get the data from screen in local model
               debugger;
-              var orderData = this.getView().getModel('orderLocalModel')
-              var customer  = this.getView().byId('customerId').getValue();
-              orderData.Date      = this.getView().byId('DateId').getDateValue();
-              orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
-              orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
-              orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
-              if (customer === "") {
-              this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
-              that.getView().setBusy(false);
+              var orderData = this.getView().getModel('local').getProperty("/orderHeader");
+              //var customer  = this.getView().byId('customerId').getValue();
+              //orderData.Date      = this.getView().byId('DateId').getDateValue();
+              ///orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
+              ///orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
+              ///orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
+              if (orderData.Customer === "") {
+                this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
+                that.getView().setBusy(false);
               }
               else {
         //call the odata promise method to post the data
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
-                                        "POST", {}, orderData.getData(), this)
+                                        "POST", {}, orderData, this)
              .then(function(oData) {
               that.getView().setBusy(false);
               sap.m.MessageToast.show("Data Saved Successfully");

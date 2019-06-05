@@ -27,7 +27,7 @@ xmlns:core ="sap.ui.core" width="160px">
               <f:FormElement label="{i18n>OrderNo}">
                 <f:fields>
                   <Input id="idOrderNo" width="50%"
-                     value="{orderLocalModel>/OrderNo}"
+                     value="{local>/orderHeader/OrderNo}"
                      showValueHelp="true"
                      valueHelpRequest="valueHelpOrder">
                     <layoutData>
@@ -58,18 +58,18 @@ xmlns:core ="sap.ui.core" width="160px">
               </f:FormElement>
               <f:FormElement label="{i18n>Date}">
                 <f:fields>
-                    <DatePicker id="DateId" valueFormat="dd.MM.yyyy"
+                    <DatePicker id="DateId" valueFormat="yyyy-MM-dd"
                       required="true"
                       displayFormat="dd.MM.yyyy"
                       change="onPayDateChange"
-                      value="{orderLocalModel>/Date}"
+                      value="{local>/orderHeader/Date}"
                       width="50%">
                     </DatePicker>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
-                  <Input id="customerId" value="{orderLocalModel>/Customer}"
+                  <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
                     showValueHelp="true"
                     valueHelpRequest="valueHelpCustomer"
                     valueLiveUpdate="true"
@@ -95,7 +95,7 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="Gbhav1Id"
-                  value="{orderLocalModel>/Goldbhav1}">
+                  value="{local>/orderHeader/Goldbhav1}">
                 </Input>
                 <Input type="Number" id="Gbhav2Id"
                   value="{orderLocalModel>/Goldbhav2}"
@@ -105,7 +105,7 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:FormElement label="{i18n>Sbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="sbhavid"
-                value="{orderLocalModel>/SilverBhav}"></Input>
+                value="{local>/orderHeader/SilverBhav}"></Input>
               </f:fields>
             </f:FormElement>
           </f:formElements>

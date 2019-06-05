@@ -131,7 +131,7 @@ sap.ui.define(
               else {
         //call the odata promise method to post the data
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
-                                        "POST", {}, orderData, this)
+                                        "POST", {}, orderData.getData(), this)
              .then(function(oData) {
               that.getView().setBusy(false);
               sap.m.MessageToast.show("Data Saved Successfully");

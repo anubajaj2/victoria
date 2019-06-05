@@ -35,7 +35,7 @@
           <cells>
           <Text text="{Date}"></Text>
 					<Text text="{Customer}"></Text>
-					<Text text="{Cash}"></Text>
+					<Text text="{path:'Cash', formatter:'.formatter.formatCurrency'}"></Text>
 					<Text text="{Gold}"></Text>
 					<Text text="{Silver}"></Text>
 					<Text text="{Remarks}"></Text>

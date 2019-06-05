@@ -37,7 +37,7 @@ sap.ui.define(
             });
   },
   onliveChange: function(oEvent){
- //    debugger;
+    debugger;
  //    var newValue = oEvent.getParameter("value");
  //    if (newValue){
  //    for(var i=0; i < 20; i++){

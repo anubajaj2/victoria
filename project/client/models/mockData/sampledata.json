@@ -178,6 +178,7 @@
 	},
 	"orderItem":{
 		"OrderNo":"",
+		"itemNo":"",
 		"material":"",
 		"description":"",
 		"qty": "",

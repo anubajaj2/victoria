@@ -49,26 +49,31 @@ sap.ui.define(
             // oSalesItemModel: new JSONModel([this.oSalesItem]),
             onInit: function (oEvent) {
 
-                this.router = sap.ui.core.UIComponent
-                    .getRouterFor(this);
-                this.getRouter()
-                    .attachRoutePatternMatched(
-                        this.onGetModel,
-                        this);
+                // this.router = sap.ui.core.UIComponent
+                //     .getRouterFor(this);
+                // this.getRouter()
+                //     .attachRoutePatternMatched(
+                //         this.onGetModel,
+                //         this);
+                var orouter = this.getRouter();
+                // oRouter.getRoute("OrderHeader").attachMatched(this._onRouteMatched, this);
 
-// set the default date as system date
-          this.getView().byId("DateId").setDateValue( new Date());
-          //header form
+//header form
                 this.orderHeader();
 // Item Table as input table
                 this.orderItem(oEvent);
 // Return Item Table as input table
                 this.orderReturn();
+// set the default date as system date
+                this.getView().byId("DateId").setDateValue( new Date());
             },
             //customer value help
             valueHelpCustomer:function(oEvent){
               debugger;
               this.getCustomerPopup(oEvent);
+            },
+            getRouter:function(){
+
             },
             // onPayDateChange: function(oEvent) {
             //   debugger;
@@ -91,9 +96,9 @@ sap.ui.define(
                 this.getView().byId("customerId").setValue(selCust);
                 this.getView().byId("custName").setText(selCustName);
                 //whatever customer id selected push that in local model
-                var myData = this.getView().getModel("orderLocalModel").getProperty("/Header");
-                myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-                this.getView().getModel("orderLocalModel").setProperty("/orderHeader", myData);
+                var ORData = this.getView().getModel("orderLocalModel")
+                ORData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                // this.getView().getModel("orderLocalModel").setProperty("/orderHeader", myData);
               }
               else {
               //   if (osource.split("--")[2]==="orderHeader") {
@@ -113,34 +118,28 @@ sap.ui.define(
               that.getView().setBusy(true);
               // get the data from screen in local model
               debugger;
-              // var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeaders');
-              var orderData = this.getView().getModel('orderLocalModel').getProperty('/Header')
-              // var orderData = this.getView().getModel('local').getProperty('/orderHeader')
-              orderData.Date      = this.getView().byId('DateId').getValue();
+              var orderData = this.getView().getModel('orderLocalModel')
+              var customer  = this.getView().byId('customerId').getValue();
+              orderData.Date      = this.getView().byId('DateId').getDateValue();
               orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
               orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
               orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
-
-              // orderData.Customer = this.getView().getModel("local").getProperty("/orderHeader").Customer
-              // orderData.Customer = this.getView().getModel("orderLocalModel").getProperty("/Header").Customer
-              debugger;
-              if (orderData.Customer === "") {
+              if (customer === "") {
               this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
               that.getView().setBusy(false);
               }
               else {
-                  this.getView().getModel("orderLocalModel").setProperty("/Headers", orderData);
-                  //call the odata promise method to post the data
-                  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders",
-                                            "POST", {}, orderData, this)
-                  .then(function(oData) {
-                    that.getView().setBusy(false);
-                    sap.m.MessageToast.show("Data Saved Successfully");
-                     }).catch(function(oError) {
-                    that.getView().setBusy(false);
-                    var oPopover = that.getErrorMessage(oError);
-                		});
-                }
+        //call the odata promise method to post the data
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
+                                        "POST", {}, orderData, this)
+             .then(function(oData) {
+              that.getView().setBusy(false);
+              sap.m.MessageToast.show("Data Saved Successfully");
+               }).catch(function(oError) {
+                that.getView().setBusy(false);
+                var oPopover = that.getErrorMessage(oError);
+            		});
+              }
             },
 
         OnCustChange:function(){

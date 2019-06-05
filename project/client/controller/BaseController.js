@@ -472,6 +472,7 @@ formatter: formatter,
           rows1: true
         });
 
+//check for retail sales only
 			this.setModel(oVisModel,"visModel");
 			var viewId = oEvent.getSource().getId();
 			var viewName = viewId.split('---')[1];
@@ -488,6 +489,8 @@ formatter: formatter,
 			//loop the array values
 			for (var i=1;i<=20;i++){
 				var oItem={
+					"OrderNo":"",
+					"itemNo":"",
 					"material":"",
 					"description":"",
 					"qty":"0",
@@ -499,6 +502,10 @@ formatter: formatter,
 					"tunch":"0",
 					"remarks":"",
 					"subTot":"0",
+					"CreatedBy":"",
+					"CreatedOn":"",
+					"ChangedBy":"",
+					"ChangedOn":""
 				};
 				array.push(oItem);
 			}
@@ -531,26 +538,19 @@ formatter: formatter,
 		},
 
 orderHeader:function(){
-	var oOrderHeader = new JSONModel();
-	debugger;
-	// var oOrderHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-	var orderHeader = {
+	var oOrderHeader = new JSONModel({
 		"OrderNo": 0,
-	  "Date": new Date(),
+	  "Date":"",
 	  "Customer": "",
-	  "Goldbhav1":"0",
-	  "Goldbhav2":"0",
-	  "SilverBhav":"0",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	};
-	oOrderHeader.setData({
-		"Header":orderHeader
-	});
+	  "Goldbhav1":0,
+	  "Goldbhav2":0,
+	  "SilverBhav":0,
+		});
+
+	debugger;
+	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
 	this.setModel(oOrderHeader ,"orderLocalModel");
-}
+  }
 
 	});
 });

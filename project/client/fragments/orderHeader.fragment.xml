@@ -4,14 +4,19 @@ xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
 xmlns:core ="sap.ui.core" width="160px">
 <VBox class="sapUiSmallMargin">
-<f:Form id="orderHeader" editable="true">
+<f:Form id="orderHeader" editable="true" layout="ResponsiveGridLayout"
+  labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="12"
+  adjustLabelSpan="true"
+  emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+  columnsXL="2" columnsL="1" columnsM="1">
   <f:layout>
     <f:GridLayout hSpacing="1" vSpacing="1"
       editable='true'
       layout="ColumnLayout"
-      labelSpanXl="2" labelSpanL="2" labelSpanM="2"
-      emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-      columnsXL="10" columnsL="8" columnsM="6"
+      labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="12"
+      adjustLabelSpan="true"
+      emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+      columnsXL="2" columnsL="1" columnsM="1"
       singleContainerFullSize="false">
     </f:GridLayout>
   </f:layout>
@@ -22,6 +27,7 @@ xmlns:core ="sap.ui.core" width="160px">
               <f:FormElement label="{i18n>OrderNo}">
                 <f:fields>
                   <Input id="idOrderNo" width="50%"
+                     value="{orderLocalModel>/OrderNo}"
                      showValueHelp="true"
                      valueHelpRequest="valueHelpOrder">
                     <layoutData>
@@ -56,17 +62,17 @@ xmlns:core ="sap.ui.core" width="160px">
                       required="true"
                       displayFormat="dd.MM.yyyy"
                       change="onPayDateChange"
-                      value=""
+                      value="{orderLocalModel>/Date}"
                       width="50%">
                     </DatePicker>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Customer}">
                 <f:fields>
-                  <Input id="customerId" showValueHelp="true"
+                  <Input id="customerId" value="{orderLocalModel>/Customer}"
+                    showValueHelp="true"
                     valueHelpRequest="valueHelpCustomer"
                     valueLiveUpdate="true"
-                    LiveChange="OnCustChange"
                     width="50%"
                     required="true">
                     <layoutData>
@@ -89,7 +95,7 @@ xmlns:core ="sap.ui.core" width="160px">
             <f:FormElement label="{i18n>Gbhav}">
               <f:fields>
                 <Input type="Number" editable="true" id="Gbhav1Id"
-                  value="{orderLocalModel>Goldbhav1}">
+                  value="{orderLocalModel>/Goldbhav1}">
                 </Input>
                 <Input type="Number" id="Gbhav2Id"
                   value="{orderLocalModel>/Goldbhav2}"
@@ -111,4 +117,3 @@ xmlns:core ="sap.ui.core" width="160px">
 </f:Form>
 </VBox>
 </core:FragmentDefinition>
-  

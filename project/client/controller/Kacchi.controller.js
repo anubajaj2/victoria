@@ -112,8 +112,9 @@ sap.ui.define(
     debugger;
       this.byId("idCustNo").setValue("");
       this.byId("idCustName").setValue("");
+      this.byId("idDate").setDateValue(new Date());
       // this.getView().getModel("kachhiLocalModel").getData();
-      // this.getView().getModel("kachhiLocalModel").setData("/kacchiData", "");
+      this.getView().getModel("kachhiLocalModel").setData("/kacchiData", "");
       // this.byId("idPagga").setValue("");
       // this.byId("idWeight").setValue("");
       // this.byId("idTunch").setValue("");
@@ -122,32 +123,16 @@ sap.ui.define(
   },
   onDelete: function(oEvent) {
     debugger;
-    var aSelectedLines = this.byId("idCustTable").getSelectedItems();
-    if (aSelectedLines.length) {
-      for(var i=0; i < aSelectedLines.length; i++){
-        var myUrl = aSelectedLines[i].getBindingContextPath();
-        this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
+    var that = this;
+    var SelIndexs = this.getView().byId("idCustTable").getSelectedIndices();
+    if (SelIndexs.length) {
+      for(var i=0; i < SelIndexs.length; i++){
+        var myUrl = this.getView().byId("idCustTable")._getContexts();
+        var oDelItem = myUrl[i].sPath;
+        that.ODataHelper.callOData(this.getOwnerComponent().getModel(),oDelItem,
                                   "DELETE", {}, {}, this);
+        }
       }
-    }
-			// var that = this;
-			// MessageBox.confirm("Do you want to delete the selected records?", function(conf) {
-			// 	if (conf == 'OK') {
-			// 		var items = that.getView().byId("idCustTable").getSelectedContexts();
-			// 		for (var i = 0; i < items["length"]; i++) {
-			// 			that.ODataHelper.callOData(that.getOwnerComponent().getModel(), items[i].sPath,
-			// 					"DELETE", {}, {}, that)
-			// 				.then(function(oData) {
-			// 					sap.m.MessageToast.show("Deleted succesfully");
-			// 				}).catch(function(oError) {
-			// 					that.getView().setBusy(false);
-			// 					that.oPopover = that.getErrorMessage(oError);
-			// 					that.getView().setBusy(false);
-			// 				});
-      //
-			// 		}
-			// 	}
-			// }, "Confirmation");
 		},
   // onUpdateFinished: function(oEvent){
   //   debugger;

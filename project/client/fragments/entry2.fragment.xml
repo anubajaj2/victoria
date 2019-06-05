@@ -23,7 +23,7 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>Cash}">
 						<f:fields>
-							<Input id="idCash" width="50%" value="{path:'objectView>/Cash',
+							<Input id="idCash" width="50%" submit="onSubmit" value="{path:'objectView>/Cash',
                                                       formatter:'.formatter.formatCurrency'}"/>
 						</f:fields>
 					</f:FormElement>

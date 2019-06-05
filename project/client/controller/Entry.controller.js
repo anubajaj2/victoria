@@ -5,6 +5,7 @@ function (BaseController,JSONModel,formatter) {
     formatter:formatter,
     onInit: function () {
         BaseController.prototype.onInit.apply(this);
+
         var iOriginalBusyDelay,
         oViewModel = new JSONModel({
           busy : false,
@@ -26,6 +27,22 @@ function (BaseController,JSONModel,formatter) {
 
     onValueHelpRequest: function (oEvent) {
       this.getCustomerPopup(oEvent);
+    },
+
+    onSubmit: function (evt) {
+          $(function() {
+                  $('input:text:first').focus();
+                  var $inp = $('input:text');
+                  $inp.bind('keydown', function(e) {
+                      //var key = (e.keyCode ? e.keyCode : e.charCode);
+                      var key = e.which;
+                      if (key == 13) {
+                          e.preventDefault();
+                          var nxtIdx = $inp.index(this) + 1;
+                          $(":input:text:eq(" + nxtIdx + ")").focus();
+                      }
+                  });
+              });
     },
 
     onRadioButtonSelect: function (oEvent) {

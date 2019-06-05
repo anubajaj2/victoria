@@ -4,18 +4,8 @@ function (BaseController,JSONModel,formatter) {
   return BaseController.extend("victoria.controller.Entry",{
     formatter:formatter,
     onInit: function () {
-      var that = this;
-      debugger;
-      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
-        .then(function(oData) {
-          for (var i = 0; i < oData.results.length; i++) {
-            that.allMasterData.customers[oData.results[i].id] = oData.results[i];
-          }
-        }).catch(function(oError) {
-          var oPopover = that.getErrorMessage(oError);
-        });
-
-      var iOriginalBusyDelay,
+        BaseController.prototype.onInit.apply(this);
+        var iOriginalBusyDelay,
         oViewModel = new JSONModel({
           busy : false,
           delay : 0,
@@ -33,26 +23,9 @@ function (BaseController,JSONModel,formatter) {
           this.getView().byId("DateId").setDateValue( new Date());
       },
 
-    CustomerPopup: function (Evt) {
-      if(!this.searchPopup){
-        this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);
-        this.getView().addDependent(this.searchPopup);
-        var title= this.getView().getModel("i18n").getProperty("customer");
-        this.searchPopup.setTitle(title);
-        this.searchPopup.bindAggregation("items",{
-          path: '/Customers',
-          template: new sap.m.DisplayListItem({
-            id: "idCustPopup",
-            label:"{CustomerCode}",
-            value:"{Name}-{City}"
-          })
-        });
-      }
-      this.searchPopup.open();
-    },
 
-    onValueHelpRequest: function () {
-      this.CustomerPopup();
+    onValueHelpRequest: function (oEvent) {
+      this.getCustomerPopup(oEvent);
     },
 
     onRadioButtonSelect: function (oEvent) {
@@ -120,10 +93,6 @@ function (BaseController,JSONModel,formatter) {
      this.byId("idSilver").setValue("0");
      this.byId("idtunch").setValue("0");
 
-   },
-
-   allMasterData: {
-     "customers":[]
    },
 
    onUpdateFinished: function (oEvent) {

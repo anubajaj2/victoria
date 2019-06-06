@@ -4,116 +4,74 @@ xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
 xmlns:core ="sap.ui.core" width="160px">
 <VBox class="sapUiSmallMargin">
-<f:Form id="orderHeader" editable="true" layout="ResponsiveGridLayout"
-  labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="12"
-  adjustLabelSpan="true"
-  emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-  columnsXL="2" columnsL="1" columnsM="1">
-  <f:layout>
-    <f:GridLayout hSpacing="1" vSpacing="1"
-      editable='true'
-      layout="ColumnLayout"
-      labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="12"
-      adjustLabelSpan="true"
-      emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-      columnsXL="2" columnsL="1" columnsM="1"
-      singleContainerFullSize="false">
-    </f:GridLayout>
-  </f:layout>
-  <f:formContainers>
-    <!-- //Order detail -->
-        <f:FormContainer>
-            <f:formElements>
-              <f:FormElement label="{i18n>OrderNo}">
-                <f:fields>
-                  <Input id="idOrderNo" width="50%"
-                     value="{local>/orderHeader/OrderNo}"
-                     showValueHelp="true"
-                     valueHelpRequest="valueHelpOrder">
-                    <layoutData>
-                    <l:GridData span="L5 M5"></l:GridData>
-                    <!-- <f:ColumnElementData cellsSmall="2" cellsLarge="3" /> -->
-                  </layoutData>
-                  </Input>
-                  <Button text="{i18n>C}" press="orderCreate">
-                    <layoutData>
-                    <!-- <l:GridData indent="L1 M1"></l:GridData> -->
-                    <l:GridData span="L1 M1"></l:GridData>
-                    	<!-- <f:ColumnElementData cellsSmall="1" cellsLarge="1" /> -->
-                  </layoutData>
-                  </Button>
-                  <Button icon="sap-icon://nav-back">
-                    <layoutData>
-                    <l:GridData indent="L1 M1"></l:GridData>
-                    <!-- <f:ColumnElementData cellsSmall="1" cellsLarge="1" /> -->
-                  </layoutData>
-                  </Button>
-                  <Button icon="sap-icon://feeder-arrow">
-                    <layoutData>
-                    <l:GridData indent="L1 M1"></l:GridData>
-                    <!-- <f:ColumnElementData cellsSmall="1" cellsLarge="1" /> -->
-                  </layoutData>
-                  </Button>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>Date}">
-                <f:fields>
-                    <DatePicker id="DateId" valueFormat="yyyy-MM-dd"
-                      required="true"
-                      displayFormat="dd.MM.yyyy"
-                      change="onPayDateChange"
-                      value="{local>/orderHeader/Date}"
-                      width="50%">
-                    </DatePicker>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>Customer}">
-                <f:fields>
-                  <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
-                    showValueHelp="true"
-                    valueHelpRequest="valueHelpCustomer"
-                    valueLiveUpdate="true"
-                    width="50%"
-                    required="true">
-                    <layoutData>
-                    <l:GridData span="L3 M3"></l:GridData>
-                  </layoutData>
-                  </Input>
-                  <Text id ="custName" text="" width="50%"/>
-                </f:fields>
-              </f:FormElement>
-            </f:formElements>
-            <f:layoutData>
-              <f:GridContainerData halfGrid="true"></f:GridContainerData>
-            </f:layoutData>
-        </f:FormContainer>
-  </f:formContainers>
-  <f:formContainers>
+<f:Form id="orderHeader" editable="true">
+<f:layout>
+<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+adjustLabelSpan="false"
+columnsXL="2" columnsL="3" columnsM="2"
+singleContainerFullSize="false"/>
+</f:layout>
+<f:formContainers>
+<!-- //Order detail -->
+<f:FormContainer>
+<f:formElements>
+<f:FormElement label="{i18n>OrderNo}">
+<f:fields>
+<Input id="idOrderNo"
+value="{local>/orderHeader/OrderNo}"  showValueHelp="true"
+valueHelpRequest="valueHelpOrder"/>
+<Button text="{i18n>C}" press="orderCreate"/>
+<Button icon="sap-icon://nav-back"/>
+<Button icon="sap-icon://feeder-arrow"/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>Date}">
+<f:fields>
+<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
+            displayFormat="dd.MM.yyyy" change="onPayDateChange"
+            value="{local>/orderHeader/Date}" width="50%"/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>Customer}">
+<f:fields>
+<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
+      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+      valueLiveUpdate="true" required="true"/>
+<Text id ="custName" text=""/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+</f:formContainers>
+<f:formContainers>
     <!-- //tunch detail -->
-        <f:FormContainer>
-          <f:formElements>
-            <f:FormElement label="{i18n>Gbhav}">
-              <f:fields>
-                <Input type="Number" editable="true" id="Gbhav1Id"
-                  value="{local>/orderHeader/Goldbhav1}">
-                </Input>
-                <Input type="Number" id="Gbhav2Id"
-                  value="{orderLocalModel>/Goldbhav2}"
-                  editable="true"></Input>
-              </f:fields>
-            </f:FormElement>
-            <f:FormElement label="{i18n>Sbhav}">
-              <f:fields>
-                <Input type="Number" editable="true" id="sbhavid"
-                value="{local>/orderHeader/SilverBhav}"></Input>
-              </f:fields>
-            </f:FormElement>
-          </f:formElements>
-          <f:layoutData>
-            <f:GridContainerData halfGrid="true"></f:GridContainerData>
-          </f:layoutData>
-        </f:FormContainer>
-  </f:formContainers>
+<f:FormContainer>
+<f:formElements>
+<f:FormElement label="{i18n>Gbhav}">
+<f:fields>
+<Input type="Number" editable="true" id="Gbhav1Id"
+       value="{local>/orderHeader/Goldbhav1}"/>
+<Input type="Number" id="Gbhav2Id"
+      value="{local>/orderHeader/Goldbhav2}"
+      editable="true"/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>Sbhav}">
+<f:fields>
+<Input type="Number" editable="true" id="sbhavid"
+      value="{local>/orderHeader/SilverBhav}"/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+</f:formContainers>
 </f:Form>
 </VBox>
 </core:FragmentDefinition>

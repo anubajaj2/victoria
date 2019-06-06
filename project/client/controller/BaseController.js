@@ -483,7 +483,7 @@ formatter: formatter,
 			};
 
 			//create json model
-			var oOrderItem = new JSONModel();
+			var oOrderItem = new sap.ui.model.json.JSONModel();
 			//create array
 			var array=[];
 			//loop the array values
@@ -495,13 +495,13 @@ formatter: formatter,
 					"description":"",
 					"qty":"0",
 					"qtyd":"0",
-					"weight":"0",
-					"weightd":"0",
-					"making":"0",
-					"makingd":"0",
-					"tunch":"0",
+					"weight":0,
+					"weightd":0,
+					"making":0,
+					"makingd":0,
+					"tunch":0,
 					"remarks":"",
-					"subTot":"0",
+					"subTot":0,
 					"CreatedBy":"",
 					"CreatedOn":"",
 					"ChangedBy":"",
@@ -516,16 +516,16 @@ formatter: formatter,
 		},
 		orderReturn :function(){
 			//create structure of an array
-			var oTransData = new JSONModel();
+			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];
 			for (var i = 1; i <=5; i++) {
 				var oRetailtab = {
 					"type":" ",
-					"weight":"0",
-					"tunch":"0",
-					"qty":"0",
+					"weight":0,
+					"tunch":0,
+					"qty":0,
 					"bhav":" ",
-					"amount":"0",
+					"amount":0,
 					"remarks":" ",
 					"subtotal":" "
 				};
@@ -535,22 +535,22 @@ formatter: formatter,
 					"TransData": aTtype
 			});
 			this.setModel(oTransData, "returnModel");
-		},
+		}
 
-orderHeader:function(){
-	var oOrderHeader = new JSONModel({
-		"OrderNo": 0,
-	  "Date":"",
-	  "Customer": "",
-	  "Goldbhav1":0,
-	  "Goldbhav2":0,
-	  "SilverBhav":0,
-		});
-
-	debugger;
-	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-	this.setModel(oOrderHeader ,"orderLocalModel");
-  }
+// orderHeader:function(){
+// 	var oOrderHeader = new JSONModel({
+// 		"OrderNo": 0,
+// 	  "Date":"",
+// 	  "Customer": "",
+// 	  "Goldbhav1":0,
+// 	  "Goldbhav2":0,
+// 	  "SilverBhav":0,
+// 		});
+//
+// 	debugger;
+// 	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+// 	this.setModel(oOrderHeader ,"orderLocalModel");
+//   }
 
 	});
 });

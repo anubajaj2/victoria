@@ -12,15 +12,52 @@ sap.ui.define(
 
   return BaseController.extend("victoria.controller.Kacchi", {
       formatter: formatter,
-      // oKacchiItem: {
-      // PaggaNo: "",
-      // Weight: "",
-      // Tunch: "",
-      // Fine: ""
-      //
-      // },
 
   onInit:function(){
+    debugger;
+    this.createModel(); // Create Json Model for SAP.UI.Tabel
+},
+  onValidateFieldGroup: function(oEvent){
+    debugger;
+  },
+  onSubmit: function (evt) {
+    debugger;
+        $(function() {
+                $('input:text:first').focus();
+                var $inp = $('input:text');
+                $inp.bind('keydown', function(e) {
+                    //var key = (e.keyCode ? e.keyCode : e.charCode);
+                    var key = e.which;
+                    if (key == 13) {
+                        e.preventDefault();
+                        var nxtIdx = $inp.index(this) + 1;
+                        $(":input:text:eq(" + nxtIdx + ")").focus();
+                    }
+                });
+            });
+  },
+  onliveChange: function(oEvent){
+
+    var oCurrentRow = oEvent.getSource().getParent();
+    debugger;
+    var cells = oCurrentRow.getCells();
+    cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
+   //  var newValue = oEvent.getParameter("value");
+   //  if (newValue){
+   //  for(var i=0; i < 20; i++){
+   //    var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
+   //    if(myData.PaggaNo  !== 0 &&
+   //       myData.Weight   !== 0 &&
+   //       newValue        !== 0 ){
+   //
+   //     myData.Fine =  myData.Weight * newValue / 100;
+   //
+   //   }
+   // }
+   // this.getView().getModel("kachhiLocalModel").setProperty("/kachhiData", myData);
+   //}
+  },
+  createModel : function(){
     var oKacchiItem = new JSONModel();
 		//create array
 		var array=[];
@@ -48,32 +85,33 @@ sap.ui.define(
 		});
 		this.getView().setModel(oKacchiItem, "kachhiLocalModel");
     this.byId("idDate").setDateValue(new Date());
-},
-
-  onDateChanged: function(oEvent){
-    // debugger;
-    // var oDate = oEvent.getParameters().value;
-    // if(oDate){
-    //   this.getView().byId("idCustNo").focus();
-    // }
 
   },
+//  Get the F4 help for Customers
   onCustValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);
   },
+  // Save the data entered in the UI table to the dataBase
   onSave: function(oEvent){
     debugger;
     var that = this;
+    var data = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
+    if (data.Customer === "") {
+      this.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
+      that.getView().setBusy(false);
+    }
+
           for(var i=0; i < 20; i++){
             this.getView().setBusy(true);
              var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
              myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer
              myData.Date = this.getView().byId("idDate").getDateValue();
-            if(myData.PaggaNo  !== "" &&
-               myData.Weight   !== "" &&
-               myData.Tunch    !== "" &&
-               myData.Fine     !== "" &&
-               myData.Customer !== ""){
+            if(myData.PaggaNo  !== 0 &&
+               myData.Weight   !== 0 &&
+               myData.Tunch    !== 0 &&
+               myData.Fine     !== 0 &&
+               myData.Customer !== "" &&
+               myData.id        == ""){
               this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
                                             "POST", {}, myData, this)
 
@@ -92,6 +130,7 @@ sap.ui.define(
                     }
                   }
                   that.getView().getModel("kachhiLocalModel").setProperty("/kachhiData",allItems);
+                  // this.getView().byId("idSaveIcon").setColor("green");
 
         				}).catch(function(oError) {
         					that.getView().setBusy(false);
@@ -110,34 +149,56 @@ sap.ui.define(
       },
   onClear:function(){
     debugger;
-      this.byId("idCustNo").setValue("");
-      this.byId("idCustName").setValue("");
-      this.byId("idDate").setDateValue(new Date());
-      // this.getView().getModel("kachhiLocalModel").getData();
-      this.getView().getModel("kachhiLocalModel").setData("/kacchiData", "");
-      // this.byId("idPagga").setValue("");
-      // this.byId("idWeight").setValue("");
-      // this.byId("idTunch").setValue("");
-      // this.byId("idFine").setValue("");
+    var that = this;
 
+           sap.m.MessageBox.confirm("Are you sure to clear entries",{
+           title: "Confirm",
+           styleClass: "",
+           initialFocus: null,
+           textDirection: sap.ui.core.TextDirection.Inherit,
+           actions: [MessageBox.Action.OK, MessageBox.Action.NO] ,
+           onClose : function(oAction){
+             debugger;
+             if (oAction === MessageBox.Action.OK) {
+                 that.byId("idCustNo").setValue("");
+                 that.byId("idCustName").setValue("");
+                 that.byId("idDate").setDateValue(new Date());
+                 that.createModel();
+             }
+             sap.m.MessageToast.show("Screen Cleared Successfully");
+           }
+         });
   },
   onDelete: function(oEvent) {
     debugger;
     var that = this;
-    var SelIndexs = this.getView().byId("idCustTable").getSelectedIndices();
-    if (SelIndexs.length) {
-      for(var i=0; i < SelIndexs.length; i++){
-        var myUrl = this.getView().byId("idCustTable")._getContexts();
-        var oDelItem = myUrl[i].sPath;
-        that.ODataHelper.callOData(this.getOwnerComponent().getModel(),oDelItem,
-                                  "DELETE", {}, {}, this);
+    sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
+    title: "Confirm",                                    // default
+    styleClass: "",                                      // default
+    initialFocus: null,                                  // default
+    textDirection: sap.ui.core.TextDirection.Inherit,     // default
+    onClose : function(sButton){
+      debugger;
+    if (sButton === MessageBox.Action.OK) {
+      var selIdxs = that.getView().byId("idCustTable").getSelectedIndices();
+      if (selIdxs.length) {
+        for(var i=0; i < selIdxs.length; i++){
+          var id  = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i].id;
+          var myUrl = "/Kacchis('" + id + "')"
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+                                    "DELETE", {}, {}, that);
+          var oTableData = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
+          oTableData.splice(i, 1);
+          that.getView().getModel("kachhiLocalModel").setProperty("/kachhiData",oTableData);
+          that.getView().byId("idCustTable").clearSelection();
         }
       }
-		},
-  // onUpdateFinished: function(oEvent){
-  //   debugger;
-  //   var oTable = oEvent.getSource();
-  // },
+      sap.m.MessageToast.show("Selected lines are deleted");
+    }
+  }
+});
+},
+
   onConfirm: function(oEvent){
     debugger;
     //whatever customer id selected push that in local model

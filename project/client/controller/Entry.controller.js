@@ -5,25 +5,17 @@ function (BaseController,JSONModel,formatter) {
     formatter:formatter,
     onInit: function () {
         BaseController.prototype.onInit.apply(this);
+        debugger;
 
-        // var iOriginalBusyDelay,
-        // oViewModel = new JSONModel({
-        //   busy : false,
-        //   delay : 0,
-        //   dateValue: new Date(),
-        //   Customer:"",
-        //   Cash:1400,
-        //   Gold:0,
-        //   Silver:0,
-        //   Remarks:"",
-        //   Weight:0,
-        //   Tunch:0,
-        //   DueDate:""
-        // });
-        // 	this.setModel(oViewModel, "objectView");
-          this.getView().byId("DateId").setDateValue( new Date());
+        var oRouter = this.getRouter();
+      oRouter.getRoute("Entry").attachMatched(this._onRouteMatched, this);
       },
 
+      _onRouteMatched : function(){
+      var that = this;
+      that.getView().getModel("local").setProperty("/EntryData/Date", formatter.getFormattedDate(0));
+    
+      },
 
     onValueHelpRequest: function (oEvent) {
       this.getCustomerPopup(oEvent);

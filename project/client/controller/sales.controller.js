@@ -100,8 +100,10 @@ sap.ui.define(
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                                         "POST", {}, orderData, this)
              .then(function(oData) {
+               if (oData) {
               that.getView().setBusy(false);
-              sap.m.MessageToast.show("Data Saved Successfully");
+              sap.m.MessageToast.show("Order Created Successfully");
+              }
                }).catch(function(oError) {
                 that.getView().setBusy(false);
                 var oPopover = that.getErrorMessage(oError);
@@ -111,7 +113,7 @@ sap.ui.define(
 
         onSave:function(){
           var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
-          var oItem = this.getView().getModel('local').getProperty('/orderItem');
+          var oItem   = this.getView().getModel('local').getProperty('/orderItem');
           var oReturn = this.getView().getModel('local').getProperty('/orderReturn');
 
             },

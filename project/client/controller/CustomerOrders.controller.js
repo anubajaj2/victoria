@@ -80,8 +80,8 @@ sap.ui.define([
       that.getView().setBusy(true);
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
       debugger;
-      //myData.Date =  this.getView().byId("idCoDate").getDateValue();
-      //myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+      myData.Date =  this.getView().byId("idCoDate").getDateValue();
+      myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
       //myData.Qty = this.getView().byId("idCoQty").getValue();
       //myData.Weight = this.getView().byId("idCoWeight").getValue();
       //myData.Making = this.getView().byId("idCoMaking").getValue();

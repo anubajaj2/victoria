@@ -26,6 +26,8 @@ sap.ui.define(
                 this.orderItem(oEvent);
 // Return Item Table as input table
                 this.orderReturn();
+
+                BaseController.prototype.onInit.apply(this);
             },
 
             _onSalesRoute:function(oEvent){

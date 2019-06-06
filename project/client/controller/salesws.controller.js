@@ -19,6 +19,7 @@ sap.ui.define(
                   this.orderItem(oEvent);
   // Return Item Table as input table
                   this.orderReturn();
+                  BaseController.prototype.onInit.apply(this);
           },
           valueHelpCustomer: function (oEvent) {
             this.getCustomerPopup(oEvent);
@@ -131,7 +132,7 @@ sap.ui.define(
                         myData.makingD   !== "" &&
                         myData.tunch     !== "" &&
                         myData.remarks   !== "" &&
-                        myData.subTotal  !== "" 
+                        myData.subTotal  !== ""
                         ){
                       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderItems",
                                                     "POST", {}, myData, this)

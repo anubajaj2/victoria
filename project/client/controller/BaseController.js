@@ -57,6 +57,7 @@ formatter: formatter,
 			// 	}).catch(function(oError) {
 			// 		var oPopover = that.getErrorMessage(oError);
 			// 	});
+
 			var that = this;
 			debugger;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
@@ -75,6 +76,7 @@ formatter: formatter,
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
+
 
 		},
 		getRouter: function() {
@@ -104,7 +106,9 @@ formatter: formatter,
 
 		},
 		fieldId:"",
+		searchPopup: null,
 		getCustomerPopup: function(oEvent) {
+			debugger;
 			if (!this.searchPopup) {
 				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.searchPopup);
@@ -113,7 +117,6 @@ formatter: formatter,
 				this.searchPopup.bindAggregation("items",{
 					path: '/Customers',
 					template: new sap.m.DisplayListItem({
-							 id: "idCoCustPopup",
 						label: "{CustomerCode}",
 						value: "{Name} - {City}"
 					})

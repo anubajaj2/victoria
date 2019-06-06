@@ -65,6 +65,11 @@
   },
   "validations": [],
   "relations": {
+    "ToOrders":{
+      "type":"belongsTo",
+      "model":"orderHeader",
+      "foreignKey":"orderNo"
+    }
   },
   "acls": [
     {

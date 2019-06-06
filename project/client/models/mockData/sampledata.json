@@ -126,23 +126,23 @@
 "editEntryData":{
 "Date":"",
 "Customer":"",
-"Cash":"",
-"Gold":"",
-"Silver":"",
+"Cash":"0",
+"Gold":"0",
+"Silver":"0",
 "Remarks":"",
-"Weight":"",
-"Tunch":"",
+"Weight":"0",
+"Tunch":"0",
 "Due Date":""
 },
 "EntryData":{
 "Date":"",
 "Customer":"",
-"Cash":"",
-"Gold":"",
-"Silver":"",
+"Cash":"0",
+"Gold":"0",
+"Silver":"0",
 "Remarks":"",
-"Weight":"",
-"Tunch":"",
+"Weight":"0",
+"Tunch":"0",
 "DueDate":""
 },
 	"orderHeader":{
@@ -161,24 +161,33 @@
 	  "CustomerId": "",
 		"CustomerName": ""
 	},
+	"kachhiHeaderTemp":{
+	  "CustomerId": "",
+		"CustomerName": ""
+	},
 		"customerOrder":{
 		"Date":"",
 		"DelDate":"",
 		"Customer":"",
 		"Material":"",
-		"Qty":"",
-		"Weight":"",
-		"Making":"",
+		"Qty":"0",
+		"Weight":"0",
+		"Making":"0",
 		"Karigar":"",
 		"Remarks":"",
-		"Cash":"",
-		"Gold":"",
-		"Silver":"",
+		"Cash":"0",
+		"Gold":"0",
+		"Silver":"0",
 		"Picture":"",
 		"CreatedBy":"",
 		"CreatedOn":"",
 		"ChangedBy":"",
 		"ChangedOn":""
+	},
+	"coTemp":{
+		"CustomerCode":"",
+		"MaterialCode":"",
+		"KarigarCode":""
 	},
 	"orderItem":{
 		"OrderNo":"",

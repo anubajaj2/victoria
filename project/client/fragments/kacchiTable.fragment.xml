@@ -24,7 +24,7 @@
     <Column hAlign="Center">
       <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
       <template>
-        <m:Input fieldGroupIds="kachhiInputs" required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}"
+        <m:Input fieldGroupIds="kachhiInputs" liveChange="onliveChange" required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}"
           enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
@@ -45,8 +45,7 @@
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>fine}" />
       <template>
-        <m:Input id="idFine" type="String" value="{kachhiLocalModel>Fine}"
-          enabled="false"/>
+        <m:Input id="idFine" type="Currency" value="{kachhiLocalModel>Fine}" enabled="false"/>
       </template>
     </Column>
   </columns>

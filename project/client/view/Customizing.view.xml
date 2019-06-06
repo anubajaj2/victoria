@@ -22,7 +22,7 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" type="Number" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
+							<Input id="idFirst" submit="onSubmit" type="Number" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
 								<layoutData>
 								<l:GridData indent="L3 M3"></l:GridData>
 							</layoutData>
@@ -98,7 +98,7 @@
 	<f:FormElement label="Gold">
 		<f:fields>
 			<Input id="idGold1" type="Number" value="{path:'local>/CustomCalculation/Gold1',
-																					formatter:'.formatter.formatCurrency'}">
+																					formatter:'.formatter.formatCurrency'}" >
 				<layoutData>
 				<l:GridData indent="L3 M3"></l:GridData>
 			</layoutData>

@@ -12,61 +12,28 @@ sap.ui.define(
         "use strict";
 
         return BaseController.extend("victoria.controller.sales", {
-
             formatter: formatter,
 
-            /* =========================================================== */
-            /* lifecycle methods */
-            /* =========================================================== */
-
-            /**
-             * Called when the worklist controller
-             * is instantiated.
-             *
-             * @public
-             */
-            // productId: "",
-            // customerId: "",
-            // globalDate: "",
-            // aItems: [],
-            // rowIndex: null,
-            // sDescription: null,
-            // iFine: null,
-            // oSalesItem: {
-            //     ItmCode: "",
-            //     ItmId: "",
-            //     description: "",
-            //     Weight: 0,
-            //     Tunch: 0,
-            //     Qty: 0,
-            //     Making: 0,
-            //     FineS: 0,
-            //     FineG: 0,
-            //     Cash: 0,
-            //     PType: ""
-            //
-            // },
-            // oSalesItemModel: new JSONModel([this.oSalesItem]),
             onInit: function (oEvent) {
+              debugger;
+            //   var oRouter = this.getRouter();
+            // oRouter.getRoute("sales").attachMatched(this._onSalesRoute, this);
 
-                // this.router = sap.ui.core.UIComponent
-                //     .getRouterFor(this);
-                // this.getRouter()
-                //     .attachRoutePatternMatched(
-                //         this.onGetModel,
-                //         this);
-                var orouter = this.getRouter();
-                // oRouter.getRoute("OrderHeader").attachMatched(this._onRouteMatched, this);
-
-//header form
-                this.orderHeader();
+              var oHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+                oHeader.Date = new Date();
+                this.getOwnerComponent().setModel('local',oHeader);
 // Item Table as input table
                 this.orderItem(oEvent);
 // Return Item Table as input table
                 this.orderReturn();
-// set the default date as system date
-                this.getView().byId("DateId").setDateValue( new Date());
             },
+
+            _onSalesRoute:function(oEvent){
+              var that = this;
+              debugger;
+              var omodel = that.getView().getModel('local').getProperty('/orderHeader');
+            },
+
             //customer value help
             valueHelpCustomer:function(oEvent){
               debugger;
@@ -124,11 +91,6 @@ sap.ui.define(
               // get the data from screen in local model
               debugger;
               var orderData = this.getView().getModel('local').getProperty("/orderHeader");
-              //var customer  = this.getView().byId('customerId').getValue();
-              //orderData.Date      = this.getView().byId('DateId').getDateValue();
-              ///orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
-              ///orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
-              ///orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
               if (orderData.Customer === "") {
                 this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
                 that.getView().setBusy(false);
@@ -146,6 +108,20 @@ sap.ui.define(
             		});
               }
             },
+
+        onSave:function(){
+          var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+          var oItem = this.getView().getModel('local').getProperty('/orderItem');
+          var oReturn = this.getView().getModel('local').getProperty('/orderReturn');
+
+            },
+
+        onClear:function(){
+        var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+        var oItem = this.getView().getModel('local').getProperty('/orderItem');
+        var oReturn = this.getView().getModel('local').getProperty('/orderReturn');
+
+        },
 
         OnCustChange:function(){
           debugger;

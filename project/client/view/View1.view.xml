@@ -23,7 +23,7 @@
 					<StandardListItem id="Kacchi" icon="sap-icon://crm-service-manager" title="Kacchi" description=""></StandardListItem>
 					<StandardListItem id="editEntry" icon="sap-icon://signature" title="Edit Entry" description=""></StandardListItem>
 					<StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="Pending Orders" description=""></StandardListItem>
-					<StandardListItem id="customCalculation" icon="sap-icon://simulate" title="Custom Calculation" description=""></StandardListItem>
+					<StandardListItem id="Customizing" icon="sap-icon://simulate" title="Customizing" description=""></StandardListItem>
 					<StandardListItem id="customerOrders" icon="sap-icon://customer-order-entry" title="Customer Orders" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>

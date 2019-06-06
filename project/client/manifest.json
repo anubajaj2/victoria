@@ -174,9 +174,9 @@
 								"target":["donald","pendingOrders"]
 							},
 							{
-								"pattern": "customCalculation",
-								"name": "customCalculation",
-								"target":["donald","customCalculation"]
+								"pattern": "Customizing",
+								"name": "Customizing",
+								"target":["donald","Customizing"]
 							},
 							{
 								"pattern": "customerOrders",
@@ -336,12 +336,12 @@
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},
-				"customCalculation": {
+				"Customizing": {
 					"transition": "slide",
 					"controlId":"__xmlview0--idSplitApp",
 					"clearAggregation": true,
-					"viewName": "customCalculation",
-					"viewId":"idcustomCalculation",
+					"viewName": "Customizing",
+					"viewId":"idCustomizing",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

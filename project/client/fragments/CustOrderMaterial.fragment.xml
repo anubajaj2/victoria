@@ -5,36 +5,36 @@
 <core:Title/>
 </f:title>
 <f:layout>
-  <f:GridLayout labelSpanXL="2" labelSpanL="2"
-              emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false"
-              columnsXL="2" columnsL="2" columnsM="8" singleContainerFullSize="false">
-  </f:GridLayout>
+  <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2"
+              emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false"
+              columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
 <f:FormContainer title="Order Details">
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
-<Input id="idCoMaterial" value="" showValueHelp="true" valueHelpRequest="onValueHelpMat"/>
+<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" showValueHelp="true" valueHelpRequest="onValueHelpMat">
+</Input>
 <Input id="idCoMatName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coComb}">
 <f:fields>
-<Input value="" id="idCoQty" type="Number"   placeholder="{i18n>coQty}"/>
-<Input value="" id="idCoWeight" type="Number" placeholder="{i18n>coWeight}"/>
-<Input value="" id="idCoMaking" type="Number"  placeholder="{i18n>coMaking}"/>
+<Input value="{local>/customerOrder/Qty}" id="idCoQty" type="Number"   placeholder="{i18n>coQty}"/>
+<Input value="{local>/customerOrder/Weight}" id="idCoWeight" type="Number" placeholder="{i18n>coWeight}"/>
+<Input value="{local>/customerOrder/Making}" id="idCoMaking" type="Number"  placeholder="{i18n>coMaking}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">
 <f:fields>
-<Input id="idCoKarigar" value="" showValueHelp="true" valueHelpRequest="onValueHelp"/>
+<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" showValueHelp="true" valueHelpRequest="onValueHelp"/>
 <Input id="idCoKarigarName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coRemarks}">
 <f:fields>
-<Input id="idCoRemarks" value=""/>
+<Input id="idCoRemarks" value="{local>/customerOrder/Remarks}"/>
 </f:fields>
 </f:FormElement>
 </f:formElements>
@@ -47,22 +47,22 @@
 <f:formElements>
 <f:FormElement label="Cash Advance">
 <f:fields>
-<Input id="idCoCash" type="Number" value=""/>
+<Input id="idCoCash" type="Number" value="{local>/customerOrder/Cash}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Gold Advance">
 <f:fields>
-<Input id="idCoGold" type="Number" value=""/>
+<Input id="idCoGold" type="Number" value="{local>/customerOrder/Gold}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Advance">
 <f:fields>
-<Input id="idCoSilver" type="Number" value=""/>
+<Input id="idCoSilver" type="Number" value="{local>/customerOrder/Silver}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Picture">
 <f:fields>
-<Input id="idCoPicture"  value=""/>
+<Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/>
 </f:fields>
 </f:FormElement>
 </f:formElements>

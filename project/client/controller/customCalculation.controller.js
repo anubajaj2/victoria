@@ -9,6 +9,7 @@ function(BaseController, JSONModel, History, MessageToast){
 
   return BaseController.extend("victoria.controller.customCalculation", {
 	// onInit : function () {
+
     // var oViewModel1 = new JSONModel({
     //      "First": "",
     //         "Second": "",
@@ -63,7 +64,6 @@ function(BaseController, JSONModel, History, MessageToast){
 //   ClearCalculation : function(){
 //
 //   },
-
   SaveCalculation : function(){
     var that = this;
     that.getView().setBusy(true);

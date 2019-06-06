@@ -131,7 +131,7 @@ sap.ui.define(
                         myData.makingD   !== "" &&
                         myData.tunch     !== "" &&
                         myData.remarks   !== "" &&
-                        myData.subTotal  !== "" &&
+                        myData.subTotal  !== "" 
                         ){
                       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderItems",
                                                     "POST", {}, myData, this)

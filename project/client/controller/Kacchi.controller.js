@@ -17,46 +17,32 @@ sap.ui.define(
     debugger;
     this.createModel(); // Create Json Model for SAP.UI.Tabel
 },
-  onValidateFieldGroup: function(oEvent){
-    debugger;
-  },
-  onSubmit: function (evt) {
-    debugger;
-        $(function() {
-                $('input:text:first').focus();
-                var $inp = $('input:text');
-                $inp.bind('keydown', function(e) {
-                    //var key = (e.keyCode ? e.keyCode : e.charCode);
-                    var key = e.which;
-                    if (key == 13) {
-                        e.preventDefault();
-                        var nxtIdx = $inp.index(this) + 1;
-                        $(":input:text:eq(" + nxtIdx + ")").focus();
-                    }
-                });
-            });
-  },
+  // onValidateFieldGroup: function(oEvent){
+  //   debugger;
+  // },
   onliveChange: function(oEvent){
-
+    this.byId("idSaveIcon").setColor('red');
     var oCurrentRow = oEvent.getSource().getParent();
-    debugger;
     var cells = oCurrentRow.getCells();
     cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
-   //  var newValue = oEvent.getParameter("value");
-   //  if (newValue){
-   //  for(var i=0; i < 20; i++){
-   //    var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
-   //    if(myData.PaggaNo  !== 0 &&
-   //       myData.Weight   !== 0 &&
-   //       newValue        !== 0 ){
-   //
-   //     myData.Fine =  myData.Weight * newValue / 100;
-   //
-   //   }
-   // }
-   // this.getView().getModel("kachhiLocalModel").setProperty("/kachhiData", myData);
-   //}
+    this.byId("idTunch")
+
   },
+  // onSubmit: function (evt) {
+  //       $(function() {
+  //         $('input:text:first').focus();
+  //         var $inp = $('input:text');
+  //         $inp.bind('keydown', function(e) {
+  //             //var key = (e.keyCode ? e.keyCode : e.charCode);
+  //             var key = e.which;
+  //             if (key == 13) {
+  //                 e.preventDefault();
+  //                 var nxtIdx = $inp.index(this) + 1;
+  //                 $(":input:text:eq(" + nxtIdx + ")").focus();
+  //             }
+  //         });
+  //     });
+  // },
   createModel : function(){
     var oKacchiItem = new JSONModel();
 		//create array
@@ -70,7 +56,7 @@ sap.ui.define(
         PaggaNo: 0,
         Weight: 0,
         Tunch: 0,
-        Fine: 0,
+        Fine: 0.00,
         status:true
 			};
       	array.push(oItem);
@@ -95,58 +81,63 @@ sap.ui.define(
   onSave: function(oEvent){
     debugger;
     var that = this;
-    var data = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
-    if (data.Customer === "") {
-      this.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
-      that.getView().setBusy(false);
-    }
-
-          for(var i=0; i < 20; i++){
-            this.getView().setBusy(true);
-             var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
-             myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer
-             myData.Date = this.getView().byId("idDate").getDateValue();
-            if(myData.PaggaNo  !== 0 &&
-               myData.Weight   !== 0 &&
-               myData.Tunch    !== 0 &&
-               myData.Fine     !== 0 &&
-               myData.Customer !== "" &&
-               myData.id        == ""){
-              this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
-                                            "POST", {}, myData, this)
-
-                .then(function(oData) {
-        					that.getView().setBusy(false);
-        					sap.m.MessageToast.show("Data Saved Successfully");
-                  //read the data which is Saved
-                  debugger;
-                  var id = oData.id;
-                  var pagga = oData.PaggaNo;
-                  var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
-                  for (var i = 0; i < allItems.length; i++) {
-                    if( allItems[i].PaggaNo == oData.PaggaNo){
-                      allItems[i].id = id;
-                      break;
-                    }
-                  }
-                  that.getView().getModel("kachhiLocalModel").setProperty("/kachhiData",allItems);
-                  // this.getView().byId("idSaveIcon").setColor("green");
-
-        				}).catch(function(oError) {
-        					that.getView().setBusy(false);
-        					var oPopover = that.getErrorMessage(oError);
-        				});
-              }
-
-            }
-      },
-      onChange: function() {
+      this.getView().setBusy(true);
+    var CustNo = this.byId("idCustNo").getValue()
+    if ( CustNo === "" ) {
+      sap.m.MessageBox.error("Customer is mandatory input",{
+      title: "Error",
+      styleClass: "",
+      initialFocus: null,
+      textDirection: sap.ui.core.TextDirection.Inherit,
+      actions: MessageBox.Action.OK ,
+      onClose : function(oAction){
         debugger;
-          	var cust = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData/Customer");
-            if(!cust){
-              this.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
-            }
-      },
+        if (oAction === MessageBox.Action.OK) {
+            that.getView().byId("idCustNo").setValueState("Error").setValueStateText("Mandatory Input");
+            that.getView().setBusy(false);
+        }
+      }
+    });
+    }else{
+      for(var i=0; i < 20; i++){
+         var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
+         myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer
+         myData.Date = this.getView().byId("idDate").getDateValue();
+        if(myData.PaggaNo  !== 0 &&
+           myData.Weight   !== 0 &&
+           myData.Tunch    !== 0 &&
+           myData.Fine     !== 0 &&
+           myData.Customer !== "" &&
+           myData.id        == ""){
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Kacchis",
+                                        "POST", {}, myData, this)
+
+            .then(function(oData) {
+              that.getView().setBusy(false);
+              sap.m.MessageToast.show("Data Saved Successfully");
+              //read the data which is Saved
+              debugger;
+              var id = oData.id;
+              var pagga = oData.PaggaNo;
+              var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
+              for (var i = 0; i < allItems.length; i++) {
+                if( allItems[i].PaggaNo == oData.PaggaNo){
+                  allItems[i].id = id;
+                  break;
+                }
+              }
+              that.getView().getModel("kachhiLocalModel").setProperty("/kachhiData",allItems);
+              that.byId("idSaveIcon").setColor('green');
+
+            }).catch(function(oError) {
+              that.getView().setBusy(false);
+              var oPopover = that.getErrorMessage(oError);
+            });
+          }
+          this.getView().setBusy(false);
+        }
+      }
+  },
   onClear:function(){
     debugger;
     var that = this;
@@ -198,27 +189,22 @@ sap.ui.define(
   }
 });
 },
-
-  onConfirm: function(oEvent){
-    debugger;
-    //whatever customer id selected push that in local model
-      var myData = this.getView().getModel("local").getProperty("/kacchiData");
-      myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-      this.getView().getModel("local").setProperty("/kacchiData", myData);
-      // added by sweta to populate the selected cust and text to the input field
-      var selCust = oEvent.getParameter("selectedItem").getLabel();
-      var selCustName = oEvent.getParameter("selectedItem").getValue();
-      if(selCust){
-        // var custNumText = this.getView().getModel("kachhiLocalModel").getProperty("/kacchiHeader");
-        // custNumText.customer = selCust;
-        // this.getView().getModel("kachhiLocalModel").setProperty("/kacchiHeader", custNumText);
-        this.getView().byId("idCustNo").setValue(selCust);
-        this.getView().byId("idCustName").setValue(selCustName);
-        // this.getView().byId("idPagga").focus();
-      }
-      // End of addition by Sweta
+onConfirm: function(oEvent){
+  debugger;
+  //whatever customer id selected push that in local model
+    var myData = this.getView().getModel("local").getProperty("/kacchiData");
+    myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+    this.getView().getModel("local").setProperty("/kacchiData", myData);
+  // added by sweta to populate the selected cust and text to the input field
+    var selCust = oEvent.getParameter("selectedItem").getLabel();
+    var selCustName = oEvent.getParameter("selectedItem").getValue();
+    if(selCust){
+      var custHeader = this.getView().getModel("local").getProperty("/kachhiHeaderTemp");
+          custHeader.CustomerId = selCust;
+          custHeader.CustomerName = selCustName;
+          this.getView().getModel("local").setProperty("/kachhiHeaderTemp", custHeader);
+          this.getView().byId("idCustNo").setValueState();
+    }
   }
-
-        });
-
-    });
+});
+});

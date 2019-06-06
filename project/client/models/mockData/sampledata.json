@@ -126,12 +126,12 @@
 "editEntryData":{
 "Date":"",
 "Customer":"",
-"Cash":"",
-"Gold":"",
-"Silver":"",
+"Cash":"0",
+"Gold":"0",
+"Silver":"0",
 "Remarks":"",
-"Weight":"",
-"Tunch":"",
+"Weight":"0",
+"Tunch":"0",
 "Due Date":""
 },
 "EntryData":{

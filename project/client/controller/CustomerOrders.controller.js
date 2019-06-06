@@ -10,32 +10,22 @@ sap.ui.define([
     formatter: formatter,
     onInit: function () {
       BaseController.prototype.onInit.apply(this);
-      var iOriginalBusyDelay,
-        oViewModel = new JSONModel({
-          busy : false,
-          delay : 0,
-          Date: new Date(),
-          DelDate: new Date(),
-          Customer:"",
-          Material:"",
-          Qty:0,
-          Weight: 0,
-          Making: 0,
-          Karigar:"",
-          Remarks:"",
-          Cash:0,
-          Gold:0,
-          Silver:0,
-          Picture: ""
-        });
-        this.setModel(oViewModel, "coView");
-      //this.byId("idCoQty").setValue("0");
-      //this.byId("idCoWeight").setValue("0");
-    //  this.byId("idCoMaking").setValue("0");
-      //this.byId("idCoCash").setValue("0");
-      //this.byId("idCoGold").setValue("0");
-      //this.byId("idCoSilver").setValue("0");
+      debugger;
+      //this.getView().byId("idCoDate").setDateValue( new Date());
+      //this.getView().getModel("local").setProperty("/customerOrder/Date", new Date());
+      //this.getView().byId("idCoDelDate").setDateValue( new Date(), formatter.getFormattedDate(1));
+      //this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+
+      var oRouter = this.getRouter();
+    oRouter.getRoute("customerOrders").attachMatched(this._onRouteMatched, this);
   },
+
+  _onRouteMatched : function(){
+  	var that = this;
+    that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
+    that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+  },
+
     onValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);
     },
@@ -47,46 +37,59 @@ sap.ui.define([
     onConfirm: function(oEvent){
       //whatever customer id selected push that in local model
         debugger;
-        var myData = this.getView().getModel("local").getProperty("/customerOrder");
+        //var myData = this.getView().getModel("local").getProperty("/customerOrder");
         if(oEvent.getSource().getTitle() === "Material Search"){
           var selMat = oEvent.getParameter("selectedItem").getLabel();
           var selMatName = oEvent.getParameter("selectedItem").getValue();
-          this.getView().byId("idCoMaterial").setValue(selMat);
+          //this.getView().byId("idCoMaterial").setValue(selMat);
           this.getView().byId("idCoMatName").setValue(selMatName);
-          myData.Material = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          this.getView().getModel("local").setProperty("/customerOrder/Material",
+                oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+          this.getView().getModel("local").setProperty("/coTemp/MaterialCode",
+                                                selMat);
+          //myData.Material = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }else if (oEvent.getSource().getTitle() === "Karigar Search") {
 
           var selKarigar = oEvent.getParameter("selectedItem").getLabel();
           var selKarigarName = oEvent.getParameter("selectedItem").getValue();
-          this.getView().byId("idCoKarigar").setValue(selKarigar);
+          //this.getView().byId("idCoKarigar").setValue(selKarigar);
           this.getView().byId("idCoKarigarName").setValue(selKarigarName);
-          myData.Karigar = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          this.getView().getModel("local").setProperty("/customerOrder/Karigar",
+                oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+          this.getView().getModel("local").setProperty("/coTemp/KarigarCode",
+                                                selKarigar);
+          //myData.Karigar = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }
         else{
           var selCust = oEvent.getParameter("selectedItem").getLabel();
           var selCustName = oEvent.getParameter("selectedItem").getValue();
-          this.getView().byId("idCoCustomer").setValue(selCust);
+          //this.getView().byId("idCoCustomer").setValue(selCust);
           this.getView().byId("idCoCustomerText").setValue(selCustName);
-          myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          this.getView().getModel("local").setProperty("/customerOrder/Customer",
+                oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+          this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
+                                                selCust);
+          //myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }
 
-        this.getView().getModel("local").setProperty("/customerOrder", myData);
+        //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
 
     onSave: function(){
       var that = this;
       that.getView().setBusy(true);
-      var myData = this.getView().getModel("local").getProperty("/customerOrder");
-      myData.Date =  this.getView().byId("idCoDate").getDateValue();
-      myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-      myData.Qty = this.getView().byId("idCoQty").getValue();
-      myData.Weight = this.getView().byId("idCoWeight").getValue();
-      myData.Making = this.getView().byId("idCoMaking").getValue();
-      myData.Remarks = this.getView().byId("idCoRemarks").getValue();
-      myData.Cash = this.getView().byId("idCoCash").getValue();
-      myData.Gold = this.getView().byId("idCoGold").getValue();
-      myData.Silver = this.getView().byId("idCoSilver").getValue();
-      myData.Picture = this.getView().byId("idCoPicture").getValue();
+      var myData = this.getView().getModel('local').getProperty("/customerOrder");
+      debugger;
+      //myData.Date =  this.getView().byId("idCoDate").getDateValue();
+      //myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+      //myData.Qty = this.getView().byId("idCoQty").getValue();
+      //myData.Weight = this.getView().byId("idCoWeight").getValue();
+      //myData.Making = this.getView().byId("idCoMaking").getValue();
+      //myData.Remarks = this.getView().byId("idCoRemarks").getValue();
+      //myData.Cash = this.getView().byId("idCoCash").getValue();
+      //myData.Gold = this.getView().byId("idCoGold").getValue();
+      //myData.Silver = this.getView().byId("idCoSilver").getValue();
+      //myData.Picture = this.getView().byId("idCoPicture").getValue();
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
@@ -145,7 +148,6 @@ sap.ui.define([
     },
 
     onUpdateFinished: function(oEvent){
-      debugger;
       var oTable = oEvent.getSource();
       var itemList = oTable.getItems();
       var noOfItems = itemList.length;

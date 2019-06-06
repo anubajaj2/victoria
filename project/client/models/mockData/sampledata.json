@@ -180,6 +180,11 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"coTemp":{
+		"CustomerCode":"",
+		"MaterialCode":"",
+		"KarigarCode":""
+	},
 	"orderItem":{
 		"OrderNo":"",
 		"itemNo":"",

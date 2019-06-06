@@ -22,7 +22,11 @@
           <m:Text text="{i18n>material}"></m:Text>
         </label>
         <template>
-        <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input>
+        <!-- <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
+        <m:ComboBox id="idMaterial"	showSecondaryValues= "true" required="true"
+				items="{orderItems>material}" selectionChange="onMaterialSelect">
+				<core:ListItem key="{id}" text="{ProductCode} {ProductName}"/>
+			</m:ComboBox>
         </template>
       </Column>
       <Column>

@@ -16,16 +16,6 @@ singleContainerFullSize="false"/>
 <!-- //Order detail -->
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="{i18n>OrderNo}">
-<f:fields>
-<Input id="idOrderNo"
-value="{local>/orderHeader/OrderNo}"  showValueHelp="true"
-valueHelpRequest="valueHelpOrder"/>
-<Button text="{i18n>C}" press="orderCreate"/>
-<Button icon="sap-icon://nav-back"/>
-<Button icon="sap-icon://feeder-arrow"/>
-</f:fields>
-</f:FormElement>
 <f:FormElement label="{i18n>Date}">
 <f:fields>
 <DatePicker id="DateId" valueFormat="yyyy.MM.dd" required="true"
@@ -42,6 +32,17 @@ valueHelpRequest="valueHelpOrder"/>
 <Text id ="custName" text=""/>
 </f:fields>
 </f:FormElement>
+<f:FormElement label="{i18n>OrderNo}">
+<f:fields>
+<Input id="idOrderNo"
+value="{local>/orderHeader/OrderNo}"  showValueHelp="true"
+editable="false"
+valueHelpRequest="valueHelpOrder"/>
+<Button text="{i18n>C}" press="orderCreate"/>
+<Button icon="sap-icon://nav-back"/>
+<Button icon="sap-icon://feeder-arrow"/>
+</f:fields>
+</f:FormElement>
 </f:formElements>
 <f:layoutData>
 <f:GridContainerData halfGrid="true"></f:GridContainerData>
@@ -54,17 +55,17 @@ valueHelpRequest="valueHelpOrder"/>
 <f:formElements>
 <f:FormElement label="{i18n>Gbhav}">
 <f:fields>
-<Input type="Number" editable="true" id="Gbhav1Id"
-       value="{local>/orderHeader/Goldbhav1}"/>
-<Input type="Number" id="Gbhav2Id"
+<Input type="Number" editable="true" id="Gbhav1Id" placeholder="{i18n>gbhav1}"
+      tooltip="{i18n>gbhav1}" value="{local>/orderHeader/Goldbhav1}"/>
+<Input type="Number" id="Gbhav2Id" placeholder="{i18n>gbhav2}" tooltip="{i18n>gbhav2}"
       value="{local>/orderHeader/Goldbhav2}"
       editable="true"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Sbhav}">
 <f:fields>
-<Input type="Number" editable="true" id="sbhavid"
-      value="{local>/orderHeader/SilverBhav}"/>
+<Input type="Number" editable="true" id="sbhavid" placeholder="{i18n>sbhav}"
+      tooltip="{i18n>Sbhav}" value="{local>/orderHeader/SilverBhav}"/>
 </f:fields>
 </f:FormElement>
 </f:formElements>

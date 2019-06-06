@@ -10,18 +10,19 @@ sap.ui.define(
     function (BaseController, JSONModel, History, formatter,
               MessageToast, Filter) {
         "use strict";
-
         return BaseController.extend("victoria.controller.sales", {
             formatter: formatter,
 
             onInit: function (oEvent) {
+              BaseController.prototype.onInit.apply(this);
               debugger;
             //   var oRouter = this.getRouter();
             // oRouter.getRoute("sales").attachMatched(this._onSalesRoute, this);
 
-              var oHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-                oHeader.Date = new Date();
-                this.getOwnerComponent().setModel('local',oHeader);
+              // var oHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+              //   oHeader.date = new Date();
+              //   this.getOwnerComponent().setModel('local',oHeader);
+                // this.byId("DateId").setDateValue(new Date());
 // Item Table as input table
                 this.orderItem(oEvent);
 // Return Item Table as input table
@@ -68,8 +69,8 @@ sap.ui.define(
                                                 selCust);
 
                 //whatever customer id selected push that in local model
-                var ORData = this.getView().getModel("orderLocalModel")
-                ORData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                // var ORData = this.getView().getModel("orderLocalModel")
+                // ORData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
                 // this.getView().getModel("orderLocalModel").setProperty("/orderHeader", myData);
               }
               else {
@@ -100,12 +101,12 @@ sap.ui.define(
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                                         "POST", {}, orderData, this)
              .then(function(oData) {
-               if (oData) {
+               if (!oError) {
               that.getView().setBusy(false);
               sap.m.MessageToast.show("Order Created Successfully");
               }
                }).catch(function(oError) {
-                that.getView().setBusy(false);
+                 that.getView().setBusy(false);
                 var oPopover = that.getErrorMessage(oError);
             		});
               }
@@ -127,6 +128,11 @@ sap.ui.define(
 
         OnCustChange:function(){
           debugger;
+        },
+        onMaterialSelect:function(){
+          var oMaterial = this.getView().getModel('local').getProperty('/orderItems');
+          oMaterial.Material = oEvent.getParameter("selectedItem").getKey();
+           this.getView().getModel("local").setProperty("/orderItems", myData);
         }
 //             onGetModel: function (oEvent) {
 //                 var oModel = this.getView()

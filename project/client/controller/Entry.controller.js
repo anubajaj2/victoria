@@ -6,21 +6,21 @@ function (BaseController,JSONModel,formatter) {
     onInit: function () {
         BaseController.prototype.onInit.apply(this);
 
-        var iOriginalBusyDelay,
-        oViewModel = new JSONModel({
-          busy : false,
-          delay : 0,
-          dateValue: new Date(),
-          Customer:"",
-          Cash:1400,
-          Gold:0,
-          Silver:0,
-          Remarks:"",
-          Weight:0,
-          Tunch:0,
-          DueDate:""
-        });
-        	this.setModel(oViewModel, "objectView");
+        // var iOriginalBusyDelay,
+        // oViewModel = new JSONModel({
+        //   busy : false,
+        //   delay : 0,
+        //   dateValue: new Date(),
+        //   Customer:"",
+        //   Cash:1400,
+        //   Gold:0,
+        //   Silver:0,
+        //   Remarks:"",
+        //   Weight:0,
+        //   Tunch:0,
+        //   DueDate:""
+        // });
+        // 	this.setModel(oViewModel, "objectView");
           this.getView().byId("DateId").setDateValue( new Date());
       },
 

@@ -51,6 +51,19 @@
 <f:GridContainerData halfGrid="true"></f:GridContainerData>
 </f:layoutData>
 </f:FormContainer>
+<f:FormContainer title="Picture">
+<f:formElements>
+<f:FormElement label="Picture">
+<f:fields>
+<Button id="idCoTakePic"  text="TakePicture" press="onTakePic" />
+<Button id="idCoUpldPic"  text="UploadPicture" press="onUpldPic"/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
 </f:formContainers>
 </f:Form>
 </VBox>

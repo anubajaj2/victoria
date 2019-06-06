@@ -2,7 +2,7 @@
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
-	<semantic:FullscreenPage id="customCalculation"
+	<semantic:FullscreenPage id="Customzing"
 		navButtonPress="onNavBack" showNavButton="true" title="Customizing">
 
 		<semantic:content id="test11">
@@ -22,7 +22,7 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" value="{local>/CustomCalculation/First}">
+							<Input id="idFirst" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
 								<layoutData>
 								<l:GridData indent="L3 M3"></l:GridData>
 							</layoutData>
@@ -37,13 +37,15 @@
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
-						<Input id="idGold" type="String" value="{local>/CustomCalculation/Gold}">
+						<Input id="idGold" type="String" value="{path:'local>/CustomCalculation/Gold',
+																						formatter:'.formatter.formatCurrency'}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
 			<f:FormElement label="Silver">
 				<f:fields>
-					<Input id="idSilver" type="String" value="{local>/CustomCalculation/Silver}">
+					<Input id="idSilver" type="String" value="{path:'local>/CustomCalculation/Silver',
+																							formatter:'.formatter.formatCurrency'}">
 					</Input>
 			</f:fields>
 		</f:FormElement>
@@ -56,7 +58,8 @@
 		<f:formElements>
 		<f:FormElement label="Gold Returns">
 			<f:fields>
-				<Input id="idGoldR" type="String" value="{local>/CustomCalculation/Gold Returns}">
+				<Input id="idGoldR" type="String" value="{path:'local>/CustomCalculation/Gold Returns',
+																					formatter:'.formatter.formatCurrency'}">
 					<layoutData>
 					<l:GridData indent="L3 M3"></l:GridData>
 				</layoutData>
@@ -65,7 +68,8 @@
 		</f:FormElement>
 		<f:FormElement label="Silver Returns">
 			<f:fields>
-				<Input id="idSilverR" type="String" value="{local>/CustomCalculation/Silver Returns}">
+				<Input id="idSilverR" type="String" value="{path:'local>/CustomCalculation/Silver Returns',
+																						formatter:'.formatter.formatCurrency'}">
 				</Input>
 		</f:fields>
 	</f:FormElement>

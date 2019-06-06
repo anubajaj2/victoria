@@ -63,7 +63,6 @@ function(BaseController, JSONModel, History, MessageToast){
 //   ClearCalculation : function(){
 //
 //   },
-
   SaveCalculation : function(){
     var that = this;
     that.getView().setBusy(true);

@@ -25,7 +25,7 @@
       <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
       <template>
         <m:Input fieldGroupIds="kachhiInputs" liveChange="onliveChange" required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}"
-          enabled="{kachhiLocalModel>/status}" submit="onSubmit" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+          enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
     <Column hAlign="Center">

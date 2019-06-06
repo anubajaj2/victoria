@@ -9,99 +9,97 @@
   "properties": {
     "First": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Second": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Gold": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Silver": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Gold Returns": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Silver Returns": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Gold1": {
       "type": "number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Silver1": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Kaccha Gold": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Kaccha Silver": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Gold Returns1": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Silver Returns1": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Kaccha Gold R": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "Kaccha Silver R": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "minimum":1,
       "maximum":4
     },
     "CreatedOn": {
-      "type": "date",
-      "default": "null"
+      "type": "date"
     },
     "CreatedBy": {
       "type": "string",
       "default": "null"
     },
     "ChangedOn": {
-      "type": "date",
-      "default": "null"
+      "type": "date"
     },
     "ChangedBy": {
       "type": "string",

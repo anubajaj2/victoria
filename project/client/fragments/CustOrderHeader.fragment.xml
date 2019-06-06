@@ -2,12 +2,11 @@
 <VBox class="sapUiSmallMargin">
 <f:Form id="idCoForm1" editable="true">
 <f:layout>
-	<f:GridLayout hSpacing="1" vSpacing="1"
-		labelSpanXl="4" labelSpanL="4" labelSpanM="2"
-		emptySpanXL="4" emptySpanL="4" emptySpanM="0"
-		columnsXL="4" columnsL="4" columnsM="10"
-		singleContainerFullSize="false" >
-	</f:GridLayout>
+	<f:ResponsiveGridLayout
+		labelSpanXl="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" adjustLabelSpan="false"
+		emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0"
+		columnsXL="2" columnsL="2" columnsM="2"
+		singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
 <f:FormContainer>
@@ -27,17 +26,24 @@
 <f:FormElement label="{i18n>coDelDate}">
 <f:fields>
 <DatePicker id="idCoDelDate"
-		width="50%"
-		valueFormat="dd.MM.yyyy"
+		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
 		value="{path: 'local>/customerOrder/DelDate'}">
+		<layoutData>
+		<l:GridData span="XL3 L3 "/>
+		</layoutData>
 </DatePicker>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>coCustomer}">
 <f:fields>
-<Input id="idCoCustomer" value="{local>/coTemp/CustomerCode}" showValueHelp="true" valueHelpRequest="onValueHelp"></Input>
-<Input id="idCoCustomerText" value="" editable="false"></Input>
+<Input id="idCoCustomer" value="{local>/coTemp/CustomerCode}" showValueHelp="true" valueHelpRequest="onValueHelp">
+	<layoutData>
+	<l:GridData span="XL3 L3 "/>
+	</layoutData>
+</Input>
+<Input id="idCoCustomerText" value="" editable="false">
+</Input>
 </f:fields>
 </f:FormElement>
 </f:formElements>

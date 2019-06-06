@@ -5,17 +5,17 @@
 <core:Title/>
 </f:title>
 <f:layout>
-  <f:GridLayout labelSpanXL="2" labelSpanL="2"
-              emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false"
-              columnsXL="2" columnsL="2" columnsM="8" singleContainerFullSize="false">
-  </f:GridLayout>
+  <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2"
+              emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false"
+              columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
 <f:FormContainer title="Order Details">
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
-<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" showValueHelp="true" valueHelpRequest="onValueHelpMat"/>
+<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" showValueHelp="true" valueHelpRequest="onValueHelpMat">
+</Input>
 <Input id="idCoMatName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>

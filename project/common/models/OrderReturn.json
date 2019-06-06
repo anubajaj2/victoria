@@ -8,7 +8,7 @@
   },
   "properties": {
     "orderNo":{
-      "type":"number",
+      "type":"string",
       "required":true
     },
     "Type": {
@@ -67,8 +67,8 @@
   "relations": {
     "ToOrders":{
       "type":"belongsTo",
-      "model":"orderHeader",
-      "foreignKey":"orderNo"
+      "model":"OrderHeader",
+      "foreignKey":"OrderNo"
     }
   },
   "acls": [

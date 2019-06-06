@@ -1,20 +1,22 @@
-sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel","victoria/models/formatter"],
-function (BaseController,JSONModel,formatter) {
+sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel",
+"sap/m/MessageBox","sap/m/MessageToast","victoria/models/formatter"],
+function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
     formatter:formatter,
     onInit: function () {
         BaseController.prototype.onInit.apply(this);
         debugger;
-
+      //
         var oRouter = this.getRouter();
       oRouter.getRoute("Entry").attachMatched(this._onRouteMatched, this);
       },
 
       _onRouteMatched : function(){
       var that = this;
-      that.getView().getModel("local").setProperty("/EntryData/Date", formatter.getFormattedDate(0));
-    
+      that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
+      this.getView().byId("DateId").setDateValue(new Date());
+
       },
 
     onValueHelpRequest: function (oEvent) {
@@ -102,14 +104,38 @@ function (BaseController,JSONModel,formatter) {
 
    onDelete: function(){
      debugger;
-     var aSelectedLines = this.byId("idTable").getSelectedItems();
-     if (aSelectedLines.length) {
-       for(var i=0; i < aSelectedLines.length; i++){
-         var myUrl = aSelectedLines[i].getBindingContext().sPath;
-         this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
-                                   "DELETE", {}, {}, this);
+     sap.m.MessageBox.show(
+     "Deleting selected records", {
+       icon: sap.m.MessageBox.Icon.INFORMATION,
+       title: "Are you sure u want to delete this records?",
+       actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+       onClose: function(oAction) {
+         if (oAction === sap.m.MessageBox.Action.YES) {
+           var aSelectedLines = this.byId("idTable").getSelectedItems();
+           if (aSelectedLines.length) {
+             for(var i=0; i < aSelectedLines.length; i++){
+               var myUrl = aSelectedLines[i].getBindingContext().sPath;
+               this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
+                                         "DELETE", {}, {}, this);
+             }
+           }
+           sap.m.MessageToast.show("selected records are deleted");
+         }
+         else{
+           sap.m.MessageToast.show("no records are selected");
+         }
+
        }
      }
+   );
+     // var aSelectedLines = this.byId("idTable").getSelectedItems();
+     // if (aSelectedLines.length) {
+     //   for(var i=0; i < aSelectedLines.length; i++){
+     //     var myUrl = aSelectedLines[i].getBindingContext().sPath;
+     //     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
+     //                               "DELETE", {}, {}, this);
+     //   }
+     // }
    },
 
    onClear: function(){
@@ -122,6 +148,7 @@ function (BaseController,JSONModel,formatter) {
      this.byId("idGold").setValue("0");
      this.byId("idSilver").setValue("0");
      this.byId("idtunch").setValue("0");
+     this.byId("DueDateId").setValue("");
 
    },
 

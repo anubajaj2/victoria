@@ -129,8 +129,10 @@ sap.ui.define([
 });
 },
     onClear: function(){
-      this.byId("idCoDate").setValue("");
-      this.byId("idCoDelDate").setValue("");
+      //this.byId("idCoDate").setValue("");
+      //this.byId("idCoDelDate").setValue("");
+      this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
+      this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
       this.byId("idCoCustomer").setValue("");
       this.byId("idCoCustomerText").setValue("");
       this.byId("idCoMaterial").setValue("");

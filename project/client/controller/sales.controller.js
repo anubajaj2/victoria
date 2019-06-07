@@ -100,16 +100,18 @@ sap.ui.define(
               }
               else {
         //call the odata promise method to post the data
+            orderData.Date = orderData.Date.replace(".","-").replace(".","-");
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                                         "POST", {}, orderData, this)
              .then(function(oData) {
-               if (!oError) {
-              that.getView().setBusy(false);
-              // sap.m.MessageToast.show("Order Created Successfully");
-              }
+                  that.getView().setBusy(false);
+                  // sap.m.MessageToast.show("Order Created Successfully");
+                  //assign the no on ui
+                  that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
                }).catch(function(oError) {
                  that.getView().setBusy(false);
-                // var oPopover = that.getErrorMessage(oError);
+                 var oPopover = that.getErrorMessage(oError);
+
             		});
               }
             },

@@ -25,7 +25,7 @@ sap.ui.define(
                 // this.byId("DateId").setDateValue(new Date());
 // Item Table as input table
                 this.orderItem(oEvent);
-                var oMaterial = this.getOwnerComponent().getModel('local').getProperty('/orderItems');
+                // var oMaterial = this.getOwnerComponent().getModel('local').getProperty('/orderItems');
 
 // Return Item Table as input table
                 this.orderReturn();
@@ -105,11 +105,11 @@ sap.ui.define(
              .then(function(oData) {
                if (!oError) {
               that.getView().setBusy(false);
-              sap.m.MessageToast.show("Order Created Successfully");
+              // sap.m.MessageToast.show("Order Created Successfully");
               }
                }).catch(function(oError) {
                  that.getView().setBusy(false);
-                var oPopover = that.getErrorMessage(oError);
+                // var oPopover = that.getErrorMessage(oError);
             		});
               }
             },
@@ -151,16 +151,27 @@ sap.ui.define(
         OnCustChange:function(){
           debugger;
         },
-        onMaterialSelect:function(oEvent){
-          debugger;
-          var oMaterial = this.getView().getModel('local').getProperty('/orderItem');
-          oMaterial.Material = oEvent.getParameter("selectedItem").getKey()
 
-//           if (oMaterial.Material !=== "") {
-// // fetch the details from db table
-// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/", RetailOrderItem
-//                           "POST", {}, oMaterial, this)
-//           }
+onMaterialSelect:function(oEvent){
+debugger;
+// var oModel = this.getView().getModel("")
+// var oProduct = this.getView().getModel('local').getProperty('/Product');
+var oProduct = this.getView().getModel('local').getProperty('/orderItem');
+// oMaterial.Material = oEvent.getParameter("selectedItem").getKey()
+oProduct.Material = oEvent.getParameter("selectedItem").getKey()
+
+if (oProduct.Material !== "") {
+// fetch the details from db table
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/Products('" + oProduct.Material + "')",
+                "GET", {}, {}, this)
+    .then(function(oData){
+//           MessageToast.show("Deleted found");
+        	})
+    .catch(function(oError){
+//           MessageToast.show("data not found");
+          });
+          }
 
           this.getView().getModel("local").setProperty("/orderItems", oMaterial);
           oMaterialDetail.MaterialNo = oEvent.getParameter('selectedItem').getText();

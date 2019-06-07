@@ -92,7 +92,7 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "ReturnOrderItem":{
+  "RetailOrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },

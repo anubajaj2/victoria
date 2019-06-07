@@ -208,7 +208,26 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
-	"orderItemTemp":{
+	"RetailOrderItem":{
+		"OrderNo":"",
+		"itemNo":"",
+		"material":"",
+		"description":"",
+		"qty": "",
+		"qtyD": "",
+		"weight":"",
+		"weightD":"",
+		"making": "",
+		"makingD": "",
+		"tunch": "",
+		"remarks":"",
+		"subTotal":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
+	"RetailOrderItemTemp":{
 		"MaterialNo":"",
 		"MaterialName":""
 	},
@@ -227,6 +246,7 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+
 	"CustomCalculation":{
 	"First": "",
 	"Second": "",

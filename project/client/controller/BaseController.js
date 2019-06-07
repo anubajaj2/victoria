@@ -6,9 +6,10 @@ sap.ui.define([
 	"victoria/dbapi/dbapi",
 	"sap/m/MessageBox",
 	'sap/m/MessagePopover',
+	"sap/m/MessageToast",
 	'sap/m/MessageItem',
 	"victoria/models/formatter",
-], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageItem , formatter) {
+], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageToast, MessageItem , formatter) {
 	"use strict";
 	var oTargetField;
 	var oSDCField;
@@ -326,6 +327,26 @@ formatter: formatter,
 				this.messagePoper.destroy();
 				this.messagePoper = null;
 			}
+		},
+
+		handleGoldSilverValidation: function(oGold1, oSilver1){
+			// valid =  true;
+				if (oGold1 < 25000 ||
+			oGold1 > 40000) {
+			var valid = false;
+			MessageBox.error("Value range for Gold should be between 25000 and 40000");
+			return valid;
+		}
+		else{
+			return true;
+		}
+
+		// 	}
+    //   else {
+		// 	console.log("Gold Value not in range");
+		// }
+				// oDataModel.setProperty("/CustomerCodeState", "None");
+
 		},
 
 		/**

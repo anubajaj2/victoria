@@ -7,45 +7,50 @@
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
-				<f:Form id="idCalculation" editable="true"
+				<f:Form id="idCalculation" editable="true" onSubmit="checkInput()"
 					title="Retail Calculation Customizing">
 					<f:layout>
-						<f:GridLayout
-							labelSpanM="2" labelSpanL="2" labelSpanXL="2"
-							emptySpanM="0" emptySpanL="0" emptySpanXL="0"
-							columnsM="10" columnsL="10" columnsXL="10"
-							singleContainerFullSize="false">
-						</f:GridLayout>
+						<f:ResponsiveGridLayout
+						labelSpanXL="2"
+		        labelSpanL="2"
+		        labelSpanM="2"
+		        labelSpanS="10"
+		        adjustLabelSpan="false"
+		        emptySpanXL="0"
+		        emptySpanL="4"
+		        emptySpanM="0"
+		        emptySpanS="0"
+		        columnsXL="2"
+		        columnsL="2"
+		        columnsM="2"
+		        singleContainerFullSize="false"/>
 					</f:layout>
 					<f:formContainers>
 					<f:FormContainer>
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" submit="onSubmit" type="Number" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
-								<layoutData>
-								<l:GridData indent="L3 M3"></l:GridData>
-							</layoutData>
+							<Input id="idFirst" submit="onSubmit" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
 							</Input>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="22/22">
 						<f:fields>
-							<Input id="idSecond" type="Number" value="{path:'local>/CustomCalculation/Second',
+							<Input id="idSecond" value="{path:'local>/CustomCalculation/Second',
 																									formatter:'.formatter.formatCurrency'}">
 							</Input>
 					</f:fields>
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
-						<Input id="idGold" type="Number" value="{path:'local>/CustomCalculation/Gold',
+						<Input id="idGold" value="{path:'local>/CustomCalculation/Gold',
 																						formatter:'.formatter.formatCurrency'}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
 			<f:FormElement label="Silver">
 				<f:fields>
-					<Input id="idSilver" type="Number" value="{path:'local>/CustomCalculation/Silver',
+					<Input id="idSilver" value="{path:'local>/CustomCalculation/Silver',
 																							formatter:'.formatter.formatCurrency'}">
 					</Input>
 			</f:fields>
@@ -59,17 +64,14 @@
 		<f:formElements>
 		<f:FormElement label="Gold Returns">
 			<f:fields>
-				<Input id="idGoldR" type="Number" value="{path:'local>/CustomCalculation/Gold Returns',
+				<Input id="idGoldR" value="{path:'local>/CustomCalculation/Gold Returns',
 																					formatter:'.formatter.formatCurrency'}">
-					<layoutData>
-					<l:GridData indent="L3 M3"></l:GridData>
-				</layoutData>
 				</Input>
 			</f:fields>
 		</f:FormElement>
 		<f:FormElement label="Silver Returns">
 			<f:fields>
-				<Input id="idSilverR" type="Number" value="{path:'local>/CustomCalculation/Silver Returns',
+				<Input id="idSilverR" value="{path:'local>/CustomCalculation/Silver Returns',
 																						formatter:'.formatter.formatCurrency'}">
 				</Input>
 		</f:fields>
@@ -85,43 +87,48 @@
 <f:Form id="idWholesale" editable="true"
 	title="Wholesale Calculation Customizing">
 	<f:layout>
-		<f:GridLayout
-			labelSpanM="2" labelSpanL="2" labelSpanXL="2"
-			emptySpanM="0" emptySpanL="0" emptySpanXL="0"
-			columnsM="10" columnsL="10" columnsXL="10"
-			singleContainerFullSize="false">
-		</f:GridLayout>
+		<f:ResponsiveGridLayout
+			 labelSpanXL="2"
+				labelSpanL="2"
+				labelSpanM="2"
+				labelSpanS="10"
+				adjustLabelSpan="false"
+				emptySpanXL="0"
+				emptySpanL="4"
+				emptySpanM="0"
+				emptySpanS="0"
+				columnsXL="2"
+				columnsL="2"
+				columnsM="2"
+				singleContainerFullSize="false"></f:ResponsiveGridLayout>
 	</f:layout>
 	<f:formContainers>
 	<f:FormContainer>
 	<f:formElements>
 	<f:FormElement label="Gold">
 		<f:fields>
-			<Input id="idGold1" type="Number" value="{path:'local>/CustomCalculation/Gold1',
+			<Input id="idGold1" value="{path:'local>/CustomCalculation/Gold1',
 																					formatter:'.formatter.formatCurrency'}" >
-				<layoutData>
-				<l:GridData indent="L3 M3"></l:GridData>
-			</layoutData>
 			</Input>
 		</f:fields>
 	</f:FormElement>
 	<f:FormElement label="Silver">
 		<f:fields>
-			<Input id="idSilver1" type="Number" value="{path:'local>/CustomCalculation/Silver1',
+			<Input id="idSilver1" value="{path:'local>/CustomCalculation/Silver1',
 																						formatter:'.formatter.formatCurrency'}">
 			</Input>
 	</f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold">
 	<f:fields>
-		<Input id="idKacchaGold" type="Number" value="{path:'local>/CustomCalculation/Kaccha Gold',
+		<Input id="idKacchaGold" value="{path:'local>/CustomCalculation/Kaccha Gold',
 																						formatter:'.formatter.formatCurrency'}">
 		</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver">
 <f:fields>
-	<Input id="idKacchaSilver" type="Number" value="{path:'local>/CustomCalculation/Kaccha Silver',
+	<Input id="idKacchaSilver" value="{path:'local>/CustomCalculation/Kaccha Silver',
 																						formatter:'.formatter.formatCurrency'}">
 	</Input>
 </f:fields>
@@ -135,34 +142,28 @@
 <f:formElements>
 <f:FormElement label="Gold Returns">
 <f:fields>
-<Input id="idGoldR1" type="Number" value="{path:'local>/CustomCalculation/Gold Returns1',
+<Input id="idGoldR1" value="{path:'local>/CustomCalculation/Gold Returns1',
 																			formatter:'.formatter.formatCurrency'}">
-	<layoutData>
-	<l:GridData indent="L3 M3"></l:GridData>
-</layoutData>
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Returns">
 <f:fields>
-<Input id="idSilverR1" type="Number" value="{path:'local>/CustomCalculation/Silver Returns1',
+<Input id="idSilverR1" value="{path:'local>/CustomCalculation/Silver Returns1',
 																			formatter:'.formatter.formatCurrency'}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input id="idKacchaGoldR" type="Number" value="{path:'local>/CustomCalculation/Kaccha Gold R',
+<Input id="idKacchaGoldR" value="{path:'local>/CustomCalculation/Kaccha Gold R',
 																					formatter:'.formatter.formatCurrency'}">
-	<layoutData>
-	<l:GridData indent="L3 M3"></l:GridData>
-</layoutData>
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver R">
 <f:fields>
-<Input id="idKacchaSilverR" type="Number" value="{path:'local>/CustomCalculation/Kaccha Silver R',
+<Input id="idKacchaSilverR" value="{path:'local>/CustomCalculation/Kaccha Silver R',
 																						formatter:'.formatter.formatCurrency'}">
 </Input>
 </f:fields>

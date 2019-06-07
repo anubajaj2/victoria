@@ -9,6 +9,21 @@ function(BaseController, JSONModel, History, MessageToast){
 
   return BaseController.extend("victoria.controller.customCalculation", {
 	// onInit : function () {
+  onSubmit: function (evt) {
+        $(function() {
+                $('input:text:first').focus();
+                var $inp = $('input:text');
+                $inp.bind('keydown', function(e) {
+                    //var key = (e.keyCode ? e.keyCode : e.charCode);
+                    var key = e.which;
+                    if (key == 13) {
+                        e.preventDefault();
+                        var nxtIdx = $inp.index(this) + 1;
+                        $(":input:text:eq(" + nxtIdx + ")").focus();
+                    }
+                });
+            });
+  },
 
     // var oViewModel1 = new JSONModel({
     //      "First": "",
@@ -64,8 +79,22 @@ function(BaseController, JSONModel, History, MessageToast){
 //   ClearCalculation : function(){
 //
 //   },
+// onChange: function(oEvent) {
+//   var oInput = oEvent.getSource();
+//    this.handleGoldSilverValidation(oInput);
+// },
   SaveCalculation : function(){
     var that = this;
+    // var valid = true;
+    var oGold = this.getView().byId("idGold").getValue();
+    var oSilver = this.getView().byId("idSilver").getValue();
+    var oGold1 = parseInt(oGold, 10);
+    var oSilver1 = parseInt(oSilver, 10);
+      var oreturn = that.handleGoldSilverValidation(oGold1, oSilver1);
+      // if(!handleGoldSilverValidation(oGold1, oSilver1)) {
+      //   return false;
+      // }
+ if (oreturn == true){
     that.getView().setBusy(true);
     var myData = this.getView().getModel("local").getProperty("/CustomCalculation");
     // myData.First = this.getView().byId("idFirst").getValue();
@@ -84,7 +113,6 @@ function(BaseController, JSONModel, History, MessageToast){
     // myData.KacchaSilverR = this.getView().byId("idKacchaSilverR").getValue();
      // this.getView().getModel("local").setProperty("/CustomCalculation", myData);
      // var calculationJson = this.getView().getModel("calculationModelInfo").getData().results;
-
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
            "/CustomCalculations", "POST", {}, myData , this)
             .then(function(oData) {
@@ -96,9 +124,11 @@ function(BaseController, JSONModel, History, MessageToast){
               var oPopover = that.getErrorMessage(oError);
             });
             ;
-        }
-
-
+}
+// else {
+//
+// }
+}
   //       /* =========================================================== */
   //       /* internal methods                                            */
   //       /* =========================================================== */

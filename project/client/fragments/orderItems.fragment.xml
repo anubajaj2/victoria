@@ -36,7 +36,7 @@
           <m:Text text="{i18n>description}"></m:Text>
         </label>
         <template>
-        <m:Text text="{orderItemTemp>description}"></m:Text>
+        <m:Text text="{RetailOrderItemTemp>MaterialName}"></m:Text>
         </template>
       </Column>
       <Column>
@@ -44,7 +44,8 @@
           <m:Text text="{i18n>qty}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>qty}" maxLength="3"></m:Input>
+        <m:Input type="Number" value="{orderItems>qty}"
+                  maxLength="3" liveChange="ValueChange"/>
         </template>
       </Column>
       <Column>
@@ -52,7 +53,8 @@
           <m:Text text="{i18n>qtyD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>qtyd}" maxLength="3"></m:Input>
+        <m:Input type="Number" value="{orderItems>qtyd}"
+                 valueLiveUpdate="ValueChange" maxLength="3"/>
         </template>
       </Column>
       <Column>
@@ -60,7 +62,8 @@
           <m:Text text="{i18n>weight}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>weight}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>weight}"
+                maxLength="5" liveChange="ValueChange"/>
         </template>
       </Column>
       <Column>
@@ -68,7 +71,8 @@
           <m:Text text="{i18n>weightD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>weightd}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>weightd}"
+                 liveChange="ValueChange" maxLength="5"/>
         </template>
       </Column>
       <Column>
@@ -76,7 +80,8 @@
           <m:Text text="{i18n>making}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>making}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>making}"
+                liveChange="ValueChange" maxLength="5"/>
         </template>
       </Column>
       <Column>
@@ -84,7 +89,8 @@
           <m:Text text="{i18n>makingD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{orderItems>makingd}" maxLength="5"></m:Input>
+        <m:Input type="Number" value="{orderItems>makingd}"
+                maxLength="5" liveChange="ValueChange"/>
         </template>
       </Column>
       <Column visible="{visModel>/rows1}">

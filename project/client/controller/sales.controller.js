@@ -22,11 +22,9 @@ sap.ui.define(
               // var oHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
               //   oHeader.date = new Date();
               //   this.getOwnerComponent().setModel('local',oHeader);
-                // this.byId("DateId").setDateValue(new Date());
+                this.byId("DateId").setDateValue(new Date());
 // Item Table as input table
                 this.orderItem(oEvent);
-                // var oMaterial = this.getOwnerComponent().getModel('local').getProperty('/orderItems');
-
 // Return Item Table as input table
                 this.orderReturn();
             },
@@ -150,17 +148,19 @@ sap.ui.define(
 
         },
 
-        OnCustChange:function(){
+OnCustChange:function(){
           debugger;
-        },
+},
 
+ValueChange:function(){
+debugger;
+},
 onMaterialSelect:function(oEvent){
 debugger;
-// var oModel = this.getView().getModel("")
-// var oProduct = this.getView().getModel('local').getProperty('/Product');
+var that = this;
 var oProduct = this.getView().getModel('local').getProperty('/orderItem');
-// oMaterial.Material = oEvent.getParameter("selectedItem").getKey()
-oProduct.Material = oEvent.getParameter("selectedItem").getKey()
+oProduct.Material = oEvent.getParameter("selectedItem").getKey();
+var oMaterialDetail = that.getView().getModel('local').getProperty('/RetailOrderItemTemp');
 
 if (oProduct.Material !== "") {
 // fetch the details from db table
@@ -168,19 +168,15 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/Products('" + oProduct.Material + "')",
                 "GET", {}, {}, this)
     .then(function(oData){
-//           MessageToast.show("Deleted found");
+      debugger;
+oMaterialDetail.MaterialName = oData.ProductName;
+that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail);
         	})
     .catch(function(oError){
-//           MessageToast.show("data not found");
+          MessageToast.show("data not found");
           });
           }
 
-          this.getView().getModel("local").setProperty("/orderItems", oMaterial);
-          oMaterialDetail.MaterialNo = oEvent.getParameter('selectedItem').getText();
-
-
-           var oMaterialDetail = this.getView().getModel('local').getProperty('/orderItemTemp');
-           this.getView().getModel('local').setProperty("/orderItemTemp", oMaterialDetail);
         }
 
         });

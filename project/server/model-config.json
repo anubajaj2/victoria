@@ -92,6 +92,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "ReturnOrderItem":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "CustomCalculation":{
     "dataSource": "mongoatlas",
     "public": true

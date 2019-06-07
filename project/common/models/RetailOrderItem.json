@@ -1,6 +1,6 @@
 {
-  "name": "orderItem",
-  "plural": "OrderItems",
+  "name": "RetailOrderItem",
+  "plural": "RetailOrderItems",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -21,27 +21,27 @@
       "required": false
     },
     "qty": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "qtyD": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "weight": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "weightD": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "making": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "makingD": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "remarks": {
@@ -49,7 +49,7 @@
       "required": false
     },
     "subTotal": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "CreatedOn": {

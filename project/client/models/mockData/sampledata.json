@@ -208,6 +208,10 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"orderItemTemp":{
+		"MaterialNo":"",
+		"MaterialName":""
+	},
 	"orderReturn":{
 		"OrderNo":"",
 		"Type":"",

@@ -1,6 +1,6 @@
 
 'use strict';
 
-module.exports = function(orderItem) {
+module.exports = function(RetailOrderItem) {
 
 };

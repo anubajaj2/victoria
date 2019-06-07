@@ -3,7 +3,7 @@
   xmlns:m="sap.m">
   <Table id="orderItems"
     rows="{orderItems>/itemData}" visibleRowCount="20"
-    class="sapUiContentPadding">
+    class="sapUiContentPadding" updateFinished="onUpdateFinished">
         <extension>
     <m:Toolbar>
       <m:content>
@@ -23,10 +23,12 @@
         </label>
         <template>
         <!-- <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
-        <m:ComboBox id="idMaterial"	showSecondaryValues= "true" required="true"
-				items="{orderItems>material}" selectionChange="onMaterialSelect">
-				<core:ListItem key="{id}" text="{ProductCode} {ProductName}"/>
-			</m:ComboBox>
+        <m:ComboBox id="idMaterial" items="{/Products}"
+                   selectionChange="onMaterialSelect">
+          <m:items>
+            <core:Item key="{id}" text="{ProductCode}"/>
+          </m:items>
+        </m:ComboBox>
         </template>
       </Column>
       <Column>
@@ -34,7 +36,7 @@
           <m:Text text="{i18n>description}"></m:Text>
         </label>
         <template>
-        <m:Text text="{orderItems>description}"></m:Text>
+        <m:Text text="{orderItemTemp>description}"></m:Text>
         </template>
       </Column>
       <Column>

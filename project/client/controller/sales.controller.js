@@ -156,7 +156,7 @@ ValueChange:function(oEvent){
 debugger;
 var index = oEvent.getSource().getParent().getIndex();
 var rowContext = oTable.getContextByIndex(index);
-var objId = rowContext.getProperty('id');
+// var objId = rowContext.getProperty('id');
 
 var oCurrentRow = oEvent.getSource().getParent();
 var cells = oCurrentRow.getCells();
@@ -169,6 +169,7 @@ var that = this;
 var oProduct = this.getView().getModel('local').getProperty('/orderItem');
 oProduct.Material = oEvent.getParameter("selectedItem").getKey();
 var oMaterialDetail = that.getView().getModel('local').getProperty('/RetailOrderItemTemp');
+// var index = oEvent.getSource().getParent().getIndex();
 
 if (oProduct.Material !== "") {
 // fetch the details from db table
@@ -179,7 +180,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
       debugger;
 //product description
 oMaterialDetail.MaterialName = oData.ProductName;
-that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail);
+that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail)[index];
 // set other table details
 var oProduct = that.getView().getModel('local').getProperty('/orderItem');
 oProduct.qty = oData.AlertQuantity;

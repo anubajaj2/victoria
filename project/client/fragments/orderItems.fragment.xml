@@ -17,21 +17,21 @@
       </m:Toolbar>
     </extension>
     <columns>
-      <Column>
+      <Column width="120px">
         <label>
           <m:Text text="{i18n>material}"></m:Text>
         </label>
         <template>
         <!-- <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
         <m:ComboBox id="idMaterial" items="{/Products}"
-                   selectionChange="onMaterialSelect">
+                   selectionChange="onMaterialSelect" >
           <m:items>
             <core:Item key="{id}" text="{ProductCode}"/>
           </m:items>
         </m:ComboBox>
         </template>
       </Column>
-      <Column>
+      <Column width="120px">
         <label>
           <m:Text text="{i18n>description}"></m:Text>
         </label>

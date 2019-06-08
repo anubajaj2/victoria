@@ -1,6 +1,6 @@
 {
-  "name": "RetailOrderItem",
-  "plural": "RetailOrderItems",
+  "name": "WSOrderItem",
+  "plural": "WSOrderItems",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -74,6 +74,10 @@
   },
   "validations": [],
   "relations": {
+    "ToOrders":{
+      "type":"belongsTo",
+      "model":"WSOrderHeader",
+      "foreignKey":"OrderNo"
   },
   "acls": [
     {

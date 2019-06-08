@@ -83,34 +83,27 @@ sap.ui.define(
             that.getView().setBusy(true);
             // get the data from screen in local model
             debugger;
-            // var orderData = this.getOwnerComponent().getModel('local').getProperty('/orderHeaders');
-            var orderData = this.getView().getModel('orderLocalModel').getProperty('/Header')
-            // var orderData = this.getView().getModel('local').getProperty('/orderHeader')
-            orderData.Date      = this.getView().byId('DateId').getValue();
-            orderData.Goldbhav1 = this.getView().byId('Gbhav1Id').getValue();
-            orderData.Goldbhav2 = this.getView().byId('Gbhav2Id').getValue();
-            orderData.SilverBhav= this.getView().byId('sbhavid').getValue();
-
-            // orderData.Customer = this.getView().getModel("local").getProperty("/orderHeader").Customer
-            // orderData.Customer = this.getView().getModel("orderLocalModel").getProperty("/Header").Customer
-            debugger;
+            var orderData = this.getView().getModel('local').getProperty("/orderHeader");
             if (orderData.Customer === "") {
-            this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
-            that.getView().setBusy(false);
+              this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
+              that.getView().setBusy(false);
             }
             else {
-                this.getView().getModel("orderLocalModel").setProperty("/Headers", orderData);
-                //call the odata promise method to post the data
-                this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/orderHeaders",
-                                          "POST", {}, orderData, this)
-                .then(function(oData) {
-                  that.getView().setBusy(false);
-                  sap.m.MessageToast.show("Data Saved Successfully");
-                   }).catch(function(oError) {
-                  that.getView().setBusy(false);
-                  var oPopover = that.getErrorMessage(oError);
-                  });
-              }
+      //call the odata promise method to post the data
+          orderData.Date = orderData.Date.replace(".","-").replace(".","-");
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
+                                      "POST", {}, orderData, this)
+           .then(function(oData) {
+                that.getView().setBusy(false);
+                // sap.m.MessageToast.show("Order Created Successfully");
+                //assign the no on ui
+                that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+             }).catch(function(oError) {
+               that.getView().setBusy(false);
+               var oPopover = that.getErrorMessage(oError);
+
+              });
+            }
           },
           onSave: function(oEvent){
             debugger;

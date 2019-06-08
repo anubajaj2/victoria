@@ -73,13 +73,7 @@
 
   },
   "validations": [],
-  "relations": {
-    "ToOrders":{
-      "type":"belongsTo",
-      "model":"WSOrderHeader",
-      "foreignKey":"OrderNo"
-    }
-  },
+  "relations": {},
   "acls": [
     {
       "accessType": "*",

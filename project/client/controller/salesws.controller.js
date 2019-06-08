@@ -38,9 +38,39 @@ sap.ui.define(
               //   this.searchPopup.destroy();
               // }
           },
-          onMaterialF4: function(oEvent) {
-            this.getMaterialPopup(oEvent);
-          },
+          onMaterialSelect:function(oEvent){
+          debugger;
+          var that = this;
+          var oProduct = this.getView().getModel('local').getProperty('/orderItem');
+          oProduct.Material = oEvent.getParameter("selectedItem").getKey();
+          var oMaterialDetail = that.getView().getModel('local').getProperty('/WSOrderItemTemp');
+
+          if (oProduct.Material !== "") {
+          // fetch the details from db table
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                          "/Products('" + oProduct.Material + "')",
+                          "GET", {}, {}, this)
+              .then(function(oData){
+                debugger;
+          //product description
+          oMaterialDetail.MaterialName = oData.ProductName;
+          that.getView().getModel('local').setProperty("/WSOrderItemTemp", oMaterialDetail);
+          // set other table details
+          var oProduct = that.getView().getModel('local').getProperty('/orderItem');
+          oProduct.qty = oData.AlertQuantity;
+          oProduct.making=oData.Making;
+          that.getView().getModel('local').setProperty("/orderItem",oProduct);
+                  	})
+              .catch(function(oError){
+                    MessageToast.show("data not found");
+                    });
+
+                    }
+
+                  },
+          // onMaterialF4: function(oEvent) {
+          //   this.getMaterialPopup(oEvent);
+          // },
           onClear:function(){
             debugger;
               this.byId("idOrderNo").setValue("");
@@ -91,7 +121,7 @@ sap.ui.define(
             else {
       //call the odata promise method to post the data
           orderData.Date = orderData.Date.replace(".","-").replace(".","-");
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
                                       "POST", {}, orderData, this)
            .then(function(oData) {
                 that.getView().setBusy(false);

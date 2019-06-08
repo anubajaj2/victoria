@@ -78,6 +78,7 @@
       "type":"belongsTo",
       "model":"WSOrderHeader",
       "foreignKey":"OrderNo"
+    }
   },
   "acls": [
     {

@@ -152,8 +152,16 @@ OnCustChange:function(){
           debugger;
 },
 
-ValueChange:function(){
+ValueChange:function(oEvent){
 debugger;
+var index = oEvent.getSource().getParent().getIndex();
+var rowContext = oTable.getContextByIndex(index);
+var objId = rowContext.getProperty('id');
+
+var oCurrentRow = oEvent.getSource().getParent();
+var cells = oCurrentRow.getCells();
+// cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
+// this.byId("idTunch")
 },
 onMaterialSelect:function(oEvent){
 debugger;
@@ -169,12 +177,19 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "GET", {}, {}, this)
     .then(function(oData){
       debugger;
+//product description
 oMaterialDetail.MaterialName = oData.ProductName;
 that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail);
+// set other table details
+var oProduct = that.getView().getModel('local').getProperty('/orderItem');
+oProduct.qty = oData.AlertQuantity;
+oProduct.making=oData.Making;
+that.getView().getModel('local').setProperty("/orderItem",oProduct);
         	})
     .catch(function(oError){
           MessageToast.show("data not found");
           });
+
           }
 
         }

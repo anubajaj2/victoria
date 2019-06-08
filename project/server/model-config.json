@@ -84,7 +84,15 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "WSOrderReturn":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "OrderHeader":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "WSOrderHeader":{
     "dataSource": "mongoatlas",
     "public": true
   },
@@ -92,7 +100,7 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "RetailOrderItem":{
+  "WSOrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },

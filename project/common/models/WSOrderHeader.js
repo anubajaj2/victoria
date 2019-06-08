@@ -22,7 +22,7 @@ module.exports = function(WSOrderHeader) {
 
       var end = new Date(JSON.parse(JSON.stringify(ctx.instance.Date)));
       end.setHours(23,59,59,999);
-      OrderHeader.find({
+      WSOrderHeader.find({
         where: {
           and: [{
             Date: {

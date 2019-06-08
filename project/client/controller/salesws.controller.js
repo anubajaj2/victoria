@@ -13,13 +13,13 @@ sap.ui.define(
           formatter: formatter,
           onInit: function (oEvent){
             debugger;
-          this.getView().byId("DateId").setDateValue( new Date());
             // this.orderHeader();
   // Item Table as input table
                   this.orderItem(oEvent);
   // Return Item Table as input table
                   this.orderReturn();
                   BaseController.prototype.onInit.apply(this);
+                  this.getOwnerComponent().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
           },
           valueHelpCustomer: function (oEvent) {
             this.getCustomerPopup(oEvent);

@@ -157,6 +157,18 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"WSOrderHeader":{
+	  "OrderNo": 0,
+	  "Date": "",
+	  "Customer": "",
+	  "Goldbhav1":0,
+		"Goldbhav2":0,
+	  "SilverBhav":0,
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"orderHeaderTemp":{
 	  "CustomerId": "",
 		"CustomerName": ""
@@ -208,7 +220,7 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
-	"RetailOrderItem":{
+	"WSOrderItem":{
 		"OrderNo":"",
 		"itemNo":"",
 		"material":"",
@@ -230,7 +242,26 @@
 		"MaterialNo":"",
 		"MaterialName":""
 	},
+	"WSOrderItemTemp":{
+		"MaterialNo":"",
+		"MaterialName":""
+	},
 	"orderReturn":{
+		"OrderNo":"",
+		"Type":"",
+		"Weight":"",
+		"Tunch":"",
+		"Qty":"",
+		"Bhav":"",
+		"Amount":"",
+		"Remarks":"",
+		"SubTot":"",
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
+	"WSOrderReturn":{
 		"OrderNo":"",
 		"Type":"",
 		"Weight":"",

@@ -3,7 +3,8 @@
       id="idCoTable"
       items="{
              path: '/CustomerOrders',
-             sorter: {path: 'DelDate'}
+             sorter: {path: 'DelDate'},
+             filter: {path: 'Customer'}
              }"
       growing="true"
       growingThreshold="20"
@@ -50,8 +51,18 @@
   <items>
     <ColumnListItem>
       <cells>
-        <Text text="{Date}" />
-        <Text text="{DelDate}" />
+        <Text text="{
+          path: 'Date',
+          type: 'sap.ui.model.type.Date',
+          formatOptions: {
+                style: 'medium',
+                pattern: 'dd.MM.yyyy'}}" />
+        <Text text="{
+          path: 'DelDate',
+          type: 'sap.ui.model.type.Date',
+          formatOptions: {
+                style: 'medium',
+                pattern: 'dd.MM.yyyy'}}" />
         <Text text="{Customer}" />
         <Text text="{Material}" />
         <Text text="{Qty}" />

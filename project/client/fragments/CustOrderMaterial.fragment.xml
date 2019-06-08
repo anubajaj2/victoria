@@ -21,7 +21,7 @@
 </f:FormElement>
 <f:FormElement label="{i18n>coComb}">
 <f:fields>
-<Input value="{local>/customerOrder/Qty}" id="idCoQty" type="Number"   placeholder="{i18n>coQty}"/>
+<Input value="{local>/customerOrder/Qty}" submit="onSubmit" id="idCoQty" type="Number"   placeholder="{i18n>coQty}"/>
 <Input value="{local>/customerOrder/Weight}" id="idCoWeight" type="Number" placeholder="{i18n>coWeight}"/>
 <Input value="{local>/customerOrder/Making}" id="idCoMaking" type="Number"  placeholder="{i18n>coMaking}"/>
 </f:fields>

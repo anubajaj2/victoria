@@ -14,7 +14,7 @@
 <f:FormElement label="{i18n>coDate}">
 <f:fields>
 <DatePicker id="idCoDate"
-		valueFormat="yyyy.MM.dd"
+		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
 		value="{path: 'local>/customerOrder/Date'}">
 		<layoutData>
@@ -26,7 +26,7 @@
 <f:FormElement label="{i18n>coDelDate}">
 <f:fields>
 <DatePicker id="idCoDelDate"
-		valueFormat="yyyy.MM.dd"
+		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
 		value="{path: 'local>/customerOrder/DelDate'}">
 		<layoutData>

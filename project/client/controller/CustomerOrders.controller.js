@@ -181,13 +181,13 @@ sap.ui.define([
       debugger;
       for (var i = 0; i < noOfItems; i++) {
         //Read the GUID from the Screen
-        var customerId = oTable.getItems()[i].getCells()[2].getText();
+        var customerId = oTable.getItems()[i].getCells()[3].getText();
         var customerData = this.allMasterData.customers[customerId];
         oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
-        var materialId = oTable.getItems()[i].getCells()[3].getText();
-        var materialData = this.allMasterData.materials[materialId];
-        oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+        // var materialId = oTable.getItems()[i].getCells()[3].getText();
+        // var materialData = this.allMasterData.materials[materialId];
+        // oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
       }
     }

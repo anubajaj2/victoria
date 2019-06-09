@@ -28,6 +28,9 @@
     <Column>
       <Label text="{i18n>coCustName}" />
     </Column>
+    <Column visible="false">
+      <Label text="Customer Id" />
+    </Column>
     <Column>
       <Label text="{i18n>coItemName}" />
     </Column>
@@ -62,6 +65,7 @@
             formatOptions: {
                   style: 'medium',
                   pattern: 'dd.MM.yyyy'}}"/>
+        <Text text="" />
         <Text text="{Customer}" />
         <Text text="{Material}" />
         <Text text="{Qty}" />

@@ -23,11 +23,11 @@
       "type": "Number",
       "required": false
     },
-    "Gold Returns": {
+    "GoldReturns": {
       "type": "Number",
       "required": false
     },
-    "Silver Returns": {
+    "SilverReturns": {
       "type": "Number",
       "required": false
     },
@@ -39,27 +39,27 @@
       "type": "Number",
       "required": false
     },
-    "Kaccha Gold": {
+    "KacchaGold": {
       "type": "Number",
       "required": false
     },
-    "Kaccha Silver": {
+    "KacchaSilver": {
       "type": "Number",
       "required": false
     },
-    "Gold Returns1": {
+    "GoldReturns1": {
       "type": "Number",
       "required": false
     },
-    "Silver Returns1": {
+    "SilverReturns1": {
       "type": "Number",
       "required": false
     },
-    "Kaccha Gold R": {
+    "KacchaGoldR": {
       "type": "Number",
       "required": false
     },
-    "Kaccha Silver R": {
+    "KacchaSilverR": {
       "type": "Number",
       "required": false
     },

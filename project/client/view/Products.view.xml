@@ -133,7 +133,7 @@
 					value="{productModel>/Making}">
 				</Input>
 
-				<Label text="Price"/>
+				<Label text="MakingD"/>
 				<!-- <Select
 					id="idQuantityPerUnit"
 					selectedKey="{productModel>/QuantityPerUnit}"

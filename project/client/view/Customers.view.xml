@@ -79,6 +79,16 @@
 					<core:Item key="{groupModelInfo>groupName}" text="{groupModelInfo>groupName}" />
 				</ComboBox>
 
+				<Label text = "Type" required="true"/>
+				<Select
+					id="idType" width="200px"
+					selectedKey= "{/typec/0/items}"
+					items="{
+						path: 'typec>/items'
+					}">
+					<core:Item key="{typec>text}" text="{typec>text}" />
+				</Select>
+
 				<!-- <Label text="Custom Group"/>
 				<ComboBox
 					id="idCustomGrp"
@@ -91,9 +101,9 @@
 
 				<Label text="City" required="true"/>
 				<ComboBox
+					items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"
 					id="idCity"
 					value="{customerModel>/City}"
-				items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"
 															change="additionalInfoValidation">
 					<core:Item key="{cityModelInfo>cityName}" text="{cityModelInfo>cityName}" />
 				</ComboBox>

@@ -55,6 +55,10 @@ sap.ui.define([
 				var oViewModel2 = new JSONModel({
 					"items":[{"text": "gm"},{"text": "pcs"}]
 				});
+				var oViewModel3 = new JSONModel({
+					"items":[{"text": "Retail Customer"},{"text": "Agent"},{"text": "Karigar"},
+										{"text": "Retailer"},{"text": "Maker"},{"text": "Kata Center"}]
+				});
 //				this.getRouter().getRoute("Products").attachPatternMatched(this._onObjectMatched, this);
 //
 //				// Store original busy indicator delay, so it can be restored later on
@@ -62,6 +66,7 @@ sap.ui.define([
 				this.setModel(oViewModel, "customerModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				this.setModel(oViewModel3, "typec");
 				var oViewDetailModel = new JSONModel({
 					"buttonText" : "Save",
 					"deleteEnabled" : false,

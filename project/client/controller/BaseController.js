@@ -331,10 +331,14 @@ formatter: formatter,
 
 		handleGoldSilverValidation: function(oGold1, oSilver1){
 			// valid =  true;
-				if (oGold1 >= 25000 &&
-			oGold1 <= 4000) {
-			sap.m.MessageBox.error("Logout failed");
-			return false;
+				if (oGold1 < 25000 ||
+			oGold1 > 40000) {
+			var valid = false;
+			MessageBox.error("Value range for Gold should be between 25000 and 40000");
+			return valid;
+		}
+		else{
+			return true;
 		}
 
 		// 	}
@@ -481,6 +485,17 @@ formatter: formatter,
 			// 		jQuery.sap.log.error("Could not obtain data");
 			// 	});
 		},
+		mapFieldsFromBaseToItem: function(itemType){
+			//map fields which are common for both of you from base to your items
+			var baseItem = this.getView().getModel("local").getProperty("orderItemBase");
+
+			if(itemType === "R"){
+
+			}else{
+
+			}
+
+		},
 		orderItem:function(oEvent){
 			//create the model to set the getProperty
 			//visible or // NOT
@@ -505,20 +520,25 @@ formatter: formatter,
 			var array=[];
 			//loop the array values
 			for (var i=1;i<=20;i++){
-				var oItem={
+				//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
+				var oItem  = {
 					"OrderNo":"",
 					"itemNo":"",
-					"material":"",
-					"description":"",
-					"qty":"0",
-					"qtyd":"0",
-					"weight":0,
-					"weightd":0,
-					"making":0,
-					"makingd":0,
-					"tunch":0,
-					"remarks":"",
-					"subTot":0,
+					"Material":"",
+					"MaterialCode":"",
+					"Description":"",
+					"Qty": 0,
+					"QtyD": 0,
+					"Weight":0,
+					"WeightD":0,
+					"Making": 0,
+					"MakingD": 0,
+					"Tunch": 0,
+					"Remarks":"",
+					"SubTotal":0,
+					"SubTotalS":0,
+					"SubTotalG":0,
+					"Category":"",
 					"CreatedBy":"",
 					"CreatedOn":"",
 					"ChangedBy":"",
@@ -530,6 +550,18 @@ formatter: formatter,
 			oOrderItem.setData({"itemData" : array});
 			//set the model
 			this.setModel(oOrderItem,"orderItems");
+		},
+		onMaterialSelect:function(oEvent){
+
+		  var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+		  var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
+		  var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+		  oModelForRow.setProperty( sRowPath + "/Material" , selectedMatData.id);
+		  oModelForRow.setProperty(sRowPath + "/Description" , selectedMatData.ProductName);
+		  oModelForRow.setProperty( sRowPath + "/Making" , selectedMatData.Making);
+		  oModelForRow.setProperty( sRowPath + "/MakingD" , selectedMatData.PricePerUnit);
+		  oModelForRow.setProperty( sRowPath + "/Category" , selectedMatData.Category);
+			oModelForRow.setProperty( sRowPath + "/Tunch" , selectedMatData.Tunch);
 		},
 		orderReturn :function(){
 			//create structure of an array

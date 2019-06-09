@@ -2,12 +2,12 @@
   xmlns="sap.ui.table"
   xmlns:m="sap.m">
   <Table id="orderItemBases"
-    rows="{orderItems>/itemData}" visibleRowCount="20"
+    rows="{orderItems>/itemData}" visibleRowCount="05"
     class="sapUiContentPadding" updateFinished="onUpdateFinished">
         <extension>
     <m:Toolbar>
       <m:content>
-      <m:Title text="{i18n>orderItemBases}"></m:Title>
+      <m:Title text="{i18n>orderItems}"></m:Title>
         <m:ToolbarSpacer/>
         <m:Button icon="sap-icon://delete"
           iconFirst="true"

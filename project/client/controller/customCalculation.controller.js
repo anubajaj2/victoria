@@ -26,38 +26,24 @@ function(BaseController, JSONModel, History, MessageToast, formatter){
             });
   },
 	onInit : function () {
-    // var oViewModel1 = new JSONModel({
-    //      "First": "",
-    //         "Second": "",
-    //         "Gold": "",
-    //         "Silver": "",
-    //         "Gold Returns": "",
-    //         "Silver Returns": "",
-    //         "Gold1": "",
-    //         "Silver1": "",
-    //         "Kaccha Gold": "",
-    //         "Kaccha Silver":"",
-    //         "Gold Returns1":"",
-    //         "Silver Returns1":"",
-    //         "Kaccha Gold R": "",
-    //         "Kaccha Silver R": ""
-    //
-    //         });
-    //         this.setModel(oViewModel1, "customModel");
-            // var oViewDetailModel = new JSONModel({
-            //   "buttonText" : "Save",
-            //   "deleteEnabled" : false
-            //
-            // });
-            // this.setModel(oViewDetailModel, "viewModel");
-    // this.setModel(oViewModel1, "calculationModel");
+    var oViewModel1 = new JSONModel({
+         "First": "",
+            "Second": "",
+            "Gold": "",
+            "Silver": "",
+            "Gold Returns": "",
+            "Silver Returns": "",
+            "Gold1": "",
+            "Silver1": "",
+            "Kaccha Gold": "",
+            "Kaccha Silver":"",
+            "Gold Returns1":"",
+            "Silver Returns1":"",
+            "Kaccha Gold R": "",
+            "Kaccha Silver R": ""
 
-//     var oViewDetailModel = new JSONModel({
-//       "buttonText" : "Save",
-//       "deleteEnabled" : false
-//
-//     });
-//     this.setModel(oViewDetailModel, "viewModel");
+            });
+            this.setModel(oViewModel1, "customModel");
   BaseController.prototype.onInit.apply(this);
     var oRouter = this.getRouter();
     oRouter.getRoute("Customizing").attachMatched(this._onRouteMatched, this);
@@ -67,20 +53,19 @@ getRouter: function () {
 return sap.ui.core.UIComponent.getRouterFor(this);
 },
 _onRouteMatched : function(){
-	var that = this;
   var that = this;
-  that.getView().getModel("local").setProperty("/CustomCalculation");
-// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-// 	 "/CustomCalculation", "GET", {}, {}, this)
-// 		.then(function(oData) {
-// 			var oModelCalculation = new JSONModel();
-// 	oModelCalculation.setData(oData);
-// 	that.getView().setModel(oModelCalculation, "calculationModelInfo");
-//
-// 		}).catch(function(oError) {
-// 				MessageToast.show("cannot fetch the data");
-// 		});
-// this.ClearCalculation();
+  // that.getView().getModel("local").setProperty("/CustomCalculation");
+	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	//  "/CustomCalculation", "GET", {}, {}, this)
+	// 	.then(function(oData) {
+	// 		var oModelCalculation = new JSONModel();
+	// oModelCalculation.setData(oData);
+	// that.getView().setModel(oModelCalculation, "calculationModelInfo");
+  //
+	// 	}).catch(function(oError) {
+	// 			MessageToast.show("cannot fetch the data");
+	// 	});
+this.ClearCalculation();
 },
 
   ClearCalculation : function(){
@@ -117,21 +102,22 @@ _onRouteMatched : function(){
     // myData.KacchaGoldR = this.getView().byId("idKacchaGoldR").getValue();
     // myData.KacchaSilverR = this.getView().byId("idKacchaSilverR").getValue();
     var i = 0;
-    var id  = that.getView().getModel("local").getProperty("/CustomCalculation")[i].id;
+    var id = "";
+    // var id  = that.getView().getModel("local").getProperty("/CustomCalculation")[i].id;
     var myUrl = "/CustomCalculations('" + id + "')"
      // this.getView().getModel("local").setProperty("/CustomCalculation", myData);
      // var calculationJson = this.getView().getModel("calculationModelInfo").getData().results;
-     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-      myUrl, "GET", {}, {}, this)
-       .then(function(oData) {
-         var oModelCustom = new JSONModel();
-     oModelCustom.setData(oData);
-     that.getView().setModel(oModelCustom, "CustomCalculationInfo");
-     var found = 1;
-
-       }).catch(function(oError) {
-           MessageToast.show("cannot fetch the data");
-       });
+     // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+     //  myUrl, "GET", {}, {}, this)
+     //   .then(function(oData) {
+     //     var oModelCustom = new JSONModel();
+     // oModelCustom.setData(oData);
+     // that.getView().setModel(oModelCustom, "CustomCalculationInfo");
+     // var found = 1;
+     //
+     //   }).catch(function(oError) {
+     //       MessageToast.show("cannot fetch the data");
+     //   });
      // var customModel = this.getView().getModel("CustomCalculation");
      // var customId = "/CustomCalculations("+that.getModel("CustomCalculation").getProperty("/Id")+ ")";
      //  var customJson = this.getView().getModel("CustomCalculationInfo");
@@ -144,7 +130,19 @@ _onRouteMatched : function(){
      //    }
      //
      //    var found = getCustomId(customId);
-        if(found > 0){
+     var customModel = this.getView().getModel("customModel");
+     var customCode = customModel.getData().id;
+     var customJson = this.getView().getModel("CustomCalculation").getData().results;
+     function getCustomId(customCode) {
+       return customJson.filter (
+            function (data) {
+              return data.id === customCode;
+            }
+          );
+        }
+
+        var found = getCustomCode(customCode);
+        if(found.length > 0){
 
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
            "/CustomCalculations('"+found[0].id+"')", "PUT", {}, myData , this)

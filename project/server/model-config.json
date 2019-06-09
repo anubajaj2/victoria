@@ -100,7 +100,7 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "WSOrderItem":{
+  "RetailOrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },

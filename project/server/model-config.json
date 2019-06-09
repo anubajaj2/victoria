@@ -96,7 +96,7 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "orderItem":{
+  "OrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },

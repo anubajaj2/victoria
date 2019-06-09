@@ -1,13 +1,13 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core"
   xmlns="sap.ui.table"
   xmlns:m="sap.m">
-  <Table id="orderItems"
+  <Table id="orderItemBases"
     rows="{orderItems>/itemData}" visibleRowCount="20"
     class="sapUiContentPadding" updateFinished="onUpdateFinished">
         <extension>
     <m:Toolbar>
       <m:content>
-      <m:Title text="{i18n>orderItems}"></m:Title>
+      <m:Title text="{i18n>orderItemBases}"></m:Title>
         <m:ToolbarSpacer/>
         <m:Button icon="sap-icon://delete"
           iconFirst="true"
@@ -22,9 +22,9 @@
           <m:Text text="{i18n>material}"></m:Text>
         </label>
         <template>
-        <!-- <m:Input text="{orderItems>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
+        <!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
         <m:ComboBox id="idMaterial" items="{/Products}"
-                   selectionChange="onMaterialSelect" >
+                   selectionChange="onMaterialSelect" selectedKey="{orderItems>MaterialCode}">
           <m:items>
             <core:Item key="{id}" text="{ProductCode}"/>
           </m:items>
@@ -36,7 +36,9 @@
           <m:Text text="{i18n>description}"></m:Text>
         </label>
         <template>
-        <m:Text text="{local>/RetailOrderItemTemp/MaterialName}"></m:Text>
+        <!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
+        <m:Input value="{orderItems>Description}"
+                 editable="false" liveChange="ValueChange"/>
         </template>
       </Column>
       <Column>
@@ -44,7 +46,7 @@
           <m:Text text="{i18n>qty}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/qty}"
+        <m:Input type="Number" value="{orderItems>Qty}"
                   maxLength="3" liveChange="ValueChange"/>
         </template>
       </Column>
@@ -53,7 +55,7 @@
           <m:Text text="{i18n>qtyD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/>qtyd}"
+        <m:Input type="Number" value="{orderItems>QtyD}"
                  valueLiveUpdate="ValueChange" maxLength="3"/>
         </template>
       </Column>
@@ -62,7 +64,7 @@
           <m:Text text="{i18n>weight}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/weight}"
+        <m:Input type="Number" value="{orderItems>Weight}"
                 maxLength="5" liveChange="ValueChange"/>
         </template>
       </Column>
@@ -71,7 +73,7 @@
           <m:Text text="{i18n>weightD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/weightd}"
+        <m:Input type="Number" value="{orderItems>WeightD}"
                  liveChange="ValueChange" maxLength="5"/>
         </template>
       </Column>
@@ -80,7 +82,7 @@
           <m:Text text="{i18n>making}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/making}"
+        <m:Input type="Number" value="{orderItems>Making}"
                 liveChange="ValueChange" maxLength="5"/>
         </template>
       </Column>
@@ -89,7 +91,7 @@
           <m:Text text="{i18n>makingD}"></m:Text>
         </label>
         <template>
-        <m:Input type="Number" value="{local>/orderItem/makingd}"
+        <m:Input type="Number" value="{orderItems>MakingD}"
                 maxLength="5" liveChange="ValueChange"/>
         </template>
       </Column>
@@ -98,7 +100,7 @@
           <m:Text text="{i18n>tunch}"></m:Text>
         </label>
         <template>
-        <m:Text text="{orderItems>tunch}"></m:Text>
+        <m:Text text="{orderItems>Tunch}"></m:Text>
         </template>
       </Column>
       <Column>
@@ -106,7 +108,7 @@
           <m:Text text="{i18n>remarks}"></m:Text>
         </label>
         <template>
-        <m:Input value="{local>/orderItem/remarks}" maxLength="80"></m:Input>
+        <m:Input value="{orderItems>Remarks}" maxLength="80"></m:Input>
         </template>
       </Column>
       <Column>
@@ -114,7 +116,7 @@
           <m:Text text="{i18n>subTotal}"></m:Text>
         </label>
         <template>
-        <m:Text text="{local>/orderItem/subTot}"></m:Text>
+          <m:Text text="{orderItems>SubTot}"></m:Text>
         </template>
       </Column>
     </columns>

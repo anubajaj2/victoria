@@ -22,7 +22,11 @@ sap.ui.define(
               // var oHeader = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
               //   oHeader.date = new Date();
               //   this.getOwnerComponent().setModel('local',oHeader);
-                this.byId("DateId").setDateValue(new Date());
+              debugger;
+              var oDate = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+              oDate.Date=new Date();
+              this.getOwnerComponent().getModel('local').setProperty('/orderHeader',oDate);
+              this.byId("DateId").setDateValue(new Date());
 // Item Table as input table
                 this.orderItem(oEvent);
 // Return Item Table as input table
@@ -155,45 +159,12 @@ OnCustChange:function(){
 ValueChange:function(oEvent){
 debugger;
 var index = oEvent.getSource().getParent().getIndex();
-var rowContext = oTable.getContextByIndex(index);
-// var objId = rowContext.getProperty('id');
-
 var oCurrentRow = oEvent.getSource().getParent();
 var cells = oCurrentRow.getCells();
+var path = oEvent.getSource().getBindingContext().getPath();
 // cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
 // this.byId("idTunch")
-},
-onMaterialSelect:function(oEvent){
-debugger;
-var that = this;
-var oProduct = this.getView().getModel('local').getProperty('/orderItem');
-oProduct.Material = oEvent.getParameter("selectedItem").getKey();
-var oMaterialDetail = that.getView().getModel('local').getProperty('/RetailOrderItemTemp');
-// var index = oEvent.getSource().getParent().getIndex();
-
-if (oProduct.Material !== "") {
-// fetch the details from db table
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                "/Products('" + oProduct.Material + "')",
-                "GET", {}, {}, this)
-    .then(function(oData){
-      debugger;
-//product description
-oMaterialDetail.MaterialName = oData.ProductName;
-that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail)[index];
-// set other table details
-var oProduct = that.getView().getModel('local').getProperty('/orderItem');
-oProduct.qty = oData.AlertQuantity;
-oProduct.making=oData.Making;
-that.getView().getModel('local').setProperty("/orderItem",oProduct);
-        	})
-    .catch(function(oError){
-          MessageToast.show("data not found");
-          });
-
-          }
-
-        }
+}
 
         });
 

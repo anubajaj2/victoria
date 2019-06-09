@@ -3,7 +3,7 @@ sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel
 function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
-    formatter:formatter,
+    // formatter:formatter,
     onInit: function () {
         BaseController.prototype.onInit.apply(this);
         debugger;
@@ -103,39 +103,30 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
    },
 
    onDelete: function(){
+     var that=this;
      debugger;
-     sap.m.MessageBox.show(
-     "Deleting selected records", {
-       icon: sap.m.MessageBox.Icon.INFORMATION,
-       title: "Are you sure u want to delete this records?",
-       actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-       onClose: function(oAction) {
-         if (oAction === sap.m.MessageBox.Action.YES) {
-           var aSelectedLines = this.byId("idTable").getSelectedItems();
-           if (aSelectedLines.length) {
-             for(var i=0; i < aSelectedLines.length; i++){
-               var myUrl = aSelectedLines[i].getBindingContext().sPath;
-               this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
-                                         "DELETE", {}, {}, this);
-             }
-           }
-           sap.m.MessageToast.show("selected records are deleted");
-         }
-         else{
-           sap.m.MessageToast.show("no records are selected");
-         }
-
+     sap.m.MessageBox.confirm(
+"Deleting Selected Records", {
+         title: "Confirm",
+         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+         styleClass: "",
+         onClose: function(sAction) {
+           debugger;
+           if(sAction==="OK"){
+             debugger;
+             var x = that.getView().byId("idTable").getSelectedItems();
+            if(x.length){
+              for(var i=0; i<x.length; i++){
+                debugger;
+                var myUrl = x[i].getBindingContext().sPath;
+                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+              }
+            }
+          sap.m.MessageToast.show("Selected records are deleted");
+        }
        }
      }
-   );
-     // var aSelectedLines = this.byId("idTable").getSelectedItems();
-     // if (aSelectedLines.length) {
-     //   for(var i=0; i < aSelectedLines.length; i++){
-     //     var myUrl = aSelectedLines[i].getBindingContext().sPath;
-     //     this.ODataHelper.callOData(this.getOwnerComponent().getModel(), myUrl,
-     //                               "DELETE", {}, {}, this);
-     //   }
-     // }
+     );
    },
 
    onClear: function(){

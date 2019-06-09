@@ -531,6 +531,18 @@ formatter: formatter,
 			//set the model
 			this.setModel(oOrderItem,"orderItems");
 		},
+		onMaterialSelect:function(oEvent){
+
+		  var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+		  var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
+		  var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+		  oModelForRow.setProperty( sRowPath + "/Material" , selectedMatData.id);
+		  oModelForRow.setProperty(sRowPath + "/Description" , selectedMatData.ProductName);
+		  oModelForRow.setProperty( sRowPath + "/Making" , selectedMatData.Making);
+		  oModelForRow.setProperty( sRowPath + "/MakingD" , selectedMatData.PricePerUnit);
+		  oModelForRow.setProperty( sRowPath + "/Category" , selectedMatData.Category);
+			oModelForRow.setProperty( sRowPath + "/Tunch" , selectedMatData.Tunch);
+		},
 		orderReturn :function(){
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();

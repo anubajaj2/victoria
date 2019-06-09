@@ -1,5 +1,5 @@
 {
-  "name": "orderItem",
+  "name": "OrderItem",
   "plural": "OrderItems",
   "base": "PersistedModel",
   "idInjection": true,

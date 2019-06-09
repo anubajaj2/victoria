@@ -96,11 +96,11 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "orderItem":{
+  "OrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },
-  "RetailOrderItem":{
+  "WSOrderItem":{
     "dataSource": "mongoatlas",
     "public": true
   },

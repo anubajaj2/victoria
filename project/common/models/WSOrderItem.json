@@ -1,6 +1,6 @@
 {
-  "name": "RetailOrderItem",
-  "plural": "RetailOrderItems",
+  "name": "WSOrderItem",
+  "plural": "WSOrderItems",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

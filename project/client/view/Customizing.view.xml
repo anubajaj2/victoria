@@ -2,12 +2,12 @@
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
-	<semantic:FullscreenPage id="Customzing"
+	<semantic:FullscreenPage id="Customizing"
 		navButtonPress="onNavBack" showNavButton="true" title="Customizing">
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
-				<f:Form id="idCalculation" editable="true" onSubmit="checkInput()"
+				<f:Form id="idCalculation" editable="true"
 					title="Retail Calculation Customizing">
 					<f:layout>
 						<f:ResponsiveGridLayout
@@ -30,14 +30,15 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" submit="onSubmit" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
+							<Input id="idFirst" value="{path:'local>/CustomCalculation/First',
+																					formatter:'.formatter.formatCurrency'}">
 							</Input>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="22/22">
 						<f:fields>
 							<Input id="idSecond" value="{path:'local>/CustomCalculation/Second',
-																									formatter:'.formatter.formatCurrency'}">
+																		formatter:'.formatter.formatCurrency'}">
 							</Input>
 					</f:fields>
 				</f:FormElement>

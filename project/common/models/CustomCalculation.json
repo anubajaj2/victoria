@@ -9,87 +9,59 @@
   "properties": {
     "First": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Second": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Gold": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Silver": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Gold Returns": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Silver Returns": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Gold1": {
       "type": "number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Silver1": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Kaccha Gold": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Kaccha Silver": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Gold Returns1": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Silver Returns1": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Kaccha Gold R": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "Kaccha Silver R": {
       "type": "Number",
-      "required": false,
-      "minimum":1,
-      "maximum":4
+      "required": false
     },
     "CreatedOn": {
       "type": "date"

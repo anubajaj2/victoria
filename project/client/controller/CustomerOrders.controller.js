@@ -99,6 +99,7 @@ sap.ui.define([
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
       myData.Date =  this.getView().byId("idCoDate").getValue();
       myData.DelDate = this.getView().byId("idCoDelDate").getValue();
+      debugger;
       this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
       this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
       //myData.Date =  this.getView().byId("idCoDate").getDateValue();
@@ -188,8 +189,6 @@ sap.ui.define([
         var materialData = this.allMasterData.materials[materialId];
         oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
-        //Find the customer data for that Guid in customer collection
-        //Change the data on UI table with semantic information
       }
     }
 

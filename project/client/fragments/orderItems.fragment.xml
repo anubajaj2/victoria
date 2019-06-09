@@ -36,7 +36,9 @@
           <m:Text text="{i18n>description}"></m:Text>
         </label>
         <template>
-        <m:Text text="{local>/RetailOrderItemTemp/MaterialName}"></m:Text>
+        <!-- <m:Text text="{local>/RetailOrderItemTemp/MaterialName}"></m:Text> -->
+        <m:Input value="{local>/RetailOrderItemTemp/MaterialName}"
+                 editable="false" liveChange="ValueChange"/>
         </template>
       </Column>
       <Column>

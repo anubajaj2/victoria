@@ -31,28 +31,28 @@
 					<f:FormElement label="22/20">
 						<f:fields>
 							<Input id="idFirst" value="{path:'local>/CustomCalculation/First',
-																					formatter:'.formatter.formatCurrency'}">
+																					formatter:'.formatter.getIndianCurr'}">
 							</Input>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="22/22">
 						<f:fields>
 							<Input id="idSecond" value="{path:'local>/CustomCalculation/Second',
-																		formatter:'.formatter.formatCurrency'}">
+																		formatter:'.formatter.getIndianCurr'}">
 							</Input>
 					</f:fields>
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
 						<Input id="idGold" value="{path:'local>/CustomCalculation/Gold',
-																						formatter:'.formatter.formatCurrency'}">
+																						formatter:'.formatter.getIndianCurr'}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
 			<f:FormElement label="Silver">
 				<f:fields>
 					<Input id="idSilver" value="{path:'local>/CustomCalculation/Silver',
-																							formatter:'.formatter.formatCurrency'}">
+																							formatter:'.formatter.getIndianCurr'}">
 					</Input>
 			</f:fields>
 		</f:FormElement>
@@ -65,15 +65,15 @@
 		<f:formElements>
 		<f:FormElement label="Gold Returns">
 			<f:fields>
-				<Input id="idGoldR" value="{path:'local>/CustomCalculation/Gold Returns',
-																					formatter:'.formatter.formatCurrency'}">
+				<Input id="idGoldR" value="{path:'local>/CustomCalculation/GoldReturns',
+																					formatter:'.formatter.getIndianCurr'}">
 				</Input>
 			</f:fields>
 		</f:FormElement>
 		<f:FormElement label="Silver Returns">
 			<f:fields>
-				<Input id="idSilverR" value="{path:'local>/CustomCalculation/Silver Returns',
-																						formatter:'.formatter.formatCurrency'}">
+				<Input id="idSilverR" value="{path:'local>/CustomCalculation/SilverReturns',
+																						formatter:'.formatter.getIndianCurr'}">
 				</Input>
 		</f:fields>
 	</f:FormElement>
@@ -109,28 +109,28 @@
 	<f:FormElement label="Gold">
 		<f:fields>
 			<Input id="idGold1" value="{path:'local>/CustomCalculation/Gold1',
-																					formatter:'.formatter.formatCurrency'}" >
+																					formatter:'.formatter.getIndianCurr'}" >
 			</Input>
 		</f:fields>
 	</f:FormElement>
 	<f:FormElement label="Silver">
 		<f:fields>
 			<Input id="idSilver1" value="{path:'local>/CustomCalculation/Silver1',
-																						formatter:'.formatter.formatCurrency'}">
+																						formatter:'.formatter.getIndianCurr'}">
 			</Input>
 	</f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold">
 	<f:fields>
-		<Input id="idKacchaGold" value="{path:'local>/CustomCalculation/Kaccha Gold',
-																						formatter:'.formatter.formatCurrency'}">
+		<Input id="idKacchaGold" value="{path:'local>/CustomCalculation/KacchaGold',
+																						formatter:'.formatter.getIndianCurr'}">
 		</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver">
 <f:fields>
-	<Input id="idKacchaSilver" value="{path:'local>/CustomCalculation/Kaccha Silver',
-																						formatter:'.formatter.formatCurrency'}">
+	<Input id="idKacchaSilver" value="{path:'local>/CustomCalculation/KacchaSilver',
+																						formatter:'.formatter.getIndianCurr'}">
 	</Input>
 </f:fields>
 </f:FormElement>
@@ -143,29 +143,29 @@
 <f:formElements>
 <f:FormElement label="Gold Returns">
 <f:fields>
-<Input id="idGoldR1" value="{path:'local>/CustomCalculation/Gold Returns1',
-																			formatter:'.formatter.formatCurrency'}">
+<Input id="idGoldR1" value="{path:'local>/CustomCalculation/GoldReturns1',
+																			formatter:'.formatter.getIndianCurr'}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Returns">
 <f:fields>
-<Input id="idSilverR1" value="{path:'local>/CustomCalculation/Silver Returns1',
-																			formatter:'.formatter.formatCurrency'}">
+<Input id="idSilverR1" value="{path:'local>/CustomCalculation/SilverReturns1',
+																			formatter:'.formatter.getIndianCurr'}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input id="idKacchaGoldR" value="{path:'local>/CustomCalculation/Kaccha Gold R',
-																					formatter:'.formatter.formatCurrency'}">
+<Input id="idKacchaGoldR" value="{path:'local>/CustomCalculation/KacchaGoldR',
+																					formatter:'.formatter.getIndianCurr'}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver R">
 <f:fields>
-<Input id="idKacchaSilverR" value="{path:'local>/CustomCalculation/Kaccha Silver R',
-																						formatter:'.formatter.formatCurrency'}">
+<Input id="idKacchaSilverR" value="{path:'local>/CustomCalculation/KacchaSilverR',
+																						formatter:'.formatter.getIndianCurr'}">
 </Input>
 </f:fields>
 </f:FormElement>

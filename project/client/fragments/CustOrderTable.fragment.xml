@@ -29,10 +29,13 @@
       <Label text="{i18n>coCustName}" />
     </Column>
     <Column visible="false">
-      <Label text="Customer Id" />
+      <Label text="{i18n>coCustId}"/>
     </Column>
     <Column>
       <Label text="{i18n>coItemName}" />
+    </Column>
+    <Column visible="false">
+      <Label text="{i18n>coMatId}" />
     </Column>
     <Column>
       <Label text="{i18n>coQty}" />
@@ -49,6 +52,9 @@
     <Column>
       <Label text="{i18n>coKarigar}" />
     </Column>
+    <Column visible="false">
+      <Label text="{i18n>coKarigarId}" />
+    </Column>
   </columns>
   <items>
     <ColumnListItem>
@@ -59,19 +65,21 @@
             formatOptions: {
                   style: 'medium',
                   pattern: 'dd.MM.yyyy'}}"/>
-            <Text text="{
-            path: 'DelDate',
-            type: 'sap.ui.model.type.Date',
-            formatOptions: {
-                  style: 'medium',
-                  pattern: 'dd.MM.yyyy'}}"/>
+        <Text text="{
+        path: 'DelDate',
+        type: 'sap.ui.model.type.Date',
+        formatOptions: {
+              style: 'medium',
+              pattern: 'dd.MM.yyyy'}}"/>
         <Text text="" />
         <Text text="{Customer}" />
+        <Text text="" />
         <Text text="{Material}" />
         <Text text="{Qty}" />
         <Text text="{Weight}" />
         <Text text="{Making}" />
         <Text text="{Remarks}" />
+        <Text text="" />
         <Text text="{Karigar}" />
       </cells>
     </ColumnListItem>

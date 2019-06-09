@@ -4,7 +4,7 @@
 <f:layout>
 	<f:ResponsiveGridLayout
 		labelSpanXl="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" adjustLabelSpan="false"
-		emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0"
+		emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 		columnsXL="2" columnsL="2" columnsM="2"
 		singleContainerFullSize="false"/>
 </f:layout>
@@ -16,6 +16,7 @@
 <DatePicker id="idCoDate"
 		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
+		change="onDateChange"
 		value="{path: 'local>/customerOrder/Date'}">
 		<layoutData>
 		<l:GridData span="XL3 L3 "/>
@@ -28,6 +29,7 @@
 <DatePicker id="idCoDelDate"
 		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
+		change="onDateChange"
 		value="{path: 'local>/customerOrder/DelDate'}">
 		<layoutData>
 		<l:GridData span="XL3 L3 "/>

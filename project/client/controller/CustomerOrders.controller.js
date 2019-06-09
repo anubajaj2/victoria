@@ -22,7 +22,6 @@ sap.ui.define([
 
   _onRouteMatched : function(){
   	var that = this;
-    debugger;
     that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
     that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
   },
@@ -73,6 +72,25 @@ sap.ui.define([
         }
 
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
+    },
+
+    onDateChange:function(oEvent){
+      debugger;
+      var oDP = oEvent.getSource();
+      var bValid = oEvent.getParameter("valid");
+      if (bValid) {
+            oDP.setValueState(sap.ui.core.ValueState.None);
+          } else {
+            oDP.setValueState(sap.ui.core.ValueState.Error);
+          }
+      var fieldId = oEvent.getSource().getId();
+      if (fieldId.split("--")[2] === "idCoDate"){
+          var sValue = oEvent.getParameter("value");
+          var parts = sValue.split('-');
+          // sValu format yyyy-MM-dd; MM starts from 0-11 for months so -1
+          var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
+          this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getIncrementDate(dateObj,1));
+      }
     },
 
     onSubmit: function (evt) {
@@ -180,14 +198,19 @@ sap.ui.define([
       var cell;
       debugger;
       for (var i = 0; i < noOfItems; i++) {
-        //Read the GUID from the Screen
+        //Read the GUID from the Screen for customer, material and karigar
         var customerId = oTable.getItems()[i].getCells()[3].getText();
         var customerData = this.allMasterData.customers[customerId];
         oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
-        // var materialId = oTable.getItems()[i].getCells()[3].getText();
-        // var materialData = this.allMasterData.materials[materialId];
-        // oTable.getItems()[i].getCells()[3].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+        var materialId = oTable.getItems()[i].getCells()[5].getText();
+        var materialData = this.allMasterData.materials[materialId];
+        oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+
+        var karigarId = oTable.getItems()[i].getCells()[11].getText();
+        var customerData = this.allMasterData.customers[karigarId];
+        oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+
 
       }
     }

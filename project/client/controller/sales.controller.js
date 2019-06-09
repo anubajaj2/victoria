@@ -164,40 +164,7 @@ var cells = oCurrentRow.getCells();
 var path = oEvent.getSource().getBindingContext().getPath();
 // cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
 // this.byId("idTunch")
-},
-onMaterialSelect:function(oEvent){
-debugger;
-var that = this;
-var oProduct = that.getView().getModel('local').getProperty('/orderItem');
-oProduct.Material = oEvent.getParameter("selectedItem").getKey();
-var oMaterialDetail = that.getView().getModel('local').getProperty('/RetailOrderItemTemp');
-
-if (oProduct.Material !== "") {
-// fetch the details from db table
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                "/Products('" + oProduct.Material + "')",
-                "GET", {}, {}, this)
-    .then(function(oData){
-      debugger;
-
-// for(var i=0; i<=index ; i++){
-  //product description
-  oMaterialDetail.MaterialName = oData.ProductName;
-  that.getView().getModel('local').setProperty("/RetailOrderItemTemp", oMaterialDetail);
-  // set other table details
-  var oProduct = that.getView().getModel('local').getProperty('/orderItem');
-  oProduct.qty = oData.AlertQuantity;
-  oProduct.making =oData.Making;
-  that.getView().getModel('local').setProperty("/orderItem",oProduct);
-// }
-        	})
-    .catch(function(oError){
-          MessageToast.show("data not found");
-          });
-
-          }
-
-        }
+}
 
         });
 

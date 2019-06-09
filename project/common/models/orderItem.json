@@ -12,47 +12,39 @@
       "type": "string",
       "required": true
     },
-    "material": {
+    "Material": {
       "type": "string",
       "required": true
     },
-    "description": {
+    "Qty": {
       "type": "string",
       "required": false
     },
-    "qty": {
-      "type": "string",
-      "required": false
-    },
-    "qtyD": {
+    "QtyD": {
       "type": "string",
       "required": true
     },
-    "weight": {
+    "Weight": {
       "type": "string",
       "required": false
     },
-    "weightD": {
+    "WeightD": {
       "type": "string",
       "required": false
     },
-    "making": {
+    "Making": {
       "type": "string",
       "required": false
     },
-    "makingD": {
+    "MakingD": {
       "type": "string",
       "required": false
     },
-    "tunch": {
+    "Remarks": {
       "type": "string",
       "required": false
     },
-    "remarks": {
-      "type": "string",
-      "required": false
-    },
-    "subTotal": {
+    "SubTotal": {
       "type": "string",
       "required": false
     },

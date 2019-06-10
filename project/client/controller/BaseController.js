@@ -76,6 +76,14 @@ formatter: formatter,
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
+					.then(function(oData) {
+						for (var i = 0; i < oData.results.length; i++) {
+							that.allMasterData.customCalculations[oData.results[i].id] = oData.results[i];
+						}
+					}).catch(function(oError) {
+						var oPopover = that.getErrorMessage(oError);
+					});
 
 		},
 		getRouter: function() {
@@ -329,16 +337,36 @@ formatter: formatter,
 			}
 		},
 
-		handleGoldSilverValidation: function(oGold1, oSilver1){
+		handleGoldSilverValidation: function(oGoldId, oSilverId){
+			var oGold = oGoldId.getValue();
+			 var oGold1 = parseFloat(oGold, 10);
+			var oSilver = oSilverId.getValue();
+			var oSilver1 = parseFloat(oSilver, 10);
 			// valid =  true;
-				if (oGold1 >= 25000 &&
-			oGold1 <= 4000) {
-			sap.m.MessageBox.error("Logout failed");
-			return false;
+				if (oGold1 < 25000 ||
+			oGold1 > 40000) {
+			var valid = false;
+			MessageBox.error("Value range for Gold should be between 25000 and 40000");
+			// this.getView().byId("oGoldId").focus();
+			return valid;
+		}
+		else{
+			return true;
+			if (oSilver1 < 32000 ||
+		oSilver1 > 65000) {
+		var valid = false;
+		MessageBox.error("Value range for Silver should be between 32000 and 65000");
+		// this.getView().byId("oSilverId").focus();
+		return valid;
+	}
+	else{
+		return true;
+	}
 		}
 
 		// 	}
     //   else {
+		//   else {
 		// 	console.log("Gold Value not in range");
 		// }
 				// oDataModel.setProperty("/CustomerCodeState", "None");
@@ -481,6 +509,17 @@ formatter: formatter,
 			// 		jQuery.sap.log.error("Could not obtain data");
 			// 	});
 		},
+		mapFieldsFromBaseToItem: function(itemType){
+			//map fields which are common for both of you from base to your items
+			var baseItem = this.getView().getModel("local").getProperty("orderItemBase");
+
+			if(itemType === "R"){
+
+			}else{
+
+			}
+
+		},
 		orderItem:function(oEvent){
 			//create the model to set the getProperty
 			//visible or // NOT
@@ -505,20 +544,25 @@ formatter: formatter,
 			var array=[];
 			//loop the array values
 			for (var i=1;i<=20;i++){
-				var oItem={
+				//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
+				var oItem  = {
 					"OrderNo":"",
 					"itemNo":"",
-					"material":"",
-					"description":"",
-					"qty":"0",
-					"qtyd":"0",
-					"weight":0,
-					"weightd":0,
-					"making":0,
-					"makingd":0,
-					"tunch":0,
-					"remarks":"",
-					"subTot":0,
+					"Material":"",
+					"MaterialCode":"",
+					"Description":"",
+					"Qty": 0,
+					"QtyD": 0,
+					"Weight":0,
+					"WeightD":0,
+					"Making": 0,
+					"MakingD": 0,
+					"Tunch": 0,
+					"Remarks":"",
+					"SubTotal":0,
+					"SubTotalS":0,
+					"SubTotalG":0,
+					"Category":"",
 					"CreatedBy":"",
 					"CreatedOn":"",
 					"ChangedBy":"",

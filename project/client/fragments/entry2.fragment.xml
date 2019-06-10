@@ -13,7 +13,7 @@
           emptySpanL="0"
           emptySpanM="0"
           emptySpanS="0"
-          columnsXL="2"
+          columnsXL="1"
           columnsL="2"
           columnsM="2"
           singleContainerFullSize="false"></f:ResponsiveGridLayout>
@@ -90,7 +90,7 @@
             <f:formElements>
 							<f:FormElement label="{i18n>DueDate}">
 							<f:fields>
-                <DatePicker id="DueDateId" valueFormat="dd.MM.yyyy"
+                <DatePicker id="DueDateId" valueFormat="yyyy.MM.dd"
                   displayFormat="dd.MM.yyyy" value="{local>/EntryData/DueDate}" ></DatePicker>
 								<Button text="{i18n>Send}" press="onSend"></Button>
 								<Button text="{i18n>Clear}" press="onClear"></Button>

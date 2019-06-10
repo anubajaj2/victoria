@@ -337,7 +337,7 @@ formatter: formatter,
 			}
 		},
 
-		handleGoldSilverValidation: function(oGold1, oSilver1){
+		handleGoldSilverValidation: function(oGoldId, oSilverId){
 			var oGold = oGoldId.getValue();
 			 var oGold1 = parseFloat(oGold, 10);
 			var oSilver = oSilverId.getValue();

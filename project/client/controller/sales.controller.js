@@ -30,8 +30,8 @@ _onRouteMatched:function(oEvent){
   oHeaderDetail.SilverBhav=0;
   this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
   that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-  this.getView().byId("customerId").setValue("");
-  this.getView().byId("custName").setText("");
+  // this.getView().byId("customerId").setValue("");
+  // this.getView().byId("custName").setText("");
 },
 
 //customer value help
@@ -115,7 +115,7 @@ debugger;
 // }
 },
 
-onSave:function(){
+onSave:function(oEvent){
   var that = this;
   debugger;
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');

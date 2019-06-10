@@ -76,6 +76,14 @@ formatter: formatter,
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
+					.then(function(oData) {
+						for (var i = 0; i < oData.results.length; i++) {
+							that.allMasterData.customCalculations[oData.results[i].id] = oData.results[i];
+						}
+					}).catch(function(oError) {
+						var oPopover = that.getErrorMessage(oError);
+					});
 
 		},
 		getRouter: function() {
@@ -330,19 +338,35 @@ formatter: formatter,
 		},
 
 		handleGoldSilverValidation: function(oGold1, oSilver1){
+			var oGold = oGoldId.getValue();
+			 var oGold1 = parseFloat(oGold, 10);
+			var oSilver = oSilverId.getValue();
+			var oSilver1 = parseFloat(oSilver, 10);
 			// valid =  true;
 				if (oGold1 < 25000 ||
 			oGold1 > 40000) {
 			var valid = false;
 			MessageBox.error("Value range for Gold should be between 25000 and 40000");
+			// this.getView().byId("oGoldId").focus();
 			return valid;
 		}
 		else{
 			return true;
+			if (oSilver1 < 32000 ||
+		oSilver1 > 65000) {
+		var valid = false;
+		MessageBox.error("Value range for Silver should be between 32000 and 65000");
+		// this.getView().byId("oSilverId").focus();
+		return valid;
+	}
+	else{
+		return true;
+	}
 		}
 
 		// 	}
     //   else {
+		//   else {
 		// 	console.log("Gold Value not in range");
 		// }
 				// oDataModel.setProperty("/CustomerCodeState", "None");

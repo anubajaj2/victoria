@@ -10,21 +10,21 @@
 		<semantic:content id="Header">
 			<m:VBox class="sapUiSmallMargin"
 				alignContent="sap.m.FlexAlignContent.Start">
-			<core:Fragment fragmentName="victoria.fragments.orderHeader" type="XML">
+			<core:Fragment id="WSHeaderFragment" fragmentName="victoria.fragments.orderHeader" type="XML">
 			</core:Fragment>
 		</m:VBox>
 	</semantic:content>
 
 	<semantic:content id="WSTable">
 			<m:VBox class="sapUiSmallMargin">
-		<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
+		<core:Fragment id="WSItemFragment" fragmentName="victoria.fragments.orderItems" type="XML">
 		</core:Fragment>
 		</m:VBox>
 </semantic:content>
 
 <semantic:content id="Return">
 	<m:VBox class="sapUiSmallMargin">
-	<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
+	<core:Fragment id="WSReturnFragment" fragmentName="victoria.fragments.orderReturn" type="XML">
 	</core:Fragment>
 </m:VBox>
 </semantic:content>

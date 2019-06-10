@@ -32,8 +32,10 @@ sap.ui.define(
               this.getView().getModel("local").setProperty("/demoData", myData);
               var selCust = oEvent.getParameter("selectedItem").getLabel();
               var selCustName = oEvent.getParameter("selectedItem").getValue();
-              this.getView().byId("customerId").setValue(selCust);
-              this.getView().byId("custName").setText(selCustName);
+              this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", selCust);
+              this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", selCustName);
+              // this.getView().byId("customerId").setValue(selCust);
+              // this.getView().byId("custName").setText(selCustName);
               // if (this.searchPopup) {
               //   this.searchPopup.destroy();
               // }

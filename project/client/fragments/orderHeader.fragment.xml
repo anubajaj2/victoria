@@ -29,7 +29,7 @@ singleContainerFullSize="false"/>
 <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
       showValueHelp="true" valueHelpRequest="valueHelpCustomer"
       valueLiveUpdate="true" required="true"/>
-<Text id ="custName" text=""/>
+<Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>OrderNo}">

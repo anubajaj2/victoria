@@ -4,7 +4,7 @@
   <Table id="orderItemBases"
     rows="{orderItems>/itemData}" visibleRowCount="05"
     class="sapUiContentPadding" updateFinished="onUpdateFinished">
-        <extension>
+  <extension>
     <m:Toolbar>
       <m:content>
       <m:Title text="{i18n>orderItems}"></m:Title>
@@ -24,7 +24,9 @@
         <template>
         <!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
         <m:ComboBox id="idMaterial" items="{/Products}"
-                   selectionChange="onMaterialSelect" selectedKey="{orderItems>MaterialCode}">
+                   selectionChange="onMaterialSelect"
+                   liveChange='ValueChange'
+                   selectedKey="{orderItems>MaterialCode}">
           <m:items>
             <core:Item key="{id}" text="{ProductCode}"/>
           </m:items>

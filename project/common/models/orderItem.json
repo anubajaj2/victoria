@@ -17,27 +17,27 @@
       "required": true
     },
     "Qty": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "QtyD": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "Weight": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "WeightD": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "Making": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "MakingD": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "Remarks": {
@@ -45,7 +45,7 @@
       "required": false
     },
     "SubTotal": {
-      "type": "string",
+      "type": "number",
       "required": false
     },
     "CreatedOn": {

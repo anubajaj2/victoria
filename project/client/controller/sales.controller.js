@@ -21,9 +21,17 @@ sap.ui.define([
     },
 
 _onRouteMatched:function(oEvent){
-var that = this;
-debugger;
-that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
+  var that = this;
+  debugger;
+  var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
+  // oHeader.OrderNo="";
+  oHeaderDetail.Goldbhav1=0;
+  oHeaderDetail.Goldbhav2=0;
+  oHeaderDetail.SilverBhav=0;
+  this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
+  that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
+  this.getView().byId("customerId").setValue("");
+  this.getView().byId("custName").setText("");
 },
 
 //customer value help
@@ -111,24 +119,37 @@ onSave:function(){
   var that = this;
   debugger;
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
-// if(oHeader.OrderNo === 0){
-//     MessageBox.show(
-// 			"Please create Order Number first", {
-// 				icon: MessageBox.Icon.ERROR,
-// 				title: "Error",
-// 				actions: [MessageBox.Action.OK],
-// 				onClose: function(oAction) { }
-// 			}
-// 		);
-//   that.getView().setBusy(false);
-// }
-if (oHeader.Customer === "" &&
-    oHeader.OrderNo === 0) {
-this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
-that.getView().setBusy(false);
-    }
+if(oHeader.OrderNo === 0){
+    MessageBox.show(
+			"Please create Order Number first", {
+				icon: MessageBox.Icon.ERROR,
+				title: "Error",
+				actions: [MessageBox.Action.OK],
+				onClose: function(oAction) { }
+			}
+      // return;
+		);
+  that.getView().setBusy(false);
+}
+// if (oHeader.Customer === "" &&
+//     oHeader.OrderNo === 0) {
+// this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
+// that.getView().setBusy(false);
+// return;
+//     }
 // else {
   debugger;
+//get the local json models
+// var orderItemBase = this.getOwnerComponent().getModel('local').getProperty('/orderItemBase');
+
+if (oHeader.OrderNo !== "" &&
+    oHeader.OrderNo !== 0) {
+
+      // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+      //                 "/OrderHeaders('"+ oHeader.OrderNo+"')", "PUT",
+      //                  {},cityModel.getData() , this)
+
+}
 //make a put call from order header table
 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 //                           "/OrderHeaders(" + oHeader.OrderNo + "')",
@@ -145,7 +166,7 @@ that.getView().setBusy(false);
 //             		});
 
 //to post the data to order item Table
-var items = this.getView().byId("orderItemBases");
+// var items = this.getView().byId("orderItemBases");
 // }
 // var oItem   = this.getView().getModel('local').getProperty('/orderItem');
 // var oReturn = this.getView().getModel('local').getProperty('/orderReturn');

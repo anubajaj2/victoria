@@ -24,14 +24,16 @@ _onRouteMatched:function(oEvent){
   var that = this;
   debugger;
   var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
-  // oHeader.OrderNo="";
+  var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+  oHeaderDetail.OrderNo=0;
   oHeaderDetail.Goldbhav1=0;
   oHeaderDetail.Goldbhav2=0;
   oHeaderDetail.SilverBhav=0;
   this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
   that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-  // this.getView().byId("customerId").setValue("");
-  // this.getView().byId("custName").setText("");
+  oHeaderDetailT.CustomerId="";
+  oHeaderDetailT.CustomerName="";
+  this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
 },
 
 //customer value help
@@ -45,13 +47,16 @@ getRouter: function() {
 onConfirm:function(oEvent){
 debugger;
 var oId = oEvent.getParameter('selectedItem').getId();
+var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var oSource = oId.split("-"[0])
 if (oSource[0] === 'idCoCustPopup'){
 
 var selCust = oEvent.getParameter("selectedItem").getLabel();
 var selCustName = oEvent.getParameter("selectedItem").getValue();
-this.getView().byId("customerId").setValue(selCust);
-this.getView().byId("custName").setText(selCustName);
+oCustDetail.customerId = selCust;
+oCustDetail.CustomerName = selCustName;
+// this.getView().byId("customerId").setValue(selCust);
+// this.getView().byId("custName").setText(selCustName);
 this.getView().getModel("local").setProperty("/orderHeader/Customer",
 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
@@ -81,13 +86,19 @@ this.getView().byId("customerId").setValueState("Error").setValueStateText("Mand
 that.getView().setBusy(false);
     }
 else {
-        //call the odata promise method to post the data
+//call the odata promise method to post the data
 orderData.Date = orderData.Date.replace(".","-").replace(".","-");
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                           "POST", {}, orderData, this)
              .then(function(oData) {
                   that.getView().setBusy(false);
-                  //assign the no on ui
+debugger;
+//create the new json model and get the order id no generated
+var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+oOrderId.OrderId=oData.id;
+oOrderId.OrderNo=oData.OrderNo;
+that.getView().getModel('local').setProperty('/OrderId',oOrderId);
+//assign the no on ui
 that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
                }).catch(function(oError) {
 that.getView().setBusy(false);
@@ -131,45 +142,24 @@ if(oHeader.OrderNo === 0){
 		);
   that.getView().setBusy(false);
 }
-// if (oHeader.Customer === "" &&
-//     oHeader.OrderNo === 0) {
-// this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
-// that.getView().setBusy(false);
-// return;
-//     }
-// else {
   debugger;
-//get the local json models
-// var orderItemBase = this.getOwnerComponent().getModel('local').getProperty('/orderItemBase');
-
 if (oHeader.OrderNo !== "" &&
     oHeader.OrderNo !== 0) {
-
-      // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-      //                 "/OrderHeaders('"+ oHeader.OrderNo+"')", "PUT",
-      //                  {},cityModel.getData() , this)
-
-}
-//make a put call from order header table
-// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-//                           "/OrderHeaders(" + oHeader.OrderNo + "')",
-//                           "PUT", {}, oHeader, this)
-//              .then(function(oData) {
-//                Debugger;
-//                   that.getView().setBusy(false);
-//                   //assign the no on ui
-// // that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
-//                })
-//             .catch(function(oError) {
-//         that.getView().setBusy(false);
-//         var oPopover = that.getErrorMessage(oError);
-//             		});
-
-//to post the data to order item Table
-// var items = this.getView().byId("orderItemBases");
-// }
-// var oItem   = this.getView().getModel('local').getProperty('/orderItem');
-// var oReturn = this.getView().getModel('local').getProperty('/orderReturn');
+debugger;
+var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                      "/OrderHeaders('"+ oId +"')", "PUT",
+                       {},oHeader, this)
+.then(function(oData) {
+  message.show("testing");
+      that.getView().setBusy(false);
+            debugger;
+     })
+.catch(function(oError) {
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+              });
+          }
 },
 
 onClear:function(){
@@ -201,8 +191,11 @@ debugger;
 var index = oEvent.getSource().getParent().getIndex();
 var oCurrentRow = oEvent.getSource().getParent();
 var cells = oCurrentRow.getCells();
-var path = oEvent.getSource().getBindingContext().getPath();
-// cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
+// var path = oEvent.getSource().getBindingContext().getPath();
+// var oOrderDetail = this.getView().getModel('local').getProperty('/orderItems')
+var x = cells[2].getValue()  - cells[2].getValue();
+var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+// cells[9].setValue(cells[1].getValue() * cells[2].getValue() / 100);
 // this.byId("idTunch")
 }
 });

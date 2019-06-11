@@ -157,6 +157,10 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"OrderId":{
+		"OrderId":"",
+		"OrderNo":0
+	},
 	"WSOrderHeader":{
 	  "OrderNo": 0,
 	  "Date": "",

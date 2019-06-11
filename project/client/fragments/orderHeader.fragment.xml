@@ -18,7 +18,7 @@ singleContainerFullSize="false"/>
 <f:formElements>
 <f:FormElement label="{i18n>Date}">
 <f:fields>
-<DatePicker id="DateId" valueFormat="yyyy.MM.dd" required="true"
+<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
             displayFormat="dd.MM.yyyy" change="onPayDateChange"
             value="{local>/orderHeader/Date}" strictParsing="true"
             width="50%"/>

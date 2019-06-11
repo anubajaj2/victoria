@@ -147,19 +147,55 @@ if (oHeader.OrderNo !== "" &&
     oHeader.OrderNo !== 0) {
 debugger;
 var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                      "/OrderHeaders('"+ oId +"')", "PUT",
-                       {},oHeader, this)
-.then(function(oData) {
-  message.show("testing");
-      that.getView().setBusy(false);
-            debugger;
-     })
-.catch(function(oError) {
+// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+//                       "/OrderHeaders('"+ oId +"')", "PUT",
+//                        {},oHeader, this)
+// .then(function(oData) {
+//   message.show("testing");
+//       that.getView().setBusy(false);
+//             debugger;
+//      })
+// .catch(function(oError) {
+//     that.getView().setBusy(false);
+//     var oPopover = that.getErrorMessage(oError);
+//               });
+          }
+var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
+var oTableDetails = this.getView().byId('orderItemBases');
+var oBinding = oTableDetails.getBinding("rows");
+
+for (var i = 0; i < oBinding.getLength(); i++) {
+  var that = this;
+  this.getView().setBusy(true);
+  var data = oBinding.oList[i];
+if (data.Material !== "") {
+  oOrderDetail.OrderNo=oId;//orderno // ID
+  oOrderDetail.Material=data.Material;
+  oOrderDetail.Qty=data.Qty;
+  oOrderDetail.QtyD=data.QtyD;
+  oOrderDetail.Making=data.Making;
+  oOrderDetail.MakingD=data.MakingD;
+  oOrderDetail.Weight=data.Weight;
+  oOrderDetail.WeightD=data.WeightD;
+  oOrderDetail.Remarks=data.Remarks;
+  oOrderDetail.SubTotal=data.SubTotal;
+
+//Item data save
+    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderItems","POST", {}, oOrderDetail, this)
+                 .then(function(oData) {
+                      that.getView().setBusy(false);
+                      sap.m.MessageToast.show("Data Saved Successfully");
+                      var id = oData.id;
+                  debugger;
+                   })
+                .catch(function(oError) {
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
-              });
-          }
+                		});
+}//If condition end
+}//for loop brace end
+
 },
 
 onClear:function(){

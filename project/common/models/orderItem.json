@@ -10,35 +10,41 @@
   "properties": {
     "OrderNo": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Material": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Qty": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "QtyD": {
       "type": "number",
-      "required": true
+      "required": false,
+      "default":0
     },
     "Weight": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "WeightD": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Making": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "MakingD": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Remarks": {
       "type": "string",
@@ -46,7 +52,8 @@
     },
     "SubTotal": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "CreatedOn": {
 			"type": "date",

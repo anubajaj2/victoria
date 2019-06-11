@@ -81,7 +81,8 @@
 
 				<Label text = "Type" required="true"/>
 				<Select
-					id="idType" 
+					id="idType"
+					value="{customerModel>/Type}"
 					selectedKey= "{/typec/0/items}"
 					items="{
 						path: 'typec>/items'

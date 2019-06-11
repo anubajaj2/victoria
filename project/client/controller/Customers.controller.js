@@ -46,8 +46,8 @@ sap.ui.define([
 				        "CustomerCode": "",
 				        "Name": "",
 				        "SecondaryPhone": "0",
-								"Group": ""
-
+								"Group": "",
+								"Type": ""
 				        });
 				var oViewModel1 = new JSONModel({
 					"items":[{"text": "Sikar"},{"text": "Churu"},{"text": "Jaipur"}]
@@ -64,9 +64,12 @@ sap.ui.define([
 //				// Store original busy indicator delay, so it can be restored later on
 //				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
 				this.setModel(oViewModel, "customerModel");
+				// myData.KacchaGold = this.getView().byId("idKacchaGold").getValue();
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
 				this.setModel(oViewModel3, "typec");
+				// customerModel.bindAggregation("typec>/");
+			// customerModel.Type = this.getView().byId("idType").getSelectedKey();
 				var oViewDetailModel = new JSONModel({
 					"buttonText" : "Save",
 					"deleteEnabled" : false,
@@ -98,7 +101,8 @@ sap.ui.define([
 					"CustomerCodeState" : "None",
 					"CityState" : "None",
 					"GroupState" : "None",
-					"NameState" : "None"
+					"NameState" : "None",
+					"TypeState" : "None"
 
 				});
 				this.setModel(odataModel, "dataModel");
@@ -161,7 +165,11 @@ this.clearCustomer();
 				}else{
 					oDataModel.setProperty("/CityState", "None");
 				}
-
+				if(customerModel.getData().Type === ""){
+						oDataModel.setProperty("/TypeState", "Error");
+				}else{
+					oDataModel.setProperty("/TypeState", "None");
+				}
 			},
 
 			customerCodeCheck : function(){
@@ -185,6 +193,7 @@ this.clearCustomer();
 						customerModel.getData().Name = found[0].Name;
 						customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
 						customerModel.getData().Group = found[0].Group;
+						customerModel.getData().Type = found[0].Type;
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
@@ -198,6 +207,7 @@ this.clearCustomer();
 							customerModel.getData().Name = "";
 							customerModel.getData().SecondaryPhone = "0";
 							customerModel.getData().Group = "";
+							customerModel.getData().Type = "";
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
@@ -218,6 +228,7 @@ this.clearCustomer();
 				customerModel.getData().CustomerCode = "";
 				customerModel.getData().SecondaryPhone = "0";
 				customerModel.getData().Group = "";
+				customerModel.getData().Type = "";
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
@@ -304,6 +315,7 @@ this.clearCustomer();
 								customerModel.getData().Name = "";
 								customerModel.getData().SecondaryPhone = "0";
 								customerModel.getData().Group = "";
+								customerModel.getData().Type = "";
 								customerModel.refresh();
 								that._onRouteMatched();
 								}).catch(function(oError) {
@@ -376,6 +388,7 @@ this.clearCustomer();
 						"StateProvince": "",
 						"WebPage": "",
 						"ZipPostalCode": this.byId("idZipPostalCode").getValue(),
+						"Type": this.byId("idType").getValue(),
 						"CitycodeDetails": {
 							"__metadata": {
 								"uri": "http://localhost:8080/bhavysoft/galaxyService.svc/Citycodes("+ this.byId("idCity").getSelectedKey() +")"
@@ -422,6 +435,7 @@ this.clearCustomer();
 						"StateProvince": "",
 						"WebPage": "",
 						"ZipPostalCode": this.byId("idZipPostalCode").getValue(),
+						"Type": this.byId("idType").getValue(),
 						"CitycodeDetails": {
 							"__metadata": {
 								"uri": "http://localhost:8080/bhavysoft/galaxyService.svc/Citycodes("+ this.byId("idCity").getSelectedKey() +")"

@@ -56,16 +56,6 @@
 	value="{productModel>/ProductName}">
 </Input>
 
-				<Label text="Category"/>
-				<ComboBox
-					id="idCategory"
-					type="Text"
-					value="{productModel>/Category}"
-					items="{
-						path: 'per>/items'
-					}">
-					<core:Item key="{per>text}" text="{per>text}" />
-				</ComboBox>
 
 				<Label text="Type"/>
 				<!-- <Select
@@ -133,6 +123,17 @@
 					value="{productModel>/Making}">
 				</Input>
 
+				<Label text="Category"/>
+				<ComboBox
+					id="idCategory"
+					type="Text"
+					value="{productModel>/Category}"
+					items="{
+						path: 'per>/items'
+					}">
+					<core:Item key="{per>text}" text="{per>text}" />
+				</ComboBox>
+				
 				<Label text="MakingD"/>
 				<!-- <Select
 					id="idQuantityPerUnit"

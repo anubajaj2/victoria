@@ -25,7 +25,7 @@
     },
     "Name": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "SecondaryPhone": {
       "type": "string",

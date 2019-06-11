@@ -27,7 +27,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
       var wtValue = this.byId("idweight").getValue();
       var thValue = this.byId("idtunch").getValue();
       var X = wtValue * thValue / 100;
-      var CR = "=Silver Received @ Weight X Tunch T";
+      var CR = "Silver Received @ wtValue X thValue T";
       var SR = "=Gold Received @ Weight X Tunch T";
       var KR = "=Kacchi Received @ Weight X Tunch T";
       if (X > 0 && this.getView().byId("RB-1").getSelected()){

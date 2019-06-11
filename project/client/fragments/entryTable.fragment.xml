@@ -1,7 +1,12 @@
 <core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
   <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content>
-	<Table id="idTable" class="sapUiContentPadding" items="{/Entrys}" mode="MultiSelect" growing="true"
+	<Table id="idTable" class="sapUiContentPadding"
+    items="{
+           path: '/Entrys',
+           sorter: {path: 'Date'}
+           }"
+    mode="MultiSelect" growing="true"
 	  growingThreshold="20" updateFinished="onUpdateFinished">
     <headerToolbar>
       <Toolbar>
@@ -33,7 +38,12 @@
       <items>
         <ColumnListItem>
           <cells>
-          <Text text="{Date}"></Text>
+          <Text text= "{
+                path: 'Date',
+                type: 'sap.ui.model.type.Date',
+                formatOptions: {
+                      style: 'medium',
+                      pattern: 'dd.MM.yyyy'}}"></Text>
 					<Text text="{Customer}"></Text>
 					<Text text="{path:'Cash', formatter:'.formatter.formatCurrency'}"></Text>
 					<Text text="{Gold}"></Text>

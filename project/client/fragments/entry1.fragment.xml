@@ -24,9 +24,8 @@
       <f:FormElement label="{i18n>Date}">
         <f:fields>
           <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
-            displayFormat="dd.MM.yyyy" value="{local>/EntryData/Date}"></DatePicker>
-
-          <CheckBox text="{i18n>contEntry}" wrapping="true" selected="false">
+            displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
+          <CheckBox id="CBID" text="{i18n>contEntry}" wrapping="true" selected="false">
           <layoutData>
             <l:GridData span="XL4 L3 M5 S6"/>
           </layoutData>

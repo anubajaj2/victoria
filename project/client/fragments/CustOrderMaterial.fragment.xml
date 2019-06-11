@@ -1,4 +1,4 @@
-  <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+  <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:unified="sap.ui.unified">
 <VBox class="sapUISmallMargin">
 <f:Form id="idCoForm2" editable="true">
 <f:title>
@@ -65,8 +65,25 @@
 </f:FormElement>
 <f:FormElement label="Picture">
 <f:fields>
-<Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/>
+<!-- <Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/> -->
+<unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"
+  iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10"
+  mimeType="image/jpeg,image/gif,image/png"
+  uploadComplete="_onFileUploaderUploadComplete" change="onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch"
+  fileSizeExceed="_onFileUploaderFileSizeExceed">
+  <unified:headerParameters/>
+  <unified:parameters/>
+  <unified:xhrSettings/>
+</unified:FileUploader>
 </f:fields>
+</f:FormElement>
+<f:FormElement label="">
+<Button text="Upload Picture" id="idCoUpload" press="handleUploadPress" type="Emphasized" icon="sap-icon://upload" iconFirst="true" width="auto" enabled="true" visible="true"
+  iconDensityAware="false">
+  <layoutData>
+  <l:GridData span="XL3 L3 "/>
+  </layoutData>
+</Button>
 </f:FormElement>
 </f:formElements>
 <f:layoutData>

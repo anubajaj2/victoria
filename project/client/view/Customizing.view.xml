@@ -9,6 +9,18 @@
 			<VBox class="sapUiSmallMargin">
 				<f:Form id="idCalculation" editable="true"
 					title="Retail Calculation Customizing">
+					<f:toolbar>
+						<Toolbar id="TB1">
+							<ToolbarSpacer />
+								<core:Icon
+									    id="idSaveIcon"
+											src="sap-icon://status-completed"
+											class="size1"
+											color="green"
+											size="30px" alt="Save Status" tooltip="Save Status">
+								</core:Icon>
+							</Toolbar>
+						</f:toolbar>
 					<f:layout>
 						<f:ResponsiveGridLayout
 						labelSpanXL="2"

@@ -215,6 +215,15 @@ this.clearProduct();
 						}
 			},
 
+			onChange: function(oEvent) {
+			  // var oInput = oEvent.getSource();
+			  //  this.handleGoldSilverValidation(oInput);
+			  var oTunch = this.getView().byId("idStandardCost").getValue();
+				var oWaste = this.getView().byId("idReorderLevel").getValue();
+				var oCustTunch =  this.getView().byId("idListPrice");
+				oCustTunch.setValue(+oTunch+ +oWaste);
+			},
+
 			clearProduct : function(){
 				var productModel = this.getView().getModel("productModel");
 				var viewModel = this.getView().getModel("viewModel");

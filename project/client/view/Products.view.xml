@@ -92,12 +92,14 @@
 				<Input
 					id="idStandardCost"
 					type="Number"
+					change="onChange"
 					value="{productModel>/Tunch}">
 				</Input>
 
 				<Label text="Wastage"/>
 				<Input
 					id="idReorderLevel"
+					change="onChange"
 					type="Number"
 					value="{productModel>/Wastage}">
 				</Input>
@@ -133,7 +135,7 @@
 					}">
 					<core:Item key="{per>text}" text="{per>text}" />
 				</ComboBox>
-				
+
 				<Label text="MakingD"/>
 				<!-- <Select
 					id="idQuantityPerUnit"

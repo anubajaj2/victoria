@@ -21,15 +21,18 @@
     },
     "Goldbhav1":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Goldbhav2":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "SilverBhav":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "CreatedOn": {
       "type": "date",

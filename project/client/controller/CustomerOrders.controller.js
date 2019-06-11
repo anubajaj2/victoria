@@ -22,6 +22,7 @@ sap.ui.define([
 
   _onRouteMatched : function(){
   	var that = this;
+    debugger;
     that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
     that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
   },
@@ -74,6 +75,35 @@ sap.ui.define([
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
 
+    onSearch: function(oEvent){
+      debugger;
+        var valueEneterdByUserOnScreen = oEvent.getParameter("query");
+        if(!valueEneterdByUserOnScreen){
+        valueEneterdByUserOnScreen = oEvent.getParameter("value");
+        }
+        //Filter object- it used to filter the data from the model
+        var oFilter1 = new sap.ui.model.Filter(
+        "CustomerCode",
+        sap.ui.model.FilterOperator.Contains,
+        valueEneterdByUserOnScreen  );
+        var oFilter2 = new sap.ui.model.Filter(
+        "Name",
+        sap.ui.model.FilterOperator.Contains,
+        valueEneterdByUserOnScreen  );
+
+        var oFilter = new sap.ui.model.Filter(
+        {
+        filters: [oFilter1, oFilter2],
+        and: false
+        }
+        );
+
+        var aFilter = [oFilter]; //AND operator by default
+        var oList = this.getView().byId("idCoCustPopup");
+        oList.getBinding("items").filter(aFilter);
+
+  },
+
     onDateChange:function(oEvent){
       debugger;
       var oDP = oEvent.getSource();
@@ -110,7 +140,28 @@ sap.ui.define([
               });
     },
 
+    handleUploadPress: function(oEvent) {
+      debugger;
+      var oFileUploader = this.getView().byId("idCoUploader");
+      var domRef = oFileUploader.getFocusDomRef();
+      var file = domRef.files[0];
+      var that = this;
+      this.fileName = file.name;
+      this.fileType = file.type;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          debugger;
+          var oFile = {};
+          oFile.imgContent = e.currentTarget.result;
+          // that.aFiles.push(oFile);
+        }
+        reader.readAsDataURL(file);
+
+    },
+
     onSave: function(oEvent){
+
       var that = this;
       that.getView().setBusy(true);
       debugger;
@@ -208,10 +259,10 @@ sap.ui.define([
         oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
         var karigarId = oTable.getItems()[i].getCells()[11].getText();
-        var customerData = this.allMasterData.customers[karigarId];
-        oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name );
-
-
+        if (karigarId) {
+          var customerData = this.allMasterData.customers[karigarId];
+          oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+        }
       }
     }
 

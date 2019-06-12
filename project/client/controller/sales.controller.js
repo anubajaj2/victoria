@@ -129,19 +129,19 @@ debugger;
 onSave:function(oEvent){
   var that = this;
   debugger;
-var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
-if(oHeader.OrderNo === 0){
-    MessageBox.show(
-			"Please create Order Number first", {
-				icon: MessageBox.Icon.ERROR,
-				title: "Error",
-				actions: [MessageBox.Action.OK],
-				onClose: function(oAction) { }
-			}
-      // return;
-		);
-  that.getView().setBusy(false);
-}
+  var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+  if(oHeader.OrderNo === 0){
+      MessageBox.show(
+  			"Please create Order Number first", {
+  				icon: MessageBox.Icon.ERROR,
+  				title: "Error",
+  				actions: [MessageBox.Action.OK],
+  				onClose: function(oAction) { }
+  			}
+        // return;
+  		);
+    that.getView().setBusy(false);
+  }
   debugger;
 if (oHeader.OrderNo !== "" &&
     oHeader.OrderNo !== 0) {
@@ -179,10 +179,10 @@ if (data.Material !== "") {
   oOrderDetail.WeightD=data.WeightD;
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTotal;
-
+  var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
 //Item data save
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                "/OrderItems","POST", {}, oOrderDetail, this)
+                "/OrderItems","POST", {}, oOrderDetailsClone, this)
                  .then(function(oData) {
                       that.getView().setBusy(false);
                       sap.m.MessageToast.show("Data Saved Successfully");

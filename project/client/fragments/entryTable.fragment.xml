@@ -4,7 +4,10 @@
 	<Table id="idTable" class="sapUiContentPadding"
     items="{
            path: '/Entrys',
-           sorter: {path: 'Date'}
+             sorter: {
+             path: 'Date',
+             descending: 'true'
+             }  
            }"
     mode="MultiSelect" growing="true"
 	  growingThreshold="20" updateFinished="onUpdateFinished">

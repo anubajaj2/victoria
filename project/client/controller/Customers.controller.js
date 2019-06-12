@@ -68,8 +68,8 @@ sap.ui.define([
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
 				this.setModel(oViewModel3, "typec");
-				// customerModel.bindAggregation("typec>/");
-			// customerModel.Type = this.getView().byId("idType").getSelectedKey();
+				// var typeValue = this.getModel("oViewModel3").getProperty("/selectedKey");
+				// this.getView().getModel("customerModel").setProperty("/Type", typeValue);
 				var oViewDetailModel = new JSONModel({
 					"buttonText" : "Save",
 					"deleteEnabled" : false,
@@ -86,7 +86,10 @@ sap.ui.define([
 //					}
 //				);
 			},
-
+			onSelectChange: function(oEvent){
+				var oSelect = oEvent.getParameter("selectedItem").getText();
+				this.getView().getModel("customerModel").setProperty("/Type", oSelect);
+			},
 			getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
@@ -388,7 +391,7 @@ this.clearCustomer();
 						"StateProvince": "",
 						"WebPage": "",
 						"ZipPostalCode": this.byId("idZipPostalCode").getValue(),
-						"Type": this.byId("idType").getValue(),
+						"Type": parseInt(this.byId("idType").getSelectedKey()),
 						"CitycodeDetails": {
 							"__metadata": {
 								"uri": "http://localhost:8080/bhavysoft/galaxyService.svc/Citycodes("+ this.byId("idCity").getSelectedKey() +")"
@@ -435,7 +438,7 @@ this.clearCustomer();
 						"StateProvince": "",
 						"WebPage": "",
 						"ZipPostalCode": this.byId("idZipPostalCode").getValue(),
-						"Type": this.byId("idType").getValue(),
+						"Type": parseInt(this.byId("idType").getSelectedKey()),
 						"CitycodeDetails": {
 							"__metadata": {
 								"uri": "http://localhost:8080/bhavysoft/galaxyService.svc/Citycodes("+ this.byId("idCity").getSelectedKey() +")"

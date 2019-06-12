@@ -10,6 +10,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
       //
         var oRouter = this.getRouter();
       oRouter.getRoute("Entry").attachMatched(this._onRouteMatched, this);
+
       },
 
       _onRouteMatched : function(){
@@ -17,6 +18,30 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
       that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
       this.getView().byId("DateId").setDateValue(new Date());
 
+      },
+      onSelect: function (oEvent){
+          // debugger;
+          //     var check = oEvent.getParameter('selected');
+          //   if (check === true) {
+          //     alert("Successful");
+          //   }
+          //   else {
+          //     return '';
+          //   }
+     //      $(document).ready(function(){
+     //        var ckbox = $('#CBID');
+     //     $('CheckBox').on('click',function(){
+     //         if(ckbox.is(':checked')) {
+     //             alert('You have Checked it');
+     //         }
+     //         else {
+     //             alert('You Un-Checked it');
+     //         }
+     //     });
+     // });
+
+        // debugger;
+        // var chk = this.getView().byId("CBID").getSelected();
       },
 
     onValueHelpRequest: function (oEvent) {
@@ -130,6 +155,18 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
    },
 
    onClear: function(){
+     var check = this.getView().byId("CBID").getSelected();
+     if (check === true) {
+       alert("Successful");
+     }
+     // elseif (check === false){
+     //   alert("unsuccessful");
+     //   this.byId("idCust").setValue("");
+     //   this.byId("idCustText").setValue("");
+     // }
+
+     // var check = this.byId("i1").getSelected();
+
        this.getView().byId("DateId").setDateValue( new Date());
      this.byId("idCust").setValue("");
      this.byId("idCustText").setValue("");

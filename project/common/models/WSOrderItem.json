@@ -1,58 +1,76 @@
 {
-  "name": "WSOrderItem",
-  "plural": "WSOrderItems",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
+	"name": "WSOrderItem",
+	"plural": "WSOrderItems",
+	"base": "PersistedModel",
+	"idInjection": true,
+	"options": {
+		"validateUpsert": true
+	},
 
-  "properties": {
-    "OrderNo": {
-      "type": "string",
-      "required": true
-    },
-    "material": {
-      "type": "string",
-      "required": true
-    },
-    "description": {
-      "type": "string",
-      "required": false
-    },
-    "qty": {
-      "type": "number",
-      "required": false
-    },
-    "qtyD": {
-      "type": "number",
-      "required": true
-    },
-    "weight": {
-      "type": "number",
-      "required": false
-    },
-    "weightD": {
-      "type": "number",
-      "required": false
-    },
-    "making": {
-      "type": "number",
-      "required": false
-    },
-    "makingD": {
-      "type": "number",
-      "required": false
-    },
-    "remarks": {
-      "type": "string",
-      "required": false
-    },
-    "subTotal": {
-      "type": "number",
-      "required": false
-    },
-    "CreatedOn": {
+	"properties": {
+		"OrderNo": {
+			"type": "string",
+			"required": true
+		},
+		"Material": {
+			"type": "string",
+			"required": true
+		},
+		"Qty": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"QtyD": {
+			"type": "number",
+			"required": true,
+			"default": 0
+		},
+		"Weight": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"WeightD": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Making": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"MakingD": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Tunch": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Remarks": {
+			"type": "string",
+			"required": false
+		},
+		"SubTotal": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"SubTotalS": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"SubTotalG": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"CreatedOn": {
 			"type": "date",
 			"default": "null"
 		},
@@ -68,19 +86,17 @@
 			"type": "string",
 			"default": "null"
 		}
-  },
-  "scope":{
+	},
+	"scope": {
 
-  },
-  "validations": [],
-  "relations": {},
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$unauthenticated",
-      "permission": "DENY"
-    }
-  ],
-  "methods": {}
+	},
+	"validations": [],
+	"relations": {},
+	"acls": [{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$unauthenticated",
+		"permission": "DENY"
+	}],
+	"methods": {}
 }

@@ -21,8 +21,8 @@ sap.ui.define(
 				this.orderItem(oEvent);
 				// Return Item Table as input table
 				this.orderReturn();
-			},
-			_onRouteMatched: function() {
+				},
+			_onRouteMatched: function(oEvent) {
 				var that = this;
 				var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
 			  var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -35,6 +35,7 @@ sap.ui.define(
 			  oHeaderDetailT.CustomerId="";
 			  oHeaderDetailT.CustomerName="";
 			  this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
+
 			},
 			valueHelpCustomer: function(oEvent) {
 				this.getCustomerPopup(oEvent);
@@ -49,12 +50,27 @@ sap.ui.define(
 				var selCustName = oEvent.getParameter("selectedItem").getValue();
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", selCust);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", selCustName);
+				var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				oCustDetail.customerId = selCust;
+				oCustDetail.CustomerName = selCustName;
 				// this.getView().byId("customerId").setValue(selCust);
 				// this.getView().byId("custName").setText(selCustName);
 				// if (this.searchPopup) {
 				//   this.searchPopup.destroy();
 				// }
 			},
+			ValueChange: function(oEvent){
+				debugger;
+		    var oCurrentRow = oEvent.getSource().getParent();
+		    var cells = oCurrentRow.getCells();
+				var X = cells[4].getValue() - cells[5].getValue();
+				var Y = X * cells[6].getValue();
+				var Y = cells[2].getValue() * cells[6].getValue();
+				var Z = cells[4].getValue() * cells[7].getValue();
+				cells[10].setValue(X * cells[8].getValue() / 100);
+				cells[11].setValue(X * cells[8].getValue() / 100);
+				cells[12].setValue(Y + Z);
+		  },
 			onClear: function() {
 				debugger;
 				this.byId("idOrderNo").setValue("");
@@ -106,7 +122,9 @@ sap.ui.define(
 				    }
 				else {
 				//call the odata promise method to post the data
+				debugger;
 				orderData.Date = orderData.Date.replace(".","-").replace(".","-");
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
 				                          "POST", {}, orderData, this)
 				             .then(function(oData) {

@@ -1,8 +1,8 @@
-  <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:unified="sap.ui.unified">
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:unified="sap.ui.unified">
 <VBox class="sapUISmallMargin">
 <f:Form id="idCoForm2" editable="true">
 <f:title>
-<core:Title/>
+<core:Title text="{i18n>coOrdDtl}"/>
 </f:title>
 <f:layout>
   <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2" labelSpanS="12"
@@ -10,7 +10,7 @@
               columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
-<f:FormContainer title="Order Details">
+<f:FormContainer title="{i18n>coOrdItem}">
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
@@ -43,9 +43,9 @@
 </f:layoutData>
 </f:FormContainer>
 
-<f:FormContainer title="Advances/Picture">
+<f:FormContainer title="{i18n>coOrdAdv}">
 <f:formElements>
-<f:FormElement label="Cash Advance">
+<f:FormElement label="{i18n>Cash}">
 <f:fields>
 <!-- <Input id="idCoCash" type="Number" value="{local>/customerOrder/Cash}"/> -->
 <Input id="idCoCash" type="Number" value="{
@@ -53,17 +53,17 @@
                                         formatter:'.formatter.getIndianCurr'}"/>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Gold Advance">
+<f:FormElement label="{i18n>Gold}">
 <f:fields>
 <Input id="idCoGold" type="Number" value="{local>/customerOrder/Gold}"/>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Silver Advance">
+<f:FormElement label="{i18n>Silver}">
 <f:fields>
 <Input id="idCoSilver" type="Number" value="{local>/customerOrder/Silver}"/>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Picture">
+<f:FormElement label="{i18n>coPic}">
 <f:fields>
 <!-- <Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/> -->
 <unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"

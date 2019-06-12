@@ -25,6 +25,7 @@ sap.ui.define([
     debugger;
     that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
     that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+  //  that.getView().byId("idCoDate").setDateValue(new Date());
   },
 
     onValueHelp: function(oEvent){
@@ -77,30 +78,49 @@ sap.ui.define([
 
     onSearch: function(oEvent){
       debugger;
-        var valueEneterdByUserOnScreen = oEvent.getParameter("query");
-        if(!valueEneterdByUserOnScreen){
-        valueEneterdByUserOnScreen = oEvent.getParameter("value");
+        var sValue = oEvent.getParameter("query");
+        if(!sValue){
+        sValue = oEvent.getParameter("value");
         }
-        //Filter object- it used to filter the data from the model
-        var oFilter1 = new sap.ui.model.Filter(
-        "CustomerCode",
-        sap.ui.model.FilterOperator.Contains,
-        valueEneterdByUserOnScreen  );
-        var oFilter2 = new sap.ui.model.Filter(
-        "Name",
-        sap.ui.model.FilterOperator.Contains,
-        valueEneterdByUserOnScreen  );
+        if(oEvent.getSource().getTitle() === "Material Search"){
+          var oFilter1 = new sap.ui.model.Filter(
+                        "ProductCode",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue  );
+          var oFilter2 = new sap.ui.model.Filter(
+                        "ProductName",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue );
+          var oFilter = new sap.ui.model.Filter(
+                        {
+                        filters: [oFilter1, oFilter2],
+                        and: false
+                        });
 
-        var oFilter = new sap.ui.model.Filter(
-        {
-        filters: [oFilter1, oFilter2],
-        and: false
+        }else{
+          var oFilter1 = new sap.ui.model.Filter(
+                        "CustomerCode",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue  );
+          var oFilter2 = new sap.ui.model.Filter(
+                        "Name",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue );
+          var oFilter3 = new sap.ui.model.Filter(
+                        "City",
+                        sap.ui.model.FilterOperator.Contains,
+                        sValue );
+
+          var oFilter = new sap.ui.model.Filter(
+                        {
+                        filters: [oFilter1, oFilter2, oFilter3],
+                        and: false
+                        });
         }
-        );
-
+        //Filter object- is used to filter the data from the model
         var aFilter = [oFilter]; //AND operator by default
-        var oList = this.getView().byId("idCoCustPopup");
-        oList.getBinding("items").filter(aFilter);
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter(aFilter);
 
   },
 
@@ -160,6 +180,7 @@ sap.ui.define([
 
     },
 
+    
     onSave: function(oEvent){
 
       var that = this;
@@ -168,7 +189,7 @@ sap.ui.define([
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
       myData.Date =  this.getView().byId("idCoDate").getValue();
       myData.DelDate = this.getView().byId("idCoDelDate").getValue();
-      debugger;
+      //var dateObj = this.getView().byId("idCoDate").getDateValue();
       this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
       this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
       //myData.Date =  this.getView().byId("idCoDate").getDateValue();

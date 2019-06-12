@@ -223,16 +223,17 @@ debugger;
 },
 
 ValueChange:function(oEvent){
-debugger;
-var index = oEvent.getSource().getParent().getIndex();
-var oCurrentRow = oEvent.getSource().getParent();
-var cells = oCurrentRow.getCells();
-// var path = oEvent.getSource().getBindingContext().getPath();
-// var oOrderDetail = this.getView().getModel('local').getProperty('/orderItems')
-var x = cells[2].getValue()  - cells[2].getValue();
-var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-// cells[9].setValue(cells[1].getValue() * cells[2].getValue() / 100);
-// this.byId("idTunch")
-}
+  debugger;
+  var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+  // var index = oEvent.getSource().getParent().getIndex();
+  // var oCurrentRow = oEvent.getSource().getParent();
+  // var cells = oCurrentRow.getCells();
+  // // var path = oEvent.getSource().getBindingContext().getPath();
+  // // var oOrderDetail = this.getView().getModel('local').getProperty('/orderItems')
+  // var x = cells[2].getValue()  - cells[2].getValue();
+  // var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+  // cells[9].setValue(cells[1].getValue() * cells[2].getValue() / 100);
+  // this.byId("idTunch")
+  }
 });
 });

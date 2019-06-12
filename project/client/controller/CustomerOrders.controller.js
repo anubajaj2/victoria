@@ -11,10 +11,6 @@ sap.ui.define([
     formatter: formatter,
     onInit: function () {
       BaseController.prototype.onInit.apply(this);
-      //this.getView().byId("idCoDate").setDateValue( new Date());
-      //this.getView().getModel("local").setProperty("/customerOrder/Date", new Date());
-      //this.getView().byId("idCoDelDate").setDateValue( new Date(), formatter.getFormattedDate(1));
-      //this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
 
       var oRouter = this.getRouter();
     oRouter.getRoute("customerOrders").attachMatched(this._onRouteMatched, this);
@@ -23,9 +19,15 @@ sap.ui.define([
   _onRouteMatched : function(){
   	var that = this;
     debugger;
-    that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
-    that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
-  //  that.getView().byId("idCoDate").setDateValue(new Date());
+    that.getView().byId("idCoDate").setDateValue(new Date());
+    var date = new  Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    that.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
+    // that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
+    // that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+
   },
 
     onValueHelp: function(oEvent){
@@ -137,9 +139,11 @@ sap.ui.define([
       if (fieldId.split("--")[2] === "idCoDate"){
           var sValue = oEvent.getParameter("value");
           var parts = sValue.split('-');
-          // sValu format yyyy-MM-dd; MM starts from 0-11 for months so -1
-          var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
-          this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getIncrementDate(dateObj,1));
+          // sValu format yyyy-MM-dd; MM starts from 0-11 for months
+          var dateObj = new Date(parts[0], parts[1], parts[2]);
+          //this.getView().getModel("local").setProperty("/customerOrder/DelDate", dateObj);
+          this.getView().byId("idCoDelDate").setDateValue(dateObj);
+          //this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getIncrementDate(dateObj,1));
       }
     },
 
@@ -180,28 +184,23 @@ sap.ui.define([
 
     },
 
-    
+
     onSave: function(oEvent){
 
       var that = this;
       that.getView().setBusy(true);
       debugger;
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
-      myData.Date =  this.getView().byId("idCoDate").getValue();
-      myData.DelDate = this.getView().byId("idCoDelDate").getValue();
-      //var dateObj = this.getView().byId("idCoDate").getDateValue();
-      this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
-      this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
-      //myData.Date =  this.getView().byId("idCoDate").getDateValue();
-      //myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-      //myData.Qty = this.getView().byId("idCoQty").getValue();
-      //myData.Weight = this.getView().byId("idCoWeight").getValue();
-      //myData.Making = this.getView().byId("idCoMaking").getValue();
-      //myData.Remarks = this.getView().byId("idCoRemarks").getValue();
-      //myData.Cash = this.getView().byId("idCoCash").getValue();
-      //myData.Gold = this.getView().byId("idCoGold").getValue();
-      //myData.Silver = this.getView().byId("idCoSilver").getValue();
-      //myData.Picture = this.getView().byId("idCoPicture").getValue();
+      // myData.Date =  this.getView().byId("idCoDate").getValue();
+      // myData.DelDate = this.getView().byId("idCoDelDate").getValue();
+      // var dateObj = this.getView().byId("idCoDate").getDateValue();
+      // var delDateObj = this.getView().byId("idCoDelDate").getDateValue();
+      myData.Date = this.getView().byId("idCoDate").getDateValue();
+      myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+       this.getView().getModel("local").setProperty("/customerOrder/Date",   myData.Date);
+       this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
+      // this.getView().getModel("local").setProperty("/customerOrder/Date", dateObj);
+      // this.getView().getModel("local").setProperty("/customerOrder/DelDate", delDateObj);
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
@@ -243,8 +242,14 @@ sap.ui.define([
     onClear: function(){
       //this.byId("idCoDate").setValue("");
       //this.byId("idCoDelDate").setValue("");
-      this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
-      this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+      // this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
+      // this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+      this.getView().byId("idCoDate").setDateValue(new Date());
+      var date = new  Date();
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1;
+      var yyyy = date.getFullYear();
+      this.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
       this.byId("idCoCustomer").setValue("");
       this.byId("idCoCustomerText").setValue("");
       this.byId("idCoMaterial").setValue("");

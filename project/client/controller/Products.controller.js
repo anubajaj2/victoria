@@ -43,6 +43,7 @@ sap.ui.define([
 					oViewModel = new JSONModel({
 						"Category": "",
 				        "Type": "",
+								"Karat": "",
 				        "CustomerTunch": 0,
 				        "Making": 0,
 				        "ProductCode": "",
@@ -59,6 +60,9 @@ sap.ui.define([
 				var oViewModel2 = new JSONModel({
 					"items":[{"text": "gm"},{"text": "pcs"}]
 				});
+				var oViewModel3 = new JSONModel({
+					"items":[{"text": "22/20"},{"text": "22/22"}]
+				});
 
 //				this.getRouter().getRoute("Products").attachPatternMatched(this._onObjectMatched, this);
 //
@@ -67,9 +71,11 @@ sap.ui.define([
 				this.setModel(oViewModel, "productModel");
 				this.setModel(oViewModel1, "fixed");
 				this.setModel(oViewModel2, "per");
+				this.setModel(oViewModel3, "Karat");
 				var oViewDetailModel = new JSONModel({
 					"buttonText" : "Save",
-					"deleteEnabled" : false
+					"deleteEnabled" : false,
+					"typeEnabled": false
 
 				});
 				this.setModel(oViewDetailModel, "viewModel");
@@ -121,6 +127,24 @@ sap.ui.define([
 //					}
 //				);
 			},
+			onSelectChange: function(oEvent){
+				var oSelect = oEvent.getParameter("selectedItem").getText();
+				this.getView().getModel("productModel").setProperty("/Karat", oSelect);
+			},
+
+			onTypeChange: function(oEvent){
+				// var oSelectType = oEvent.getParameter("selectedItem").get;
+				var oSelectType = this.getView().getModel("productModel").getProperty("/Type");
+				var viewModel = this.getView().getModel("viewModel");
+				if ( oSelectType  === "Gold") {
+					viewModel.setProperty("/typeEnabled", true);
+					// var oKarat = this.getView().getModel("Karat").getProperty("/items/0/text");
+					// this.getView().getModel("productModel").setProperty("/Karat", oKarat);
+				}
+				else {
+					viewModel.setProperty("/typeEnabled", false);
+				}
+			},
 
 			getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
@@ -132,6 +156,7 @@ sap.ui.define([
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
+				viewModel.setProperty("/typeEnabled", false);
 				var odataModel = new JSONModel({
 					"ProductCodeState" : "None"
 
@@ -180,6 +205,7 @@ this.clearProduct();
  					if(found.length > 0){
 						productModel.getData().Category = found[0].Category;
 						productModel.getData().Type = found[0].Type;
+						productModel.getData().Karat = found[0].Karat;
 						productModel.getData().CustomerTunch = found[0].CustomerTunch;
 						productModel.getData().Making = found[0].Making;
 						productModel.getData().ProductName = found[0].ProductName;
@@ -197,6 +223,7 @@ this.clearProduct();
 						}else{
 							productModel.getData().Category = "";
 							productModel.getData().Type = "";
+							productModel.getData().Karat = "";
 							productModel.getData().CustomerTunch = 0;
 							productModel.getData().Making = 0;
 							productModel.getData().ProductName = "";
@@ -230,6 +257,8 @@ this.clearProduct();
 				var dataModel = this.getView().getModel("dataModel");
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
+				productModel.getData().Karat = "";
+				productModel.getData().Karat = "";
 				productModel.getData().ProductCode = "";
 				productModel.getData().CustomerTunch = 0;
 				productModel.getData().Making = 0;
@@ -242,6 +271,7 @@ this.clearProduct();
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
+				viewModel.setProperty("/typeEnabled", false);
 				dataModel.setProperty("/ProductCode", "None");
 				productModel.refresh();
 
@@ -314,6 +344,7 @@ this.clearProduct();
 								MessageToast.show("Deleted successfully");
 								productModel.getData().Category = "";
 								productModel.getData().Type = "";
+								productModel.getData().Karat = "";
 								productModel.getData().CustomerTunch = 0;
 								productModel.getData().Making = 0;
 								productModel.getData().ProductCode = "";

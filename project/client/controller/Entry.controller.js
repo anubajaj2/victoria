@@ -20,28 +20,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
 
       },
       onSelect: function (oEvent){
-          // debugger;
-          //     var check = oEvent.getParameter('selected');
-          //   if (check === true) {
-          //     alert("Successful");
-          //   }
-          //   else {
-          //     return '';
-          //   }
-     //      $(document).ready(function(){
-     //        var ckbox = $('#CBID');
-     //     $('CheckBox').on('click',function(){
-     //         if(ckbox.is(':checked')) {
-     //             alert('You have Checked it');
-     //         }
-     //         else {
-     //             alert('You Un-Checked it');
-     //         }
-     //     });
-     // });
 
-        // debugger;
-        // var chk = this.getView().byId("CBID").getSelected();
       },
 
     onValueHelpRequest: function (oEvent) {
@@ -52,9 +31,9 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
       var wtValue = this.byId("idweight").getValue();
       var thValue = this.byId("idtunch").getValue();
       var X = wtValue * thValue / 100;
-      var CR = "Silver Received @ wtValue X thValue T";
-      var SR = "=Gold Received @ Weight X Tunch T";
-      var KR = "=Kacchi Received @ Weight X Tunch T";
+      var CR = "Silver Received @" + wtValue + 'x' + thValue;
+      var SR = "Gold Received @" + wtValue + 'x' + thValue;
+      var KR = "Kacchi Received @" + wtValue + 'x' + thValue;
       if (X > 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(CR);
@@ -64,6 +43,18 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
         this.getView().byId("idRemarks").setValue(SR);
       }
       else if (X > 0 && this.getView().byId("RB-3").getSelected()){
+        this.getView().byId("idSilver").setValue(X);
+        this.getView().byId("idRemarks").setValue(KR);
+      }
+      else if (X < 0 && this.getView().byId("RB-1").getSelected()){
+        this.getView().byId("idSilver").setValue(X);
+        this.getView().byId("idRemarks").setValue(CR);
+      }
+      else if (X < 0 && this.getView().byId("RB-2").getSelected()){
+        this.getView().byId("idGold").setValue(X);
+        this.getView().byId("idRemarks").setValue(SR);
+      }
+      else if (X < 0 && this.getView().byId("RB-3").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(KR);
       }

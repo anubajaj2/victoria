@@ -146,21 +146,25 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
    },
 
    onClear: function(){
+     debugger;
      var check = this.getView().byId("CBID").getSelected();
      if (check === true) {
-       alert("Successful");
-     }
-     // elseif (check === false){
-     //   alert("unsuccessful");
-     //   this.byId("idCust").setValue("");
-     //   this.byId("idCustText").setValue("");
-     // }
+       // alert("Successful");
+       this.byId("idCust").getValue();
+       this.byId("idCustText").getValue();
+       this.byId("idweight").setValue("0");
+       this.byId("idRemarks").setValue("");
+       this.byId("idCash").setValue("0");
+       this.byId("idGold").setValue("0");
+       this.byId("idSilver").setValue("0");
+       this.byId("idtunch").setValue("0");
+       this.byId("DueDateId").setValue("");
 
-     // var check = this.byId("i1").getSelected();
-
+     }else if (check === false){
+       // alert("unsuccessful");
        this.getView().byId("DateId").setDateValue( new Date());
-     this.byId("idCust").setValue("");
-     this.byId("idCustText").setValue("");
+       this.byId("idCust").setValue("");
+       this.byId("idCustText").setValue("");
      this.byId("idweight").setValue("0");
      this.byId("idRemarks").setValue("");
      this.byId("idCash").setValue("0");
@@ -168,6 +172,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
      this.byId("idSilver").setValue("0");
      this.byId("idtunch").setValue("0");
      this.byId("DueDateId").setValue("");
+     }
 
    },
 

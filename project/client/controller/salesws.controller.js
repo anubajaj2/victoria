@@ -39,20 +39,20 @@ sap.ui.define(
 				//item form set to initial stage
 				var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
 				var oTableDetails = this.getView().byId('orderItemBases');
-				var oBinding = oTableDetails.getBinding("rows");
-
-				for (var i = 0; i < oBinding.getLength(); i++){
-				  oOrderDetail.Material="";
-				  oOrderDetail.Qty="";
-				  oOrderDetail.QtyD="";
-				  oOrderDetail.Making="";
-				  oOrderDetail.MakingD="";
-				  oOrderDetail.Weight="";
-				  oOrderDetail.WeightD="";
-				  oOrderDetail.Remarks="";
-				  oOrderDetail.SubTotal="";
-				this.getView().getModel('local').getProperty('/WSOrderItem',oOrderDetail);
-			}
+				// var oBinding = oTableDetails.getBinding("rows");
+				//
+				// for (var i = 0; i < oBinding.getLength(); i++){
+				//   oOrderDetail.Material="";
+				//   oOrderDetail.Qty="";
+				//   oOrderDetail.QtyD="";
+				//   oOrderDetail.Making="";
+				//   oOrderDetail.MakingD="";
+				//   oOrderDetail.Weight="";
+				//   oOrderDetail.WeightD="";
+				//   oOrderDetail.Remarks="";
+				//   oOrderDetail.SubTotal="";
+				// this.getView().getModel('local').getProperty('/WSOrderItem',oOrderDetail);
+			// }
 			},
 			valueHelpCustomer: function(oEvent) {
 				this.getCustomerPopup(oEvent);

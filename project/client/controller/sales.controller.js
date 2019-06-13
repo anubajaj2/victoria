@@ -86,23 +86,30 @@ this.getView().byId("customerId").setValueState("Error").setValueStateText("Mand
 that.getView().setBusy(false);
     }
 else {
+  debugger;
+  var date =  new Date();
+  var dd = date.getDate();
+  var mm = date.getMonth() + 1;
+  var yyyy = date.getFullYear();
+  orderData.Date = yyyy + '.' + mm + '.' + dd;
 //call the odata promise method to post the data
 orderData.Date = orderData.Date.replace(".","-").replace(".","-");
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                           "POST", {}, orderData, this)
              .then(function(oData) {
                   that.getView().setBusy(false);
-debugger;
-//create the new json model and get the order id no generated
-var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-oOrderId.OrderId=oData.id;
-oOrderId.OrderNo=oData.OrderNo;
-that.getView().getModel('local').setProperty('/OrderId',oOrderId);
-//assign the no on ui
-that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
-               }).catch(function(oError) {
-that.getView().setBusy(false);
-var oPopover = that.getErrorMessage(oError);
+                  debugger;
+                  //create the new json model and get the order id no generated
+        var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+        oOrderId.OrderId=oData.id;
+        oOrderId.OrderNo=oData.OrderNo;
+        that.getView().getModel('local').setProperty('/OrderId',oOrderId);
+        //assign the no on ui
+        that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+               })
+        .catch(function(oError) {
+          that.getView().setBusy(false);
+          var oPopover = that.getErrorMessage(oError);
             		});
               }
             },
@@ -178,7 +185,7 @@ if (data.Material !== "") {
   oOrderDetail.Weight=data.Weight;
   oOrderDetail.WeightD=data.WeightD;
   oOrderDetail.Remarks=data.Remarks;
-  oOrderDetail.SubTotal=data.SubTotal;
+  oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
 //Item data save
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -224,16 +231,39 @@ debugger;
 
 ValueChange:function(oEvent){
   debugger;
+  var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
-  // var index = oEvent.getSource().getParent().getIndex();
-  // var oCurrentRow = oEvent.getSource().getParent();
-  // var cells = oCurrentRow.getCells();
-  // // var path = oEvent.getSource().getBindingContext().getPath();
-  // // var oOrderDetail = this.getView().getModel('local').getProperty('/orderItems')
-  // var x = cells[2].getValue()  - cells[2].getValue();
-  // var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-  // cells[9].setValue(cells[1].getValue() * cells[2].getValue() / 100);
-  // this.byId("idTunch")
+  var oCurrentRow = oEvent.getSource().getParent();
+  var cells = oCurrentRow.getCells();
+// X = Weight - WeightD
+  var x = cells[2].getValue()  - cells[3].getValue();
+  if (category.Category === 'gm') {
+// Y = X * Making (if per gm)
+    var y = x * cells[6].getValue();
   }
+  else if (category.Category === 'pcs') {
+//y = Qty * Making (if per pc)
+    var y = cells[2].getValue() * cells[6].getValue();
+  }
+  if (cells[3].getValue() &&
+      cells[7].getValue()) {
+ var z =  cells[2].getValue() * cells[7].getValue();
+  }
+  if (category.Type === "Silver") {
+ //InterSubTotal = X * Bhav ( Silver)
+ var InterSubTotal = x * orderHeader.SilverBhav;
+  }
+  else if (category.Type === "Gold") {
+var InterSubTotal = x * orderHeader.Goldbhav1;
+  }
+cells[9].setValue( InterSubTotal + y + z );
+this.byId("IdMaking");
+this.byId("IdMakingD");
+this.byId("IdWeightD");
+this.byId("Idweight");
+this.byId("IdQty");
+this.byId("IdQtyD");
+}//ValueChange function end
+
 });
 });

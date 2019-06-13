@@ -107,7 +107,7 @@
 					<m:Text text="{i18n>subTotalS}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>SubTotalS}"/>
+					<m:Input value="{orderItems>SubTotalS}" editable="false"/>
 				</template>
 			</Column>
 			<Column visible="{visModel>/rows1}">
@@ -115,7 +115,7 @@
 					<m:Text text="{i18n>subTotalG}"/>
 				</label>
 				<template>
-					<m:Input value="{orderItems>SubTotalG}"/>
+					<m:Input value="{orderItems>SubTotalG}" editable="false"/>
 				</template>
 			</Column>
 			<Column>

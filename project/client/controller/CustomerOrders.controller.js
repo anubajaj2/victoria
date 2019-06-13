@@ -77,7 +77,24 @@ sap.ui.define([
 
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
+    onSelectPhoto: function(oEvent){
+      debugger;
+      // if (!this.searchPopup) {
+      //   this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.CustomerOrderPhoto", this);
+      //   this.getView().addDependent(this.searchPopup);
+      //   var title = this.getView().getModel("i18n").getProperty("customer");
+      //   this.searchPopup.setTitle(title);
+        // this.searchPopup.bindAggregation("items",{
+        //   path: '/Customers',
+        //   template: new sap.m.DisplayListItem({
+        //        id: "idCoCustPopup",
+        //     label: "{CustomerCode}",
+        //     value: "{Name} - {City}"
+        //   })
+        // });
+      // }
 
+    },
     onSearch: function(oEvent){
       debugger;
         var sValue = oEvent.getParameter("query");
@@ -177,13 +194,28 @@ sap.ui.define([
         reader.onload = function(e) {
           debugger;
           var oFile = {};
-          oFile.imgContent = e.currentTarget.result;
+          oFile.imgContent = e.currentTarget.result.replace("date:image/jpeg;base64,", "");
           // that.aFiles.push(oFile);
+          var picture = btoa(encodeURI(oFile.imgContent));
+          that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
         }
         reader.readAsDataURL(file);
 
     },
 
+    handleResponsivePopoverPress: function (oEvent) {
+			if (!this._oPopover) {
+				this._oPopover = sap.ui.xmlfragment("sap.m.sample.ResponsivePopover.CustomerOrderPhoto", this);
+				this._oPopover.bindElement("/ProductCollection/0");
+				this.getView().addDependent(this._oPopover);
+			}
+
+			this._oPopover.openBy(oEvent.getSource());
+		},
+
+		handleCloseButton: function (oEvent) {
+			this._oPopover.close();
+		},
 
     onSave: function(oEvent){
 

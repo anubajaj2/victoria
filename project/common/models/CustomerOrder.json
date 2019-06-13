@@ -9,56 +9,68 @@
   "properties": {
     "Date": {
       "type": "date",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "DelDate": {
       "type": "date",
-      "required": false
+      "required": false,
+      "default": "null"
     },
     "Customer": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Material": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Qty": {
       "type": "number",
       "required": true,
       "minimum":1,
-      "maximum":3
+      "maximum":3,
+      "default": 0
     },
     "Weight": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default": 0
     },
     "Making": {
       "type": "number",
       "required": false,
       "minimum":1,
-      "maximum":4
+      "maximum":4,
+      "default": 0
     },
     "Karigar": {
       "type": "string",
-      "required": false
+      "required": false,
+      "default": "null"
     },
     "Remarks": {
       "type": "string",
       "required": false,
-      "maximum": 250
+      "maximum": 250,
+      "default": "null"
     },
     "Cash": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Gold": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Silver": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Picture": {
       "type": "string",

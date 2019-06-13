@@ -1,0 +1,36 @@
+{
+  "name": "Photo",
+  "plural": "Photos",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "CustomerOrderId": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "Photo": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

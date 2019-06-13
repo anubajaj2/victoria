@@ -6,10 +6,10 @@
 	<semantic:FullscreenPage id="Kacchi"
 		navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
 	<semantic:content id="idContent">
-    <VBox class="sapUiSmallMargin">
+    <!-- <VBox class="sapUiSmallMargin"> -->
       <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">
       </core:Fragment>
-    </VBox>
+    <!-- </VBox> -->
 
 			<VBox class="sapUiSmallMargin">
 			     <core:Fragment fragmentName="victoria.fragments.kacchiTable" type="XML">
@@ -20,7 +20,7 @@
       <semantic:customFooterContent>
 				<Button text="Save" liveChange="onChange" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
         <Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
-				<Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
+				<Button text="Print" press="onPrint" id="idPrintButton" type="Emphasized"  icon="sap-icon://print"/>
         <Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
       </semantic:customFooterContent>
 

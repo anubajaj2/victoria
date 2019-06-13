@@ -36,6 +36,22 @@ sap.ui.define(
 				oHeaderDetailT.CustomerName = "";
 				this.getView().getModel('local').setProperty("/orderHeaderTemp", oHeaderDetailT);
 
+				//item form set to initial stage
+				var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
+				var oTableDetails = this.getView().byId('orderItemBases');
+				var oBinding = oTableDetails.getBinding("rows");
+
+				for (var i = 0; i < oBinding.getLength(); i++){
+				  oOrderDetail.Material="";
+				  oOrderDetail.Qty="";
+				  oOrderDetail.QtyD="";
+				  oOrderDetail.Making="";
+				  oOrderDetail.MakingD="";
+				  oOrderDetail.Weight="";
+				  oOrderDetail.WeightD="";
+				  oOrderDetail.Remarks="";
+				  oOrderDetail.SubTotal="";
+				this.getView().getModel('local').getProperty('/WSOrderItem',oOrderDetail);
 			},
 			valueHelpCustomer: function(oEvent) {
 				this.getCustomerPopup(oEvent);
@@ -61,8 +77,9 @@ sap.ui.define(
 			},
 			ValueChange: function(oEvent) {
 				debugger;
+				var that = this;
 				var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-			  var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+			  var category = that.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
 				var cells = oCurrentRow.getCells();
 				var X = cells[4].getValue() - cells[5].getValue();

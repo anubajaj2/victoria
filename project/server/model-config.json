@@ -127,6 +127,10 @@
   "Demo":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "Photo":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

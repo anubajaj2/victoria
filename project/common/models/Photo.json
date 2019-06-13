@@ -23,6 +23,11 @@
   },
   "validations": [],
   "relations": {
+    "ToCustomerOrder":{
+      "type":"belongsTo",
+      "model":"CustomerOrder",
+      "foreignKey":"CustomerOrderId"
+    }
   },
   "acls": [
     {

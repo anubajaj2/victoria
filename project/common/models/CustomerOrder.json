@@ -102,6 +102,11 @@
       "type":"belongsTo",
       "model":"Customer",
       "foreignKey":"Customer"
+    },
+    "ToPhotos":{
+      "type":"hasMany",
+      "model":"Photo",
+      "foreignKey":"CustomerOrderId"
     }
   },
   "acls": [

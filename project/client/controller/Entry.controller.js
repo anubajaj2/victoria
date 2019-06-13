@@ -1,6 +1,7 @@
 sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel",
-"sap/m/MessageBox","sap/m/MessageToast","victoria/models/formatter"],
-function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
+"sap/m/MessageBox","sap/m/MessageToast","victoria/models/formatter","sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"],
+function (BaseController,JSONModel,formatter,Filter,FilterOperator,MessageBox,MessageToast) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
     // formatter:formatter,
@@ -19,8 +20,8 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
       this.getView().byId("DateId").setDateValue(new Date());
 
       },
-      onSelect: function (oEvent){
-
+      onSearch: function (oEvent){
+debugger;
       },
 
     onValueHelpRequest: function (oEvent) {
@@ -84,6 +85,8 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
 },
 
     onConfirm: function (oEvent) {
+      debugger;
+
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      var selCust = oEvent.getParameter("selectedItem").getLabel();
      var selCustName = oEvent.getParameter("selectedItem").getValue();
@@ -91,6 +94,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
      this.getView().byId("idCustText").setValue(selCustName);
      myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
      this.getView().getModel("local").getProperty("/EntryData",myData);
+
    },
 
    onSend: function (oEvent) {
@@ -150,6 +154,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
      var check = this.getView().byId("CBID").getSelected();
      if (check === true) {
        // alert("Successful");
+        this.getView().byId("DateId").setDateValue( new Date());
        this.byId("idCust").getValue();
        this.byId("idCustText").getValue();
        this.byId("idweight").setValue("0");
@@ -178,6 +183,7 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
 
    onUpdateFinished: function (oEvent) {
      debugger;
+//
      var oTable = oEvent.getSource();
      var itemList = oTable.getItems();
       var noOfItems = itemList.length;
@@ -190,6 +196,22 @@ function (BaseController,JSONModel,formatter,MessageBox,MessageToast) {
         oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
       }
+      var aFilter=[];
+          var data = myData.Customer;
+          if (data) {
+            aFilter.push(new sap.ui.model.Filter({path: "Customer",
+            operator:FilterOperator.EQ,
+            value1: data
+     }
+          ));
+          }
+          // var oFilter = new sap.ui.model.Filter("Customer Name(code),sap.ui.model.FilterOperator.Contains,data");
+          var oList = this.getView().byId("idTable");
+        var oBinding = oList.getBinding("items");
+        oBinding.filter(aFilter);
+
+
+
    }
   });
 

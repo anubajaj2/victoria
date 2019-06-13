@@ -15,6 +15,10 @@
       "type": "string",
       "required": false
     },
+    "Karat": {
+      "type": "string",
+      "required": false
+    },
     "CustomerTunch": {
       "type": "string",
       "required": true

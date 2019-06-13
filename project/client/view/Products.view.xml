@@ -70,6 +70,7 @@
 				<ComboBox
 					id="idType"
 					type="Text"
+					selectionChange="onTypeChange"
 					value="{productModel>/Type}"
 					items="{
 						path: 'fixed>/items'
@@ -77,7 +78,17 @@
 					<core:Item key="{fixed>text}" text="{fixed>text}" />
 				</ComboBox>
 
-
+				<Label text = "Karat" required="false"/>
+				<Select
+					id="idKarat"
+					change="onSelectChange"
+					 enabled="{viewModel>/typeEnabled}"
+					selectedKey= "{/Karat/0/items}"
+					items="{
+						path: 'Karat>/items'
+					}">
+					<core:Item key="{Karat>text}" text="{Karat>text}" />
+				</Select>
 
 
 				<Label text="Hindi Name"/>

@@ -14,11 +14,11 @@
     },
     "Material": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Qty": {
       "type": "number",
-      "required": false,
+      "required": true,
       "default":0
     },
     "QtyD": {
@@ -28,7 +28,7 @@
     },
     "Weight": {
       "type": "number",
-      "required": false,
+      "required": true,
       "default":0
     },
     "WeightD": {
@@ -52,8 +52,8 @@
     },
     "SubTotal": {
       "type": "number",
-      "required": false,
-      "default":0
+      "required": true,
+      "default":0.000
     },
     "CreatedOn": {
 			"type": "date",
@@ -77,6 +77,11 @@
   },
   "validations": [],
   "relations": {
+    "ToOrderHeader":{
+      "type":"belongsTo",
+      "model":"OrderHeader",
+      "foreignKey":"OrderNo"
+    }
   },
   "acls": [
     {

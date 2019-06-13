@@ -146,11 +146,11 @@ onSave:function(oEvent){
   				actions: [MessageBox.Action.OK],
   				onClose: function(oAction) { }
   			}
-        // return;
+
   		);
     that.getView().setBusy(false);
   }
-  debugger;
+else {
 if (oHeader.OrderNo !== "" &&
     oHeader.OrderNo !== 0) {
 debugger;
@@ -176,12 +176,39 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   this.getView().setBusy(true);
   var data = oBinding.oList[i];
+debugger;
+//Qty , weight , Making should not be zero
+// if (data.Qty === "" || data.Qty === 0) {
+//
+// that.getView().setBusy(false);
+// break;
+// }
+// if (data.Making === "" || data.Making === 0) {
+//   this.getView().byId("IdMaking").setValueState("Error").setValueStateText("Mandatory Input");
+//   that.getView().setBusy(false);
+// }
+// if (data.Weight === "" || data.Weight === 0) {
+//   this.getView().byId("Idweight").setValueState("Error").setValueStateText("Mandatory Input");
+//   that.getView().setBusy(false);
+// }
+
+//posting the data
 if (data.Material !== "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
+  if (data.Qty !== 0) {
   oOrderDetail.Qty=data.Qty;
-  oOrderDetail.QtyD=data.QtyD;
+}else {
+    oOrderDetail.Qty=0.0;
+}
+//Making charges
+  if (data.Making !== 0) {
   oOrderDetail.Making=data.Making;
+}else {
+    oOrderDetail.Making=0.0;
+}
+  // oOrderDetail.Making=data.Making quantityD
+  oOrderDetail.QtyD=data.QtyD;
   oOrderDetail.MakingD=data.MakingD;
   oOrderDetail.Weight=data.Weight;
   oOrderDetail.WeightD=data.WeightD;
@@ -203,7 +230,7 @@ if (data.Material !== "") {
                 		});
 }//If condition end
 }//for loop brace end
-
+}
 },
 
 onClear:function(){

@@ -237,7 +237,7 @@ ValueChange:function(oEvent){
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
 // X = Weight - WeightD
-  var x = cells[2].getValue()  - cells[3].getValue();
+  var x = cells[4].getValue()  - cells[5].getValue();
   if (category.Category === 'gm') {
 // Y = X * Making (if per gm)
     var y = x * cells[6].getValue();
@@ -248,7 +248,7 @@ ValueChange:function(oEvent){
   }
   if (cells[3].getValue() &&
       cells[7].getValue()) {
- var z =  cells[2].getValue() * cells[7].getValue();
+ var z =  cells[3].getValue() * cells[7].getValue();
   }
   if (category.Type === "Silver") {
  //InterSubTotal = X * Bhav ( Silver)

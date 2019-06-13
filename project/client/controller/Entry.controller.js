@@ -35,6 +35,9 @@ debugger;
       var CR = "Silver Received @" + wtValue + 'x' + thValue;
       var SR = "Gold Received @" + wtValue + 'x' + thValue;
       var KR = "Kacchi Received @" + wtValue + 'x' + thValue;
+			var CT = "Silver Given @" + wtValue + 'x' + thValue;
+			var ST = "Gold Given @" + wtValue + 'x' + thValue;
+			var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
       if (X > 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(CR);
@@ -49,15 +52,15 @@ debugger;
       }
       else if (X < 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
-        this.getView().byId("idRemarks").setValue(CR);
+        this.getView().byId("idRemarks").setValue(CT);
       }
       else if (X < 0 && this.getView().byId("RB-2").getSelected()){
         this.getView().byId("idGold").setValue(X);
-        this.getView().byId("idRemarks").setValue(SR);
+        this.getView().byId("idRemarks").setValue(ST);
       }
       else if (X < 0 && this.getView().byId("RB-3").getSelected()){
         this.getView().byId("idSilver").setValue(X);
-        this.getView().byId("idRemarks").setValue(KR);
+        this.getView().byId("idRemarks").setValue(KT);
       }
     },
 

@@ -7,7 +7,7 @@
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
-				<f:Form id="idCalculation" editable="true"
+				<f:Form id="idCalculation" editable="true" updateFinished="onUpdateFinished"
 					title="Retail Calculation Customizing">
 					<f:toolbar>
 						<Toolbar id="TB1">

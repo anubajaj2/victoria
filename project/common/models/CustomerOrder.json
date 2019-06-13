@@ -22,7 +22,7 @@
     },
     "Material": {
       "type": "string",
-      "required": tru
+      "required": true
     },
     "Qty": {
       "type": "number",

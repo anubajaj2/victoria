@@ -52,6 +52,7 @@ sap.ui.define(
 				  oOrderDetail.Remarks="";
 				  oOrderDetail.SubTotal="";
 				this.getView().getModel('local').getProperty('/WSOrderItem',oOrderDetail);
+			}
 			},
 			valueHelpCustomer: function(oEvent) {
 				this.getCustomerPopup(oEvent);

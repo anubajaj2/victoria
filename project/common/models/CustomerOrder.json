@@ -9,8 +9,7 @@
   "properties": {
     "Date": {
       "type": "date",
-      "required": true,
-      "default": "null"
+      "required": true
     },
     "DelDate": {
       "type": "date",
@@ -19,25 +18,21 @@
     },
     "Customer": {
       "type": "string",
-      "required": true,
-      "default": "null"
+      "required": true
     },
     "Material": {
       "type": "string",
-      "required": true,
-      "default": "null"
+      "required": tru
     },
     "Qty": {
       "type": "number",
       "required": true,
       "minimum":1,
-      "maximum":3,
-      "default": 0
+      "maximum":3
     },
     "Weight": {
       "type": "number",
-      "required": true,
-      "default": 0
+      "required": true
     },
     "Making": {
       "type": "number",

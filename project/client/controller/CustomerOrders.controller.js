@@ -317,9 +317,14 @@ sap.ui.define([
         oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
         var karigarId = oTable.getItems()[i].getCells()[11].getText();
-        if (karigarId) {
+        if (karigarId !== "null" && karigarId !== " ") {
           var customerData = this.allMasterData.customers[karigarId];
           oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+        }
+
+        var remarks = oTable.getItems()[i].getCells()[9].getText();
+        if (remarks === "null") {
+          oTable.getItems()[i].getCells()[9].setText(" ");
         }
       }
     }

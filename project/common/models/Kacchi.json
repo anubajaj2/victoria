@@ -9,27 +9,32 @@
   "properties": {
     "Date": {
       "type": "date",
-      "required": false
+      "required": false      
     },
     "Customer": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default":"null"
     },
     "PaggaNo": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Weight": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Tunch": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Fine": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "CreatedOn": {
 			"type": "date",

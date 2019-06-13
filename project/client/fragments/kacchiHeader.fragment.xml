@@ -2,10 +2,13 @@
 xmlns = "sap.m"
 xmlns:l = "sap.ui.layout"
 xmlns:f="sap.ui.layout.form"
+xmlns:semantic="sap.m.semantic"
 xmlns:core ="sap.ui.core">
-	<VBox class="sapUiSmallMargin">
+<HBox>
+<VBox class="sapUiSmallMargin">
+
 <f:Form id="idKacchiHead"
-	editable="true">
+	editable="true" title="Kachhi Header">
 <f:toolbar>
 	<Toolbar id="TB1">
 		<ToolbarSpacer />
@@ -24,27 +27,24 @@ xmlns:core ="sap.ui.core">
 			</core:Icon>
 	</Toolbar>
 </f:toolbar>
-
+<!-- class="printAreaBox" -->
 <f:layout>
-	<f:GridLayout hSpacing="1" vSpacing="1"
-		labelSpanXl="3" labelSpanL="3" labelSpanM="2"
-		emptySpanXL="4" emptySpanL="4" emptySpanM="0"
-		columnsXL="5" columnsL="5" columnsM="10"
+	<f:GridLayout
+		labelSpanXl="0" labelSpanL="0"
+		emptySpanXL="0" emptySpanL="0"
+		columnsXL="10" columnsL="10"
 		singleContainerFullSize="false" >
 	</f:GridLayout>
 </f:layout>
 	<f:formContainers>
-		<f:FormContainer>
+		<f:FormContainer title="Customer Information">
 			<f:formElements>
 				<f:FormElement label="{i18n>coDate}">
 					<f:fields>
-            <DatePicker id="idDate" class="sapUiTinyMarginTop"
+            <DatePicker id="idDate"
           		valueFormat="dd.MM.yyyy"
 							displayFormat="dd.MM.yyyy"
-							value="">
-							<layoutData>
-							<l:GridData span="XL3 L3"/>
-							</layoutData>
+							value="" >
           </DatePicker>
 					</f:fields>
 				</f:FormElement>
@@ -53,14 +53,8 @@ xmlns:core ="sap.ui.core">
 						<Input id="idCustNo"  showValueHelp="true" valueHelpOnly="true"
 									 valueHelpRequest="onCustValueHelp" liveChange="onChange"
 									 value="{local>/kachhiHeaderTemp/CustomerId}">
-									<layoutData>
-		 							<l:GridData span="XL3 L3"/>
-		 							</layoutData>
 					  </Input>
 						<Input id="idCustName" editable="false" value="{local>/kachhiHeaderTemp/CustomerName}">
-							<layoutData>
-							<l:GridData span="XL4 L5 "/>
-							</layoutData>
 						</Input>
 					</f:fields>
         </f:FormElement>
@@ -69,7 +63,36 @@ xmlns:core ="sap.ui.core">
 			<f:GridContainerData halfGrid="true"></f:GridContainerData>
 			</f:layoutData>
 		</f:FormContainer>
-	</f:formContainers>
+		<f:FormContainer title="Summary/Totals">
+			<f:formElements>
+				<f:FormElement label="{i18n>totalItems}">
+					<f:fields>
+					<Text id="idItemsCount"/>
+					<!-- </Input> -->
+					</f:fields>
+				</f:FormElement>
+			<f:FormElement label="{i18n>totalWeight}">
+				<f:fields>
+				<Text id="idTotalWeight"/>
+				</f:fields>
+			</f:FormElement>
+		<f:FormElement label="{i18n>totalFine}">
+			<f:fields>
+			<Text id="idTotalFine"/>
+			</f:fields>
+		</f:FormElement>
+		<f:FormElement label="{i18n>averageTunch}">
+			<f:fields>
+			<Text id="idTotalTunch"/>
+			</f:fields>
+		</f:FormElement>
+	 	</f:formElements>
+	 	 <f:layoutData>
+		<f:GridContainerData halfGrid="true"></f:GridContainerData>
+	   </f:layoutData>
+</f:FormContainer>
+</f:formContainers>
 </f:Form>
 </VBox>
+</HBox>
 </core:FragmentDefinition>

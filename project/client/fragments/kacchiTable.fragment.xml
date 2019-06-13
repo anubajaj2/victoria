@@ -9,7 +9,8 @@
 				visibleRowCount="20"
         threshold="20"
         mode="MultiSelect"
-        validateFieldGroup="onValidateFieldGroup">
+        validateFieldGroup="onValidateFieldGroup"
+        updateFinished = "onUpdateFinished">
         <extension>
     			<m:Toolbar>
     				<m:Title id="idTitle" text="Kachhi Entries"></m:Title>
@@ -24,22 +25,28 @@
     <Column hAlign="Center">
       <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
       <template>
-        <m:Input fieldGroupIds="kachhiInputs" liveChange="onliveChange" required="true" type="Number" id="idPagga" value="{kachhiLocalModel>PaggaNo}"
-          enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+        <m:Input fieldGroupIds="kachhiInputs" valueLiveUpdate="true" liveChange="onliveChange"
+            required="true" type="Number" id="idPagga"  value="{kachhiLocalModel>PaggaNo}"
+          enabled="{kachhiLocalModel>/status}"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>weight}" />
       <template>
-        <m:Input id="idWeight" liveChange="onliveChange" fieldGroupIds="kachhiInputs" required="true" type="Number" value="{kachhiLocalModel>Weight}"
-          enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+        <m:Input id="idWeight" liveChange="onliveChange" valueLiveUpdate="true" fieldGroupIds="kachhiInputs"
+          required="true" type="Number" value="{kachhiLocalModel>Weight}"
+          enabled="{kachhiLocalModel>/status}"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>tunch}" />
       <template>
-        <m:Input id="idTunch" liveChange="onliveChange" fieldGroupIds="kachhiInputs" required="true" type="Number" value="{kachhiLocalModel>Tunch}"
-          enabled="{kachhiLocalModel>/status}" editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+        <m:Input id="idTunch" liveChange="onliveChange" valueLiveUpdate="true" fieldGroupIds="kachhiInputs"
+          required="true" type="Number" value="{kachhiLocalModel>Tunch}"
+          enabled="{kachhiLocalModel>/status}"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
     <Column hAlign="Center">

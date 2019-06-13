@@ -54,17 +54,30 @@ return sap.ui.core.UIComponent.getRouterFor(this);
 },
 _onRouteMatched : function(){
   var that = this;
-  // that.getView().getModel("local").setProperty("/CustomCalculation");
-	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-	//  "/CustomCalculation", "GET", {}, {}, this)
-	// 	.then(function(oData) {
-	// 		var oModelCalculation = new JSONModel();
-	// oModelCalculation.setData(oData);
+  that.getView().getModel("local").setProperty("/CustomCalculations");
+	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	 "/CustomCalculations", "GET", {}, {}, this)
+		.then(function(oData) {
+			var oModelCalculation = new JSONModel();
+	oModelCalculation.setData(oData);
 	// that.getView().setModel(oModelCalculation, "calculationModelInfo");
-  //
-	// 	}).catch(function(oError) {
-	// 			MessageToast.show("cannot fetch the data");
-	// 	});
+  that.getView().byId("idFirst").setValue(oModelCalculation.oData.results[0].First);
+  that.getView().byId("idSecond").setValue(oModelCalculation.oData.results[0].Second);
+  that.getView().byId("idGold").setValue(oModelCalculation.oData.results[0].Gold);
+  that.getView().byId("idSilver").setValue(oModelCalculation.oData.results[0].Silver);
+  that.getView().byId("idGoldR").setValue(oModelCalculation.oData.results[0].GoldR);
+  that.getView().byId("idSilverR").setValue(oModelCalculation.oData.results[0].SilverR);
+  that.getView().byId("idGold1").setValue(oModelCalculation.oData.results[0].Gold1);
+  that.getView().byId("idSilver1").setValue(oModelCalculation.oData.results[0].Silver1);
+  that.getView().byId("idKacchaGold").setValue(oModelCalculation.oData.results[0].KacchaGold);
+  that.getView().byId("idKacchaSilver").setValue(oModelCalculation.oData.results[0].KacchaSilver);
+  that.getView().byId("idGoldR1").setValue(oModelCalculation.oData.results[0].GoldR1);
+  that.getView().byId("idSilverR1").setValue(oModelCalculation.oData.results[0].SilverR1);
+  that.getView().byId("idKacchaGoldR").setValue(oModelCalculation.oData.results[0].KacchaGoldR);
+  that.getView().byId("idKacchaSilverR").setValue(oModelCalculation.oData.results[0].KacchaSilverR);
+		}).catch(function(oError) {
+				MessageToast.show("cannot fetch the data");
+		});
 this.ClearCalculation();
 },
 
@@ -79,7 +92,9 @@ this.ClearCalculation();
     // this.byId("idTunch")
 
   },
+  onUpdateFinished : function(){
 
+  },
   SaveCalculation : function(){
     var that = this;
     // var valid = true;

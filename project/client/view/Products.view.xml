@@ -83,7 +83,7 @@
 					id="idKarat"
 					change="onSelectChange"
 					 enabled="{viewModel>/typeEnabled}"
-					selectedKey= "{/Karat/0/items}"
+					 selectedKey= "{/Karat/0/items}"
 					items="{
 						path: 'Karat>/items'
 					}">

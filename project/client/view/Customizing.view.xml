@@ -42,28 +42,25 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" liveChange="onliveChange" submit="onSubmit" value="{path:'local>/CustomCalculation/First',formatter:'.formatter.formatCurrency'}">
+							<Input id="idFirst" liveChange="onliveChange" submit="onSubmit" value="{local>/CustomCalculation/First}">
 							</Input>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="22/22">
 						<f:fields>
-							<Input id="idSecond" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Second',
-																									formatter:'.formatter.formatCurrency'}">
+							<Input id="idSecond" liveChange="onliveChange" value="{local>/CustomCalculation/Second}">
 							</Input>
 					</f:fields>
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
-						<Input id="idGold" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Gold',
-																						formatter:'.formatter.formatCurrency'}">
+						<Input id="idGold" liveChange="onliveChange" value="{local>/CustomCalculation/Gold}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
 			<f:FormElement label="Silver">
 				<f:fields>
-					<Input id="idSilver" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Silver',
-																							formatter:'.formatter.formatCurrency'}">
+					<Input id="idSilver" liveChange="onliveChange" value="{local>/CustomCalculation/Silver}">
 					</Input>
 			</f:fields>
 		</f:FormElement>
@@ -76,15 +73,13 @@
 		<f:formElements>
 		<f:FormElement label="Gold Returns">
 			<f:fields>
-				<Input id="idGoldR" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Gold Returns',
-																					formatter:'.formatter.formatCurrency'}">
+				<Input id="idGoldR" liveChange="onliveChange" value="{local>/CustomCalculation/GoldReturns}">
 				</Input>
 			</f:fields>
 		</f:FormElement>
 		<f:FormElement label="Silver Returns">
 			<f:fields>
-				<Input id="idSilverR" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Silver Returns',
-																						formatter:'.formatter.formatCurrency'}">
+				<Input id="idSilverR" liveChange="onliveChange" value="{local>/CustomCalculation/SilverReturns}">
 				</Input>
 		</f:fields>
 	</f:FormElement>
@@ -119,29 +114,25 @@
 	<f:formElements>
 	<f:FormElement label="Gold">
 		<f:fields>
-			<Input id="idGold1" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Gold1',
-																					formatter:'.formatter.formatCurrency'}" >
+			<Input id="idGold1" liveChange="onliveChange" value="{local>/CustomCalculation/Gold1}" >
 			</Input>
 		</f:fields>
 	</f:FormElement>
 	<f:FormElement label="Silver">
 		<f:fields>
-			<Input id="idSilver1" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Silver1',
-																						formatter:'.formatter.formatCurrency'}">
+			<Input id="idSilver1" liveChange="onliveChange" value="{local>/CustomCalculation/Silver1}">
 			</Input>
 	</f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold">
 	<f:fields>
-		<Input id="idKacchaGold" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Kaccha Gold',
-																						formatter:'.formatter.formatCurrency'}">
+		<Input id="idKacchaGold" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGold}">
 		</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver">
 <f:fields>
-	<Input id="idKacchaSilver" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Kaccha Silver',
-																						formatter:'.formatter.formatCurrency'}">
+	<Input id="idKacchaSilver" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilver}">
 	</Input>
 </f:fields>
 </f:FormElement>
@@ -154,29 +145,25 @@
 <f:formElements>
 <f:FormElement label="Gold Returns">
 <f:fields>
-<Input id="idGoldR1" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Gold Returns1',
-																			formatter:'.formatter.formatCurrency'}">
+<Input id="idGoldR1" liveChange="onliveChange" value="{local>/CustomCalculation/GoldReturns1}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Returns">
 <f:fields>
-<Input id="idSilverR1" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Silver Returns1',
-																			formatter:'.formatter.formatCurrency'}">
+<Input id="idSilverR1" liveChange="onliveChange" value="{local>/CustomCalculation/SilverReturns1}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input id="idKacchaGoldR" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Kaccha Gold R',
-																					formatter:'.formatter.formatCurrency'}">
+<Input id="idKacchaGoldR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGoldR}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver R">
 <f:fields>
-<Input id="idKacchaSilverR" liveChange="onliveChange" value="{path:'local>/CustomCalculation/Kaccha Silver R',
-																						formatter:'.formatter.formatCurrency'}">
+<Input id="idKacchaSilverR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilverR}">
 </Input>
 </f:fields>
 </f:FormElement>

@@ -121,31 +121,31 @@ this.ClearCalculation();
      //    }
      //
      //    var found = getCustomId(customId);
-     var customModel = this.getView().getModel("customModel");
-     var customCode = customModel.getData().id;
-     var customJson = this.getView().getModel("CustomCalculation").getData().results;
-     function getCustomId(customCode) {
-       return customJson.filter (
-            function (data) {
-              return data.id === customCode;
-            }
-          );
-        }
-
-        var found = getCustomCode(customCode);
-        if(found.length > 0){
-
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-           "/CustomCalculations('"+found[0].id+"')", "PUT", {}, myData , this)
-            .then(function(oData) {
-            MessageToast.show("Data saved successfully");
-            that._onRouteMatched();
-            }).catch(function(oError) {
-                MessageToast.show("Data could not be saved");
-            });
-
-        }
-        else {
+     // var customModel = this.getView().getModel("customModel");
+     // var customCode = customModel.getData().id;
+     // var customJson = this.getView().getModel("CustomCalculation").getData().results;
+     // function getCustomId(customCode) {
+     //   return customJson.filter (
+     //        function (data) {
+     //          return data.id === customCode;
+     //        }
+     //      );
+     //    }
+     //
+     //    var found = getCustomCode(customCode);
+     //    if(found.length > 0){
+     //
+     //      this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+     //       "/CustomCalculations('"+found[0].id+"')", "PUT", {}, myData , this)
+     //        .then(function(oData) {
+     //        MessageToast.show("Data saved successfully");
+     //        that._onRouteMatched();
+     //        }).catch(function(oError) {
+     //            MessageToast.show("Data could not be saved");
+     //        });
+     //
+     //    }
+        // else {
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
            "/CustomCalculations", "POST", {}, myData , this)
             .then(function(oData) {
@@ -156,7 +156,7 @@ this.ClearCalculation();
               that.getView().setBusy(false);
               var oPopover = that.getErrorMessage(oError);
             });
-          }
+          // }
             ;
 }
 // else {

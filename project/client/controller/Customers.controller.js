@@ -224,6 +224,7 @@ this.clearCustomer();
 				var customerModel = this.getView().getModel("customerModel");
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
+				customerModel.getData().CustomerCode = "";
 			 customerModel.getData().City = "";
 				customerModel.getData().MobilePhone = "0";
 				customerModel.getData().Address = "";
@@ -236,6 +237,7 @@ this.clearCustomer();
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
 				dataModel.setProperty("/CustomerCodeState", "None");
+				customerModel.getData().CustomerCode = "";
 				dataModel.setProperty("/CityState", "None");
 				dataModel.setProperty("/GroupState", "None");
 				dataModel.setProperty("/NameState", "None");
@@ -268,7 +270,8 @@ this.clearCustomer();
 							 "/Customers('"+found[0].id+"')", "PUT", {},customerModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
-								that._onRouteMatched();
+								// that._onRouteMatched();
+								that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
@@ -279,7 +282,9 @@ this.clearCustomer();
 							 "/Customer", "POST", {},customerModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
+							// that.clearCustomer();
 								that._onRouteMatched();
+								// that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});

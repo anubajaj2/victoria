@@ -55,8 +55,16 @@
 					<m:Text text="{i18n>weight}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="Idweight" type="Number" value="{orderItems>Weight}"
-						 maxLength="5" liveChange="ValueChange"/>
+					<m:Input id="Idweight" type="Number"
+						 maxLength="5" liveChange="ValueChange"
+						 value=
+						 "{
+   			 		path:'orderItems>Weight',
+   					type: 'sap.ui.model.type.Float',
+   				formatOptions: {
+      				maxFractionDigits: 2,
+      				roundingMode:'away_from_zero'
+   					 	}}"/>
 				</template>
 			</Column>
 			<Column width="75px">

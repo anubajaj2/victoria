@@ -20,7 +20,7 @@ singleContainerFullSize="false"/>
 <f:fields>
 <DatePicker id="DateId" valueFormat="yyyy.MM.dd" required="true"
             displayFormat="dd.MM.yyyy" change="onPayDateChange"
-            value="{local>/orderHeader/Date}" 
+            value="{local>/orderHeader/Date}"
             width="50%"/>
 </f:fields>
 </f:FormElement>
@@ -35,8 +35,7 @@ singleContainerFullSize="false"/>
 <f:FormElement label="{i18n>OrderNo}">
 <f:fields>
 <Input id="idOrderNo"
-value="{local>/orderHeader/OrderNo}"  showValueHelp="true"
-editable="false"
+value="{local>/orderHeader/OrderNo}" showValueHelp="true"
 valueHelpRequest="valueHelpOrder"/>
 <Button text="{i18n>C}" press="orderCreate"/>
 <Button icon="sap-icon://nav-back"/>

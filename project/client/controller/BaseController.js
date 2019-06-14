@@ -526,19 +526,26 @@ formatter: formatter,
 			//visible or // NOT
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
-          rows1: true
-        });
-
+					rows1: true
+				});
 //check for retail sales only
 			this.setModel(oVisModel,"visModel");
+			var oRoute = oEvent.getParameters("name");
+			if (oRoute.name === 'sales') {
+				var viewName ='idsales';
+			}
+			else {
 			var viewId = oEvent.getSource().getId();
 			var viewName = viewId.split('---')[1];
-			if(viewName ==='idsales')
+			var viewName2 = viewName.split('--')[0];
+		}
+
+			if(viewName ==='idsales' ||
+				viewName2 === 'idsales')
 			{
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1",false);
-			};
-
+			}
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
 			//create array
@@ -576,6 +583,7 @@ formatter: formatter,
 			//set the model
 			this.setModel(oOrderItem,"orderItems");
 		},
+
 		onMaterialSelect:function(oEvent){
 
 		  var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());

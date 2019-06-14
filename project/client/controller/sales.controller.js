@@ -23,37 +23,35 @@ sap.ui.define([
 _onRouteMatched:function(oEvent){
   var that = this;
   debugger;
-// Header Form set to initial stage
-  var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
-  var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-  oHeaderDetail.OrderNo=0;
-  oHeaderDetail.Goldbhav1=0;
-  oHeaderDetail.Goldbhav2=0;
-  oHeaderDetail.SilverBhav=0;
-  this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
-  that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-  oHeaderDetailT.CustomerId="";
-  oHeaderDetailT.CustomerName="";
-  this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
-
-//item form set to initial stage
-var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
-var oTableDetails = this.getView().byId('orderItemBases');
-var oBinding = oTableDetails.getBinding("rows");
-
-for (var i = 0; i < oBinding.getLength(); i++){
-  oOrderDetail.Material="";
-  oOrderDetail.Qty="";
-  oOrderDetail.QtyD="";
-  oOrderDetail.Making="";
-  oOrderDetail.MakingD="";
-  oOrderDetail.Weight="";
-  oOrderDetail.WeightD="";
-  oOrderDetail.Remarks="";
-  oOrderDetail.SubTotal="";
-this.getView().getModel('local').getProperty('/OrderItem',oOrderDetail);
-
-}//for loop brace
+  this.onClear(oEvent);
+//   debugger;
+// // Header Form set to initial stage
+//   var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
+//   var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+//   oHeaderDetail.OrderNo=0;
+//   this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
+//   that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
+//   oHeaderDetailT.CustomerId="";
+//   oHeaderDetailT.CustomerName="";
+//   this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
+// debugger;
+// //item form set to initial stage
+// var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
+// var oTableDetails = this.getView().byId('orderItemBases');
+// var oBinding = oTableDetails.getBinding("rows");
+//
+// for (var i = 0; i < oBinding.getLength(); i++){
+//   oOrderDetail.Material="";
+//   oOrderDetail.Qty="";
+//   oOrderDetail.QtyD="";
+//   oOrderDetail.Making="";
+//   oOrderDetail.MakingD="";
+//   oOrderDetail.Weight="";
+//   oOrderDetail.WeightD="";
+//   oOrderDetail.Remarks="";
+//   oOrderDetail.SubTotal="";
+// this.getView().getModel('local').getProperty('/OrderItem',oOrderDetail);
+// }//for loop brace
 },
 
 //customer value help
@@ -233,24 +231,27 @@ if (data.Material !== "") {
 }
 },
 
-onClear:function(){
+onClear:function(oEvent){
   debugger;
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
-oHeader.Goldbhav1 = 0;
-oHeader.Goldbhav2 = 0;
-oHeader.SilverBhav = 0;
+var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+oHeaderT.CustomerName ="";
+oHeaderT.CustomerId="";
+// oHeader.Goldbhav1 = 0;
+// oHeader.Goldbhav2 = 0;
+// oHeader.SilverBhav = 0;
 oHeader.OrderNo="";
+this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 this.getView().getModel('local').setProperty('/orderHeader',oHeader);
 this.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-this.getView().byId("customerId").setValue("");
-this.getView().byId("custName").setText("");
+// this.getView().byId("customerId").setValue("");
+// this.getView().byId("custName").setText("");
+
 //Clear Item table
-var oData = oTable.getModel().getData();
-var oItem = this.getView().getModel('local').getProperty('/orderItems');
-debugger;
-var oReturn = this.getView().getModel('local').getProperty('/orderReturn');
+this.orderItem(oEvent);
+this.orderReturn();
 },
 
 OnCustChange:function(){

@@ -12,7 +12,7 @@ sap.ui.define([
   formatter: formatter,
   onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
-  debugger;
+
   var oRouter = this.getRouter();
   oRouter.getRoute("sales").attachMatched(this._onRouteMatched, this);
   this.orderItem(oEvent);
@@ -22,10 +22,10 @@ sap.ui.define([
 
 _onRouteMatched:function(oEvent){
   var that = this;
-  debugger;
+
   this.onClear(oEvent);
 
-//   debugger;
+//
 // // Header Form set to initial stage
 //   var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
 //   var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -35,7 +35,7 @@ _onRouteMatched:function(oEvent){
 //   oHeaderDetailT.CustomerId="";
 //   oHeaderDetailT.CustomerName="";
 //   this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
-// debugger;
+//
 // //item form set to initial stage
 // var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 // var oTableDetails = this.getView().byId('orderItemBases');
@@ -57,14 +57,14 @@ _onRouteMatched:function(oEvent){
 
 //customer value help
 valueHelpCustomer:function(oEvent){
-debugger;
+
 this.getCustomerPopup(oEvent);
 },
 getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
 onConfirm:function(oEvent){
-debugger;
+
 var oId = oEvent.getParameter('selectedItem').getId();
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var oSource = oId.split("-"[0])
@@ -98,19 +98,13 @@ orderCreate:function(oEvent){
 var that = this;
 that.getView().setBusy(true);
 // get the data from screen in local model
-debugger;
+
 var orderData = this.getView().getModel('local').getProperty("/orderHeader");
 if (orderData.Customer === "") {
-this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
-that.getView().setBusy(false);
+      this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
+      that.getView().setBusy(false);
     }
 else {
-  debugger;
-  // var date =  new Date();
-  // var dd = date.getDate();
-  // var mm = date.getMonth() + 1;
-  // var yyyy = date.getFullYear();
-  // orderData.Date = yyyy + '.' + mm + '.' + dd;
 
 //call the odata promise method to post the data
 orderData.Date = this.getView().byId("Sales--DateId").getValue();
@@ -118,7 +112,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                           "POST", {}, orderData, this)
              .then(function(oData) {
                   that.getView().setBusy(false);
-                  debugger;
+
                   //create the new json model and get the order id no generated
         var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
         oOrderId.OrderId=oData.id;
@@ -136,7 +130,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
 
 onSave:function(oEvent){
   var that = this;
-  debugger;
+
   var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
   if(oHeader.OrderNo === 0){
       MessageBox.show(
@@ -153,7 +147,7 @@ onSave:function(oEvent){
 else {
 if (oHeader.OrderNo !== "" &&
     oHeader.OrderNo !== 0) {
-debugger;
+
 var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 //                       "/OrderHeaders('"+ oId +"')", "PUT",
@@ -161,7 +155,7 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 // .then(function(oData) {
 //   message.show("testing");
 //       that.getView().setBusy(false);
-//             debugger;
+//
 //      })
 // .catch(function(oError) {
 //     that.getView().setBusy(false);
@@ -176,7 +170,7 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   this.getView().setBusy(true);
   var data = oBinding.oList[i];
-debugger;
+
 //Qty , weight , Making should not be zero
 // if (data.Qty === "" || data.Qty === 0) {
 //
@@ -222,7 +216,7 @@ if (data.Material !== "") {
                       that.getView().setBusy(false);
                       sap.m.MessageToast.show("Data Saved Successfully");
                       var id = oData.id;
-                  debugger;
+
                    })
                 .catch(function(oError) {
     that.getView().setBusy(false);
@@ -234,7 +228,7 @@ if (data.Material !== "") {
 },
 
 onClear:function(oEvent){
-  debugger;
+
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -258,11 +252,11 @@ this.orderReturn();
 },
 
 OnCustChange:function(){
-debugger;
+
 },
 
 ValueChange:function(oEvent){
-  debugger;
+
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
   var oCurrentRow = oEvent.getSource().getParent();

@@ -24,6 +24,7 @@ _onRouteMatched:function(oEvent){
   var that = this;
   debugger;
   this.onClear(oEvent);
+
 //   debugger;
 // // Header Form set to initial stage
 //   var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
@@ -105,13 +106,14 @@ that.getView().setBusy(false);
     }
 else {
   debugger;
-  var date =  new Date();
-  var dd = date.getDate();
-  var mm = date.getMonth() + 1;
-  var yyyy = date.getFullYear();
-  orderData.Date = yyyy + '.' + mm + '.' + dd;
+  // var date =  new Date();
+  // var dd = date.getDate();
+  // var mm = date.getMonth() + 1;
+  // var yyyy = date.getFullYear();
+  // orderData.Date = yyyy + '.' + mm + '.' + dd;
+
 //call the odata promise method to post the data
-orderData.Date = orderData.Date.replace(".","-").replace(".","-");
+orderData.Date = this.getView().byId("Sales--DateId").getValue();
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                           "POST", {}, orderData, this)
              .then(function(oData) {
@@ -246,6 +248,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 this.getView().getModel('local').setProperty('/orderHeader',oHeader);
 this.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
+this.getView().byId("Sales--DateId").setDateValue(new Date());
 // this.getView().byId("customerId").setValue("");
 // this.getView().byId("custName").setText("");
 

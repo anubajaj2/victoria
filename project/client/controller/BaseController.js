@@ -140,39 +140,23 @@ formatter: formatter,
 			this.searchPopup.open();
 		},
 
-		//order number details - sakshi
-				getOrderlist:function(oEvent){
-					var that = this;
-					debugger;
-
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel('orderLocalModel'),
-																		"/OrderHeaders", "GET", null, null, this)
-						.then(function(oData) {
-							for (var i = 0; i < oData.results.length; i++) {
-								that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
-							}
-						}).catch(function(oError) {
-							var oPopover = that.getErrorMessage(oError);
-						});
-				},
-
-				orderPopup:function(){
-					//call the popup screen dynamically
-						if(!this.orderPopup){
-								debugger;
-					//call the popupfragment and pass the values
-					 this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
-					 this.getView().addDependent(this.orderPopup);
-					 this.orderPopup.bindAggregation("items",{
-						 path:"/OrderHeaders",
-						 template:new sap.m.DisplayListItem({
-							 	id:"orderList",
-								label: "{OrderHeaders}",
-								value: "{OrderNo}"
+	orderPopup:function(oEvent){
+	//call the popup screen dynamically
+		if(!this.orderPopup){
+			debugger;
+			//call the popupfragment and pass the values
+		 this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
+		 this.getView().addDependent(this.orderPopup);
+		 this.orderPopup.bindAggregation("items",{
+			 		path:"/OrderHeaders",
+					template:new sap.m.DisplayListItem({
+					 	id:"orderList",
+						label: "{OrderHeaders}",
+						value: "{OrderNo}"
 						 })
 					 });
 					}
-						this.orderPopup.open();
+						this.orderPopup.open(oEvent);
 				},
 
 		getMaterialPopup: function() {

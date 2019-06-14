@@ -38,7 +38,7 @@
 				</label>
 				<template>
 					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}"
-						 			maxLength="3" liveChange="ValueChange"/>
+						 			maxLength="3" liveChange="ValueChange" Nullable="false"/>
 				</template>
 			</Column>
 			<Column>

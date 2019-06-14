@@ -29,6 +29,11 @@
       "required": false,
       "default":0.00
     },
+    "Goldbhav":{
+      "type": "number",
+      "required": false,
+      "default":0.00
+    },
     "SilverBhav":{
       "type": "number",
       "required": false,

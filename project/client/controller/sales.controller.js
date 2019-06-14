@@ -22,7 +22,10 @@ sap.ui.define([
 
 _onRouteMatched:function(oEvent){
   var that = this;
-
+//call the gold and silver bhav , 22/22 bhav and 22/20 Bhav
+  var oBhav = that.getView().getModel("local").getProperty("/CustomCalculations");
+  var oHeader = this.getView().getModel('local').getProperty("/orderHeader");
+  // oHeader.
   this.onClear(oEvent);
 
 //
@@ -88,11 +91,24 @@ else {
 
               }
             },
-            //on order valuehelp,get the exsisting order from //DB
+//on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
 this.getOrderlist(oEvent);
-},
-
+//on order valuehelp,get the exsisting order from //DB
+var that = this;
+debugger;
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                  "/OrderHeaders", "GET", {}, {}, this)
+        .then(function(oData) {
+         for (var i = 0; i < oData.results.length; i++) {
+        that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
+                }
+              })
+        .catch(function(oError) {
+        var oPopover = that.getErrorMessage(oError);
+                })
+        that.orderPopup(oEvent);
+            },
 //on order create Button
 orderCreate:function(oEvent){
 var that = this;
@@ -140,7 +156,6 @@ onSave:function(oEvent){
   				actions: [MessageBox.Action.OK],
   				onClose: function(oAction) { }
   			}
-
   		);
     that.getView().setBusy(false);
   }
@@ -199,7 +214,10 @@ if (data.Material !== "") {
   if (data.Making !== 0) {
   oOrderDetail.Making=data.Making;
 }else {
-    oOrderDetail.Making=0.0;
+    // oOrderDetail.Making=0.0;
+    debugger;
+this.getView().byId("IdQty").setValue();
+this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
 }
   // oOrderDetail.Making=data.Making quantityD
   oOrderDetail.QtyD=data.QtyD;
@@ -234,17 +252,12 @@ var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 oHeaderT.CustomerName ="";
 oHeaderT.CustomerId="";
-// oHeader.Goldbhav1 = 0;
-// oHeader.Goldbhav2 = 0;
-// oHeader.SilverBhav = 0;
 oHeader.OrderNo="";
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 this.getView().getModel('local').setProperty('/orderHeader',oHeader);
 this.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
 this.getView().byId("Sales--DateId").setDateValue(new Date());
-// this.getView().byId("customerId").setValue("");
-// this.getView().byId("custName").setText("");
 
 //Clear Item table
 this.orderItem(oEvent);

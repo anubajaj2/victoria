@@ -147,12 +147,16 @@ this.ClearCalculation();
      //        });
      //
      //    }
+     var found = myData[0].id;
         // else {
+          // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+          //  "/CustomCalculations", "POST", {}, myData , this)
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-           "/CustomCalculations", "POST", {}, myData , this)
+           "/CustomCalculations('"+found+"')", "PUT", {},myData , this)
             .then(function(oData) {
               that.getView().setBusy(false);
             MessageToast.show("Data saved successfully");
+            that.byId("idSaveIcon").setColor('green');
             // that._onRouteMatched();
             }).catch(function(oError) {
               that.getView().setBusy(false);

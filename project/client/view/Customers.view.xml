@@ -86,7 +86,7 @@
 					selectedKey= "{/typec/0/items}"
 					items="{
 						path: 'typec>/items'
-					}">
+					}" valueState="{dataModel>/TypeState}" valueStateText="Type cannot be blank"	>
 					<core:Item key="{typec>text}" text="{typec>text}" />
 				</Select>
 

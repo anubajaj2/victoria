@@ -197,6 +197,8 @@ this.clearCustomer();
 						customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
 						customerModel.getData().Group = found[0].Group;
 						customerModel.getData().Type = found[0].Type;
+						var oType = this.getView().byId("idType");
+						oType.setSelectedKey(found[0].Type);
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
@@ -224,6 +226,7 @@ this.clearCustomer();
 				var customerModel = this.getView().getModel("customerModel");
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
+				var typeModel = this.getView().getModel("typec");
 				customerModel.getData().CustomerCode = "";
 			 customerModel.getData().City = "";
 				customerModel.getData().MobilePhone = "0";
@@ -232,12 +235,14 @@ this.clearCustomer();
 				customerModel.getData().CustomerCode = "";
 				customerModel.getData().SecondaryPhone = "0";
 				customerModel.getData().Group = "";
-				customerModel.getData().Type = "";
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
 				dataModel.setProperty("/CustomerCodeState", "None");
 				customerModel.getData().CustomerCode = "";
+				var typeValue = typeModel.getData().items[0].text;
+				var oType = this.getView().byId("idType");
+				oType.setSelectedKey(typeValue);
 				dataModel.setProperty("/CityState", "None");
 				dataModel.setProperty("/GroupState", "None");
 				dataModel.setProperty("/NameState", "None");
@@ -283,8 +288,8 @@ this.clearCustomer();
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
 							// that.clearCustomer();
-								that._onRouteMatched();
-								// that.clearCustomer();
+								// that._onRouteMatched();
+								that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
@@ -416,6 +421,7 @@ this.clearCustomer();
 				this.getModel().create("/Customers",updatedData,{
 					success: function(){
 						MessageToast.show("Created successfully");
+						// that.clearCustomer();
 					}
 				});
 			},
@@ -496,9 +502,11 @@ this.clearCustomer();
 
 						if(data.results.length === 0){
 							that.createNewCustomer();
+							// that.clearCustomer();
 						}
 						else{
 							that.updateCustomer();
+							// that.clearCustomer();
 						}
 					}
 				} );

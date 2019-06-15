@@ -22,7 +22,19 @@ sap.ui.define(
 				debugger;
 				var that = this;
 				this.onClear(oEvent);
-				// allMasterData.customCalculations
+				debugger;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/CustomCalculations", "GET", {}, {}, this)
+					.then(function(oData) {
+						debugger;
+						that.getView().getModel("local").setProperty("/WSOrderHeader/Goldbhav", oData.results[0].Gold1);
+						that.getView().getModel("local").setProperty("/WSOrderHeader/GoldbhavK", oData.results[0].KacchaGold);
+						that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhav", oData.results[0].Silver1);
+						that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhavK", oData.results[0].KacchaSilver);
+					}).catch(function(oError) {
+						debugger;
+						MessageToast.show("cannot fetch the data");
+					});
 			},
 			valueHelpCustomer: function(oEvent) {
 				debugger;

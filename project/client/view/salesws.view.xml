@@ -10,7 +10,7 @@
 		<semantic:content id="Header">
 			<m:VBox class="sapUiSmallMargin"
 				alignContent="sap.m.FlexAlignContent.Start">
-			<core:Fragment id="WSHeaderFragment" fragmentName="victoria.fragments.orderHeader" type="XML">
+			<core:Fragment id="WSHeaderFragment" fragmentName="victoria.fragments.WSOrderHeader" type="XML">
 			</core:Fragment>
 		</m:VBox>
 	</semantic:content>

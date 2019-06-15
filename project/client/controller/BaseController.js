@@ -9,7 +9,7 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	'sap/m/MessageItem',
 	"victoria/models/formatter",
-], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageToast, MessageItem , formatter) {
+], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageToast, MessageItem, formatter) {
 	"use strict";
 	var oTargetField;
 	var oSDCField;
@@ -18,7 +18,7 @@ sap.ui.define([
 	var oClientField;
 	return Controller.extend("victoria.controller.BaseController", {
 
-formatter: formatter,
+		formatter: formatter,
 
 		/**
 		 * Global Variables used in all controllers
@@ -42,8 +42,8 @@ formatter: formatter,
 		allMasterData: {
 			"customers": [],
 			"materials": [],
-			"orderHeader":[],
-			"customCalculations":[]
+			"orderHeader": [],
+			"customCalculations": []
 		},
 
 		/**
@@ -77,20 +77,20 @@ formatter: formatter,
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
-					.then(function(oData) {
-						for (var i = 0; i < oData.results.length; i++) {
-							that.allMasterData.customCalculations[oData.results[i].id] = oData.results[i];
-						}
-					}).catch(function(oError) {
-						var oPopover = that.getErrorMessage(oError);
-					});
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
+				.then(function(oData) {
+					for (var i = 0; i < oData.results.length; i++) {
+						that.allMasterData.customCalculations[oData.results[i].id] = oData.results[i];
+					}
+				}).catch(function(oError) {
+					var oPopover = that.getErrorMessage(oError);
+				});
 
 		},
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();
 		},
-		getCurrentUser: function(){
+		getCurrentUser: function() {
 			return this.currentUser;
 		},
 		logOutApp: function(Reload) {
@@ -113,17 +113,17 @@ formatter: formatter,
 			}
 
 		},
-		fieldId:"",
+		fieldId: "",
 		getCustomerPopup: function(oEvent) {
 			if (!this.searchPopup) {
 				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.searchPopup);
 				var title = this.getView().getModel("i18n").getProperty("customer");
 				this.searchPopup.setTitle(title);
-				this.searchPopup.bindAggregation("items",{
+				this.searchPopup.bindAggregation("items", {
 					path: '/Customers',
 					template: new sap.m.DisplayListItem({
-							 id: "idCoCustPopup",
+						id: "idCoCustPopup",
 						label: "{CustomerCode}",
 						value: "{Name} - {City}"
 					})
@@ -131,33 +131,33 @@ formatter: formatter,
 			}
 			this.fieldId = oEvent.getSource().getId();
 			if (this.fieldId.split("--")[2] === "idCoKarigar") {
-			var title = this.getView().getModel("i18n").getProperty("karigarSearch");
-			this.searchPopup.setTitle(title);
-		}else{
-			var title = this.getView().getModel("i18n").getProperty("customer");
-			this.searchPopup.setTitle(title);
-		}
+				var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+				this.searchPopup.setTitle(title);
+			} else {
+				var title = this.getView().getModel("i18n").getProperty("customer");
+				this.searchPopup.setTitle(title);
+			}
 			this.searchPopup.open();
 		},
 
-	orderPopup:function(oEvent){
-	//call the popup screen dynamically
-		if(!this.orderPopup){
-			debugger;
-			//call the popupfragment and pass the values
-		 this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup",this);
-		 this.getView().addDependent(this.orderPopup);
-		 this.orderPopup.bindAggregation("items",{
-			 		path:"/OrderHeaders",
-					template:new sap.m.DisplayListItem({
-					 	id:"orderList",
+		orderPopup: function(oEvent) {
+			//call the popup screen dynamically
+			if (!this.orderPopup) {
+				debugger;
+				//call the popupfragment and pass the values
+				this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.orderPopup);
+				this.orderPopup.bindAggregation("items", {
+					path: "/OrderHeaders",
+					template: new sap.m.DisplayListItem({
+						id: "orderList",
 						label: "{OrderHeaders}",
 						value: "{OrderNo}"
-						 })
-					 });
-					}
-						this.orderPopup.open(oEvent);
-				},
+					})
+				});
+			}
+			this.orderPopup.open(oEvent);
+		},
 
 		getMaterialPopup: function() {
 			if (!this.matSearchPopup) {
@@ -165,10 +165,10 @@ formatter: formatter,
 				this.getView().addDependent(this.matSearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("matSearch");
 				this.matSearchPopup.setTitle(title);
-				this.matSearchPopup.bindAggregation("items",{
+				this.matSearchPopup.bindAggregation("items", {
 					path: '/Products',
 					template: new sap.m.DisplayListItem({
-							id: "idCoMatPopup",
+						id: "idCoMatPopup",
 						label: "{ProductCode}",
 						value: "{ProductName}"
 					})
@@ -180,7 +180,7 @@ formatter: formatter,
 
 		getDialogPopup: function() {
 			if (!this.oDialogPopup) {
-				this.oDialogPopup = new sap.ui.xmlfragment("idDialog","victoria.fragments.Dialog", this);
+				this.oDialogPopup = new sap.ui.xmlfragment("idDialog", "victoria.fragments.Dialog", this);
 				// sap.ui.getCore().getMessageManager().registerObject(this.oSuppPopup, true);
 				this.getView().addDependent(this.oDialogPopup);
 			}
@@ -188,7 +188,7 @@ formatter: formatter,
 		},
 		getReasgnPopup: function() {
 			if (!this.ReasgnPopup) {
-				this.ReasgnPopup = new sap.ui.xmlfragment("idReDialog","victoria.fragments.Dialog", this);
+				this.ReasgnPopup = new sap.ui.xmlfragment("idReDialog", "victoria.fragments.Dialog", this);
 				// sap.ui.getCore().getMessageManager().registerObject(this.oSuppPopup, true);
 				this.getView().addDependent(this.ReasgnPopup);
 			}
@@ -286,17 +286,16 @@ formatter: formatter,
 
 			try {
 				var sErrorMessages = oError.responseText.split(".")[1];
-				if(oError.responseText.split(".")["length"] > 2){
-				 sErrorMessages = oError.responseText ;
+				if (oError.responseText.split(".")["length"] > 2) {
+					sErrorMessages = oError.responseText;
 				}
-				if(!sErrorMessages){
-				sErrorMessages = oError.responseText.split(":")[1];
+				if (!sErrorMessages) {
+					sErrorMessages = oError.responseText.split(":")[1];
 				}
 			} catch (e) {
-				if(oError.message){
+				if (oError.message) {
 					sErrorMessages = ';' + oError.message;
-				}
-				else{
+				} else {
 					return oError.responseText.split(".")[1];
 				}
 			}
@@ -322,39 +321,37 @@ formatter: formatter,
 			}
 		},
 
-		handleGoldSilverValidation: function(oGoldId, oSilverId){
+		handleGoldSilverValidation: function(oGoldId, oSilverId) {
 			var oGold = oGoldId.getValue();
-			 var oGold1 = parseFloat(oGold, 10);
+			var oGold1 = parseFloat(oGold, 10);
 			var oSilver = oSilverId.getValue();
 			var oSilver1 = parseFloat(oSilver, 10);
 			// valid =  true;
-				if (oGold1 < 25000 ||
-			oGold1 > 40000) {
-			var valid = false;
-			MessageBox.error("Value range for Gold should be between 25000 and 40000");
-			// this.getView().byId("oGoldId").focus();
-			return valid;
-		}
-		else{
-			return true;
-			if (oSilver1 < 32000 ||
-		oSilver1 > 65000) {
-		var valid = false;
-		MessageBox.error("Value range for Silver should be between 32000 and 65000");
-		// this.getView().byId("oSilverId").focus();
-		return valid;
-	}
-	else{
-		return true;
-	}
-		}
+			if (oGold1 < 25000 ||
+				oGold1 > 40000) {
+				var valid = false;
+				MessageBox.error("Value range for Gold should be between 25000 and 40000");
+				// this.getView().byId("oGoldId").focus();
+				return valid;
+			} else {
+				return true;
+				if (oSilver1 < 32000 ||
+					oSilver1 > 65000) {
+					var valid = false;
+					MessageBox.error("Value range for Silver should be between 32000 and 65000");
+					// this.getView().byId("oSilverId").focus();
+					return valid;
+				} else {
+					return true;
+				}
+			}
 
-		// 	}
-    //   else {
-		//   else {
-		// 	console.log("Gold Value not in range");
-		// }
-				// oDataModel.setProperty("/CustomerCodeState", "None");
+			// 	}
+			//   else {
+			//   else {
+			// 	console.log("Gold Value not in range");
+			// }
+			// oDataModel.setProperty("/CustomerCodeState", "None");
 
 		},
 
@@ -433,21 +430,19 @@ formatter: formatter,
 		},
 
 		//conversion of server date to format "DD-MM-YYYY"
-		onDateFormatted: function(oDate){
+		onDateFormatted: function(oDate) {
 			var dd = oDate.getDate();
-			var mm = oDate.getMonth()+1;
+			var mm = oDate.getMonth() + 1;
 			var yyyy = oDate.getFullYear();
-			if(dd<10)
-			{
-			    dd='0'+dd;
+			if (dd < 10) {
+				dd = '0' + dd;
 			}
-			if(mm<10)
-			{
-			    mm='0'+mm;
+			if (mm < 10) {
+				mm = '0' + mm;
 			}
-			return dd+'.'+mm+'.'+yyyy;
+			return dd + '.' + mm + '.' + yyyy;
 		},
-		copyTextToClipboard: function (text) {
+		copyTextToClipboard: function(text) {
 			if (!navigator.clipboard) {
 				fallbackCopyTextToClipboard(text);
 				return;
@@ -458,7 +453,7 @@ formatter: formatter,
 				console.error('Async: Could not copy text: ', err);
 			});
 		},
-		fallbackCopyTextToClipboard: function (text) {
+		fallbackCopyTextToClipboard: function(text) {
 			var textArea = document.createElement("textarea");
 			textArea.value = text;
 			document.body.appendChild(textArea);
@@ -494,130 +489,128 @@ formatter: formatter,
 			// 		jQuery.sap.log.error("Could not obtain data");
 			// 	});
 		},
-		mapFieldsFromBaseToItem: function(itemType){
+		mapFieldsFromBaseToItem: function(itemType) {
 			//map fields which are common for both of you from base to your items
 			var baseItem = this.getView().getModel("local").getProperty("orderItemBase");
 
-			if(itemType === "R"){
+			if (itemType === "R") {
 
-			}else{
+			} else {
 
 			}
 
 		},
-		orderItem:function(oEvent){
+		orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
-					rows1: true
-				});
-//check for retail sales only
-			this.setModel(oVisModel,"visModel");
+				rows1: true
+			});
+			//check for retail sales only
+			this.setModel(oVisModel, "visModel");
 			var oRoute = oEvent.getParameters("name");
 			if (oRoute.name === 'sales') {
-				var viewName ='idsales';
+				var viewName = 'idsales';
+			} else {
+				var viewName2 = 'idWsSales';
 			}
-			else {
-			var viewId = oEvent.getSource().getId();
-			var viewName = viewId.split('---')[1];
-			var viewName2 = viewName.split('--')[0];
-		}
 
-			if(viewName ==='idsales' ||
-				viewName2 === 'idsales')
-			{
+			if (viewName === 'idsales' ||
+				viewName2 === 'idsales') {
 				var odata = this.getView().getModel('visModel');
-				odata.setProperty("/rows1",false);
+				odata.setProperty("/rows1", false);
 			}
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
 			//create array
-			var array=[];
+			var array = [];
 			//loop the array values
-			for (var i=1;i<=20;i++){
+			for (var i = 1; i <= 20; i++) {
 				//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
-				var oItem  = {
-					"OrderNo":"",
-					"itemNo":"",
-					"Material":"",
-					"MaterialCode":"",
-					"Description":"",
+				var oItem = {
+					"OrderNo": "",
+					"itemNo": "",
+					"Material": "",
+					"MaterialCode": "",
+					"Description": "",
 					"Qty": 0,
 					"QtyD": 0,
-					"Weight":0,
-					"WeightD":0,
+					"Weight": 0,
+					"WeightD": 0,
 					"Making": 0,
 					"MakingD": 0,
 					"Tunch": 0,
-					"Remarks":"",
-					"SubTotal":0,
-					"SubTotalS":0,
-					"SubTotalG":0,
-					"Category":"",
-					"CreatedBy":"",
-					"CreatedOn":"",
-					"ChangedBy":"",
-					"ChangedOn":""
+					"Remarks": "",
+					"SubTotal": 0,
+					"SubTotalS": 0,
+					"SubTotalG": 0,
+					"Category": "",
+					"CreatedBy": "",
+					"CreatedOn": "",
+					"ChangedBy": "",
+					"ChangedOn": ""
 				};
 				array.push(oItem);
 			}
 			//set the Data
-			oOrderItem.setData({"itemData" : array});
+			oOrderItem.setData({
+				"itemData": array
+			});
 			//set the model
-			this.setModel(oOrderItem,"orderItems");
+			this.setModel(oOrderItem, "orderItems");
 		},
 
-		onMaterialSelect:function(oEvent){
+		onMaterialSelect: function(oEvent) {
 
-		  var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-		  var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
-		  var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
-		  oModelForRow.setProperty( sRowPath + "/Material" , selectedMatData.id);
-		  oModelForRow.setProperty(sRowPath + "/Description" , selectedMatData.ProductName);
-		  oModelForRow.setProperty( sRowPath + "/Making" , selectedMatData.Making);
-		  oModelForRow.setProperty( sRowPath + "/MakingD" , selectedMatData.PricePerUnit);
-		  oModelForRow.setProperty( sRowPath + "/Category" , selectedMatData.Category);
-			oModelForRow.setProperty( sRowPath + "/Type" , selectedMatData.Type);
-			oModelForRow.setProperty( sRowPath + "/Tunch" , selectedMatData.Tunch);
+			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+			var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
+			var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+			oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
+			oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+			oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+			oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+			oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
+			oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+			oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
 		},
-		orderReturn :function(){
+		orderReturn: function() {
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];
-			for (var i = 1; i <=5; i++) {
+			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
-					"type":" ",
-					"weight":0,
-					"tunch":0,
-					"qty":0,
-					"bhav":" ",
-					"amount":0,
-					"remarks":" ",
-					"subtotal":" "
+					"type": " ",
+					"weight": 0,
+					"tunch": 0,
+					"qty": 0,
+					"bhav": " ",
+					"amount": 0,
+					"remarks": " ",
+					"subtotal": " "
 				};
-					aTtype.push(oRetailtab);
+				aTtype.push(oRetailtab);
 			}
 			oTransData.setData({
-					"TransData": aTtype
+				"TransData": aTtype
 			});
 			this.setModel(oTransData, "returnModel");
 		}
 
-// orderHeader:function(){
-// 	var oOrderHeader = new JSONModel({
-// 		"OrderNo": 0,
-// 	  "Date":"",
-// 	  "Customer": "",
-// 	  "Goldbhav1":0,
-// 	  "Goldbhav2":0,
-// 	  "SilverBhav":0,
-// 		});
-//
-// 	debugger;
-// 	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-// 	this.setModel(oOrderHeader ,"orderLocalModel");
-//   }
+		// orderHeader:function(){
+		// 	var oOrderHeader = new JSONModel({
+		// 		"OrderNo": 0,
+		// 	  "Date":"",
+		// 	  "Customer": "",
+		// 	  "Goldbhav1":0,
+		// 	  "Goldbhav2":0,
+		// 	  "SilverBhav":0,
+		// 		});
+		//
+		// 	debugger;
+		// 	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
+		// 	this.setModel(oOrderHeader ,"orderLocalModel");
+		//   }
 
 	});
 });

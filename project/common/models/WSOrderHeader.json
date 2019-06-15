@@ -17,19 +17,27 @@
     },
     "Customer": {
       "type": "string",
-      "required": false
+      "required": true
     },
-    "Goldbhav1":{
+    "Goldbhav":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0.00
     },
-    "Goldbhav2":{
+    "GoldbhavK":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0.00
     },
     "SilverBhav":{
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0.00
+    },
+    "SilverBhavK":{
+      "type": "number",
+      "required": false,
+      "default":0.00
     },
     "CreatedOn": {
       "type": "date",

@@ -1,79 +1,73 @@
-<core:FragmentDefinition
-xmlns = "sap.m"
-xmlns:l = "sap.ui.layout"
-xmlns:f="sap.ui.layout.form"
-xmlns:core ="sap.ui.core" width="160px">
-<VBox class="sapUiSmallMargin">
-<f:Form id="WSOrderHeader" editable="true">
-<f:layout>
-<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3"
-emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-adjustLabelSpan="false"
-columnsXL="2" columnsL="3" columnsM="2"
-singleContainerFullSize="false"/>
-</f:layout>
-<f:formContainers>
-<!-- //Order detail -->
-<f:FormContainer>
-<f:formElements>
-<f:FormElement label="{i18n>Date}">
-<f:fields>
-<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
-            displayFormat="dd.MM.yyyy" change="onPayDateChange"
-            value="{local>/orderHeader/Date}" strictParsing="true"
-            width="50%"/>
-</f:fields>
-</f:FormElement>
-<f:FormElement label="{i18n>Customer}">
-<f:fields>
-<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
-      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-      valueLiveUpdate="true" required="true"/>
-<Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
-</f:fields>
-</f:FormElement>
-<f:FormElement label="{i18n>OrderNo}">
-<f:fields>
-<Input id="idOrderNo"
-value="{local>/orderHeader/OrderNo}"  showValueHelp="true"
-editable="false"
-valueHelpRequest="valueHelpOrder"/>
-<Button text="{i18n>C}" press="orderCreate"/>
-<Button icon="sap-icon://nav-back"/>
-<Button icon="sap-icon://feeder-arrow"/>
-</f:fields>
-</f:FormElement>
-</f:formElements>
-<f:layoutData>
-<f:GridContainerData halfGrid="true"></f:GridContainerData>
-</f:layoutData>
-</f:FormContainer>
-</f:formContainers>
-<f:formContainers>
-    <!-- //tunch detail -->
-<f:FormContainer>
-<f:formElements>
-<f:FormElement label="{i18n>Gbhav}">
-<f:fields>
-<Input type="Number" editable="true" id="Gbhav1Id" placeholder="{i18n>gbhav1}"
-      tooltip="{i18n>gbhav1}" value="{local>/orderHeader/Goldbhav1}"/>
-<Input type="Number" id="Gbhav2Id" placeholder="{i18n>gbhav2}" tooltip="{i18n>gbhav2}"
-      value="{local>/orderHeader/Goldbhav2}"
-      editable="true"/>
-</f:fields>
-</f:FormElement>
-<f:FormElement label="{i18n>Sbhav}">
-<f:fields>
-<Input type="Number" editable="true" id="sbhavid" placeholder="{i18n>sbhav}"
-      tooltip="{i18n>Sbhav}" value="{local>/orderHeader/SilverBhav}"/>
-</f:fields>
-</f:FormElement>
-</f:formElements>
-<f:layoutData>
-<f:GridContainerData halfGrid="true"></f:GridContainerData>
-</f:layoutData>
-</f:FormContainer>
-</f:formContainers>
-</f:Form>
-</VBox>
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" width="160px">
+	<VBox class="sapUiSmallMargin">
+		<f:Form id="WSOrderHeader" editable="true">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false" columnsXL="2" columnsL="3" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!-- //Order detail -->
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>Date}">
+							<f:fields>
+								<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" displayFormat="dd.MM.yyyy" change="onPayDateChange" width="50%"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Customer}">
+							<f:fields>
+								<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
+								      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+								      valueLiveUpdate="true" required="true"/>
+								<Input id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>OrderNo}">
+							<f:fields>
+								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder"/>
+								<Button text="{i18n>C}" press="orderCreate"/>
+								<Button icon="sap-icon://nav-back"/>
+								<Button icon="sap-icon://feeder-arrow"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData>
+				</f:FormContainer>
+			</f:formContainers>
+			<f:formContainers>
+				<!-- //tunch detail -->
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>WSGBhav}">
+							<f:fields>
+								<Input type="Number" id="idGbhav" placeholder="{i18n>WSGBhav}" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
+							</f:fields>
+						</f:FormElement>
+
+						<f:FormElement label="{i18n>WSSBhav}">
+							<f:fields>
+								<Input type="Number" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>Gold}" value="{local>/WSOrderHeader/SilverBhav}"/>
+							</f:fields>
+						</f:FormElement>
+
+						<f:FormElement label="{i18n>WSGBhavK}">
+							<f:fields>
+								<Input type="Number" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" value="{local>/WSOrderHeader/GoldbhavK}"/>
+							</f:fields>
+						</f:FormElement>
+
+						<f:FormElement label="{i18n>WSSBhavK}">
+							<f:fields>
+								<Input type="Number" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" tooltip="{i18n>Sbhav}" value="{local>/WSOrderHeader/SilverBhavK}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
 </core:FragmentDefinition>

@@ -17,70 +17,39 @@ sap.ui.define(
 				BaseController.prototype.onInit.apply(this);
 				var oRouter = this.getRouter();
 				oRouter.getRoute("salesws").attachMatched(this._onRouteMatched, this);
-				// Item Table as input table
-				this.orderItem(oEvent);
-				// Return Item Table as input table
-				this.orderReturn();
 			},
 			_onRouteMatched: function(oEvent) {
+				debugger;
 				var that = this;
-				var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
-				var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-				oHeaderDetail.OrderNo = 0;
-				oHeaderDetail.Goldbhav1 = 0;
-				oHeaderDetail.Goldbhav2 = 0;
-				oHeaderDetail.SilverBhav = 0;
-				this.getView().getModel('local').setProperty("/orderHeader", oHeaderDetail);
-				that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-				oHeaderDetailT.CustomerId = "";
-				oHeaderDetailT.CustomerName = "";
-				this.getView().getModel('local').setProperty("/orderHeaderTemp", oHeaderDetailT);
-
-				//item form set to initial stage
-				var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
-				var oTableDetails = this.getView().byId('orderItemBases');
-				// var oBinding = oTableDetails.getBinding("rows");
-				//
-				// for (var i = 0; i < oBinding.getLength(); i++){
-				//   oOrderDetail.Material="";
-				//   oOrderDetail.Qty="";
-				//   oOrderDetail.QtyD="";
-				//   oOrderDetail.Making="";
-				//   oOrderDetail.MakingD="";
-				//   oOrderDetail.Weight="";
-				//   oOrderDetail.WeightD="";
-				//   oOrderDetail.Remarks="";
-				//   oOrderDetail.SubTotal="";
-				// this.getView().getModel('local').getProperty('/WSOrderItem',oOrderDetail);
-			// }
+				this.onClear(oEvent);
+				// allMasterData.customCalculations
 			},
 			valueHelpCustomer: function(oEvent) {
+				debugger;
 				this.getCustomerPopup(oEvent);
 			},
 			onConfirm: function(oEvent) {
 				debugger;
-				//whatever customer id selected push that in local model
-				var myData = this.getView().getModel("local").getProperty("/orderHeader");
-				myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-				this.getView().getModel("local").setProperty("/demoData", myData);
+				var oId = oEvent.getParameter('selectedItem').getId();
+				var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				var oSource = oId.split("-" [0])
+
 				var selCust = oEvent.getParameter("selectedItem").getLabel();
 				var selCustName = oEvent.getParameter("selectedItem").getValue();
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", selCust);
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", selCustName);
-				var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 				oCustDetail.customerId = selCust;
 				oCustDetail.CustomerName = selCustName;
 				// this.getView().byId("customerId").setValue(selCust);
 				// this.getView().byId("custName").setText(selCustName);
-				// if (this.searchPopup) {
-				//   this.searchPopup.destroy();
-				// }
+				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
+					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+					selCust);
 			},
 			ValueChange: function(oEvent) {
 				debugger;
 				var that = this;
 				var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-			  var category = that.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+				var category = that.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
 				var cells = oCurrentRow.getCells();
 				var X = cells[4].getValue() - cells[5].getValue();
@@ -101,42 +70,23 @@ sap.ui.define(
 				cells[12].setValue(Y + Z);
 
 			},
-			onClear: function() {
-				// debugger;
-				// this.byId("idOrderNo").setValue("");
-				// this.byId("customerId").setValue("");
-				// this.byId("Gbhav1Id").setValue("");
-				// this.byId("Gbhav2Id").setValue("");
-				// this.byId("sbhavid").setValue("");
-				// this.byId("custName").setText("");
-				// this.byId("DateId").setDateValue(new Date());
-				// debugger;
-				// var oOrderItem = new JSONModel();
-				// //create array
-				// var array = [];
-				// //loop the array values
-				// for (var i = 1; i <= 20; i++) {
-				// 	var oItem = {
-				// 		"material": "",
-				// 		"description": "",
-				// 		"qty": "0",
-				// 		"qtyd": "0",
-				// 		"weight": "0",
-				// 		"weightd": "0",
-				// 		"making": "0",
-				// 		"makingd": "0",
-				// 		"tunch": "0",
-				// 		"remarks": "",
-				// 		"subTot": "0",
-				// 	};
-				// 	array.push(oItem);
-				// }
-				// //set the Data
-				// oOrderItem.setData({
-				// 	"itemData": array
-				// });
-				// //set the model
-				// this.setModel(oOrderItem, "orderItems");
+			onClear: function(oEvent) {
+				debugger;
+				//Clear Header Details
+				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				oHeaderT.CustomerName = "";
+				oHeaderT.CustomerId = "";
+				oHeader.OrderNo = "";
+				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
+				// oHeader.Date=new Date();
+				this.getView().getModel('local').setProperty('/WSorderHeader', oHeader);
+				// this.getView().getModel("local").setProperty("/WSorderHeader/Date", formatter.getFormattedDate(0));
+				this.getView().byId("WSHeaderFragment--DateId").setDateValue(new Date());
+
+				//Clear Item table
+				this.orderItem(oEvent);
+				this.orderReturn();
 
 			},
 			//on order create Button
@@ -145,19 +95,14 @@ sap.ui.define(
 				that.getView().setBusy(true);
 				// get the data from screen in local model
 				debugger;
-				var orderData = this.getView().getModel('local').getProperty("/orderHeader");
+				var orderData = this.getView().getModel('local').getProperty("/WSOrderHeader");
 				if (orderData.Customer === "") {
-					this.getView().byId("customerId").setValueState("Error").setValueStateText("Mandatory Input");
+					this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText("Mandatory Input");
 					that.getView().setBusy(false);
 				} else {
 					debugger;
-					var date = new Date();
-					var dd = date.getDate();
-					var mm = date.getMonth() + 1;
-					var yyyy = date.getFullYear();
-					orderData.Date = yyyy + '.' + mm + '.' + dd;
 					//call the odata promise method to post the data
-					orderData.Date = orderData.Date.replace(".", "-").replace(".", "-");
+					orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
 							"POST", {}, orderData, this)
 						.then(function(oData) {
@@ -169,7 +114,7 @@ sap.ui.define(
 							oOrderId.OrderNo = oData.OrderNo;
 							that.getView().getModel('local').setProperty('/OrderId', oOrderId);
 							//assign the no on ui
-							that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+							that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
 						})
 						.catch(function(oError) {
 							that.getView().setBusy(false);

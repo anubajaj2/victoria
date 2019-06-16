@@ -198,9 +198,19 @@ sap.ui.define(
 										this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 												"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
 											.then(function(oData) {
+												debugger;
 												that.getView().setBusy(false);
 												sap.m.MessageToast.show("Data Saved Successfully");
 												var id = oData.id;
+					              var orderNo = oData.OrderNo;
+					              var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+					              for (var i = 0; i < allItems.length; i++) {
+					                if( allItems[i].Material == oData.Material){
+					                  allItems[i].itemNo = id;
+					                  break;
+					                }
+					              }
+					              that.getView().getModel("orderItems").setProperty("/itemData",allItems);
 											})
 											.catch(function(oError) {
 												that.getView().setBusy(false);

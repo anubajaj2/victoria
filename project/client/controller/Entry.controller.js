@@ -63,6 +63,114 @@ debugger;
         this.getView().byId("idRemarks").setValue(KT);
       }
     },
+		decimalvalidator1: function (oEvent) {
+						debugger;
+			if(oEvent.mParameters.id==="__component0---idEntry--idCash"){
+
+			$(function() {
+
+				$('input').on('input.idCash',function(event) {
+					if(event.currentTarget.id=="__component0---idEntry--idCash-inner"){
+				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
+					debugger;
+
+ 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,1})?/)[0];
+				}
+					// }
+ 				});
+ 			});
+}
+		},
+		decimalvalidator2: function (oEvent) {
+						debugger;
+			if(oEvent.mParameters.id==="__component0---idEntry--idGold"){
+
+			$(function() {
+
+				$('input').on('input.idGold',function(event) {
+					if(event.currentTarget.id=="__component0---idEntry--idGold-inner"){
+				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
+					debugger;
+
+ 			    this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
+				}
+					// }
+ 				});
+ 			});
+}
+		},
+		decimalvalidator3: function (oEvent) {
+						debugger;
+			if(oEvent.mParameters.id==="__component0---idEntry--idSilver"){
+
+			$(function() {
+
+				$('input').on('input.idSilver',function(event) {
+					if(event.currentTarget.id=="__component0---idEntry--idSilver-inner"){
+				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
+					debugger;
+
+ 			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
+				}
+					// }
+ 				});
+ 			});
+}
+		},
+		decimalvalidator4: function (oEvent) {
+						debugger;
+			if(oEvent.mParameters.id==="__component0---idEntry--idweight"){
+
+			$(function() {
+
+				$('input').on('input.idweight',function(event) {
+					if(event.currentTarget.id=="__component0---idEntry--idweight-inner"){
+				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
+					debugger;
+
+ 			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
+				}
+					// }
+ 				});
+ 			});
+}
+		},
+		decimalvalidator5: function (oEvent) {
+						debugger;
+			if(oEvent.mParameters.id==="__component0---idEntry--idtunch"){
+
+			$(function() {
+
+				$('input').on('input.idtunch',function(event) {
+					if(event.currentTarget.id=="__component0---idEntry--idtunch-inner"){
+				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
+					debugger;
+
+ 			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
+				}
+					// }
+ 				});
+ 			});
+}
+		},
+		// decimalvalidator2: function (oEvent) {
+		// 	$(function() {
+		//
+		// 		$('input.').on('input.idGold',function(event) {
+		// 	    this.value = this.value.match(/^[+-]?\d{0,4}(\.\d{0,3})?/)[0];
+		// 		});
+		// 	});
+		// },
+		// decimalvalidator3: function (oEvent) {
+		// 	// debugger;
+		// 	// var that = this;
+		// 	$(function() {
+		//
+		// 	jQuery('input').on('input',function () {
+		// 	  this.value= this.value.match(/^[+-]?\d{0,1}(\.\d{0,2})?/)[0];
+		// 		});
+		// 	});
+		// },
 
     onSubmit: function (evt) {
           $(function() {
@@ -123,6 +231,7 @@ debugger;
        that.getView().setBusy(false);
        var oPopover = that.getErrorMessage(oError);
      });
+		   this.getView().byId("DateId").setDateValue( new Date());
    },
 
    onDelete: function(){
@@ -199,21 +308,21 @@ debugger;
         oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
       }
-      var aFilter=[];
-          var data = myData.Customer;
-          if (data) {
-            aFilter.push(new sap.ui.model.Filter({path: "Customer",
-            operator:FilterOperator.EQ,
-            value1: data
-     }
-          ));
-          }
-          // var oFilter = new sap.ui.model.Filter("Customer Name(code),sap.ui.model.FilterOperator.Contains,data");
-          var oList = this.getView().byId("idTable");
-        var oBinding = oList.getBinding("items");
-        oBinding.filter(aFilter);
-
-
+     //  var aFilter=[];
+     //      var data = myData.Customer;
+     //      if (data) {
+     //        aFilter.push(new sap.ui.model.Filter({path: "Customer",
+     //        operator:FilterOperator.EQ,
+     //        value1: data
+     // }
+     //      ));
+     //      }
+     //      // var oFilter = new sap.ui.model.Filter("Customer Name(code),sap.ui.model.FilterOperator.Contains,data");
+     //      var oList = this.getView().byId("idTable");
+     //    var oBinding = oList.getBinding("items");
+     //    oBinding.filter(aFilter);
+		 //
+		 //
 
    }
   });

@@ -27,6 +27,7 @@
       </Column>
       <Column>
         <Label text="{i18n>amount}"></Label>
+        
       </Column>
       <Column>
         <Label text="{i18n>Gold}"></Label>
@@ -48,7 +49,7 @@
                       style: 'medium',
                       pattern: 'dd.MM.yyyy'}}"></Text>
 					<Text text="{Customer}"></Text>
-					<Text text="{path:'Cash', formatter:'.formatter.formatCurrency'}"></Text>
+					<Text text="{path:'Cash'}"></Text>
 					<Text text="{Gold}"></Text>
 					<Text text="{Silver}"></Text>
 					<Text text="{Remarks}"></Text>

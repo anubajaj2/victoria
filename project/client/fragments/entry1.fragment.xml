@@ -5,17 +5,17 @@
     <f:layout>
       <f:ResponsiveGridLayout
         labelSpanXL="2"
-        labelSpanL="2"
-        labelSpanM="2"
-        labelSpanS="12"
-        adjustLabelSpan="false"
-        emptySpanXL="0"
-        emptySpanL="0"
-        emptySpanM="0"
-        emptySpanS="0"
-        columnsXL="2"
-        columnsL="1"
-        columnsM="2"
+         labelSpanL="2"
+         labelSpanM="2"
+         labelSpanS="12"
+         adjustLabelSpan="false"
+         emptySpanXL="0"
+         emptySpanL="4"
+         emptySpanM="0"
+         emptySpanS="0"
+         columnsXL="2"
+         columnsL="2"
+         columnsM="2"
         singleContainerFullSize="false"/>
     </f:layout>
     <f:formContainers>
@@ -37,7 +37,7 @@
           <Input  showValueHelp="true" valueHelpOnly="true"
             valueHelpRequest="onValueHelpRequest" value="" id="idCust">
             <layoutData>
-              <l:GridData span="XL12 L12 M4 S6"/>
+              <l:GridData span="XL4 L3 M5 S6"/>
             </layoutData>
           </Input>
           <Input id="idCustText" value="" editable="false"/>
@@ -48,6 +48,20 @@
         <f:GridContainerData halfGrid="true">
         </f:GridContainerData>
       </f:layoutData>
+      </f:FormContainer>
+      <f:FormContainer>
+        <f:formElements>
+          <f:FormElement>
+            <f:fields>
+              <VBox>
+
+              <Text text="Total Cash:" design="bold" id="idTC"/>
+              <Text text="Total Gold:" id="idTG"/>
+              <Text text="Total Silver:" id="idTS"/>
+            </VBox>
+            </f:fields>
+          </f:FormElement>
+        </f:formElements>
       </f:FormContainer>
         </f:formContainers>
   </f:Form>

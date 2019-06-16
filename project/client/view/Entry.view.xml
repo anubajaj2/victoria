@@ -11,5 +11,9 @@
       <core:Fragment fragmentName="victoria.fragments.entryTable" type="XML"></core:Fragment>
 
     </semantic:content>
+    <semantic:customFooterContent>
+      <Button text="{i18n>master}" press="onMasterClear" type="Emphasized"></Button>
+    </semantic:customFooterContent>
+
   </semantic:FullscreenPage>
 </mvc:View>

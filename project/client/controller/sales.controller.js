@@ -34,11 +34,11 @@ getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
 onConfirm:function(oEvent){
-
+debugger;
 var oId = oEvent.getParameter('selectedItem').getId();
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var oSource = oId.split("-"[0])
-if (oSource[0] === 'idCoCustPopup'){
+// if (oSource[0] === 'idCoCustPopup'){
 
 var selCust = oEvent.getParameter("selectedItem").getLabel();
 var selCustName = oEvent.getParameter("selectedItem").getValue();
@@ -50,13 +50,13 @@ this.getView().getModel("local").setProperty("/orderHeader/Customer",
 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
-              }
-else {
+//               }
+// else {
               //   if (osource.split("--")[2]==="orderHeader") {
               //       var myData = this.getView().getModel("local").getProperty("/orderHeader");
               //   }
 
-              }
+              // }
             },
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
@@ -228,7 +228,9 @@ MessageBox.show(
                       that.getView().setBusy(false);
                       sap.m.MessageToast.show("Data Saved Successfully");
                       var id = oData.id;
-
+//get the id generated at after saving of data
+var orderItemBase = that.getView().getModel('local').getProperty('/orderItemBase');
+orderItemBase.itemNo = id;
                    })
                 .catch(function(oError) {
     that.getView().setBusy(false);

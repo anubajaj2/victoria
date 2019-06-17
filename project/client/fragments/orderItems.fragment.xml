@@ -14,7 +14,7 @@
 				<label>
 					<m:Text text="{i18n>material}"></m:Text>
 				</label>
-				<template>
+				<template >
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" liveChange='ValueChange' selectedKey="{orderItems>MaterialCode}" editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:items>
@@ -37,7 +37,8 @@
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3" liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3"
+					liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -45,7 +46,8 @@
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}" liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}"
+					liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="70px">

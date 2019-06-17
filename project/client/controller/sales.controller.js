@@ -111,9 +111,20 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
               }
             },
 
+onValidation: function() {
+  //---all validation true
+  var retVal = true;
+  //header validations
+  //line item validations
+  return retVal;
+},
 onSave:function(oEvent){
   var that = this;
-
+  if(this.onValidation() === true){
+    //POST code will be here
+  }else{
+    //please correct the data...
+  }
   var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
   if(oHeader.OrderNo === 0){
       MessageBox.show(
@@ -162,21 +173,24 @@ if (data.Material !== "") {
   oOrderDetail.Material=data.Material;
 
 if(data.Qty === "" || data.Qty === 0) {
-msg += "Row #"+ (i+1)+"\n";
-MessageBox.show(
-  "Please Enter the quantity at" + msg, {
-    icon: MessageBox.Icon.ERROR,
-    title: "Error",
-    actions: [MessageBox.Action.OK],
-    onClose: function(oAction) {
-      this.getView().setBusy(false);
-      return;
-    }
-  })
-  this.getView().setBusy(false);
+  msg += "Row #"+ (i+1)+"\n";
+  oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+
+// MessageBox.show(
+//   "Please Enter the quantity at" + msg, {
+//     icon: MessageBox.Icon.ERROR,
+//     title: "Error",
+//     actions: [MessageBox.Action.OK],
+//     onClose: function(oAction) {
+//       this.getView().setBusy(false);
+//       return;
+//     }
+//   })
+//   this.getView().setBusy(false);
   return;
 }else {
     oOrderDetail.Qty=data.Qty;
+    oTableDetails.getRows()[i].getCells()[2].setValueState("None");
 }
 //Making charges
 if(data.Making === "" || data.Making === 0) {

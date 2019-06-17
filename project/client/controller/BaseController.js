@@ -514,18 +514,18 @@ sap.ui.define([
 			this.setModel(oVisModel, "visModel");
 			// var oRoute = oEvent.getParameters("name");
 			// var oClear = oEvent.getParameters("name").id.split('---')[1].split('--')[0];
-			// if (oEvent.getParameters('name') === "sales")
-			//  {
-			// 	var odata = this.getView().getModel('visModel');
-			// 	odata.setProperty("/rows1", false);
-			// }
-			// else
-			// if(oEvent.getParameters('name').id.split('---')[1] === 'idsales'||
-			// oEvent.getParameters("name").id.split('---')[1].split('--')[0] === 'idsales')
-			// {
-			// 	var odata = this.getView().getModel('visModel');
-			// 	odata.setProperty("/rows1", false);
-			// }
+			if (oEvent.getParameters('name').name === "sales")
+			 {
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
+			}
+			else
+			if(oEvent.getParameters('name').id.split('---')[1] === 'idsales'||
+			oEvent.getParameters('name').id.split('---')[1].split('--')[0] === 'idsales')
+			{
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
+			}
 
 			// if (viewName === 'idsales' ||
 			// 	viewName2 === 'idsales') {

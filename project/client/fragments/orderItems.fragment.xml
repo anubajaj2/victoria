@@ -16,11 +16,19 @@
 				</label>
 				<template >
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
-					<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" liveChange='ValueChange' selectedKey="{orderItems>MaterialCode}" editable="{= ${orderItems>itemNo} === '' ? true : false}">
+					<m:Input id="idMaterial"  suggestionItems="/Products" showSuggestion="true">
+						<m:suggestionItems>
+							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+						</m:suggestionItems>
+					</m:Input>
+					<!--<m:ComboBox id="idMaterial" items="{/Products}"
+						selectionChange="onMaterialSelect" change='ValueChangeMaterial'
+						selectedKey="{orderItems>MaterialCode}"
+						editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:items>
 							<core:Item key="{id}" text="{ProductCode}"/>
 						</m:items>
-					</m:ComboBox>
+					</m:ComboBox>-->
 				</template>
 			</Column>
 			<Column width="100px">

@@ -69,14 +69,18 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", null, null, this)
-				.then(function(oData) {
-					for (var i = 0; i < oData.results.length; i++) {
-						that.allMasterData.materials[oData.results[i].id] = oData.results[i];
-					}
-				}).catch(function(oError) {
-					var oPopover = that.getErrorMessage(oError);
-				});
+			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", null, null, this)
+			// 	.then(function(oData) {
+			// 		for (var i = 0; i < oData.results.length; i++) {
+			// 			that.allMasterData.materials[oData.results[i].id] = oData.results[i];
+			// 		}
+			// 	}).catch(function(oError) {
+			// 		var oPopover = that.getErrorMessage(oError);
+			// 	});
+				this.fetchValuesFromCustomizing();
+
+		},
+		fetchValuesFromCustomizing: function(){
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -85,7 +89,6 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-
 		},
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();

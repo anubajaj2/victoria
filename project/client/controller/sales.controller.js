@@ -23,6 +23,8 @@ sap.ui.define([
 _onRouteMatched:function(oEvent){
   var that = this;
   this.onClear(oEvent);
+  this.fetchValuesFromCustomizing();
+
 },
 
 //customer value help
@@ -277,7 +279,11 @@ this.orderReturn();
 OnCustChange:function(){
 
 },
-
+ValueChangeMaterial: function(oEvent){
+  var oSource = oEvent.getSource();
+  var oFilter = new sap.ui.model.Filter("ProductCode", sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value"));
+  oSource.getBinding("suggestionItems").filter(oFilter);
+},
 ValueChange:function(oEvent){
 
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');

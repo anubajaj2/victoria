@@ -509,20 +509,29 @@ sap.ui.define([
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
 			});
+			debugger;
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
-			var oRoute = oEvent.getParameters("name");
-			if (oRoute.name === 'sales') {
-				var viewName = 'idsales';
-			} else {
-				var viewName2 = 'idWsSales';
-			}
+			// var oRoute = oEvent.getParameters("name");
+			// var oClear = oEvent.getParameters("name").id.split('---')[1].split('--')[0];
+			// if (oEvent.getParameters('name') === "sales")
+			//  {
+			// 	var odata = this.getView().getModel('visModel');
+			// 	odata.setProperty("/rows1", false);
+			// }
+			// else
+			// if(oEvent.getParameters('name').id.split('---')[1] === 'idsales'||
+			// oEvent.getParameters("name").id.split('---')[1].split('--')[0] === 'idsales')
+			// {
+			// 	var odata = this.getView().getModel('visModel');
+			// 	odata.setProperty("/rows1", false);
+			// }
 
-			if (viewName === 'idsales' ||
-				viewName2 === 'idsales') {
-				var odata = this.getView().getModel('visModel');
-				odata.setProperty("/rows1", false);
-			}
+			// if (viewName === 'idsales' ||
+			// 	viewName2 === 'idsales') {
+			// 	var odata = this.getView().getModel('visModel');
+			// 	odata.setProperty("/rows1", false);
+			// }
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
 			//create array
@@ -534,7 +543,7 @@ sap.ui.define([
 					"OrderNo": "",
 					"itemNo": "",
 					"Material": "",
-					"MaterialCode": "",
+					"MaterialCode":"",
 					"Description": "",
 					"Qty": 0,
 					"QtyD": 0,
@@ -564,8 +573,9 @@ sap.ui.define([
 		},
 
 		onMaterialSelect: function(oEvent) {
-
-			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+			debugger;
+			var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+			// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
 			var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
 			oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);

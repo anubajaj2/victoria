@@ -16,7 +16,9 @@
 				</label>
 				<template >
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
-					<m:Input id="idMaterial" suggest="ValueChangeMaterial"  suggestionItems="{/Products}" showSuggestion="true">
+					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
+						suggestionItems="{/Products}" showSuggestion="true"
+						suggestionItemSelected="onMaterialSelect">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
 						</m:suggestionItems>

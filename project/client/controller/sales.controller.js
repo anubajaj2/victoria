@@ -114,9 +114,24 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
             },
 
 onValidation: function() {
+  var that = this;
   //---all validation true
   var retVal = true;
   //header validations
+  var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+  if(oHeader.OrderNo === 0 ||
+     oHeader.OrderNo === ""){
+    retVal = false;
+      MessageBox.show(
+        "Please create Order Number first", {
+          icon: MessageBox.Icon.ERROR,
+          title: "Error",
+          actions: [MessageBox.Action.OK],
+          onClose: function(oAction) { }
+        }
+      );
+    }
+    that.getView().setBusy(false);
   //line item validations
   return retVal;
 },
@@ -124,24 +139,6 @@ onSave:function(oEvent){
   var that = this;
   if(this.onValidation() === true){
     //POST code will be here
-  }else{
-    //please correct the data...
-  }
-  var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
-  if(oHeader.OrderNo === 0){
-      MessageBox.show(
-  			"Please create Order Number first", {
-  				icon: MessageBox.Icon.ERROR,
-  				title: "Error",
-  				actions: [MessageBox.Action.OK],
-  				onClose: function(oAction) { }
-  			}
-  		);
-    that.getView().setBusy(false);
-  }
-else {
-if (oHeader.OrderNo !== "" &&
-    oHeader.OrderNo !== 0) {
 
 var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -156,16 +153,14 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 //     that.getView().setBusy(false);
 //     var oPopover = that.getErrorMessage(oError);
 //               });
-          }
+
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
 debugger;
-var msg = "";
-// var aItems = this.getView().getModel("Items").getProperty("/");
-
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
+  var oProduct = oEvent.getParameter("selectedItem").getBindingContext().getPath();
   this.getView().setBusy(true);
   var data = oBinding.oList[i];
 
@@ -175,58 +170,15 @@ if (data.Material !== "") {
   oOrderDetail.Material=data.Material;
 
 if(data.Qty === "" || data.Qty === 0) {
-  msg += "Row #"+ (i+1)+"\n";
   oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
-
-// MessageBox.show(
-//   "Please Enter the quantity at" + msg, {
-//     icon: MessageBox.Icon.ERROR,
-//     title: "Error",
-//     actions: [MessageBox.Action.OK],
-//     onClose: function(oAction) {
-//       this.getView().setBusy(false);
-//       return;
-//     }
-//   })
-//   this.getView().setBusy(false);
   return;
 }else {
     oOrderDetail.Qty=data.Qty;
     oTableDetails.getRows()[i].getCells()[2].setValueState("None");
 }
-//Making charges
-if(data.Making === "" || data.Making === 0) {
-msg += "Row #" + (i+1)+"\n";
-MessageBox.show(
-  "Please Enter the Making at" + msg, {
-    icon: MessageBox.Icon.ERROR,
-    title: "Error",
-    actions: [MessageBox.Action.OK],
-    onClose: function(oAction) {
-      this.getView().setBusy(false);
-      return;
-    }
-  })
-  this.getView().setBusy(false);
-  return;
-}else {
-    oOrderDetail.Making=data.Making;
-}
 //Weight check
-if(data.Weight === "" || data.Weight === 0) {
-msg += "Row #" + (i+1)+"\n";
-MessageBox.show(
-  "Please Enter the Weight at" + msg, {
-    icon: MessageBox.Icon.ERROR,
-    title: "Error",
-    actions: [MessageBox.Action.OK],
-    onClose: function(oAction) {
-      this.getView().setBusy(false);
-      return;
-    }
-  })
-  this.getView().setBusy(false);
-  return;
+if(data.Making === "" || data.Making === 0) {
+oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
 }else {
     oOrderDetail.Weight =data.Weight;
 }
@@ -254,11 +206,13 @@ orderItemBase.itemNo = id;
                 		});
 }//If condition end
 }//for loop brace end
+}else{  //validation if else condition
+  //please correct the data...
 }
 },
 
 onClear:function(oEvent){
-
+debugger;
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -286,13 +240,13 @@ ValueChangeMaterial: function(oEvent){
   oSource.getBinding("suggestionItems").filter(oFilter);
 },
 ValueChange:function(oEvent){
-
+debugger;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
 // X = Weight - WeightD
-  var x = cells[4].getValue()  - cells[5].getValue();
+  var x = cells[4].getValue() - cells[5].getValue();
   if (category.Category === 'gm') {
 // Y = X * Making (if per gm)
     var y = x * cells[6].getValue();

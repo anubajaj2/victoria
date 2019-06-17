@@ -317,6 +317,15 @@ var y = x * cells[6].getValue();
   cells[6].setValue(0);
 }
 }//category.category endif
+if (!innerSubTotal) {
+  innerSubTotal = 0;
+}
+if (!y) {
+  y=0;
+}
+if (!z) {
+  z=0;
+}
 cells[9].setValue(innerSubTotal + y + z);
 }else
 if (category.Type === 'GS') {

@@ -16,9 +16,7 @@
 				</label>
 				<template>
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
-					<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" liveChange='ValueChange'
-						selectedKey="{orderItems>MaterialCode}"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}">
+					<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" liveChange='ValueChange' selectedKey="{orderItems>MaterialCode}" editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:items>
 							<core:Item key="{id}" text="{ProductCode}"/>
 						</m:items>
@@ -39,9 +37,7 @@
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}"
-						 			maxLength="3" liveChange="ValueChange" Nullable="false"
-									editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3" liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -49,9 +45,7 @@
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}"
-							liveChange="ValueChange" maxLength="3"
-							editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}" liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="70px">
@@ -59,17 +53,19 @@
 					<m:Text text="{i18n>weight}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="Idweight" type="Number"
-						 maxLength="5" liveChange="ValueChange"
-						 value=
-						 "{
+					<m:Input
+						id="Idweight"
+						type="Number"
+						maxLength="5"
+						liveChange="ValueChange"
+						value="{
    			 		path:'orderItems>Weight',
    					type: 'sap.ui.model.type.Float',
    				formatOptions: {
       				maxFractionDigits: 2,
       				roundingMode:'away_from_zero'
    					 	}}"
-							editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="75px">
@@ -77,9 +73,7 @@
 					<m:Text text="{i18n>weightD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}"
-						liveChange="ValueChange" maxLength="5"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="75px">
@@ -87,9 +81,7 @@
 					<m:Text text="{i18n>making}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}"
-						 liveChange="ValueChange" maxLength="5"
-						 editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="75px">
@@ -97,9 +89,7 @@
 					<m:Text text="{i18n>makingD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}"
-						 maxLength="5" liveChange="ValueChange"
-						 editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}" maxLength="5" liveChange="ValueChange" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="60px" visible="{visModel>/rows1}">
@@ -115,8 +105,7 @@
 					<m:Text text="{i18n>remarks}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Remarks}" maxLength="80"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
+					<m:Input value="{orderItems>Remarks}" maxLength="80" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
 			<Column visible="{visModel>/rows1}">

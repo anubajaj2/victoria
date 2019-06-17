@@ -21,7 +21,7 @@
     },
     "CustomerTunch": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Making": {
       "type": "string",
@@ -33,7 +33,7 @@
     },
     "ProductName": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "PricePerUnit": {
       "type": "string",

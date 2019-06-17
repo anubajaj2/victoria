@@ -281,7 +281,8 @@ OnCustChange:function(){
 },
 ValueChangeMaterial: function(oEvent){
   var oSource = oEvent.getSource();
-  var oFilter = new sap.ui.model.Filter("ProductCode", sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value"));
+  var oFilter = new sap.ui.model.Filter("ProductCode",
+  sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
   oSource.getBinding("suggestionItems").filter(oFilter);
 },
 ValueChange:function(oEvent){

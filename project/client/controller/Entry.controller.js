@@ -267,6 +267,9 @@ debugger;
      if (check === true) {
        // alert("Successful");
         this.getView().byId("DateId").setDateValue( new Date());
+				jQuery.sap.delayedCall(500, this, function() {
+						this.getView().byId("idCash").focus();
+				});
        this.byId("idCust").getValue();
        this.byId("idCustText").getValue();
        this.byId("idweight").setValue("0");
@@ -280,6 +283,10 @@ debugger;
      }else if (check === false){
        // alert("unsuccessful");
        this.getView().byId("DateId").setDateValue( new Date());
+			 jQuery.sap.delayedCall(500, this, function() {
+					 this.getView().byId("idCust").focus();
+			 });
+
        this.byId("idCust").setValue("");
        this.byId("idCustText").setValue("");
      this.byId("idweight").setValue("0");

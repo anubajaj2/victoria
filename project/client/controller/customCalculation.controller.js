@@ -91,77 +91,41 @@ this.ClearCalculation();
       // if(!handleGoldSilverValidation(oGold1, oSilver1)) {
       //   return false;
       // }
- if (oreturn == true){
+ if (oreturn === true){
     that.getView().setBusy(true);
         var myData = this.getView().getModel("local").getProperty("/CustomCalculation");
-    var i = 0;
-    var id = "";
-    // var id  = that.getView().getModel("local").getProperty("/CustomCalculation")[i].id;
-    var myUrl = "/CustomCalculations('" + id + "')"
-     this.getView().getModel("local").setProperty("/CustomCalculation", myData);
-     // var calculationJson = this.getView().getModel("calculationModelInfo").getData().results;
-     // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-     //  myUrl, "GET", {}, {}, this)
-     //   .then(function(oData) {
-     //     var oModelCustom = new JSONModel();
-     // oModelCustom.setData(oData);
-     // that.getView().setModel(oModelCustom, "CustomCalculationInfo");
-     // var found = 1;
-     //
-     //   }).catch(function(oError) {
-     //       MessageToast.show("cannot fetch the data");
-     //   });
-     // var customModel = this.getView().getModel("CustomCalculation");
-     // var customId = "/CustomCalculations("+that.getModel("CustomCalculation").getProperty("/Id")+ ")";
-     //  var customJson = this.getView().getModel("CustomCalculationInfo");
-     // function getCustomId(customId) {
-     //   return customJson.filter(
-     //        function (myData) {
-     //          return myData.id === customId;
-     //        }
-     //      );
-     //    }
-     //
-     //    var found = getCustomId(customId);
-     // var customModel = this.getView().getModel("customModel");
-     // var customCode = customModel.getData().id;
-     // var customJson = this.getView().getModel("CustomCalculation").getData().results;
-     // function getCustomId(customCode) {
-     //   return customJson.filter (
-     //        function (data) {
-     //          return data.id === customCode;
-     //        }
-     //      );
-     //    }
-     //
-     //    var found = getCustomCode(customCode);
-     //    if(found.length > 0){
-     //
-     //      this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-     //       "/CustomCalculations('"+found[0].id+"')", "PUT", {}, myData , this)
-     //        .then(function(oData) {
-     //        MessageToast.show("Data saved successfully");
-     //        that._onRouteMatched();
-     //        }).catch(function(oError) {
-     //            MessageToast.show("Data could not be saved");
-     //        });
-     //
-     //    }
-     var found = myData[0].id;
+     var found = myData.id;
         // else {
           // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           //  "/CustomCalculations", "POST", {}, myData , this)
+          if(found.length > 0){
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
            "/CustomCalculations('"+found+"')", "PUT", {},myData , this)
             .then(function(oData) {
               that.getView().setBusy(false);
             MessageToast.show("Data saved successfully");
+            that._onRouteMatched();
             that.byId("idSaveIcon").setColor('green');
             // that._onRouteMatched();
             }).catch(function(oError) {
               that.getView().setBusy(false);
               var oPopover = that.getErrorMessage(oError);
             });
+          }
+        else {
+          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+           "/CustomCalculations", "POST", {}, myData , this)
+          .then(function(oData) {
+            that.getView().setBusy(false);
+          MessageToast.show("Data saved successfully");
+          that._onRouteMatched();
+          that.byId("idSaveIcon").setColor('green');
+          // that._onRouteMatched();
+          }).catch(function(oError) {
+            that.getView().setBusy(false);
+            var oPopover = that.getErrorMessage(oError);
+          });
+        }
           // }
             ;
 }

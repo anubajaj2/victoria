@@ -24,7 +24,6 @@ _onRouteMatched:function(oEvent){
   var that = this;
   this.onClear(oEvent);
   this.fetchValuesFromCustomizing();
-
 },
 
 //customer value help
@@ -160,7 +159,6 @@ var oBinding = oTableDetails.getBinding("rows");
 debugger;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
-  var oProduct = oEvent.getParameter("selectedItem").getBindingContext().getPath();
   this.getView().setBusy(true);
   var data = oBinding.oList[i];
 
@@ -182,10 +180,24 @@ oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
 }else {
     oOrderDetail.Weight =data.Weight;
 }
-  // oOrderDetail.Making=data.Making quantityD
-  oOrderDetail.QtyD=data.QtyD;
-  oOrderDetail.MakingD=data.MakingD;
+  // OrderD
+  if (data.QtyD === "" || data.QtyD === 0) {
+    oOrderDetail.QtyD= 0;
+  }else {
+    oOrderDetail.QtyD=data.QtyD;
+  }
+//makingD
+  if (data.MakingD === "" || data.MakingD === 0) {
+    oOrderDetail.MakingD= 0;
+  }else {
+    oOrderDetail.MakingD=data.MakingD;
+  }
+//WeightD
+if (data.WeightD === "" || data.WeightD === 0) {
+  oOrderDetail.WeightD= 0;
+}else {
   oOrderDetail.WeightD=data.WeightD;
+}
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));

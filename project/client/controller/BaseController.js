@@ -545,7 +545,7 @@ sap.ui.define([
 				var oItem = {
 					"OrderNo": "",
 					"itemNo": "",
-					"Material": "",
+					"Material":"",
 					"MaterialCode":"",
 					"Description": "",
 					"Qty": 0,
@@ -583,12 +583,27 @@ sap.ui.define([
 			var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
 			oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
 			oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+			//Making
+			if (selectedMatData.Making) {
 			oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+			}else {
+			oModelForRow.setProperty(sRowPath + "/Making", 0);
+			}
+			//Makind D field
+			if (selectedMatData.PricePerUnit) {
 			oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+			}else {
+			oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+			}
+
 			oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
 			oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
 			oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
-			oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+			if (selectedMatData.Tunch) {
+				oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+			}else {
+				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+			}
 		},
 		orderReturn: function() {
 			//create structure of an array

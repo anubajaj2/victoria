@@ -587,6 +587,7 @@ sap.ui.define([
 			oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
 			oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
 			oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+			oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
 			oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
 		},
 		orderReturn: function() {

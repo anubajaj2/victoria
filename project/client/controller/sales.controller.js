@@ -241,39 +241,100 @@ ValueChangeMaterial: function(oEvent){
 },
 ValueChange:function(oEvent){
 debugger;
+  this.Calculation(oEvent);
+},//ValueChange function end
+
+Calculation:function(oEvent){
+debugger;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
-// X = Weight - WeightD
-  var x = cells[4].getValue() - cells[5].getValue();
-  if (category.Category === 'gm') {
-// Y = X * Making (if per gm)
-    var y = x * cells[6].getValue();
+
+if (category.Type === 'Gold' || category.Type === 'Silver')
+{
+
+//Quantity Check
+if (cells[3].getValue() !== "" ||
+    cells[3].getValue() !== 0) {
+// X = Quantity - QuantityD
+var x = cells[2].getValue() - cells[3].getValue();
+}else {
+var x = cells[2].getValue();
+cells[3].setValue(0);
+}//cell[2] / quantity check
+
+// check D value i.e Diamond values
+  if (cells[3].getValue() !== 0 || cells[3].getValue() !=="" &&
+     cells[7].getValue() !== 0 || cells[7].getValue() !=="") {
+  var z = cells[3].getValue() * cells[7].getValue();
   }
-  else if (category.Category === 'pcs') {
-//y = Qty * Making (if per pc)
-    var y = cells[2].getValue() * cells[6].getValue();
+
+//get if its type is silver or gold
+if (category.Type === 'Gold') {
+ // get the bhav details
+ if (category.Karat === "22/22") {
+   var innerSubTotal = orderHeader.Goldbhav1 * x;
+  }else
+ if (category.Karat === '22/20') {
+ var innerSubTotal = orderHeader.Goldbhav2 * x;
+   }
+ }else
+if (category.Type === 'Silver') {
+  var innerSubTotal = orderHeader.SilverBhav * x;
+}//type Silver check end
+
+//calculation on pcs
+if (category.Category === 'pcs') {
+  //Making charges
+  if (cells[6].getValue() !== 0 || cells[6].getValue() !=="" &&
+      cells[2].getValue() !== 0 || cells[2].getValue() !=="" )
+    {
+  var y = cells[2].getValue() * cells[6].getValue();
+  }else {
+    cells[6].setValue(0);
+    cells[2].setValue(0);
   }
-  if (cells[3].getValue() &&
-      cells[7].getValue()) {
- var z =  cells[3].getValue() * cells[7].getValue();
-  }
-  if (category.Type === "Silver") {
- //InterSubTotal = X * Bhav ( Silver)
- var InterSubTotal = x * orderHeader.SilverBhav;
-  }
-  else if (category.Type === "Gold") {
-var InterSubTotal = x * orderHeader.Goldbhav1;
-  }
-cells[9].setValue( InterSubTotal + y + z );
-this.byId("IdMaking");
-this.byId("IdMakingD");
-this.byId("IdWeightD");
-this.byId("Idweight");
-this.byId("IdQty");
-this.byId("IdQtyD");
-}//ValueChange function end
+  }else //calculation on pcs
+if (category.Category === 'gm') {
+//Making charges
+if (cells[6].getValue() !== 0 || cells[6].getValue() !=="")
+  {
+var y = x * cells[6].getValue();
+}else {
+  cells[6].setValue(0);
+}
+}//category.category endif
+cells[9].setValue(innerSubTotal + y + z);
+}else
+if (category.Type === 'GS') {
+//german silver//ignore Weight//Quantity Check
+if (cells[3].getValue() !== "" ||
+    cells[3].getValue() !== 0) {
+// X = Quantity - QuantityD
+  var x = cells[2].getValue() - cells[3].getValue();
+}else {
+  var x = cells[2].getValue();
+  cells[3].setValue(0);
+}//cell[2] / quantity check
+// making charges
+if (cells[7].getValue() !== 0 || cells[7].getValue() !=="")
+{
+var y =  cells[6].getValue() - cells[7].getValue();
+}else {
+var y =  cells[6].getValue();
+cells[7].setValue(0);
+}
+cells[9].setValue(x * y);
+}
+
+  this.byId("IdMaking");
+  this.byId("IdMakingD");
+  this.byId("IdWeightD");
+  this.byId("Idweight");
+  this.byId("IdQty");
+  this.byId("IdQtyD");
+}//calculation function end
 
 });
 });

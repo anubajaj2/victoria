@@ -168,7 +168,7 @@ sap.ui.define([
 				this.matSearchPopup.bindAggregation("items", {
 					path: '/Products',
 					template: new sap.m.DisplayListItem({
-						
+
 						label: "{ProductCode}",
 						value: "{ProductName}"
 					})
@@ -334,7 +334,6 @@ sap.ui.define([
 				// this.getView().byId("oGoldId").focus();
 				return valid;
 			} else {
-				return true;
 				if (oSilver1 < 32000 ||
 					oSilver1 > 65000) {
 					var valid = false;

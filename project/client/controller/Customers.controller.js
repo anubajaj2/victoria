@@ -176,6 +176,7 @@ this.clearCustomer();
 			},
 
 			customerCodeCheck : function(){
+				// that._onRouteMatched();
 				var customerModel = this.getView().getModel("customerModel");
  			 var customerCode = customerModel.getData().CustomerCode;
  			 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
@@ -240,6 +241,8 @@ this.clearCustomer();
 				viewModel.setProperty("/deleteEnabled", false);
 				dataModel.setProperty("/CustomerCodeState", "None");
 				customerModel.getData().CustomerCode = "";
+				var custid = this.getView().byId("idCombo");
+				custid.setSelectedKey("");
 				var typeValue = typeModel.getData().items[0].text;
 				var oType = this.getView().byId("idType");
 				oType.setSelectedKey(typeValue);
@@ -276,7 +279,7 @@ this.clearCustomer();
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
 								// that._onRouteMatched();
-								that.clearCustomer();
+									that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
@@ -315,6 +318,7 @@ this.clearCustomer();
 					 }
 
 					 var found = getCustomerCode(customerCode);
+					 	var typeModel = this.getView().getModel("typec");
 					 if(found.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -328,9 +332,11 @@ this.clearCustomer();
 								customerModel.getData().Name = "";
 								customerModel.getData().SecondaryPhone = "0";
 								customerModel.getData().Group = "";
-								customerModel.getData().Type = "";
+								// var typeValue = typeModel.getData().items[0].text;
+								// var oType = this.getView().byId("idType");
 								customerModel.refresh();
-								that._onRouteMatched();
+								// // that._onRouteMatched();
+								// that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Could not delete the entry");
 								});

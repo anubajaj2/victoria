@@ -214,6 +214,9 @@ this.clearProduct();
 						productModel.getData().Tunch = found[0].Tunch;
 						productModel.getData().AlertQuantity = found[0].AlertQuantity;
 						productModel.getData().HindiName = found[0].HindiName;
+						if (found[0].Type === "Gold") {
+							viewModel.setProperty("/typeEnabled", true);
+						}
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
@@ -258,7 +261,6 @@ this.clearProduct();
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
 				productModel.getData().Karat = "";
-				productModel.getData().Karat = "";
 				productModel.getData().ProductCode = "";
 				productModel.getData().CustomerTunch = 0;
 				productModel.getData().Making = 0;
@@ -268,6 +270,8 @@ this.clearProduct();
 				productModel.getData().Tunch = 0;
 				productModel.getData().AlertQuantity = 0;
 				productModel.getData().HindiName = "";
+				var prodId = this.getView().byId("idType");
+				prodId.setSelectedKey("");
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
@@ -303,7 +307,8 @@ this.clearProduct();
 							 "/Products('"+found[0].id+"')", "PUT", {},productModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
-								that._onRouteMatched();
+								// that._onRouteMatched();
+								that.clearProduct();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
@@ -314,7 +319,8 @@ this.clearProduct();
 							 "/Product", "POST", {},productModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
-								that._onRouteMatched();
+								// that._onRouteMatched();
+									that.clearProduct();
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
@@ -355,7 +361,8 @@ this.clearProduct();
 								productModel.getData().AlertQuantity = 0;
 								productModel.getData().HindiName = "";
 								productModel.refresh();
-								that._onRouteMatched();
+								that.clearProduct();
+								// that._onRouteMatched();
 
 								}).catch(function(oError) {
 										MessageToast.show("Could not delete the entry");

@@ -22,40 +22,7 @@ sap.ui.define([
 
 _onRouteMatched:function(oEvent){
   var that = this;
-//call the gold and silver bhav , 22/22 bhav and 22/20 Bhav
-  var oBhav = that.getView().getModel("local").getProperty("/CustomCalculations");
-  var oHeader = this.getView().getModel('local').getProperty("/orderHeader");
-  // oHeader.
   this.onClear(oEvent);
-
-//
-// // Header Form set to initial stage
-//   var oHeaderDetail = that.getView().getModel('local').getProperty('/orderHeader');
-//   var oHeaderDetailT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-//   oHeaderDetail.OrderNo=0;
-//   this.getView().getModel('local').setProperty("/orderHeader",oHeaderDetail);
-//   that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-//   oHeaderDetailT.CustomerId="";
-//   oHeaderDetailT.CustomerName="";
-//   this.getView().getModel('local').setProperty("/orderHeaderTemp",oHeaderDetailT);
-//
-// //item form set to initial stage
-// var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
-// var oTableDetails = this.getView().byId('orderItemBases');
-// var oBinding = oTableDetails.getBinding("rows");
-//
-// for (var i = 0; i < oBinding.getLength(); i++){
-//   oOrderDetail.Material="";
-//   oOrderDetail.Qty="";
-//   oOrderDetail.QtyD="";
-//   oOrderDetail.Making="";
-//   oOrderDetail.MakingD="";
-//   oOrderDetail.Weight="";
-//   oOrderDetail.WeightD="";
-//   oOrderDetail.Remarks="";
-//   oOrderDetail.SubTotal="";
-// this.getView().getModel('local').getProperty('/OrderItem',oOrderDetail);
-// }//for loop brace
 },
 
 //customer value help
@@ -67,11 +34,11 @@ getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
 onConfirm:function(oEvent){
-
+debugger;
 var oId = oEvent.getParameter('selectedItem').getId();
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var oSource = oId.split("-"[0])
-if (oSource[0] === 'idCoCustPopup'){
+// if (oSource[0] === 'idCoCustPopup'){
 
 var selCust = oEvent.getParameter("selectedItem").getLabel();
 var selCustName = oEvent.getParameter("selectedItem").getValue();
@@ -83,13 +50,13 @@ this.getView().getModel("local").setProperty("/orderHeader/Customer",
 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
-              }
-else {
+//               }
+// else {
               //   if (osource.split("--")[2]==="orderHeader") {
               //       var myData = this.getView().getModel("local").getProperty("/orderHeader");
               //   }
 
-              }
+              // }
             },
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
@@ -180,49 +147,76 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
+debugger;
+var msg = "";
+// var aItems = this.getView().getModel("Items").getProperty("/");
 
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   this.getView().setBusy(true);
   var data = oBinding.oList[i];
 
-//Qty , weight , Making should not be zero
-// if (data.Qty === "" || data.Qty === 0) {
-//
-// that.getView().setBusy(false);
-// break;
-// }
-// if (data.Making === "" || data.Making === 0) {
-//   this.getView().byId("IdMaking").setValueState("Error").setValueStateText("Mandatory Input");
-//   that.getView().setBusy(false);
-// }
-// if (data.Weight === "" || data.Weight === 0) {
-//   this.getView().byId("Idweight").setValueState("Error").setValueStateText("Mandatory Input");
-//   that.getView().setBusy(false);
-// }
-
 //posting the data
 if (data.Material !== "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
-  if (data.Qty !== 0) {
-  oOrderDetail.Qty=data.Qty;
+
+if(data.Qty === "" || data.Qty === 0) {
+msg += "Row #"+ (i+1)+"\n";
+MessageBox.show(
+  "Please Enter the quantity at" + msg, {
+    icon: MessageBox.Icon.ERROR,
+    title: "Error",
+    actions: [MessageBox.Action.OK],
+    onClose: function(oAction) {
+      this.getView().setBusy(false);
+      return;
+    }
+  })
+  this.getView().setBusy(false);
+  return;
 }else {
-    oOrderDetail.Qty=0.0;
+    oOrderDetail.Qty=data.Qty;
 }
 //Making charges
-  if (data.Making !== 0) {
-  oOrderDetail.Making=data.Making;
+if(data.Making === "" || data.Making === 0) {
+msg += "Row #" + (i+1)+"\n";
+MessageBox.show(
+  "Please Enter the Making at" + msg, {
+    icon: MessageBox.Icon.ERROR,
+    title: "Error",
+    actions: [MessageBox.Action.OK],
+    onClose: function(oAction) {
+      this.getView().setBusy(false);
+      return;
+    }
+  })
+  this.getView().setBusy(false);
+  return;
 }else {
-    // oOrderDetail.Making=0.0;
-    debugger;
-this.getView().byId("IdQty").setValue();
-this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
+    oOrderDetail.Making=data.Making;
+}
+//Weight check
+if(data.Weight === "" || data.Weight === 0) {
+msg += "Row #" + (i+1)+"\n";
+MessageBox.show(
+  "Please Enter the Weight at" + msg, {
+    icon: MessageBox.Icon.ERROR,
+    title: "Error",
+    actions: [MessageBox.Action.OK],
+    onClose: function(oAction) {
+      this.getView().setBusy(false);
+      return;
+    }
+  })
+  this.getView().setBusy(false);
+  return;
+}else {
+    oOrderDetail.Weight =data.Weight;
 }
   // oOrderDetail.Making=data.Making quantityD
   oOrderDetail.QtyD=data.QtyD;
   oOrderDetail.MakingD=data.MakingD;
-  oOrderDetail.Weight=data.Weight;
   oOrderDetail.WeightD=data.WeightD;
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
@@ -234,7 +228,9 @@ this.getView().byId("Sales--customerId").setValueState("Error").setValueStateTex
                       that.getView().setBusy(false);
                       sap.m.MessageToast.show("Data Saved Successfully");
                       var id = oData.id;
-
+//get the id generated at after saving of data
+var orderItemBase = that.getView().getModel('local').getProperty('/orderItemBase');
+orderItemBase.itemNo = id;
                    })
                 .catch(function(oError) {
     that.getView().setBusy(false);

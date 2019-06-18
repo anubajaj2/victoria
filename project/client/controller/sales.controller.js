@@ -23,7 +23,7 @@ sap.ui.define([
 _onRouteMatched:function(oEvent){
   var that = this;
   this.onClear(oEvent);
-  this.fetchValuesFromCustomizing();
+  // this.fetchValuesFromCustomizing();
 },
 
 //customer value help
@@ -97,20 +97,20 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
              .then(function(oData) {
                   that.getView().setBusy(false);
 
-                  //create the new json model and get the order id no generated
-        var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-        oOrderId.OrderId=oData.id;
-        oOrderId.OrderNo=oData.OrderNo;
-        that.getView().getModel('local').setProperty('/OrderId',oOrderId);
-        //assign the no on ui
-        that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
-               })
-        .catch(function(oError) {
-          that.getView().setBusy(false);
-          var oPopover = that.getErrorMessage(oError);
-            		});
-              }
-            },
+//create the new json model and get the order id no generated
+  var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+  oOrderId.OrderId=oData.id;
+  oOrderId.OrderNo=oData.OrderNo;
+  that.getView().getModel('local').setProperty('/OrderId',oOrderId);
+  //assign the no on ui
+  that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+           })
+  .catch(function(oError) {
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+        		});
+          }
+      },
 
 onValidation: function() {
   var that = this;
@@ -225,12 +225,17 @@ orderItemBase.itemNo = id;
 
 onClear:function(oEvent){
 debugger;
+var that = this;
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 oHeaderT.CustomerName ="";
 oHeaderT.CustomerId="";
 oHeader.OrderNo="";
+oHeader.Goldbhav22=0;
+oHeader.Goldbhav20=0;
+oHeader.Goldbhav=0;
+oHeader.SilverBhav=0;
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 this.getView().getModel('local').setProperty('/orderHeader',oHeader);
@@ -239,16 +244,18 @@ this.getView().byId("Sales--DateId").setDateValue(new Date());
 debugger;
 //set the bhav details on Header
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-    "/CustomCalculations", "GET", {}, {}, this)
+                  "/CustomCalculation", "GET", {}, {}, this)
   .then(function(oData) {
     debugger;
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22/22", oData.results[0].First);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22/20", oData.results[0].Second);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", oData.results[0].First);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", oData.results[0].Second);
     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
   }).catch(function(oError) {
-    debugger;
-    // MessageToast.show("cannot fetch the data");
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
   });
 //Clear Item table
 this.orderItem(oEvent);

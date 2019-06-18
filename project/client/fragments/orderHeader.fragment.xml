@@ -54,14 +54,14 @@ valueHelpRequest="valueHelpOrder"/>
 <f:FormElement label="{i18n>gbhav2}">
 <f:fields>
 <Input type="Number" id="Gbhav2Id" placeholder="{i18n>gbhav2}" tooltip="{i18n>gbhav2}"
-        value="{local>/orderHeader/Goldbhav1}"
+        value="{local>/orderHeader/Goldbhav22/22}"
         editable="true"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>gbhav1}">
 <f:fields>
 <Input type="Number" editable="true" id="Gbhav1Id" placeholder="{i18n>gbhav1}"
-      tooltip="{i18n>gbhav1}" value="{local>/orderHeader/Goldbhav2}"/>
+      tooltip="{i18n>gbhav1}" value="{local>/orderHeader/Goldbhav22/20}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Gold}">

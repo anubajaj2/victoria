@@ -236,7 +236,20 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 this.getView().getModel('local').setProperty('/orderHeader',oHeader);
 this.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
 this.getView().byId("Sales--DateId").setDateValue(new Date());
-
+debugger;
+//set the bhav details on Header
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+    "/CustomCalculations", "GET", {}, {}, this)
+  .then(function(oData) {
+    debugger;
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22/22", oData.results[0].First);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22/20", oData.results[0].Second);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
+    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
+  }).catch(function(oError) {
+    debugger;
+    // MessageToast.show("cannot fetch the data");
+  });
 //Clear Item table
 this.orderItem(oEvent);
 this.orderReturn();

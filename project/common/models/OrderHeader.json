@@ -19,12 +19,12 @@
       "type": "string",
       "required": true
     },
-    "Goldbhav1":{
+    "Goldbhav22/22":{
       "type": "number",
       "required": false,
       "default":0.00
     },
-    "Goldbhav2":{
+    "Goldbhav22/20":{
       "type": "number",
       "required": false,
       "default":0.00

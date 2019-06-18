@@ -121,7 +121,7 @@
 					<m:Text text="{i18n>tunch}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Tunch}" editable="false"></m:Input>
+					<m:Input value="{orderItems>Tunch}" ></m:Input>
 				</template>
 			</Column>
 			<Column width="75px">

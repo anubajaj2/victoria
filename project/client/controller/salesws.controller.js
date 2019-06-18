@@ -71,9 +71,16 @@ sap.ui.define(
 				cells[12].setValue(Y + Z);
 
 			},
+			onSetting:function(oEvent){
+			  this.hideDColumns(oEvent);
+			},
 			onClear: function(oEvent) {
 				debugger;
 				var that = this;
+				var ovisibleSet = new JSONModel({
+				  set:true
+				  });
+				  this.setModel(ovisibleSet, "VisibleSet");
 				//Clear Header Details
 				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -94,8 +101,7 @@ sap.ui.define(
 						that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhav", oData.results[0].Silver1);
 						that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhavK", oData.results[0].KacchaSilver);
 					}).catch(function(oError) {
-						debugger;
-						MessageToast.show("cannot fetch the data");
+
 					});
 				//Clear Item table
 				this.orderItem(oEvent);

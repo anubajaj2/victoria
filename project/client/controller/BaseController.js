@@ -577,6 +577,7 @@ sap.ui.define([
 
 		hideDColumns:function(oEvent){
 			//on setting button click
+			debugger;
 			var oModel = this.getView().getModel('VisibleSet');
 			debugger;
 			if (oModel.getProperty('/set')===true) {

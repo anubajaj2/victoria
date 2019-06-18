@@ -232,7 +232,38 @@ debugger;
        var oPopover = that.getErrorMessage(oError);
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
+			 this.getTotals();
+
+
    },
+	 getTotals: function (oEvent, numbers) {
+		  // var myData = this.getView().getModel("local").getProperty("/EntryData");
+		 var oTable = this.byId("idTable");
+		 // var model = oTable.getModel();
+		 // var negatives = [];
+		 var nRows= oTable.getBinding("items").getLength();
+		 var nCash=0;
+		 // var Amount = oTable.mAggregations.columns[2].getHeader().mProperties.text;
+		 var data=[];
+	  for(var i=0; i<nRows; i++){
+			var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
+			var amt1=parseInt(amt);
+			if(amt1>0){
+				nCash+=nCash+amt1;
+			debugger;
+			}
+
+
+		// 	debugger;
+		// 	var col_Array = $('#idTable Column:nth-child(3)').map(function(){
+   //     return $(this).text();
+   // }).get()​;
+		// 	var oContext= oTable.getItems(i);
+	 //
+		// 	nSum+= Number(nRows[i].myData.Cash);
+		// 	// debugger;
+		}
+	 },
 
    onDelete: function(){
      var that=this;

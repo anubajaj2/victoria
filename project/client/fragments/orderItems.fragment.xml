@@ -5,6 +5,8 @@
 				<m:content>
 					<m:Title text="{i18n>orderItems}"></m:Title>
 					<m:ToolbarSpacer/>
+					<m:Button icon="sap-icon://inspect" iconFirst="true" press="onInspect"></m:Button>
+					<m:Button icon="sap-icon://user-settings" iconFirst="true" press="onSetting"></m:Button>
 					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"></m:Button>
 				</m:content>
 			</m:Toolbar>

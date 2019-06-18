@@ -205,6 +205,13 @@ debugger;
      this.getView().byId("idCustText").setValue(selCustName);
      myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
      this.getView().getModel("local").getProperty("/EntryData",myData);
+		 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+		 this.getView().byId("idTable").getBinding("items").filter(oFilter);
+
+		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
+			 console.log(result);
+		 });
+
 
    },
 
@@ -245,13 +252,14 @@ debugger;
 		 var nCash=0;
 		 // var Amount = oTable.mAggregations.columns[2].getHeader().mProperties.text;
 		 var data=[];
-	  for(var i=0; i<nRows; i++){
-			var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
-			var amt1=parseInt(amt);
-			if(amt1>0){
-				nCash+=nCash+amt1;
-			debugger;
-			}
+	  	for(var i=0; i<nRows; i++){
+				var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
+				var amt1=parseInt(amt);
+
+				if(amt1>0){
+					nCash+=nCash+amt1;
+					debugger;
+				}
 
 
 		// 	debugger;

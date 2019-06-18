@@ -30,6 +30,35 @@ app.start = function() {
 			var explorerPath = app.get('loopback-component-explorer').mountPath;
 			console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
 		}
+
+
+		app.post('/getTotalEntryCustomer', function(req, res) {
+
+			var customerId = req.body.Customer;
+			var Entry = app.models.Entry;
+			Entry.find({
+				where : {
+					"Customer": customerId
+				}
+			}).then(function(records){
+				var tSilver = 0, tGold = 0, tCash = 0;
+				for (var i = 0; i < records.length; i++) {
+					tSilver = tSilver + records[i].Silver;
+					tGold = tGold + records[i].Gold;
+					tCash = tCash + records[i].Cash;
+				}
+
+				res.send({
+					"SilverTotal": tSilver,
+					"GoldTotal": tGold,
+					"CashTotal": tCash
+				});
+			});
+
+		});
+
+
+
 	});
 };
 

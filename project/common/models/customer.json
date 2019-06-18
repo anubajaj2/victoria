@@ -54,6 +54,11 @@
       "type":"hasMany",
       "model":"CustomerOrder",
       "foreignKey": "Customer"
+    },
+    "ToCustomerEntry":{
+      "type":"hasMany",
+      "model":"Entry",
+      "foreignKey": "Customer"
     }
   },
   "acls": [

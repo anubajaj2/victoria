@@ -20,7 +20,8 @@
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
 						suggestionItems="{/Products}" showSuggestion="true"
-						suggestionItemSelected="onMaterialSelect">
+						suggestionItemSelected="onMaterialSelect"
+						editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
 						</m:suggestionItems>
@@ -41,7 +42,8 @@
 				</label>
 				<template>
 					<!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
-					<m:Input value="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
+					<m:Input value="{orderItems>Description}" editable="false"
+						liveChange="ValueChange"/>
 				</template>
 			</Column>
 			<Column>
@@ -50,16 +52,18 @@
 				</label>
 				<template>
 					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3"
-					liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					liveChange="ValueChange" Nullable="false"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column>
+			<Column visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
 				<template>
 					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}"
-					liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					liveChange="ValueChange" maxLength="3"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="70px">
@@ -82,13 +86,14 @@
 						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px">
+			<Column width="75px" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>weightD}"></m:Text>
 				</label>
 				<template>
 					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}"
-					liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					liveChange="ValueChange" maxLength="5"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="75px">
@@ -97,16 +102,18 @@
 				</label>
 				<template>
 					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}"
-					liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					liveChange="ValueChange" maxLength="5"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px">
+			<Column width="75px" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>makingD}"></m:Text>
 				</label>
 				<template>
 					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}"
-					maxLength="5" liveChange="ValueChange" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					maxLength="5" liveChange="ValueChange"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="60px" visible="{visModel>/rows1}">

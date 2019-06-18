@@ -233,20 +233,21 @@ if (data.Material !== "") {
   if (returnval === false) {
     that.getView().setBusy(true);
 //Item data save
-    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+    that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/OrderItems","POST", {}, oOrderDetailsClone, this)
     .then(function(oData) {
       debugger;
           sap.m.MessageToast.show("Data Saved Successfully");
           that.getView().setBusy(false);
 //get the id generated at after saving of data
-var orderItemBase = that.getView().getModel('local').getProperty('/orderItemBase');
-    orderItemBase.itemNo = oData.id;
-    orderItemBase.Material= oData.Material;
-    orderItemBase.OrderNo= oData.OrderNo;
-    orderItemBase.Making= oData.Making;
-    orderItemBase.Weight= oData.Weight;
-    that.getView().getModel('local').setProperty('/orderItemBase',orderItemBase);
+debugger;
+var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+for (var i = 0; i < allItems.length; i++) {
+  if (allItems[i].Material === oData.Material) {
+    allItems[i].itemNo = oData.id;
+  }
+}
+    that.getView().getModel("orderItems").setProperty("/itemData",allItems);
                    })
     .catch(function(oError) {
     that.getView().setBusy(false);
@@ -266,6 +267,10 @@ var orderItemBase = that.getView().getModel('local').getProperty('/orderItemBase
 onClear:function(oEvent){
 debugger;
 var that = this;
+var ovisibleSet = new sap.ui.model.json.JSONModel({
+  set:true
+  });
+  this.setModel(ovisibleSet, "VisibleSet");
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -300,6 +305,43 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 //Clear Item table
 this.orderItem(oEvent);
 this.orderReturn();
+},
+
+onDelete: function(oEvent) {
+  debugger;
+  var that = this;
+  sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
+  title: "Confirm",                                    // default
+  styleClass: "",                                      // default
+  initialFocus: null,                                  // default
+  textDirection: sap.ui.core.TextDirection.Inherit,     // default
+  onClose : function(sButton){
+    debugger;
+  if (sButton === MessageBox.Action.OK) {
+    var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+    if (selIdxs.length) {
+      for(var i=0; i <= selIdxs.length; i++){
+        var index = selIdxs[i];
+        for (var j = index; j <= index; j++) {
+        var id  = that.getView().getModel("orderItems").getProperty("/itemData")[j].itemNo;
+        if (id){
+        that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+                                  "DELETE", {}, {}, that);
+        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+        oTableData.splice(j, 1);
+        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
+        that.getView().byId("orderItemBases").clearSelection();
+      }
+    }//for j loop
+    }//for i loop
+  }//length check if
+    sap.m.MessageToast.show("Selected lines are deleted");
+  }
+}
+});
+},
+onSetting:function(oEvent){
+  this.hideDColumns(oEvent);
 },
 
 OnCustChange:function(){

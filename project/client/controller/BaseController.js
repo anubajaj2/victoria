@@ -575,6 +575,16 @@ sap.ui.define([
 			this.setModel(oOrderItem, "orderItems");
 		},
 
+		hideDColumns:function(oEvent){
+			//on setting button click
+			var oModel = this.getView().getModel('VisibleSet');
+			debugger;
+			if (oModel.getProperty('/set')===true) {
+				oModel.setProperty('/set',false);
+			}else {
+				oModel.setProperty('/set',true);
+			}
+		},
 		onMaterialSelect: function(oEvent) {
 			debugger;
 			var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
@@ -627,21 +637,5 @@ sap.ui.define([
 			});
 			this.setModel(oTransData, "returnModel");
 		}
-
-		// orderHeader:function(){
-		// 	var oOrderHeader = new JSONModel({
-		// 		"OrderNo": 0,
-		// 	  "Date":"",
-		// 	  "Customer": "",
-		// 	  "Goldbhav1":0,
-		// 	  "Goldbhav2":0,
-		// 	  "SilverBhav":0,
-		// 		});
-		//
-		// 	debugger;
-		// 	// var oOrderHeader2 = this.getOwnerComponent().getModel('local').getProperty('/orderHeader');
-		// 	this.setModel(oOrderHeader ,"orderLocalModel");
-		//   }
-
 	});
 });

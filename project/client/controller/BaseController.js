@@ -575,6 +575,23 @@ sap.ui.define([
 			this.setModel(oOrderItem, "orderItems");
 		},
 
+onTableSelectDailog:function(oEvent){
+	debugger;
+	if (!this._oTableDialog) {
+	this._oTableDialog = sap.ui.xmlfragment("victoria.fragments.TableSelectDialog", this);
+	this.getView().addDependent(this._oTableDialog);
+	// var title = this.getView().getModel("i18n").getProperty("customer");
+	// this._oTableDialog.setTitle(title);
+	// this.searchPopup.bindAggregation("items", {
+	// 	path: '/Customers',
+	// 	template: new sap.m.DisplayListItem({
+	//
+	// 		label: "{CustomerCode}",
+	// 		value: "{Name} - {City}"
+			}
+			this._oTableDialog.open();
+	},
+
 		hideDColumns:function(oEvent){
 			//on setting button click
 			var oModel = this.getView().getModel('VisibleSet');

@@ -43,11 +43,19 @@
 						<core:Item text="{ProductCode}" key="{Id}"/>
 					</suggestionItems>
 				</Input> -->
-				<ComboBox value="{productModel>/ProductCode}" change="productCodeCheck"
+				<!-- <ComboBox value="{/Products/ProductCode}" change="productCodeCheck"
 	items="{productModelInfo>/results}" valueState="{dataModel>/ProductCodeState}" valueStateText="Product Code cannot be blank"
 											enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
-</ComboBox>
+</ComboBox> -->
+<Input id="idProductCode" submit="productCodeCheck" suggest="ValueChangeMaterial"
+	suggestionItems="{/Products}" showSuggestion="true"
+		enabled="{viewModel>/codeEnabled}"
+	suggestionItemSelected="productCodeCheck">
+	<suggestionItems>
+		<core:ListItem text="{ProductCode}"/>
+	</suggestionItems>
+</Input>
 
 <Label text="Product Name"/>
 <Input

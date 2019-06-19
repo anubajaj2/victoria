@@ -188,33 +188,59 @@ this.clearProduct();
 
 			},
 
-			productCodeCheck : function(){
+			ValueChangeMaterial: function(oEvent){
+				var oSource = oEvent.getSource();
+				var oFilter = new sap.ui.model.Filter("ProductCode",
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+				oSource.getBinding("suggestionItems").filter(oFilter);
+			},
+			productCodeCheck : function(oEvent){
+				// var productModel = this.getView().getModel("Products");
+				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var productModel = this.getView().getModel("productModel");
- 			 var productCode = productModel.getData().ProductCode;
- 			 var productJson = this.getView().getModel("productModelInfo").getData().results;
+				var productCode = selectedMatData.ProductCode;
+ 			 // var productCode = productModel.getData().ProductCode;
+ 			 // var productJson = this.getView().getModel("productModelInfo").getData().results;
 			 var viewModel = this.getView().getModel("viewModel");
- 			 function getProductCode(productCode) {
- 						return productJson.filter(
- 							function (data) {
- 								return data.ProductCode === productCode;
- 							}
- 						);
- 					}
+			 	var oProdCode = this.getView().byId("idProductCode").getValue();
 
- 					var found = getProductCode(productCode);
+ 			 // function getProductCode(productCode) {
+ 				// 		// return productJson.filter(
+				// 		return productJson.filter(
+ 				// 			function (data) {
+ 				// 				return data.ProductCode === productCode;
+ 				// 			}
+ 				// 		);
+ 				// 	}
+					 var found =  productCode;
+ 					// var found = getProductCode(productCode);
  					if(found.length > 0){
-						productModel.getData().Category = found[0].Category;
-						productModel.getData().Type = found[0].Type;
-						productModel.getData().Karat = found[0].Karat;
-						productModel.getData().CustomerTunch = found[0].CustomerTunch;
-						productModel.getData().Making = found[0].Making;
-						productModel.getData().ProductName = found[0].ProductName;
-						productModel.getData().PricePerUnit = found[0].PricePerUnit;
-						productModel.getData().Wastage = found[0].Wastage;
-						productModel.getData().Tunch = found[0].Tunch;
-						productModel.getData().AlertQuantity = found[0].AlertQuantity;
-						productModel.getData().HindiName = found[0].HindiName;
-						if (found[0].Type === "Gold") {
+						productModel.setProperty("/ProductCode", productCode);
+						// productModel.setProperty("/id", selectedMatData.id);
+						// productModel.setProperty("/ProductCode", selectedMatData.ProductCode);
+						productModel.setProperty("/ProductName", selectedMatData.ProductName);
+						productModel.setProperty("/Category", selectedMatData.Category);
+						productModel.setProperty("/Type", selectedMatData.Type);
+						productModel.setProperty("/Karat", selectedMatData.Karat);
+						productModel.setProperty("/Making", selectedMatData.Making);
+						productModel.setProperty("/CustomerTunch", selectedMatData.CustomerTunch);
+						productModel.setProperty("/PricePerUnit", selectedMatData.PricePerUnit);
+						productModel.setProperty("/Wastage", selectedMatData.Wastage);
+						productModel.setProperty("/Tunch", selectedMatData.Tunch);
+						productModel.setProperty("/AlertQuantity", selectedMatData.AlertQuantity);
+						productModel.setProperty("/HindiName", selectedMatData.HindiName);
+						// productModel.getData().Category = found[0].Category;
+						// productModel.getData().Type = found[0].Type;
+						// productModel.getData().Karat = found[0].Karat;
+						// productModel.getData().CustomerTunch = found[0].CustomerTunch;
+						// productModel.getData().Making = found[0].Making;
+						// productModel.getData().ProductName = found[0].ProductName;
+						// productModel.getData().PricePerUnit = found[0].PricePerUnit;
+						// productModel.getData().Wastage = found[0].Wastage;
+						// productModel.getData().Tunch = found[0].Tunch;
+						// productModel.getData().AlertQuantity = found[0].AlertQuantity;
+						// productModel.getData().HindiName = found[0].HindiName;
+						if (selectedMatData.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
 						}
 						viewModel.setProperty("/buttonText", "Update");
@@ -270,8 +296,10 @@ this.clearProduct();
 				productModel.getData().Tunch = 0;
 				productModel.getData().AlertQuantity = 0;
 				productModel.getData().HindiName = "";
-				var prodId = this.getView().byId("idType");
+				var prodId = this.getView().byId("idProductCode");
 				prodId.setSelectedKey("");
+				var prodType = this.getView().byId("idType");
+				prodType.setSelectedKey("");
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
@@ -281,13 +309,23 @@ this.clearProduct();
 
 			},
 
-			SaveProduct : function(){
+			SaveProduct : function(oEvent){
 				var that = this;
+				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				// var oView = this.getView().getViewName();
+				var productModel = that.getView().getModel("productModel");
+				var productCode = productModel.getData().ProductCode;
+				// var prodId = productModel.id;
+				// if(productCode === "") {
+				// 	var productCode =  this.getView().byId("idProductCode").getValue();
+				// 	productModel.setProperty("/ProductCode", productCode);
+				// }
 				 var productModel = this.getView().getModel("productModel");
 				 var productCode = productModel.getData().ProductCode;
 				 var productJson = this.getView().getModel("productModelInfo").getData().results;
 
-				 if(productModel.getData().ProductCode === "" ){
+				 // if(productModel.getData().ProductCode === "" ){
+				 if(productCode === ""){
 					 this.additionalInfoValidation();
 					MessageToast.show("Please fill the required fields");
 					return;
@@ -300,11 +338,14 @@ this.clearProduct();
 							);
 						}
 
+					// 	// var found = productModel.id;
 						var found = getProductCode(productCode);
+					// var found = selectedMatData;
+
 						if(found.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Products('"+found[0].id+"')", "PUT", {},productModel.getData() , this)
+							 "/Products('"+found[0].id+"')", "PUT", {}, productModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
 								// that._onRouteMatched();

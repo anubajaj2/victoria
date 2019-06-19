@@ -38,6 +38,10 @@ sap.ui.define([
       this.getMaterialPopup();
     },
 
+    onValueHelpKarigar: function(oEvent){
+      this.getKarigarPopup(oEvent);
+    },
+
     onConfirm: function(oEvent){
       //whatever customer id selected push that in local model
         //var myData = this.getView().getModel("local").getProperty("/customerOrder");
@@ -96,7 +100,6 @@ sap.ui.define([
 
     },
     onSearch: function(oEvent){
-      debugger;
         var sValue = oEvent.getParameter("query");
         if(!sValue){
         sValue = oEvent.getParameter("value");
@@ -276,6 +279,7 @@ sap.ui.define([
       //this.byId("idCoDelDate").setValue("");
       // this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
       // this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
+
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
       var dd = date.getDate();

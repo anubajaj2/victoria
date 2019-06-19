@@ -116,7 +116,7 @@ sap.ui.define([
 			}
 
 		},
-		fieldId: "",
+		//fieldId: "",
 		getCustomerPopup: function(oEvent) {
 			if (!this.searchPopup) {
 				this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
@@ -126,21 +126,39 @@ sap.ui.define([
 				this.searchPopup.bindAggregation("items", {
 					path: '/Customers',
 					template: new sap.m.DisplayListItem({
-
 						label: "{CustomerCode}",
 						value: "{Name} - {City}"
 					})
 				});
 			}
-			this.fieldId = oEvent.getSource().getId();
-			if (this.fieldId.split("--")[2] === "idCoKarigar") {
-				var title = this.getView().getModel("i18n").getProperty("karigarSearch");
-				this.searchPopup.setTitle(title);
-			} else {
-				var title = this.getView().getModel("i18n").getProperty("customer");
-				this.searchPopup.setTitle(title);
-			}
+			// this.fieldId = oEvent.getSource().getId();
+			// if (this.fieldId.split("--")[2] === "idCoKarigar") {
+			// 	var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+			// 	this.searchPopup.setTitle(title);
+			// } else {
+			// 	var title = this.getView().getModel("i18n").getProperty("customer");
+			// 	this.searchPopup.setTitle(title);
+			// }
 			this.searchPopup.open();
+		},
+
+		getKarigarPopup: function(oEvent) {
+			if (!this.karigarsearchPopup) {
+				this.karigarsearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.karigarsearchPopup);
+				var title = this.getView().getModel("i18n").getProperty("karigarSearch");
+				this.karigarsearchPopup.setTitle(title);
+				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ , "Karigar");
+				this.karigarsearchPopup.bindAggregation("items", {
+					path: '/Customers',
+					filters: [oFilter1],
+					template: new sap.m.DisplayListItem({
+						label: "{CustomerCode}",
+						value: "{Name} - {City}"
+					})
+				});
+			}
+			this.karigarsearchPopup.open();
 		},
 
 		orderPopup: function(oEvent) {

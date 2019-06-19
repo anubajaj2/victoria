@@ -28,7 +28,7 @@
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">
 <f:fields>
-<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" showValueHelp="true" valueHelpRequest="onValueHelp"/>
+<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
 <Input id="idCoKarigarName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>

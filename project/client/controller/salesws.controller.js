@@ -48,39 +48,60 @@ sap.ui.define(
 			},
 			ValueChange: function(oEvent) {
 				debugger;
-				var that = this;
-				var orderHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				this.WSCalculation(oEvent);
+			},
+			WSCalculation: function(oEvent) {
+				debugger;
+				// var orderHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
 				var cells = oCurrentRow.getCells();
-				var X = cells[4].getValue() - cells[5].getValue();
+				// Initializing the variables so we dont want to display NaN
+				var X = 0;
+				var Y = 0;
+				var Z = 0;
+				// X=Weight - WeightD
+				X = cells[4].getValue() - cells[5].getValue();
+				// Y = X * Making (if per gm) OR Qty * Making (if per pc)
 				if (category.Category === 'gm') {
-					var Y = X * cells[6].getValue();
+					Y = X * cells[6].getValue();
 				} else if (category.Category === 'pcs') {
 					var Y = cells[2].getValue() * cells[6].getValue();
 				};
+				// Z = QtyD * MakingD (if value there)
 				if (cells[3].getValue() &&
 					cells[7].getValue()) {
-					var Z = cells[3].getValue() * cells[7].getValue();
+					Z = cells[3].getValue() * cells[7].getValue();
 				};
+				// SubTotalSilver / SubTotalGold = X * Tunch / 100
 				if (category.Type === "Silver") {
 					cells[10].setValue(X * cells[8].getValue() / 100);
 				} else if (category.Type === "Gold") {
 					cells[11].setValue(X * cells[8].getValue() / 100);
 				};
+				// SubTotal = Y + Z
 				cells[12].setValue(Y + Z);
-
 			},
-			onSetting:function(oEvent){
-			  this.hideDColumns(oEvent);
+			onSetting: function(oEvent) {
+				this.hideDColumns(oEvent);
 			},
+			// onTableExpand: function(oEvent) {
+			// 	var splitApp = sap.ui.getCore().byId("__xmlview0--idSplitApp");
+			// 	var masterVisibility = splitApp.getMode();
+			// 	if (masterVisibility == "ShowHideMode") {
+			// 		debugger;
+			// 		splitApp.setMode(sap.m.SplitAppMode.HideMode);
+			// 	} else {
+			// 		splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
+			// 	}
+			// },
 			onClear: function(oEvent) {
 				debugger;
 				var that = this;
 				var ovisibleSet = new JSONModel({
-				  set:true
-				  });
-				  this.setModel(ovisibleSet, "VisibleSet");
+					set: true
+				});
+				this.setModel(ovisibleSet, "VisibleSet");
 				//Clear Header Details
 				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -122,16 +143,16 @@ sap.ui.define(
 								for (var i = 0; i < selIdxs.length; i++) {
 									var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
 									if (id) {
-									var myUrl = "/WSOrderItems('" + id + "')"
-									that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-										"DELETE", {}, {}, that);
-									var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-									oTableData.splice(i, 1);
-									that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-									that.getView().byId("WSItemFragment--orderItemBases").clearSelection();
-								};
+										var myUrl = "/WSOrderItems('" + id + "')"
+										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+											"DELETE", {}, {}, that);
+										var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+										oTableData.splice(i, 1);
+										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+										that.getView().byId("WSItemFragment--orderItemBases").clearSelection();
+									};
 								}
-															sap.m.MessageToast.show("Selected lines are deleted");
+								sap.m.MessageToast.show("Selected lines are deleted");
 							}
 						}
 					}

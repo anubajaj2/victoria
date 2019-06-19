@@ -616,6 +616,16 @@ sap.ui.define([
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}
 		},
+		onTableExpand: function(oEvent) {
+			var splitApp = sap.ui.getCore().byId("__xmlview0--idSplitApp");
+			var masterVisibility = splitApp.getMode();
+			if (masterVisibility == "ShowHideMode") {
+				debugger;
+				splitApp.setMode(sap.m.SplitAppMode.HideMode);
+			} else {
+				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
+			}
+		},
 		orderReturn: function() {
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();

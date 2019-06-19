@@ -118,7 +118,7 @@ sap.ui.define(
     var oCurrentRow = oEvent.getSource().getParent();
     var cells = oCurrentRow.getCells();
     // cells[3].setText(cells[1].getValue() * cells[2].getValue() / 100);
-    paggaNo = cells[0].getValue;
+    var paggaNo = cells[0].getValue;
     if(paggaNo){
       fine = (cells[1].getValue() * cells[2].getValue() / 100);
       if(fine != 0){

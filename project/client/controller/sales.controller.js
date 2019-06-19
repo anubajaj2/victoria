@@ -369,12 +369,12 @@ debugger;
   var gold22pergm = orderHeader.Goldbhav22 / 10;
   var gold20pergm = orderHeader.Goldbhav20 / 10;
   var silverpergm = orderHeader.SilverBhav / 1000;
+  var oLocale = new sap.ui.core.Locale("en-US");
+  var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 
 if ((category.Type === 'Gold'   && category.Category === "gm") ||
     (category.Type === 'Silver' && category.Category === "gm"))
 {
-var oLocale = new sap.ui.core.Locale("en-US");
-var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 //get the weight
 if (cells[4].getValue() !== "") {
 var weight  = oFloatFormat.parse(cells[4].getValue());
@@ -459,34 +459,38 @@ if (category.Type === 'GS') {
 //german silver//ignore Weight//Quantity Check
 if (cells[2].getValue() !== "" ||
     cells[2].getValue() !== 0) {
-  var quantity = cells[2].getValue();
+var quantity  = oFloatFormat.parse(cells[2].getValue());
 }else {
-  cells[2].setValue(0);
+var quantity = 0;
+cells[2].setValue(0);
 }//cell[2] / quantity check
 // making charges
 if (cells[6].getValue() !== 0 || cells[6].getValue() !=="")
 {
-var making =  cells[6].getValue() ;
+var making  = oFloatFormat.parse(cells[6].getValue());
 }else {
-var making =  cells[6].setValue(0);
+var making = 0;
 }
 //charges of german silver
 var charges = quantity * making ;
 
 if (cells[3].getValue() !== "" ||
     cells[3].getValue() !== 0) {
-var quantityD = cells[3].getValue();
+var quantityD  = oFloatFormat.parse(cells[3].getValue());
 }
 else {
-var quantityD = cells[3].setValue(0);
+cells[3].setValue(0);
+var quantityD = 0;
 }
 
 // makingD charges
 if (cells[7].getValue() !== 0 || cells[7].getValue() !=="")
 {
-var makingD =  cells[7].getValue();
+// var makingD =  cells[7].getValue();
+var makingD  = oFloatFormat.parse(cells[7].getValue());
 }else {
-var makingD =  cells[7].setValue(0);
+var makingD = 0;
+cells[7].setValue(0);
 }
 var chargesD = quantityD * makingD;
 //final charges on GS
@@ -495,7 +499,6 @@ cells[9].setValue( charges + chargesD);
 }else {
   cells[9].setValue(0);
 }
-
 }
 
   this.byId("IdMaking");
@@ -504,7 +507,10 @@ cells[9].setValue( charges + chargesD);
   this.byId("Idweight");
   this.byId("IdQty");
   this.byId("IdQtyD");
-}//calculation function end
+},//calculation function end
+onTableExpand:function(oEvent){
+debugger;
+}
 
 });
 });

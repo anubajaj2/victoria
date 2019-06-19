@@ -4,9 +4,9 @@
   <f:Form id="idcust1" editable="true">
     <f:layout>
       <f:ResponsiveGridLayout
-        labelSpanXL="2"
-         labelSpanL="2"
-         labelSpanM="2"
+        labelSpanXL="3"
+         labelSpanL="3"
+         labelSpanM="3"
          labelSpanS="12"
          adjustLabelSpan="false"
          emptySpanXL="0"
@@ -51,16 +51,21 @@
       </f:FormContainer>
       <f:FormContainer>
         <f:formElements>
-          <f:FormElement>
-            <f:fields>
-              <VBox>
-
-              <Text text="Total Cash:" design="bold" id="idTC"/>
-              <Text text="Total Gold:" id="idTG"/>
-              <Text text="Total Silver:" id="idTS"/>
-            </VBox>
-            </f:fields>
-          </f:FormElement>
+          <f:FormElement label="{i18n>tCash}">
+    				<f:fields>
+    				<Text id="idTC"/>
+    				</f:fields>
+    			</f:FormElement>
+    		<f:FormElement label="{i18n>tGold}">
+    			<f:fields>
+    			<Text id="idG"/>
+    			</f:fields>
+    		</f:FormElement>
+    		<f:FormElement label="{i18n>tSilver}">
+    			<f:fields>
+    			<Text id="idS"/>
+    			</f:fields>
+    		</f:FormElement>
         </f:formElements>
       </f:FormContainer>
         </f:formContainers>

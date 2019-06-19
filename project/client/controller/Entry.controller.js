@@ -197,7 +197,7 @@ debugger;
 
     onConfirm: function (oEvent) {
       debugger;
-
+    var that=this;
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      var selCust = oEvent.getParameter("selectedItem").getLabel();
      var selCustName = oEvent.getParameter("selectedItem").getValue();
@@ -210,6 +210,15 @@ debugger;
 
 		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			 console.log(result);
+			 var TC =that.getView().byId("idTC").setText(result.CashTotal);
+			 debugger;
+			 if(TC>0){
+				  TC.getText().fontcolor("Black");
+			 }else {
+			 	 TC.getText().fontcolor('red');
+			 }
+			 that.getView().byId("idG").setText(result.GoldTotal);
+			 that.getView().byId("idS").setText(result.SilverTotal);
 		 });
 
 
@@ -239,6 +248,7 @@ debugger;
        var oPopover = that.getErrorMessage(oError);
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
+
 			 this.getTotals();
 
 

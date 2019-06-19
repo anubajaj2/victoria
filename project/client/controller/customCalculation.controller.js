@@ -60,8 +60,12 @@ _onRouteMatched : function(){
 		.then(function(oData) {
 			var oModelCalculation = new JSONModel();
 	oModelCalculation.setData(oData);
+  if(oData.results.length > 0){
  var myData = that.getView().getModel("local").setProperty("/CustomCalculation", oData.results[0], oModelCalculation);
-
+}
+else{
+  var myData = that.getView().getModel("local").getProperty("/CustomCalculation");
+}
 		}).catch(function(oError) {
 				MessageToast.show("cannot fetch the data");
 		});
@@ -93,28 +97,21 @@ this.ClearCalculation();
       // }
  if (oreturn === true){
     that.getView().setBusy(true);
-        var myData = this.getView().getModel("local").getProperty("/CustomCalculation");
-     var found = myData.id;
-        // else {
-          // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          //  "/CustomCalculations", "POST", {}, myData , this)
-          if(found.length > 0){
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-           "/CustomCalculations('"+found+"')", "PUT", {},myData , this)
-            .then(function(oData) {
-              that.getView().setBusy(false);
-            MessageToast.show("Data saved successfully");
-            that._onRouteMatched();
-            that.byId("idSaveIcon").setColor('green');
-            // that._onRouteMatched();
-            }).catch(function(oError) {
-              that.getView().setBusy(false);
-              var oPopover = that.getErrorMessage(oError);
-            });
-          }
-        else {
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-           "/CustomCalculations", "POST", {}, myData , this)
+      var myData = that.getView().getModel("local").getProperty("/CustomCalculation");
+      var id = myData.id;
+       // var calculationJson = that.getView().getModel("myData").results;
+       // function getCustomCode(id) {
+       //      return calculationJson.filter(
+       //        function (data) {
+       //          return data.id === id;
+       //        }
+       //      );
+       //    }
+       //
+       //      	var found = getCustomCode(id);
+        if(id){
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+         "/CustomCalculations('"+myData.id+"')", "PUT", {},myData , this)
           .then(function(oData) {
             that.getView().setBusy(false);
           MessageToast.show("Data saved successfully");
@@ -126,7 +123,20 @@ this.ClearCalculation();
             var oPopover = that.getErrorMessage(oError);
           });
         }
-          // }
+      else {
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+         "/CustomCalculations", "POST", {}, myData , this)
+        .then(function(oData) {
+          that.getView().setBusy(false);
+        MessageToast.show("Data saved successfully");
+        that._onRouteMatched();
+        that.byId("idSaveIcon").setColor('green');
+        // that._onRouteMatched();
+        }).catch(function(oError) {
+          that.getView().setBusy(false);
+          var oPopover = that.getErrorMessage(oError);
+        });
+      }
             ;
 }
 // else {

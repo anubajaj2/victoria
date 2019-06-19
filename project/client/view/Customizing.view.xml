@@ -7,7 +7,7 @@
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
-				<f:Form id="idCalculation" editable="true" updateFinished="onUpdateFinished"
+				<f:Form id="idCalculation" editable="true" validateFieldGroup="onValidateFieldGroup"
 					title="Retail Calculation Customizing">
 					<f:toolbar>
 						<Toolbar id="TB1">
@@ -42,7 +42,7 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input id="idFirst" liveChange="onliveChange" submit="onSubmit" value="{local>/CustomCalculation/First}">
+							<Input fieldGroupIds="CustomizingInputs" id="idFirst" liveChange="onliveChange" submit="onSubmit" value="{local>/CustomCalculation/First}">
 							</Input>
 						</f:fields>
 					</f:FormElement>

@@ -131,6 +131,10 @@
   "Photo":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "KacchiBackup":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

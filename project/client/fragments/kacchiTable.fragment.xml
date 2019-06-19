@@ -4,13 +4,11 @@
   xmlns:core="sap.ui.core">
 
   <Table id="idCustTable"
-        rows="{kachhiLocalModel>/kachhiData}"
         selectionMode="MultiToggle"
 				visibleRowCount="20"
         threshold="20"
-        mode="MultiSelect"
-        validateFieldGroup="onValidateFieldGroup"
-        updateFinished = "onUpdateFinished">
+        rows="{kachhiLocalModel>/kachhiData}"
+        class="sapUiContentPadding">
         <extension>
     			<m:Toolbar>
     				<m:Title id="idTitle" text="Kachhi Entries"></m:Title>
@@ -23,10 +21,10 @@
     		</extension>
   <columns>
     <Column hAlign="Center">
-      <m:Label design="Bold" vAlign="Middle" text="{i18n>PaggaNo}" />
+      <m:Label design="Bold" text="{i18n>PaggaNo}" />
       <template>
-        <m:Input fieldGroupIds="kachhiInputs" valueLiveUpdate="true" liveChange="onliveChange"
-            required="true" type="Number" id="idPagga"  value="{kachhiLocalModel>PaggaNo}"
+        <m:Input id="idPagga" maxLength="6" value="{kachhiLocalModel>PaggaNo}"
+          textAlign="Center"  valueLiveUpdate="true" liveChange="onliveChange"
           enabled="{kachhiLocalModel>/status}"
           editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
@@ -34,8 +32,8 @@
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>weight}" />
       <template>
-        <m:Input id="idWeight" liveChange="onliveChange" valueLiveUpdate="true" fieldGroupIds="kachhiInputs"
-          required="true" type="Number" value="{kachhiLocalModel>Weight}"
+        <m:Input textAlign="Center" id="idWeight" liveChange="onliveChange" valueLiveUpdate="true"
+          required="true" value="{kachhiLocalModel>Weight}"
           enabled="{kachhiLocalModel>/status}"
           editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
@@ -43,16 +41,15 @@
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>tunch}" />
       <template>
-        <m:Input id="idTunch" liveChange="onliveChange" valueLiveUpdate="true" fieldGroupIds="kachhiInputs"
-          required="true" type="Number" value="{kachhiLocalModel>Tunch}"
-          enabled="{kachhiLocalModel>/status}"
+        <m:Input id="idTunch" value="{kachhiLocalModel>Tunch}"
+          textAlign="Center" liveChange="onliveChange" valueLiveUpdate="true"
           editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
       </template>
     </Column>
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>fine}" />
       <template>
-        <m:Input id="idFine" type="Currency" value="{kachhiLocalModel>Fine}" enabled="false"/>
+        <m:Input id="idFine" textAlign="Center" type="Number" editable="false" valueLiveUpdate="true" value="{kachhiLocalModel>Fine}"/>
       </template>
     </Column>
   </columns>

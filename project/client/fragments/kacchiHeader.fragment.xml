@@ -18,13 +18,7 @@ xmlns:core ="sap.ui.core">
 						class="size1"
 						color="green"
 						size="30px" alt="Save Status" tooltip="Save Status">
-			</core:Icon>
-			<core:Icon
-						src="sap-icon://status-completed"
-						class="size1"
-						color="blue"
-						size="30px" alt="Save Status" tooltip="Transfer Status">
-			</core:Icon>
+			</core:Icon>			
 	</Toolbar>
 </f:toolbar>
 <!-- class="printAreaBox" -->

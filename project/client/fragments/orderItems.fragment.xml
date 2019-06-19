@@ -51,8 +51,8 @@
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3"
-					liveChange="ValueChange" Nullable="false"
+					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}"
+						maxLength="3" liveChange="ValueChange" Nullable="false"
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>

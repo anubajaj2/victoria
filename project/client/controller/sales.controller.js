@@ -364,91 +364,138 @@ debugger;
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
+  var priceF = 0.00;
+//per gm
+  var gold22pergm = orderHeader.Goldbhav22 / 10;
+  var gold20pergm = orderHeader.Goldbhav20 / 10;
+  var silverpergm = orderHeader.SilverBhav / 1000;
 
-if (category.Type === 'Gold' || category.Type === 'Silver')
+if ((category.Type === 'Gold'   && category.Category === "gm") ||
+    (category.Type === 'Silver' && category.Category === "gm"))
 {
-
-//Quantity Check
-if (cells[3].getValue() !== "" ||
-    cells[3].getValue() !== 0) {
-// X = Quantity - QuantityD
-var x = cells[2].getValue() - cells[3].getValue();
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+//get the weight
+if (cells[4].getValue() !== "") {
+var weight  = oFloatFormat.parse(cells[4].getValue());
 }else {
-var x = cells[2].getValue();
-cells[3].setValue(0);
-}//cell[2] / quantity check
+  var weight = 0;
+}
+if (cells[5].getValue() !== "") {
+  var weightD = oFloatFormat.parse(cells[5].getValue());
+}else {
+  var weightD = 0;
+}
 
-// check D value i.e Diamond values
-  if (cells[3].getValue() !== 0 || cells[3].getValue() !=="" &&
-     cells[7].getValue() !== 0 || cells[7].getValue() !=="") {
-  var z = cells[3].getValue() * cells[7].getValue();
-  }
+//get the final weight
+if (weightD !== "" ||
+      weightD !== 0) {
+var weightF = weight - weightD;
+}else {
+var weightF = weight;
+}
 
-//get if its type is silver or gold
-if (category.Type === 'Gold') {
- // get the bhav details
- if (category.Karat === "22/22") {
-   var innerSubTotal = orderHeader.Goldbhav1 * x;
-  }else
- if (category.Karat === '22/20') {
- var innerSubTotal = orderHeader.Goldbhav2 * x;
-   }
- }else
-if (category.Type === 'Silver') {
-  var innerSubTotal = orderHeader.SilverBhav * x;
-}//type Silver check end
+if (category.Type === 'Gold' ) {
+//get the gold price
+if (category.Karat === '22/22') {
+priceF = weightF * gold22pergm;
+}else
+if (category.Karat === '22/20') {
+priceF = weightF * gold20pergm;
+}
+}else if (category.Type === 'Silver') {
+  priceF = weight * silverpergm;
+}
 
-//calculation on pcs
-if (category.Category === 'pcs') {
-  //Making charges
-  if (cells[6].getValue() !== 0 || cells[6].getValue() !=="" &&
-      cells[2].getValue() !== 0 || cells[2].getValue() !=="" )
-    {
-  var y = cells[2].getValue() * cells[6].getValue();
-  }else {
-    cells[6].setValue(0);
-    cells[2].setValue(0);
-  }
-  }else //calculation on pcs
-if (category.Category === 'gm') {
+//get the making charges
+if (cells[6].getValue() !== "") {
+var making = oFloatFormat.parse(cells[6].getValue());
+}else {
+cells[6].setValue(0);
+var making = 0;
+}
+
+//making D
+if (cells[7].getValue() !== "") {
+var makingD = oFloatFormat.parse(cells[7].getValue());
+}else {
+  cells[7].setValue(0);
+  var makingD = 0;
+}
+
 //Making charges
-if (cells[6].getValue() !== 0 || cells[6].getValue() !=="")
-  {
-var y = x * cells[6].getValue();
+var makingCharges  = making * weightF;
+
+// quantity of stone / quantityD
+if (cells[3].getValue() !== "") {
+var quantityD = oFloatFormat.parse(cells[3].getValue());
 }else {
-  cells[6].setValue(0);
+  var quantityD = 0;
 }
-}//category.category endif
-if (!innerSubTotal) {
-  innerSubTotal = 0;
+
+if (quantityD !== "" ||
+    quantityD !== 0) {
+  var quantityOfStone = quantityD;
+}else {
+  cells[3].setValue(0);
+  var quantityOfStone = 0;
 }
-if (!y) {
-  y=0;
-}
-if (!z) {
-  z=0;
-}
-cells[9].setValue(innerSubTotal + y + z);
+
+var stonevalue = quantityOfStone * makingD;
+
+if (weight === 0) {
+  cells[9].setValue(0);
+}else {
+if (priceF || makingCharges || stonevalue) {
+  // gold price per gram
+  cells[9].setValue(priceF + makingCharges + stonevalue);
+}else {
+  cells[9].setValue(0);
+}}
+
 }else
 if (category.Type === 'GS') {
+  debugger;
 //german silver//ignore Weight//Quantity Check
-if (cells[3].getValue() !== "" ||
-    cells[3].getValue() !== 0) {
-// X = Quantity - QuantityD
-  var x = cells[2].getValue() - cells[3].getValue();
+if (cells[2].getValue() !== "" ||
+    cells[2].getValue() !== 0) {
+  var quantity = cells[2].getValue();
 }else {
-  var x = cells[2].getValue();
-  cells[3].setValue(0);
+  cells[2].setValue(0);
 }//cell[2] / quantity check
 // making charges
+if (cells[6].getValue() !== 0 || cells[6].getValue() !=="")
+{
+var making =  cells[6].getValue() ;
+}else {
+var making =  cells[6].setValue(0);
+}
+//charges of german silver
+var charges = quantity * making ;
+
+if (cells[3].getValue() !== "" ||
+    cells[3].getValue() !== 0) {
+var quantityD = cells[3].getValue();
+}
+else {
+var quantityD = cells[3].setValue(0);
+}
+
+// makingD charges
 if (cells[7].getValue() !== 0 || cells[7].getValue() !=="")
 {
-var y =  cells[6].getValue() - cells[7].getValue();
+var makingD =  cells[7].getValue();
 }else {
-var y =  cells[6].getValue();
-cells[7].setValue(0);
+var makingD =  cells[7].setValue(0);
 }
-cells[9].setValue(x * y);
+var chargesD = quantityD * makingD;
+//final charges on GS
+if (charges) {
+cells[9].setValue( charges + chargesD);
+}else {
+  cells[9].setValue(0);
+}
+
 }
 
   this.byId("IdMaking");

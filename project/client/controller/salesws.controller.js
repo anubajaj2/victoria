@@ -130,13 +130,17 @@ sap.ui.define(
 
 							// SubTotalSilver / SubTotalGold = X * Tunch / 100
 							if (weight === 0) {
-								cells[10].setValue(0);
-								cells[11].setValue(0);
+								// cells[10].setValue(0);
+								// cells[11].setValue(0);
+								cells[10].setText(0);
+								cells[11].setText(0);
 							} else {
 								if (category.Type === "Silver") {
-									cells[10].setValue(weightF * tunch / 100);
+									// cells[10].setValue(weightF * tunch / 100);
+								cells[10].setText(weightF * tunch / 100);
 								} else if (category.Type === "Gold") {
-									cells[11].setValue(weightF * tunch / 100);
+									// cells[11].setValue(weightF * tunch / 100);
+									cells[11].setText(weightF * tunch / 100);
 								};
 							};
 

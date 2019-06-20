@@ -44,7 +44,7 @@ sap.ui.define([
 
     onConfirm: function(oEvent){
       //whatever customer id selected push that in local model
-        //var myData = this.getView().getModel("local").getProperty("/customerOrder");
+        var myData = this.getView().getModel("local").getProperty("/customerOrder");
         if(oEvent.getSource().getTitle() === "Material Search"){
           var selMat = oEvent.getParameter("selectedItem").getLabel();
           var selMatName = oEvent.getParameter("selectedItem").getValue();
@@ -76,7 +76,10 @@ sap.ui.define([
                 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
           this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
                                                 selCust);
-          //myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+                                                debugger;
+          myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+          this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
         }
 
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
@@ -226,22 +229,17 @@ sap.ui.define([
       that.getView().setBusy(true);
       debugger;
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
-      // myData.Date =  this.getView().byId("idCoDate").getValue();
-      // myData.DelDate = this.getView().byId("idCoDelDate").getValue();
-      // var dateObj = this.getView().byId("idCoDate").getDateValue();
-      // var delDateObj = this.getView().byId("idCoDelDate").getDateValue();
       myData.Date = this.getView().byId("idCoDate").getDateValue();
       myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-       this.getView().getModel("local").setProperty("/customerOrder/Date",   myData.Date);
+      this.getView().getModel("local").setProperty("/customerOrder/Date",   myData.Date);
        this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
-      // this.getView().getModel("local").setProperty("/customerOrder/Date", dateObj);
-      // this.getView().getModel("local").setProperty("/customerOrder/DelDate", delDateObj);
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
         debugger;
         that.getView().setBusy(false);
         sap.m.MessageToast.show("Data Saved Successfully");
+        that.onClear();
 
       }).catch(function(oError) {
         that.getView().setBusy(false);
@@ -279,14 +277,14 @@ sap.ui.define([
       //this.byId("idCoDelDate").setValue("");
       // this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
       // this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
-
+      debugger;
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
       var dd = date.getDate();
       var mm = date.getMonth() + 1;
       var yyyy = date.getFullYear();
       this.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
-      this.byId("idCoCustomer").setValue("");
+      //this.byId("idCoCustomer").setValue("");
       this.byId("idCoCustomerText").setValue("");
       this.byId("idCoMaterial").setValue("");
       this.byId("idCoMatName").setValue("");
@@ -297,9 +295,16 @@ sap.ui.define([
       this.byId("idCoCash").setValue("0");
       this.byId("idCoGold").setValue("0");
       this.byId("idCoSilver").setValue("0");
-      this.byId("idCoPicture").setValue("");
+      //this.byId("idCoPicture").setValue("");
       this.byId("idCoKarigar").setValue("");
       this.byId("idCoKarigarName").setValue("");
+      this.getView().getModel("local").setProperty("/coTemp/MaterialCode", "");
+      this.getView().getModel("local").setProperty("/coTemp/CustomerCode", "");
+      this.getView().getModel("local").setProperty("/coTemp/KarigarCode", "");
+      this.getView().getModel("local").setProperty("/customerOrder/Karigar","");
+      this.getView().getModel("local").setProperty("/customerOrder/Material","");
+      this.getView().getModel("local").setProperty("/customerOrder/Customer","");
+      this.getView().byId("idCoTable").getBinding("items").filter([]);
     },
 
     onUpdateFinished: function(oEvent){
@@ -310,15 +315,17 @@ sap.ui.define([
       var id;
       var cell;
       debugger;
+
+      this.getView().byId("idCoTotal").setText("(" + noOfItems + ")");
       for (var i = 0; i < noOfItems; i++) {
         //Read the GUID from the Screen for customer, material and karigar
         var customerId = oTable.getItems()[i].getCells()[3].getText();
         var customerData = this.allMasterData.customers[customerId];
         oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
-        var materialId = oTable.getItems()[i].getCells()[5].getText();
-        var materialData = this.allMasterData.materials[materialId];
-        oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+        // var materialId = oTable.getItems()[i].getCells()[5].getText();
+        // var materialData = this.allMasterData.materials[materialId];
+        // oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
         var karigarId = oTable.getItems()[i].getCells()[11].getText();
         if (karigarId !== "null" && karigarId !== " ") {

@@ -14,7 +14,8 @@
 <f:formElements>
 <f:FormElement label="{i18n>coMaterial}">
 <f:fields>
-<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" showValueHelp="true" valueHelpRequest="onValueHelpMat">
+<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}"
+  valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpMat">
 </Input>
 <Input id="idCoMatName" value="" editable="false"/>
 </f:fields>
@@ -28,7 +29,8 @@
 </f:FormElement>
 <f:FormElement label="{i18n>coKarigar}">
 <f:fields>
-<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
+<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}"
+  valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
 <Input id="idCoKarigarName" value="" editable="false"/>
 </f:fields>
 </f:FormElement>

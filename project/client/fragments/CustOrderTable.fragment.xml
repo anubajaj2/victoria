@@ -12,6 +12,7 @@
   <headerToolbar>
       <Toolbar>
         <Title id="idCoTitle" text="{i18n>coTableTitle}" />
+        <Label id="idCoTotal" text="" design= "Bold" />
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"

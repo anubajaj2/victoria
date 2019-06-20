@@ -19,8 +19,7 @@
 <DatePicker id="idCoDate"
 		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
-		change="onDateChange"
-		value="{path: 'local>/customerOrder/Date'}">
+		change="onDateChange">
 		<layoutData>
 		<l:GridData span="XL3 L3 "/>
 		</layoutData>
@@ -32,8 +31,7 @@
 <DatePicker id="idCoDelDate"
 		valueFormat="yyyy-MM-dd"
 		displayFormat="dd.MM.yyyy"
-		change="onDateChange"
-		value="{path: 'local>/customerOrder/DelDate'}">
+		change="onDateChange">
 		<layoutData>
 		<l:GridData span="XL3 L3 "/>
 		</layoutData>
@@ -42,7 +40,8 @@
 </f:FormElement>
 <f:FormElement label="{i18n>coCustomer}">
 <f:fields>
-<Input id="idCoCustomer" value="{local>/coTemp/CustomerCode}" showValueHelp="true" valueHelpRequest="onValueHelp">
+<Input id="idCoCustomer" value="{local>/coTemp/CustomerCode}"
+	valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelp">
 	<layoutData>
 	<l:GridData span="XL3 L3 "/>
 	</layoutData>

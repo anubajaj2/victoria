@@ -28,8 +28,10 @@ singleContainerFullSize="false"/>
 <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
       showValueHelp="true" valueHelpRequest="valueHelpCustomer"
       valueLiveUpdate="true" required="true"/>
-<Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
-  editable="false"/>
+<!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
+  editable="false"/> -->
+  <Text id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
+    editable="false"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>OrderNo}">
@@ -77,7 +79,7 @@ valueHelpRequest="valueHelpOrder"/>
 <f:FormElement label="{i18n>Silver}">
 <f:fields>
 <Input type="Number" editable="true" id="sbhavid" placeholder="{i18n>sbhav}"
-      tooltip="{i18n>Sbhav}" 
+      tooltip="{i18n>Sbhav}"
       value="{local>/orderHeader/SilverBhav}"/>
 </f:fields>
 </f:FormElement>

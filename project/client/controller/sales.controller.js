@@ -43,7 +43,7 @@ var selCustName = oEvent.getParameter("selectedItem").getValue();
 oCustDetail.customerId = selCust;
 oCustDetail.CustomerName = selCustName;
 // this.getView().byId("customerId").setValue(selCust);
-// this.getView().byId("custName").setText(selCustName);
+this.getView().byId("Sales--custName").setText(selCustName);
 this.getView().getModel("local").setProperty("/orderHeader/Customer",
 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
@@ -86,7 +86,7 @@ if (orderData.Customer === "") {
       that.getView().setBusy(false);
     }
 else {
-
+this.getView().byId("Sales--customerId").setValueState("None");
 //call the odata promise method to post the data
 orderData.Date = this.getView().byId("Sales--DateId").getValue();
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",

@@ -81,6 +81,7 @@ sap.ui.define([
 
 		},
 		fetchValuesFromCustomizing: function(){
+			var that =  this;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -342,28 +343,29 @@ sap.ui.define([
 			}
 		},
 
-		handleGoldSilverValidation: function(oGoldId, oSilverId) {
-			var oGold = oGoldId.getValue();
-			var oGold1 = parseFloat(oGold, 10);
-			var oSilver = oSilverId.getValue();
-			var oSilver1 = parseFloat(oSilver, 10);
+		handleGoldValidation: function(oGoldVal) {
+			var oGold1 = parseFloat(oGoldVal, 10);
+			// var oSilver = oSilverId.getValue();
+			// var oSilver1 = parseFloat(oSilver, 10);
 			// valid =  true;
 			if (oGold1 < 25000 ||
 				oGold1 > 40000) {
-				var valid = false;
-				MessageBox.error("Value range for Gold should be between 25000 and 40000");
+					var valid = false;
+				// MessageBox.error("Value range for Gold should be between 25000 and 40000");
 				// this.getView().byId("oGoldId").focus();
 				return valid;
 			} else {
-				if (oSilver1 < 32000 ||
-					oSilver1 > 65000) {
-					var valid = false;
-					MessageBox.error("Value range for Silver should be between 32000 and 65000");
-					// this.getView().byId("oSilverId").focus();
-					return valid;
-				} else {
-					return true;
-				}
+				var valid = true;
+				return valid;
+				// if (oSilver1 < 32000 ||
+				// 	oSilver1 > 65000) {
+				// 	var valid = false;
+				// 	MessageBox.error("Value range for Silver should be between 32000 and 65000");
+				// 	// this.getView().byId("oSilverId").focus();
+				// 	return valid;
+				// } else {
+				// 	return true;
+				// }
 			}
 
 			// 	}

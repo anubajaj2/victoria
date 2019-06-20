@@ -42,7 +42,7 @@
 					<f:formElements>
 					<f:FormElement label="22/20">
 						<f:fields>
-							<Input fieldGroupIds="CustomizingInputs" id="idFirst" liveChange="onliveChange" submit="onSubmit" value="{local>/CustomCalculation/First}">
+							<Input id="idFirst"  liveChange="onliveChange" change="onValueChange" submit="onSubmit" value="{local>/CustomCalculation/First}">
 							</Input>
 						</f:fields>
 					</f:FormElement>

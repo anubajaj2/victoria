@@ -3,9 +3,10 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/routing/History",
   "sap/m/MessageToast",
+  "sap/m/MessageBox",
   "victoria/models/formatter"
 ],
-function(BaseController, JSONModel, History, MessageToast, formatter){
+function(BaseController, JSONModel, History, MessageToast, MessageBox, formatter){
   // "use strict";
 
   return BaseController.extend("victoria.controller.customCalculation", {
@@ -75,30 +76,70 @@ this.ClearCalculation();
   ClearCalculation : function(){
 
   },
+  validateAll : function(myData){
+     var retVal = true;
+    if(myData.First < 25000 || myData.Second < 25000
+     || myData.Gold < 25000 || myData.Gold1 < 25000 ||
+     myData.GoldReturns < 25000 || myData.GoldReturns1 < 25000
+     || myData.KacchaGold < 25000 || myData.KacchaGoldR < 25000 ||
+     myData.First > 40000 || myData.Second > 40000
+      || myData.Gold > 40000 || myData.Gold1 > 40000 ||
+      myData.GoldReturns > 40000 || myData.GoldReturns1 > 40000
+      || myData.KacchaGold > 40000 || myData.KacchaGoldR > 40000){
+        MessageBox.error("Value range for Gold should be between 25000 and 40000");
+        retVal = false;
+        return retVal;
+      }
+      else{
+        if(myData.Silver < 32000 || myData.Silver1 < 32000 ||
+         myData.SilverReturns < 32000 || myData.SilverReturns1 < 32000
+         || myData.KacchaSilver < 32000 || myData.KacchaSilverR < 32000 ||
+        myData.Silver > 65000 || myData.Silver1 > 65000 ||
+          myData.SilverReturns > 65000 || myData.SilverReturns1 > 65000
+          || myData.KacchaSilver > 65000 || myData.KacchaSilverR > 65000){
+            MessageBox.error("Value range for Silver should be between 32000 and 65000");
+            retVal = false;
+          }
+          else{
+        retVal = true;
+      }
+        return retVal;
+      }
+  },
+  // onValidateFieldGroup: function(oEvent){
+  //   var that =  this;
+  //   var valid = true;
+  //   var oFieldId = oEvent.getParameters().fieldGroupIds;
+  //   var oFieldValue = oEvent.getSource().getValue();
+  //   if(oFieldId[0] === "GoldField") {
+  //   var oReturn = that.handleGoldValidation(oFieldValue);
+  //   }
+  //   if(oReturn === false){
+  //     oEvent.getSource().setValueState("Error").setValueStateText("Gold value should be between 25000 and 40000");
+  //     return oReturn;
+  //   }
+  //   else{
+  //     oEvent.getSource().setValueState("None");
+  //     return oReturn;
+  //   }
+  // },
   onliveChange: function(oEvent){
-    this.byId("idSaveIcon").setColor('red');
-    // var oCurrentRow = oEvent.getSource().getParent();
-    // var cells = oCurrentRow.getCells();
-    // cells[3].setValue(cells[1].getValue() * cells[2].getValue() / 100);
-    // this.byId("idTunch")
-
-  },
-  onUpdateFinished : function(){
-
-  },
-  SaveCalculation : function(){
     var that = this;
-    // var valid = true;
-    var oGoldId = this.getView().byId("idGold")
-    var oSilverId = this.getView().byId("idSilver");
-      var oreturn = that.handleGoldSilverValidation(oGoldId, oSilverId);
-      // if(!handleGoldSilverValidation(oGold1, oSilver1)) {
-      //   return false;
-      // }
- if (oreturn === true){
+    this.byId("idSaveIcon").setColor('red');
+
+  },
+  onValueChange: function(oEvent){
+    var oFieldLab = oEvent.getSource().getIdForLabel();
+  },
+
+  SaveCalculation : function(oEvent){
+    var that = this;
+    var retVal = true;
     that.getView().setBusy(true);
       var myData = that.getView().getModel("local").getProperty("/CustomCalculation");
       var id = myData.id;
+      var retVal = that.validateAll(myData);
+      if(retVal === true) {
        // var calculationJson = that.getView().getModel("myData").results;
        // function getCustomCode(id) {
        //      return calculationJson.filter(
@@ -137,8 +178,12 @@ this.ClearCalculation();
           var oPopover = that.getErrorMessage(oError);
         });
       }
+    }
+    else{
+        that.getView().setBusy(false);
+    }
             ;
-}
+
 // else {
 //
 // }

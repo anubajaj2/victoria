@@ -5,7 +5,8 @@
 				<m:content>
 					<m:Title text="{i18n>orderItems}"></m:Title>
 					<m:ToolbarSpacer/>
-					<m:Button icon="sap-icon://inspect" iconFirst="true" press="onTableExpand" tooltip="Toggle Fullscreen Mode"></m:Button>
+					<m:Button icon="sap-icon://full-screen" tooltip="fullscreen"
+					iconFirst="true" press="onTableExpand"></m:Button>
 					<m:Button icon="sap-icon://user-settings" iconFirst="true" press="onSetting" tooltip="Toggle Column Visibility"></m:Button>
 					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"></m:Button>
 				</m:content>
@@ -44,7 +45,9 @@
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3" liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}"
+					maxLength="3" liveChange="ValueChange" Nullable="false"
+					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column hAlign="Center" visible="{VisibleSet>/set}">
@@ -55,7 +58,7 @@
 					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}" liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="70px" hAlign="Center">
+			<Column width="100px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>weight}"></m:Text>
 				</label>
@@ -63,7 +66,7 @@
 					<m:Input id="IdWeight" type="Number" maxLength="5" liveChange="ValueChange" value="{orderItems>Weight}" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px" hAlign="Center" visible="{VisibleSet>/set}">
+			<Column width="100px" hAlign="Center" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>weightD}"></m:Text>
 				</label>

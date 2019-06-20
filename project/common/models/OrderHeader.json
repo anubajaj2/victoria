@@ -9,7 +9,8 @@
   "properties": {
     "OrderNo": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Date": {
       "type": "date",
@@ -65,6 +66,11 @@
       "type":"belongsTo",
       "model":"Customer",
       "foreignKey":"Customer"
+    },
+    "ToorderItems":{
+      "type":"hasMany",
+      "model":"OrderItem",
+      "foreignKey":"OrderNo"
     }
   },
   "acls": [

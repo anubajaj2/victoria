@@ -299,7 +299,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
   }).catch(function(oError) {
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", 0);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", 0);
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
   });
 //Clear Item table

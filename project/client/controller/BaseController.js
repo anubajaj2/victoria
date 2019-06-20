@@ -655,7 +655,8 @@ sap.ui.define([
 			}
 		},
 		onTableExpand: function(oEvent) {
-			var splitApp = sap.ui.getCore().byId("__xmlview0--idSplitApp");
+			debugger;
+			var splitApp = this.getView().oParent.oParent;
 			var masterVisibility = splitApp.getMode();
 			if (masterVisibility == "ShowHideMode") {
 				debugger;

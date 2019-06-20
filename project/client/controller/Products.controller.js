@@ -291,7 +291,7 @@ this.clearProduct();
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
 				var karatType = this.getView().byId("idKarat");
-				kartType.setSelectedKey("");
+				karatType.setSelectedKey("");
 				productModel.getData().ProductCode = "";
 				productModel.getData().CustomerTunch = 0;
 				productModel.getData().Making = 0;

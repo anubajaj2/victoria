@@ -189,7 +189,7 @@ toggleScreenState: true,
     var that = this;
     this.getView().setBusy(true);
     var model = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
-    for(var i=0; i <= model.length; i++){
+    for(var i=0; i < model.length; i++){
       var myData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData")[i];
       if (myData.PaggaNo !== 0){
          myData.Customer = this.getView().getModel("local").getProperty("/kacchiData").Customer
@@ -228,10 +228,10 @@ toggleScreenState: true,
       }
     }
       that.getView().byId("idCustTable").clearSelection();
-      this.byId("idTransferButton").setEnabled(false);
-      this.clearScreen();
-      this.createModel();
-      this.getView().setBusy(false);
+      that.byId("idTransferButton").setEnabled(false);
+      that.clearScreen();
+      that.createModel();
+      that.getView().setBusy(false);
   },
   onPrint: function(oEvent){
     var i;

@@ -12,7 +12,7 @@
 			</m:Toolbar>
 		</extension>
 		<columns>
-			<Column width="120px">
+			<Column width="120px"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>material}"></m:Text>
 				</label>
@@ -36,7 +36,7 @@
 					</m:ComboBox>-->
 				</template>
 			</Column>
-			<Column width="100px">
+			<Column width="100px"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>description}"></m:Text>
 				</label>
@@ -46,7 +46,7 @@
 						liveChange="ValueChange"/>
 				</template>
 			</Column>
-			<Column>
+			<Column  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
@@ -56,7 +56,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column visible="{VisibleSet>/set}">
+			<Column  hAlign="Center" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
@@ -66,7 +66,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="70px">
+			<Column width="70px"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>weight}"></m:Text>
 				</label>
@@ -80,7 +80,7 @@
 						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px" visible="{VisibleSet>/set}">
+			<Column width="75px"  hAlign="Center" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>weightD}"></m:Text>
 				</label>
@@ -90,7 +90,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px">
+			<Column  hAlign="Center" width="75px">
 				<label>
 					<m:Text text="{i18n>making}"></m:Text>
 				</label>
@@ -100,7 +100,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px" visible="{VisibleSet>/set}">
+			<Column width="75px" visible="{VisibleSet>/set}"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>makingD}"></m:Text>
 				</label>
@@ -110,7 +110,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="60px" visible="{visModel>/rows1}">
+			<Column width="60px"  hAlign="Center" visible="{visModel>/rows1}">
 				<label>
 					<m:Text text="{i18n>tunch}"></m:Text>
 				</label>
@@ -118,7 +118,7 @@
 					<m:Input value="{orderItems>Tunch}" ></m:Input>
 				</template>
 			</Column>
-			<Column width="75px">
+			<Column width="75px"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>remarks}"></m:Text>
 				</label>
@@ -127,7 +127,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
-			<Column visible="{visModel>/rows1}">
+			<Column visible="{visModel>/rows1}"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>subTotalS}"></m:Text>
 				</label>
@@ -135,7 +135,7 @@
 					<m:Input value="{orderItems>SubTotalS}" editable="false"/>
 				</template>
 			</Column>
-			<Column visible="{visModel>/rows1}">
+			<Column visible="{visModel>/rows1}"  hAlign="Center">
 				<label>
 					<m:Text text="{i18n>subTotalG}"/>
 				</label>
@@ -143,12 +143,14 @@
 					<m:Input value="{orderItems>SubTotalG}" editable="false"/>
 				</template>
 			</Column>
-			<Column>
+			<Column hAlign="Center">
 				<label>
 					<m:Text text="{i18n>subTotal}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>SubTot}" editable="false"/>
+					<!-- <m:Input value="{orderItems>SubTot}" editable="false"/> -->
+					<m:Text text="{orderItems>SubTot}" textAlign="Center"
+						 type="Number" editable="false"/>
 				</template>
 			</Column>
 		</columns>

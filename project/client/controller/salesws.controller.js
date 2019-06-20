@@ -141,13 +141,16 @@ sap.ui.define(
 							};
 
 							if (weight === 0) {
-								cells[12].setValue(0);
+								// cells[12].setValue(0);
+								cells[12].setText(0);
 							} else {
 								if (makingCharges || stonevalue) {
 									// gold price per gram
-									cells[12].setValue(makingCharges + stonevalue);
+									// cells[12].setValue(makingCharges + stonevalue);
+									cells[12].setText(makingCharges + stonevalue);
 								} else {
-									cells[12].setValue(0);
+									// cells[12].setValue(0);
+									cells[12].setText(0);
 								};
 							};
 
@@ -188,9 +191,11 @@ sap.ui.define(
 							var chargesD = quantityD * makingD;
 							//final charges on GS
 							if (charges) {
-								cells[12].setValue(charges + chargesD);
+								// cells[12].setValue(charges + chargesD);
+								cells[12].setText(charges + chargesD);
 							} else {
-								cells[12]. setValue(0);
+								// cells[12]. setValue(0);
+								cells[12]. setText(0);
 								}
 							};
 

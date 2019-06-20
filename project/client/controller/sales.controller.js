@@ -130,17 +130,53 @@ onValidation: function() {
     that.getView().setBusy(false);
   return retVal;
 },
-// onValidationItem:function[data ,oOrderDetail ,retVal]{
+
+onValidationItem:function(data,i){
+  debugger;
 // //line item validations
-//   var that = this;
-//   //---all validation true initially
-//   var retVal = true;
-//
-//
-// that.getView().setBusy(false);
-// //line item validations
-// return retVal;
-// },
+  var that = this;
+  var model = this.getView().getModel("orderItems").getProperty("/itemData");
+  var oOrderDetail = that.getView().getModel('local').getProperty('/OrderItem');
+  var oTableDetails = that.getView().byId("orderItemBases");
+  var tableBinding = oTableDetails.getBinding("rows");
+//---all errors are false
+  var returnError = false;
+  //Quantity
+  if ((data.Type === 'GS') ||
+  ((data.Type === 'Gold' && data.Category === "pcs") ||
+  (data.Type === 'Silver' && data.Category ==="pcs")))
+  {
+  if(data.Qty === "" || data.Qty === 0) {
+    this.getView().setBusy(false);
+    oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+    returnError = true;
+    return;
+    }else {
+      oOrderDetail.Qty=data.Qty;
+      oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+      this.getView().setBusy(false);
+      returnError = false;
+  }
+}else
+if ((data.Type === 'Gold' && data.Category === "gm")||
+    (data.Type === 'Silver' && data.Category === "gm"))
+    {
+  //Weight check
+  if(data.Weight === "" || data.Weight === 0) {
+  this.getView().setBusy(false);
+  oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+  returnError = true;
+  return;
+  }else {
+  oOrderDetail.Weight =data.Weight;
+  oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+  this.getView().setBusy(false);
+  returnError = false;
+  return;
+  }
+}//Gold/Silver check
+return returnError;
+},
 onSave:function(oEvent){
   var that = this;
   if(this.onValidation() === true){
@@ -165,48 +201,17 @@ var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
 debugger;
 for (var i = 0; i < oBinding.getLength(); i++) {
-  var returnval = false;
   var that = this;
-  this.getView().setBusy(true);
   var data = oBinding.oList[i];
 debugger;
 
 //posting the data
 if (data.Material !== "") {
-  // this.onValidationItem(data ,oOrderDetail ,return);
-  // if (return === true) {
-  //   debugger;
-  // }
-  //Quantity
-  if(data.Qty === "" || data.Qty === 0) {
-    this.getView().setBusy(false);
-    oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
-    returnval = true;
-    return;
-    }else {
-      oOrderDetail.Qty=data.Qty;
-      oTableDetails.getRows()[i].getCells()[2].setValueState("None");
-      returnval = false;
-  }
+  this.getView().setBusy(true);
+  debugger;
+  if (this.onValidationItem(data,i) === false) {
+  debugger;
 
-  //Weight check
-  if(data.Weight === "" || data.Weight === 0) {
-  this.getView().setBusy(false);
-  oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
-  returnval = true;
-  return;
-  }else {
-  oOrderDetail.Weight =data.Weight;
-  oTableDetails.getRows()[i].getCells()[4].setValueState("None");
-  returnval = false;
-  }
-  //WeightD
-  if (data.WeightD === "" || data.WeightD === 0) {
-    oOrderDetail.WeightD= 0;
-  }else {
-    oOrderDetail.WeightD=data.WeightD;
-    returnval = false;
-  }
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -230,7 +235,6 @@ if (data.Material !== "") {
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
-  if (returnval === false) {
     that.getView().setBusy(true);
 //Item data save
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -253,14 +257,11 @@ for (var i = 0; i < allItems.length; i++) {
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
                 		});
-  }//return if check
-  else {
-    this.getView().setBusy(false);
-  }
+}//validation endif
 }//If condition end
 }//for loop brace end
-}else{  //validation order if else condition
-  //please correct the data...
+}else {
+
 }
 },
 
@@ -497,10 +498,10 @@ if (weight === 0) {
 if (priceF || makingCharges || stonevalue) {
   // gold price per gram
   // cells[9].setValue(priceF + makingCharges + stonevalue);
-  cells[cells.length - 1].setValue(priceF + makingCharges + stonevalue);
+  cells[cells.length - 1].setText(priceF + makingCharges + stonevalue);
 }else {
   // cells[9].setValue(0);
-  cells[cells.length - 1].setValue(0)
+  cells[cells.length - 1].setText(0)
 }}
 
 }else
@@ -599,9 +600,9 @@ if (data.MakingD === "" ){
 var chargesD = quantityD * makingD;
 //final charges on GS
 if (charges) {
-cells[cells.length - 1].setValue( charges + chargesD);
+cells[cells.length - 1].setText( charges + chargesD);
 }else {
-  cells[cells.length - 1].setValue(0);
+  cells[cells.length - 1].setText(0);
 }
 }
 else if ((category.Type ==="Gold" && category.Category === "pcs")||
@@ -737,15 +738,15 @@ if (!stonevalue) {
 
 if (quantity === 0) {
   // cells[9].setValue(0);
-  cells[cells.length - 1].setValue(0)
+  cells[cells.length - 1].setText(0)
 }else {
 if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
   // cells[9].setValue(priceF + makingCharges + stonevalue);
-  cells[cells.length - 1].setValue(priceF + makingOfProduct + stonevalue);
+  cells[cells.length - 1].setText(priceF + makingOfProduct + stonevalue);
 }else {
   // cells[9].setValue(0);
-  cells[cells.length - 1].setValue(0)
+  cells[cells.length - 1].setText(0)
 }}
 
 }//end of per PCs calculation

@@ -289,12 +289,12 @@ this.getView().byId("Sales--DateId").setDateValue(new Date());
 debugger;
 //set the bhav details on Header
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                  "/CustomCalculation", "GET", {}, {}, this)
+    "/CustomCalculations", "GET", {}, {}, this)
   .then(function(oData) {
     debugger;
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", oData.results[0].First);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", oData.results[0].Second);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
+    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", oData.results[0].Gold);
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
   }).catch(function(oError) {
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", 0);

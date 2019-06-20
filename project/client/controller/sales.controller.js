@@ -310,6 +310,8 @@ this.orderReturn();
 onDelete: function(oEvent) {
   debugger;
   var that = this;
+var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+if (selIdxs.length && selIdxs.length !== 0) {
   sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
   title: "Confirm",                                    // default
   styleClass: "",                                      // default
@@ -318,15 +320,15 @@ onDelete: function(oEvent) {
   onClose : function(sButton){
     debugger;
   if (sButton === MessageBox.Action.OK) {
-    var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
-    if (selIdxs.length) {
+    // var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
       for(var i=0; i <= selIdxs.length; i++){
         var index = selIdxs[i];
         for (var j = index; j <= index; j++) {
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[j].itemNo;
         if (id){
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-                                  "DELETE", {}, {}, that);
+                                  "DELETE", {}, {}, that)
+        sap.m.MessageToast.show("Data Deleted Successfully");
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(j, 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
@@ -334,11 +336,19 @@ onDelete: function(oEvent) {
       }
     }//for j loop
     }//for i loop
-  }//length check if
-    sap.m.MessageToast.show("Selected lines are deleted");
-  }
+}//
 }
 });
+
+}else { // if selindx length check
+  MessageBox.show(
+    "Please Select the entry to be deleted", {
+      icon: MessageBox.Icon.ERROR,
+      title: "Error",
+      actions: [MessageBox.Action.OK],
+      onClose: function(oAction) { }
+      });
+}
 },
 onSetting:function(oEvent){
   this.hideDColumns(oEvent);

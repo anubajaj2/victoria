@@ -221,7 +221,6 @@ this.clearProduct();
 						productModel.setProperty("/ProductName", selectedMatData.ProductName);
 						productModel.setProperty("/Category", selectedMatData.Category);
 						productModel.setProperty("/Type", selectedMatData.Type);
-						productModel.setProperty("/Karat", selectedMatData.Karat);
 						productModel.setProperty("/Making", selectedMatData.Making);
 						productModel.setProperty("/CustomerTunch", selectedMatData.CustomerTunch);
 						productModel.setProperty("/PricePerUnit", selectedMatData.PricePerUnit);
@@ -242,6 +241,11 @@ this.clearProduct();
 						// productModel.getData().HindiName = found[0].HindiName;
 						if (selectedMatData.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
+						productModel.setProperty("/Karat", selectedMatData.Karat);
+						}
+						else{
+							var karatType = this.getView().byId("idKarat");
+							karatType.setSelectedKey("");
 						}
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
@@ -286,7 +290,8 @@ this.clearProduct();
 				var dataModel = this.getView().getModel("dataModel");
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
-				productModel.getData().Karat = "";
+				var karatType = this.getView().byId("idKarat");
+				kartType.setSelectedKey("");
 				productModel.getData().ProductCode = "";
 				productModel.getData().CustomerTunch = 0;
 				productModel.getData().Making = 0;
@@ -314,7 +319,8 @@ this.clearProduct();
 				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				// var oView = this.getView().getViewName();
 				var productModel = that.getView().getModel("productModel");
-				var productCode = productModel.getData().ProductCode;
+				var productCode = that.getView().byId("idProductCode").getValue();
+				productModel.setProperty("/ProductCode", productCode);
 				// var prodId = productModel.id;
 				// if(productCode === "") {
 				// 	var productCode =  this.getView().byId("idProductCode").getValue();

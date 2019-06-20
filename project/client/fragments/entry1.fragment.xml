@@ -53,7 +53,16 @@
         <f:formElements>
           <f:FormElement label="{i18n>tCash}">
     				<f:fields>
-    				<Text id="idTC"/>
+              <ObjectStatus id="idTC"
+             class="sapUiSmallMarginBottom"
+             text=""
+           state="Success" />
+           <!-- <ObjectStatus id="idTCash"
+          class="sapUiSmallMarginBottom"
+          text=""
+        state="Warning" /> -->
+
+    				<!-- <Text id="idTC"/> -->
     				</f:fields>
     			</f:FormElement>
     		<f:FormElement label="{i18n>tGold}">

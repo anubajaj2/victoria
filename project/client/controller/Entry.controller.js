@@ -210,13 +210,30 @@ debugger;
 
 		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			 console.log(result);
-			 var TC =that.getView().byId("idTC").setText(result.CashTotal);
 			 debugger;
-			 if(TC>0){
-				  TC.getText().fontcolor("Black");
-			 }else {
-			 	 TC.getText().fontcolor('red');
-			 }
+			 var TC = result.CashTotal;
+			 // if(TC>0){
+				//  debugger;
+				//  that.getView().byId("idTC").setText(TC);
+			 // }else{
+				//  that.getView().byId("idTCash").setText(TC);
+			 // }
+			//  var TC =that.getView().byId("idTC").setText(result.CashTotal);
+			//  var TC1=TC.getText();
+			//  var TC2 = parseInt(TC1);
+			//  if(TC2>0){
+			//  that.getView().byId("idTC").setText(TC2);
+		 // }else{
+			//  that.getView().byId("idTCash").setText(TC2);
+		 // }
+			//  debugger;
+			 // if(TC>0){
+				//   TC.getText().addStyleClass();
+			 // }else {
+			 // 	 TC.getText().fontcolor('green');
+			 // }
+			 // that.getView().byId("idG").setColor('green');
+			 that.getView().byId("idTC").setText(TC);
 			 that.getView().byId("idG").setText(result.GoldTotal);
 			 that.getView().byId("idS").setText(result.SilverTotal);
 		 });
@@ -249,39 +266,39 @@ debugger;
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
 
-			 this.getTotals();
+			 // this.getTotals();
 
 
    },
-	 getTotals: function (oEvent, numbers) {
-		  // var myData = this.getView().getModel("local").getProperty("/EntryData");
-		 var oTable = this.byId("idTable");
-		 // var model = oTable.getModel();
-		 // var negatives = [];
-		 var nRows= oTable.getBinding("items").getLength();
-		 var nCash=0;
-		 // var Amount = oTable.mAggregations.columns[2].getHeader().mProperties.text;
-		 var data=[];
-	  	for(var i=0; i<nRows; i++){
-				var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
-				var amt1=parseInt(amt);
-
-				if(amt1>0){
-					nCash+=nCash+amt1;
-					debugger;
-				}
-
-
-		// 	debugger;
-		// 	var col_Array = $('#idTable Column:nth-child(3)').map(function(){
-   //     return $(this).text();
-   // }).get()​;
-		// 	var oContext= oTable.getItems(i);
+	 // getTotals: function (oEvent, numbers) {
+		//   // var myData = this.getView().getModel("local").getProperty("/EntryData");
+		//  var oTable = this.byId("idTable");
+		//  // var model = oTable.getModel();
+		//  // var negatives = [];
+		//  var nRows= oTable.getBinding("items").getLength();
+		//  var nCash=0;
+		//  // var Amount = oTable.mAggregations.columns[2].getHeader().mProperties.text;
+		//  var data=[];
+	 //  	for(var i=0; i<nRows; i++){
+		// 		var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
+		// 		var amt1=parseInt(amt);
 	 //
-		// 	nSum+= Number(nRows[i].myData.Cash);
-		// 	// debugger;
-		}
-	 },
+		// 		if(amt1>0){
+		// 			nCash+=nCash+amt1;
+		// 			debugger;
+		// 		}
+	 //
+	 //
+		// // 	debugger;
+		// // 	var col_Array = $('#idTable Column:nth-child(3)').map(function(){
+   // //     return $(this).text();
+   // // }).get()​;
+		// // 	var oContext= oTable.getItems(i);
+	 // //
+		// // 	nSum+= Number(nRows[i].myData.Cash);
+		// // 	// debugger;
+		// }
+	 // },
 
    onDelete: function(){
      var that=this;

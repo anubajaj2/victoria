@@ -76,13 +76,7 @@
 						type="Number"
 						maxLength="5"
 						liveChange="ValueChange"
-						value="{
-   			 		path:'orderItems>Weight',
-   					type: 'sap.ui.model.type.Float',
-   				formatOptions: {
-      				maxFractionDigits: 2,
-      				roundingMode:'away_from_zero'
-   					 	}}"
+						value="{orderItems>Weight}"
 						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>

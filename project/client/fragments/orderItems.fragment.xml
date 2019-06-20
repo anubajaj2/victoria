@@ -12,135 +12,110 @@
 			</m:Toolbar>
 		</extension>
 		<columns>
-			<Column width="120px"  hAlign="Center">
+			<Column width="120px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>material}"></m:Text>
 				</label>
 				<template >
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
-					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
-						suggestionItems="{/Products}" showSuggestion="true"
-						suggestionItemSelected="onMaterialSelect"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}">
+					<m:Input id="idMaterial" suggest="ValueChangeMaterial" suggestionItems="{/Products}" showSuggestion="true" suggestionItemSelected="onMaterialSelect" editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
 						</m:suggestionItems>
 					</m:Input>
-					<!--<m:ComboBox id="idMaterial" items="{/Products}"
-						selectionChange="onMaterialSelect" change='ValueChangeMaterial'
-						selectedKey="{orderItems>MaterialCode}"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}">
-						<m:items>
-							<core:Item key="{id}" text="{ProductCode}"/>
-						</m:items>
-					</m:ComboBox>-->
+					<!--<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" change='ValueChangeMaterial' selectedKey="{orderItems>MaterialCode}" editable="{= ${orderItems>itemNo} === '' ? true : false}"> <m:items> <core:Item key="{id}"
+					text="{ProductCode}"/> </m:items> </m:ComboBox>-->
 				</template>
 			</Column>
-			<Column width="100px"  hAlign="Center">
+			<Column width="100px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>description}"></m:Text>
 				</label>
 				<template>
 					<!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
-					<m:Input value="{orderItems>Description}" editable="false"
-						liveChange="ValueChange"/>
+					<m:Input value="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
 				</template>
 			</Column>
-			<Column  hAlign="Center">
+			<Column hAlign="Center">
 				<label>
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}"
-						maxLength="3" liveChange="ValueChange" Nullable="false"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQty" type="Number" value="{orderItems>Qty}" maxLength="3" liveChange="ValueChange" Nullable="false" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column  hAlign="Center" visible="{VisibleSet>/set}">
+			<Column hAlign="Center" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}"
-					liveChange="ValueChange" maxLength="3"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}" liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="70px"  hAlign="Center">
+			<Column width="70px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>weight}"></m:Text>
 				</label>
 				<template>
-					<m:Input
-						id="IdWeight"
-						type="Number"
-						maxLength="5"
-						liveChange="ValueChange"
-						value="{orderItems>Weight}"
-						editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdWeight" type="Number" maxLength="5" liveChange="ValueChange" value="{orderItems>Weight}" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px"  hAlign="Center" visible="{VisibleSet>/set}">
+			<Column width="75px" hAlign="Center" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>weightD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}"
-					liveChange="ValueChange" maxLength="5"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column  hAlign="Center" width="75px">
+			<Column hAlign="Center" width="75px">
 				<label>
 					<m:Text text="{i18n>making}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}"
-					liveChange="ValueChange" maxLength="5"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="75px" visible="{VisibleSet>/set}"  hAlign="Center">
+			<Column width="75px" visible="{VisibleSet>/set}" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>makingD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}"
-					maxLength="5" liveChange="ValueChange"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}" maxLength="5" liveChange="ValueChange" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="60px"  hAlign="Center" visible="{visModel>/rows1}">
+			<Column width="60px" hAlign="Center" visible="{visModel>/rows1}">
 				<label>
 					<m:Text text="{i18n>tunch}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Tunch}" ></m:Input>
+					<m:Input value="{orderItems>Tunch}" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
-			<Column width="75px"  hAlign="Center">
+			<Column width="75px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>remarks}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Remarks}" maxLength="80"
-					editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
+					<m:Input value="{orderItems>Remarks}" maxLength="80" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
-			<Column visible="{visModel>/rows1}"  hAlign="Center">
+			<Column visible="{visModel>/rows1}" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>subTotalS}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>SubTotalS}" editable="false"/>
+					<!-- <m:Input value="{orderItems>SubTotalS}" editable="false"/> -->
+					<m:Text text="{orderItems>SubTotalS}" textAlign="Center" type="Number" editable="false"/>
 				</template>
 			</Column>
-			<Column visible="{visModel>/rows1}"  hAlign="Center">
+			<Column visible="{visModel>/rows1}" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>subTotalG}"/>
 				</label>
 				<template>
-					<m:Input value="{orderItems>SubTotalG}" editable="false"/>
+					<!-- <m:Input value="{orderItems>SubTotalG}" editable="false"/> -->
+					<m:Text text="{orderItems>SubTotalG}" textAlign="Center" type="Number" editable="false"/>
 				</template>
 			</Column>
 			<Column hAlign="Center">
@@ -149,8 +124,7 @@
 				</label>
 				<template>
 					<!-- <m:Input value="{orderItems>SubTot}" editable="false"/> -->
-					<m:Text text="{orderItems>SubTot}" textAlign="Center"
-						 type="Number" editable="false"/>
+					<m:Text text="{orderItems>SubTot}" textAlign="Center" type="Number" editable="false"/>
 				</template>
 			</Column>
 		</columns>

@@ -91,7 +91,12 @@
 
 	},
 	"validations": [],
-	"relations": {},
+	"relations": {
+		"ToOrderHeader":{
+			"type":"belongsTo",
+			"model":"WSOrderHeader",
+			"foreignKey":"OrderNo"
+	},
 	"acls": [{
 		"accessType": "*",
 		"principalType": "ROLE",

@@ -561,17 +561,24 @@ sap.ui.define([
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", true);
 			}
-			else
-			 if (oEvent.getParameter('id').split('---')[1] === 'idsales')
-			 {
-				var odata = this.getView().getModel('visModel');
-				odata.setProperty("/rows1", false);
-				}
-				else if (oEvent.getParameter('id').split('---')[1].split('--')[0] === 'idsales')
+			else if (oEvent.getParameter('id')) {
+				if (oEvent.getParameter('id').split('---')[1] === 'idsales')
 				{
-					var odata = this.getView().getModel('visModel');
-					odata.setProperty("/rows1", false);
-				}
+				 var odata = this.getView().getModel('visModel');
+				 odata.setProperty("/rows1", false);
+				 }
+				 else if (oEvent.getParameter('id').split('---')[1].split('--')[0] === 'idsales')
+				 {
+					 var odata = this.getView().getModel('visModel');
+					 odata.setProperty("/rows1", false);
+				 }
+			}
+			// else if (this.getView().getId().split('---')[1] === 'idsales') {
+			// 	var odata = this.getView().getModel('visModel');
+			// 	odata.setProperty("/rows1", false);
+			// }
+
+
 
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();

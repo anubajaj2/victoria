@@ -1,5 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.ui.table" xmlns:m="sap.m">
-	<Table id="orderItemBases" rows="{orderItems>/itemData}" visibleRowCount="05" class="sapUiContentPadding" updateFinished="onUpdateFinished">
+	<Table id="orderItemBases" rows="{orderItems>/itemData}" visibleRowCount="05"
+		class="sapUiContentPadding" updateFinished="onUpdateFinished" threshold="05">
 		<extension>
 			<m:Toolbar>
 				<m:content>
@@ -21,7 +22,8 @@
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
 						 suggestionItems="{/Products}" showSuggestion="true"
-						 suggestionItemSelected="onMaterialSelect" value="{orderItems>MaterialCode}"
+						 suggestionItemSelected="onMaterialSelect"
+						 value="{orderItems>MaterialCode}" maxSuggestionWidth="100px"
 						  editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>

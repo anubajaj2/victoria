@@ -79,7 +79,6 @@ orderCreate:function(oEvent){
 var that = this;
 that.getView().setBusy(true);
 // get the data from screen in local model
-
 var orderData = this.getView().getModel('local').getProperty("/orderHeader");
 if (orderData.Customer === "") {
       this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
@@ -198,6 +197,7 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
+var valueCheck = false;
 debugger;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
@@ -206,6 +206,7 @@ debugger;
 
 //posting the data
 if (data.Material !== "") {
+  valueCheck = true;
   this.getView().setBusy(true);
   debugger;
   if (this.onValidationItem(data,i) === false) {
@@ -259,6 +260,16 @@ if (data.Material !== "") {
 }//validation endif
 }//If condition end
 }//for loop brace end
+//error if no valid entry
+if (valueCheck === false) {
+  sap.m.MessageBox.error("Please Enter Valid entries before save",{
+  title: "Error",                                    // default
+  styleClass: "",                                      // default
+  initialFocus: null,                                  // default
+  textDirection: sap.ui.core.TextDirection.Inherit,     // default
+  onClose : function(sButton){}
+  });
+}
 }else {
 
 }
@@ -274,9 +285,11 @@ var ovisibleSet = new sap.ui.model.json.JSONModel({
 //Clear Header Details
 var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
-oHeaderT.CustomerName ="";
+// oHeaderT.CustomerName ="";
+this.getView().byId("Sales--custName").setText("");
 oHeaderT.CustomerId="";
 oHeader.OrderNo="";
+oHeader.Customer="";
 oHeader.Goldbhav22=0;
 oHeader.Goldbhav20=0;
 oHeader.Goldbhav=0;
@@ -751,9 +764,6 @@ if (priceF || makingOfProduct || stonevalue) {
   this.byId("IdQtyD");
   this.byId("sbhavid");
 },//calculation function end
-// onTableExpand:function(oEvent){
-// debugger;
-// }
 
 });
 });

@@ -56,7 +56,7 @@
               <ObjectStatus id="idTC"
              class="sapUiSmallMarginBottom"
              text=""
-           state="Success" />
+           state="None" />
            <!-- <ObjectStatus id="idTCash"
           class="sapUiSmallMarginBottom"
           text=""
@@ -67,12 +67,20 @@
     			</f:FormElement>
     		<f:FormElement label="{i18n>tGold}">
     			<f:fields>
-    			<Text id="idG"/>
+            <ObjectStatus id="idG"
+           class="sapUiSmallMarginBottom"
+           text=""
+         state="None" />
+    			<!-- <Text id="idG"/> -->
     			</f:fields>
     		</f:FormElement>
     		<f:FormElement label="{i18n>tSilver}">
     			<f:fields>
-    			<Text id="idS"/>
+            <ObjectStatus id="idS"
+           class="sapUiSmallMarginBottom"
+           text=""
+         state="None" />
+    			<!-- <Text id="idS"/> -->
     			</f:fields>
     		</f:FormElement>
         </f:formElements>

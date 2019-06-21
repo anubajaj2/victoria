@@ -84,24 +84,7 @@ sap.ui.define([
 
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
-    onSelectPhoto: function(oEvent){
-      debugger;
-      // if (!this.searchPopup) {
-      //   this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.CustomerOrderPhoto", this);
-      //   this.getView().addDependent(this.searchPopup);
-      //   var title = this.getView().getModel("i18n").getProperty("customer");
-      //   this.searchPopup.setTitle(title);
-        // this.searchPopup.bindAggregation("items",{
-        //   path: '/Customers',
-        //   template: new sap.m.DisplayListItem({
-        //        id: "idCoCustPopup",
-        //     label: "{CustomerCode}",
-        //     value: "{Name} - {City}"
-        //   })
-        // });
-      // }
 
-    },
     onSearch: function(oEvent){
         var sValue = oEvent.getParameter("query");
         if(!sValue){
@@ -187,11 +170,27 @@ sap.ui.define([
               });
     },
 
+    onSelectPhoto: function(oEvent){
+      debugger;
+       if (!this.photoPopup) {
+         this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
+         this.getView().addDependent(this.photoPopup);
+       }
+       this.photoPopup.open();
+     },
+
     handleUploadPress: function(oEvent) {
       debugger;
-      var oFileUploader = this.getView().byId("idCoUploader");
-      var domRef = oFileUploader.getFocusDomRef();
-      var file = domRef.files[0];
+      // var oFileUploader = this.getView().byId("idCoUploader");
+      // var domRef = oFileUploader.getFocusDomRef();
+      // var file = domRef.files[0];
+      var oFileUploader = sap.ui.getCore().byId("idCoUploader");
+      if (!oFileUploader.getValue()) {
+        sap.m.MessageToast.show("Choose a file first");
+        return;        
+      }
+      var file = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
+
       var that = this;
       this.fileName = file.name;
       this.fileType = file.type;

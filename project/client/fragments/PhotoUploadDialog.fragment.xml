@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:unified="sap.ui.unified" xmlns:l="sap.ui.layout.form"	>
+		<Dialog
+			id="idCoPhotoDialog"
+			title="Upload Photo"
+			contentWidth="850px">
+			<content>
+				<l:SimpleForm editable="true">
+					<l:content>
+						<VBox>
+							<Label id="idCoPicLabel" text= "File name"/>
+							<unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"
+							  iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10"
+							  mimeType="image/jpeg,image/gif,image/png"
+							  uploadComplete="_onFileUploaderUploadComplete" change="onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch"
+							  fileSizeExceed="_onFileUploaderFileSizeExceed">
+							  <unified:headerParameters/>
+							  <unified:parameters/>
+							  <unified:xhrSettings/>
+							</unified:FileUploader>
+						</VBox>
+					</l:content>
+				</l:SimpleForm>
+			</content>
+			<buttons>
+				<Button icon="sap-icon://upload" id="idCoUpload" press="handleUploadPress" text="Upload Picture" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
+				  iconDensityAware="false"/>
+		  	<Button icon="sap-icon://sys-cancel" id="idCoClose" press="handleClosePress" text="Close" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
+					iconDensityAware="false"/>
+			</buttons>
+		</Dialog>
+</core:FragmentDefinition>

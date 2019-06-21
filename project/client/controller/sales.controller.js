@@ -240,19 +240,19 @@ if (data.Material !== "") {
                 "/OrderItems","POST", {}, oOrderDetailsClone, this)
     .then(function(oData) {
       debugger;
-          sap.m.MessageToast.show("Data Saved Successfully");
-          that.getView().setBusy(false);
-//get the id generated at after saving of data
-debugger;
-var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
-for (var i = 0; i < allItems.length; i++) {
-  if (allItems[i].Material === oData.Material) {
-    allItems[i].itemNo = oData.id;
-  }
-}
-    that.getView().getModel("orderItems").setProperty("/itemData",allItems);
-                   })
-    .catch(function(oError) {
+      //loop the detaisl
+      var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+      for (var i = 0; i < allItems.length; i++) {
+        if (allItems[i].Material === oData.Material) {
+          allItems[i].itemNo = oData.id;
+          break;
+        }//material compare if condition
+      }//for loop
+      that.getView().getModel("orderItems").setProperty("/itemData",allItems);
+      sap.m.MessageToast.show("Data Saved Successfully");
+      that.getView().setBusy(false);
+      })
+    .catch(function(oError){
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
                 		});
@@ -333,7 +333,13 @@ if (selIdxs.length && selIdxs.length !== 0) {
         oTableData.splice(j, 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
         that.getView().byId("orderItemBases").clearSelection();
-      }
+      }else {
+        debugger;
+        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+        oTableData.splice(j, 1);
+        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
+        that.getView().byId("orderItemBases").clearSelection();
+      }// check for non saved records
     }//for j loop
     }//for i loop
 }//

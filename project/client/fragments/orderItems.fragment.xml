@@ -17,7 +17,7 @@
 				<label>
 					<m:Text text="{i18n>material}"></m:Text>
 				</label>
-				<template >
+				<template>
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
 						 suggestionItems="{/Products}" showSuggestion="true"

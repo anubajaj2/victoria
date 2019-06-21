@@ -21,7 +21,7 @@
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
 						 suggestionItems="{/Products}" showSuggestion="true"
-						 suggestionItemSelected="onMaterialSelect"
+						 suggestionItemSelected="onMaterialSelect" value="{orderItems>MaterialCode}"
 						  editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>

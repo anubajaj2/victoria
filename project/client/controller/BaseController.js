@@ -308,6 +308,33 @@ sap.ui.define([
 			this.messagePoper.open();
 
 		},
+		// Zoom in/out for UI tables
+		toggleTableState: true,
+		  toggleUiTable: function(btnId,headerId){
+		   debugger;
+		   if(this.toggleScreenState === true){
+		     this._openFullScreen(btnId,headerId);
+		     this.toggleTableState = false;
+		     this.byId(btnId).setTooltip("exit fullScreen");
+		  } else {
+		    this._closeFullScreen(btnId,headerId);
+		    this.toggleTableState = true;
+				this.byId(btnId).setTooltip("fullScreen");
+		  }
+		  var sIcon = (this.toggleTableState ? "sap-icon://full-screen" : "sap-icon://exit-full-screen" );
+		  this.byId(btnId).setIcon(sIcon);
+		  },
+
+		  _closeFullScreen: function(btnId,headerId){
+		    debugger;
+		    this.getView().byId(headerId).setVisible(true);
+		    this.getView().oParent.oParent._oMasterNav.setVisible(true);
+		  },
+		  _openFullScreen: function(btnId,headerId){
+		    debugger;
+		    this.getView().byId(headerId).setVisible(false);
+		    this.getView().oParent.oParent._oMasterNav.setVisible(false);
+		  },
 		destroyMessagePopover: function() {
 			if (this.messagePoper) {
 				this.messagePoper.destroy();

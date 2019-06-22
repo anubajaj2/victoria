@@ -50,36 +50,12 @@ _onRouteMatched: function(oEvent){
     oTable.clearSelection();
 
   },
-toggleScreenState: true,
-  toggleFullScreen: function(oEvent){
-    var btnType = this.byId("idFullScreenBtn").getIcon().toString();
-   debugger;
-   // if (btnType === "sap-icon://exit-full-screen") {
-   if(this.toggleScreenState === true){
-     this._openFullScreen();
-     this.toggleScreenState = false;
-     this.byId("idFullScreenBtn").setTooltip("exit fullScreen");
-  } else {
-    this._closeFullScreen();
-    this.toggleScreenState = true;
-  }
-  var sIcon = (this.toggleScreenState ? "sap-icon://full-screen" : "sap-icon://exit-full-screen" );
-  this.byId("idFullScreenBtn").setIcon(sIcon);
-  },
-
-  _closeFullScreen: function(){
+  toggleFullScreen: function(){
     debugger;
-    this.getView().byId("idKacchiHead").setVisible(true);
-    this.getView().oParent.oParent._oMasterNav.setVisible(true);
+    var btnId = "idFullScreenBtn";
+    var headerId = "idKacchiHead";
+    this.toggleUiTable(btnId,headerId)
   },
-  _openFullScreen: function(){
-    debugger;
-    this.getView().byId("idKacchiHead").setVisible(false);
-    // // var mPageId = this.getView().oParent.oParent._oMasterNav.sId;
-    this.getView().oParent.oParent._oMasterNav.setVisible(false);
-  },
-
-
   getTotals: function(){
     debugger;
     var paggaCount = 0,count = 0,tWeight = 0.00,
@@ -479,6 +455,9 @@ onConfirm: function(oEvent){
     var myData = this.getView().getModel("local").getProperty("/kacchiData");
     myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
     this.customerId = myData.Customer;
+    var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+    var url  = "?$filters=('" + [oFilter] + "')";
+    var CustFilter  = myData.Customer;
     this.getView().getModel("local").setProperty("/kacchiData", myData);
   // added by sweta to populate the selected cust and text to the input field
     var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -490,6 +469,19 @@ onConfirm: function(oEvent){
           this.getView().getModel("local").setProperty("/kachhiHeaderTemp", custHeader);
           this.getView().byId("idCustNo").setValueState();
     }
+
+    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+        "/Kacchis", "GET", {}, {}, this)
+      .then(function(oData) {
+        debugger;
+        // oData.read("/SalesOrderset", null, ["$filter=DocNumber eq '0000012340' ], false,
+        // that.getView().getModel("local").setProperty("/WSOrderHeader/Goldbhav", oData.results[0].Gold1);
+        // that.getView().getModel("local").setProperty("/WSOrderHeader/GoldbhavK", oData.results[0].KacchaGold);
+        // that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhav", oData.results[0].Silver1);
+        // that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhavK", oData.results[0].KacchaSilver);
+      }).catch(function(oError) {
+
+      });
     // Populate the UI table with data from database table for the customer seleted in UI
   //   var that = this;
   //   // that.getView().getModel("local").setProperty("/CustomCalculations");

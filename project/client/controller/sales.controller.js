@@ -203,7 +203,7 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
 debugger;
-
+if (itemNo === "") {
 //posting the data
 if (data.Material !== "") {
   valueCheck = true;
@@ -259,6 +259,7 @@ if (data.Material !== "") {
                 		});
 }//validation endif
 }//If condition end
+}//itemNo == "" check
 }//for loop brace end
 //error if no valid entry
 if (valueCheck === false) {

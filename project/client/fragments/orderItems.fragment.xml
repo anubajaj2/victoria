@@ -21,13 +21,14 @@
 				<template>
 					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial" suggest="ValueChangeMaterial"
-						 suggestionItems="{/Products}" showSuggestion="true"
+						 showSuggestion="true"
 						 suggestionItemSelected="onMaterialSelect"
-						 value="{orderItems>MaterialCode}" maxSuggestionWidth="100px"
-						  editable="{= ${orderItems>itemNo} === '' ? true : false}">
+						 value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
+						 suggestionItems="{/Products}"
+						 editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
-						</m:suggestionItems>
+							</m:suggestionItems>
 					</m:Input>
 					<!--<m:ComboBox id="idMaterial" items="{/Products}" selectionChange="onMaterialSelect" change='ValueChangeMaterial' selectedKey="{orderItems>MaterialCode}" editable="{= ${orderItems>itemNo} === '' ? true : false}"> <m:items> <core:Item key="{id}"
 					text="{ProductCode}"/> </m:items> </m:ComboBox>-->

@@ -765,6 +765,12 @@ if (priceF || makingOfProduct || stonevalue) {
   this.byId("IdQtyD");
   this.byId("sbhavid");
 },//calculation function end
+toggleFullScreen:function(){
+  debugger;
+  var btnId = "idFullScreenBtn";
+  var headerId = "Sales--orderHeader";
+  this.toggleUiTable(btnId,headerId)
+}
 
 });
 });

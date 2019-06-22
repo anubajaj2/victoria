@@ -39,6 +39,7 @@ sap.ui.define([
 		oEventBus: undefined,
 		oTestcaseListModel: undefined,
 		sUrlTargetSystem: undefined,
+		toggleTableState: true,
 		allMasterData: {
 			"customers": [],
 			"materials": [],
@@ -309,10 +310,10 @@ sap.ui.define([
 
 		},
 		// Zoom in/out for UI tables
-		toggleTableState: true,
 		  toggleUiTable: function(btnId,headerId){
 		   debugger;
-		   if(this.toggleScreenState === true){
+		   // if(this.toggleScreenState === true){
+			 if(this.toggleTableState === true){
 		     this._openFullScreen(btnId,headerId);
 		     this.toggleTableState = false;
 		     this.byId(btnId).setTooltip("exit fullScreen");

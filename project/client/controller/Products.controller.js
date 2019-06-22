@@ -138,11 +138,15 @@ sap.ui.define([
 				var viewModel = this.getView().getModel("viewModel");
 				if ( oSelectType  === "Gold") {
 					viewModel.setProperty("/typeEnabled", true);
-					// var oKarat = this.getView().getModel("Karat").getProperty("/items/0/text");
-					// this.getView().getModel("productModel").setProperty("/Karat", oKarat);
+					var oKarat =  this.getView().byId("idKarat").getSelectedKey();
+					this.getView().getModel("productModel").setProperty("/Karat", oKarat);
 				}
 				else {
 					viewModel.setProperty("/typeEnabled", false);
+					this.getView().getModel("productModel").getProperty("/Karat");
+					this.getView().getModel("productModel").setProperty("/Karat", "");
+					// var karatType = this.getView().byId("idKarat");
+					// karatType.setSelectedKey("");
 				}
 			},
 
@@ -195,6 +199,19 @@ this.clearProduct();
 				oSource.getBinding("suggestionItems").filter(oFilter);
 			},
 			productCodeCheck : function(oEvent){
+				$(function() {
+								$('input:text:first').focus();
+								var $inp = $('input:text');
+								$inp.bind('keydown', function(e) {
+										//var key = (e.keyCode ? e.keyCode : e.charCode);
+										var key = e.which;
+										if (key == 13) {
+												e.preventDefault();
+												var nxtIdx = $inp.index(this) + 1;
+												$(":input:text:eq(" + nxtIdx + ")").focus();
+										}
+								});
+						});
 				// var productModel = this.getView().getModel("Products");
 				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var productModel = this.getView().getModel("productModel");
@@ -215,9 +232,9 @@ this.clearProduct();
 					 var found =  productCode;
  					// var found = getProductCode(productCode);
  					if(found.length > 0){
-						productModel.setProperty("/ProductCode", productCode);
+						// productModel.setProperty("/ProductCode", productCode);
 						// productModel.setProperty("/id", selectedMatData.id);
-						// productModel.setProperty("/ProductCode", selectedMatData.ProductCode);
+						productModel.setProperty("/ProductCode", selectedMatData.id);
 						productModel.setProperty("/ProductName", selectedMatData.ProductName);
 						productModel.setProperty("/Category", selectedMatData.Category);
 						productModel.setProperty("/Type", selectedMatData.Type);
@@ -228,17 +245,6 @@ this.clearProduct();
 						productModel.setProperty("/Tunch", selectedMatData.Tunch);
 						productModel.setProperty("/AlertQuantity", selectedMatData.AlertQuantity);
 						productModel.setProperty("/HindiName", selectedMatData.HindiName);
-						// productModel.getData().Category = found[0].Category;
-						// productModel.getData().Type = found[0].Type;
-						// productModel.getData().Karat = found[0].Karat;
-						// productModel.getData().CustomerTunch = found[0].CustomerTunch;
-						// productModel.getData().Making = found[0].Making;
-						// productModel.getData().ProductName = found[0].ProductName;
-						// productModel.getData().PricePerUnit = found[0].PricePerUnit;
-						// productModel.getData().Wastage = found[0].Wastage;
-						// productModel.getData().Tunch = found[0].Tunch;
-						// productModel.getData().AlertQuantity = found[0].AlertQuantity;
-						// productModel.getData().HindiName = found[0].HindiName;
 						if (selectedMatData.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
 						productModel.setProperty("/Karat", selectedMatData.Karat);
@@ -316,42 +322,26 @@ this.clearProduct();
 
 			SaveProduct : function(oEvent){
 				var that = this;
-				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				// var oView = this.getView().getViewName();
 				var productModel = that.getView().getModel("productModel");
+				var prodId = productModel.getProperty("/ProductCode");
 				var productCode = that.getView().byId("idProductCode").getValue();
 				productModel.setProperty("/ProductCode", productCode);
-				// var prodId = productModel.id;
-				// if(productCode === "") {
-				// 	var productCode =  this.getView().byId("idProductCode").getValue();
-				// 	productModel.setProperty("/ProductCode", productCode);
-				// }
-				 var productModel = this.getView().getModel("productModel");
-				 var productCode = productModel.getData().ProductCode;
-				 var productJson = this.getView().getModel("productModelInfo").getData().results;
+				if(productCode === ""){
+					this.additionalInfoValidation();
+				 MessageToast.show("Please fill the required fields");
+				 return;
+			 }
+				// var aFilters = [];
+				// var oFilter = new Filter("ProductCode", "EQ", productModel.getProperty("/ProductCode"));
+				// aFilters.push(oFilter);
+				// that.getModel().read("/Products",{
+				// 	filters: aFilters,
+				// 	success: function(data){
+				// 		if(data.results.length > 0){
 
-				 // if(productModel.getData().ProductCode === "" ){
-				 if(productCode === ""){
-					 this.additionalInfoValidation();
-					MessageToast.show("Please fill the required fields");
-					return;
-				}
-				 function getProductCode(productCode) {
-							return productJson.filter(
-								function (data) {
-									return data.ProductCode === productCode;
-								}
-							);
-						}
-
-					// 	// var found = productModel.id;
-						var found = getProductCode(productCode);
-					// var found = selectedMatData;
-
-						if(found.length > 0){
-
+						if(prodId.length > 0){
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Products('"+found[0].id+"')", "PUT", {}, productModel.getData() , this)
+							 "/Products('"+prodId+"')", "PUT", {}, productModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
 								// that._onRouteMatched();
@@ -372,6 +362,29 @@ this.clearProduct();
 										MessageToast.show("Data could not be saved");
 								});
 						}
+						// if(data.results.length === 0){
+						// 	that.createNewProduct();
+						// }
+						// else{
+						// 	that.updateProduct();
+				// 		// }
+				// 	}
+				// } );
+
+				 // var productJson = this.getView().getModel("productModelInfo").getData().results;
+
+				 // if(productModel.getData().ProductCode === "" ){
+				 // function getProductCode(prodId) {
+					// 		return productJson.filter(
+					// 			function (data) {
+					// 				return data.ProductCode === productCode;
+					// 			}
+					// 		);
+					// 	}
+				 //
+					// // 	// var found = productModel.id;
+					// 	var found = getProductCode(prodId);
+					// // var found = selectedMatData;
 
 			},
 
@@ -383,16 +396,17 @@ this.clearProduct();
  			 function getProductCode(productCode) {
  						return productJson.filter(
  							function (data) {
- 								return data.ProductCode === productCode;
+ 								return data.id === productCode;
  							}
  						);
  					}
 
- 					var found = getProductCode(productCode);
- 					if(found.length > 0){
+ 					// var found = getProductCode(productCode);
+ 					// if(found.length > 0){
+					if(productCode.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Products('" + found[0].id + "')", "DELETE", {},{}, this)
+							 "/Products('" + productCode + "')", "DELETE", {},{}, this)
 								.then(function(oData) {
 								MessageToast.show("Deleted successfully");
 								productModel.getData().Category = "";

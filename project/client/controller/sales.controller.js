@@ -520,10 +520,10 @@ if (data.QtyD === ""){
 
 var stonevalue = quantityOfStone * makingD;
 
-if (weight === 0) {
-  // cells[9].setValue(0);
-  cells[cells.length - 1].setText(0)
-}else {
+// if (weight === 0) {
+//   // cells[9].setValue(0);
+//   cells[cells.length - 1].setText(0)
+// }else {
 if (priceF || makingCharges || stonevalue) {
   // gold price per gram
   // cells[9].setValue(priceF + makingCharges + stonevalue);
@@ -531,7 +531,8 @@ if (priceF || makingCharges || stonevalue) {
 }else {
   // cells[9].setValue(0);
   cells[cells.length - 1].setText(0)
-}}
+}
+// }
 
 }else
 if (category.Type === 'GS') {
@@ -742,10 +743,10 @@ if (!stonevalue) {
   var stonevalue = 0;
 }
 
-if (quantity === 0) {
-  // cells[9].setValue(0);
-  cells[cells.length - 1].setText(0)
-}else {
+// if (quantity === 0) {
+//   // cells[9].setValue(0);
+//   cells[cells.length - 1].setText(0)
+// }else {
 if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
   // cells[9].setValue(priceF + makingCharges + stonevalue);
@@ -753,7 +754,8 @@ if (priceF || makingOfProduct || stonevalue) {
 }else {
   // cells[9].setValue(0);
   cells[cells.length - 1].setText(0)
-}}
+}
+// }
 
 }//end of per PCs calculation
 

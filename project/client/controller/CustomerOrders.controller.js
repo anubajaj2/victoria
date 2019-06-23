@@ -7,6 +7,7 @@ sap.ui.define([
   "sap/m/Dialog"
 ],function (BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog) {
       "use strict";
+        var coId;
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
     onInit: function () {
@@ -18,16 +19,12 @@ sap.ui.define([
 
   _onRouteMatched : function(){
   	var that = this;
-    debugger;
     that.getView().byId("idCoDate").setDateValue(new Date());
     var date = new  Date();
     var dd = date.getDate();
     var mm = date.getMonth() + 1;
     var yyyy = date.getFullYear();
     that.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
-    // that.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
-    // that.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
-
   },
 
     onValueHelp: function(oEvent){
@@ -76,7 +73,6 @@ sap.ui.define([
                 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
           this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
                                                 selCust);
-                                                debugger;
           myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
           var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
           this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
@@ -133,7 +129,6 @@ sap.ui.define([
   },
 
     onDateChange:function(oEvent){
-      debugger;
       var oDP = oEvent.getSource();
       var bValid = oEvent.getParameter("valid");
       if (bValid) {
@@ -147,9 +142,7 @@ sap.ui.define([
           var parts = sValue.split('-');
           // sValu format yyyy-MM-dd; MM starts from 0-11 for months
           var dateObj = new Date(parts[0], parts[1], parts[2]);
-          //this.getView().getModel("local").setProperty("/customerOrder/DelDate", dateObj);
           this.getView().byId("idCoDelDate").setDateValue(dateObj);
-          //this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getIncrementDate(dateObj,1));
       }
     },
 
@@ -172,11 +165,37 @@ sap.ui.define([
 
     onSelectPhoto: function(oEvent){
       debugger;
-       if (!this.photoPopup) {
-         this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
-         this.getView().addDependent(this.photoPopup);
-       }
-       this.photoPopup.open();
+      var that = this
+      //Check if photo already exists for the CO Order
+      // move the id of selected row to global variable
+       coId = oEvent.getSource().getBindingContext().getPath().split("'")[1];
+       var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
+
+       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+     	 relPath, "GET", {}, {}, this)
+     		.then(function(oData) {
+          debugger;
+        // if photo not assigned, call photo upload popup else show photo
+          if (oData.results.length === 0) {
+              if (!that.photoPopup) {
+                that.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", that);
+                that.getView().addDependent(that.photoPopup);
+              }
+              that.photoPopup.open();
+            }else {
+              var oModelPhoto = new JSONModel();
+              oModelPhoto.setData(oData);
+              that.getView().setModel(oModelPhoto, "photo");
+              if (!that.photogallPopup) {
+                that.photogallPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoGalleryDialog", that);
+                that.getView().addDependent(that.photogallPopup);
+              }
+              that.photogallPopup.open();
+            }
+     		}).catch(function(oError) {
+     				//MessageToast.show("cannot fetch the data");
+
+     		});
      },
 
     handleUploadPress: function(oEvent) {
@@ -187,7 +206,7 @@ sap.ui.define([
       var oFileUploader = sap.ui.getCore().byId("idCoUploader");
       if (!oFileUploader.getValue()) {
         sap.m.MessageToast.show("Choose a file first");
-        return;        
+        return;
       }
       var file = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
 
@@ -199,28 +218,41 @@ sap.ui.define([
         reader.onload = function(e) {
           debugger;
           var oFile = {};
-          oFile.imgContent = e.currentTarget.result.replace("date:image/jpeg;base64,", "");
+          oFile.imgContent = e.currentTarget.result.replace("data:image/jpeg;base64,", "");
           // that.aFiles.push(oFile);
           var picture = btoa(encodeURI(oFile.imgContent));
-          that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
+          //that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
+          var payload = {
+            CustomerOrderId: coId,
+            //Photo: picture
+            Content: picture,
+            Filename: that.fileName,
+            Filetype: that.fileType
+          }
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
+                            "POST", {}, payload, that)
+            .then(function(oData) {
+                debugger;
+                that.getView().setBusy(false);
+                sap.m.MessageToast.show("Photo uploaded Successfully");
+              }).catch(function(oError) {
+                that.getView().setBusy(false);
+                var oPopover = that.getErrorMessage(oError);
+              });
+            ;
         }
         reader.readAsDataURL(file);
 
     },
-
-    handleResponsivePopoverPress: function (oEvent) {
-			if (!this._oPopover) {
-				this._oPopover = sap.ui.xmlfragment("sap.m.sample.ResponsivePopover.CustomerOrderPhoto", this);
-				this._oPopover.bindElement("/ProductCollection/0");
-				this.getView().addDependent(this._oPopover);
-			}
-
-			this._oPopover.openBy(oEvent.getSource());
-		},
-
-		handleCloseButton: function (oEvent) {
-			this._oPopover.close();
-		},
+// close photo upload popup
+    handleClosePress: function(oEvent){
+      if (!this.photoPopup){
+        this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
+      }
+      var oFileUploader = sap.ui.getCore().byId("idCoUploader");
+      oFileUploader.setValue("");
+      this.photoPopup.close();
+    },
 
     onSave: function(oEvent){
 

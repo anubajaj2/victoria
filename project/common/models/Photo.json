@@ -12,11 +12,21 @@
       "required": true,
       "default": "null"
     },
-    "Photo": {
+    "Content": {
       "type": "string",
       "required": true,
       "default": "null"
-    }
+    },
+    "Filename": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "Filetype": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    }    
   },
   "scope":{
 

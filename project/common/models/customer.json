@@ -64,6 +64,16 @@
       "type":"hasMany",
       "model":"Kacchi",
       "foreignKey": "Customer"
+    },
+    "ToRetailOrders":{
+      "type":"hasMany",
+      "model":"OrderHeader",
+      "foreignKey": "Customer"
+    },
+    "ToWholeSaleOrder":{
+      "type":"hasMany",
+      "model":"WSOrderHeader",
+      "foreignKey": "Customer"
     }
   },
   "acls": [

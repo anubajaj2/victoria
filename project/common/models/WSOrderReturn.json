@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "orderNo":{
+    "OrderNo":{
       "type":"string",
       "required":true
     },
@@ -64,7 +64,13 @@
 
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ToWSOrders":{
+      "type":"belongsTo",
+      "model":"WSOrderHeader",
+      "foreignKey":"OrderNo"
+    }
+  },
   "acls": [
     {
       "accessType": "*",

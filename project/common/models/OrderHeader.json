@@ -67,9 +67,14 @@
       "model":"Customer",
       "foreignKey":"Customer"
     },
-    "ToorderItems":{
+    "ToOrderItems":{
       "type":"hasMany",
       "model":"OrderItem",
+      "foreignKey":"OrderNo"
+    },
+    "ToOrderReturns":{
+      "type":"hasMany",
+      "model":"OrderReturn",
       "foreignKey":"OrderNo"
     }
   },

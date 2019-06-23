@@ -335,6 +335,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
     debugger;
   if (sButton === MessageBox.Action.OK) {
     // var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+
       for(var i=0; i <= selIdxs.length; i++){
         var index = selIdxs[i];
         for (var j = index; j <= index; j++) {
@@ -354,6 +355,36 @@ if (selIdxs.length && selIdxs.length !== 0) {
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
         that.getView().byId("orderItemBases").clearSelection();
       }// check for non saved records
+      for(var j=0; j <= selIdxs.length; j++){
+          var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+          oTableData.push(
+            {
+    					"OrderNo": "",
+    					"itemNo": "",
+    					"Material":"",
+    					"MaterialCode":"",
+    					"Description": "",
+    					"Qty": 0,
+    					"QtyD": 0,
+    					"Weight":0,
+    					"WeightD":0,
+    					"Making":0,
+    					"MakingD":0,
+    					"Tunch":0,
+    					"Remarks": "",
+    					"SubTotal":0,
+    					"SubTotalS":0,
+    					"SubTotalG":0,
+    					"Category": "",
+    					"CreatedBy": "",
+    					"CreatedOn": "",
+    					"ChangedBy": "",
+    					"ChangedOn": ""
+    				}
+          );
+          that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
+
+      }
     }//for j loop
     }//for i loop
 }//

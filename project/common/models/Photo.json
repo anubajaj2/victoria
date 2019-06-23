@@ -13,7 +13,7 @@
       "default": "null"
     },
     "Content": {
-      "type": "binData",
+      "type": "string",
       "required": true,
       "default": "null"
     },

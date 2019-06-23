@@ -354,9 +354,9 @@ sap.ui.define([
         var customerData = this.allMasterData.customers[customerId];
         oTable.getItems()[i].getCells()[2].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
-        // var materialId = oTable.getItems()[i].getCells()[5].getText();
-        // var materialData = this.allMasterData.materials[materialId];
-        // oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
+        var materialId = oTable.getItems()[i].getCells()[5].getText();
+        var materialData = this.allMasterData.materials[materialId];
+        oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName );
 
         var karigarId = oTable.getItems()[i].getCells()[11].getText();
         if (karigarId !== "null" && karigarId !== " ") {

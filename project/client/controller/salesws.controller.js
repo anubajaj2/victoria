@@ -428,6 +428,12 @@ sap.ui.define(
 									}
 								}
 							},
+							toggleFullScreen:function(){
+							  debugger;
+							  var btnId = "WSItemFragment--idFullScreenBtn";
+							  var headerId = "WSHeaderFragment--WSOrderHeader";
+							  this.toggleUiTable(btnId,headerId)
+							},
 							onExit: function() {
 								debugger;
 								if (this.searchPopup) {

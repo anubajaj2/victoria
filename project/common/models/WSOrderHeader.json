@@ -71,7 +71,7 @@
       "model":"WSOrderItem",
       "foreignKey": "OrderNo"
     },
-    "ToWholeSaleOrder":{
+    "ToWSOrderReturns":{
       "type":"hasMany",
       "model":"WSOrderReturn",
       "foreignKey": "orderNo"

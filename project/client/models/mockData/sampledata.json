@@ -76,6 +76,32 @@
 			"value": "Shashank HDFC"
 		}
 	],
+	"returnType": [
+		{
+				"key": "OG",
+				"value": "Old Gold"
+		},
+		{
+				"key": "OS",
+				"value": "Old Silver"
+		},
+		{
+				"key": "KS",
+				"value": "Kacchi Silver"
+		},
+		{
+				"key": "KG",
+				"value": "Kaccha Gold"
+		},
+		{
+				"key": "BS",
+				"value": "Bank Silver"
+		},
+		{
+				"key": "BG",
+				"value": "Buscuit Gold"
+		}
+	],
 	"BeneficiaryName": "",
 	"newCustomer": {
 		"GmailId": "",

@@ -50,11 +50,11 @@ _onRouteMatched: function(oEvent){
     oTable.clearSelection();
 
   },
-  toggleFullScreen: function(){
+  toggleFullScreen: function(oEvent){
     debugger;
     var btnId = "idFullScreenBtn";
     var headerId = "idKacchiHead";
-    this.toggleUiTable(btnId,headerId)
+    this.toggleUiTable(oEvent,btnId,headerId)
   },
   getTotals: function(){
     debugger;
@@ -456,7 +456,7 @@ onConfirm: function(oEvent){
     myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
     this.customerId = myData.Customer;
     var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-    var url  = "?$filters=('" + [oFilter] + "')";
+    var url  = "?$filters=+'" + [oFilter] + "'+";
     var CustFilter  = myData.Customer;
     this.getView().getModel("local").setProperty("/kacchiData", myData);
   // added by sweta to populate the selected cust and text to the input field

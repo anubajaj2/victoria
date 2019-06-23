@@ -59,6 +59,11 @@
       "type":"hasMany",
       "model":"Entry",
       "foreignKey": "Customer"
+    },
+    "ToKacchi":{
+      "type":"hasMany",
+      "model":"Kacchi",
+      "foreignKey": "Customer"
     }
   },
   "acls": [

@@ -456,7 +456,7 @@ onConfirm: function(oEvent){
     myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
     this.customerId = myData.Customer;
     var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-    var url  = "?$filters=+'" + [oFilter] + "'+";
+    //var url  = "?$filters=+'" + [oFilter] + "'+";
     var CustFilter  = myData.Customer;
     this.getView().getModel("local").setProperty("/kacchiData", myData);
   // added by sweta to populate the selected cust and text to the input field
@@ -471,7 +471,7 @@ onConfirm: function(oEvent){
     }
 
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-        "/Kacchis", "GET", {}, {}, this)
+        "/Kacchis", "GET", {filters: [oFilter]}, {}, this)
       .then(function(oData) {
         debugger;
         // oData.read("/SalesOrderset", null, ["$filter=DocNumber eq '0000012340' ], false,

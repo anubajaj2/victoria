@@ -184,7 +184,7 @@ sap.ui.define([
               that.photoPopup.open();
             }else {
               var oModelPhoto = new JSONModel();
-              oModelPhoto.setData(oData);
+              oModelPhoto.setData(oData.results[0]);
               that.getView().setModel(oModelPhoto, "photo");
               if (!that.photogallPopup) {
                 that.photogallPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoGalleryDialog", that);
@@ -220,7 +220,7 @@ sap.ui.define([
           var oFile = {};
           oFile.imgContent = e.currentTarget.result.replace("data:image/jpeg;base64,", "");
           // that.aFiles.push(oFile);
-          var picture = btoa(encodeURI(oFile.imgContent));
+          var picture = oFile.imgContent ; //btoa(encodeURI(oFile.imgContent));
           //that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
           var payload = {
             CustomerOrderId: coId,

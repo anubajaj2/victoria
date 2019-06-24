@@ -404,8 +404,8 @@ sap.ui.define([
 
 		handleSilverValidation: function(oValue) {
 			var oSilver1 = parseFloat(oValue, 10);
-			if ((oSilver1 < 25000 ||
-				oSilver1 > 40000) && oSilver1 > 0) {
+			if ((oSilver1 < 32000 ||
+				oSilver1 > 65000) && oSilver1 > 0) {
 					var valid = false;
 				return valid;
 			} else {

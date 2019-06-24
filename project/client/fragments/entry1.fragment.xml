@@ -40,7 +40,7 @@
               <l:GridData span="M3 S3"/>
             </layoutData>
           </Input>
-          <Input id="idCustText" value="" editable="false"/>
+          <Text id="idCustText" enableSelection="false"/>
         </f:fields>
       </f:FormElement>
       </f:formElements>

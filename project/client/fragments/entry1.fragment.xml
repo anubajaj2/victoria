@@ -10,9 +10,9 @@
          labelSpanS="12"
          adjustLabelSpan="false"
          emptySpanXL="0"
-         emptySpanL="4"
-         emptySpanM="0"
-         emptySpanS="0"
+         emptySpanL="6"
+         emptySpanM="1"
+         emptySpanS="1"
          columnsXL="2"
          columnsL="2"
          columnsM="2"
@@ -27,7 +27,7 @@
             displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
           <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="false">
           <layoutData>
-            <l:GridData span="XL4 L3 M5 S6"/>
+            <l:GridData span="M4 S8"/>
           </layoutData>
         </CheckBox>
         </f:fields>
@@ -37,7 +37,7 @@
           <Input  showValueHelp="true" valueHelpOnly="true"
             valueHelpRequest="onValueHelpRequest" value="" id="idCust">
             <layoutData>
-              <l:GridData span="XL4 L3 M5 S6"/>
+              <l:GridData span="M3 S3"/>
             </layoutData>
           </Input>
           <Input id="idCustText" value="" editable="false"/>

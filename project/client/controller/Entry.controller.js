@@ -267,8 +267,59 @@ debugger;
        var oPopover = that.getErrorMessage(oError);
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
+			 debugger;
+			 var x=this.getView().byId("idTC").getText();
+			 var x1=parseInt(this.byId("idTC").getText());
+			 var y=this.getView().byId("idCash").getValue();
+			 var y1=parseInt(this.byId("idCash").getValue());
+			 var z = x1+y1;
+			 this.byId("idTC").setText(z);
+			 var z1 = this.byId("idTC").getText();
+			 parseInt(z1);
+			if(parseInt(z1)>0){
+				that.byId("idTC").setState('Success');
+				debugger;
+			}else{
+				that.byId("idTC").setState('Warning');
+			}
+			var x=this.getView().byId("idG").getText();
+			var x1=parseInt(this.byId("idG").getText());
+			var y=this.getView().byId("idGold").getValue();
+			var y1=parseInt(this.byId("idGold").getValue());
+			var z = x1+y1;
+			this.byId("idG").setText(z);
+			var z1 = this.byId("idG").getText();
+			parseInt(z1);
+		 if(parseInt(z1)>0){
+			 that.byId("idG").setState('Success');
+			 debugger;
+		 }else{
+			 that.byId("idG").setState('Warning');
+		 }
+		 var x=this.getView().byId("idS").getText();
+		 var x1=parseInt(this.byId("idS").getText());
+		 var y=this.getView().byId("idSilver").getValue();
+		 var y1=parseInt(this.byId("idSilver").getValue());
+		 var z = x1+y1;
+		 this.byId("idS").setText(z);
+		 var z1 = this.byId("idS").getText();
+		 parseInt(z1);
+		if(parseInt(z1)>0){
+			that.byId("idS").setState('Success');
+			debugger;
+		}else{
+			that.byId("idS").setState('Warning');
+		}
+
+
+
+
+
+
+
+
 			//
-			// 
+			//
 			//  $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			// 	console.log(result);
 			// 	debugger;
@@ -360,6 +411,7 @@ debugger;
        }
      }
      );
+		 debugger;
    },
 
    onClear: function(){

@@ -369,10 +369,10 @@ debugger;
 		// 		var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
 		// 		var amt1=parseInt(amt);
 	 //
-		// 		if(amt1>0){
-		// 			nCash+=nCash+amt1;
-		// 			debugger;
-		// 		}
+				// if(amt1>0){
+				// 	nCash+=nCash+amt1;
+				// 	debugger;
+				// }
 	 //
 	 //
 		// // 	debugger;
@@ -388,7 +388,7 @@ debugger;
 
    onDelete: function(){
      var that=this;
-     debugger;
+     // debugger;
      sap.m.MessageBox.confirm(
 "Deleting Selected Records", {
          title: "Confirm",
@@ -399,19 +399,73 @@ debugger;
            if(sAction==="OK"){
              debugger;
              var x = that.getView().byId("idTable").getSelectedItems();
+						 var nCash = 0;
+						 var nGold = 0;
+						 var nSilver = 0;
             if(x.length){
               for(var i=0; i<x.length; i++){
                 debugger;
                 var myUrl = x[i].getBindingContext().sPath;
                 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+								var p = x[i].getBindingContext().getObject().Cash;
+								var q = x[i].getBindingContext().getObject().Gold;
+								var r = x[i].getBindingContext().getObject().Silver;
+								if(p){
+									nCash+= nCash + p -nCash;
+								}
+								if(q){
+											nGold+= nGold + q -nGold;
+								}
+							  if(r){
+											nSilver+= nSilver + r -nSilver;
+								}
               }
+							var CA = that.byId("idTC").getText();
+							var CA1 = parseInt(CA);
+							var TCA = CA1 - nCash;
+							that.byId("idTC").setText(TCA);
+							that.byId("idTC").getText();
+							parseInt(that.byId("idTC").getText());
+							if(parseInt(that.byId("idTC").getText())>0){
+								that.byId("idTC").setState('Success');
+								debugger;
+							}else{
+								that.byId("idTC").setState('Warning');
+							}
+
+							var GA = that.byId("idG").getText();
+							var GA1 = parseInt(GA);
+							var TGA = GA1 - nGold;
+							that.byId("idG").setText(TGA);
+							that.byId("idG").getText();
+						 parseInt(that.byId("idG").getText());
+						 if(parseInt(that.byId("idG").getText())>0){
+							 that.byId("idG").setState('Success');
+							 debugger;
+						 }else{
+							 that.byId("idG").setState('Warning');
+						 }
+
+							var SA = that.byId("idS").getText();
+							var SA1 = parseInt(SA);
+							var TSA = SA1 - nSilver;
+							that.byId("idS").setText(TSA);
+							that.byId("idS").getText();
+						 parseInt(that.byId("idS").getText());
+						 if(parseInt(that.byId("idS").getText())>0){
+							 that.byId("idS").setState('Success');
+							 debugger;
+						 }else{
+							 that.byId("idS").setState('Warning');
+						 }
             }
+
           sap.m.MessageToast.show("Selected records are deleted");
         }
        }
      }
      );
-		 debugger;
+		 // debugger;
    },
 
    onClear: function(){

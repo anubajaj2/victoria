@@ -76,53 +76,7 @@ this.ClearCalculation();
   ClearCalculation : function(){
 
   },
-  validateAll : function(myData){
-     var retVal = true;
-    if(myData.First < 25000 || myData.Second < 25000
-     || myData.Gold < 25000 || myData.Gold1 < 25000 ||
-     myData.GoldReturns < 25000 || myData.GoldReturns1 < 25000
-     || myData.KacchaGold < 25000 || myData.KacchaGoldR < 25000 ||
-     myData.First > 40000 || myData.Second > 40000
-      || myData.Gold > 40000 || myData.Gold1 > 40000 ||
-      myData.GoldReturns > 40000 || myData.GoldReturns1 > 40000
-      || myData.KacchaGold > 40000 || myData.KacchaGoldR > 40000){
-        MessageBox.error("Value range for Gold should be between 25000 and 40000");
-        retVal = false;
-        return retVal;
-      }
-      else{
-        if(myData.Silver < 32000 || myData.Silver1 < 32000 ||
-         myData.SilverReturns < 32000 || myData.SilverReturns1 < 32000
-         || myData.KacchaSilver < 32000 || myData.KacchaSilverR < 32000 ||
-        myData.Silver > 65000 || myData.Silver1 > 65000 ||
-          myData.SilverReturns > 65000 || myData.SilverReturns1 > 65000
-          || myData.KacchaSilver > 65000 || myData.KacchaSilverR > 65000){
-            MessageBox.error("Value range for Silver should be between 32000 and 65000");
-            retVal = false;
-          }
-          else{
-        retVal = true;
-      }
-        return retVal;
-      }
-  },
-  // onValidateFieldGroup: function(oEvent){
-  //   var that =  this;
-  //   var valid = true;
-  //   var oFieldId = oEvent.getParameters().fieldGroupIds;
-  //   var oFieldValue = oEvent.getSource().getValue();
-  //   if(oFieldId[0] === "GoldField") {
-  //   var oReturn = that.handleGoldValidation(oFieldValue);
-  //   }
-  //   if(oReturn === false){
-  //     oEvent.getSource().setValueState("Error").setValueStateText("Gold value should be between 25000 and 40000");
-  //     return oReturn;
-  //   }
-  //   else{
-  //     oEvent.getSource().setValueState("None");
-  //     return oReturn;
-  //   }
-  // },
+  
   onliveChange: function(oEvent){
     var that = this;
     this.byId("idSaveIcon").setColor('red');
@@ -132,24 +86,83 @@ this.ClearCalculation();
     var oFieldLab = oEvent.getSource().getIdForLabel();
   },
 
-  SaveCalculation : function(oEvent){
+  ValidateInput : function(i, oObj, n){
     var that = this;
-    var retVal = true;
+    var oText = oObj.getFormContainers()[n].getFormElements()[i].getFields()[0].getLabels()[0].getText();
+     var oValue = oObj.getFormContainers()[n].getFormElements()[i].getFields()[0].getValue();
+     var oIdErr = oObj.getFormContainers()[n].getFormElements()[i].getFields()[0];
+    if(oText.includes("Gold") || oText.includes("22")){
+      var valid = that.handleGoldValidation(oValue);
+      if(valid === false){
+        oIdErr.setValueState("Error").setValueStateText("Gold value should be between 25000 and 40000");
+        return valid;
+      }
+      else{
+        oIdErr.setValueState("None");
+        return valid;
+      }
+    }
+    else{
+      var valid = that.handleSilverValidation(oValue);
+      if(valid === false){
+        oIdErr.setValueState("Error").setValueStateText("Silver value should be between 32000 and 65000");
+        return valid;
+      }
+      else{
+        oIdErr.setValueState("None");
+        return valid;
+      }
+    }
+  },
+
+  SaveCalculation : function(oEvent){
+    var that = this
+    var valid = true;
+    var oObj =  this.getView().byId("__component0---idCustomizing--idCalculation");
+    var oLen = oObj.getFormContainers()[0].getFormElements().length;
+    var oLen1 = oObj.getFormContainers()[1].getFormElements().length;
+      for(var i=0 ; i< oLen ; i++){
+        var n = 0;
+       var valid = that.ValidateInput(i, oObj, n);
+       if(valid === false){
+         break;
+       }
+      }
+      if(valid === true){
+      for(var i=0 ; i< oLen1 ; i++){
+        var n = 1;
+       var valid = that.ValidateInput(i, oObj, n);
+       if(valid === false){
+         break;
+       }
+      }
+    }
+    var oObj =  this.getView().byId("__component0---idCustomizing--idWholesale");
+    var oLen = oObj.getFormContainers()[0].getFormElements().length;
+    var oLen1 = oObj.getFormContainers()[1].getFormElements().length;
+    if(valid === true){
+    for(var i=0 ; i< oLen ; i++){
+      var n = 0;
+     var valid = that.ValidateInput(i, oObj, n);
+     if(valid === false){
+       break;
+     }
+    }
+  }
+    if(valid === true){
+    for(var i=0 ; i< oLen1 ; i++){
+      var n = 1;
+     var valid = that.ValidateInput(i, oObj, n);
+     if(valid === false){
+       break;
+     }
+    }
+  }
     that.getView().setBusy(true);
       var myData = that.getView().getModel("local").getProperty("/CustomCalculation");
       var id = myData.id;
-      var retVal = that.validateAll(myData);
-      if(retVal === true) {
-       // var calculationJson = that.getView().getModel("myData").results;
-       // function getCustomCode(id) {
-       //      return calculationJson.filter(
-       //        function (data) {
-       //          return data.id === id;
-       //        }
-       //      );
-       //    }
-       //
-       //      	var found = getCustomCode(id);
+      // var retVal = that.validateAll(myData);
+      if(valid === true) {
         if(id){
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
          "/CustomCalculations('"+myData.id+"')", "PUT", {},myData , this)

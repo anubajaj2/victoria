@@ -56,7 +56,7 @@ sap.ui.define(
 				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
 				var cells = oCurrentRow.getCells();
-				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
+				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
 				var newValue = oEvent.getParameters().newValue;
 				// Initializing the variables so we dont want to display NaN
 				var X = 0;
@@ -232,12 +232,12 @@ sap.ui.define(
 						}
 					}
 					if (category.WeightD === "") {
-						var weight = 0;
+						var weightD = 0;
 					} else
 					if (category.WeightD === 0) {
-						var weight = 0;
+						var weightD = 0;
 					} else {
-						var weight = oFloatFormat.parse(category.WeightD);
+						var weightD = oFloatFormat.parse(category.WeightD);
 					}
 
 					//get the final weight // X=Weight - WeightD

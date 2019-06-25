@@ -31,7 +31,7 @@
          showValueHelp="true"
         valueHelpRequest="onTypeHelp"/> -->
 <m:ComboBox showSecondaryValues= "true"
-  selectionChange="onReturnSelect"
+  selectionChange="onReturnValue"
   value="{returnModel>Type}"
   items= "{local>/returnType}">
 <core:Item key="{local>key}" text="{local>value}"/>

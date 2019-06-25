@@ -560,7 +560,7 @@ sap.ui.define([
 			}
 
 		},
-		setVisible:function(oEvent){
+setVisible:function(oEvent){
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
@@ -591,7 +591,39 @@ sap.ui.define([
 				 }
 			}
 		},
-		orderItem: function(oEvent) {
+onReturnValue:function(oEvent){
+debugger;
+var userEnterValue=this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
+var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
+var key = oEvent.getParameter("selectedItem").getKey();
+this.defaultValuesLoad(oEvent,userEnterValue,customCal,key);
+},
+defaultValuesLoad:function(oEvent,userEnterValue,customCal,key)
+{
+var that = this;
+var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
+if (key === 'OG' || key === 'BG') {
+userEnterValue.Tunch = 100;
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+}else if (key === 'OS' || key === 'BS') {
+	userEnterValue.Tunch = 100;
+	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+}else if (key === 'KG') {
+//only in case of retail sales load by default
+	if (viewId ==='idsales')
+	{
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+	}
+}else if (key === 'KS') {
+	//only in case of retail sales load by default
+		if (viewId ==='idsales')
+		{
+	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+		}
+}
+that.getView().getModel('local').setProperty('/returnModel',userEnterValue);
+},
+orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT
 			this.setVisible(oEvent);
@@ -635,8 +667,7 @@ sap.ui.define([
 			//set the model
 			this.setModel(oOrderItem, "orderItems");
 		},
-
-		hideDColumns:function(oEvent){
+hideDColumns:function(oEvent){
 			//on setting button click
 			debugger;
 			var oModel = this.getView().getModel('VisibleSet');
@@ -647,7 +678,7 @@ sap.ui.define([
 				oModel.setProperty('/set',true);
 			}
 		},
-		onMaterialSelect: function(oEvent) {
+onMaterialSelect: function(oEvent) {
 			debugger;
 			var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
@@ -677,7 +708,7 @@ sap.ui.define([
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}
 		},
-		onTableExpand: function(oEvent) {
+onTableExpand: function(oEvent) {
 			debugger;
 			var splitApp = this.getView().oParent.oParent;
 			var masterVisibility = splitApp.getMode();
@@ -688,7 +719,7 @@ sap.ui.define([
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-		orderReturn: function(oEvent) {
+orderReturn: function(oEvent) {
 			debugger;
 			//create the model to set the getProperty
 			//visible or // NOT

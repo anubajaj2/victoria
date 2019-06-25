@@ -130,8 +130,9 @@ onValidation: function() {
   return retVal;
 },
 
-onValidationItem:function(data,i){
-// //line item validations
+onValidationItem:function(data,i)
+{
+//line item validations
   var that = this;
   var model = this.getView().getModel("orderItems").getProperty("/itemData");
   var oOrderDetail = that.getView().getModel('local').getProperty('/OrderItem');
@@ -321,6 +322,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
     "/CustomCalculations", "GET", {}, {}, this)
   .then(function(oData) {
     debugger;
+    that.getView().getModel("local").setProperty("/CustomCalculations",oData);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", oData.results[0].First);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", oData.results[0].Second);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", oData.results[0].Gold);
@@ -335,10 +337,6 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 this.orderItem(oEvent);
 //return table
 this.orderReturn(oEvent);
-},
-
-onReturnSelect:function(){
-
 },
 
 onDelete: function(oEvent) {

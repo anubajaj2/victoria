@@ -701,11 +701,12 @@ sap.ui.define([
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
 					"type": " ",
+					"returnId":"",
 					"weight": 0,
+					"kweight":0,
 					"tunch": 0,
 					"qty": 0,
 					"bhav":0,
-					"amount": 0,
 					"remarks": " ",
 					"subtotal":0,
 					"SubTotalS":0,

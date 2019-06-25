@@ -405,10 +405,16 @@ if (selIdxs.length && selIdxs.length !== 0) {
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;
-      // var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
-      // oTableData.splice(j, 1);
-      // that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
-      // that.getView().byId("returnModel").clearSelection();
+      var id  = that.getView().getModel("OrderReturns").getProperty("/itemData")[j].itemNo;
+      if (id){
+      that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+                                "DELETE", {}, {}, that)
+      sap.m.MessageToast.show("Data Deleted Successfully");
+      }
+      var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
+      oTableData.splice(j, 1);
+      that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
+      that.getView().byId("returnModel").clearSelection();
     }
     }//for j loop
     }//for i loop

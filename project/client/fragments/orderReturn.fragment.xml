@@ -48,6 +48,14 @@
 </Column>
 <Column>
 <label>
+<m:Text text="{i18n>Kweight}"></m:Text>
+</label>
+<template>
+<m:Input text="{returnModel>kweight}" type="Number"/>
+</template>
+</Column>
+<Column>
+<label>
 <m:Text text="{i18n>tunch}"></m:Text>
 </label>
 <template>
@@ -71,7 +79,7 @@
 <m:Input value="{returnModel>bhav}" maxLength="5"></m:Input>
 </template>
 </Column>
-<Column>
+<!-- <Column>
 <label>
 <m:Text text="{i18n>amount}"></m:Text>
 </label>
@@ -79,7 +87,7 @@
 <m:Input value="{returnModel>amount}"
         maxLength="5"></m:Input>
 </template>
-</Column>
+</Column> -->
 <Column>
 <label>
 <m:Text text="{i18n>rem}"></m:Text>

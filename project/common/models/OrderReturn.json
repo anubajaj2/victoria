@@ -19,6 +19,10 @@
       "type": "number",
       "required": true
     },
+    "KWeight": {
+      "type": "number",
+      "required": true
+    },
     "Tunch": {
       "type": "number",
       "required": true

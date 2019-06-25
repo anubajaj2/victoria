@@ -43,8 +43,7 @@
 <m:Text text="{i18n>weight}"></m:Text>
 </label>
 <template>
-<m:Input text="{returnModel>weight}"
-        editable="false"/>
+<m:Input text="{returnModel>weight}" type="Number"/>
 </template>
 </Column>
 <Column>

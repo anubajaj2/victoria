@@ -43,7 +43,16 @@ _onRouteMatched: function(oEvent){
       // var deleteInd = oContext.getProperty('deleteInd');
       // if(deleteInd === "X"){
          oTableData.splice(selIdxs[i], 1); // removed i with selIdNo
-
+         oTableData.push({
+           id:"",
+           deleteInd: "",
+           Date: "",
+           Customer:"",
+           PaggaNo: 0,
+           Weight: 0.00,
+           Tunch: 0.00,
+           Fine: 0.00
+         });
       // }
     }
     this.getView().getModel("kachhiLocalModel").setProperty("/kachhiData", oTableData);

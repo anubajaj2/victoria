@@ -43,12 +43,19 @@
 						<core:Item text="{Company}" key="{Id}"/>
 					</suggestionItems>
 				</Input> -->
-
-				<ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"
+				<Input id="idCustomerCode" submit="customerCodeCheck" suggest="ValueChangeCustomer"
+					suggestionItems="{/Customers}" showSuggestion="true"
+						enabled="{viewModel>/codeEnabled}"
+					suggestionItemSelected="customerCodeCheck">
+					<suggestionItems>
+						<core:ListItem text="{CustomerCode}"/>
+					</suggestionItems>
+				</Input>
+				<!-- <ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"
 	items="{customerModelInfo>/results}" enabled="{viewModel>/codeEnabled}" valueState="{dataModel>/CustomerCodeState}" valueStateText="Customer Code cannot be blank"
 												>
 	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
-</ComboBox>
+</ComboBox> -->
 
 				<Label text="Name" required="true"/>
 				<!-- <ComboBox

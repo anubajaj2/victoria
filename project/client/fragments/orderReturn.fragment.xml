@@ -27,9 +27,15 @@
 <m:Text text="{i18n>type}"/>
 </label>
 <template>
-<m:Input value="{returnModel>type}"
+<!-- <m:Input value="{returnModel>type}"
          showValueHelp="true"
-        valueHelpRequest="onTypeHelp"/>
+        valueHelpRequest="onTypeHelp"/> -->
+<m:ComboBox showSecondaryValues= "true"
+  selectionChange="onReturnSelect"
+  value="{returnModel>Type}"
+  items= "{local>/returnType}">
+<core:Item key="{local>key}" text="{local>value}"/>
+</m:ComboBox>
 </template>
 </Column>
 <Column>
@@ -37,8 +43,7 @@
 <m:Text text="{i18n>weight}"></m:Text>
 </label>
 <template>
-<m:Input text="{returnModel>weight}"
-        editable="false"/>
+<m:Input text="{returnModel>weight}" type="Number"/>
 </template>
 </Column>
 <Column>
@@ -83,12 +88,31 @@
 <m:Input value="{returnModel>remarks}" maxLength="80"></m:Input>
 </template>
 </Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalS}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalS}" textAlign="Center"
+   type="Number" editable="false"/>
+</template>
+</Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalG}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalG}" textAlign="Center"
+ type="Number" editable="false"/>
+</template>
+</Column>
 <Column>
 <label>
 <m:Text text="{i18n>subTot}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>subtotal}"></m:Input>
+<m:Text text="{returnModel>subtotal}" textAlign="Center"
+type="Number" editable="false"/>
 </template>
 </Column>
 </columns>

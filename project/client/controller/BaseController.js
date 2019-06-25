@@ -560,14 +560,11 @@ sap.ui.define([
 			}
 
 		},
-		orderItem: function(oEvent) {
-			//create the model to set the getProperty
-			//visible or // NOT
+		setVisible:function(oEvent){
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
 			});
-			debugger;
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
 
@@ -593,12 +590,11 @@ sap.ui.define([
 					 odata.setProperty("/rows1", false);
 				 }
 			}
-			// else if (this.getView().getId().split('---')[1] === 'idsales') {
-			// 	var odata = this.getView().getModel('visModel');
-			// 	odata.setProperty("/rows1", false);
-			// }
-
-
+		},
+		orderItem: function(oEvent) {
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
 
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
@@ -692,7 +688,13 @@ sap.ui.define([
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-		orderReturn: function() {
+		orderReturn: function(oEvent) {
+			debugger;
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
+	var oModel = this.getView().getModel('local').getProperty('/returnType');
+
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];
@@ -702,10 +704,12 @@ sap.ui.define([
 					"weight": 0,
 					"tunch": 0,
 					"qty": 0,
-					"bhav": " ",
+					"bhav":0,
 					"amount": 0,
 					"remarks": " ",
-					"subtotal": " "
+					"subtotal":0,
+					"SubTotalS":0,
+					"SubTotalG":0
 				};
 				aTtype.push(oRetailtab);
 			}

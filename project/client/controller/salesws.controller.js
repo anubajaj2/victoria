@@ -379,69 +379,69 @@ sap.ui.define(
 				} else if (category.Type === 'GS') {
 					//german silver//ignore Weight//Quantity Check
 					if (fieldId === "IdQty") {
-				    if (data.Qty !== newValue) {
-				      data.Qty = newValue;
+				    if (category.Qty !== newValue) {
+				      category.Qty = newValue;
 				    }}
-				  if (data.Qty === ""){
-				    data.Qty = 0;
+				  if (category.Qty === ""){
+				    category.Qty = 0;
 				    var quantity = 0;
-				  }else if (data.Qty === 0 || data.Qty === "0") {
-				    data.Qty = 0;
+				  }else if (category.Qty === 0 || category.Qty === "0") {
+				    category.Qty = 0;
 				    var quantity = 0;
 				  }else {
-				    var quantity = oFloatFormat.parse(data.Qty);
+				    var quantity = oFloatFormat.parse(category.Qty);
 				  }
 
 				//Making charges
 				if (fieldId === "IdMaking") {
-				  if (data.Making !== newValue) {
-				    data.Making = newValue;
+				  if (category.Making !== newValue) {
+				    category.Making = newValue;
 				  }
 				}
-				    if (data.Making === "") {
-				      data.Making = 0;
+				    if (category.Making === "") {
+				      category.Making = 0;
 				      var making = 0;
-				    }else if (data.Making ===0) {
-				    data.Making = 0;
+				    }else if (category.Making ===0) {
+				    category.Making = 0;
 				    var making = 0;
 				    }else {
-				      var making = oFloatFormat.parse(data.Making);
+				      var making = oFloatFormat.parse(category.Making);
 				    }
 				//charges of german silver
 				var charges = quantity * making ;
 
 				//QuantityD
 				if (fieldId === "IdQtyD") {
-				  if (data.QtyD !== newValue) {
-				    data.QtyD = newValue;
+				  if (category.QtyD !== newValue) {
+				    category.QtyD = newValue;
 				  }
 				}
-				  if (data.QtyD === ""){
-				    data.QtyD = 0;
+				  if (category.QtyD === ""){
+				    category.QtyD = 0;
 				    var quantityD = 0;
 				    var quantityOfStone = 0;
-				  }else if (data.QtyD === 0 || data.QtyD === "0") {
+				  }else if (category.QtyD === 0 || category.QtyD === "0") {
 				    var quantityD = 0;
 				    var quantityOfStone = 0;
 				  }else {
-				    var quantityD = oFloatFormat.parse(data.QtyD);
+				    var quantityD = oFloatFormat.parse(category.QtyD);
 				    var quantityOfStone = quantityD;
 				  }
 
 				// makingD charges
 				if (fieldId === "IdMakingD") {
-				  if (data.MakingD !== newValue) {
-				    data.MakingD = newValue;
+				  if (category.MakingD !== newValue) {
+				    category.MakingD = newValue;
 				  }
 				}
-				if (data.MakingD === "" ){
-				   data.MakingD=0;
+				if (category.MakingD === "" ){
+				   category.MakingD=0;
 				  var makingD = 0;
-				  }else if (data.MakingD === 0) {
-				    data.MakingD=0;
+				  }else if (category.MakingD === 0) {
+				    category.MakingD=0;
 				    var makingD = 0;
 				  }else {
-				    var makingD = oFloatFormat.parse(data.MakingD);
+				    var makingD = oFloatFormat.parse(category.MakingD);
 				  }
 				var chargesD = quantityD * makingD;
 				//final charges on GS

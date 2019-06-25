@@ -29,15 +29,11 @@
     },
     "Qty": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Bhav": {
       "type": "number",
-      "required": true
-    },
-    "Amount": {
-      "type": "number",
-      "required": true
+      "required": false
     },
     "Remarks": {
       "type": "string",

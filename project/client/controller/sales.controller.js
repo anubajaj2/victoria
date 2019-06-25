@@ -131,7 +131,6 @@ onValidation: function() {
 },
 
 onValidationItem:function(data,i){
-  debugger;
 // //line item validations
   var that = this;
   var model = this.getView().getModel("orderItems").getProperty("/itemData");

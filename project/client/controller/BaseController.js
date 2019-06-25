@@ -693,24 +693,26 @@ sap.ui.define([
 			//create the model to set the getProperty
 			//visible or // NOT
 			this.setVisible(oEvent);
-	var oModel = this.getView().getModel('local').getProperty('/returnType');
-
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
-					"type": " ",
-					"returnId":"",
-					"weight": 0,
-					"kweight":0,
-					"tunch": 0,
-					"qty": 0,
-					"bhav":0,
-					"remarks": " ",
-					"subtotal":0,
+					"Type":"",
+					"ReturnId":0,
+					"Weight":0,
+					"KWeight":0,
+					"Tunch":0,
+					"Qty":0,
+					"Bhav":0,
+					"Remarks":"",
 					"SubTotalS":0,
-					"SubTotalG":0
+					"SubTotalG":0,
+					"SubTotal":0,
+					"CreatedBy":"",
+					"CreatedOn":"",
+					"ChangedBy":"",
+					"ChangedOn":""
 				};
 				aTtype.push(oRetailtab);
 			}

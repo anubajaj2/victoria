@@ -560,14 +560,11 @@ sap.ui.define([
 			}
 
 		},
-		orderItem: function(oEvent) {
-			//create the model to set the getProperty
-			//visible or // NOT
+		setVisible:function(oEvent){
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
 			});
-			debugger;
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
 
@@ -593,12 +590,11 @@ sap.ui.define([
 					 odata.setProperty("/rows1", false);
 				 }
 			}
-			// else if (this.getView().getId().split('---')[1] === 'idsales') {
-			// 	var odata = this.getView().getModel('visModel');
-			// 	odata.setProperty("/rows1", false);
-			// }
-
-
+		},
+		orderItem: function(oEvent) {
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
 
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();

@@ -335,7 +335,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 //Clear Item table
 this.orderItem(oEvent);
 //return table
-this.orderReturn();
+this.orderReturn(oEvent);
 },
 
 onReturnSelect:function(){

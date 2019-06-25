@@ -688,10 +688,11 @@ sap.ui.define([
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-		orderReturn: function() {
+		orderReturn: function(oEvent) {
 			debugger;
-//set the length of fields
-	// var oTab = this.getView().byId('orderItemBases').getColumns();
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
 	var oModel = this.getView().getModel('local').getProperty('/returnType');
 
 			//create structure of an array
@@ -706,7 +707,9 @@ sap.ui.define([
 					"bhav":0,
 					"amount": 0,
 					"remarks": " ",
-					"subtotal":0
+					"subtotal":0,
+					"SubTotalS":0,
+					"SubTotalG":0
 				};
 				aTtype.push(oRetailtab);
 			}

@@ -376,7 +376,7 @@ sap.ui.define(
 					});
 				//Clear Item table
 				this.orderItem(oEvent);
-				this.orderReturn();
+				this.orderReturn(oEvent);
 
 			},
 			onDelete: function(oEvent) {

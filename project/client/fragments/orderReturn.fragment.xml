@@ -89,12 +89,31 @@
 <m:Input value="{returnModel>remarks}" maxLength="80"></m:Input>
 </template>
 </Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalS}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalS}" textAlign="Center"
+   type="Number" editable="false"/>
+</template>
+</Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalG}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalG}" textAlign="Center"
+ type="Number" editable="false"/>
+</template>
+</Column>
 <Column>
 <label>
 <m:Text text="{i18n>subTot}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>subtotal}"></m:Input>
+<m:Text text="{returnModel>subtotal}" textAlign="Center"
+type="Number" editable="false"/>
 </template>
 </Column>
 </columns>

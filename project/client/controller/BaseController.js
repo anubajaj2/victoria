@@ -693,6 +693,11 @@ sap.ui.define([
 			}
 		},
 		orderReturn: function() {
+			debugger;
+//set the length of fields
+	// var oTab = this.getView().byId('orderItemBases').getColumns();
+	var oModel = this.getView().getModel('local').getProperty('/returnType');
+
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];

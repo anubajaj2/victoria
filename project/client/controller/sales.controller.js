@@ -318,7 +318,12 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
   });
 //Clear Item table
 this.orderItem(oEvent);
+//return table
 this.orderReturn();
+},
+
+onReturnSelect:function(){
+
 },
 
 onDelete: function(oEvent) {
@@ -344,17 +349,12 @@ if (selIdxs.length && selIdxs.length !== 0) {
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
                                   "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
+        }
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(j, 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
         that.getView().byId("orderItemBases").clearSelection();
-      }else {
-        debugger;
-        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-        oTableData.splice(j, 1);
-        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-        that.getView().byId("orderItemBases").clearSelection();
-      }// check for non saved records
+
       for(var j=0; j <= selIdxs.length; j++){
           var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(

@@ -707,10 +707,10 @@ sap.ui.define([
 					"weight": 0,
 					"tunch": 0,
 					"qty": 0,
-					"bhav": " ",
+					"bhav":0,
 					"amount": 0,
 					"remarks": " ",
-					"subtotal": " "
+					"subtotal":0
 				};
 				aTtype.push(oRetailtab);
 			}

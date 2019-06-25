@@ -193,7 +193,7 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 //     that.getView().setBusy(false);
 //     var oPopover = that.getErrorMessage(oError);
 //               });
-
+debugger;
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
@@ -202,16 +202,12 @@ debugger;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
-debugger;
-if (itemNo === "") {
+// if (data.itemNo === "") {
 //posting the data
 if (data.Material !== "") {
   valueCheck = true;
   this.getView().setBusy(true);
-  debugger;
   if (this.onValidationItem(data,i) === false) {
-  debugger;
-
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -259,7 +255,7 @@ if (data.Material !== "") {
                 		});
 }//validation endif
 }//If condition end
-}//itemNo == "" check
+// }//itemNo == "" check
 }//for loop brace end
 //error if no valid entry
 if (valueCheck === false) {
@@ -277,7 +273,6 @@ if (valueCheck === false) {
 },
 
 onClear:function(oEvent){
-debugger;
 var that = this;
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true

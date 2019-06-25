@@ -68,25 +68,30 @@ sap.ui.define(
 					(category.Type === 'Silver' && category.Category === "gm")) {
 					//get the weight
 					if (fieldId === "IdWeight") {
-					  if (category.Weight !== newValue) {
-					    category.Weight = newValue;
-					  }
+						if (category.Weight !== newValue) {
+							category.Weight = newValue;
+						}
 					}
-					if (category.Weight !== "") {
-						var weight = oFloatFormat.parse(category.Weight);
-					} else {
+					if (category.Weight === "") {
 						var weight = 0;
+					} else
+					if (category.Weight === 0) {
+						var weight = 0;
+					} else {
+						var weight = oFloatFormat.parse(category.Weight);
 					}
 
 					if (fieldId === "IdWeightD") {
-					  if (category.WeightD !== newValue) {
-					    category.WeightD = newValue;
-					  }
+						if (category.WeightD !== newValue) {
+							category.WeightD = newValue;
+						}
 					}
-					if (category.WeightD !== "") {
-						var weightD = oFloatFormat.parse(category.WeightD);
-					} else {
+					if (category.WeightD === "") {
 						var weightD = 0;
+					} else if (category.WeightD === 0) {
+						var weightD = 0;
+					} else {
+						var weightD = oFloatFormat.parse(category.WeightD);
 					}
 
 					//get the final weight // X=Weight - WeightD
@@ -99,44 +104,218 @@ sap.ui.define(
 
 					//get the making charges
 					if (fieldId === "IdMaking") {
-					  if (category.Making !== newValue) {
-					    category.Making = newValue;
-					  }
+						if (category.Making !== newValue) {
+							category.Making = newValue;
+						}
 					}
-					if (category.Making !== "") {
-						var making = oFloatFormat.parse(category.Making);
-					} else {
+					if (category.Making === "") {
 						category.Making = 0;
 						var making = 0;
+					} else if (category.Making === 0) {
+						category.Making = 0;
+						var making = 0;
+					} else {
+						var making = oFloatFormat.parse(category.Making);
 					}
 
 					//making D
 					if (fieldId === "IdMakingD") {
-					  if (category.MakingD !== newValue) {
-					    category.MakingD = newValue;
-					  }
+						if (category.MakingD !== newValue) {
+							category.MakingD = newValue;
+						}
 					}
-					if (category.MakingD !== "") {
-						var makingD = oFloatFormat.parse(category.MakingD);
-					} else {
+					if (category.MakingD === "") {
 						category.MakingD = 0;
 						var makingD = 0;
-					};
+					} else if (category.MakingD === 0) {
+						category.MakingD = 0;
+						var makingD = 0;
+					} else {
+						var makingD = oFloatFormat.parse(category.MakingD);
+					}
 
 					//Making charges
 					var makingCharges = making * weightF;
 
 					// quantity of stone / quantityD
 					if (fieldId === "IdQtyD") {
-					  if (category.QtyD !== newValue) {
-					    category.QtyD = newValue;
-					  }
+						if (category.QtyD !== newValue) {
+							category.QtyD = newValue;
+						}
 					}
-					if (category.QtyD !== "") {
-						var quantityD = oFloatFormat.parse(category.QtyD);
-					} else {
+					if (category.QtyD === "") {
+						category.QtyD = 0;
 						var quantityD = 0;
+						var quantityOfStone = 0;
+					} else if (category.QtyD === 0) {
+						category.QtyD = 0;
+						var quantityD = 0;
+						var quantityOfStone = 0;
+					} else {
+						var quantityD = oFloatFormat.parse(category.QtyD);
+						var quantityOfStone = quantityD;
 					}
+
+					var stonevalue = quantityOfStone * makingD;
+
+					//Tunch
+					if (fieldId === "IdTunch") {
+						if (category.Tunch !== newValue) {
+							category.Tunch = newValue;
+						}
+					}
+
+					if (category.Tunch === "") {
+						category.Tunch = 0;
+						var tunch = 0;
+					} else if (category.Tunch === 0) {
+						category.Tunch = 0;
+						var tunch = 0;
+					} else {
+						var tunch = oFloatFormat.parse(category.Tunch);
+					}
+
+					// SubTotalSilver / SubTotalGold = X * Tunch / 100
+					if (weight === 0) {
+						// cells[10].setText(0);
+						// cells[11].setText(0);
+						cells[cells.length - 3].setText(0);
+						cells[cells.length - 2].setText(0)
+					} else {
+						if (category.Type === "Silver") {
+							// cells[10].setText(weightF * tunch / 100);
+							cells[cells.length - 3].setText(weightF * tunch / 100);
+							// category.SubTotalS = weightF * tunch / 100;
+						} else if (category.Type === "Gold") {
+							// cells[11].setText(weightF * tunch / 100);
+							cells[cells.length - 2].setText(weightF * tunch / 100);
+							// category.SubTotalG = weightF * tunch / 100;
+						};
+					};
+
+					if (weight === 0) {
+						// cells[12].setValue(0);
+						cells[cells.length - 1].setText(0);
+					} else {
+						if (makingCharges || stonevalue) {
+							// gold price per gram
+							// cells[12].setText(makingCharges + stonevalue);
+							// category.SubTot = makingCharges + stonevalue;
+							  cells[cells.length - 1].setText(makingCharges + stonevalue);
+						} else {
+							// cells[12].setText(0);
+							  cells[cells.length - 1].setText(0);
+							// category.SubTot = 0;
+						};
+					};
+
+				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
+					(category.Type === 'Silver' && category.Category === "pcs")) {
+					//get the weight
+					if (fieldId === "IdWeight") {
+						if (category.Weight !== newValue) {
+							category.Weight = newValue;
+						}
+					}
+					if (category.Weight === "") {
+						var weight = 0;
+					} else
+					if (category.Weight === 0) {
+						var weight = 0;
+					} else {
+						var weight = oFloatFormat.parse(category.Weight);
+					}
+
+					if (fieldId === "IdWeightD") {
+						if (category.WeightD !== newValue) {
+							category.WeightD = newValue;
+						}
+					}
+					if (category.WeightD === "") {
+						var weight = 0;
+					} else
+					if (category.WeightD === 0) {
+						var weight = 0;
+					} else {
+						var weight = oFloatFormat.parse(category.WeightD);
+					}
+
+					//get the final weight // X=Weight - WeightD
+					if (weightD !== "" ||
+						weightD !== 0) {
+						var weightF = weight - weightD;
+					} else {
+						var weightF = weight;
+					};
+
+					//get the making charges
+					if (fieldId === "IdMaking") {
+						if (category.Making !== newValue) {
+							category.Making = newValue;
+						}
+					}
+					if (category.Making === "") {
+						category.Making = 0;
+						var making = 0;
+					} else if (category.Making === 0) {
+						category.Making = 0;
+						var making = 0;
+					} else {
+						var making = oFloatFormat.parse(category.Making);
+					}
+
+					//making D
+					if (fieldId === "IdMakingD") {
+						if (category.MakingD !== newValue) {
+							category.MakingD = newValue;
+						}
+					}
+					if (category.MakingD === "") {
+						category.MakingD = 0;
+						var makingD = 0;
+					} else if (category.MakingD === 0) {
+						category.MakingD = 0;
+						var makingD = 0;
+					} else {
+						var makingD = oFloatFormat.parse(category.MakingD);
+					}
+
+					// quantity of material
+					if (fieldId === "IdQty") {
+						if (category.Qty !== newValue) {
+							category.Qty = newValue;
+						}
+					}
+					if (category.Qty === ""){
+				    category.Qty = 0;
+				    var quantity = 0;
+				  }else if (category.Qty === 0 || category.Qty === "0") {
+				    category.Qty = 0;
+				    var quantity = 0;
+				  }else {
+				    var quantity = oFloatFormat.parse(category.Qty);
+				  }
+
+					//Making charges
+					var makingCharges = making * quantity;
+
+					// quantity of stone / quantityD
+					if (fieldId === "IdQtyD") {
+						if (category.QtyD !== newValue) {
+							category.QtyD = newValue;
+						}
+					}
+					if (category.QtyD === ""){
+				    category.QtyD = 0;
+				    var quantityD = 0;
+				    var quantityOfStone = 0;
+				  }else if (category.QtyD === 0 || category.QtyD === "0") {
+				    var quantityD = 0;
+				    var quantityOfStone = 0;
+				  }else {
+				    var quantityD = oFloatFormat.parse(category.QtyD);
+				    var quantityOfStone = quantityD;
+				  }
 
 					if (quantityD !== "" ||
 						quantityD !== 0) {
@@ -150,183 +329,52 @@ sap.ui.define(
 
 					//Tunch
 					if (fieldId === "IdTunch") {
-					  if (category.Tunch !== newValue) {
-					    category.Tunch = newValue;
-					  }
+						if (category.Tunch !== newValue) {
+							category.Tunch = newValue;
+						}
 					}
-					if (category.Tunch !== "") {
-						var tunch = oFloatFormat.parse(category.Tunch);
-					} else {
+					if (category.Tunch === "") {
 						category.Tunch = 0;
 						var tunch = 0;
-					};
+					} else if (category.Tunch === 0) {
+						category.Tunch = 0;
+						var tunch = 0;
+					} else {
+						var tunch = oFloatFormat.parse(category.Tunch);
+					}
 
-					// SubTotalSilver / SubTotalGold = X * Tunch / 100
 					if (weight === 0) {
 						// cells[10].setText(0);
 						// cells[11].setText(0);
-						category.SubTotalS = 0;
-						category.SubTotalG = 0;
+						cells[cells.length - 3].setText(0);
+						cells[cells.length - 2].setText(0)
 					} else {
 						if (category.Type === "Silver") {
 							// cells[10].setText(weightF * tunch / 100);
-							category.SubTotalS = weightF * tunch / 100;
+							cells[cells.length - 3].setText(weightF * tunch / 100);
+							// category.SubTotalS = weightF * tunch / 100;
 						} else if (category.Type === "Gold") {
 							// cells[11].setText(weightF * tunch / 100);
-						 category.SubTotalG = weightF * tunch / 100;
+							cells[cells.length - 2].setText(weightF * tunch / 100);
+							// category.SubTotalG = weightF * tunch / 100;
 						};
 					};
 
 					if (weight === 0) {
 						// cells[12].setValue(0);
-						category.SubTot = 0;
+						cells[cells.length - 1].setText(0);
 					} else {
 						if (makingCharges || stonevalue) {
 							// gold price per gram
-								// cells[12].setText(makingCharges + stonevalue);
-								category.SubTot = makingCharges + stonevalue;
+							// cells[12].setText(makingCharges + stonevalue);
+							// category.SubTot = makingCharges + stonevalue;
+							  cells[cells.length - 1].setText(makingCharges + stonevalue);
 						} else {
 							// cells[12].setText(0);
-							category.SubTot = 0;
+							  cells[cells.length - 1].setText(0);
+							// category.SubTot = 0;
 						};
 					};
-
-				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
-					(category.Type === 'Silver' && category.Category === "pcs")) {
-						//get the weight
-						if (fieldId === "IdWeight") {
-					    if (category.Weight !== newValue) {
-					      category.Weight = newValue;
-					    }
-					  }
-						if (category.Weight !== "") {
-							var weight = oFloatFormat.parse(category.Weight);
-						} else {
-							var weight = 0;
-						}
-
-						if (fieldId === "IdWeightD") {
-				      if (category.WeightD !== newValue) {
-				        category.WeightD = newValue;
-				      }
-				    }
-						if (category.WeightD !== "") {
-							var weightD = oFloatFormat.parse(category.WeightD);
-						} else {
-							var weightD = 0;
-						}
-
-						//get the final weight // X=Weight - WeightD
-						if (weightD !== "" ||
-							weightD !== 0) {
-							var weightF = weight - weightD;
-						} else {
-							var weightF = weight;
-						};
-
-						//get the making charges
-						if (fieldId === "IdMaking") {
-						  if (category.Making !== newValue) {
-						    category.Making = newValue;
-						  }
-						}
-						if (category.Making !== "") {
-							var making = oFloatFormat.parse(category.Making);
-						} else {
-							category.Making = 0;
-							var making = 0;
-						}
-
-						//making D
-						if (fieldId === "IdMakingD") {
-						  if (category.MakingD !== newValue) {
-						    category.MakingD = newValue;
-						  }
-						}
-						if (category.MakingD !== "") {
-							var makingD = oFloatFormat.parse(category.MakingD);
-						} else {
-							category.MakingD = 0;
-							var makingD = 0;
-						};
-
-						// quantity of material
-						if (fieldId === "IdQty") {
-					    if (category.Qty !== newValue) {
-					      category.Qty = newValue;
-					    }}
-						if (category.Qty !== "") {
-							var quantity = oFloatFormat.parse(category.Qty);
-						} else {
-							var quantity = 0;
-						}
-
-						//Making charges
-						var makingCharges = making * quantity;
-
-						// quantity of stone / quantityD
-						if (fieldId === "IdQtyD") {
-						  if (category.QtyD !== newValue) {
-						    category.QtyD = newValue;
-						  }
-						}
-						if (category.QtyD !== "") {
-							var quantityD = oFloatFormat.parse(category.QtyD);
-						} else {
-							var quantityD = 0;
-						}
-
-						if (quantityD !== "" ||
-							quantityD !== 0) {
-							var quantityOfStone = quantityD;
-						} else {
-							category.QtyD = 0;
-							var quantityOfStone = 0;
-						};
-
-						var stonevalue = quantityOfStone * makingD;
-
-						//Tunch
-						if (fieldId === "IdTunch") {
-						  if (category.Tunch !== newValue) {
-						    category.Tunch = newValue;
-						  }
-						}
-						if (category.Tunch !== "") {
-							var tunch = oFloatFormat.parse(category.Tunch);
-						} else {
-							category.Tunch = 0;
-							var tunch = 0;
-						};
-
-						// SubTotalSilver / SubTotalGold = X * Tunch / 100
-						if (weight === 0) {
-							// cells[10].setValue(0);
-							// cells[11].setValue(0);
-							category.SubTotalS = 0;
-							category.SubTotalG = 0;
-						} else {
-							if (category.Type === "Silver") {
-								// cells[10].setText(weightF * tunch / 100);
-							category.SubTotalS = weightF * tunch / 100;
-							} else if (category.Type === "Gold") {
-								// cells[11].setText(weightF * tunch / 100);
-							category.SubTotalG = weightF * tunch / 100;
-							};
-						};
-
-						if (weight === 0) {
-							category.SubTot = 0;
-						} else {
-							if (makingCharges || stonevalue) {
-								// gold price per gram
-								// cells[12].setText(makingCharges + stonevalue);
-								category.SubTot = makingCharges + stonevalue;
-							} else {
-								// cells[12].setValue(0);
-								category.SubTot = 0;
-							};
-						};
 
 				} else if (category.Type === 'GS') {
 					//german silver//ignore Weight//Quantity Check
@@ -334,60 +382,74 @@ sap.ui.define(
 				    if (category.Qty !== newValue) {
 				      category.Qty = newValue;
 				    }}
-					if (category.Qty !== "" ||
-						category.Qty !== 0) {
-						var quantity = oFloatFormat.parse(category.Qty);
-					} else {
-						var quantity = 0;
-						category.Qty = 0;
-					} //cell[2] / quantity check
-					// making charges
-					if (fieldId === "IdMaking") {
-					  if (category.Making !== newValue) {
-					    category.Making = newValue;
-					  }
-					}
-					if (category.Making !== 0 || category.Making !== "") {
-						var making = oFloatFormat.parse(category.Making);
-					} else {
-						var making = 0;
-					}
-					//charges of german silver
-					var charges = quantity * making;
+				  if (category.Qty === ""){
+				    category.Qty = 0;
+				    var quantity = 0;
+				  }else if (category.Qty === 0 || category.Qty === "0") {
+				    category.Qty = 0;
+				    var quantity = 0;
+				  }else {
+				    var quantity = oFloatFormat.parse(category.Qty);
+				  }
 
-					if (fieldId === "IdQtyD") {
-					  if (category.QtyD !== newValue) {
-					    category.QtyD = newValue;
-					  }
-					}
-					if (category.QtyD !== "" ||
-						category.QtyD !== 0) {
-						var quantityD = oFloatFormat.parse(category.QtyD);
-					} else {
-						category.QtyD = 0;
-						var quantityD = 0;
-					}
+				//Making charges
+				if (fieldId === "IdMaking") {
+				  if (category.Making !== newValue) {
+				    category.Making = newValue;
+				  }
+				}
+				    if (category.Making === "") {
+				      category.Making = 0;
+				      var making = 0;
+				    }else if (category.Making ===0) {
+				    category.Making = 0;
+				    var making = 0;
+				    }else {
+				      var making = oFloatFormat.parse(category.Making);
+				    }
+				//charges of german silver
+				var charges = quantity * making ;
 
-					// makingD charges
-					if (fieldId === "IdMakingD") {
-					  if (category.MakingD !== newValue) {
-					    category.MakingD = newValue;
-					  }
-					}
-					if (category.MakingD !== 0 || category.MakingD !== "") {
-						// var makingD =  cells[7].getValue();
-						var makingD = oFloatFormat.parse(category.MakingD);
-					} else {
-						var makingD = 0;
-						category.MakingD = 0;
-					}
-					var chargesD = quantityD * makingD;
-					//final charges on GS
-					if (charges) {
-						category.SubTot = charges + chargesD;
-					} else {
-						category.SubTot = 0;
-					}
+				//QuantityD
+				if (fieldId === "IdQtyD") {
+				  if (category.QtyD !== newValue) {
+				    category.QtyD = newValue;
+				  }
+				}
+				  if (category.QtyD === ""){
+				    category.QtyD = 0;
+				    var quantityD = 0;
+				    var quantityOfStone = 0;
+				  }else if (category.QtyD === 0 || category.QtyD === "0") {
+				    var quantityD = 0;
+				    var quantityOfStone = 0;
+				  }else {
+				    var quantityD = oFloatFormat.parse(category.QtyD);
+				    var quantityOfStone = quantityD;
+				  }
+
+				// makingD charges
+				if (fieldId === "IdMakingD") {
+				  if (category.MakingD !== newValue) {
+				    category.MakingD = newValue;
+				  }
+				}
+				if (category.MakingD === "" ){
+				   category.MakingD=0;
+				  var makingD = 0;
+				  }else if (category.MakingD === 0) {
+				    category.MakingD=0;
+				    var makingD = 0;
+				  }else {
+				    var makingD = oFloatFormat.parse(category.MakingD);
+				  }
+				var chargesD = quantityD * makingD;
+				//final charges on GS
+				if (charges) {
+				cells[cells.length - 1].setText( charges + chargesD);
+				}else {
+				  cells[cells.length - 1].setText(0);
+				}
 				};
 
 

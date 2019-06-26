@@ -591,8 +591,43 @@ setVisible:function(oEvent){
 				 }
 			}
 		},
+deleteReturnValues:function(oEvent,i,j){
+	debugger;
+	var id  = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
+	if (id){
+	that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+														"DELETE", {}, {}, that)
+	sap.m.MessageToast.show("Data Deleted Successfully");
+	}
+	var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
+	oTableData.splice(j, 1);
+	that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
+	that.getView().byId("OrderReturn").clearSelection();
+	for(var j=0; j <= selIdxs.length; j++){
+	var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
+	var oRetailtab = {
+		"Type":"",
+		"key":"",
+		"ReturnId":0,
+		"Weight":0,
+		"KWeight":0,
+		"Tunch":0,
+		"Qty":0,
+		"Bhav":0,
+		"Remarks":"",
+		"SubTotalS":0,
+		"SubTotalG":0,
+		"SubTotal":0,
+		"CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	};
+	// aTtype.push(oRetailtab);
+	 that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
+ }
+},
 onReturnValue:function(oEvent){
-debugger;
 var userEnterValue=this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
 var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
 var key = oEvent.getParameter("selectedItem").getKey();

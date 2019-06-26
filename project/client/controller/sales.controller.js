@@ -345,7 +345,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
   textDirection: sap.ui.core.TextDirection.Inherit,     // default
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
-    // var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+    debugger;
       for(var i=0; i <= selIdxs.length; i++){
         var index = selIdxs[i];
         for (var j = index; j <= index; j++) {
@@ -393,38 +393,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;
-      var id  = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
-      if (id){
-      that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-                                "DELETE", {}, {}, that)
-      sap.m.MessageToast.show("Data Deleted Successfully");
-      }
-      var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
-      oTableData.splice(j, 1);
-      that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
-      that.getView().byId("returnModel").clearSelection();
-      var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
-      var oRetailtab = {
-        "Type":"",
-        "key":"",
-        "ReturnId":0,
-        "Weight":0,
-        "KWeight":0,
-        "Tunch":0,
-        "Qty":0,
-        "Bhav":0,
-        "Remarks":"",
-        "SubTotalS":0,
-        "SubTotalG":0,
-        "SubTotal":0,
-        "CreatedBy":"",
-        "CreatedOn":"",
-        "ChangedBy":"",
-        "ChangedOn":""
-      };
-      // aTtype.push(oRetailtab);
-       that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
-
+      that.deleteReturnValues(oEvent,i,j);
     }//order return else part
     }//for j loop
     }//for i loop

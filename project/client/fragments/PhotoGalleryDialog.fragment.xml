@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:unified="sap.ui.unified" xmlns:l="sap.ui.layout.form"	>
 		<Dialog
 			id="idCoPhotoGallDialog"
-			title="Photos"
+			title="Photo"
 			contentWidth="850px">
 			<content>
 				<!-- <Carousel class="sapUiContentPadding" loop="true">
@@ -13,7 +13,7 @@
 				<l:SimpleForm editable="true">
 					<l:content>
 						<VBox>
-							<Label id="idCoPic1Label" text= "File name"/>
+							<!-- <Label id="idCoPic1Label" text= "File name"/> -->
 							<Image id="idCoPic" src="{photo>/Content}"/>
 							<!-- <unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"
 							  iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10"

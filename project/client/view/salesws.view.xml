@@ -24,7 +24,8 @@
 
 <semantic:content id="Return">
 	<m:VBox class="sapUiSmallMargin">
-	<core:Fragment id="WSReturnFragment" fragmentName="victoria.fragments.orderReturn" type="XML">
+		<!-- id="WSReturnFragment" -->
+	<core:Fragment  fragmentName="victoria.fragments.orderReturn" type="XML">
 	</core:Fragment>
 </m:VBox>
 </semantic:content>

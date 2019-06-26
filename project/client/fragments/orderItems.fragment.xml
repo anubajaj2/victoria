@@ -99,7 +99,7 @@
 					<m:Text text="{i18n>tunch}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Tunch}" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
+					<m:Input id="IdTunch" type="Number" liveChange="ValueChange" value="{orderItems>Tunch}" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
 			<Column width="75px" hAlign="Center">

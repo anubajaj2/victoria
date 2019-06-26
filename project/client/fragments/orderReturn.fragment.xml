@@ -27,9 +27,15 @@
 <m:Text text="{i18n>type}"/>
 </label>
 <template>
-<m:Input value="{returnModel>type}"
+<!-- <m:Input value="{returnModel>type}"
          showValueHelp="true"
-        valueHelpRequest="onTypeHelp"/>
+        valueHelpRequest="onTypeHelp"/> -->
+<m:ComboBox showSecondaryValues= "true"
+  selectionChange="onReturnValue"
+  value="{returnModel>Type}"
+  items= "{local>/returnType}">
+<core:Item key="{local>key}" text="{local>value}"/>
+</m:ComboBox>
 </template>
 </Column>
 <Column>
@@ -37,8 +43,15 @@
 <m:Text text="{i18n>weight}"></m:Text>
 </label>
 <template>
-<m:Input text="{returnModel>weight}"
-        editable="false"/>
+<m:Input value="{returnModel>Weight}" type="Number"/>
+</template>
+</Column>
+<Column>
+<label>
+<m:Text text="{i18n>Kweight}"></m:Text>
+</label>
+<template>
+<m:Input value="{returnModel>KWeight}" type="Number"/>
 </template>
 </Column>
 <Column>
@@ -46,7 +59,8 @@
 <m:Text text="{i18n>tunch}"></m:Text>
 </label>
 <template>
-<m:Input id ="tunchid" value="{returnModel>tunch}" maxLength="3"/>
+<m:Input id ="tunchid" value="{returnModel>Tunch}"
+  type="Number" maxLength="3"/>
 </template>
 </Column>
 <Column>
@@ -54,8 +68,8 @@
 <m:Text text="{i18n>quantity}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>qty}"
-         maxLength="3"></m:Input>
+<m:Input value="{returnModel>Qty}"
+        type="Number" maxLength="3"></m:Input>
 </template>
 </Column>
 <Column>
@@ -63,10 +77,11 @@
 <m:Text text="{i18n>bhav}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>bhav}" maxLength="5"></m:Input>
+<m:Input value="{returnModel>Bhav}" type="Number"
+   maxLength="5"></m:Input>
 </template>
 </Column>
-<Column>
+<!-- <Column>
 <label>
 <m:Text text="{i18n>amount}"></m:Text>
 </label>
@@ -74,13 +89,31 @@
 <m:Input value="{returnModel>amount}"
         maxLength="5"></m:Input>
 </template>
-</Column>
+</Column> -->
 <Column>
 <label>
 <m:Text text="{i18n>rem}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>remarks}" maxLength="80"></m:Input>
+<m:Input value="{returnModel>Remarks}" maxLength="80"></m:Input>
+</template>
+</Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalS}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalS}" textAlign="Center"
+   type="Number" editable="false"/>
+</template>
+</Column>
+<Column visible="{visModel>/rows1}" hAlign="Center">
+<label>
+<m:Text text="{i18n>subTotalG}"></m:Text>
+</label>
+<template>
+<m:Text text="{returnModel>SubTotalG}" textAlign="Center"
+ type="Number" editable="false"/>
 </template>
 </Column>
 <Column>
@@ -88,7 +121,8 @@
 <m:Text text="{i18n>subTot}"></m:Text>
 </label>
 <template>
-<m:Input value="{returnModel>subtotal}"></m:Input>
+<m:Text text="{returnModel>SubTotal}" textAlign="Center"
+type="Number" editable="false"/>
 </template>
 </Column>
 </columns>

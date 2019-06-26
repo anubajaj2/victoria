@@ -130,9 +130,9 @@ onValidation: function() {
   return retVal;
 },
 
-onValidationItem:function(data,i){
-  debugger;
-// //line item validations
+onValidationItem:function(data,i)
+{
+//line item validations
   var that = this;
   var model = this.getView().getModel("orderItems").getProperty("/itemData");
   var oOrderDetail = that.getView().getModel('local').getProperty('/OrderItem');
@@ -175,6 +175,27 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
 }//Gold/Silver check
 return returnError;
 },
+onReturnSave:function(oEvent) {
+var returnTable = this.getView().getModel('local').getProperty('/OrderReturn');
+var oReturnTable = this.getView().byId('OrderReturn');
+var oBindingR = oReturnTable.getBinding("rows");
+for (var i = 0; i < oBindingR.getLength(); i++) {
+  var that = this;
+  var data = oBindingR.oList[i];
+
+//return data save
+    that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderReturns","POST", {}, oOrderDetailsClone, this)
+    .then(function(oData) {
+      debugger;
+
+      })
+    .catch(function(oError){
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+                		});
+}//forloop
+},
 onSave:function(oEvent){
   var that = this;
   if(this.onValidation() === true){
@@ -193,7 +214,7 @@ var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 //     that.getView().setBusy(false);
 //     var oPopover = that.getErrorMessage(oError);
 //               });
-
+debugger;
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
@@ -202,16 +223,12 @@ debugger;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
-debugger;
-if (itemNo === "") {
+// if (data.itemNo === "") {
 //posting the data
 if (data.Material !== "") {
   valueCheck = true;
   this.getView().setBusy(true);
-  debugger;
   if (this.onValidationItem(data,i) === false) {
-  debugger;
-
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -259,7 +276,7 @@ if (data.Material !== "") {
                 		});
 }//validation endif
 }//If condition end
-}//itemNo == "" check
+// }//itemNo == "" check
 }//for loop brace end
 //error if no valid entry
 if (valueCheck === false) {
@@ -277,7 +294,6 @@ if (valueCheck === false) {
 },
 
 onClear:function(oEvent){
-debugger;
 var that = this;
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -306,6 +322,7 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
     "/CustomCalculations", "GET", {}, {}, this)
   .then(function(oData) {
     debugger;
+    that.getView().getModel("local").setProperty("/CustomCalculations",oData);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", oData.results[0].First);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", oData.results[0].Second);
     that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", oData.results[0].Gold);
@@ -318,13 +335,16 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
   });
 //Clear Item table
 this.orderItem(oEvent);
-this.orderReturn();
+//return table
+this.orderReturn(oEvent);
 },
 
 onDelete: function(oEvent) {
   debugger;
   var that = this;
-var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
+// var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
+var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
 if (selIdxs.length && selIdxs.length !== 0) {
   sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
   title: "Confirm",                                    // default
@@ -335,26 +355,21 @@ if (selIdxs.length && selIdxs.length !== 0) {
     debugger;
   if (sButton === MessageBox.Action.OK) {
     // var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
-
       for(var i=0; i <= selIdxs.length; i++){
         var index = selIdxs[i];
         for (var j = index; j <= index; j++) {
+      if (oSourceCall === 'orderItemBases') {
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[j].itemNo;
         if (id){
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
                                   "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
+        }
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(j, 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
         that.getView().byId("orderItemBases").clearSelection();
-      }else {
-        debugger;
-        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-        oTableData.splice(j, 1);
-        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-        that.getView().byId("orderItemBases").clearSelection();
-      }// check for non saved records
+
       for(var j=0; j <= selIdxs.length; j++){
           var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(
@@ -383,8 +398,21 @@ if (selIdxs.length && selIdxs.length !== 0) {
     				}
           );
           that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-
       }
+    }//sourcecallCheck
+    else if (oSourceCall === 'OrderReturn') {
+      debugger;
+      var id  = that.getView().getModel("OrderReturns").getProperty("/itemData")[j].itemNo;
+      if (id){
+      that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+                                "DELETE", {}, {}, that)
+      sap.m.MessageToast.show("Data Deleted Successfully");
+      }
+      var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
+      oTableData.splice(j, 1);
+      that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
+      that.getView().byId("returnModel").clearSelection();
+    }
     }//for j loop
     }//for i loop
 }//

@@ -78,11 +78,11 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-				this.fetchValuesFromCustomizing();
+			this.fetchValuesFromCustomizing();
 
 		},
-		fetchValuesFromCustomizing: function(){
-			var that =  this;
+		fetchValuesFromCustomizing: function() {
+			var that = this;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -149,7 +149,7 @@ sap.ui.define([
 				this.getView().addDependent(this.kCustomersearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("customer");
 				this.kCustomersearchPopup.setTitle(title);
-				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ , "Kata Center");
+				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ, "Kata Center");
 				this.kCustomersearchPopup.bindAggregation("items", {
 					path: '/Customers',
 					filters: [oFilter1],
@@ -168,7 +168,7 @@ sap.ui.define([
 				this.getView().addDependent(this.karigarsearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("karigarSearch");
 				this.karigarsearchPopup.setTitle(title);
-				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ , "Karigar");
+				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ, "Karigar");
 				this.karigarsearchPopup.bindAggregation("items", {
 					path: '/Customers',
 					filters: [oFilter1],
@@ -310,32 +310,32 @@ sap.ui.define([
 
 		},
 		// Zoom in/out for UI tables
-		  toggleUiTable: function(btnId,headerId){
-		   debugger;
-		   // if(this.toggleScreenState === true){
-			 if(this.toggleTableState === true){
-		     this._openFullScreen(btnId,headerId);
-		     this.toggleTableState = false;
-		     this.byId(btnId).setTooltip("exit fullScreen");
-		  } else {
-		    this._closeFullScreen(btnId,headerId);
-		    this.toggleTableState = true;
+		toggleUiTable: function(btnId, headerId) {
+			debugger;
+			// if(this.toggleScreenState === true){
+			if (this.toggleTableState === true) {
+				this._openFullScreen(btnId, headerId);
+				this.toggleTableState = false;
+				this.byId(btnId).setTooltip("exit fullScreen");
+			} else {
+				this._closeFullScreen(btnId, headerId);
+				this.toggleTableState = true;
 				this.byId(btnId).setTooltip("fullScreen");
-		  }
-		  var sIcon = (this.toggleTableState ? "sap-icon://full-screen" : "sap-icon://exit-full-screen" );
-		  this.byId(btnId).setIcon(sIcon);
-		  },
+			}
+			var sIcon = (this.toggleTableState ? "sap-icon://full-screen" : "sap-icon://exit-full-screen");
+			this.byId(btnId).setIcon(sIcon);
+		},
 
-		  _closeFullScreen: function(btnId,headerId){
-		    debugger;
-		    this.getView().byId(headerId).setVisible(true);
-		    this.getView().oParent.oParent._oMasterNav.setVisible(true);
-		  },
-		  _openFullScreen: function(btnId,headerId){
-		    debugger;
-		    this.getView().byId(headerId).setVisible(false);
-		    this.getView().oParent.oParent._oMasterNav.setVisible(false);
-		  },
+		_closeFullScreen: function(btnId, headerId) {
+			debugger;
+			this.getView().byId(headerId).setVisible(true);
+			this.getView().oParent.oParent._oMasterNav.setVisible(true);
+		},
+		_openFullScreen: function(btnId, headerId) {
+			debugger;
+			this.getView().byId(headerId).setVisible(false);
+			this.getView().oParent.oParent._oMasterNav.setVisible(false);
+		},
 		destroyMessagePopover: function() {
 			if (this.messagePoper) {
 				this.messagePoper.destroy();
@@ -392,8 +392,8 @@ sap.ui.define([
 		handleGoldValidation: function(oValue) {
 			var oGold1 = parseFloat(oValue, 10);
 			if ((oGold1 < 25000 ||
-				oGold1 > 40000) && oGold1 > 0) {
-					var valid = false;
+					oGold1 > 40000) && oGold1 > 0) {
+				var valid = false;
 				return valid;
 			} else {
 				var valid = true;
@@ -405,8 +405,8 @@ sap.ui.define([
 		handleSilverValidation: function(oValue) {
 			var oSilver1 = parseFloat(oValue, 10);
 			if ((oSilver1 < 32000 ||
-				oSilver1 > 65000) && oSilver1 > 0) {
-					var valid = false;
+					oSilver1 > 65000) && oSilver1 > 0) {
+				var valid = false;
 				return valid;
 			} else {
 				var valid = true;
@@ -560,7 +560,7 @@ sap.ui.define([
 			}
 
 		},
-setVisible:function(oEvent){
+		setVisible: function(oEvent) {
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
@@ -568,218 +568,219 @@ setVisible:function(oEvent){
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
 
-			if (oEvent.getParameter('name') === "sales")
-			{
+			if (oEvent.getParameter('name') === "sales") {
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", false);
-			}else
-			if (oEvent.getParameter('name') === "salesws")
-			 {
+			} else
+			if (oEvent.getParameter('name') === "salesws") {
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", true);
-			}
-			else if (oEvent.getParameter('id')) {
-				if (oEvent.getParameter('id').split('---')[1] === 'idsales')
-				{
-				 var odata = this.getView().getModel('visModel');
-				 odata.setProperty("/rows1", false);
-				 }
-				 else if (oEvent.getParameter('id').split('---')[1].split('--')[0] === 'idsales')
-				 {
-					 var odata = this.getView().getModel('visModel');
-					 odata.setProperty("/rows1", false);
-				 }
+			} else if (oEvent.getParameter('id')) {
+				if (oEvent.getParameter('id').split('---')[1] === 'idsales') {
+					var odata = this.getView().getModel('visModel');
+					odata.setProperty("/rows1", false);
+				} else if (oEvent.getParameter('id').split('---')[1].split('--')[0] === 'idsales') {
+					var odata = this.getView().getModel('visModel');
+					odata.setProperty("/rows1", false);
+				}
 			}
 		},
-deleteReturnValues:function(oEvent,i,j){
-	debugger;
-	var id  = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
-	if (id){
-	that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-														"DELETE", {}, {}, that)
-	sap.m.MessageToast.show("Data Deleted Successfully");
-	}
-	var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
-	oTableData.splice(j, 1);
-	that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
-	that.getView().byId("OrderReturn").clearSelection();
-	for(var j=0; j <= selIdxs.length; j++){
-	var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
-	var oRetailtab = {
-		"Type":"",
-		"key":"",
-		"ReturnId":0,
-		"Weight":0,
-		"KWeight":0,
-		"Tunch":0,
-		"Qty":0,
-		"Bhav":0,
-		"Remarks":"",
-		"SubTotalS":0,
-		"SubTotalG":0,
-		"SubTotal":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	};
-	// aTtype.push(oRetailtab);
-	 that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
- }
-},
-onReturnValue:function(oEvent){
-var userEnterValue=this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
-var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
-var key = oEvent.getParameter("selectedItem").getKey();
-this.defaultValuesLoad(oEvent,userEnterValue,customCal,key);
-},
-defaultValuesLoad:function(oEvent,userEnterValue,customCal,key)
-{
-var that = this;
-var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
-if (key) {
-userEnterValue.key=key;
-}
-if (key === 'OG') {
-	userEnterValue.Tunch = "100";
-	if (viewId ==='idsales'){
-userEnterValue.Bhav=customCal.results[0].GoldReturns;
-}else {
-	userEnterValue.Bhav=customCal.results[0].GoldReturns1;
-}
-}else if (key === 'BG') {
-userEnterValue.Tunch = "100";
-if (viewId ==='idsales'){
-userEnterValue.Bhav=customCal.results[0].GoldReturns;
-}}else if (key === 'BS') {
-	userEnterValue.Tunch = "100";
-	if (viewId ==='idsales'){
-	userEnterValue.Bhav=customCal.results[0].SilverReturns;
-	}}
-else if (key === 'OS') {
-	userEnterValue.Tunch = "100";
-	if (viewId ==='idsales'){
-	userEnterValue.Bhav=customCal.results[0].SilverReturns;
-}else {
-	userEnterValue.Bhav=customCal.results[0].SilverReturns1;
-}
-}else if (key === 'KG') {
-//only in case of retail sales load by default
-	if (viewId ==='idsales')
-	{
-userEnterValue.Bhav=customCal.results[0].GoldReturns;
-	}
-}else if (key === 'KS') {
-	//only in case of retail sales load by default
-		if (viewId ==='idsales')
-		{
-	userEnterValue.Bhav=customCal.results[0].SilverReturns;
-		}
-}
-that.getView().getModel('local').setProperty('/returnModel',userEnterValue);
-},
-onReturnChange:function(oEvent){
-debugger;
-var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
-var seletedLine = this.getView().getModel('returnModel').getProperty(path);
-var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
-if (sourceId==='idsales') {
-//retail sales detail
-var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-}else {
-//WS order details
-}
-this.returnCalculation(oEvent,orderHeader,seletedLine);
-},
-returnCalculation:function(oEvent,orderHeader,seletedLine){
-debugger;
-var newValue = oEvent.getParameters().newValue;
-var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
-var oCurrentRow = oEvent.getSource().getParent();
-var cells = oCurrentRow.getCells();
-var oLocale = new sap.ui.core.Locale("en-US");
-var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
-//weight
-if (fieldId === 'IdWeightR') {
-	if (seletedLine.Weight !== newValue) {
-		seletedLine.Weight = newValue;
-	}
-}
-//katta weight
-if (fieldId === 'IdKWeightR') {
-	if (seletedLine.KWeight !== newValue) {
-		seletedLine.KWeight = newValue;
-	}
-}
-//Tunch
-if (fieldId === 'IdTunchR') {
-	if (seletedLine.Tunch !== newValue) {
-		seletedLine.Tunch = newValue;
-	}
-}
-//weight
-if ( seletedLine.Weight === "" ){
-  var weight = 0;
-}else
-  if (seletedLine.Weight === 0) {
-    var weight = 0;
-  }else{
-    var weight  = oFloatFormat.parse(seletedLine.Weight);
-  }
-//Katta weight
-if ( seletedLine.KWeight === "" ){
-  var kWeight = 0;
-}else
-  if (seletedLine.KWeight === 0) {
-    var kWeight = 0;
-  }else{
-    var kWeight  = oFloatFormat.parse(seletedLine.KWeight);
-  }
-//tunch
-if ( seletedLine.Tunch === "" ){
-  var tunch = 0;
-}else
-  if (seletedLine.Tunch === 0) {
-    var tunch = 0;
-  }else{
-    var tunch  = oFloatFormat.parse(seletedLine.Tunch);
-  }
-//bhav
-if ( seletedLine.Bhav === "" ){
-  var bhav = 0;
-}else
-  if (seletedLine.Bhav === 0) {
-    var bhav = 0;
-  }else{
-  //   var bhav  = oFloatFormat.parse(seletedLine.Bhav);
-	var bhav = seletedLine.Bhav;
-  }
-if (seletedLine.key === 'OG' ||
-		seletedLine.key === 'KG' ||
-	  seletedLine.key === 'BG') {
-if (seletedLine.key === 'BG') {
-	var	tunch = 100;
- 	}
-	var bhavF = bhav / 10;
-	var weightF = weight - kWeight;
-	var fineGold = ( tunch * weightF ) / 100;
-	var subTotal = fineGold * bhavF;
-	cells[cells.length - 1].setText(subTotal);
-}else if (seletedLine.key === 'OS' ||
-					seletedLine.key === 'KS' ||
-					seletedLine.key === 'BS')
-					{
-	if (seletedLine.key === 'BS') {
-	var	tunch = 100;
-	}
-	var bhavF = bhav / 1000;
-	var weightF = weight - kWeight;
-	var fineGold = ( tunch * weightF ) / 100;
-	var subTotal = fineGold * bhavF;
-	cells[cells.length - 1].setText(subTotal);
-}
-},
-orderItem: function(oEvent) {
+		deleteReturnValues: function(oEvent, i, j) {
+			debugger;
+			var id = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
+			if (id) {
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+					"DELETE", {}, {}, that)
+				sap.m.MessageToast.show("Data Deleted Successfully");
+			}
+			var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
+			oTableData.splice(j, 1);
+			that.getView().getModel("returnModel").setProperty("/TransData", oTableData);
+			that.getView().byId("OrderReturn").clearSelection();
+			for (var j = 0; j <= selIdxs.length; j++) {
+				var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
+				var oRetailtab = {
+					"Type": "",
+					"key": "",
+					"ReturnId": 0,
+					"Weight": 0,
+					"KWeight": 0,
+					"Tunch": 0,
+					"Qty": 0,
+					"Bhav": 0,
+					"Remarks": "",
+					"SubTotalS": 0,
+					"SubTotalG": 0,
+					"SubTotal": 0,
+					"CreatedBy": "",
+					"CreatedOn": "",
+					"ChangedBy": "",
+					"ChangedOn": ""
+				};
+				// aTtype.push(oRetailtab);
+				that.getView().getModel('returnModel').setProperty('/TransData', oRetailtab);
+			}
+		},
+		onReturnValue: function(oEvent) {
+			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
+			var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
+			var key = oEvent.getParameter("selectedItem").getKey();
+			this.defaultValuesLoad(oEvent, userEnterValue, customCal, key);
+		},
+		defaultValuesLoad: function(oEvent, userEnterValue, customCal, key) {
+			var that = this;
+			var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
+			if (key) {
+				userEnterValue.key = key;
+			}
+			if (key === 'OG') {
+				userEnterValue.Tunch = "100";
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].GoldReturns;
+				} else {
+					userEnterValue.Bhav = customCal.results[0].GoldReturns1;
+				}
+			} else if (key === 'BG') {
+				userEnterValue.Tunch = "100";
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].GoldReturns;
+				}
+			} else if (key === 'BS') {
+				userEnterValue.Tunch = "100";
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].SilverReturns;
+				}
+			} else if (key === 'OS') {
+				userEnterValue.Tunch = "100";
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].SilverReturns;
+				} else {
+					userEnterValue.Bhav = customCal.results[0].SilverReturns1;
+				}
+			} else if (key === 'KG') {
+				//only in case of retail sales load by default
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].GoldReturns;
+				}
+			} else if (key === 'KS') {
+				//only in case of retail sales load by default
+				if (viewId === 'idsales') {
+					userEnterValue.Bhav = customCal.results[0].SilverReturns;
+				}
+			}
+			that.getView().getModel('local').setProperty('/returnModel', userEnterValue);
+		},
+		onReturnChange: function(oEvent) {
+			debugger;
+			var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
+			var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+			var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+			if (sourceId === 'idsales') {
+				//retail sales detail
+				var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
+			} else {
+				//WS order details
+			}
+			this.returnCalculation(oEvent, orderHeader, seletedLine);
+		},
+		returnCalculation: function(oEvent, orderHeader, seletedLine) {
+			debugger;
+			var newValue = oEvent.getParameters().newValue;
+			var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
+			var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+			var oCurrentRow = oEvent.getSource().getParent();
+			var cells = oCurrentRow.getCells();
+			var oLocale = new sap.ui.core.Locale("en-US");
+			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+			//weight
+			if (fieldId === 'IdWeightR') {
+				if (seletedLine.Weight !== newValue) {
+					seletedLine.Weight = newValue;
+				}
+			}
+			//katta weight
+			if (fieldId === 'IdKWeightR') {
+				if (seletedLine.KWeight !== newValue) {
+					seletedLine.KWeight = newValue;
+				}
+			}
+			//Tunch
+			if (fieldId === 'IdTunchR') {
+				if (seletedLine.Tunch !== newValue) {
+					seletedLine.Tunch = newValue;
+				}
+			}
+			//weight
+			if (seletedLine.Weight === "") {
+				var weight = 0;
+			} else
+			if (seletedLine.Weight === 0) {
+				var weight = 0;
+			} else {
+				var weight = oFloatFormat.parse(seletedLine.Weight);
+			}
+			//Katta weight
+			if (seletedLine.KWeight === "") {
+				var kWeight = 0;
+			} else
+			if (seletedLine.KWeight === 0) {
+				var kWeight = 0;
+			} else {
+				var kWeight = oFloatFormat.parse(seletedLine.KWeight);
+			}
+			//tunch
+			if (seletedLine.Tunch === "") {
+				var tunch = 0;
+			} else
+			if (seletedLine.Tunch === 0) {
+				var tunch = 0;
+			} else {
+				var tunch = oFloatFormat.parse(seletedLine.Tunch);
+			}
+			//bhav
+			if (seletedLine.Bhav === "") {
+				var bhav = 0;
+			} else
+			if (seletedLine.Bhav === 0) {
+				var bhav = 0;
+			} else {
+				//   var bhav  = oFloatFormat.parse(seletedLine.Bhav);
+				var bhav = seletedLine.Bhav;
+			}
+			if (seletedLine.key === 'OG' ||
+				seletedLine.key === 'KG' ||
+				seletedLine.key === 'BG') {
+				debugger;
+				if (seletedLine.key === 'BG') {
+					var tunch = 100;
+				}
+				var bhavF = bhav / 10;
+				var weightF = weight - kWeight;
+				var fineGold = (tunch * weightF) / 100;
+				var subTotal = fineGold * bhavF;
+				cells[cells.length - 1].setText(subTotal);
+				if (viewId == 'idsalesws') {
+					cells[cells.length - 2].setText(fineGold);
+				}
+			} else if (seletedLine.key === 'OS' ||
+				seletedLine.key === 'KS' ||
+				seletedLine.key === 'BS') {
+				debugger;
+				if (seletedLine.key === 'BS') {
+					var tunch = 100;
+				}
+				var bhavF = bhav / 1000;
+				var weightF = weight - kWeight;
+				var fineSilver = (tunch * weightF) / 100;
+				var subTotal = fineSilver * bhavF;
+				cells[cells.length - 1].setText(subTotal);
+
+				if (viewId == 'idsalesws') {
+					cells[cells.length - 3].setText(fineSilver);
+				}
+			}
+		},
+		orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT
 			this.setVisible(oEvent);
@@ -794,20 +795,20 @@ orderItem: function(oEvent) {
 				var oItem = {
 					"OrderNo": "",
 					"itemNo": "",
-					"Material":"",
-					"MaterialCode":"",
+					"Material": "",
+					"MaterialCode": "",
 					"Description": "",
 					"Qty": 0,
 					"QtyD": 0,
-					"Weight":0,
-					"WeightD":0,
-					"Making":0,
-					"MakingD":0,
-					"Tunch":0,
+					"Weight": 0,
+					"WeightD": 0,
+					"Making": 0,
+					"MakingD": 0,
+					"Tunch": 0,
 					"Remarks": "",
-					"SubTotal":0,
-					"SubTotalS":0,
-					"SubTotalG":0,
+					"SubTotal": 0,
+					"SubTotalS": 0,
+					"SubTotalG": 0,
 					"Category": "",
 					"CreatedBy": "",
 					"CreatedOn": "",
@@ -823,20 +824,20 @@ orderItem: function(oEvent) {
 			//set the model
 			this.setModel(oOrderItem, "orderItems");
 		},
-hideDColumns:function(oEvent){
+		hideDColumns: function(oEvent) {
 			//on setting button click
 			debugger;
 			var oModel = this.getView().getModel('VisibleSet');
 			debugger;
-			if (oModel.getProperty('/set')===true) {
-				oModel.setProperty('/set',false);
-			}else {
-				oModel.setProperty('/set',true);
+			if (oModel.getProperty('/set') === true) {
+				oModel.setProperty('/set', false);
+			} else {
+				oModel.setProperty('/set', true);
 			}
 		},
-onMaterialSelect: function(oEvent) {
+		onMaterialSelect: function(oEvent) {
 			debugger;
-			var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
 			var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
@@ -844,15 +845,15 @@ onMaterialSelect: function(oEvent) {
 			oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
 			//Making
 			if (selectedMatData.Making) {
-			oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
-			}else {
-			oModelForRow.setProperty(sRowPath + "/Making", 0);
+				oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+			} else {
+				oModelForRow.setProperty(sRowPath + "/Making", 0);
 			}
 			//Makind D field
 			if (selectedMatData.PricePerUnit) {
-			oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
-			}else {
-			oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+				oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+			} else {
+				oModelForRow.setProperty(sRowPath + "/MakingD", 0);
 			}
 
 			oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
@@ -860,11 +861,11 @@ onMaterialSelect: function(oEvent) {
 			oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
 			if (selectedMatData.Tunch) {
 				oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-			}else {
+			} else {
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}
 		},
-onTableExpand: function(oEvent) {
+		onTableExpand: function(oEvent) {
 			debugger;
 			var splitApp = this.getView().oParent.oParent;
 			var masterVisibility = splitApp.getMode();
@@ -875,7 +876,7 @@ onTableExpand: function(oEvent) {
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-orderReturn: function(oEvent) {
+		orderReturn: function(oEvent) {
 			debugger;
 			//create the model to set the getProperty
 			//visible or // NOT
@@ -885,22 +886,22 @@ orderReturn: function(oEvent) {
 			var aTtype = [];
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
-					"Type":"",
-					"key":"",
-					"ReturnId":0,
-					"Weight":0,
-					"KWeight":0,
-					"Tunch":0,
-					"Qty":0,
-					"Bhav":0,
-					"Remarks":"",
-					"SubTotalS":0,
-					"SubTotalG":0,
-					"SubTotal":0,
-					"CreatedBy":"",
-					"CreatedOn":"",
-					"ChangedBy":"",
-					"ChangedOn":""
+					"Type": "",
+					"key": "",
+					"ReturnId": 0,
+					"Weight": 0,
+					"KWeight": 0,
+					"Tunch": 0,
+					"Qty": 0,
+					"Bhav": 0,
+					"Remarks": "",
+					"SubTotalS": 0,
+					"SubTotalG": 0,
+					"SubTotal": 0,
+					"CreatedBy": "",
+					"CreatedOn": "",
+					"ChangedBy": "",
+					"ChangedOn": ""
 				};
 				aTtype.push(oRetailtab);
 			}

@@ -201,6 +201,10 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"entryHeaderTemp":{
+	  "CustomerId": "",
+		"CustomerName": ""
+	},
 	"orderHeaderTemp":{
 	  "CustomerId": "",
 		"CustomerName": ""

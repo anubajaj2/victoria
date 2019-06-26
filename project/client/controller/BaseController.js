@@ -585,10 +585,10 @@ sap.ui.define([
 				}
 			}
 		},
-		deleteReturnValues:function(oEvent,i,j,viewId,selIdxs){
+		deleteReturnValues:function(oEvent,i,viewId,selIdxs){
 			debugger;
 			var that = this;
-			var id  = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
+			var id  = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
 			if (id){
 				if (viewId === 'idsales') {
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
@@ -600,10 +600,9 @@ sap.ui.define([
 			sap.m.MessageToast.show("Data Deleted Successfully");
 			}
 			var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
-			oTableData.splice(j, 1);
+			oTableData.splice(i, 1);
 			that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
-			that.getView().byId("OrderReturn").clearSelection();
-			for(var j=0; j <= selIdxs; j++){
+			for(var j=selIdxs; j <= selIdxs+1; j++){
 			var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
 			var oRetailtab = {
 				"Type":"",
@@ -623,8 +622,8 @@ sap.ui.define([
 				"ChangedBy":"",
 				"ChangedOn":""
 			};
-			// aTtype.push(oRetailtab);
-			 that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
+			aTtype.push(oRetailtab);
+			that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
 		 }
 		},
 		onReturnValue: function(oEvent) {

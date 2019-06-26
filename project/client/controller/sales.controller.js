@@ -348,22 +348,19 @@ if (selIdxs.length && selIdxs.length !== 0) {
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
     debugger;
-      for(var i=0; i <= selIdxs.length; i++){
-        var index = selIdxs[i];
-        for (var j = index; j <= index; j++) {
+      for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
-        var id  = that.getView().getModel("orderItems").getProperty("/itemData")[j].itemNo;
+        var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
         if (id){
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
                                   "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
         }
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-        oTableData.splice(j, 1);
+        oTableData.splice(selIdxs[i], 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-        that.getView().byId("orderItemBases").clearSelection();
 
-      for(var j=selIdxs.length; j <= (selIdxs.length + selIdxs.length); j++){
+      for(var j=selIdxs.length; j <= (selIdxs.length + 1); j++){
           var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(
             {
@@ -395,10 +392,12 @@ if (selIdxs.length && selIdxs.length !== 0) {
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;
-      that.deleteReturnValues(oEvent,i,j,viewId,selIdxs.length);
+      that.deleteReturnValues(oEvent,i,viewId,selIdxs.length);
     }//order return else part
-    }//for j loop
     }//for i loop
+    that.getView().byId("orderItemBases").clearSelection();
+    oTable.clearSelection();
+    that.getView().byId("OrderReturn").clearSelection();
 }//
 }
 });

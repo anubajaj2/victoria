@@ -175,34 +175,73 @@ this.clearCustomer();
 				}
 			},
 
-			customerCodeCheck : function(){
-				// that._onRouteMatched();
-				var customerModel = this.getView().getModel("customerModel");
- 			 var customerCode = customerModel.getData().CustomerCode;
- 			 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
-			 var viewModel = this.getView().getModel("viewModel");
- 			 function getCustomerCode(customerCode) {
- 						return customerJson.filter(
- 							function (data) {
- 								return data.CustomerCode === customerCode;
- 							}
- 						);
- 					}
+			ValueChangeCustomer: function(oEvent){
+				var oSource = oEvent.getSource();
+				var oFilter = new sap.ui.model.Filter("CustomerCode",
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+				oSource.getBinding("suggestionItems").filter(oFilter);
+			},
 
- 					var found = getCustomerCode(customerCode);
+			customerCodeCheck : function(oEvent){
+				$(function() {
+								$('input:text:first').focus();
+								var $inp = $('input:text');
+								$inp.bind('keydown', function(e) {
+										//var key = (e.keyCode ? e.keyCode : e.charCode);
+										var key = e.which;
+										if (key == 13) {
+												e.preventDefault();
+												var nxtIdx = $inp.index(this) + 1;
+												$(":input:text:eq(" + nxtIdx + ")").focus();
+										}
+								});
+						});
+
+						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+						var customerModel = this.getView().getModel("customerModel");
+						var customerCode = selectedCustData.CustomerCode;
+						var dataModel = this.getView().getModel("dataModel");
+					 // var productCode = customerModel.getData().ProductCode;
+					 // var productJson = this.getView().getModel("customerModelInfo").getData().results;
+					 var viewModel = this.getView().getModel("viewModel");
+						var oCustCode = this.getView().byId("idCustomerCode").getValue();
+						 var found =  customerCode;
+				// that._onRouteMatched();
+				// var customerModel = this.getView().getModel("customerModel");
+ 			 // var customerCode = customerModel.getData().CustomerCode;
+ 			 // var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+			 // var viewModel = this.getView().getModel("viewModel");
+ 			 // function getCustomerCode(customerCode) {
+ 				// 		return customerJson.filter(
+ 				// 			function (data) {
+ 				// 				return data.CustomerCode === customerCode;
+ 				// 			}
+ 				// 		);
+ 				// 	}
+			 //
+ 				// 	var found = getCustomerCode(customerCode);
 					if(found.length > 0){
-						customerModel.getData().City = found[0].City;
-						customerModel.getData().MobilePhone = found[0].MobilePhone;
-						customerModel.getData().Address = found[0].Address;
-						customerModel.getData().Name = found[0].Name;
-						customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
-						customerModel.getData().Group = found[0].Group;
-						customerModel.getData().Type = found[0].Type;
+						customerModel.setProperty("/CustomerCode", selectedCustData.id);
+						customerModel.setProperty("/City", selectedCustData.City);
+						customerModel.setProperty("/Name", selectedCustData.Name);
+						customerModel.setProperty("/MobilePhone", selectedCustData.MobilePhone);
+						customerModel.setProperty("/Address", selectedCustData.Address);
+						customerModel.setProperty("/SecondaryPhone", selectedCustData.SecondaryPhone);
+						customerModel.setProperty("/Group", selectedCustData.Group);
+						// customerModel.getData().City = found[0].City;
+						// customerModel.getData().MobilePhone = found[0].MobilePhone;
+						// customerModel.getData().Address = found[0].Address;
+						// customerModel.getData().Name = found[0].Name;
+						// customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
+						// customerModel.getData().Group = found[0].Group;
+						// customerModel.getData().Type = found[0].Type;
 						var oType = this.getView().byId("idType");
-						oType.setSelectedKey(found[0].Type);
+						oType.setSelectedKey(selectedCustData.Type);
+						customerModel.setProperty("/Type", selectedCustData.Type);
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
+						dataModel.setProperty("/typeEnabled", true);
 						this.additionalInfoValidation();
 						this.getView().byId("idName").focus();
 						customerModel.refresh();
@@ -241,7 +280,7 @@ this.clearCustomer();
 				viewModel.setProperty("/deleteEnabled", false);
 				dataModel.setProperty("/CustomerCodeState", "None");
 				customerModel.getData().CustomerCode = "";
-				var custid = this.getView().byId("idCombo");
+				var custid = this.getView().byId("idCustomerCode");
 				custid.setSelectedKey("");
 				var typeValue = typeModel.getData().items[0].text;
 				var oType = this.getView().byId("idType");
@@ -255,27 +294,30 @@ this.clearCustomer();
 			SaveCustomer : function(){
 				var that = this;
 				 var customerModel = this.getView().getModel("customerModel");
-				 var customerCode = customerModel.getData().CustomerCode;
-				 var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+				 var custId = customerModel.getProperty("/CustomerCode");
+ 				var customerCode = that.getView().byId("idCustomerCode").getValue();
+ 				customerModel.setProperty("/CustomerCode", customerCode);
+				 // var customerCode = customerModel.getData().CustomerCode;
+				 // var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 
 				 if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
 					 MessageToast.show("Please fill the required fields");
 					 return;
 				 }
 
-				 function getCustomerCode(customerCode) {
-							return customerJson.filter(
-								function (data) {
-									return data.CustomerCode === customerCode;
-								}
-							);
-						}
-
-						var found = getCustomerCode(customerCode);
-						if(found.length > 0){
+				 // function getCustomerCode(customerCode) {
+					// 		return customerJson.filter(
+					// 			function (data) {
+					// 				return data.CustomerCode === customerCode;
+					// 			}
+					// 		);
+					// 	}
+				 //
+					// 	var found = getCustomerCode(customerCode);
+						if(custId.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Customers('"+found[0].id+"')", "PUT", {},customerModel.getData() , this)
+							 "/Customers('"+custId+"')", "PUT", {},customerModel.getData() , this)
 								.then(function(oData) {
 								MessageToast.show("Data saved successfully");
 								// that._onRouteMatched();
@@ -319,10 +361,10 @@ this.clearCustomer();
 
 					 var found = getCustomerCode(customerCode);
 					 	var typeModel = this.getView().getModel("typec");
-					 if(found.length > 0){
+					 if(customerCode.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Customers('" + found[0].id + "')", "DELETE", {},{}, this)
+							 "/Customers('" + customerCode + "')", "DELETE", {},{}, this)
 								.then(function(oData) {
 								MessageToast.show("Deleted successfully");
 								customerModel.getData().City = "";
@@ -336,7 +378,7 @@ this.clearCustomer();
 								// var oType = this.getView().byId("idType");
 								customerModel.refresh();
 								// // that._onRouteMatched();
-								// that.clearCustomer();
+								that.clearCustomer();
 								}).catch(function(oError) {
 										MessageToast.show("Could not delete the entry");
 								});

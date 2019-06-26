@@ -4,13 +4,13 @@
   <f:Form id="idcust1" editable="true">
     <f:layout>
       <f:ResponsiveGridLayout
-        labelSpanXL="3"
-         labelSpanL="3"
-         labelSpanM="3"
+        labelSpanXL="2"
+         labelSpanL="2"
+         labelSpanM="2"
          labelSpanS="12"
          adjustLabelSpan="false"
          emptySpanXL="0"
-         emptySpanL="4"
+         emptySpanL="0"
          emptySpanM="0"
          emptySpanS="0"
          columnsXL="2"
@@ -27,7 +27,7 @@
             displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
           <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="false">
           <layoutData>
-            <l:GridData span="XL4 L3 M5 S6"/>
+            <l:GridData span="XL5 L5"/>
           </layoutData>
         </CheckBox>
         </f:fields>
@@ -35,12 +35,12 @@
       <f:FormElement label="{i18n>Customer}">
         <f:fields>
           <Input  showValueHelp="true" valueHelpOnly="true"
-            valueHelpRequest="onValueHelpRequest" value="" id="idCust">
+            valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}" id="idCust">
             <layoutData>
-              <l:GridData span="XL4 L3 M5 S6"/>
+              <l:GridData span="XL3 L3"/>
             </layoutData>
           </Input>
-          <Input id="idCustText" value="" editable="false"/>
+          <Text id="idCustText" enableSelection="false"/>
         </f:fields>
       </f:FormElement>
       </f:formElements>

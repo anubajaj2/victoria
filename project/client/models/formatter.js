@@ -28,6 +28,18 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			}
 
 		},
+		checkPhotoStat: function(value){
+			if(value){
+				if(value === "X"){
+					return "Accept";
+				}else{
+					return "Reject";
+				}
+			}else{
+				return "Reject";	
+			}
+
+		},
 		sortByProperty: function(array, property) {
 			var lol = function dynamicSort(property) {
 				var sortOrder = 1;

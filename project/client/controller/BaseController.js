@@ -70,14 +70,14 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", null, null, this)
-			// 	.then(function(oData) {
-			// 		for (var i = 0; i < oData.results.length; i++) {
-			// 			that.allMasterData.materials[oData.results[i].id] = oData.results[i];
-			// 		}
-			// 	}).catch(function(oError) {
-			// 		var oPopover = that.getErrorMessage(oError);
-			// 	});
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", null, null, this)
+				.then(function(oData) {
+					for (var i = 0; i < oData.results.length; i++) {
+						that.allMasterData.materials[oData.results[i].id] = oData.results[i];
+					}
+				}).catch(function(oError) {
+					var oPopover = that.getErrorMessage(oError);
+				});
 				this.fetchValuesFromCustomizing();
 
 		},
@@ -389,37 +389,29 @@ sap.ui.define([
 			}
 		},
 
-		handleGoldValidation: function(oGoldVal) {
-			var oGold1 = parseFloat(oGoldVal, 10);
-			// var oSilver = oSilverId.getValue();
-			// var oSilver1 = parseFloat(oSilver, 10);
-			// valid =  true;
-			if (oGold1 < 25000 ||
-				oGold1 > 40000) {
+		handleGoldValidation: function(oValue) {
+			var oGold1 = parseFloat(oValue, 10);
+			if ((oGold1 < 25000 ||
+				oGold1 > 40000) && oGold1 > 0) {
 					var valid = false;
-				// MessageBox.error("Value range for Gold should be between 25000 and 40000");
-				// this.getView().byId("oGoldId").focus();
 				return valid;
 			} else {
 				var valid = true;
 				return valid;
-				// if (oSilver1 < 32000 ||
-				// 	oSilver1 > 65000) {
-				// 	var valid = false;
-				// 	MessageBox.error("Value range for Silver should be between 32000 and 65000");
-				// 	// this.getView().byId("oSilverId").focus();
-				// 	return valid;
-				// } else {
-				// 	return true;
-				// }
 			}
 
-			// 	}
-			//   else {
-			//   else {
-			// 	console.log("Gold Value not in range");
-			// }
-			// oDataModel.setProperty("/CustomerCodeState", "None");
+		},
+
+		handleSilverValidation: function(oValue) {
+			var oSilver1 = parseFloat(oValue, 10);
+			if ((oSilver1 < 32000 ||
+				oSilver1 > 65000) && oSilver1 > 0) {
+					var valid = false;
+				return valid;
+			} else {
+				var valid = true;
+				return valid;
+			}
 
 		},
 
@@ -568,14 +560,11 @@ sap.ui.define([
 			}
 
 		},
-		orderItem: function(oEvent) {
-			//create the model to set the getProperty
-			//visible or // NOT
+setVisible:function(oEvent){
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
 			});
-			debugger;
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
 
@@ -601,12 +590,49 @@ sap.ui.define([
 					 odata.setProperty("/rows1", false);
 				 }
 			}
-			// else if (this.getView().getId().split('---')[1] === 'idsales') {
-			// 	var odata = this.getView().getModel('visModel');
-			// 	odata.setProperty("/rows1", false);
-			// }
-
-
+		},
+onReturnValue:function(oEvent){
+debugger;
+var userEnterValue=this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
+var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
+var key = oEvent.getParameter("selectedItem").getKey();
+this.defaultValuesLoad(oEvent,userEnterValue,customCal,key);
+},
+defaultValuesLoad:function(oEvent,userEnterValue,customCal,key)
+{
+var that = this;
+var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
+if (key === 'OG' || key === 'BG') {
+userEnterValue.Tunch = 100;
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+}else if (key === 'OS' || key === 'BS') {
+	userEnterValue.Tunch = 100;
+	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+}else if (key === 'KG') {
+//only in case of retail sales load by default
+	if (viewId ==='idsales')
+	{
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+	}
+}else if (key === 'KS') {
+	//only in case of retail sales load by default
+		if (viewId ==='idsales')
+		{
+	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+		}
+}
+that.getView().getModel('local').setProperty('/returnModel',userEnterValue);
+},
+onReturnChange:function(oEvent){
+debugger;
+var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
+var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+var newValue = oEvent.getParameters().newValue;
+ },
+orderItem: function(oEvent) {
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
 
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
@@ -647,8 +673,7 @@ sap.ui.define([
 			//set the model
 			this.setModel(oOrderItem, "orderItems");
 		},
-
-		hideDColumns:function(oEvent){
+hideDColumns:function(oEvent){
 			//on setting button click
 			debugger;
 			var oModel = this.getView().getModel('VisibleSet');
@@ -659,7 +684,7 @@ sap.ui.define([
 				oModel.setProperty('/set',true);
 			}
 		},
-		onMaterialSelect: function(oEvent) {
+onMaterialSelect: function(oEvent) {
 			debugger;
 			var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
@@ -689,7 +714,7 @@ sap.ui.define([
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}
 		},
-		onTableExpand: function(oEvent) {
+onTableExpand: function(oEvent) {
 			debugger;
 			var splitApp = this.getView().oParent.oParent;
 			var masterVisibility = splitApp.getMode();
@@ -700,20 +725,31 @@ sap.ui.define([
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-		orderReturn: function() {
+orderReturn: function(oEvent) {
+			debugger;
+			//create the model to set the getProperty
+			//visible or // NOT
+			this.setVisible(oEvent);
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
-					"type": " ",
-					"weight": 0,
-					"tunch": 0,
-					"qty": 0,
-					"bhav": " ",
-					"amount": 0,
-					"remarks": " ",
-					"subtotal": " "
+					"Type":"",
+					"ReturnId":0,
+					"Weight":0,
+					"KWeight":0,
+					"Tunch":0,
+					"Qty":0,
+					"Bhav":0,
+					"Remarks":"",
+					"SubTotalS":0,
+					"SubTotalG":0,
+					"SubTotal":0,
+					"CreatedBy":"",
+					"CreatedOn":"",
+					"ChangedBy":"",
+					"ChangedOn":""
 				};
 				aTtype.push(oRetailtab);
 			}

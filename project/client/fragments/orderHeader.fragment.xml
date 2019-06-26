@@ -27,7 +27,7 @@ singleContainerFullSize="false"/>
 <f:fields>
 <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
       showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-      valueLiveUpdate="true" required="true"/>
+      valueLiveUpdate="true" required="true" valueHelpOnly="true"/>
 <!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
   editable="false"/> -->
   <Text id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
@@ -38,7 +38,7 @@ singleContainerFullSize="false"/>
 <f:fields>
 <Input id="idOrderNo"
 value="{local>/orderHeader/OrderNo}" showValueHelp="true"
-valueHelpRequest="valueHelpOrder"/>
+valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 <Button text="{i18n>C}" press="orderCreate"/>
 <Button icon="sap-icon://nav-back"/>
 <Button icon="sap-icon://feeder-arrow"/>

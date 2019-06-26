@@ -50,9 +50,11 @@
 <f:FormElement label="{i18n>Cash}">
 <f:fields>
 <!-- <Input id="idCoCash" type="Number" value="{local>/customerOrder/Cash}"/> -->
-<Input id="idCoCash" type="Number" value="{
-                                            path:'local>/customerOrder/Cash',
-                                        formatter:'.formatter.getIndianCurr'}"/>
+<Input id="idCoCash" type="Number"
+      value="{
+                path:'local>/customerOrder/Cash',
+                formatter:'.formatter.getIndianCurr'
+              }"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Gold}">
@@ -64,28 +66,6 @@
 <f:fields>
 <Input id="idCoSilver" type="Number" value="{local>/customerOrder/Silver}"/>
 </f:fields>
-</f:FormElement>
-<f:FormElement label="{i18n>coPic}">
-<f:fields>
-<!-- <Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/> -->
-<unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"
-  iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10"
-  mimeType="image/jpeg,image/gif,image/png"
-  uploadComplete="_onFileUploaderUploadComplete" change="onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch"
-  fileSizeExceed="_onFileUploaderFileSizeExceed">
-  <unified:headerParameters/>
-  <unified:parameters/>
-  <unified:xhrSettings/>
-</unified:FileUploader>
-</f:fields>
-</f:FormElement>
-<f:FormElement label="">
-<Button text="Upload Picture" id="idCoUpload" press="handleUploadPress" type="Emphasized" icon="sap-icon://upload" iconFirst="true" width="auto" enabled="true" visible="true"
-  iconDensityAware="false">
-  <layoutData>
-  <l:GridData span="XL3 L3 "/>
-  </layoutData>
-</Button>
 </f:FormElement>
 </f:formElements>
 <f:layoutData>

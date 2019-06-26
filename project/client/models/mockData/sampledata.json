@@ -201,6 +201,10 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"entryHeaderTemp":{
+	  "CustomerId": "",
+		"CustomerName": ""
+	},
 	"orderHeaderTemp":{
 	  "CustomerId": "",
 		"CustomerName": ""
@@ -298,16 +302,16 @@
 		"MaterialNo":"",
 		"MaterialName":""
 	},
-	"orderReturn":{
+	"OrderReturn":{
 		"OrderNo":"",
 		"Type":"",
-		"Weight":"",
-		"Tunch":"",
-		"Qty":"",
-		"Bhav":"",
-		"Amount":"",
+		"Weight":0,
+		"KWeight":0,
+		"Tunch":0,
+		"Qty":0,
+		"Bhav":0,
 		"Remarks":"",
-		"SubTot":"",
+		"SubTotal":0,
 		"CreatedBy":"",
 		"CreatedOn":"",
 		"ChangedBy":"",

@@ -66,17 +66,12 @@ debugger;
 		decimalvalidator1: function (oEvent) {
 						debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idCash"){
-
 			$(function() {
-
 				$('input').on('input.idCash',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idCash-inner"){
-				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
 					debugger;
-
  			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,1})?/)[0];
 				}
-					// }
  				});
  			});
 }
@@ -86,15 +81,11 @@ debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idGold"){
 
 			$(function() {
-
 				$('input').on('input.idGold',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idGold-inner"){
-				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
-					debugger;
-
+							debugger;
  			    this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
 				}
-					// }
  				});
  			});
 }
@@ -102,17 +93,12 @@ debugger;
 		decimalvalidator3: function (oEvent) {
 						debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idSilver"){
-
 			$(function() {
-
 				$('input').on('input.idSilver',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idSilver-inner"){
-				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
 					debugger;
-
  			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
 				}
-					// }
  				});
  			});
 }
@@ -120,17 +106,12 @@ debugger;
 		decimalvalidator4: function (oEvent) {
 						debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idweight"){
-
 			$(function() {
-
 				$('input').on('input.idweight',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idweight-inner"){
-				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
 					debugger;
-
  			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
 				}
-					// }
  				});
  			});
 }
@@ -138,40 +119,16 @@ debugger;
 		decimalvalidator5: function (oEvent) {
 						debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idtunch"){
-
 			$(function() {
-
 				$('input').on('input.idtunch',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idtunch-inner"){
-				// if	(event.path[0].id=="__component0---idEntry--idCash-inner"){
 					debugger;
-
  			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
 				}
-					// }
  				});
  			});
 }
 		},
-		// decimalvalidator2: function (oEvent) {
-		// 	$(function() {
-		//
-		// 		$('input.').on('input.idGold',function(event) {
-		// 	    this.value = this.value.match(/^[+-]?\d{0,4}(\.\d{0,3})?/)[0];
-		// 		});
-		// 	});
-		// },
-		// decimalvalidator3: function (oEvent) {
-		// 	// debugger;
-		// 	// var that = this;
-		// 	$(function() {
-		//
-		// 	jQuery('input').on('input',function () {
-		// 	  this.value= this.value.match(/^[+-]?\d{0,1}(\.\d{0,2})?/)[0];
-		// 		});
-		// 	});
-		// },
-
     onSubmit: function (evt) {
           $(function() {
                   $('input:text:first').focus();
@@ -202,8 +159,12 @@ debugger;
      var selCust = oEvent.getParameter("selectedItem").getLabel();
      var selCustName = oEvent.getParameter("selectedItem").getValue();
      this.getView().byId("idCust").setValue(selCust);
-     this.getView().byId("idCustText").setValue(selCustName);
-     myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+     this.getView().byId("idCustText").setText(selCustName);
+		 this.getView().getModel("local").setProperty("/EntryData/Customer",
+		 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+		 this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
+		selCust);
+     // myData.Customer=;
      this.getView().getModel("local").getProperty("/EntryData",myData);
 		 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 		 this.getView().byId("idTable").getBinding("items").filter(oFilter);
@@ -267,43 +228,50 @@ debugger;
        var oPopover = that.getErrorMessage(oError);
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
-			//
-			// 
-			//  $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
-			// 	console.log(result);
-			// 	debugger;
-			// 	that.byId("idTC").setText(result.CashTotal);
-			// 	that.byId("idTC").getText();
-			// 	parseInt(that.byId("idTC").getText());
-			// 	if(parseInt(that.byId("idTC").getText())>0){
-			// 		that.byId("idTC").setState('Success');
-			// 		debugger;
-			// 	}else{
-			// 		that.byId("idTC").setState('Warning');
-			// 	}
-			// 	that.getView().byId("idG").setText(result.GoldTotal);
-			// 	that.byId("idG").getText();
-			//  parseInt(that.byId("idG").getText());
-			//  if(parseInt(that.byId("idG").getText())>0){
-			// 	 that.byId("idG").setState('Success');
-			// 	 debugger;
-			//  }else{
-			// 	 that.byId("idG").setState('Warning');
-			//  }
-			// 	that.getView().byId("idS").setText(result.SilverTotal);
-			// 	that.byId("idS").getText();
-			//  parseInt(that.byId("idS").getText());
-			//  if(parseInt(that.byId("idS").getText())>0){
-			// 	 that.byId("idS").setState('Success');
-			// 	 debugger;
-			//  }else{
-			// 	 that.byId("idS").setState('Warning');
-			//  }
-			// });
-
-			 // this.getTotals();
-
-
+			 this.byId("DueDateId").setDateValue( new Date());
+			 debugger;
+			 var x=this.getView().byId("idTC").getText();
+			 var x1=parseInt(this.byId("idTC").getText());
+			 var y=this.getView().byId("idCash").getValue();
+			 var y1=parseInt(this.byId("idCash").getValue());
+			 var z = x1+y1;
+			 this.byId("idTC").setText(z);
+			 var z1 = this.byId("idTC").getText();
+			 parseInt(z1);
+			if(parseInt(z1)>0){
+				that.byId("idTC").setState('Success');
+				debugger;
+			}else{
+				that.byId("idTC").setState('Warning');
+			}
+			var x=this.getView().byId("idG").getText();
+			var x1=parseInt(this.byId("idG").getText());
+			var y=this.getView().byId("idGold").getValue();
+			var y1=parseInt(this.byId("idGold").getValue());
+			var z = x1+y1;
+			this.byId("idG").setText(z);
+			var z1 = this.byId("idG").getText();
+			parseInt(z1);
+		 if(parseInt(z1)>0){
+			 that.byId("idG").setState('Success');
+			 debugger;
+		 }else{
+			 that.byId("idG").setState('Warning');
+		 }
+		 var x=this.getView().byId("idS").getText();
+		 var x1=parseInt(this.byId("idS").getText());
+		 var y=this.getView().byId("idSilver").getValue();
+		 var y1=parseInt(this.byId("idSilver").getValue());
+		 var z = x1+y1;
+		 this.byId("idS").setText(z);
+		 var z1 = this.byId("idS").getText();
+		 parseInt(z1);
+		if(parseInt(z1)>0){
+			that.byId("idS").setState('Success');
+			debugger;
+		}else{
+			that.byId("idS").setState('Warning');
+		}
    },
 	 // getTotals: function (oEvent, numbers) {
 		//   // var myData = this.getView().getModel("local").getProperty("/EntryData");
@@ -318,10 +286,10 @@ debugger;
 		// 		var amt = this.getView().byId("idTable").getItems()[i].getCells()[2].getText()
 		// 		var amt1=parseInt(amt);
 	 //
-		// 		if(amt1>0){
-		// 			nCash+=nCash+amt1;
-		// 			debugger;
-		// 		}
+				// if(amt1>0){
+				// 	nCash+=nCash+amt1;
+				// 	debugger;
+				// }
 	 //
 	 //
 		// // 	debugger;
@@ -337,7 +305,7 @@ debugger;
 
    onDelete: function(){
      var that=this;
-     debugger;
+     // debugger;
      sap.m.MessageBox.confirm(
 "Deleting Selected Records", {
          title: "Confirm",
@@ -348,18 +316,73 @@ debugger;
            if(sAction==="OK"){
              debugger;
              var x = that.getView().byId("idTable").getSelectedItems();
+						 var nCash = 0;
+						 var nGold = 0;
+						 var nSilver = 0;
             if(x.length){
               for(var i=0; i<x.length; i++){
                 debugger;
                 var myUrl = x[i].getBindingContext().sPath;
                 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+								var p = x[i].getBindingContext().getObject().Cash;
+								var q = x[i].getBindingContext().getObject().Gold;
+								var r = x[i].getBindingContext().getObject().Silver;
+								if(p){
+									nCash+= nCash + p -nCash;
+								}
+								if(q){
+											nGold+= nGold + q -nGold;
+								}
+							  if(r){
+											nSilver+= nSilver + r -nSilver;
+								}
               }
+							var CA = that.byId("idTC").getText();
+							var CA1 = parseInt(CA);
+							var TCA = CA1 - nCash;
+							that.byId("idTC").setText(TCA);
+							that.byId("idTC").getText();
+							parseInt(that.byId("idTC").getText());
+							if(parseInt(that.byId("idTC").getText())>0){
+								that.byId("idTC").setState('Success');
+								debugger;
+							}else{
+								that.byId("idTC").setState('Warning');
+							}
+
+							var GA = that.byId("idG").getText();
+							var GA1 = parseInt(GA);
+							var TGA = GA1 - nGold;
+							that.byId("idG").setText(TGA);
+							that.byId("idG").getText();
+						 parseInt(that.byId("idG").getText());
+						 if(parseInt(that.byId("idG").getText())>0){
+							 that.byId("idG").setState('Success');
+							 debugger;
+						 }else{
+							 that.byId("idG").setState('Warning');
+						 }
+
+							var SA = that.byId("idS").getText();
+							var SA1 = parseInt(SA);
+							var TSA = SA1 - nSilver;
+							that.byId("idS").setText(TSA);
+							that.byId("idS").getText();
+						 parseInt(that.byId("idS").getText());
+						 if(parseInt(that.byId("idS").getText())>0){
+							 that.byId("idS").setState('Success');
+							 debugger;
+						 }else{
+							 that.byId("idS").setState('Warning');
+						 }
             }
+
           sap.m.MessageToast.show("Selected records are deleted");
         }
        }
      }
      );
+		 // debugger;
    },
 
    onClear: function(){
@@ -372,7 +395,7 @@ debugger;
 						this.getView().byId("idCash").focus();
 				});
        this.byId("idCust").getValue();
-       this.byId("idCustText").getValue();
+       this.byId("idCustText").getText();
        this.byId("idweight").setValue("0");
        this.byId("idRemarks").setValue("");
        this.byId("idCash").setValue("0");
@@ -389,13 +412,19 @@ debugger;
 			 });
 
        this.byId("idCust").setValue("");
-       this.byId("idCustText").setValue("");
+       this.byId("idCustText").setText("");
      this.byId("idweight").setValue("0");
      this.byId("idRemarks").setValue("");
      this.byId("idCash").setValue("0");
      this.byId("idGold").setValue("0");
      this.byId("idSilver").setValue("0");
      this.byId("idtunch").setValue("0");
+		 this.byId("idTC").setText("");
+		 this.byId("idG").setText("");
+		 this.byId("idS").setText("");
+		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+															 "GET", {}, myData, this)
+		 // this.getView().getModel("local").getProperty("/EntryData");
      this.byId("DueDateId").setDateValue( new Date());
      }
 
@@ -416,22 +445,6 @@ debugger;
         oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 
       }
-     //  var aFilter=[];
-     //      var data = myData.Customer;
-     //      if (data) {
-     //        aFilter.push(new sap.ui.model.Filter({path: "Customer",
-     //        operator:FilterOperator.EQ,
-     //        value1: data
-     // }
-     //      ));
-     //      }
-     //      // var oFilter = new sap.ui.model.Filter("Customer Name(code),sap.ui.model.FilterOperator.Contains,data");
-     //      var oList = this.getView().byId("idTable");
-     //    var oBinding = oList.getBinding("items");
-     //    oBinding.filter(aFilter);
-		 //
-		 //
-
    }
   });
 

@@ -511,6 +511,7 @@ sap.ui.define(
 						"/CustomCalculations", "GET", {}, {}, this)
 					.then(function(oData) {
 						debugger;
+						that.getView().getModel("local").setProperty("/CustomCalculations",oData);
 						that.getView().getModel("local").setProperty("/WSOrderHeader/Goldbhav", oData.results[0].Gold1);
 						that.getView().getModel("local").setProperty("/WSOrderHeader/GoldbhavK", oData.results[0].KacchaGold);
 						that.getView().getModel("local").setProperty("/WSOrderHeader/SilverBhav", oData.results[0].Silver1);

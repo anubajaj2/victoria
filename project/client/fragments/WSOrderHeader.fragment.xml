@@ -17,13 +17,16 @@
 							<f:fields>
 								<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
 								      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-								      valueLiveUpdate="true" required="true"/>
-								<Input id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+								      valueLiveUpdate="true" required="true"
+											valueHelpOnly="true" editable="true" enabled="true"/>
+								<Input id="custName" value="{local>/orderHeaderTemp/CustomerName}"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>OrderNo}">
 							<f:fields>
-								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder"/>
+								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}"
+									showValueHelp="true" valueHelpRequest="valueHelpOrder"
+									valueHelpOnly="true" editable="true" enabled="true"/>
 								<Button text="{i18n>C}" press="orderCreate"/>
 								<Button icon="sap-icon://nav-back"/>
 								<Button icon="sap-icon://feeder-arrow"/>

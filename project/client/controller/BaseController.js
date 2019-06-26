@@ -585,41 +585,47 @@ sap.ui.define([
 				}
 			}
 		},
-		deleteReturnValues: function(oEvent, i, j) {
+		deleteReturnValues:function(oEvent,i,j,viewId,selIdxs){
 			debugger;
-			var id = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
-			if (id) {
-				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-					"DELETE", {}, {}, that)
-				sap.m.MessageToast.show("Data Deleted Successfully");
+			var that = this;
+			var id  = that.getView().getModel('returnModel').getProperty('/TransData')[j].ReturnId;
+			if (id){
+				if (viewId === 'idsales') {
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+																		"DELETE", {}, {}, that)
+				}else {
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderReturns('" + id + "')",
+																		"DELETE", {}, {}, that)
+				}
+			sap.m.MessageToast.show("Data Deleted Successfully");
 			}
 			var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
 			oTableData.splice(j, 1);
-			that.getView().getModel("returnModel").setProperty("/TransData", oTableData);
+			that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
 			that.getView().byId("OrderReturn").clearSelection();
-			for (var j = 0; j <= selIdxs.length; j++) {
-				var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
-				var oRetailtab = {
-					"Type": "",
-					"key": "",
-					"ReturnId": 0,
-					"Weight": 0,
-					"KWeight": 0,
-					"Tunch": 0,
-					"Qty": 0,
-					"Bhav": 0,
-					"Remarks": "",
-					"SubTotalS": 0,
-					"SubTotalG": 0,
-					"SubTotal": 0,
-					"CreatedBy": "",
-					"CreatedOn": "",
-					"ChangedBy": "",
-					"ChangedOn": ""
-				};
-				// aTtype.push(oRetailtab);
-				that.getView().getModel('returnModel').setProperty('/TransData', oRetailtab);
-			}
+			for(var j=0; j <= selIdxs; j++){
+			var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
+			var oRetailtab = {
+				"Type":"",
+				"key":"",
+				"ReturnId":0,
+				"Weight":0,
+				"KWeight":0,
+				"Tunch":0,
+				"Qty":0,
+				"Bhav":0,
+				"Remarks":"",
+				"SubTotalS":0,
+				"SubTotalG":0,
+				"SubTotal":0,
+				"CreatedBy":"",
+				"CreatedOn":"",
+				"ChangedBy":"",
+				"ChangedOn":""
+			};
+			// aTtype.push(oRetailtab);
+			 that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
+		 }
 		},
 		onReturnValue: function(oEvent) {
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
@@ -708,6 +714,12 @@ sap.ui.define([
 			if (fieldId === 'IdTunchR') {
 				if (seletedLine.Tunch !== newValue) {
 					seletedLine.Tunch = newValue;
+				}
+			}
+			//Bhav value
+			if (fieldId === 'IdBhavR') {
+				if (seletedLine.Bhav !== newValue) {
+					seletedLine.Bhav = newValue;
 				}
 			}
 			//weight

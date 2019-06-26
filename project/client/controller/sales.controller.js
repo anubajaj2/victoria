@@ -334,6 +334,8 @@ this.orderReturn(oEvent);
 
 onDelete: function(oEvent) {
   var that = this;
+debugger;
+var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
 // var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
 var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
@@ -361,7 +363,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
         that.getView().byId("orderItemBases").clearSelection();
 
-      for(var j=0; j <= selIdxs.length; j++){
+      for(var j=selIdxs.length; j <= (selIdxs.length + selIdxs.length); j++){
           var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(
             {
@@ -393,7 +395,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;
-      that.deleteReturnValues(oEvent,i,j);
+      that.deleteReturnValues(oEvent,i,j,viewId,selIdxs.length);
     }//order return else part
     }//for j loop
     }//for i loop

@@ -172,7 +172,7 @@ sap.ui.define([
       // move the id of selected row to global variable
        //coId = oEvent.getSource().getBindingContext().getPath().split("'")[1];
        coId = oEvent.getSource().getBindingContext().getProperty("id");
-       selRow = oEvent.getSource().getBindingContext().getObject();
+       this.selRow = oEvent.getSource().getBindingContext().getObject();
        var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
 
        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -236,21 +236,35 @@ sap.ui.define([
             Filename: that.fileName,
             Filetype: that.fileType
           }
+          var that2 = that;
+          //TODO: if its not there POST, update our main table record with "X"
+          //else, simply shpow the popup and upload buuton should do an update of photo content
           that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
                             "POST", {}, payload, that)
             .then(function(oData) {
               debugger;
                 sap.m.MessageToast.show("Photo uploaded Successfully");
 // update picture flage in customer orders
-                selRow.Picture = "X";
-                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders",
-                                  "PUT", {}, selRow, that)
-                  .then(function(oData) {
-                      debugger;
-                  }).catch(function(oError) {
-                    that.getView().setBusy(false);
-                    var oPopover = that.getErrorMessage(oError);
-                  });
+                that2.selRow.Picture = "X";
+                var payload = {
+                  id: that2.selRow.id,
+                  PhotoValue : "X"
+                };
+                $.post('/updatePhotoFlag', payload)
+        					.done(function(data, status) {
+        						sap.m.MessageToast.show("Data updated");
+        					})
+        					.fail(function(xhr, status, error) {
+        						sap.m.MessageBox.error("Failed to update");
+        					});
+                // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders('" + that2.selRow.id + "')",
+                //                   "PUT", {}, that2.selRow, that)
+                //   .then(function(oData) {
+                //       debugger;
+                //   }).catch(function(oError) {
+                //     that.getView().setBusy(false);
+                //     var oPopover = that.getErrorMessage(oError);
+                //   });
                 that.getView().setBusy(false);
               }).catch(function(oError) {
                 that.getView().setBusy(false);

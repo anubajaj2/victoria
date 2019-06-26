@@ -31,7 +31,19 @@ app.start = function() {
 			console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
 		}
 
-
+		app.post('/updatePhotoFlag', function(req, res) {
+			debugger;
+			var customerOrderKey = req.body.id;
+			var isPhoto = req.body.PhotoValue;
+			var oCustomerOrder = app.models.CustomerOrder;
+			var updateObj = {
+				Picture: isPhoto
+			};
+			oCustomerOrder.findById(customerOrderKey).then(function(instance) {
+				 instance.updateAttributes(updateObj);
+				 return res.send("done");
+			});
+		});
 		app.post('/getTotalEntryCustomer', function(req, res) {
 
 			var customerId = req.body.Customer;

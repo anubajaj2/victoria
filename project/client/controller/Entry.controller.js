@@ -160,7 +160,11 @@ debugger;
      var selCustName = oEvent.getParameter("selectedItem").getValue();
      this.getView().byId("idCust").setValue(selCust);
      this.getView().byId("idCustText").setText(selCustName);
-     myData.Customer=oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+		 this.getView().getModel("local").setProperty("/EntryData/Customer",
+		 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+		 this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
+		selCust);
+     // myData.Customer=;
      this.getView().getModel("local").getProperty("/EntryData",myData);
 		 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 		 this.getView().byId("idTable").getBinding("items").filter(oFilter);
@@ -224,6 +228,7 @@ debugger;
        var oPopover = that.getErrorMessage(oError);
      });
 		   this.getView().byId("DateId").setDateValue( new Date());
+			 this.byId("DueDateId").setDateValue( new Date());
 			 debugger;
 			 var x=this.getView().byId("idTC").getText();
 			 var x1=parseInt(this.byId("idTC").getText());

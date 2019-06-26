@@ -35,7 +35,7 @@
       <f:FormElement label="{i18n>Customer}">
         <f:fields>
           <Input  showValueHelp="true" valueHelpOnly="true"
-            valueHelpRequest="onValueHelpRequest" value="" id="idCust">
+            valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}" id="idCust">
             <layoutData>
               <l:GridData span="XL3 L3"/>
             </layoutData>

@@ -17,6 +17,7 @@
 							  <unified:parameters/>
 							  <unified:xhrSettings/>
 							</unified:FileUploader>
+							<Image id="idCoPic" src="{photo>/Content}"/>
 						</VBox>
 					</l:content>
 				</l:SimpleForm>

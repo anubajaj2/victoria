@@ -8,6 +8,7 @@ sap.ui.define([
 ],function (BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog) {
       "use strict";
         var coId;
+        var selRow;
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
     onInit: function () {
@@ -127,7 +128,8 @@ sap.ui.define([
         oBinding.filter(aFilter);
 
   },
-
+// check if date and delivery date are valid and when date changed set delivery
+// date to +1 month
     onDateChange:function(oEvent){
       var oDP = oEvent.getSource();
       var bValid = oEvent.getParameter("valid");
@@ -168,7 +170,9 @@ sap.ui.define([
       var that = this
       //Check if photo already exists for the CO Order
       // move the id of selected row to global variable
-       coId = oEvent.getSource().getBindingContext().getPath().split("'")[1];
+       //coId = oEvent.getSource().getBindingContext().getPath().split("'")[1];
+       coId = oEvent.getSource().getBindingContext().getProperty("id");
+       selRow = oEvent.getSource().getBindingContext().getObject();
        var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
 
        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -176,22 +180,25 @@ sap.ui.define([
      		.then(function(oData) {
           debugger;
         // if photo not assigned, call photo upload popup else show photo
-          if (oData.results.length === 0) {
+        //  if (oData.results.length === 0) {
               if (!that.photoPopup) {
                 that.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", that);
                 that.getView().addDependent(that.photoPopup);
               }
-              that.photoPopup.open();
-            }else {
               var oModelPhoto = new JSONModel();
               oModelPhoto.setData(oData.results[0]);
               that.getView().setModel(oModelPhoto, "photo");
-              if (!that.photogallPopup) {
-                that.photogallPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoGalleryDialog", that);
-                that.getView().addDependent(that.photogallPopup);
-              }
-              that.photogallPopup.open();
-            }
+              that.photoPopup.open();
+            // }else {
+            //   var oModelPhoto = new JSONModel();
+            //   oModelPhoto.setData(oData.results[0]);
+            //   that.getView().setModel(oModelPhoto, "photo");
+            //   if (!that.photogallPopup) {
+            //     that.photogallPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoGalleryDialog", that);
+            //     that.getView().addDependent(that.photogallPopup);
+            //   }
+            //   that.photogallPopup.open();
+            // }
      		}).catch(function(oError) {
      				//MessageToast.show("cannot fetch the data");
 
@@ -216,9 +223,9 @@ sap.ui.define([
 
         var reader = new FileReader();
         reader.onload = function(e) {
-          debugger;
           var oFile = {};
-          oFile.imgContent = e.currentTarget.result.replace("data:image/jpeg;base64,", "");
+          //oFile.imgContent = e.currentTarget.result.replace("data:image/jpeg;base64,", "");
+          oFile.imgContent = e.currentTarget.result;
           // that.aFiles.push(oFile);
           var picture = oFile.imgContent ; //btoa(encodeURI(oFile.imgContent));
           //that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
@@ -232,9 +239,19 @@ sap.ui.define([
           that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
                             "POST", {}, payload, that)
             .then(function(oData) {
-                debugger;
-                that.getView().setBusy(false);
+              debugger;
                 sap.m.MessageToast.show("Photo uploaded Successfully");
+// update picture flage in customer orders
+                selRow.Picture = "X";
+                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders",
+                                  "PUT", {}, selRow, that)
+                  .then(function(oData) {
+                      debugger;
+                  }).catch(function(oError) {
+                    that.getView().setBusy(false);
+                    var oPopover = that.getErrorMessage(oError);
+                  });
+                that.getView().setBusy(false);
               }).catch(function(oError) {
                 that.getView().setBusy(false);
                 var oPopover = that.getErrorMessage(oError);
@@ -255,13 +272,26 @@ sap.ui.define([
     },
 
     onSave: function(oEvent){
-
       var that = this;
       that.getView().setBusy(true);
       debugger;
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
+      if (myData.Qty === "0") {
+        var Qty = this.getView().byId("idCoQty");
+        Qty.setValueState(sap.ui.core.ValueState.Error).setValueStateText("Qty can't be 0")
+        that.getView().setBusy(false);
+        return;
+      }else{
+        var Qty = this.getView().byId("idCoQty");
+        Qty.setValueState(sap.ui.core.ValueState.None);
+      }
       myData.Date = this.getView().byId("idCoDate").getDateValue();
       myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+      if (myData.Date > myData.DelDate ) {
+        sap.m.MessageBox.error("Delivery date should be greater than Date");
+        that.getView().setBusy(false);
+        return;
+      }
       this.getView().getModel("local").setProperty("/customerOrder/Date",   myData.Date);
        this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",

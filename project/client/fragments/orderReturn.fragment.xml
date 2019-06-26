@@ -1,130 +1,109 @@
-<core:FragmentDefinition
-  xmlns="sap.ui.table"
-  xmlns:m="sap.m"
-  xmlns:core="sap.ui.core">
+<core:FragmentDefinition xmlns="sap.ui.table" xmlns:m="sap.m" xmlns:core="sap.ui.core">
 
-<Table id="OrderReturn"
-  selectionMode="MultiToggle"
-  visibleRowCount="5"
-  threshold="20"
-  rows="{returnModel>/TransData}"
-  class="sapUiContentPadding">
+	<Table id="OrderReturn" selectionMode="MultiToggle" visibleRowCount="5" threshold="20" rows="{returnModel>/TransData}" class="sapUiContentPadding">
 
-<extension>
-    <m:Toolbar>
-        <m:content>
-          <m:Title text="{i18n>return}"></m:Title>
-    <m:ToolbarSpacer/>
-<m:Button icon="sap-icon://delete"
-          iconFirst="true"
-          press="onDelete"/>
-</m:content>
-</m:Toolbar>
-</extension>
-<columns>
-<Column>
-<label>
-<m:Text text="{i18n>type}"/>
-</label>
-<template>
-<!-- <m:Input value="{returnModel>type}"
-         showValueHelp="true"
-        valueHelpRequest="onTypeHelp"/> -->
-<m:ComboBox showSecondaryValues= "true"
-  selectionChange="onReturnValue"
-  value="{returnModel>Type}"
-  items= "{local>/returnType}">
-<core:Item key="{local>key}" text="{local>value}"/>
-</m:ComboBox>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>weight}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>Weight}" type="Number"/>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>Kweight}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>KWeight}" type="Number"/>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>tunch}"></m:Text>
-</label>
-<template>
-<m:Input id ="tunchid" value="{returnModel>Tunch}"
-  type="Number" maxLength="3"/>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>quantity}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>Qty}"
-        type="Number" maxLength="3"></m:Input>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>bhav}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>Bhav}" type="Number"
-   maxLength="5"></m:Input>
-</template>
-</Column>
-<!-- <Column>
-<label>
-<m:Text text="{i18n>amount}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>amount}"
-        maxLength="5"></m:Input>
-</template>
-</Column> -->
-<Column>
-<label>
-<m:Text text="{i18n>rem}"></m:Text>
-</label>
-<template>
-<m:Input value="{returnModel>Remarks}" maxLength="80"></m:Input>
-</template>
-</Column>
-<Column visible="{visModel>/rows1}" hAlign="Center">
-<label>
-<m:Text text="{i18n>subTotalS}"></m:Text>
-</label>
-<template>
-<m:Text text="{returnModel>SubTotalS}" textAlign="Center"
-   type="Number" editable="false"/>
-</template>
-</Column>
-<Column visible="{visModel>/rows1}" hAlign="Center">
-<label>
-<m:Text text="{i18n>subTotalG}"></m:Text>
-</label>
-<template>
-<m:Text text="{returnModel>SubTotalG}" textAlign="Center"
- type="Number" editable="false"/>
-</template>
-</Column>
-<Column>
-<label>
-<m:Text text="{i18n>subTot}"></m:Text>
-</label>
-<template>
-<m:Text text="{returnModel>SubTotal}" textAlign="Center"
-type="Number" editable="false"/>
-</template>
-</Column>
-</columns>
-</Table>
+		<extension>
+			<m:Toolbar>
+				<m:content>
+					<m:Title text="{i18n>return}"></m:Title>
+					<m:ToolbarSpacer/>
+					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"/>
+				</m:content>
+			</m:Toolbar>
+		</extension>
+		<columns>
+			<Column>
+				<label>
+					<m:Text text="{i18n>type}"/>
+				</label>
+				<template>
+					<!-- <m:Input value="{returnModel>type}" showValueHelp="true" valueHelpRequest="onTypeHelp"/> -->
+					<m:ComboBox showSecondaryValues="true" selectionChange="onReturnValue"
+						id ="IdType" value="{returnModel>Type}" items="{local>/returnType}">
+						<core:Item key="{local>key}" text="{local>value}"/>
+					</m:ComboBox>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>weight}"></m:Text>
+				</label>
+				<template>
+					<m:Input value="{returnModel>Weight}" liveChange="onReturnChange"
+						 type="Number" id ="IdWeightR"/>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>Kweight}"></m:Text>
+				</label>
+				<template>
+					<m:Input value="{returnModel>KWeight}" liveChange="onReturnChange"
+						 type="Number" id ="IdKWeightR"/>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>tunch}"></m:Text>
+				</label>
+				<template>
+					<m:Input id="IdTunchR" value="{returnModel>Tunch}" type="Number"
+						 liveChange="onReturnChange" maxLength="3"/>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>quantity}"></m:Text>
+				</label>
+				<template>
+					<m:Input value="{returnModel>Qty}" type="Number"
+						 liveChange="onReturnChange" id ="IdQtyR"
+						 maxLength="3"></m:Input>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>bhav}"></m:Text>
+				</label>
+				<template>
+					<m:Input value="{returnModel>Bhav}" type="Number"
+						liveChange="onReturnChange" id ="IdBhavR"
+						 maxLength="5"></m:Input>
+				</template>
+			</Column>
+			<!-- <Column> <label> <m:Text text="{i18n>amount}"></m:Text> </label> <template> <m:Input value="{returnModel>amount}" maxLength="5"></m:Input> </template> </Column> -->
+			<Column>
+				<label>
+					<m:Text text="{i18n>rem}"></m:Text>
+				</label>
+				<template>
+					<m:Input value="{returnModel>Remarks}" maxLength="80"></m:Input>
+				</template>
+			</Column>
+			<Column visible="{visModel>/rows1}" hAlign="Center">
+				<label>
+					<m:Text text="{i18n>subTotalS}"></m:Text>
+				</label>
+				<template>
+					<m:Text text="{returnModel>SubTotalS}" textAlign="Center" type="Number" editable="false"/>
+				</template>
+			</Column>
+			<Column visible="{visModel>/rows1}" hAlign="Center">
+				<label>
+					<m:Text text="{i18n>subTotalG}"></m:Text>
+				</label>
+				<template>
+					<m:Text text="{returnModel>SubTotalG}" textAlign="Center" type="Number" editable="false"/>
+				</template>
+			</Column>
+			<Column>
+				<label>
+					<m:Text text="{i18n>subTot}"></m:Text>
+				</label>
+				<template>
+					<m:Text text="{returnModel>SubTotal}" textAlign="Center" type="Number" editable="false"/>
+				</template>
+			</Column>
+		</columns>
+	</Table>
 </core:FragmentDefinition>

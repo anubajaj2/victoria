@@ -623,6 +623,12 @@ userEnterValue.Bhav=customCal.results[0].GoldReturns;
 }
 that.getView().getModel('local').setProperty('/returnModel',userEnterValue);
 },
+onReturnChange:function(oEvent){
+debugger;
+var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
+var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+var newValue = oEvent.getParameters().newValue;
+ },
 orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT

@@ -605,12 +605,29 @@ var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[
 if (key) {
 userEnterValue.key=key;
 }
-if (key === 'OG' || key === 'BG') {
-userEnterValue.Tunch = "100";
-userEnterValue.Bhav=customCal.results[0].GoldReturns;
-}else if (key === 'OS' || key === 'BS') {
+if (key === 'OG') {
 	userEnterValue.Tunch = "100";
+	if (viewId ==='idsales'){
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+}else {
+	userEnterValue.Bhav=customCal.results[0].GoldReturns1;
+}
+}else if (key === 'BG') {
+userEnterValue.Tunch = "100";
+if (viewId ==='idsales'){
+userEnterValue.Bhav=customCal.results[0].GoldReturns;
+}}else if (key === 'BS') {
+	userEnterValue.Tunch = "100";
+	if (viewId ==='idsales'){
 	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+	}}
+else if (key === 'OS') {
+	userEnterValue.Tunch = "100";
+	if (viewId ==='idsales'){
+	userEnterValue.Bhav=customCal.results[0].SilverReturns;
+}else {
+	userEnterValue.Bhav=customCal.results[0].SilverReturns1;
+}
 }else if (key === 'KG') {
 //only in case of retail sales load by default
 	if (viewId ==='idsales')

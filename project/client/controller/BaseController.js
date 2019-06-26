@@ -602,6 +602,9 @@ defaultValuesLoad:function(oEvent,userEnterValue,customCal,key)
 {
 var that = this;
 var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
+if (key) {
+userEnterValue.key=key;
+}
 if (key === 'OG' || key === 'BG') {
 userEnterValue.Tunch = 100;
 userEnterValue.Bhav=customCal.results[0].GoldReturns;
@@ -627,7 +630,77 @@ onReturnChange:function(oEvent){
 debugger;
 var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
 var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+if (sourceId==='idsales') {
+//retail sales detail
+var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
+}else {
+//WS order details
+}
+this.returnCalculation(oEvent,orderHeader,seletedLine);
+},
+returnCalculation:function(oEvent,orderHeader,seletedLine){
 var newValue = oEvent.getParameters().newValue;
+var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+//weight
+if (fieldId === 'IdWeightR') {
+	if (seletedLine.Weight !== newValue) {
+		seletedLine.Weight = newValue;
+	}
+}
+//katta weight
+if (fieldId === 'IdKWeightR') {
+	if (seletedLine.KWeight !== newValue) {
+		seletedLine.KWeight = newValue;
+	}
+}
+//Tunch
+if (fieldId === 'IdTunchR') {
+	if (seletedLine.Tunch !== newValue) {
+		seletedLine.Tunch = newValue;
+	}
+}
+//weight
+if ( seletedLine.Weight === "" ){
+  var weight = 0;
+}else
+  if (seletedLine.Weight === 0) {
+    var weight = 0;
+  }else{
+    var weight  = oFloatFormat.parse(seletedLine.Weight);
+  }
+//Katta weight
+if ( seletedLine.KWeight === "" ){
+  var kWeight = 0;
+}else
+  if (seletedLine.KWeight === 0) {
+    var kWeight = 0;
+  }else{
+    var kWeight  = oFloatFormat.parse(seletedLine.KWeight);
+  }
+//tunch
+if ( seletedLine.Tunch === "" ){
+  var tunch = 0;
+}else
+  if (seletedLine.Tunch === 0) {
+    var tunch = 0;
+  }else{
+    var tunch  = oFloatFormat.parse(seletedLine.Tunch);
+  }
+if (seletedLine.key === 'OG') {
+	var weightF = weight - kWeight;
+	var fineGold = seletedLine.Tunch * weight;
+	var subTotal = fineGold * seletedLine.Bhav;
+}else if (seletedLine.key === 'OS') {
+
+}else if (seletedLine.key === 'KG') {
+
+}else if (seletedLine.key === 'KS') {
+
+}
+
  },
 orderItem: function(oEvent) {
 			//create the model to set the getProperty
@@ -736,6 +809,7 @@ orderReturn: function(oEvent) {
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
 					"Type":"",
+					"key":"",
 					"ReturnId":0,
 					"Weight":0,
 					"KWeight":0,

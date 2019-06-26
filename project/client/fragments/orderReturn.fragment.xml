@@ -20,7 +20,7 @@
 					<!-- <m:Input value="{returnModel>type}" showValueHelp="true" valueHelpRequest="onTypeHelp"/> -->
 					<m:ComboBox showSecondaryValues="true" selectionChange="onReturnValue"
 						id ="IdType" value="{returnModel>Type}" items="{local>/returnType}">
-						<core:Item key="{local>key}" text="{local>value}"/>
+						<core:Item key="{local>key}" text="{local>value}" additionalText="{local>key}"/>
 					</m:ComboBox>
 				</template>
 			</Column>

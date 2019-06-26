@@ -606,10 +606,10 @@ if (key) {
 userEnterValue.key=key;
 }
 if (key === 'OG' || key === 'BG') {
-userEnterValue.Tunch = 100;
+userEnterValue.Tunch = "100";
 userEnterValue.Bhav=customCal.results[0].GoldReturns;
 }else if (key === 'OS' || key === 'BS') {
-	userEnterValue.Tunch = 100;
+	userEnterValue.Tunch = "100";
 	userEnterValue.Bhav=customCal.results[0].SilverReturns;
 }else if (key === 'KG') {
 //only in case of retail sales load by default
@@ -640,8 +640,11 @@ var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
 this.returnCalculation(oEvent,orderHeader,seletedLine);
 },
 returnCalculation:function(oEvent,orderHeader,seletedLine){
+debugger;
 var newValue = oEvent.getParameters().newValue;
 var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
+var oCurrentRow = oEvent.getSource().getParent();
+var cells = oCurrentRow.getCells();
 var oLocale = new sap.ui.core.Locale("en-US");
 var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 //weight
@@ -689,19 +692,41 @@ if ( seletedLine.Tunch === "" ){
   }else{
     var tunch  = oFloatFormat.parse(seletedLine.Tunch);
   }
-if (seletedLine.key === 'OG') {
+//bhav
+if ( seletedLine.Bhav === "" ){
+  var bhav = 0;
+}else
+  if (seletedLine.Bhav === 0) {
+    var bhav = 0;
+  }else{
+  //   var bhav  = oFloatFormat.parse(seletedLine.Bhav);
+	var bhav = seletedLine.Bhav;
+  }
+if (seletedLine.key === 'OG' ||
+		seletedLine.key === 'KG' ||
+	  seletedLine.key === 'BG') {
+if (seletedLine.key === 'BG') {
+	var	tunch = 100;
+ 	}
+	var bhavF = bhav / 10;
 	var weightF = weight - kWeight;
-	var fineGold = seletedLine.Tunch * weight;
-	var subTotal = fineGold * seletedLine.Bhav;
-}else if (seletedLine.key === 'OS') {
-
-}else if (seletedLine.key === 'KG') {
-
-}else if (seletedLine.key === 'KS') {
-
+	var fineGold = ( tunch * weightF ) / 100;
+	var subTotal = fineGold * bhavF;
+	cells[cells.length - 1].setText(subTotal);
+}else if (seletedLine.key === 'OS' ||
+					seletedLine.key === 'KS' ||
+					seletedLine.key === 'BS')
+					{
+	if (seletedLine.key === 'BS') {
+	var	tunch = 100;
+	}
+	var bhavF = bhav / 1000;
+	var weightF = weight - kWeight;
+	var fineGold = ( tunch * weightF ) / 100;
+	var subTotal = fineGold * bhavF;
+	cells[cells.length - 1].setText(subTotal);
 }
-
- },
+},
 orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT

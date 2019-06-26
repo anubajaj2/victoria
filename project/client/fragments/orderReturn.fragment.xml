@@ -44,7 +44,7 @@
 			</Column>
 			<Column>
 				<label>
-					<m:Text text="{i18n>tunch}"></m:Text>
+					<m:Text text="{i18n>tunchR}"></m:Text>
 				</label>
 				<template>
 					<m:Input id="IdTunchR" value="{returnModel>Tunch}" type="Number"

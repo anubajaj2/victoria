@@ -578,21 +578,12 @@ if (data.QtyD === ""){
 }
 
 var stonevalue = quantityOfStone * makingD;
-
-// if (weight === 0) {
-//   // cells[9].setValue(0);
-//   cells[cells.length - 1].setText(0)
-// }else {
 if (priceF || makingCharges || stonevalue) {
   // gold price per gram
-  // cells[9].setValue(priceF + makingCharges + stonevalue);
   cells[cells.length - 1].setText(priceF + makingCharges + stonevalue);
 }else {
-  // cells[9].setValue(0);
   cells[cells.length - 1].setText(0)
 }
-// }
-
 }else
 if (category.Type === 'GS') {
   debugger;

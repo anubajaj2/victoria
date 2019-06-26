@@ -85,7 +85,10 @@
         <Text text="{Remarks}" />
         <Text text="" />
         <Text text="{Karigar}" />
-        <Button icon="sap-icon://picture" type="Transparent" press="onSelectPhoto" />
+        <Button icon="sap-icon://picture" type="{
+            path: 'Picture',
+            formatter: '.formatter.checkPhotoStat'
+          }" press="onSelectPhoto" />
       </cells>
     </ColumnListItem>
   </items>

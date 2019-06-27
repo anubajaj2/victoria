@@ -10,6 +10,9 @@ sap.ui.define([
   "use strict";
   return BaseController.extend("victoria.controller.sales", {
   formatter: formatter,
+  //global Variables
+  returnError : false,
+
   onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
 
@@ -136,7 +139,7 @@ onValidationItem:function(data,i)
   var oOrderDetail = that.getView().getModel('local').getProperty('/OrderItem');
   var oTableDetails = that.getView().byId("orderItemBases");
   var tableBinding = oTableDetails.getBinding("rows");
-//---all errors are false
+// //---all errors are false
   var returnError = false;
   //Quantity
   if ((data.Type === 'GS') ||
@@ -152,7 +155,7 @@ onValidationItem:function(data,i)
       oOrderDetail.Qty=data.Qty;
       oTableDetails.getRows()[i].getCells()[2].setValueState("None");
       this.getView().setBusy(false);
-      returnError = false;
+      // returnError = false;
   }
 }else
 if ((data.Type === 'Gold' && data.Category === "gm")||
@@ -168,7 +171,7 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
   oOrderDetail.Weight =data.Weight;
   oTableDetails.getRows()[i].getCells()[4].setValueState("None");
   this.getView().setBusy(false);
-  returnError = false;
+  // returnError = false;
   }
 }//Gold/Silver check
 return returnError;
@@ -180,10 +183,11 @@ var oBindingR = oReturnTable.getBinding("rows");
 for (var i = 0; i < oBindingR.getLength(); i++) {
   var that = this;
   var data = oBindingR.oList[i];
-
+debugger;
+var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 //return data save
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                "/OrderReturns","POST", {}, oOrderDetailsClone, this)
+                "/OrderReturns","POST", {}, oReturnOrderClone, this)
     .then(function(oData) {
       debugger;
 
@@ -195,36 +199,86 @@ for (var i = 0; i < oBindingR.getLength(); i++) {
 }//forloop
 },
 onSave:function(oEvent){
-  var that = this;
-  if(this.onValidation() === true){
-    //POST code will be here
-
-var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
-// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-//                       "/OrderHeaders('"+ oId +"')", "PUT",
-//                        {},oHeader, this)
-// .then(function(oData) {
-//   message.show("testing");
-//       that.getView().setBusy(false);
-//
-//      })
-// .catch(function(oError) {
-//     that.getView().setBusy(false);
-//     var oPopover = that.getErrorMessage(oError);
-//               });
+var that = this;
+//if header check pass
+if(this.onValidation() === true){
+//Item and value check
 var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
 var oTableDetails = this.getView().byId('orderItemBases');
 var oBinding = oTableDetails.getBinding("rows");
+var itemError = false;
 var valueCheck = false;
+var returnCheck = false;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
-// if (data.itemNo === "") {
 //posting the data
 if (data.Material !== "") {
-  valueCheck = true;
-  this.getView().setBusy(true);
-  if (this.onValidationItem(data,i) === false) {
+valueCheck = true;
+//check to 1st check return table
+debugger;
+if (i=== 0 && returnCheck === false) {
+//Return table values check
+  if (this.onRetItemValidation() === false) {
+    returnCheck = true;
+  }
+}
+// valueCheck = true;
+this.getView().setBusy(true);
+//---all errors are false
+var returnError = false;
+if (this.onValidationItem(data,i,returnError) === false) {
+  itemError = false;
+}//validation endif
+else {
+  itemError = true;
+}
+}//If condition end
+}//for loop brace end
+if (returnCheck === true && itemError === false) {
+this.commitRecords(oEvent);
+}
+
+//error if no valid entry
+if (valueCheck === false) {
+  sap.m.MessageBox.error("Please Enter Valid entries before save",{
+  title: "Error",                                    // default
+  styleClass: "",                                      // default
+  initialFocus: null,                                  // default
+  textDirection: sap.ui.core.TextDirection.Inherit,     // default
+  onClose : function(sButton){}
+  });
+}
+}else {
+
+}
+},
+
+commitRecords:function(oEvent){
+  var that = this;
+//order header put
+  var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+  // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+  //                       "/OrderHeaders('"+ oId +"')", "PUT",
+  //                        {},oHeader, this)
+  // .then(function(oData) {
+  //   message.show("testing");
+  //       that.getView().setBusy(false);
+  //
+  //      })
+  // .catch(function(oError) {
+  //     that.getView().setBusy(false);
+  //     var oPopover = that.getErrorMessage(oError);
+  //               });
+
+  var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
+  var oTableDetails = this.getView().byId('orderItemBases');
+  var oBinding = oTableDetails.getBinding("rows");
+  var itemError = false;
+for (var i = 0; i < oBinding.getLength(); i++) {
+  var that = this;
+  var data = oBinding.oList[i];
+  if (data.Material !== "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -248,11 +302,15 @@ if (data.Material !== "") {
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
-    that.getView().setBusy(true);
+// no error in return and item details
+    if (returnCheck === true && itemError === false) {
+      that.getView().setBusy(true);
 //Item data save
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/OrderItems","POST", {}, oOrderDetailsClone, this)
     .then(function(oData) {
+      debugger;
+      that.onReturnSave(oEvent);
       //loop the detaisl
       var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
       for (var i = 0; i < allItems.length; i++) {
@@ -269,22 +327,8 @@ if (data.Material !== "") {
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
                 		});
-}//validation endif
-}//If condition end
-// }//itemNo == "" check
-}//for loop brace end
-//error if no valid entry
-if (valueCheck === false) {
-  sap.m.MessageBox.error("Please Enter Valid entries before save",{
-  title: "Error",                                    // default
-  styleClass: "",                                      // default
-  initialFocus: null,                                  // default
-  textDirection: sap.ui.core.TextDirection.Inherit,     // default
-  onClose : function(sButton){}
-  });
-}
-}else {
-
+      }//returnCheck if
+    }
 }
 },
 
@@ -358,9 +402,6 @@ if (selIdxs.length && selIdxs.length !== 0) {
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(selIdxs[i], 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-
-      // for(var j=selIdxs.length; j <= (selIdxs.length + 1); j++){
-      //     var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(
             {
     					"OrderNo": "",
@@ -387,7 +428,6 @@ if (selIdxs.length && selIdxs.length !== 0) {
     				}
           );
           that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-      // }
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;

@@ -791,40 +791,46 @@ sap.ui.define([
 				}
 			}
 		},
-		onRetItemValidation:function(data,i,returnLocalPayload)
+		onRetItemValidation:function()
 		{
+			debugger;
 		//line item validations
 			var that = this;
 			var returnModel = this.getView().getModel("returnModel").getProperty("/TransData");
-			var oReturnDetail = that.getView().getModel('local').getProperty(returnLocalPayload);
+			// var oReturnDetail = that.getView().getModel('local').getProperty(returnLocalPayload);
 			var oTableDetails = that.getView().byId("OrderReturn");
 			var tableBinding = oTableDetails.getBinding("rows");
 		//---all errors are false
 			var returnError = false;
+			for (var i = 0; i < tableBinding.getLength(); i++) {
+			var data = tableBinding.oList[i];
+			if (data.key !== "") {
 			//Quantity
 			if(data.Weight === "" || data.Weight === 0) {
 				this.getView().setBusy(false);
-				oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+				oTableDetails.getRows()[i].getCells()[1].setValueState("Error");
 				returnError = true;
-				return;
+				// return;
 				}else {
-					oReturnDetail.Weight=data.Weight;
-					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					returnModel.Weight=data.Weight;
+					oTableDetails.getRows()[i].getCells()[1].setValueState("None");
 					this.getView().setBusy(false);
-					returnError = false;
+					// returnError = false;
 			}
 			if(data.Bhav === "" || data.Bhav === 0) {
 				this.getView().setBusy(false);
-				oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+				oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
 				returnError = true;
-				return;
+				// return;
 				}else {
-					oReturnDetail.Bhav=data.Bhav;
-					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					returnModel.Bhav=data.Bhav;
+					oTableDetails.getRows()[i].getCells()[5].setValueState("None");
 					this.getView().setBusy(false);
-					returnError = false;
+					// returnError = false;
 			}
-
+	  this.getView().getModel("returnModel").setProperty("/TransData",returnModel);
+		}//key check
+		}//for loop
 		return returnError;
 		},
 		orderItem: function(oEvent) {

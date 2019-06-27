@@ -143,10 +143,10 @@ sap.ui.define([
           // sValu format yyyy-MM-dd; MM starts from 0-11 for months
           var dateObj = new Date(parts[0], parts[1], parts[2]);
           this.getView().byId("idCoDelDate").setDateValue(dateObj);
-          //var myData = this.getView().getModel("local").getProperty("/customerOrder");
+          // var myData = this.getView().getModel("local").getProperty("/customerOrder");
           // myData.Date = this.getView().byId("idCoDate").getDateValue();
-
-          // var oFilter = new sap.ui.model.Filter("Date","EQ", "'" + sValue + "'");
+          //
+          // var oFilter = new sap.ui.model.Filter("Date","EQ", "'" + myData.Date + "'");
           // this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
       }
     },
@@ -356,6 +356,7 @@ sap.ui.define([
       this.getView().getModel("local").setProperty("/customerOrder/Karigar","");
       this.getView().getModel("local").setProperty("/customerOrder/Material","");
       this.getView().getModel("local").setProperty("/customerOrder/Customer","");
+      this.getView().getModel("local").setProperty("/customerOrder/Picture","");
       this.getView().byId("idCoTable").getBinding("items").filter([]);
     },
 

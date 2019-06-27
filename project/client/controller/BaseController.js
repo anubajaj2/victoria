@@ -795,6 +795,42 @@ sap.ui.define([
 				}
 			}
 		},
+		onRetItemValidation:function(data,i,returnLocalPayload)
+		{
+		//line item validations
+			var that = this;
+			var returnModel = this.getView().getModel("returnModel").getProperty("/TransData");
+			var oReturnDetail = that.getView().getModel('local').getProperty(returnLocalPayload);
+			var oTableDetails = that.getView().byId("OrderReturn");
+			var tableBinding = oTableDetails.getBinding("rows");
+		//---all errors are false
+			var returnError = false;
+			//Quantity
+			if(data.Weight === "" || data.Weight === 0) {
+				this.getView().setBusy(false);
+				oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+				returnError = true;
+				return;
+				}else {
+					oReturnDetail.Weight=data.Weight;
+					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					this.getView().setBusy(false);
+					returnError = false;
+			}
+			if(data.Bhav === "" || data.Bhav === 0) {
+				this.getView().setBusy(false);
+				oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+				returnError = true;
+				return;
+				}else {
+					oReturnDetail.Bhav=data.Bhav;
+					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					this.getView().setBusy(false);
+					returnError = false;
+			}
+
+		return returnError;
+		},
 		orderItem: function(oEvent) {
 			//create the model to set the getProperty
 			//visible or // NOT

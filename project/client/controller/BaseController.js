@@ -770,7 +770,9 @@ sap.ui.define([
 				var fineGold = (tunch * weightF) / 100;
 				var subTotal = fineGold * bhavF;
 				cells[cells.length - 1].setText(subTotal);
-				if (viewId == 'idsalesws') {
+				if (viewId == 'idsalesws' &&
+					(seletedLine.key === 'KG' ||
+					seletedLine.key === 'BG')) {
 					cells[cells.length - 2].setText(fineGold);
 				}
 			} else if (seletedLine.key === 'OS' ||
@@ -786,7 +788,9 @@ sap.ui.define([
 				var subTotal = fineSilver * bhavF;
 				cells[cells.length - 1].setText(subTotal);
 
-				if (viewId == 'idsalesws') {
+				if (viewId == 'idsalesws' &&
+					(seletedLine.key === 'KS' ||
+					seletedLine.key === 'BS')) {
 					cells[cells.length - 3].setText(fineSilver);
 				}
 			}

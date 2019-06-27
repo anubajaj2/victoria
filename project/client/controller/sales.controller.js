@@ -128,7 +128,6 @@ onValidation: function() {
     that.getView().setBusy(false);
   return retVal;
 },
-
 onValidationItem:function(data,i)
 {
 //line item validations
@@ -147,6 +146,7 @@ onValidationItem:function(data,i)
   if(data.Qty === "" || data.Qty === 0) {
     this.getView().setBusy(false);
     oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+    oTableDetails.getRows()[i].getCells()[4].setValueState("None");
     returnError = true;
     return;
     }else {
@@ -163,6 +163,7 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
   if(data.Weight === "" || data.Weight === 0) {
   this.getView().setBusy(false);
   oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+  oTableDetails.getRows()[i].getCells()[2].setValueState("None");
   returnError = true;
   return;
   }else {
@@ -317,7 +318,6 @@ if (valueCheck === false) {
 
 }
 },
-
 commitRecords:function(oEvent){
   var that = this;
 //order header put
@@ -401,7 +401,6 @@ for (var i = 0; i < oBinding.getLength(); i++) {
 // that.onReturnSave(oEvent,oId,oCommit);
 // }
 },
-
 onClear:function(oEvent){
 var that = this;
 var ovisibleSet = new sap.ui.model.json.JSONModel({

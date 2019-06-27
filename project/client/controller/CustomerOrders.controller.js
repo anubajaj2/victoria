@@ -215,10 +215,6 @@ sap.ui.define([
      },
 
     handleUploadPress: function(oEvent) {
-      debugger;
-      // var oFileUploader = this.getView().byId("idCoUploader");
-      // var domRef = oFileUploader.getFocusDomRef();
-      // var file = domRef.files[0];
       var oFileUploader = sap.ui.getCore().byId("idCoUploader");
       if (!oFileUploader.getValue()) {
         sap.m.MessageToast.show("Choose a file first");
@@ -233,53 +229,67 @@ sap.ui.define([
         var reader = new FileReader();
         reader.onload = function(e) {
           var oFile = {};
-          //oFile.imgContent = e.currentTarget.result.replace("data:image/jpeg;base64,", "");
           oFile.imgContent = e.currentTarget.result;
-          // that.aFiles.push(oFile);
-          var picture = oFile.imgContent ; //btoa(encodeURI(oFile.imgContent));
-          //that.getView().getModel("local").setProperty("/customerOrder/Picture",  oFile.imgContent);
+          var picture = oFile.imgContent ;
           var payload = {
             CustomerOrderId: coId,
-            //Photo: picture
             Content: picture,
             Filename: that.fileName,
             Filetype: that.fileType
           }
           var that2 = that;
-          //TODO: if its not there POST, update our main table record with "X"
-          //else, simply shpow the popup and upload buuton should do an update of photo content
-          that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
-                            "POST", {}, payload, that)
-            .then(function(oData) {
-              debugger;
-                sap.m.MessageToast.show("Photo uploaded Successfully");
-// update picture flage in customer orders
-                that2.selRow.Picture = "X";
-                var payload = {
-                  id: that2.selRow.id,
-                  PhotoValue : "X"
-                };
-                $.post('/updatePhotoFlag', payload)
-        					.done(function(data, status) {
-        						sap.m.MessageToast.show("Data updated");
-        					})
-        					.fail(function(xhr, status, error) {
-        						sap.m.MessageBox.error("Failed to update");
-        					});
-                // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders('" + that2.selRow.id + "')",
-                //                   "PUT", {}, that2.selRow, that)
-                //   .then(function(oData) {
-                //       debugger;
-                //   }).catch(function(oError) {
-                //     that.getView().setBusy(false);
-                //     var oPopover = that.getErrorMessage(oError);
-                //   });
-                that.getView().setBusy(false);
-              }).catch(function(oError) {
-                that.getView().setBusy(false);
-                var oPopover = that.getErrorMessage(oError);
+          debugger;
+          //if picture already exists update the picture
+          if (that.selRow.Picture==="X") {
+            var photoId = that.getView().getModel("photo").getData().id;
+            var payload = {
+              id: photoId,
+              content: picture,
+              name: that.fileName,
+              type:that.fileType
+            };
+            $.post('/updatePhoto', payload)
+              .done(function(data, status) {
+                sap.m.MessageToast.show("Photo updated");
+              })
+              .fail(function(xhr, status, error) {
+                sap.m.MessageBox.error("Failed to update photo");
               });
-            ;
+          } else{
+          // if picture doesn't exist then create new record
+              that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
+                                "POST", {}, payload, that)
+                .then(function(oData) {
+                  debugger;
+                    sap.m.MessageToast.show("Photo uploaded Successfully");
+    // update picture flag in customer orders
+                    that2.selRow.Picture = "X";
+                    var payload = {
+                      id: that2.selRow.id,
+                      PhotoValue : "X"
+                    };
+                    $.post('/updatePhotoFlag', payload)
+            					.done(function(data, status) {
+            						sap.m.MessageToast.show("Data updated");
+            					})
+            					.fail(function(xhr, status, error) {
+            						sap.m.MessageBox.error("Failed to update");
+            					});
+                    // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders('" + that2.selRow.id + "')",
+                    //                   "PUT", {}, that2.selRow, that)
+                    //   .then(function(oData) {
+                    //       debugger;
+                    //   }).catch(function(oError) {
+                    //     that.getView().setBusy(false);
+                    //     var oPopover = that.getErrorMessage(oError);
+                    //   });
+                    that.getView().setBusy(false);
+                  }).catch(function(oError) {
+                    debugger;
+                    that.getView().setBusy(false);
+                    var oPopover = that.getErrorMessage(oError);
+                  });
+            ;}
         }
         reader.readAsDataURL(file);
 
@@ -357,18 +367,12 @@ sap.ui.define([
 });
 },
     onClear: function(){
-      //this.byId("idCoDate").setValue("");
-      //this.byId("idCoDelDate").setValue("");
-      // this.getView().getModel("local").setProperty("/customerOrder/Date", formatter.getFormattedDate(0));
-      // this.getView().getModel("local").setProperty("/customerOrder/DelDate", formatter.getFormattedDate(1));
-      debugger;
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
       var dd = date.getDate();
       var mm = date.getMonth() + 1;
       var yyyy = date.getFullYear();
       this.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
-      //this.byId("idCoCustomer").setValue("");
       this.byId("idCoCustomerText").setValue("");
       this.byId("idCoMaterial").setValue("");
       this.byId("idCoMatName").setValue("");
@@ -382,7 +386,6 @@ sap.ui.define([
       this.byId("idCoCash").setValue("0");
       this.byId("idCoGold").setValue("0");
       this.byId("idCoSilver").setValue("0");
-      //this.byId("idCoPicture").setValue("");
       this.byId("idCoKarigar").setValue("");
       this.byId("idCoKarigarName").setValue("");
       this.getView().getModel("local").setProperty("/coTemp/MaterialCode", "");

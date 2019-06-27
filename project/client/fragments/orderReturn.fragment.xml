@@ -19,7 +19,9 @@
 				<template>
 					<!-- <m:Input value="{returnModel>type}" showValueHelp="true" valueHelpRequest="onTypeHelp"/> -->
 					<m:ComboBox showSecondaryValues="true" selectionChange="onReturnValue"
-						id ="IdType" value="{returnModel>Type}" items="{local>/returnType}">
+						id ="IdType" value="{returnModel>Type}"
+						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"
+						items="{local>/returnType}">
 						<core:Item key="{local>key}" text="{local>value}" additionalText="{local>key}"/>
 					</m:ComboBox>
 				</template>

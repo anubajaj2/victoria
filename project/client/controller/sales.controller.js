@@ -239,19 +239,20 @@ var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
                 "/OrderReturns","POST", {}, oReturnOrderClone, this)
     .then(function(oData) {
       debugger;
-      return oCommit = true;
+    that.getView().setBusy(false);
       //loop the detaisl
 var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
   for (var i = 0; i < allItems.length; i++) {
   if (allItems[i].Type === oData.Type) {
       allItems[i].ReturnId = oData.id;
-      allItems[i].orderNo = oid;
+      allItems[i].orderNo = oId;
+      oCommit = true;
           break;
         }//material compare if condition
       }//for loop
       that.getView().getModel("returnModel").setProperty("/TransData",allItems);
       that.getView().setBusy(false);
-
+      sap.m.MessageToast.show("Data Saved Successfully");
       })
     .catch(function(oError){
     that.getView().setBusy(false);
@@ -259,6 +260,7 @@ var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
                 		});
 }//type check
 }//forloop
+return oCommit;
 },
 onSave:function(oEvent){
 var that = this;
@@ -341,7 +343,7 @@ commitRecords:function(oEvent){
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
-  if (data.Material !== "" && data.itemNo === "") {
+  if (data.Material !== "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -370,19 +372,22 @@ for (var i = 0; i < oBinding.getLength(); i++) {
                 "/OrderItems","POST", {}, oOrderDetailsClone, this)
     .then(function(oData) {
       debugger;
-      oCommit = true;
       //loop the detaisl
       var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+      that.getView().setBusy(false);
       for (var i = 0; i < allItems.length; i++) {
         if (allItems[i].Material === oData.Material) {
           allItems[i].itemNo = oData.id;
           allItems[i].OrderNo = oId;
+          if (oCommit === false) {
+          that.onReturnSave(oEvent,oId,oCommit);
+          }
           break;
         }//material compare if condition
       }//for loop
       that.getView().getModel("orderItems").setProperty("/itemData",allItems);
-      sap.m.MessageToast.show("Data Saved Successfully");
-      that.getView().setBusy(false);
+      // sap.m.MessageToast.show("Data Saved Successfully");
+      // that.getView().setBusy(false);
       })
     .catch(function(oError){
     that.getView().setBusy(false);
@@ -391,10 +396,10 @@ for (var i = 0; i < oBinding.getLength(); i++) {
 
     }
 }
-//Return values save
-if (oCommit === true) {
-that.onReturnSave(oEvent,oId,oCommit);
-}
+// //Return values save
+// if (oCommit === true) {
+// that.onReturnSave(oEvent,oId,oCommit);
+// }
 },
 
 onClear:function(oEvent){

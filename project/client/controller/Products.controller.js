@@ -190,7 +190,7 @@ this.clearProduct();
 			ValueChangeMaterial: function(oEvent){
 				var oSource = oEvent.getSource();
 				var oFilter = new sap.ui.model.Filter("ProductCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
 				oSource.getBinding("suggestionItems").filter(oFilter);
 			},
 			productCodeCheck : function(oEvent){
@@ -310,6 +310,8 @@ this.clearProduct();
 				var prodId = productModel.getProperty("/ProductCode");
 				var productCode = that.getView().byId("idProductCode").getValue();
 				productModel.setProperty("/ProductCode", productCode);
+				var oProdcode = productModel.getProperty("/ProductCode").toLocaleUpperCase();
+				productModel.setProperty("/ProductCode", oProdcode);
 				if(productCode === ""){
 					this.additionalInfoValidation();
 				 MessageToast.show("Please fill the required fields");

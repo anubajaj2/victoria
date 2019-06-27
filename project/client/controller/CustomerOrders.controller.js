@@ -46,7 +46,6 @@ sap.ui.define([
         if(oEvent.getSource().getTitle() === "Material Search"){
           var selMat = oEvent.getParameter("selectedItem").getLabel();
           var selMatName = oEvent.getParameter("selectedItem").getValue();
-          //this.getView().byId("idCoMaterial").setValue(selMat);
           this.getView().byId("idCoMatName").setValue(selMatName);
           var matId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
           this.getView().getModel("local").setProperty("/customerOrder/Material", matId);
@@ -60,18 +59,15 @@ sap.ui.define([
 
           var selKarigar = oEvent.getParameter("selectedItem").getLabel();
           var selKarigarName = oEvent.getParameter("selectedItem").getValue();
-          //this.getView().byId("idCoKarigar").setValue(selKarigar);
           this.getView().byId("idCoKarigarName").setValue(selKarigarName);
           this.getView().getModel("local").setProperty("/customerOrder/Karigar",
                 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
           this.getView().getModel("local").setProperty("/coTemp/KarigarCode",
                                                 selKarigar);
-          //myData.Karigar = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
         }
         else{
           var selCust = oEvent.getParameter("selectedItem").getLabel();
           var selCustName = oEvent.getParameter("selectedItem").getValue();
-          //this.getView().byId("idCoCustomer").setValue(selCust);
           this.getView().byId("idCoCustomerText").setValue(selCustName);
           this.getView().getModel("local").setProperty("/customerOrder/Customer",
                 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
@@ -81,8 +77,6 @@ sap.ui.define([
           var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
           this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
         }
-
-        //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
     // Search in dialog for material and customer f4 help
     onSearch: function(oEvent){
@@ -175,21 +169,14 @@ sap.ui.define([
     },
 
     onSelectPhoto: function(oEvent){
-      debugger;
       var that = this
-      //Check if photo already exists for the CO Order
-      // move the id of selected row to global variable
-       //coId = oEvent.getSource().getBindingContext().getPath().split("'")[1];
-       coId = oEvent.getSource().getBindingContext().getProperty("id");
+      // move selected row data to global variable
        this.selRow = oEvent.getSource().getBindingContext().getObject();
        var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
 
        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
      	 relPath, "GET", {}, {}, this)
      		.then(function(oData) {
-          debugger;
-        // if photo not assigned, call photo upload popup else show photo
-        //  if (oData.results.length === 0) {
               if (!that.photoPopup) {
                 that.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", that);
                 that.getView().addDependent(that.photoPopup);
@@ -198,19 +185,9 @@ sap.ui.define([
               oModelPhoto.setData(oData.results[0]);
               that.getView().setModel(oModelPhoto, "photo");
               that.photoPopup.open();
-            // }else {
-            //   var oModelPhoto = new JSONModel();
-            //   oModelPhoto.setData(oData.results[0]);
-            //   that.getView().setModel(oModelPhoto, "photo");
-            //   if (!that.photogallPopup) {
-            //     that.photogallPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoGalleryDialog", that);
-            //     that.getView().addDependent(that.photogallPopup);
-            //   }
-            //   that.photogallPopup.open();
-            // }
      		}).catch(function(oError) {
-     				//MessageToast.show("cannot fetch the data");
-
+          that.getView().setBusy(false);
+          var oPopover = that.getErrorMessage(oError);
      		});
      },
 
@@ -231,14 +208,7 @@ sap.ui.define([
           var oFile = {};
           oFile.imgContent = e.currentTarget.result;
           var picture = oFile.imgContent ;
-          var payload = {
-            CustomerOrderId: coId,
-            Content: picture,
-            Filename: that.fileName,
-            Filetype: that.fileType
-          }
           var that2 = that;
-          debugger;
           //if picture already exists update the picture
           if (that.selRow.Picture==="X") {
             var photoId = that.getView().getModel("photo").getData().id;
@@ -257,12 +227,17 @@ sap.ui.define([
               });
           } else{
           // if picture doesn't exist then create new record
+              var payload = {
+                CustomerOrderId: that.selRow.id,
+                Content: picture,
+                Filename: that.fileName,
+                Filetype: that.fileType
+              }
               that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
                                 "POST", {}, payload, that)
                 .then(function(oData) {
-                  debugger;
                     sap.m.MessageToast.show("Photo uploaded Successfully");
-    // update picture flag in customer orders
+                    // update picture flag in customer orders
                     that2.selRow.Picture = "X";
                     var payload = {
                       id: that2.selRow.id,
@@ -275,17 +250,8 @@ sap.ui.define([
             					.fail(function(xhr, status, error) {
             						sap.m.MessageBox.error("Failed to update");
             					});
-                    // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/CustomerOrders('" + that2.selRow.id + "')",
-                    //                   "PUT", {}, that2.selRow, that)
-                    //   .then(function(oData) {
-                    //       debugger;
-                    //   }).catch(function(oError) {
-                    //     that.getView().setBusy(false);
-                    //     var oPopover = that.getErrorMessage(oError);
-                    //   });
                     that.getView().setBusy(false);
                   }).catch(function(oError) {
-                    debugger;
                     that.getView().setBusy(false);
                     var oPopover = that.getErrorMessage(oError);
                   });
@@ -307,7 +273,6 @@ sap.ui.define([
     onSave: function(oEvent){
       var that = this;
       that.getView().setBusy(true);
-      debugger;
       var myData = this.getView().getModel('local').getProperty("/customerOrder");
       if (myData.Qty === "0") {
         var Qty = this.getView().byId("idCoQty");
@@ -330,7 +295,6 @@ sap.ui.define([
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
                                 "POST", {}, myData, this)
       .then(function(oData) {
-        debugger;
         that.getView().setBusy(false);
         sap.m.MessageToast.show("Data Saved Successfully");
         that.onClear();
@@ -343,29 +307,27 @@ sap.ui.define([
     },
 
     onDelete: function(){
-      debugger;
       var that = this;
       sap.m.MessageBox.confirm("Do you want to delete the selected entries",{
-    title: "Confirm",                                    // default
-    styleClass: "",                                      // default
-    initialFocus: null,                                  // default
-    textDirection: sap.ui.core.TextDirection.Inherit,     // default
-    onClose : function(sButton){
-      debugger;
-      if (sButton === MessageBox.Action.OK) {
-        var aSelectedLines = that.byId("idCoTable").getSelectedItems();
-        if (aSelectedLines.length) {
-          for(var i=0; i < aSelectedLines.length; i++){
-            var myUrl = aSelectedLines[i].getBindingContext().sPath;
-            that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-                                      "DELETE", {}, {}, that);
-          } //end for
-        } //end if aSelectedLines
-        sap.m.MessageToast.show("Selected lines are deleted");
-      } //end if sButton
-    }
-});
-},
+          title: "Confirm",                                    // default
+          styleClass: "",                                      // default
+          initialFocus: null,                                  // default
+          textDirection: sap.ui.core.TextDirection.Inherit,     // default
+          onClose : function(sButton){
+            if (sButton === MessageBox.Action.OK) {
+              var aSelectedLines = that.byId("idCoTable").getSelectedItems();
+              if (aSelectedLines.length) {
+                for(var i=0; i < aSelectedLines.length; i++){
+                  var myUrl = aSelectedLines[i].getBindingContext().sPath;
+                  that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+                                            "DELETE", {}, {}, that);
+                } //end for
+              } //end if aSelectedLines
+              sap.m.MessageToast.show("Selected lines are deleted");
+            } //end if sButton
+          }
+      });
+    },
     onClear: function(){
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
@@ -404,7 +366,6 @@ sap.ui.define([
       var value1;
       var id;
       var cell;
-      debugger;
       var title = this.getView().getModel("i18n").getProperty("coTableTitle");
       //this.getView().byId("idCoTitle").setText(title + " " + "(" + noOfItems + ")");
       this.getView().byId("idCoTable").getHeaderToolbar().getTitleControl().setText(title + " " + "(" + noOfItems + ")");
@@ -423,7 +384,6 @@ sap.ui.define([
           var customerData = this.allMasterData.customers[karigarId];
           oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name );
         }
-
         var remarks = oTable.getItems()[i].getCells()[9].getText();
         if (remarks === "null") {
           oTable.getItems()[i].getCells()[9].setText(" ");

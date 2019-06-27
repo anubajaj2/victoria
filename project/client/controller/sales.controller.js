@@ -337,7 +337,6 @@ onDelete: function(oEvent) {
 debugger;
 var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
-// var selIdxs = that.getView().byId("orderItemBases").getSelectedIndices();
 var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
 if (selIdxs.length && selIdxs.length !== 0) {
   sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
@@ -360,8 +359,8 @@ if (selIdxs.length && selIdxs.length !== 0) {
         oTableData.splice(selIdxs[i], 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
 
-      for(var j=selIdxs.length; j <= (selIdxs.length + 1); j++){
-          var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+      // for(var j=selIdxs.length; j <= (selIdxs.length + 1); j++){
+      //     var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
           oTableData.push(
             {
     					"OrderNo": "",
@@ -388,16 +387,18 @@ if (selIdxs.length && selIdxs.length !== 0) {
     				}
           );
           that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-      }
+      // }
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
       debugger;
-      that.deleteReturnValues(oEvent,i,viewId,selIdxs.length);
+      that.deleteReturnValues(oEvent,i,selIdxs[i],viewId,oTableData);
     }//order return else part
     }//for i loop
-    that.getView().byId("orderItemBases").clearSelection();
-    oTable.clearSelection();
-    that.getView().byId("OrderReturn").clearSelection();
+    if (oSourceCall === 'orderItemBases') {
+      that.getView().byId('orderItemBases').clearSelection();
+    }else {
+      that.getView().byId('OrderReturn').clearSelection();
+    }
 }//
 }
 });

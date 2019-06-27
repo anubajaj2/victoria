@@ -585,7 +585,7 @@ sap.ui.define([
 				}
 			}
 		},
-		deleteReturnValues:function(oEvent,i,viewId,selIdxs){
+		deleteReturnValues:function(oEvent,i,selIdxs,viewId,oTableData){
 			debugger;
 			var that = this;
 			var id  = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
@@ -600,14 +600,12 @@ sap.ui.define([
 			sap.m.MessageToast.show("Data Deleted Successfully");
 			}
 			var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
-			oTableData.splice(i, 1);
-			that.getView().getModel("returnModel").setProperty("/TransData",oTableData);
-			for(var j=selIdxs; j <= selIdxs+1; j++){
-			var returnModel = that.getView().getModel('returnModel').getProperty('/TransData');
-			var oRetailtab = {
+			oTableData.splice(selIdxs, 1);
+			oTableData.push(
+				{
 				"Type":"",
 				"key":"",
-				"ReturnId":0,
+				"ReturnId":"",
 				"Weight":0,
 				"KWeight":0,
 				"Tunch":0,
@@ -621,10 +619,8 @@ sap.ui.define([
 				"CreatedOn":"",
 				"ChangedBy":"",
 				"ChangedOn":""
-			};
-			aTtype.push(oRetailtab);
-			that.getView().getModel('returnModel').setProperty('/TransData',oRetailtab);
-		 }
+			});
+	that.getView().getModel('returnModel').setProperty('/TransData',oTableData);
 		},
 		onReturnValue: function(oEvent) {
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());

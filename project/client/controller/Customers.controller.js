@@ -178,7 +178,7 @@ this.clearCustomer();
 			ValueChangeCustomer: function(oEvent){
 				var oSource = oEvent.getSource();
 				var oFilter = new sap.ui.model.Filter("CustomerCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
 				oSource.getBinding("suggestionItems").filter(oFilter);
 			},
 
@@ -197,8 +197,8 @@ this.clearCustomer();
 								});
 						});
 
-						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 						var customerModel = this.getView().getModel("customerModel");
+						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 						var customerCode = selectedCustData.CustomerCode;
 						var dataModel = this.getView().getModel("dataModel");
 					 // var productCode = customerModel.getData().ProductCode;
@@ -297,6 +297,8 @@ this.clearCustomer();
 				 var custId = customerModel.getProperty("/CustomerCode");
  				var customerCode = that.getView().byId("idCustomerCode").getValue();
  				customerModel.setProperty("/CustomerCode", customerCode);
+				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
+				customerModel.setProperty("/CustomerCode", oCuscode);
 				 // var customerCode = customerModel.getData().CustomerCode;
 				 // var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 

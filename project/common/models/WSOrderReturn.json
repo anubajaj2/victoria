@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "OrderNo":{
+    "orderNo":{
       "type":"string",
       "required":true
     },
@@ -19,27 +19,35 @@
       "type": "number",
       "required": true
     },
+    "KWeight": {
+      "type": "number",
+      "required": true
+    },
     "Tunch": {
       "type": "number",
       "required": true
     },
     "Qty": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Bhav": {
       "type": "number",
-      "required": true
-    },
-    "Amount": {
-      "type": "number",
-      "required": true
+      "required": false
     },
     "Remarks": {
       "type": "string",
       "required": false
     },
     "SubTotal": {
+      "type": "number",
+      "required": true
+    },
+    "SubTotalS": {
+      "type": "number",
+      "required": true
+    },
+    "SubTotalG": {
       "type": "number",
       "required": true
     },

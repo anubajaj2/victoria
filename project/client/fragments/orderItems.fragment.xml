@@ -59,7 +59,9 @@
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}" liveChange="ValueChange" maxLength="3" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdQtyD" type="Number" value="{orderItems>QtyD}"
+					 liveChange="ValueChange" maxLength="3"
+					 editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="100px" hAlign="Center">

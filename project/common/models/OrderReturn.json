@@ -21,11 +21,11 @@
     },
     "KWeight": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Tunch": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Qty": {
       "type": "number",

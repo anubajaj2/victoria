@@ -25,7 +25,6 @@ _onRouteMatched:function(oEvent){
   this.onClear(oEvent);
   // this.fetchValuesFromCustomizing();
 },
-
 //customer value help
 valueHelpCustomer:function(oEvent){
 
@@ -108,7 +107,6 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
         		});
           }
       },
-
 onValidation: function() {
   var that = this;
   //---all validation true
@@ -176,13 +174,64 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
 }//Gold/Silver check
 return returnError;
 },
-onReturnSave:function(oEvent) {
+onReturnSave:function(oEvent,oId,oCommit) {
 var returnTable = this.getView().getModel('local').getProperty('/OrderReturn');
 var oReturnTable = this.getView().byId('OrderReturn');
 var oBindingR = oReturnTable.getBinding("rows");
 for (var i = 0; i < oBindingR.getLength(); i++) {
   var that = this;
   var data = oBindingR.oList[i];
+  //Type
+  if (data.Type === "" || data.Type === 0) {
+    returnTable.Type= 0;
+  }else {
+    returnTable.Type=data.Type;
+    //OrderId
+    if (oId) {
+      returnTable.OrderNo=oId;
+    }
+  //Weight
+  if (data.Weight === "" || data.Weight === 0) {
+    returnTable.Weight= 0;
+  }else {
+    returnTable.Weight=data.Weight;
+  }
+//kWeight
+if (data.KWeight === "" || data.KWeight === 0) {
+  returnTable.KWeight= 0;
+}else {
+  returnTable.KWeight=data.KWeight;
+}
+//tunch
+if (data.Tunch === "" || data.Tunch === 0) {
+  returnTable.Tunch= 0;
+}else {
+  returnTable.Tunch=data.Tunch;
+}
+//Quantity
+if (data.Qty === "" || data.Qty === 0) {
+  returnTable.Qty= 0;
+}else {
+  returnTable.Qty=data.Qty;
+}
+//Bhav
+if (data.Bhav === "" || data.Bhav === 0) {
+  returnTable.Bhav= 0;
+}else {
+  returnTable.Bhav=data.Bhav;
+}
+//Remarks
+if (data.Remarks === "") {
+  returnTable.Remarks= "";
+}else {
+  returnTable.Remarks=data.Remarks;
+}
+//SubTotal
+if (data.SubTotal === "" || data.SubTotal === 0) {
+  returnTable.SubTotal= 0;
+}else {
+  returnTable.SubTotal=data.SubTotal;
+}
 debugger;
 var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 //return data save
@@ -190,12 +239,25 @@ var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
                 "/OrderReturns","POST", {}, oReturnOrderClone, this)
     .then(function(oData) {
       debugger;
+      return oCommit = true;
+      //loop the detaisl
+var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
+  for (var i = 0; i < allItems.length; i++) {
+  if (allItems[i].Type === oData.Type) {
+      allItems[i].ReturnId = oData.id;
+      allItems[i].orderNo = oid;
+          break;
+        }//material compare if condition
+      }//for loop
+      that.getView().getModel("returnModel").setProperty("/TransData",allItems);
+      that.getView().setBusy(false);
 
       })
     .catch(function(oError){
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
                 		});
+}//type check
 }//forloop
 },
 onSave:function(oEvent){
@@ -275,10 +337,11 @@ commitRecords:function(oEvent){
   var oTableDetails = this.getView().byId('orderItemBases');
   var oBinding = oTableDetails.getBinding("rows");
   var itemError = false;
+  var oCommit = false;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
-  if (data.Material !== "") {
+  if (data.Material !== "" && data.itemNo === "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
   // QuantityD
@@ -302,20 +365,18 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
-// no error in return and item details
-    if (returnCheck === true && itemError === false) {
-      that.getView().setBusy(true);
 //Item data save
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/OrderItems","POST", {}, oOrderDetailsClone, this)
     .then(function(oData) {
       debugger;
-      that.onReturnSave(oEvent);
+      oCommit = true;
       //loop the detaisl
       var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
       for (var i = 0; i < allItems.length; i++) {
         if (allItems[i].Material === oData.Material) {
           allItems[i].itemNo = oData.id;
+          allItems[i].OrderNo = oId;
           break;
         }//material compare if condition
       }//for loop
@@ -327,8 +388,12 @@ for (var i = 0; i < oBinding.getLength(); i++) {
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
                 		});
-      }//returnCheck if
+
     }
+}
+//Return values save
+if (oCommit === true) {
+that.onReturnSave(oEvent,oId,oCommit);
 }
 },
 

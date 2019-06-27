@@ -941,7 +941,7 @@ sap.ui.define([
 				var oRetailtab = {
 					"Type": "",
 					"key": "",
-					"ReturnId": 0,
+					"ReturnId":"",
 					"Weight": 0,
 					"KWeight": 0,
 					"Tunch": 0,

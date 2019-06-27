@@ -30,7 +30,8 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>Weight}" liveChange="onReturnChange"
-						 type="Number" id ="IdWeightR"/>
+						 type="Number" id ="IdWeightR"
+						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -39,7 +40,8 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>KWeight}" liveChange="onReturnChange"
-						 type="Number" id ="IdKWeightR"/>
+						 type="Number" id ="IdKWeightR"
+						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -48,7 +50,8 @@
 				</label>
 				<template>
 					<m:Input id="IdTunchR" value="{returnModel>Tunch}" type="Number"
-						 liveChange="onReturnChange" maxLength="3"/>
+						 liveChange="onReturnChange" maxLength="3"
+						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -56,9 +59,9 @@
 					<m:Text text="{i18n>quantity}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{returnModel>Qty}" type="Number"
-						 liveChange="onReturnChange" id ="IdQtyR"
-						 maxLength="3"></m:Input>
+					<m:Input value="{returnModel>Qty}" type="Number" liveChange="onReturnChange"
+						 id ="IdQtyR" maxLength="3"
+						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column>
@@ -67,8 +70,8 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>Bhav}" type="Number"
-						liveChange="onReturnChange" id ="IdBhavR"
-						 maxLength="5"></m:Input>
+						liveChange="onReturnChange" id ="IdBhavR" maxLength="5"
+						editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<!-- <Column> <label> <m:Text text="{i18n>amount}"></m:Text> </label> <template> <m:Input value="{returnModel>amount}" maxLength="5"></m:Input> </template> </Column> -->
@@ -77,7 +80,8 @@
 					<m:Text text="{i18n>rem}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{returnModel>Remarks}" maxLength="80"></m:Input>
+					<m:Input value="{returnModel>Remarks}" maxLength="80"
+						editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column visible="{visModel>/rows1}" hAlign="Center">
@@ -85,7 +89,8 @@
 					<m:Text text="{i18n>subTotalS}"></m:Text>
 				</label>
 				<template>
-					<m:Text text="{returnModel>SubTotalS}" textAlign="Center" type="Number" editable="false"/>
+					<m:Text text="{returnModel>SubTotalS}" textAlign="Center"
+						type="Number" editable="false"/>
 				</template>
 			</Column>
 			<Column visible="{visModel>/rows1}" hAlign="Center">

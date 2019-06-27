@@ -121,11 +121,6 @@ sap.ui.define([
 
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Products").attachMatched(this._onRouteMatched, this);
-//				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
-//						// Restore original busy indicator delay for the object view
-//						oViewModel.setProperty("/delay", iOriginalBusyDelay);
-//					}
-//				);
 			},
 			onSelectChange: function(oEvent){
 				var oSelect = oEvent.getParameter("selectedItem").getText();
@@ -142,9 +137,9 @@ sap.ui.define([
 					this.getView().getModel("productModel").setProperty("/Karat", oKarat);
 				}
 				else {
-					viewModel.setProperty("/typeEnabled", false);
 					this.getView().getModel("productModel").getProperty("/Karat");
 					this.getView().getModel("productModel").setProperty("/Karat", "");
+					viewModel.setProperty("/typeEnabled", false);
 					// var karatType = this.getView().byId("idKarat");
 					// karatType.setSelectedKey("");
 				}
@@ -213,22 +208,11 @@ this.clearProduct();
 								});
 						});
 				// var productModel = this.getView().getModel("Products");
-				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var productModel = this.getView().getModel("productModel");
+				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var productCode = selectedMatData.ProductCode;
- 			 // var productCode = productModel.getData().ProductCode;
- 			 // var productJson = this.getView().getModel("productModelInfo").getData().results;
 			 var viewModel = this.getView().getModel("viewModel");
 			 	var oProdCode = this.getView().byId("idProductCode").getValue();
-
- 			 // function getProductCode(productCode) {
- 				// 		// return productJson.filter(
-				// 		return productJson.filter(
- 				// 			function (data) {
- 				// 				return data.ProductCode === productCode;
- 				// 			}
- 				// 		);
- 				// 	}
 					 var found =  productCode;
  					// var found = getProductCode(productCode);
  					if(found.length > 0){

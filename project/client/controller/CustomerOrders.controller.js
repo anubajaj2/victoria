@@ -48,11 +48,14 @@ sap.ui.define([
           var selMatName = oEvent.getParameter("selectedItem").getValue();
           //this.getView().byId("idCoMaterial").setValue(selMat);
           this.getView().byId("idCoMatName").setValue(selMatName);
-          this.getView().getModel("local").setProperty("/customerOrder/Material",
-                oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
-          this.getView().getModel("local").setProperty("/coTemp/MaterialCode",
-                                                selMat);
-          //myData.Material = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          var matId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+          this.getView().getModel("local").setProperty("/customerOrder/Material", matId);
+          this.getView().getModel("local").setProperty("/coTemp/MaterialCode", selMat);
+          var materialData = this.allMasterData.materials[matId];
+          // fill Material Type, Karat, Making and Category based on the material code selected
+            this.getView().byId("idCoMatType").setValue(materialData.Type);
+            this.getView().byId("idCoMatKarat").setValue(materialData.Karat);
+            this.getView().byId("idCoMatMaking").setValue(materialData.Making + "/" + materialData.Category );
         }else if (oEvent.getSource().getTitle() === "Karigar Search") {
 
           var selKarigar = oEvent.getParameter("selectedItem").getLabel();
@@ -81,7 +84,7 @@ sap.ui.define([
 
         //this.getView().getModel("local").setProperty("/customerOrder", myData);
     },
-
+    // Search in dialog for material and customer f4 help
     onSearch: function(oEvent){
         var sValue = oEvent.getParameter("query");
         if(!sValue){
@@ -139,30 +142,36 @@ sap.ui.define([
             oDP.setValueState(sap.ui.core.ValueState.Error);
           }
       var fieldId = oEvent.getSource().getId();
+      debugger;
       if (fieldId.split("--")[2] === "idCoDate"){
           var sValue = oEvent.getParameter("value");
           var parts = sValue.split('-');
           // sValu format yyyy-MM-dd; MM starts from 0-11 for months
           var dateObj = new Date(parts[0], parts[1], parts[2]);
           this.getView().byId("idCoDelDate").setDateValue(dateObj);
+          //var myData = this.getView().getModel("local").getProperty("/customerOrder");
+          // myData.Date = this.getView().byId("idCoDate").getDateValue();
+
+          // var oFilter = new sap.ui.model.Filter("Date","EQ", "'" + sValue + "'");
+          // this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
       }
     },
 
     onSubmit: function (evt) {
-          $(function() {
-                  $('input:text:first').focus();
-                      debugger;
-                  var $inp = $('input:text');
-                  $inp.bind('keydown', function(e) {
-                      //var key = (e.keyCode ? e.keyCode : e.charCode);
-                      var key = e.which;
-                      if (key == 13) {
-                          e.preventDefault();
-                          var nxtIdx = $inp.index(this) + 1;
-                          $(":input:text:eq(" + nxtIdx + ")").focus();
-                      }
-                  });
+      $(function() {
+              $('input:text:first').focus();
+                  debugger;
+              var $inp = $('input:text');
+              $inp.bind('keydown', function(e) {
+                  //var key = (e.keyCode ? e.keyCode : e.charCode);
+                  var key = e.which;
+                  if (key == 13) {
+                      e.preventDefault();
+                      var nxtIdx = $inp.index(this) + 1;
+                      $(":input:text:eq(" + nxtIdx + ")").focus();
+                  }
               });
+          });
     },
 
     onSelectPhoto: function(oEvent){
@@ -363,7 +372,10 @@ sap.ui.define([
       this.byId("idCoCustomerText").setValue("");
       this.byId("idCoMaterial").setValue("");
       this.byId("idCoMatName").setValue("");
-      this.byId("idCoQty").setValue("0");
+      this.byId("idCoMatType").setValue("");
+      this.byId("idCoMatKarat").setValue("");
+      this.byId("idCoMatMaking").setValue("");
+      this.byId("idCoQty").setValue("1");
       this.byId("idCoWeight").setValue("0");
       this.byId("idCoMaking").setValue("0");
       this.byId("idCoRemarks").setValue("");
@@ -390,8 +402,9 @@ sap.ui.define([
       var id;
       var cell;
       debugger;
-
-      this.getView().byId("idCoTotal").setText("(" + noOfItems + ")");
+      var title = this.getView().getModel("i18n").getProperty("coTableTitle");
+      //this.getView().byId("idCoTitle").setText(title + " " + "(" + noOfItems + ")");
+      this.getView().byId("idCoTable").getHeaderToolbar().getTitleControl().setText(title + " " + "(" + noOfItems + ")");
       for (var i = 0; i < noOfItems; i++) {
         //Read the GUID from the Screen for customer, material and karigar
         var customerId = oTable.getItems()[i].getCells()[3].getText();

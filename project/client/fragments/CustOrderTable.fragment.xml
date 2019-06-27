@@ -11,8 +11,7 @@
       updateFinished="onUpdateFinished">
   <headerToolbar>
       <Toolbar>
-        <Title id="idCoTitle" text="{i18n>coTableTitle}" />
-        <Label id="idCoTotal" text="" design= "Bold" />
+        <Title id="idCoTitle"/>
       <ToolbarSpacer/>
       <Button
         icon="sap-icon://delete"

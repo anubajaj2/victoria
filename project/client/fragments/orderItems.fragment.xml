@@ -44,7 +44,7 @@
 					<m:Input value="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
 				</template>
 			</Column>
-			<Column hAlign="Center">
+			<Column hAlign="Center" width="80px">
 				<label>
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
@@ -54,7 +54,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column hAlign="Center" visible="{VisibleSet>/set}">
+			<Column hAlign="Center" width="80px" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>
@@ -80,7 +80,7 @@
 					<m:Input id="IdWeightD" type="Number" value="{orderItems>WeightD}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column hAlign="Center" width="75px">
+			<Column hAlign="Center" width="80px">
 				<label>
 					<m:Text text="{i18n>making}"></m:Text>
 				</label>

@@ -626,6 +626,7 @@ sap.ui.define([
 	that.getView().getModel('returnModel').setProperty('/TransData',oTableData);
 		},
 		onReturnValue: function(oEvent) {
+			debugger;
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
 			var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
 			var key = oEvent.getParameter("selectedItem").getKey();

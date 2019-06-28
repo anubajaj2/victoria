@@ -183,21 +183,24 @@ sap.ui.define([
 
 		orderPopup: function(oEvent) {
 			//call the popup screen dynamically
-			if (!this.orderPopup) {
-				debugger;
-				//call the popupfragment and pass the values
-				this.orderPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
-				this.getView().addDependent(this.orderPopup);
-				this.orderPopup.bindAggregation("items", {
-					path: "/OrderHeaders",
+			debugger;
+			if (!this.orderSearchPopup) {
+				this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.orderSearchPopup);
+				var title = this.getView().getModel("i18n").getProperty("orderSearch");
+				this.orderSearchPopup.setTitle(title);
+				this.orderSearchPopup.sId = 'orderNo';
+					// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, "");
+				this.orderSearchPopup.bindAggregation("items", {
+					path: '/OrderHeaders',
+					// filters: [oFilter1],
 					template: new sap.m.DisplayListItem({
-
-						label: "{OrderHeaders}",
-						value: "{OrderNo}"
+						label: "{OrderNo}",
+						value:	"{Date}"
 					})
 				});
 			}
-			this.orderPopup.open(oEvent);
+			this.orderSearchPopup.open();
 		},
 
 		getMaterialPopup: function() {

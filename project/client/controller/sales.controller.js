@@ -34,11 +34,18 @@ getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
 onConfirm:function(oEvent){
-var oId = oEvent.getParameter('selectedItem').getId();
+  debugger;
+//order popup
+if (oEvent.getParameter('id') === 'orderNo'){
+var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
+var orderNo = oEvent.getParameter("selectedItem").getLabel();
+var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+// this.OrderDetails(orderId);
+this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
+                                                orderNo);
+}else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
-var oSource = oId.split("-"[0])
-// if (oSource[0] === 'idCoCustPopup'){
-
+//customer popup
 var selCust = oEvent.getParameter("selectedItem").getLabel();
 var selCustName = oEvent.getParameter("selectedItem").getValue();
 oCustDetail.customerId = selCust;
@@ -49,33 +56,15 @@ this.getView().getModel("local").setProperty("/orderHeader/Customer",
 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
-//               }
-// else {
-              //   if (osource.split("--")[2]==="orderHeader") {
-              //       var myData = this.getView().getModel("local").getProperty("/orderHeader");
-              //   }
+}},
 
-              // }
-            },
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
-this.getOrderlist(oEvent);
-//on order valuehelp,get the exsisting order from //DB
-var that = this;
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                  "/OrderHeaders", "GET", {}, {}, this)
-        .then(function(oData) {
-         for (var i = 0; i < oData.results.length; i++) {
-        that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
-                }
-              })
-        .catch(function(oError) {
-        var oPopover = that.getErrorMessage(oError);
-                })
-        that.orderPopup(oEvent);
-            },
+this.orderPopup(oEvent);
+},
 //on order create Button
 orderCreate:function(oEvent){
+  debugger;
 var that = this;
 that.getView().setBusy(true);
 // get the data from screen in local model
@@ -320,20 +309,23 @@ if (valueCheck === false) {
 },
 commitRecords:function(oEvent){
   var that = this;
+  debugger;
+  var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
 //order header put
   var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
-  // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-  //                       "/OrderHeaders('"+ oId +"')", "PUT",
-  //                        {},oHeader, this)
-  // .then(function(oData) {
-  //   message.show("testing");
-  //       that.getView().setBusy(false);
-  //
-  //      })
-  // .catch(function(oError) {
-  //     that.getView().setBusy(false);
-  //     var oPopover = that.getErrorMessage(oError);
-  //               });
+  that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                        "/OrderHeaders('"+ oId +"')", "PUT",
+                         {},oHeader, this)
+  .then(function(oData) {
+    debugger;
+    message.show("testing");
+        that.getView().setBusy(false);
+
+       })
+  .catch(function(oError) {
+      that.getView().setBusy(false);
+      var oPopover = that.getErrorMessage(oError);
+                });
 
   var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
   var oTableDetails = this.getView().byId('orderItemBases');
@@ -415,9 +407,9 @@ this.getView().byId("Sales--custName").setText("");
 oHeaderT.CustomerId="";
 oHeader.OrderNo="";
 oHeader.Customer="";
-oHeader.Goldbhav22=0;
-oHeader.Goldbhav20=0;
-oHeader.Goldbhav=0;
+oHeader.GoldBhav22=0;
+oHeader.GoldBhav20=0;
+oHeader.GoldBhav=0;
 oHeader.SilverBhav=0;
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
@@ -429,14 +421,14 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
     "/CustomCalculations", "GET", {}, {}, this)
   .then(function(oData) {
     that.getView().getModel("local").setProperty("/CustomCalculations",oData);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", oData.results[0].First);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", oData.results[0].Second);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", oData.results[0].Gold);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
   }).catch(function(oError) {
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav22", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav20", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/Goldbhav", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
+    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
   });
 //Clear Item table
@@ -551,8 +543,8 @@ Calculation:function(oEvent){
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
 //per gm
-  var gold22pergm = orderHeader.Goldbhav22 / 10;
-  var gold20pergm = orderHeader.Goldbhav20 / 10;
+  var gold22pergm = orderHeader.GoldBhav22 / 10;
+  var gold20pergm = orderHeader.GoldBhav20 / 10;
   var silverpergm = orderHeader.SilverBhav / 1000;
   var oLocale = new sap.ui.core.Locale("en-US");
   var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);

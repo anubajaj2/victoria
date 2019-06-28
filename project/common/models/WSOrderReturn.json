@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "orderNo":{
+    "OrderNo":{
       "type":"string",
       "required":true
     },

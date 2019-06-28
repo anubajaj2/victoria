@@ -1,18 +1,18 @@
 /*global location*/
 sap.ui.define(
-	["victoria/controller/BaseController",
-		"sap/ui/model/json/JSONModel",
-		"sap/ui/core/routing/History",
-		"victoria/models/formatter",
-		"sap/m/MessageToast",
-		"sap/ui/model/Filter",
-		"sap/m/MessageBox"
-	],
-	function(BaseController, JSONModel, History, formatter,
-		MessageToast, Filter, MessageBox) {
-		"use strict";
+["victoria/controller/BaseController",
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/core/routing/History",
+	"victoria/models/formatter",
+	"sap/m/MessageToast",
+	"sap/ui/model/Filter",
+	"sap/m/MessageBox"
+],
+function(BaseController, JSONModel, History, formatter,
+	MessageToast, Filter, MessageBox) {
+	"use strict";
 
-		return BaseController.extend("victoria.controller.salesws", {
+	return BaseController.extend("victoria.controller.salesws", {
 			formatter: formatter,
 			onInit: function(oEvent) {
 				debugger;
@@ -528,234 +528,408 @@ sap.ui.define(
 			onDelete: function(oEvent) {
 				debugger;
 				var that = this;
-				MessageBox.error("Are you sure you want to delete the selected entries", {
-					title: "Alert",
-					actions: ["Delete selected entries", sap.m.MessageBox.Action.CLOSE],
-					onClose: function(sButton) {
-						debugger;
-						if (sButton === "Delete selected entries") {
-							var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
-							if (selIdxs.length) {
-								for (var i = 0; i < selIdxs.length; i++) {
-									var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-									// If row contains id(which means it has been saved in DB)
-									if (id) {
-										var myUrl = "/WSOrderItems('" + id + "')"
-										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-											"DELETE", {}, {}, that);
-										var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-										oTableData.splice(i, 1);
-										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-										that.getView().byId("WSItemFragment--orderItemBases").clearSelection();
-										// If its there only in the local model
+				var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
+				var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
+				var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
+				if (selIdxs.length && selIdxs.length !== 0) {
+					MessageBox.error("Are you sure you want to delete the selected entries", {
+							title: "Alert",
+							actions: ["Delete selected entries", sap.m.MessageBox.Action.CLOSE],
+							onClose: function(sButton) {
+								debugger;
+								if (sButton === "Delete selected entries") {
+									// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
+									for (var i = selIdxs.length - 1; i >= 0; --i) {
+										if (oSourceCall === 'orderItemBases') {
+											var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+											// If row contains id(which means it has been saved in DB)
+											if (id) {
+												var myUrl = "/WSOrderItems('" + id + "')"
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+													"DELETE", {}, {}, that);
+											};
+											var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+											oTableData.splice(selIdxs[i], 1);
+											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+											oTableData.push({
+												"OrderNo": "",
+												"itemNo": "",
+												"Material": "",
+												"MaterialCode": "",
+												"Description": "",
+												"Qty": 0,
+												"QtyD": 0,
+												"Weight": 0,
+												"WeightD": 0,
+												"Making": 0,
+												"MakingD": 0,
+												"Tunch": 0,
+												"Remarks": "",
+												"SubTotal": 0,
+												"SubTotalS": 0,
+												"SubTotalG": 0,
+												"Category": "",
+												"CreatedBy": "",
+												"CreatedOn": "",
+												"ChangedBy": "",
+												"ChangedOn": ""
+											});
+											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+										} //sourcecallCheck
+										else if (oSourceCall === 'OrderReturn') {
+											debugger;
+											that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
+										} //order return else part
+									} //for i loop
+									if (oSourceCall === 'orderItemBases') {
+										that.getView().byId('orderItemBases').clearSelection();
 									} else {
-										oTableData.splice(i, 1);
-										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-										that.getView().byId("WSItemFragment--orderItemBases").clearSelection();
-									};
-								}
+										that.getView().byId('OrderReturn').clearSelection();
+									}
+								}//sButton
 								sap.m.MessageToast.show("Selected lines are deleted");
-							}
-						}
-					}
-				});
-			},
-			//on order create Button
-			orderCreate: function(oEvent) {
-				var that = this;
-				that.getView().setBusy(true);
-				// get the data from screen in local model
+							}//onclose
+					});//Messagebox
+			}// if selindx length check
+			else { // if selindx length check
+				MessageBox.show(
+					"Please Select the entry to be deleted", {
+						icon: MessageBox.Icon.ERROR,
+						title: "Error",
+						actions: [MessageBox.Action.OK],
+						onClose: function(oAction) {}
+					});
+			}// if selindx length check
+		},
+		//on order create Button
+		orderCreate: function(oEvent) {
+			var that = this;
+			that.getView().setBusy(true);
+			// get the data from screen in local model
+			debugger;
+			var orderData = this.getView().getModel('local').getProperty("/WSOrderHeader");
+			if (orderData.Customer === "") {
+				this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText("Mandatory Input");
+				that.getView().setBusy(false);
+			} else {
 				debugger;
-				var orderData = this.getView().getModel('local').getProperty("/WSOrderHeader");
-				if (orderData.Customer === "") {
-					this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText("Mandatory Input");
-					that.getView().setBusy(false);
+				//call the odata promise method to post the data
+				orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
+						"POST", {}, orderData, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						debugger;
+						//create the new json model and get the order id no generated
+						var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+						oOrderId.OrderId = oData.id;
+						oOrderId.OrderNo = oData.OrderNo;
+						that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+						//assign the no on ui
+						that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
+					})
+					.catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+			}
+		},
+
+		onValidation: function() {
+			var that = this;
+			//---all validation true
+			var retVal = true;
+			//header validations
+			var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+			if (oHeader.OrderNo === 0 ||
+				oHeader.OrderNo === "") {
+				retVal = false;
+				MessageBox.show(
+					"Please create Order Number first", {
+						icon: MessageBox.Icon.ERROR,
+						title: "Error",
+						actions: [MessageBox.Action.OK],
+						onClose: function(oAction) {}
+					}
+				);
+			}
+			that.getView().setBusy(false);
+			return retVal;
+		},
+		onValidationItem: function(data, i) {
+			//line item validations
+			var that = this;
+			var model = this.getView().getModel("orderItems").getProperty("/itemData");
+			var oOrderDetail = that.getView().getModel('local').getProperty('/WSOrderItem');
+			var oTableDetails = that.getView().byId("WSItemFragment--orderItemBases");
+			var tableBinding = oTableDetails.getBinding("rows");
+			//---all errors are false
+			var returnError = false;
+			//Quantity
+			if ((data.Type === 'GS') ||
+				((data.Type === 'Gold' && data.Category === "pcs") ||
+					(data.Type === 'Silver' && data.Category === "pcs"))) {
+				if (data.Qty === "" || data.Qty === 0) {
+					this.getView().setBusy(false);
+					oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+					oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+					returnError = true;
+					return;
 				} else {
+					oOrderDetail.Qty = data.Qty;
+					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					this.getView().setBusy(false);
+					// returnError = false;
+				}
+			} else
+			if ((data.Type === 'Gold' && data.Category === "gm") ||
+				(data.Type === 'Silver' && data.Category === "gm")) {
+				//Weight check
+				if (data.Weight === "" || data.Weight === 0) {
+					this.getView().setBusy(false);
+					oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+					oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+					returnError = true;
+					return;
+				} else {
+					oOrderDetail.Weight = data.Weight;
+					oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+					this.getView().setBusy(false);
+					// returnError = false;
+				}
+			} //Gold/Silver check
+			return returnError;
+		},
+		onReturnSave: function(oEvent, oId, oCommit) {
+			var returnTable = this.getView().getModel('local').getProperty('/WSOrderReturn');
+			var oReturnTable = this.getView().byId('OrderReturn');
+			var oBindingR = oReturnTable.getBinding("rows");
+			for (var i = 0; i < oBindingR.getLength(); i++) {
+				var that = this;
+				var data = oBindingR.oList[i];
+				//Type
+				if (data.Type === "" || data.Type === 0) {
+					returnTable.Type = 0;
+				} else {
+					returnTable.Type = data.Type;
+					//OrderId
+					if (oId) {
+						returnTable.OrderNo = oId;
+					}
+					//Weight
+					if (data.Weight === "" || data.Weight === 0) {
+						returnTable.Weight = 0;
+					} else {
+						returnTable.Weight = data.Weight;
+					}
+					//kWeight
+					if (data.KWeight === "" || data.KWeight === 0) {
+						returnTable.KWeight = 0;
+					} else {
+						returnTable.KWeight = data.KWeight;
+					}
+					//tunch
+					if (data.Tunch === "" || data.Tunch === 0) {
+						returnTable.Tunch = 0;
+					} else {
+						returnTable.Tunch = data.Tunch;
+					}
+					//Quantity
+					if (data.Qty === "" || data.Qty === 0) {
+						returnTable.Qty = 0;
+					} else {
+						returnTable.Qty = data.Qty;
+					}
+					//Bhav
+					if (data.Bhav === "" || data.Bhav === 0) {
+						returnTable.Bhav = 0;
+					} else {
+						returnTable.Bhav = data.Bhav;
+					}
+					//Remarks
+					if (data.Remarks === "") {
+						returnTable.Remarks = "";
+					} else {
+						returnTable.Remarks = data.Remarks;
+					}
+					//SubTotal
+					if (data.SubTotal === "" || data.SubTotal === 0) {
+						returnTable.SubTotal = 0;
+					} else {
+						returnTable.SubTotal = data.SubTotal;
+					}
+					// SubTotalGold
+					if (data.SubTotalG === "" || data.SubTotalG === 0) {
+						returnTable.SubTotalG = 0;
+					} else {
+						returnTable.SubTotalG = data.SubTotalG;
+					}
+					//SubTotalSilver
+					if (data.SubTotalS === "" || data.SubTotalS === 0) {
+						returnTable.SubTotalS = 0;
+					} else {
+						returnTable.SubTotalS = data.SubTotalS;
+					}
 					debugger;
-					//call the odata promise method to post the data
-					orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
-							"POST", {}, orderData, this)
+					var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
+					//return data save
+					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							"/WSOrderReturns", "POST", {}, oReturnOrderClone, this)
 						.then(function(oData) {
-							that.getView().setBusy(false);
 							debugger;
-							//create the new json model and get the order id no generated
-							var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-							oOrderId.OrderId = oData.id;
-							oOrderId.OrderNo = oData.OrderNo;
-							that.getView().getModel('local').setProperty('/OrderId', oOrderId);
-							//assign the no on ui
-							that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
+							that.getView().setBusy(false);
+							//loop the detaisl
+							var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
+							for (var i = 0; i < allItems.length; i++) {
+								if (allItems[i].Type === oData.Type) {
+									allItems[i].ReturnId = oData.id;
+									allItems[i].orderNo = oId;
+									oCommit = true;
+									break;
+								} //material compare if condition
+							} //for loop
+							that.getView().getModel("returnModel").setProperty("/TransData", allItems);
+							that.getView().setBusy(false);
+							sap.m.MessageToast.show("Data Saved Successfully");
 						})
 						.catch(function(oError) {
 							that.getView().setBusy(false);
 							var oPopover = that.getErrorMessage(oError);
 						});
-				}
-			},
-
-			onValidation: function() {
-				var that = this;
-				//---all validation true
-				var retVal = true;
-				//header validations
-				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
-				if (oHeader.OrderNo === 0 ||
-					oHeader.OrderNo === "") {
-					retVal = false;
-					MessageBox.show(
-						"Please create Order Number first", {
-							icon: MessageBox.Icon.ERROR,
-							title: "Error",
-							actions: [MessageBox.Action.OK],
-							onClose: function(oAction) {}
+				} //type check
+			} //forloop
+			return oCommit;
+		},
+		onSave: function(oEvent) {
+			var that = this;
+			//if header check pass
+			if (this.onValidation() === true) {
+				//Item and value check
+				var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
+				var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
+				var oBinding = oTableDetails.getBinding("rows");
+				var itemError = false;
+				var valueCheck = false;
+				var returnCheck = false;
+				for (var i = 0; i < oBinding.getLength(); i++) {
+					var that = this;
+					var data = oBinding.oList[i];
+					//posting the data
+					if (data.Material !== "") {
+						valueCheck = true;
+						//check to 1st check return table
+						debugger;
+						if (i === 0 && returnCheck === false) {
+							//Return table values check
+							if (this.onRetItemValidation() === false) {
+								returnCheck = true;
+							}
 						}
-					);
-				}
-				that.getView().setBusy(false);
-				return retVal;
-			},
-			onValidationItem:function(data,i)
-			{
-			//line item validations
-			  var that = this;
-			  var model = this.getView().getModel("orderItems").getProperty("/itemData");
-			  var oOrderDetail = that.getView().getModel('local').getProperty('/WSOrderItem');
-			  var oTableDetails = that.getView().byId("WSItemFragment--orderItemBases");
-			  var tableBinding = oTableDetails.getBinding("rows");
-			//---all errors are false
-			  var returnError = false;
-			  //Quantity
-			  if ((data.Type === 'GS') ||
-			  ((data.Type === 'Gold' && data.Category === "pcs") ||
-			  (data.Type === 'Silver' && data.Category ==="pcs")))
-			  {
-			  if(data.Qty === "" || data.Qty === 0) {
-			    this.getView().setBusy(false);
-			    oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
-			    returnError = true;
-			    return;
-			    }else {
-			      oOrderDetail.Qty=data.Qty;
-			      oTableDetails.getRows()[i].getCells()[2].setValueState("None");
-			      this.getView().setBusy(false);
-			      returnError = false;
-			  }
-			}else
-			if ((data.Type === 'Gold' && data.Category === "gm")||
-			    (data.Type === 'Silver' && data.Category === "gm"))
-			    {
-			  //Weight check
-			  if(data.Weight === "" || data.Weight === 0) {
-			  this.getView().setBusy(false);
-			  oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
-			  returnError = true;
-			  return;
-			  }else {
-			  oOrderDetail.Weight =data.Weight;
-			  oTableDetails.getRows()[i].getCells()[4].setValueState("None");
-			  this.getView().setBusy(false);
-			  returnError = false;
-			  }
-			}//Gold/Silver check
-			return returnError;
-			},
-			onSave: function(oEvent) {
-				debugger;
-				var that = this;
-				if (this.onValidation() === true) {
-					var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
-
-					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
-					var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
-					var oBinding = oTableDetails.getBinding("rows");
-
-					for (var i = 0; i < oBinding.getLength(); i++) {
-						var that = this;
+						// valueCheck = true;
 						this.getView().setBusy(true);
-						var data = oBinding.oList[i];
-
-						//posting the data
-						if (data.Material !== "") {
-							valueCheck = true;
-							this.getView().setBusy(true);
-							if (this.onValidationItem(data,i) === false) {
-							oOrderDetail.OrderNo = oId;
-							oOrderDetail.Material = data.Material;
-							if (data.Qty !== 0) {
-								oOrderDetail.Qty = data.Qty;
-							} else {
-								oOrderDetail.Qty = 0.0;
-							}
-							//Making charges
-							if (data.Making !== 0) {
-								oOrderDetail.Making = data.Making;
-							} else {
-								// oOrderDetail.Making=0.0;
-								debugger;
-								// this.getView().byId("IdQty").setValue();
-								// this.getView().byId("WSItemFragment--customerId").setValueState("Error").setValueStateText("Mandatory Input");
-							}
-							// oOrderDetail.Making=data.Making quantityD
-							oOrderDetail.QtyD = data.QtyD;
-							oOrderDetail.MakingD = data.MakingD;
-							oOrderDetail.Weight = data.Weight;
-							oOrderDetail.WeightD = data.WeightD;
-							oOrderDetail.Remarks = data.Remarks;
-							oOrderDetail.SubTotal = data.SubTot;
-							oOrderDetail.Tunch = data.Tunch;
-							oOrderDetail.SubTotalS = data.SubTotalS;
-							oOrderDetail.SubTotalG = data.SubTotalG;
-
-							var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
-							//Item data save
-							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-									"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
-								.then(function(oData) {
-									debugger;
-									that.getView().setBusy(false);
-									sap.m.MessageToast.show("Data Saved Successfully");
-									var id = oData.id;
-									var orderNo = oData.OrderNo;
-									var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
-									for (var i = 0; i < allItems.length; i++) {
-										if (allItems[i].Material == oData.Material) {
-											allItems[i].itemNo = id;
-											break;
-										}
-									}
-									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
-								})
-								.catch(function(oError) {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								});
+						//---all errors are false
+						var returnError = false;
+						if (this.onValidationItem(data, i, returnError) === false) {
+							itemError = false;
+						} //validation endif
+						else {
+							itemError = true;
 						}
-					}
+					} //If condition end
+				} //for loop brace end
+				if (returnCheck === true && itemError === false) {
+					this.commitRecords(oEvent);
 				}
-				if (valueCheck === false) {
-				  sap.m.MessageBox.error("Please Enter Valid entries before save",{
-				  title: "Error",                                    // default
-				  styleClass: "",                                      // default
-				  initialFocus: null,                                  // default
-				  textDirection: sap.ui.core.TextDirection.Inherit,     // default
-				  onClose : function(sButton){}
-				  });
-				}
-			}
-			},
-			toggleFullScreen: function() {
-				debugger;
-				var btnId = "WSItemFragment--idFullScreenBtn";
-				var headerId = "WSHeaderFragment--WSOrderHeader";
-				this.toggleUiTable(btnId, headerId)
-			},
-			onExit: function() {
-				debugger;
-				if (this.searchPopup) {
-					this.searchPopup.destroy();
-				}
-			}
-		});
 
+				//error if no valid entry
+				if (valueCheck === false) {
+					sap.m.MessageBox.error("Please Enter Valid entries before save", {
+						title: "Error", // default
+						styleClass: "", // default
+						initialFocus: null, // default
+						textDirection: sap.ui.core.TextDirection.Inherit, // default
+						onClose: function(sButton) {}
+					});
+				}
+			}
+		},
+		commitRecords: function(oEvent) {
+			var that = this;
+			//order header put
+			var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+
+			var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
+			var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
+			var oBinding = oTableDetails.getBinding("rows");
+			var itemError = false;
+			var oCommit = false;
+			for (var i = 0; i < oBinding.getLength(); i++) {
+				var that = this;
+				var data = oBinding.oList[i];
+				if (data.Material !== "") {
+					oOrderDetail.OrderNo = oId; //orderno // ID
+					oOrderDetail.Material = data.Material;
+					// QuantityD
+					if (data.QtyD === "" || data.QtyD === 0) {
+						oOrderDetail.QtyD = 0;
+					} else {
+						oOrderDetail.QtyD = data.QtyD;
+					}
+					//making
+					if (data.Making === "" || data.Making === 0) {
+						oOrderDetail.Making = 0;
+					} else {
+						oOrderDetail.Making = data.Making;
+					}
+					//makingD
+					if (data.MakingD === "" || data.MakingD === 0) {
+						oOrderDetail.MakingD = 0;
+					} else {
+						oOrderDetail.MakingD = data.MakingD;
+					}
+					oOrderDetail.Remarks = data.Remarks;
+					oOrderDetail.SubTotal = data.SubTot;
+					var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
+					//Item data save
+					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
+						.then(function(oData) {
+							debugger;
+							//loop the detaisl
+							var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+							that.getView().setBusy(false);
+							for (var i = 0; i < allItems.length; i++) {
+								if (allItems[i].Material === oData.Material) {
+									allItems[i].itemNo = oData.id;
+									allItems[i].OrderNo = oId;
+									if (oCommit === false) {
+										that.onReturnSave(oEvent, oId, oCommit);
+									}
+									break;
+								} //material compare if condition
+							} //for loop
+							that.getView().getModel("orderItems").setProperty("/itemData", allItems);
+						})
+						.catch(function(oError) {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+						});
+
+				}
+			}
+		},
+		toggleFullScreen: function() {
+			debugger;
+			var btnId = "WSItemFragment--idFullScreenBtn";
+			var headerId = "WSHeaderFragment--WSOrderHeader";
+			this.toggleUiTable(btnId, headerId)
+		},
+		onExit: function() {
+			debugger;
+			if (this.searchPopup) {
+				this.searchPopup.destroy();
+			}
+		}
 	});
+
+});

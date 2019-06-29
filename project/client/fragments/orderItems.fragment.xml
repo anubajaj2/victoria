@@ -44,7 +44,7 @@
 					<m:Input value="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
 				</template>
 			</Column>
-			<Column hAlign="Center" width="80px">
+			<Column hAlign="Center" autoResizable="true" width="80px">
 				<label>
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>

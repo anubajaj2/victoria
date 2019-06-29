@@ -616,7 +616,7 @@ sap.ui.define([
 				"Remarks": "",
 				"SubTotalS": 0,
 				"SubTotalG": 0,
-				"SubTotal": 0,
+				"SubTotal": "",
 				"CreatedBy": "",
 				"CreatedOn": "",
 				"ChangedBy": "",
@@ -886,6 +886,7 @@ sap.ui.define([
 				"itemData": array
 			});
 			//set the model
+			debugger;
 			this.setModel(oOrderItem, "orderItems");
 		},
 		hideDColumns: function(oEvent) {

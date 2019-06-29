@@ -52,8 +52,8 @@
     },
     "SubTotal": {
       "type": "number",
-      "required": true,
-      "default":0.000
+      "required": false,
+      "default":"null"
     },
     "CreatedOn": {
 			"type": "date",

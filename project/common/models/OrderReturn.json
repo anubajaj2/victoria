@@ -13,7 +13,7 @@
     },
     "Type": {
       "type": "string",
-      "required": true
+      "required":true
     },
     "Weight": {
       "type": "number",
@@ -43,12 +43,12 @@
     "Remarks": {
       "type": "string",
       "required": false,
-      "default": null
+      "default":"null"
     },
     "SubTotal": {
       "type": "number",
-      "required": true,
-      "default":0.000
+      "required":false,
+      "default":"null"
     },
     "CreatedOn": {
       "type": "date",

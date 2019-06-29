@@ -108,7 +108,8 @@
 					<m:Text text="{i18n>subTot}"></m:Text>
 				</label>
 				<template>
-					<m:Text text="{returnModel>SubTotal}" textAlign="Center" type="Number" editable="false"/>
+					<m:Text text="{returnModel>SubTotal}"
+						 textAlign="Center" type="Number" editable="false"/>
 				</template>
 			</Column>
 		</columns>

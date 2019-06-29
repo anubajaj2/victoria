@@ -24,6 +24,19 @@ _onRouteMatched:function(oEvent){
   this.onClear(oEvent);
   // this.fetchValuesFromCustomizing();
 },
+getIndianCurr:function(value){
+debugger;
+if(value){
+  var x=value;
+  x=x.toString();
+  var lastThree = x.substring(x.length-3);
+  var otherNumbers = x.substring(0,x.length-3);
+  if(otherNumbers != '')
+      lastThree = ',' + lastThree;
+  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+  return res;
+}
+},
 //customer value help
 valueHelpCustomer:function(oEvent){
 
@@ -563,6 +576,7 @@ ValueChange:function(oEvent){
 },//ValueChange function end
 
 Calculation:function(oEvent){
+  debugger;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
   var oCurrentRow = oEvent.getSource().getParent();
@@ -693,8 +707,11 @@ if (data.QtyD === ""){
 
 var stonevalue = quantityOfStone * makingD;
 if (priceF || makingCharges || stonevalue) {
+var subTot = (priceF + makingCharges + stonevalue) ;
+  var subTotF =  this.getIndianCurr(subTot);
   // gold price per gram
-  cells[cells.length - 1].setText(priceF + makingCharges + stonevalue);
+  // cells[cells.length - 1].setText(priceF + makingCharges + stonevalue);
+  cells[cells.length - 1].setText(subTotF);
 }else {
   cells[cells.length - 1].setText(0)
 }
@@ -770,7 +787,9 @@ if (data.MakingD === "" ){
 var chargesD = quantityD * makingD;
 //final charges on GS
 if (charges) {
-cells[cells.length - 1].setText( charges + chargesD);
+  var subTot = charges + chargesD;
+  var subTotF =  this.getIndianCurr(subTot);
+cells[cells.length - 1].setText(subTotF);
 }else {
   cells[cells.length - 1].setText(0);
 }
@@ -912,8 +931,10 @@ if (!stonevalue) {
 // }else {
 if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
+  var subTot = priceF + makingOfProduct + stonevalue;
+  var subTotF =  this.getIndianCurr(subTot);
   // cells[9].setValue(priceF + makingCharges + stonevalue);
-  cells[cells.length - 1].setText(priceF + makingOfProduct + stonevalue);
+  cells[cells.length - 1].setText(subTotF);
 }else {
   // cells[9].setValue(0);
   cells[cells.length - 1].setText(0)

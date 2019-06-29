@@ -16,6 +16,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			return dd + '.' + mm + '.' + yyyy;
 		},
 		getIndianCurr: function(value){
+			debugger;
 			if(value){
 				var x=value;
 				x=x.toString();

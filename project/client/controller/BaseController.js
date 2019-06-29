@@ -768,7 +768,8 @@ sap.ui.define([
 				var weightF = weight - kWeight;
 				var fineGold = (tunch * weightF) / 100;
 				var subTotal = fineGold * bhavF;
-				cells[cells.length - 1].setText(subTotal);
+				var subTotF =  this.getIndianCurr(subTotal)
+				cells[cells.length - 1].setText(subTotF);
 				if (viewId == 'idsalesws' &&
 					(seletedLine.key === 'KG' ||
 						seletedLine.key === 'BG')) {
@@ -785,7 +786,8 @@ sap.ui.define([
 				var weightF = weight - kWeight;
 				var fineSilver = (tunch * weightF) / 100;
 				var subTotal = fineSilver * bhavF;
-				cells[cells.length - 1].setText(subTotal);
+				var subTotF =  this.getIndianCurr(subTotal)
+				cells[cells.length - 1].setText(subTotF);
 
 				if (viewId == 'idsalesws' &&
 					(seletedLine.key === 'KS' ||

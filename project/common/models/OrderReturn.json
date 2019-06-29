@@ -17,31 +17,38 @@
     },
     "Weight": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default":0
     },
     "KWeight": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Tunch": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Qty": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0
     },
     "Bhav": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default":0.00
     },
     "Remarks": {
       "type": "string",
-      "required": false
+      "required": false,
+      "default": null
     },
     "SubTotal": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default":0.000
     },
     "CreatedOn": {
       "type": "date",

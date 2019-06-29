@@ -74,7 +74,7 @@
     "ToWSOrderReturns":{
       "type":"hasMany",
       "model":"WSOrderReturn",
-      "foreignKey": "orderNo"
+      "foreignKey": "OrderNo"
     }
   },
   "acls": [

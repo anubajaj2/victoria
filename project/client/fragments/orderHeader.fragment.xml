@@ -58,7 +58,7 @@ valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 <f:fields>
 <Input type="Number" id="Gbhav2Id" placeholder="{i18n>gbhav2}"
         tooltip="{i18n>gbhav2}"
-        value="{local>/orderHeader/Goldbhav22}"
+        value="{local>/orderHeader/GoldBhav22}"
         editable="true"/>
 </f:fields>
 </f:FormElement>
@@ -66,14 +66,14 @@ valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 <f:fields>
 <Input type="Number" editable="true" id="Gbhav1Id" placeholder="{i18n>gbhav1}"
       tooltip="{i18n>gbhav1}"
-      value="{local>/orderHeader/Goldbhav20}"/>
+      value="{local>/orderHeader/GoldBhav20}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Gold}">
 <f:fields>
 <Input type="Number" editable="true" id="GoldbhavId" placeholder="{i18n>Gold}"
       tooltip="{i18n>Gold}"
-      value="{local>/orderHeader/Goldbhav}"/>
+      value="{local>/orderHeader/GoldBhav}"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Silver}">

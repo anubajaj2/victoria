@@ -36,7 +36,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 					return "Reject";
 				}
 			}else{
-				return "Reject";	
+				return "Reject";
 			}
 
 		},

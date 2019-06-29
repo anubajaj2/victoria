@@ -1,91 +1,97 @@
 {
-  "name": "WSOrderReturn",
-  "plural": "WSOrderReturns",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "OrderNo":{
-      "type":"string",
-      "required":true
-    },
-    "Type": {
-      "type": "string",
-      "required": true
-    },
-    "Weight": {
-      "type": "number",
-      "required": true
-    },
-    "KWeight": {
-      "type": "number",
-      "required": true
-    },
-    "Tunch": {
-      "type": "number",
-      "required": true
-    },
-    "Qty": {
-      "type": "number",
-      "required": false
-    },
-    "Bhav": {
-      "type": "number",
-      "required": false
-    },
-    "Remarks": {
-      "type": "string",
-      "required": false
-    },
-    "SubTotal": {
-      "type": "number",
-      "required": true
-    },
-    "SubTotalS": {
-      "type": "number",
-      "required": true
-    },
-    "SubTotalG": {
-      "type": "number",
-      "required": true
-    },
-    "CreatedOn": {
-      "type": "date",
-      "default": "null"
-    },
-    "CreatedBy": {
-      "type": "string",
-      "default": "null"
-    },
-    "ChangedOn": {
-      "type": "date",
-      "default": "null"
-    },
-    "ChangedBy": {
-      "type": "string",
-      "default": "null"
-    }
-  },
-  "scope":{
+	"name": "WSOrderReturn",
+	"plural": "WSOrderReturns",
+	"base": "PersistedModel",
+	"idInjection": true,
+	"options": {
+		"validateUpsert": true
+	},
+	"properties": {
+		"OrderNo": {
+			"type": "string",
+			"required": true
+		},
+		"Type": {
+			"type": "string",
+			"required": true
+		},
+		"Weight": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"KWeight": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Tunch": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Qty": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Bhav": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"Remarks": {
+			"type": "string",
+			"required": false
+		},
+		"SubTotal": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"SubTotalS": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"SubTotalG": {
+			"type": "number",
+			"required": false,
+			"default": 0
+		},
+		"CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
+	},
+	"scope": {
 
-  },
-  "validations": [],
-  "relations": {
-    "ToWSOrders":{
-      "type":"belongsTo",
-      "model":"WSOrderHeader",
-      "foreignKey":"OrderNo"
-    }
-  },
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$unauthenticated",
-      "permission": "DENY"
-    }
-  ],
-  "methods": {}
+	},
+	"validations": [],
+	"relations": {
+		"ToWSOrders": {
+			"type": "belongsTo",
+			"model": "WSOrderHeader",
+			"foreignKey": "OrderNo"
+		}
+	},
+	"acls": [{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$unauthenticated",
+		"permission": "DENY"
+	}],
+	"methods": {}
 }

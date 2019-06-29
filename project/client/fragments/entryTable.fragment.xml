@@ -15,6 +15,7 @@
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
+        <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
         <Button icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>
     </headerToolbar>

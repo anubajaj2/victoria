@@ -52,37 +52,20 @@
       <f:FormContainer>
         <f:formElements>
           <f:FormElement label="{i18n>tCash}">
-    				<f:fields>
-              <ObjectStatus id="idTC"
-             class="sapUiSmallMarginBottom"
-             text=""
-           state="None" />
-           <!-- <ObjectStatus id="idTCash"
-          class="sapUiSmallMarginBottom"
-          text=""
-        state="Warning" /> -->
-
-    				<!-- <Text id="idTC"/> -->
-    				</f:fields>
-    			</f:FormElement>
-    		<f:FormElement label="{i18n>tGold}">
-    			<f:fields>
-            <ObjectStatus id="idG"
-           class="sapUiSmallMarginBottom"
-           text=""
-         state="None" />
-    			<!-- <Text id="idG"/> -->
-    			</f:fields>
-    		</f:FormElement>
-    		<f:FormElement label="{i18n>tSilver}">
-    			<f:fields>
-            <ObjectStatus id="idS"
-           class="sapUiSmallMarginBottom"
-           text=""
-         state="None" />
-    			<!-- <Text id="idS"/> -->
-    			</f:fields>
-    		</f:FormElement>
+           				<f:fields>
+                     <ObjectStatus id="idTC" text="" state="None" />
+             			</f:fields>
+           			</f:FormElement>
+           		<f:FormElement label="{i18n>tGold}">
+           			<f:fields>
+                 <ObjectStatus id="idG" text="" state="None" />
+           			</f:fields>
+           		</f:FormElement>
+           		<f:FormElement label="{i18n>tSilver}">
+           			<f:fields>
+               <ObjectStatus id="idS" text="" state="None" />
+           			</f:fields>
+           		</f:FormElement>
         </f:formElements>
       </f:FormContainer>
         </f:formContainers>

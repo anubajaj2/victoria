@@ -1,7 +1,11 @@
 sap.ui.define(["victoria/controller/BaseController","sap/ui/model/json/JSONModel",
+'sap/ui/layout/HorizontalLayout',
+	'sap/ui/layout/VerticalLayout',
+"sap/m/Dialog","sap/m/Text","sap/m/Label","sap/m/Button","sap/m/TextArea",
 "sap/m/MessageBox","sap/m/MessageToast","victoria/models/formatter","sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator"],
-function (BaseController,JSONModel,formatter,Filter,FilterOperator,MessageBox,MessageToast) {
+function (BaseController,Dialog,Text,Label,Button,TextArea,MessageBox,MessageToast,
+	JSONModel,formatter,Filter,FilterOperator,HorizontalLayout,VerticalLayout) {
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
     // formatter:formatter,
@@ -429,6 +433,94 @@ debugger;
      }
 
    },
+	 _getDialog: function (oEvent) {
+       if(!this.oDialog){
+				 this.oDialog= sap.ui.xmlfragment("entryDialog","victoria.fragments.entryDialog",this);
+				 this.getView().addDependent(this.oDialog);
+			 }
+			 this.oDialog.open();
+			 debugger;
+			 var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
+			 var cell1 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+			 var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+			 var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[3].mProperties.text;
+			 var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+       var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+
+	 },
+	 onPressHandleEntrySavePopup: function (oEvent){
+
+	 },
+	 onPressHandleEntryCancelPopup: function () {
+		 this.oDialog.close();
+	 },
+
+	 onEdit: function (oEvent) {
+		 debugger;
+		 var oEvent =this.getView().byId("idTable").getSelectedItems().length;
+		 if(oEvent>1){
+			 sap.m.MessageBox.alert(
+			 "Select one entry only");
+		 }
+		 else{
+		  this._getDialog();
+     }
+
+		 // var dialog = new sap.m.Dialog({
+			//  title: '{Customer}',
+			//  contentHeight:'25rem',
+			//  contentWidth:'25rem',
+			//  content: [
+			// 	 new sap.m.Label({
+			// 	 text: "Date"
+			//  }),
+			//  new sap.m.Input({
+			// 	 value:""
+			//  })
+		 // ],
+			//  beginButton: new sap.m.Button({
+			// 	 text:'Submit'
+			//  }),
+			//  endButton: new sap.m.Button({
+			// 	 text:'Close',
+			// 	 press: function () {
+	 		// 			 dialog.close();
+	 		// 		 }
+			//  })
+		 //
+		 // });
+		 // dialog.open();
+
+	 },
+
+	 onMasterClear: function (oEvent){
+debugger;
+ var x = this.getView().byId("idCust").getValue();
+if(!x){
+  this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
+}
+var count = this.getView().byId("idTable").getItems().length;
+var that=this;
+sap.m.MessageBox.confirm(
+"Do u want to delete("  + count +   ")entries", {
+		title: "Confirm",
+		actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+		styleClass: "",
+		onClose: function(sAction) {
+			debugger;
+			if(sAction==="OK"){
+				var myUrl = that.getView().byId("idTable").getItems();
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+
+						}
+						else if(sAction==="CANCEL"){
+							this.getView().setBusy(false);
+						}
+			}
+		});
+
+
+	 },
 
    onUpdateFinished: function (oEvent) {
      debugger;

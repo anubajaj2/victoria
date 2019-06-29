@@ -190,13 +190,13 @@ sap.ui.define([
 				var title = this.getView().getModel("i18n").getProperty("orderSearch");
 				this.orderSearchPopup.setTitle(title);
 				this.orderSearchPopup.sId = 'orderNo';
-					// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, "");
+				// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, "");
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
 					// filters: [oFilter1],
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value:	"{Date}"
+						value: "{Date}"
 					})
 				});
 			}
@@ -588,42 +588,41 @@ sap.ui.define([
 				}
 			}
 		},
-		deleteReturnValues:function(oEvent,i,selIdxs,viewId,oTableData){
+		deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 			debugger;
 			var that = this;
-			var id  = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
-			if (id){
+			var id = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
+			if (id) {
 				if (viewId === 'idsales') {
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-																		"DELETE", {}, {}, that)
-				}else {
+						"DELETE", {}, {}, that)
+				} else {
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderReturns('" + id + "')",
-																		"DELETE", {}, {}, that)
+						"DELETE", {}, {}, that)
 				}
-			sap.m.MessageToast.show("Data Deleted Successfully");
+				sap.m.MessageToast.show("Data Deleted Successfully");
 			}
 			var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
 			oTableData.splice(selIdxs, 1);
-			oTableData.push(
-				{
-				"Type":"",
-				"key":"",
-				"ReturnId":"",
-				"Weight":0,
-				"KWeight":0,
-				"Tunch":0,
-				"Qty":0,
-				"Bhav":0,
-				"Remarks":"",
-				"SubTotalS":0,
-				"SubTotalG":0,
-				"SubTotal":0,
-				"CreatedBy":"",
-				"CreatedOn":"",
-				"ChangedBy":"",
-				"ChangedOn":""
+			oTableData.push({
+				"Type": "",
+				"key": "",
+				"ReturnId": "",
+				"Weight": 0,
+				"KWeight": 0,
+				"Tunch": 0,
+				"Qty": 0,
+				"Bhav": 0,
+				"Remarks": "",
+				"SubTotalS": 0,
+				"SubTotalG": 0,
+				"SubTotal": 0,
+				"CreatedBy": "",
+				"CreatedOn": "",
+				"ChangedBy": "",
+				"ChangedOn": ""
 			});
-	that.getView().getModel('returnModel').setProperty('/TransData',oTableData);
+			that.getView().getModel('returnModel').setProperty('/TransData', oTableData);
 		},
 		onReturnValue: function(oEvent) {
 			debugger;
@@ -772,7 +771,7 @@ sap.ui.define([
 				cells[cells.length - 1].setText(subTotal);
 				if (viewId == 'idsalesws' &&
 					(seletedLine.key === 'KG' ||
-					seletedLine.key === 'BG')) {
+						seletedLine.key === 'BG')) {
 					cells[cells.length - 2].setText(fineGold);
 				}
 			} else if (seletedLine.key === 'OS' ||
@@ -790,52 +789,58 @@ sap.ui.define([
 
 				if (viewId == 'idsalesws' &&
 					(seletedLine.key === 'KS' ||
-					seletedLine.key === 'BS')) {
+						seletedLine.key === 'BS')) {
 					cells[cells.length - 3].setText(fineSilver);
 				}
 			}
 		},
-		onRetItemValidation:function()
-		{
+		onRetItemValidation: function() {
 			debugger;
-		//line item validations
+			//line item validations
 			var that = this;
+			var viewId = this.getView().getId().split('---')[1];
 			var returnModel = this.getView().getModel("returnModel").getProperty("/TransData");
 			// var oReturnDetail = that.getView().getModel('local').getProperty(returnLocalPayload);
 			var oTableDetails = that.getView().byId("OrderReturn");
 			var tableBinding = oTableDetails.getBinding("rows");
-		//---all errors are false
+			//---all errors are false
 			var returnError = false;
 			for (var i = 0; i < tableBinding.getLength(); i++) {
-			var data = tableBinding.oList[i];
-			if (data.key !== "") {
-			//Quantity
-			if(data.Weight === "" || data.Weight === 0) {
-				this.getView().setBusy(false);
-				oTableDetails.getRows()[i].getCells()[1].setValueState("Error");
-				returnError = true;
-				// return;
-				}else {
-					returnModel.Weight=data.Weight;
-					oTableDetails.getRows()[i].getCells()[1].setValueState("None");
-					this.getView().setBusy(false);
-					// returnError = false;
-			}
-			if(data.Bhav === "" || data.Bhav === 0) {
-				this.getView().setBusy(false);
-				oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
-				returnError = true;
-				// return;
-				}else {
-					returnModel.Bhav=data.Bhav;
-					oTableDetails.getRows()[i].getCells()[5].setValueState("None");
-					this.getView().setBusy(false);
-					// returnError = false;
-			}
-	  this.getView().getModel("returnModel").setProperty("/TransData",returnModel);
-		}//key check
-		}//for loop
-		return returnError;
+				var data = tableBinding.oList[i];
+				if (data.key !== "") {
+					//Quantity
+					if (data.Weight === "" || data.Weight === 0) {
+						this.getView().setBusy(false);
+						oTableDetails.getRows()[i].getCells()[1].setValueState("Error");
+						returnError = true;
+						// return;
+					} else {
+						returnModel.Weight = data.Weight;
+						oTableDetails.getRows()[i].getCells()[1].setValueState("None");
+						this.getView().setBusy(false);
+						// returnError = false;
+					}
+					debugger;
+					if (data.Bhav === "" || data.Bhav === 0) {
+						if (((viewId == "idsalesws") &&
+								(data.key === "OG" || data.key === "OS" )) ||
+							(viewId == "idsales")) {
+							this.getView().setBusy(false);
+							oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
+							returnError = true;
+						}
+
+						// return;
+					} else {
+						returnModel.Bhav = data.Bhav;
+						oTableDetails.getRows()[i].getCells()[5].setValueState("None");
+						this.getView().setBusy(false);
+						// returnError = false;
+					}
+					this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
+				} //key check
+			} //for loop
+			return returnError;
 		},
 		orderItem: function(oEvent) {
 			//create the model to set the getProperty
@@ -945,7 +950,7 @@ sap.ui.define([
 				var oRetailtab = {
 					"Type": "",
 					"key": "",
-					"ReturnId":"",
+					"ReturnId": "",
 					"Weight": 0,
 					"KWeight": 0,
 					"Tunch": 0,

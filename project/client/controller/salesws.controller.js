@@ -530,6 +530,10 @@ function(BaseController, JSONModel, History, formatter,
 				var that = this;
 				var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
+				// Correcting source call as there's a fragment id defined for items table
+				if (oSourceCall !== "OrderReturn") {
+					oSourceCall = "WSItemFragment--orderItemBases";
+				};
 				var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
 				if (selIdxs.length && selIdxs.length !== 0) {
 					MessageBox.error("Are you sure you want to delete the selected entries", {
@@ -540,7 +544,7 @@ function(BaseController, JSONModel, History, formatter,
 								if (sButton === "Delete selected entries") {
 									// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
 									for (var i = selIdxs.length - 1; i >= 0; --i) {
-										if (oSourceCall === 'orderItemBases') {
+										if (oSourceCall === 'WSItemFragment--orderItemBases') {
 											var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
 											// If row contains id(which means it has been saved in DB)
 											if (id) {
@@ -575,6 +579,7 @@ function(BaseController, JSONModel, History, formatter,
 												"ChangedOn": ""
 											});
 											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+										  sap.m.MessageToast.show("Selected lines are deleted");
 										} //sourcecallCheck
 										else if (oSourceCall === 'OrderReturn') {
 											debugger;
@@ -587,7 +592,7 @@ function(BaseController, JSONModel, History, formatter,
 										that.getView().byId('OrderReturn').clearSelection();
 									}
 								}//sButton
-								sap.m.MessageToast.show("Selected lines are deleted");
+								// sap.m.MessageToast.show("Selected lines are deleted");
 							}//onclose
 					});//Messagebox
 			}// if selindx length check

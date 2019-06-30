@@ -13,11 +13,11 @@
     },
     "MobilePhone": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Address": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "CustomerCode": {
       "type": "string",
@@ -29,7 +29,7 @@
     },
     "SecondaryPhone": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Group": {
       "type": "string",

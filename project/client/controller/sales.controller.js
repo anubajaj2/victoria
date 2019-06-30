@@ -536,7 +536,29 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 this.orderItem(oEvent);
 //return table
 this.orderReturn(oEvent);
+//adjust width of order tablePath
+this.setWidths(false);
+
 },
+setWidths: function(settings){
+  var oTable = this.getView().byId("orderItemBases");
+  if(settings === false){
+      //when setting button is reset
+      oTable.getColumns()[0].setWidth("10%");
+      oTable.getColumns()[1].setWidth("15%");
+      oTable.getColumns()[2].setWidth("5%");
+      oTable.getColumns()[3].setWidth("5%");
+      oTable.getColumns()[4].setWidth("10%");
+      oTable.getColumns()[5].setWidth("10%");
+      oTable.getColumns()[6].setWidth("10%");
+      oTable.getColumns()[7].setWidth("10%");
+      oTable.getColumns()[8].setWidth("10%");
+      oTable.getColumns()[9].setWidth("15%");
+  }else{
+    //when setting button is set - hidden some columns
+  }
+},
+
 onDelete: function(oEvent) {
   var that = this;
 debugger;

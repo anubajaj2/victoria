@@ -15,14 +15,13 @@ sap.ui.define([
 
 onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
-
+  this.byId("idTransferButton").setEnabled(false);
   var oRouter = this.getRouter();
   oRouter.getRoute("sales").attachMatched(this._onRouteMatched, this);
     },
 _onRouteMatched:function(oEvent){
   var that = this;
   this.onClear(oEvent);
-  // this.fetchValuesFromCustomizing();
 },
 getIndianCurr:function(value){
 debugger;
@@ -47,6 +46,7 @@ getRouter: function() {
 },
 onConfirm:function(oEvent){
   debugger;
+this.byId("Sales--idSaveIcon").setColor('red');
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
@@ -493,9 +493,12 @@ if (data.itemNo) {
 if (oCommit === false) {
 that.onReturnSave(oEvent,oId,oCommit);
 }
+that.byId("Sales--idSaveIcon").setColor('green');
 },
 onClear:function(oEvent){
 var that = this;
+debugger;
+that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
   });
@@ -558,7 +561,6 @@ setWidths: function(settings){
     //when setting button is set - hidden some columns
   }
 },
-
 onDelete: function(oEvent) {
   var that = this;
 debugger;
@@ -574,6 +576,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
     debugger;
+    that.byId("Sales--idSaveIcon").setColor('red');
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
@@ -651,6 +654,7 @@ ValueChangeMaterial: function(oEvent){
 ValueChange:function(oEvent){
   var tablePath = "";
   this.Calculation(oEvent ,tablePath);
+  this.byId("Sales--idSaveIcon").setColor('red');
 },//ValueChange function end
 
 Calculation:function(oEvent,tablePath){

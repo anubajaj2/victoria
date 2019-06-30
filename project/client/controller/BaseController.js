@@ -626,6 +626,9 @@ sap.ui.define([
 		},
 		onReturnValue: function(oEvent) {
 			debugger;
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] = 'idsales') {
+				this.byId("Sales--idSaveIcon").setColor('red');
+			}
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
 			var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
 			var key = oEvent.getParameter("selectedItem").getKey();
@@ -676,6 +679,9 @@ sap.ui.define([
 		},
 		onReturnChange: function(oEvent) {
 			debugger;
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] = 'idsales') {
+				this.byId("Sales--idSaveIcon").setColor('red');
+			}
 			var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
 			var seletedLine = this.getView().getModel('returnModel').getProperty(path);
 			var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
@@ -831,7 +837,6 @@ sap.ui.define([
 							oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
 							returnError = true;
 						}
-
 						// return;
 					} else {
 						returnModel.Bhav = data.Bhav;
@@ -839,8 +844,23 @@ sap.ui.define([
 						this.getView().setBusy(false);
 						// returnError = false;
 					}
-					this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
-				} //key check
+
+//Tunch
+if (data.Tunch === "" || data.Tunch === 0) {
+	if ((data.key === "KG" || data.key === "KS") &&
+			(viewId == "idsales"))
+			{
+		this.getView().setBusy(false);
+		oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
+		returnError = true;
+	}else {
+		returnModel.Tunch = data.Tunch;
+		oTableDetails.getRows()[i].getCells()[3].setValueState("None");
+		this.getView().setBusy(false);
+	}
+	} //key check
+}
+	 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 			} //for loop
 			return returnError;
 		},
@@ -870,7 +890,7 @@ sap.ui.define([
 					"MakingD": 0,
 					"Tunch": 0,
 					"Remarks": "",
-					"SubTotal": 0,
+					"SubTotal":"" ,
 					"SubTotalS": 0,
 					"SubTotalG": 0,
 					"Category": "",
@@ -902,6 +922,9 @@ sap.ui.define([
 		},
 		onMaterialSelect: function(oEvent) {
 			debugger;
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
+				this.byId("Sales--idSaveIcon").setColor('red');
+			}
 			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
@@ -962,7 +985,7 @@ sap.ui.define([
 					"Remarks": "",
 					"SubTotalS": 0,
 					"SubTotalG": 0,
-					"SubTotal": 0,
+					"SubTotal":"",
 					"CreatedBy": "",
 					"CreatedOn": "",
 					"ChangedBy": "",

@@ -5,6 +5,14 @@ xmlns:f="sap.ui.layout.form"
 xmlns:core ="sap.ui.core" width="160px">
 <VBox class="sapUiSmallMargin">
 <f:Form id="orderHeader" editable="true">
+<f:toolbar>
+<Toolbar id="TB1">
+<ToolbarSpacer/>
+<core:Icon id="idSaveIcon" src="sap-icon://status-completed"
+class="size1"	color="green"
+size="30px" alt="Save Status" tooltip="Save Status"/>
+</Toolbar>
+</f:toolbar>
 <f:layout>
 <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3"
 emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"

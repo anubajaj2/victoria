@@ -14,11 +14,13 @@
     },
     "Date": {
       "type": "date",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Customer": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "GoldBhav22":{
       "type": "number",

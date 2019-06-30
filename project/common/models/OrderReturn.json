@@ -46,7 +46,7 @@
       "default":"null"
     },
     "SubTotal": {
-      "type": "number",
+      "type": "string",
       "required":false,
       "default":"null"
     },

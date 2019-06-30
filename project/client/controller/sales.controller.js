@@ -278,6 +278,62 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 }//forloop
 return oCommit;
 },
+ValueChangeHeader:function(oEvent){
+  var that = this;
+  var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
+  var oTable = this.getView().byId("orderItemBases").getBinding('rows');
+  var oPath = oTable.getPath();
+  var oTableLength = oTable.getLength();
+  var field = oEvent.getSource().getId().split('---')[1].split('--')[2];
+  var newvalue = oEvent.getParameter('newValue');
+  var oLocale = new sap.ui.core.Locale("en-US");
+  var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+  if (field === 'Gbhav2Id') {
+  if ( newvalue === "" ){
+//Gold bhav 22/22
+    oHeader.GoldBhav22 = 0;
+  }else
+  if (newvalue === 0) {
+    oHeader.GoldBhav22 = 0;
+  }else{
+    oHeader.GoldBhav22  = oFloatFormat.parse(newvalue);
+    }
+  }else if (field === 'Gbhav1Id') {
+//Gold bhav 22/20
+    if ( newvalue === "" ){
+      oHeader.GoldBhav20 = 0;
+    }else
+    if (newvalue === 0) {
+      oHeader.GoldBhav20 = 0;
+    }else{
+      oHeader.GoldBhav20  = oFloatFormat.parse(newvalue);
+    }
+  }else if (field === 'GoldbhavId') {
+  //Gold bhav
+  if ( newvalue === "" ){
+    oHeader.GoldBhav = 0;
+  }else
+  if (newvalue === 0) {
+    oHeader.GoldBhav = 0;
+  }else{
+    oHeader.GoldBhav  = oFloatFormat.parse(newvalue);
+  }
+  }else if (field === 'sbhavid') {
+//Silver Bhav
+if ( newvalue === "" ){
+  oHeader.SilverBhav = 0;
+}else
+if (newvalue === 0) {
+  oHeader.SilverBhav = 0;
+}else{
+  oHeader.SilverBhav  = oFloatFormat.parse(newvalue);
+}}
+that.getView().getModel('local').setProperty('/orderHeader',oHeader);
+  for (var i = 0; i < oTableLength; i++) {
+    var oTablePath = oPath + '/' + i;
+    this.Calculation(oEvent,oTablePath);
+  }
+},
 onSave:function(oEvent){
 var that = this;
 //if header check pass
@@ -385,6 +441,7 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   oOrderDetail.Remarks=data.Remarks;
   oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
+  debugger;
 //Item data save
 if (data.itemNo) {
   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -480,7 +537,6 @@ this.orderItem(oEvent);
 //return table
 this.orderReturn(oEvent);
 },
-
 onDelete: function(oEvent) {
   var that = this;
 debugger;
@@ -561,7 +617,6 @@ if (selIdxs.length && selIdxs.length !== 0) {
 onSetting:function(oEvent){
   this.hideDColumns(oEvent);
 },
-
 OnCustChange:function(){
 
 },
@@ -572,13 +627,21 @@ ValueChangeMaterial: function(oEvent){
   oSource.getBinding("suggestionItems").filter(oFilter);
 },
 ValueChange:function(oEvent){
-  this.Calculation(oEvent);
+  var tablePath = "";
+  this.Calculation(oEvent ,tablePath);
 },//ValueChange function end
 
-Calculation:function(oEvent){
+Calculation:function(oEvent,tablePath){
   debugger;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-  var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+  if (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader') {
+  if (tablePath) {
+  var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(tablePath);
+  }}else {
+  var oPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+  var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oPath);
+}
+
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
   var path = this.getView().byId('orderItemBases').getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();

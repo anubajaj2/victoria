@@ -1,0 +1,350 @@
+<core:FragmentDefinition
+xmlns = "sap.m"
+xmlns:l = "sap.ui.layout"
+xmlns:f="sap.ui.layout.form"
+xmlns:semantic="sap.m.semantic"
+xmlns:core ="sap.ui.core">
+<HBox>
+<VBox class="sapUiSmallMargin">
+
+<f:Form id="idKacchiHead"
+	editable="true" title="Retail Print Customizing">
+<f:layout>
+	<f:GridLayout
+		labelSpanXl="2" labelSpanL="2"
+		emptySpanXL="0" emptySpanL="0"
+		columnsXL="10" columnsL="10"
+		singleContainerFullSize="false" >
+	</f:GridLayout>
+</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Company Name" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Less Quantity" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Footer" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Address" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Sub Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Bhav" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Phone Number" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Making Charge" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Return Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Bhav" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Fine Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Quantity" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Type" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Less Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+</f:formContainers>
+</f:Form>
+<f:Form id="idKacchiHead1"
+	editable="true" title="WholeSale Print Customizing">
+<f:layout>
+	<f:GridLayout
+		labelSpanXl="2" labelSpanL="2"
+		emptySpanXL="0" emptySpanL="0"
+		columnsXL="10" columnsL="10"
+		singleContainerFullSize="false" >
+	</f:GridLayout>
+</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Company Name" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Less Quantity" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Footer" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Address" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Sub Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Bhav" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Phone Number" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Making Charge" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Return Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Bhav" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Fine Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Quantity" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Type" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Less Weight" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Sub Gold Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="Sub Silver Total" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Tunch" width="20%"/>
+						<Switch state="true">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</VBox>
+</HBox>
+</core:FragmentDefinition>

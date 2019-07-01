@@ -164,6 +164,11 @@
 								"target": ["donald", "Kacchi"]
 							},
 							{
+								"pattern": "Print",
+								"name": "Print",
+								"target": ["donald", "Print"]
+							},
+							{
 								"pattern": "Suppliers",
 								"name": "Suppliers",
 								"target": ["donald", "Suppliers"]
@@ -315,6 +320,15 @@
 					"clearAggregation": true,
 					"viewName": "Kacchi",
 					"viewId": "idKacchi",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"Print": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "Print",
+					"viewId": "idPrint",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

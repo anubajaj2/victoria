@@ -93,18 +93,18 @@ _onRouteMatched: function(oEvent){
         oCount.setText(count);
         if(totalWeight){
           tWeight = +tWeight + +totalWeight;
-          tWeight=tWeight.toPrecision(4);
+          tWeight=tWeight.toFixed(2);
           oWeight.setText(tWeight);
         }
         if(avgTunch){
           cntTunch = cntTunch + 1;
           tTunch = (+tTunch + +avgTunch) / cntTunch;
-          tTunch=tTunch.toPrecision(4);
+          tTunch=tTunch.toFixed(2);
           oTunch.setText(tTunch);
         }
         if(totalFine){
           tFine = (+tFine + +totalFine);
-          tFine=tFine.toPrecision(4);
+          tFine=tFine.toFixed(2);
           oFine.setText(tFine);
         }
       }
@@ -131,7 +131,7 @@ _onRouteMatched: function(oEvent){
     if(paggaNo){
       fine = (cells[1].getValue() * cells[2].getValue() / 100);
       if(fine != 0){
-      fine = fine.toPrecision(3);
+      fine = fine.toFixed(2);
       cells[3].setValue(fine);
     }else {
       cells[3].setValue(fine);

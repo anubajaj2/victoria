@@ -213,6 +213,11 @@
 	  "CustomerId": "",
 		"CustomerName": ""
 	},
+	"printCustomizingData":{
+	  "ID": "",
+		"Name": "",
+		"Value": ""
+	},
 		"customerOrder":{
 		"Date":"",
 		"DelDate":"",

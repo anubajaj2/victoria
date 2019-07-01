@@ -132,6 +132,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "print":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "KacchiBackup":{
     "dataSource": "mongoatlas",
     "public": true

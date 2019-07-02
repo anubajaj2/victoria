@@ -24,6 +24,12 @@
 				<Label text="{i18n>Date}"></Label>
       </Column>
       <Column>
+        <Label text="{i18n>coCustName}" />
+      </Column>
+      <!-- <Column visible="false">
+        <Label text="{i18n>coCustId}"/>
+      </Column> -->
+      <Column visible="false">
         <Label text="{i18n>custcode}"></Label>
       </Column>
       <Column>
@@ -49,7 +55,11 @@
                 formatOptions: {
                       style: 'medium',
                       pattern: 'dd.MM.yyyy'}}"></Text>
-					<Text text="{Customer}"></Text>
+            <Text text="" />
+            <Text text="{Customer}" />
+            <!-- <Text text="" />
+            <Text text="{Material}" /> -->
+					<!-- <Text text="{Customer}"></Text> -->
 					<Text id="cashid" text="{path:'Cash'}"></Text>
 					<Text text="{Gold}"></Text>
 					<Text text="{Silver}"></Text>

@@ -133,6 +133,22 @@ debugger;
  			});
 }
 		},
+		onMaterialSelect: function (oEvent) {
+			debugger;
+			var selMat = oEvent.getParameter("selectedItem").getText();
+			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
+			this.getView().byId("idMat").setText(selMat);
+			this.getView().byId("idMatText").setText(selMatName);
+
+		},
+		// ValueChangeMaterial: function (oEvent){
+		// 	debugger;
+		// 	var oSource = oEvent.getSource();
+		// 	var oFilter = new sap.ui.model.Filter("ProductCode",
+		// 	sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+		// 	oSource.getBinding("suggestionItems").filter(oFilter);
+		//
+		// },
     onSubmit: function (evt) {
           $(function() {
                   $('input:text:first').focus();
@@ -532,7 +548,7 @@ sap.m.MessageBox.confirm(
       var id;
       var cell;
       for (var i=0; i < noOfItems; i++) {
-        var customerId = oTable.getItems()[i].getCells()[1].getText();
+        var customerId = oTable.getItems()[i].getCells()[2].getText();
         var customerData = this.allMasterData.customers[customerId];
         oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
 

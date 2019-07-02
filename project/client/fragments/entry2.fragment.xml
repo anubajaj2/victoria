@@ -50,8 +50,9 @@
 				<f:formElements>
 					<f:FormElement>
 						<f:fields>
-              <RadioButtonGroup columns="3" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
+              <RadioButtonGroup columns="4" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
                 <buttons>
+                  <RadioButton id="RB-4" text="{i18n>material}" />
                   <RadioButton id="RB-1" text="{i18n>Chandi}" />
                   <RadioButton id="RB-2" text="{i18n>Sona}" />
                   <RadioButton id="RB-3" text="{i18n>Kacchi}" />
@@ -59,6 +60,21 @@
                 </RadioButtonGroup>
 						</f:fields>
 					</f:FormElement>
+          <f:FormElement label="{i18n>material}">
+            <f:fields>
+              <Input id="idMat"  editable="true" type="Text" suggest=""
+                placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
+                showSuggestion="true" suggestionItems="{/Products}">
+                <suggestionItems>
+                  <core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+                </suggestionItems>
+                <layoutData>
+                  <l:GridData span="XL3 L3"/>
+                </layoutData>
+              </Input>
+              <Text id="idMatText" enableSelection="false"/>
+            </f:fields>
+          </f:FormElement>
 					<f:FormElement label="{i18n>coWeight}">
 						<f:fields>
 							<Input id="idweight"  submit="onSubmit" liveChange="decimalvalidator4" value="{path:'local>/EntryData/Weight'}">

@@ -11,7 +11,9 @@ sap.ui.define([
   return BaseController.extend("victoria.controller.sales", {
   formatter: formatter,
   //global Variables
-  returnError : false,
+  noChange : false,
+//return no Change
+noChangeReturn : false,
 
 onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
@@ -401,9 +403,8 @@ commitRecords:function(oEvent){
                          {},oHeader, this)
   .then(function(oData) {
     debugger;
-    message.show("testing");
+    message.show("Order Saved");
         that.getView().setBusy(false);
-
        })
   .catch(function(oError) {
       that.getView().setBusy(false);
@@ -445,22 +446,20 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   debugger;
 //Item data save
 if (data.itemNo) {
-  that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/OrderItems('"+ data.itemNo +"')","PUT", {},
-          oOrderDetailsClone, this)
-  .then(function(oData) {
-        debugger;
-        that.getView().setBusy(false);
-        // if (oCommit === false) {
-        // that.onReturnSave(oEvent,oId,oCommit);
-        //     }
-        // break;
-  // that.getView().getModel("orderItems").setProperty("/itemData",allItems);
-})
-  .catch(function(oError){
-  that.getView().setBusy(false);
-  var oPopover = that.getErrorMessage(oError);
-      });
+  if (this.noChange = true) {
+    debugger;
+    that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+            "/OrderItems('"+ data.itemNo +"')","PUT", {},
+            oOrderDetailsClone, this)
+    .then(function(oData) {
+          debugger;
+          that.getView().setBusy(false);
+  })
+    .catch(function(oError){
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+        });
+  }
 }else {
   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/OrderItems","POST", {}, oOrderDetailsClone, this)
@@ -688,6 +687,10 @@ Calculation:function(oEvent,tablePath){
   var tempWeight  = 0.00;
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
+//capture if there is any change
+  if (newValue) {
+    this.noChange = true;
+  }
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
   var gold20pergm = orderHeader.GoldBhav20 / 10;
@@ -699,8 +702,6 @@ if ((category.Type === 'Gold' && category.Category === "gm") ||
     (category.Type === 'Silver' && category.Category === "gm"))
 {
 //get the weight
-// if (cells[4].getValue() !== "") {
-
 if (fieldId === "IdWeight") {
   if (data.Weight !== newValue) {
     data.Weight = newValue;
@@ -765,7 +766,6 @@ var making = 0;
 }
 
 //making D
-// if (cells[7].getValue() !== "") {
 if (fieldId === "IdMakingD") {
   if (data.MakingD !== newValue) {
     data.MakingD = newValue;
@@ -782,9 +782,7 @@ if (data.MakingD === "" ){
 }
 //Making charges
 var makingCharges  = making * weightF;
-
 // quantity of stone / quantityD
-// if (cells[3].getValue() !== "") {
 if (fieldId === "IdQtyD") {
   if (data.QtyD !== newValue) {
     data.QtyD = newValue;
@@ -812,6 +810,8 @@ var subTot = (priceF + makingCharges + stonevalue) ;
    debugger;
   category.SubTot = subTotF;
   this.byId("Sales--idSaveIcon").setColor('red');
+  //capture if there is any change
+  this.noChange = true;
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
   }else {
   cells[cells.length - 1].setText(subTotF);
@@ -897,18 +897,17 @@ if (tablePath) {
  debugger;
 category.SubTot = subTotF;
 this.byId("Sales--idSaveIcon").setColor('red');
+this.noChange = true;
 this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
 }else {
 cells[cells.length - 1].setText(subTotF);
 }
 }else {
   cells[cells.length - 1].setText(0);
-}
-}
+}}
 else if ((category.Type ==="Gold" && category.Category === "pcs")||
         (category.Type === 'Silver' && category.Category === "pcs"))
 {
-
 //quantity
   if (fieldId === "IdQty") {
     if (data.Qty !== newValue) {
@@ -1007,9 +1006,7 @@ if (fieldId === "IdMaking") {
     }else {
       var making = oFloatFormat.parse(data.Making);
     }
-
 //making D
-// if (cells[7].getValue() !== "") {
 if (fieldId === "IdMakingD") {
   if (data.MakingD !== newValue) {
     data.MakingD = newValue;
@@ -1042,6 +1039,7 @@ var subTot = priceF + makingOfProduct + stonevalue;
 var subTotF =  this.getIndianCurr(subTot);
 if (tablePath) {
 category.SubTot = subTotF;
+this.noChange = true;
 this.byId("Sales--idSaveIcon").setColor('red');
 this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
 }else {
@@ -1049,8 +1047,7 @@ cells[cells.length - 1].setText(subTotF);
 }
 }else {
   cells[cells.length - 1].setText(0)
-}
-}//end of per PCs calculation
+}}//end of per PCs calculation
 
   this.byId("IdMaking");
   this.byId("IdMakingD");

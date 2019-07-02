@@ -390,6 +390,7 @@ if (valueCheck === false) {
 }
 },
 commitRecords:function(oEvent){
+  if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
   var that = this;
   debugger;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
@@ -494,6 +495,16 @@ if (oCommit === false) {
 that.onReturnSave(oEvent,oId,oCommit);
 }
 that.byId("Sales--idSaveIcon").setColor('green');
+}//if status is red only than commit
+else {
+  sap.m.MessageBox.error("No Change in data records",{
+  title: "Error",                                    // default
+  styleClass: "",                                      // default
+  initialFocus: null,                                  // default
+  textDirection: sap.ui.core.TextDirection.Inherit,     // default
+  onClose : function(sButton){}
+  });
+}
 },
 onClear:function(oEvent){
 var that = this;
@@ -663,14 +674,15 @@ Calculation:function(oEvent,tablePath){
   if (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader') {
   if (tablePath) {
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(tablePath);
+  var path = tablePath;
+  var cells = this.getView().byId("orderItemBases")._getVisibleColumns();
   }}else {
   var oPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oPath);
-}
-
+  var path = this.getView().byId('orderItemBases').getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
-  var path = this.getView().byId('orderItemBases').getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
+}
   var data = this.getView().getModel('orderItems').getProperty(path);
   var priceF = 0.00;
   var tempWeight  = 0.00;
@@ -703,7 +715,6 @@ if ( data.Weight === "" ){
     var weight  = oFloatFormat.parse(data.Weight);
   }
 
-// if (cells[5].getValue() !== "") {
 if (fieldId === "IdWeightD") {
   if (data.WeightD !== newValue) {
     data.WeightD = newValue;
@@ -738,7 +749,6 @@ priceF = weightF * gold20pergm;
 }
 
 //get the making charges
-// if (cells[6].getValue() !== "") {
 if (fieldId === "IdMaking") {
   if (data.Making !== newValue) {
     data.Making = newValue;
@@ -770,7 +780,6 @@ if (data.MakingD === "" ){
 }else {
   var makingD = oFloatFormat.parse(data.MakingD);
 }
-
 //Making charges
 var makingCharges  = making * weightF;
 
@@ -799,8 +808,14 @@ if (priceF || makingCharges || stonevalue) {
 var subTot = (priceF + makingCharges + stonevalue) ;
   var subTotF =  this.getIndianCurr(subTot);
   // gold price per gram
-  // cells[cells.length - 1].setText(priceF + makingCharges + stonevalue);
+  if (tablePath) {
+   debugger;
+  category.SubTot = subTotF;
+  this.byId("Sales--idSaveIcon").setColor('red');
+  this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+  }else {
   cells[cells.length - 1].setText(subTotF);
+  }
 }else {
   cells[cells.length - 1].setText(0)
 }
@@ -878,7 +893,14 @@ var chargesD = quantityD * makingD;
 if (charges) {
   var subTot = charges + chargesD;
   var subTotF =  this.getIndianCurr(subTot);
+if (tablePath) {
+ debugger;
+category.SubTot = subTotF;
+this.byId("Sales--idSaveIcon").setColor('red');
+this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+}else {
 cells[cells.length - 1].setText(subTotF);
+}
 }else {
   cells[cells.length - 1].setText(0);
 }
@@ -1014,22 +1036,20 @@ if (!stonevalue) {
   var stonevalue = 0;
 }
 
-// if (quantity === 0) {
-//   // cells[9].setValue(0);
-//   cells[cells.length - 1].setText(0)
-// }else {
 if (priceF || makingOfProduct || stonevalue) {
-  // gold price per gram
-  var subTot = priceF + makingOfProduct + stonevalue;
-  var subTotF =  this.getIndianCurr(subTot);
-  // cells[9].setValue(priceF + makingCharges + stonevalue);
-  cells[cells.length - 1].setText(subTotF);
+// gold price per gram
+var subTot = priceF + makingOfProduct + stonevalue;
+var subTotF =  this.getIndianCurr(subTot);
+if (tablePath) {
+category.SubTot = subTotF;
+this.byId("Sales--idSaveIcon").setColor('red');
+this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
 }else {
-  // cells[9].setValue(0);
+cells[cells.length - 1].setText(subTotF);
+}
+}else {
   cells[cells.length - 1].setText(0)
 }
-// }
-
 }//end of per PCs calculation
 
   this.byId("IdMaking");

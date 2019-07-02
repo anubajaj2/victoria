@@ -856,10 +856,9 @@ if (data.Tunch === "" || data.Tunch === 0) {
 		oTableDetails.getRows()[i].getCells()[3].setValueState("None");
 		this.getView().setBusy(false);
 	}
-	} //key check
-}
 	 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
-			} //for loop
+	} //key check
+}} //for loop
 			return returnError;
 		},
 		orderItem: function(oEvent) {

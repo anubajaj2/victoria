@@ -446,7 +446,7 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   debugger;
 //Item data save
 if (data.itemNo) {
-  if (this.noChange = true) {
+  if (this.noChange === true) {
     debugger;
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/OrderItems('"+ data.itemNo +"')","PUT", {},

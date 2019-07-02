@@ -629,7 +629,7 @@ sap.ui.define([
 			if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 				this.byId("Sales--idSaveIcon").setColor('red');
 			}else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
-				this.byId("salesws--idSaveIcon").setColor('red');
+				this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 			}
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
 			var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
@@ -681,9 +681,11 @@ sap.ui.define([
 		},
 		onReturnChange: function(oEvent) {
 			debugger;
-			if (oEvent.getSource().getId().split('---')[1].split('--')[0] = 'idsales') {
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 				this.byId("Sales--idSaveIcon").setColor('red');
-			}
+			}else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
+				this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+			};
 			var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
 			var seletedLine = this.getView().getModel('returnModel').getProperty(path);
 			var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
@@ -856,6 +858,14 @@ if (data.Tunch === "" || data.Tunch === 0) {
 		oTableDetails.getRows()[i].getCells()[3].setValueState("None");
 		this.getView().setBusy(false);
 	}
+
+		if (viewId == "idsalesws")
+				{
+			this.getView().setBusy(false);
+			oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
+			returnError = true;
+		}
+
 	 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 	} //key check
 }} //for loop

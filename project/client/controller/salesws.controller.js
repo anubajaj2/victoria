@@ -66,20 +66,18 @@ sap.ui.define(
 				// var cell4 = cells[4].getValue();
 				// var cell5 = cells[5].getValue();
 				// // Removing error notif. if value is entered
-				if (cell2 !== 0 || cell2 !== "") {
-					cells[2].setValueState("None");
-				}
-				if (cell3 !== 0 || cell3 !== "") {
-					cells[3].setValueState("None");
-				}
-				if (cell4 !== 0 || cell4 !== "") {
-					cells[4].setValueState("None");
-				}
-				if (cell5 !== 0 || cell5 !== "") {
-					cells[5].setValueState("None");
-				}
-
-
+				// if (cell2 !== 0 || cell2 !== "") {
+				// 	cells[2].setValueState("None");
+				// }
+				// if (cell3 !== 0 || cell3 !== "") {
+				// 	cells[3].setValueState("None");
+				// }
+				// if (cell4 !== 0 || cell4 !== "") {
+				// 	cells[4].setValueState("None");
+				// }
+				// if (cell5 !== 0 || cell5 !== "") {
+				// 	cells[5].setValueState("None");
+				// }
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
@@ -823,6 +821,19 @@ sap.ui.define(
 					} //type check
 				} //forloop
 				return oCommit;
+			},
+			getIndianCurr:function(value){
+			debugger;
+			if(value){
+			  var x=value;
+			  x=x.toString();
+			  var lastThree = x.substring(x.length-3);
+			  var otherNumbers = x.substring(0,x.length-3);
+			  if(otherNumbers != '')
+			      lastThree = ',' + lastThree;
+			  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+			  return res;
+			}
 			},
 			onSave: function(oEvent) {
 				var that = this;

@@ -61,12 +61,24 @@ sap.ui.define(
 				var cells = oCurrentRow.getCells();
 				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
 				var newValue = oEvent.getParameters().newValue;
-
+				// var cell2 = cells[2].getValue();
+				// var cell3 = cells[3].getValue();
+				// var cell4 = cells[4].getValue();
+				// var cell5 = cells[5].getValue();
 				// // Removing error notif. if value is entered
-				// var Customer = this.getView().getModel('local').getProperty("/WSOrderHeader").Customer;
-				// if (Customer !== 0 || Customer !== "") {
-				// 	this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
-				// }
+				if (cell2 !== 0 || cell2 !== "") {
+					cells[2].setValueState("None");
+				}
+				if (cell3 !== 0 || cell3 !== "") {
+					cells[3].setValueState("None");
+				}
+				if (cell4 !== 0 || cell4 !== "") {
+					cells[4].setValueState("None");
+				}
+				if (cell5 !== 0 || cell5 !== "") {
+					cells[5].setValueState("None");
+				}
+
 
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -509,6 +521,7 @@ sap.ui.define(
 				oHeaderT.CustomerName = "";
 				oHeaderT.CustomerId = "";
 				oHeader.OrderNo = "";
+				oHeader.Customer="";
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 				// oHeader.Date=new Date();
 				this.getView().getModel('local').setProperty('/WSorderHeader', oHeader);
@@ -592,8 +605,8 @@ sap.ui.define(
 										that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
 									} //order return else part
 								} //for i loop
-								if (oSourceCall === 'orderItemBases') {
-									that.getView().byId('orderItemBases').clearSelection();
+								if (oSourceCall === 'WSItemFragment--orderItemBases') {
+									that.getView().byId('WSItemFragment--orderItemBases').clearSelection();
 								} else {
 									that.getView().byId('OrderReturn').clearSelection();
 								}

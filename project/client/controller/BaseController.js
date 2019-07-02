@@ -626,8 +626,10 @@ sap.ui.define([
 		},
 		onReturnValue: function(oEvent) {
 			debugger;
-			if (oEvent.getSource().getId().split('---')[1].split('--')[0] = 'idsales') {
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 				this.byId("Sales--idSaveIcon").setColor('red');
+			}else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
+				this.byId("salesws--idSaveIcon").setColor('red');
 			}
 			var userEnterValue = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(oEvent.getSource().getParent().getBindingContext("returnModel").getPath());
 			var customCal = this.getView().getModel("local").getProperty('/CustomCalculations');
@@ -776,9 +778,7 @@ sap.ui.define([
 				var subTotal = fineGold * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
 				cells[cells.length - 1].setText(subTotF);
-				if (viewId == 'idsalesws' &&
-					(seletedLine.key === 'KG' ||
-						seletedLine.key === 'BG')) {
+				if (viewId == 'idsalesws') {
 					cells[cells.length - 2].setText(fineGold);
 				}
 			} else if (seletedLine.key === 'OS' ||
@@ -795,9 +795,7 @@ sap.ui.define([
 				var subTotF =  this.getIndianCurr(subTotal)
 				cells[cells.length - 1].setText(subTotF);
 
-				if (viewId == 'idsalesws' &&
-					(seletedLine.key === 'KS' ||
-						seletedLine.key === 'BS')) {
+				if (viewId == 'idsalesws') {
 					cells[cells.length - 3].setText(fineSilver);
 				}
 			}

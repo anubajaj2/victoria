@@ -163,7 +163,7 @@
 "EntryData":{
 "Date":"",
 "Customer":"",
-"Material":"",
+"Product":"",
 "Cash":"0",
 "Gold":"0",
 "Silver":"0",
@@ -204,7 +204,7 @@
 	},
 	"entryHeaderTemp":{
 	  "CustomerId": "",
-		"MaterialId":"",
+		"ProductId":"",
 		"CustomerName": ""
 	},
 	"orderHeaderTemp":{

@@ -15,6 +15,10 @@
       "type": "string",
       "required": true
     },
+    "Product": {
+      "type": "string",
+      "required": true
+    },
     "Cash": {
       "type": "number",
       "required": true
@@ -68,6 +72,11 @@
       "type":"belongsTo",
       "model":"Customer",
       "foreignKey":"Customer"
+    },
+    "ToProducts":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Product"
     }
   },
   "acls": [

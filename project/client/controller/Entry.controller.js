@@ -42,6 +42,8 @@ debugger;
 			var CT = "Silver Given @" + wtValue + 'x' + thValue;
 			var ST = "Gold Given @" + wtValue + 'x' + thValue;
 			var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
+			var posMat = "ke jama " + wtValue + 'x' + thValue;
+			var negMat = "ke naam " + wtValue + 'x' + thValue;
       if (X > 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(CR);
@@ -54,6 +56,14 @@ debugger;
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(KR);
       }
+			else if (X > 0 && this.getView().byId("RB-4").getSelected()){
+				debugger;
+				this.getView().byId("idMatText").setText(posMat);
+			}
+			else if (X < 0 && this.getView().byId("RB-4").getSelected()){
+				debugger;
+				this.getView().byId("idMatText").setText(negMat);
+			}
       else if (X < 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(CT);
@@ -137,7 +147,7 @@ debugger;
 			debugger;
 			var selMat = oEvent.getParameter("selectedItem").getText();
 			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
-			this.getView().byId("idMat").setText(selMat);
+			this.getView().byId("idMat").setValue(selMat);
 			this.getView().byId("idMatText").setText(selMatName);
 
 		},
@@ -230,6 +240,7 @@ debugger;
      that.getView().setBusy(true);
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      myData.Date = this.getView().byId("DateId").getDateValue();
+		 myData.Product=this.getView().byId("idMat").getValue();
      myData.Gold = this.getView().byId("idGold").getValue();
      myData.Cash = this.getView().byId("idCash").getValue();
      myData.Silver = this.getView().byId("idSilver").getValue();
@@ -456,15 +467,53 @@ debugger;
 			 }
 			 this.oDialog.open();
 			 debugger;
+			 var title = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+			 sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
 			 var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
-			 var cell1 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+			 sap.ui.getCore().byId("entryDialog--idDialogDate").setValue(cell0);
 			 var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
-			 var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[3].mProperties.text;
-			 var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
-       var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+			sap.ui.getCore().byId("entryDialog--idDialogCust").setValue(cell2);
+			 var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+			  sap.ui.getCore().byId("entryDialog--idDialogAmt").setValue(cell3);
+			 var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+			  sap.ui.getCore().byId("entryDialog--idDialogGold").setValue(cell4);
+			 var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[6].mProperties.text;
+			  sap.ui.getCore().byId("entryDialog--idDialogSil").setValue(cell5);
+			 var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
+			  sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
+
 
 	 },
 	 onPressHandleEntrySavePopup: function (oEvent){
+		 debugger;
+		 var that=this;
+		 that.getView().setBusy(true);
+		 var myData = this.getView().getModel("local").getProperty("/EntryData");
+		 var id = myData.Customer;
+
+		 myData.Date = sap.ui.getCore().byId("entryDialog--idDialogDate").getValue();
+		 myData.Gold = sap.ui.getCore().byId("entryDialog--idDialogGold").getValue();
+		 myData.Cash = sap.ui.getCore().byId("entryDialog--idDialogAmt").getValue();
+		 myData.Silver = sap.ui.getCore().byId("entryDialog--idDialogSil").getValue();
+		 myData.Remarks = sap.ui.getCore().byId("entryDialog--idDialogRem").getValue();
+		 // myData.Weight = this.getView().byId("idweight").getValue();
+		 // myData.Tunch = this.getView().byId("idtunch").getValue();
+		 // myData.DueDate = this.getView().byId("DueDateId").getDateValue();
+		 if(id){
+		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			// "/CustomCalculations('"+myData.id+"')", "PUT", {},myData , this)
+		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('"+ id +"')",
+															 "PUT", {}, myData, this)
+		 .then(function(oData) {
+			 that.getView().setBusy(false);
+			 sap.m.MessageToast.show("Data updated Successfully");
+
+		 }).catch(function(oError) {
+			 that.getView().setBusy(false);
+			 var oPopover = that.getErrorMessage(oError);
+		 });
+	 }
+
 
 	 },
 	 onPressHandleEntryCancelPopup: function () {
@@ -523,10 +572,20 @@ sap.m.MessageBox.confirm(
 		actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 		styleClass: "",
 		onClose: function(sAction) {
-			debugger;
 			if(sAction==="OK"){
-				var myUrl = that.getView().byId("idTable").getItems();
-				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+			debugger;
+var myData=that.getView().getModel("local").getProperty("/EntryData");
+that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Entrys('"+ myData.Customer +"')",
+															 "DELETE", {}, {}, that)
+.then(function(oData) {
+	that.getView().setBusy(false);
+	sap.m.MessageToast.show("Data deleted Successfully");
+
+}).catch(function(oError) {
+	that.getView().setBusy(false);
+	var oPopover = that.getErrorMessage(oError);
+});
+
 
 						}
 						else if(sAction==="CANCEL"){

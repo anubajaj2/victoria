@@ -7,6 +7,8 @@
           <Label text="{i18n>Date}"></Label>
           <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change="onPayDateChange"
             displayFormat="dd.MM.yyyy" value=""></DatePicker>
+						<Label text="{i18n>Customer}" visible="false"></Label>
+						<Input id="idDialogCust" visible="false" value=""></Input>
           <Label text="{i18n>amount}"></Label>
           <Input id="idDialogAmt" value=""></Input>
           <Label text="{i18n>Gold}"></Label>

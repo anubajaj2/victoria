@@ -26,11 +26,11 @@
       <Column>
         <Label text="{i18n>coCustName}" />
       </Column>
-      <!-- <Column visible="false">
-        <Label text="{i18n>coCustId}"/>
-      </Column> -->
       <Column visible="false">
         <Label text="{i18n>custcode}"></Label>
+      </Column>
+      <Column visible="true">
+        <Label text="{i18n>coMaterial}"></Label>
       </Column>
       <Column>
         <Label text="{i18n>amount}"></Label>
@@ -55,8 +55,11 @@
                 formatOptions: {
                       style: 'medium',
                       pattern: 'dd.MM.yyyy'}}"></Text>
-            <Text text="" />
+
+            <Text text=""/>
             <Text text="{Customer}" />
+
+            <Text text="{Product}" />
             <!-- <Text text="" />
             <Text text="{Material}" /> -->
 					<!-- <Text text="{Customer}"></Text> -->

@@ -190,13 +190,28 @@ sap.ui.define([
 				var title = this.getView().getModel("i18n").getProperty("orderSearch");
 				this.orderSearchPopup.setTitle(title);
 				this.orderSearchPopup.sId = 'orderNo';
-				// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, "");
+				debugger;
+				var orderDate = this.byId("Sales--DateId").getValue();
+				var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;
+				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
+				var datefrom = new Date();
+				var dateTo = new Date();
+				//Now you have to have 2 date Object
+				//firstDate object set the time to 000000 second object 240000
+				//now create 2 filter one ge low and two le High
+
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, orderDate );
+				var oFilter2 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ,customer);
+				var orFilter = new sap.ui.model.Filter({
+						filters :[oFilter1 , oFilter2],
+					  and: false
+					});
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
-					// filters: [oFilter1],
+					filters: oFilter1,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{Date}"
+						value: "{CustomerName}"
 					})
 				});
 			}

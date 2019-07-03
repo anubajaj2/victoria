@@ -11,7 +11,11 @@ sap.ui.define([
   return BaseController.extend("victoria.controller.sales", {
   formatter: formatter,
   //global Variables
-  noChange : false,
+  noChange :{
+    index:0,
+    flag:"false"},
+  noChangeTable : [],
+  headerNoChange:false,
 //return no Change
 noChangeReturn : false,
 
@@ -140,6 +144,7 @@ onValidationItem:function(data,i)
   var tableBinding = oTableDetails.getBinding("rows");
 // //---all errors are false
   var returnError = false;
+  debugger;
   //Quantity
   if ((data.Type === 'GS') ||
   ((data.Type === 'Gold' && data.Category === "pcs") ||
@@ -290,10 +295,12 @@ ValueChangeHeader:function(oEvent){
   var newvalue = oEvent.getParameter('newValue');
   var oLocale = new sap.ui.core.Locale("en-US");
   var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+  this.headerNoChange = true;
   if (field === 'Gbhav2Id') {
   if ( newvalue === "" ){
 //Gold bhav 22/22
     oHeader.GoldBhav22 = 0;
+    this.headerNoChange = true;
   }else
   if (newvalue === 0) {
     oHeader.GoldBhav22 = 0;
@@ -376,7 +383,6 @@ else {
 if (returnCheck === true && itemError === false) {
 this.commitRecords(oEvent);
 }
-
 //error if no valid entry
 if (valueCheck === false) {
   sap.m.MessageBox.error("Please Enter Valid entries before save",{
@@ -396,8 +402,9 @@ commitRecords:function(oEvent){
   var that = this;
   debugger;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
-//order header put
   var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+  if (this.headerNoChange === true) {
+//order header put
   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                         "/OrderHeaders('"+ oId +"')", "PUT",
                          {},oHeader, this)
@@ -410,7 +417,7 @@ commitRecords:function(oEvent){
       that.getView().setBusy(false);
       var oPopover = that.getErrorMessage(oError);
                 });
-
+        }
   var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
   var oTableDetails = this.getView().byId('orderItemBases');
   var oBinding = oTableDetails.getBinding("rows");
@@ -422,11 +429,29 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   if (data.Material !== "") {
   oOrderDetail.OrderNo=oId;//orderno // ID
   oOrderDetail.Material=data.Material;
+  // Quantity
+  if (data.Qty === "" || data.Qty === 0) {
+    oOrderDetail.Qty= 0;
+  }else {
+    oOrderDetail.Qty=data.Qty;
+  }
   // QuantityD
   if (data.QtyD === "" || data.QtyD === 0) {
     oOrderDetail.QtyD= 0;
   }else {
     oOrderDetail.QtyD=data.QtyD;
+  }
+  // Weight
+  if (data.Weight === "" || data.Weight === 0) {
+    oOrderDetail.Weight= 0;
+  }else {
+    oOrderDetail.Weight=data.Weight;
+  }
+  // WeightD
+  if (data.WeightD === "" || data.WeightD === 0) {
+    oOrderDetail.WeightD= 0;
+  }else {
+    oOrderDetail.WeightD=data.WeightD;
   }
   //making
     if (data.Making === "" || data.Making === 0) {
@@ -472,15 +497,10 @@ if (data.itemNo) {
       if (allItems[i].Material === oData.Material) {
         allItems[i].itemNo = oData.id;
         allItems[i].OrderNo = oId;
-        if (oCommit === false) {
-        that.onReturnSave(oEvent,oId,oCommit);
-        }
         break;
       }//material compare if condition
     }//for loop
     that.getView().getModel("orderItems").setProperty("/itemData",allItems);
-    // sap.m.MessageToast.show("Data Saved Successfully");
-    // that.getView().setBusy(false);
     })
   .catch(function(oError){
   that.getView().setBusy(false);
@@ -687,10 +707,15 @@ Calculation:function(oEvent,tablePath){
   var tempWeight  = 0.00;
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
-//capture if there is any change
-  if (newValue) {
-    this.noChange = true;
-  }
+  //capture if there is any change
+    // if (newValue) {
+    //   this.noChange = {
+    //     index = [i],
+    //     false = 'true'
+    //   }
+    //   noChangeTable.push(this.noChange);
+    // }
+
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
   var gold20pergm = orderHeader.GoldBhav20 / 10;

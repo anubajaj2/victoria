@@ -974,6 +974,10 @@ if (data.Tunch === "" || data.Tunch === 0) {
 			} else {
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}
+
+			if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
+				this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+			}
 		},
 		onTableExpand: function(oEvent) {
 			debugger;

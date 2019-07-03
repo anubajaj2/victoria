@@ -53,25 +53,25 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>WSGBhav}">
 							<f:fields>
-								<Input type="Number" id="idGbhav" placeholder="{i18n>WSGBhav}" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
+								<Input type="Number" id="idGbhav" liveChange="ValueChangeHeader" placeholder="{i18n>WSGBhav}" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
 							</f:fields>
 						</f:FormElement>
 
 						<f:FormElement label="{i18n>WSSBhav}">
 							<f:fields>
-								<Input type="Number" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>Gold}" value="{local>/WSOrderHeader/SilverBhav}"/>
+								<Input type="Number" editable="true" id="idSBhav" liveChange="ValueChangeHeader" placeholder="{i18n>WSSBhav}" tooltip="{i18n>Gold}" value="{local>/WSOrderHeader/SilverBhav}"/>
 							</f:fields>
 						</f:FormElement>
 
 						<f:FormElement label="{i18n>WSGBhavK}">
 							<f:fields>
-								<Input type="Number" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" value="{local>/WSOrderHeader/GoldbhavK}"/>
+								<Input type="Number" editable="true" id="idGbhavK" liveChange="ValueChangeHeader" placeholder="{i18n>WSGBhavK}" value="{local>/WSOrderHeader/GoldbhavK}"/>
 							</f:fields>
 						</f:FormElement>
 
 						<f:FormElement label="{i18n>WSSBhavK}">
 							<f:fields>
-								<Input type="Number" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" tooltip="{i18n>Sbhav}" value="{local>/WSOrderHeader/SilverBhavK}"/>
+								<Input type="Number" editable="true" id="idSBhavK" liveChange="ValueChangeHeader" placeholder="{i18n>WSSBhavK}" tooltip="{i18n>Sbhav}" value="{local>/WSOrderHeader/SilverBhavK}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>

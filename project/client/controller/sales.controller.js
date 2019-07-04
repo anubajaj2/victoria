@@ -54,6 +54,7 @@ onConfirm:function(oEvent){
   debugger;
 this.byId("Sales--idSaveIcon").setColor('red');
 //order popup
+debugger;
 if (oEvent.getParameter('id') === 'orderNo'){
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderNo = oEvent.getParameter("selectedItem").getLabel();
@@ -61,6 +62,7 @@ var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split(
 // this.OrderDetails(orderId);
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
+this.getOrderDetails(orderId);
 this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -76,6 +78,40 @@ oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
 }},
+
+getOrderDetails:function(orderId){
+  debugger;
+  var that = this;
+  // var ODataHelper2 = ODataHelper;
+  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+              "/OrderHeaders('" + orderId + "')","GET", {},
+               {}, that)
+    .then(function(oData) {
+    that.getView().setBusy(false);
+    var custId = oData.Customer;
+    that.getView().getModel("local").setProperty("/orderHeader", oData);
+         debugger;
+         //assign the details on ui
+         // var that2 = this;
+         // that2.ODataHelper2.callOData(this.getOwnerComponent().getModel(),
+         //                 "/Customers('" + custId + "')","GET", {},
+         //                  {}, that2)
+         //     .then(function(oData) {
+         //       debugger;
+         // var custDetail = that.getView().getModel('local').getProperty('orderHeaderTemp');
+         //   // custDetail.CustomerId = oData.
+         //   // custDetail.CustomerName = oData.
+         // that.getView().getModel("local").setProperty("/orderHeaderTemp", custDetail);
+         //               })
+         //     .catch(function(oError) {
+         //               	});
+         //        })
+   .catch(function(oError) {
+   that.getView().setBusy(false);
+   var oPopover = that.getErrorMessage(oError);
+       		});
+
+},
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
   debugger;

@@ -16,7 +16,8 @@
       "required": false
     },
     "Value": {
-      "type": "number"
+      "type": "string",
+      "required": false
     },
     "CreatedOn": {
 			"type": "date",
@@ -40,7 +41,7 @@
   },
   "validations": [],
   "relations": {
-    
+
   },
   "acls": [
     {

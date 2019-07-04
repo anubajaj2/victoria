@@ -9,7 +9,7 @@ xmlns:core ="sap.ui.core">
 <f:Form id="idPrint"
 	editable="true">
   <f:title>
-		<core:Title text="Print Header"/>
+		<core:Title text="Print Customizing Header"/>
 	</f:title>
   <f:layout>
     <f:GridLayout
@@ -23,7 +23,7 @@ xmlns:core ="sap.ui.core">
     <f:formElements>
       <f:FormElement label="{i18n>companyName}">
         <f:fields>
-          <Input id="idCompName">
+          <Input id="idCompName" submit="onSubmit" value="">
             <layoutData>
           	<l:GridData span="XL3 L3 "/>
           	</layoutData>
@@ -32,7 +32,7 @@ xmlns:core ="sap.ui.core">
       </f:FormElement>
       <f:FormElement label="{i18n>address}">
         <f:fields>
-          <Input id="idAdd">
+          <Input id="idAdd" submit="onSubmit" value="">
             <layoutData>
           	<l:GridData span="XL3 L3 "/>
           	</layoutData>
@@ -41,7 +41,7 @@ xmlns:core ="sap.ui.core">
       </f:FormElement>
       <f:FormElement label="{i18n>contactNo}">
         <f:fields>
-          <Input id="idContNo" type="Number">
+          <Input id="idContNo" submit="onSubmit" value="">
             <layoutData>
           	<l:GridData span="XL3 L3 "/>
           	</layoutData>

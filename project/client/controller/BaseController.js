@@ -184,7 +184,7 @@ sap.ui.define([
 		orderPopup: function(oEvent) {
 			//call the popup screen dynamically
 			debugger;
-			if (!this.orderSearchPopup) {
+			// if (!this.orderSearchPopup) {
 				this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.orderSearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("orderSearch");
@@ -194,27 +194,29 @@ sap.ui.define([
 				var orderDate = this.byId("Sales--DateId").getValue();
 				var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;
 				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
-				var datefrom = new Date();
-				var dateTo = new Date();
+				debugger;
+				var dateFrom = new Date(orderDate);
+				dateFrom.setHours(0,0,0,1)
+				var dateTo = new Date(orderDate);
+				dateTo.setHours(23,59,59,59)
 				//Now you have to have 2 date Object
 				//firstDate object set the time to 000000 second object 240000
 				//now create 2 filter one ge low and two le High
-
-				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, orderDate );
-				var oFilter2 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ,customer);
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom );
+				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE,dateTo);
 				var orFilter = new sap.ui.model.Filter({
 						filters :[oFilter1 , oFilter2],
-					  and: false
+					  and: true
 					});
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
 					filters: oFilter1,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{CustomerName}"
+						value: "{Date}"
 					})
 				});
-			}
+			// }//order popup
 			this.orderSearchPopup.open();
 		},
 

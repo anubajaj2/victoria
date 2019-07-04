@@ -13,7 +13,7 @@ sap.ui.define([
   //global Variables
   noChange :{
     index:0,
-    flag:"false"},
+    flag:"true"},
   noChangeTable : [],
   headerNoChange:false,
 //return no Change
@@ -61,6 +61,7 @@ var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split(
 // this.OrderDetails(orderId);
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
+this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 //customer popup
@@ -77,7 +78,11 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 }},
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
+  debugger;
 this.orderPopup(oEvent);
+},
+onCancel:function(oEvent) {
+this.orderSearchPopup.destroyItems();
 },
 //on order create Button
 orderCreate:function(oEvent){
@@ -340,7 +345,8 @@ if (newvalue === 0) {
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
   for (var i = 0; i < oTableLength; i++) {
     var oTablePath = oPath + '/' + i;
-    this.Calculation(oEvent,oTablePath);
+    this.Calculation(oEvent,oTablePath,i);
+    this.noChangeTable.push(this.noChange);
   }
 },
 onSave:function(oEvent){
@@ -471,7 +477,7 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   debugger;
 //Item data save
 if (data.itemNo) {
-  if (this.noChange === true) {
+  if (this.noChange.flag === false) {
     debugger;
     that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/OrderItems('"+ data.itemNo +"')","PUT", {},
@@ -683,11 +689,13 @@ ValueChangeMaterial: function(oEvent){
 },
 ValueChange:function(oEvent){
   var tablePath = "";
-  this.Calculation(oEvent ,tablePath);
+  var i = "";
+  this.Calculation(oEvent ,tablePath,i);
+  this.noChangeTable.push(this.noChange);
   this.byId("Sales--idSaveIcon").setColor('red');
 },//ValueChange function end
 
-Calculation:function(oEvent,tablePath){
+Calculation:function(oEvent,tablePath,i){
   debugger;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   if (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader') {
@@ -701,6 +709,7 @@ Calculation:function(oEvent,tablePath){
   var path = this.getView().byId('orderItemBases').getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
   var oCurrentRow = oEvent.getSource().getParent();
   var cells = oCurrentRow.getCells();
+  var i = oEvent.getSource().getParent().getIndex();
 }
   var data = this.getView().getModel('orderItems').getProperty(path);
   var priceF = 0.00;
@@ -708,13 +717,12 @@ Calculation:function(oEvent,tablePath){
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
   //capture if there is any change
-    // if (newValue) {
-    //   this.noChange = {
-    //     index = [i],
-    //     false = 'true'
-    //   }
-    //   noChangeTable.push(this.noChange);
-    // }
+    if (newValue) {
+      this.noChange = {
+        "index" : i,
+        "false" : 'false'
+      };
+    }
 
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
@@ -836,7 +844,7 @@ var subTot = (priceF + makingCharges + stonevalue) ;
   category.SubTot = subTotF;
   this.byId("Sales--idSaveIcon").setColor('red');
   //capture if there is any change
-  this.noChange = true;
+  this.noChange.flag = true;
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
   }else {
   cells[cells.length - 1].setText(subTotF);

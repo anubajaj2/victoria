@@ -105,7 +105,7 @@ getOrderDetails:function(orderId){
          //               })
          //     .catch(function(oError) {
          //               	});
-         //        })
+                })
    .catch(function(oError) {
    that.getView().setBusy(false);
    var oPopover = that.getErrorMessage(oError);

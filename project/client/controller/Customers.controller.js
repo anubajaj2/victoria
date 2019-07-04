@@ -186,7 +186,7 @@ this.clearCustomer();
 				$(function() {
 								$('input:text:first').focus();
 								var $inp = $('input:text');
-								$inp.bind('keydown', function(e) {
+								$inp.bind('keypress', function(e) {
 										//var key = (e.keyCode ? e.keyCode : e.charCode);
 										var key = e.which;
 										if (key == 13) {

@@ -238,6 +238,7 @@ sap.ui.define([
                 .then(function(oData) {
                     sap.m.MessageToast.show("Photo uploaded Successfully");
                     // update picture flag in customer orders
+                    debugger;
                     that2.selRow.Picture = "X";
                     var payload = {
                       id: that2.selRow.id,
@@ -250,14 +251,18 @@ sap.ui.define([
             					.fail(function(xhr, status, error) {
             						sap.m.MessageBox.error("Failed to update");
             					});
-                    that.getView().setBusy(false);
+                      that2.onClear();
+                    that2.getView().setBusy(false);
                   }).catch(function(oError) {
-                    that.getView().setBusy(false);
+                    that2.getView().setBusy(false);
                     var oPopover = that.getErrorMessage(oError);
                   });
             ;}
         }
         reader.readAsDataURL(file);
+    },
+// Capture press
+    handleCapturePress: function(oEvent){
 
     },
 // close photo upload popup
@@ -329,6 +334,7 @@ sap.ui.define([
       });
     },
     onClear: function(){
+      debugger;
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
       var dd = date.getDate();
@@ -358,6 +364,10 @@ sap.ui.define([
       this.getView().getModel("local").setProperty("/customerOrder/Customer","");
       this.getView().getModel("local").setProperty("/customerOrder/Picture","");
       this.getView().byId("idCoTable").getBinding("items").filter([]);
+    },
+
+    onRefresh: function(){
+      this.onClear();
     },
 
     onUpdateFinished: function(oEvent){

@@ -28,7 +28,7 @@
 								      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
 								      valueLiveUpdate="true" required="true"
 											valueHelpOnly="true" editable="true" enabled="true"/>
-								<Input id="custName" value="{local>/orderHeaderTemp/CustomerName}"/>
+								<Input id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>OrderNo}">

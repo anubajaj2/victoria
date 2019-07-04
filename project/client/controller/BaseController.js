@@ -794,11 +794,12 @@ sap.ui.define([
 				var bhavF = bhav / 10;
 				var weightF = weight - kWeight;
 				var fineGold = (tunch * weightF) / 100;
+				var fineGoldF =  this.getIndianCurr(fineGold)
 				var subTotal = fineGold * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
 				cells[cells.length - 1].setText(subTotF);
 				if (viewId == 'idsalesws') {
-					cells[cells.length - 2].setText(fineGold);
+					cells[cells.length - 2].setText(fineGoldF);
 				}
 			} else if (seletedLine.key === 'OS' ||
 				seletedLine.key === 'KS' ||
@@ -810,12 +811,13 @@ sap.ui.define([
 				var bhavF = bhav / 1000;
 				var weightF = weight - kWeight;
 				var fineSilver = (tunch * weightF) / 100;
+				var fineSilverF =  this.getIndianCurr(fineSilver)
 				var subTotal = fineSilver * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
 				cells[cells.length - 1].setText(subTotF);
 
 				if (viewId == 'idsalesws') {
-					cells[cells.length - 3].setText(fineSilver);
+					cells[cells.length - 3].setText(fineSilverF);
 				}
 			}
 		},

@@ -70,13 +70,13 @@ else{
 		}).catch(function(oError) {
 				MessageToast.show("cannot fetch the data");
 		});
-this.ClearCalculation();
 },
 
   ClearCalculation : function(){
-
+    var that =  this;
+that._onRouteMatched();
   },
-  
+
   onliveChange: function(oEvent){
     var that = this;
     this.byId("idSaveIcon").setColor('red');

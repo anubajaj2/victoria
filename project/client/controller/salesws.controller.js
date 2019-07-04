@@ -226,7 +226,9 @@ sap.ui.define(
 							// gold price per gram
 							// cells[12].setText(makingCharges + stonevalue);
 							// category.SubTot = makingCharges + stonevalue;
-							cells[cells.length - 1].setText(makingCharges + stonevalue);
+							var subTot = makingCharges + stonevalue;
+							var subTotF =  this.getIndianCurr(subTot);
+							cells[cells.length - 1].setText(subTotF);
 						} else {
 							// cells[12].setText(0);
 							cells[cells.length - 1].setText(0);
@@ -393,7 +395,9 @@ sap.ui.define(
 							// gold price per gram
 							// cells[12].setText(makingCharges + stonevalue);
 							// category.SubTot = makingCharges + stonevalue;
-							cells[cells.length - 1].setText(makingCharges + stonevalue);
+							var subTot = makingCharges + stonevalue;
+							var subTotF =  this.getIndianCurr(subTot);
+							cells[cells.length - 1].setText(subTotF);
 						} else {
 							// cells[12].setText(0);
 							cells[cells.length - 1].setText(0);
@@ -472,7 +476,9 @@ sap.ui.define(
 					var chargesD = quantityD * makingD;
 					//final charges on GS
 					if (charges) {
-						cells[cells.length - 1].setText(charges + chargesD);
+						var subTot = charges + chargesD;
+						var subTotF =  this.getIndianCurr(subTot);
+						cells[cells.length - 1].setText(subTotF);
 					} else {
 						cells[cells.length - 1].setText(0);
 					}

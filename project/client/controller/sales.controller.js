@@ -80,6 +80,7 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 valueHelpOrder:function(oEvent){
   debugger;
 this.orderPopup(oEvent);
+this.orderSearchPopup.destroyItems();
 },
 onCancel:function(oEvent) {
 this.orderSearchPopup.destroyItems();

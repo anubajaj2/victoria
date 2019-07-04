@@ -210,7 +210,7 @@ sap.ui.define([
 					});
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
-					filters: oFilter1,
+					filters: orFilter,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
 						value: "{Date}"

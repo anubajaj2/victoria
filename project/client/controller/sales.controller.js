@@ -83,14 +83,14 @@ getOrderDetails:function(orderId){
   debugger;
   var that = this;
   // var ODataHelper2 = ODataHelper;
-  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-              "/OrderHeaders('" + orderId + "')","GET", {},
-               {}, that)
-    .then(function(oData) {
-    that.getView().setBusy(false);
-    var custId = oData.Customer;
-    that.getView().getModel("local").setProperty("/orderHeader", oData);
-         debugger;
+  // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+  //             "/OrderHeaders('" + orderId + "')","GET", {},
+  //              {}, that)
+  //   .then(function(oData) {
+  //   that.getView().setBusy(false);
+  //   var custId = oData.Customer;
+  //   that.getView().getModel("local").setProperty("/orderHeader", oData);
+  //        debugger;
          //assign the details on ui
          // var that2 = this;
          // that2.ODataHelper2.callOData(this.getOwnerComponent().getModel(),
@@ -105,11 +105,11 @@ getOrderDetails:function(orderId){
          //               })
          //     .catch(function(oError) {
          //               	});
-                })
-   .catch(function(oError) {
-   that.getView().setBusy(false);
-   var oPopover = that.getErrorMessage(oError);
-       		});
+                // })
+   // .catch(function(oError) {
+   // that.getView().setBusy(false);
+   // var oPopover = that.getErrorMessage(oError);
+   //     		});
 
 },
 //on order valuehelp,get the exsisting order from //DB

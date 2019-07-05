@@ -6,6 +6,7 @@
     showNavButton="true"
     title="Edit Entry">
     <semantic:content>
+      <Button text="demo" press="onPressed"/>
       <!-- <core:Fragment fragmentName="victoria.fragments.entry1" type="XML"></core:Fragment>
       <core:Fragment fragmentName="victoria.fragments.entry2" type="XML"></core:Fragment>
       <core:Fragment fragmentName="victoria.fragments.entryTable" type="XML"></core:Fragment> -->

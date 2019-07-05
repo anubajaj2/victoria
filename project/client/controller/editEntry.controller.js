@@ -5,6 +5,13 @@ function (BaseController) {
     onInit: function () {
 
     },
+    onPressed: function() {
+      debugger;
+      $.get("/anubhavDemo").then(function(returnData){
+
+      });
+      $.post("/kaachiDownload",{custId: "abc"}).then();
+    },
     CustomerPopup: function (Evt) {
       if(!this.searchPopup){
         this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);

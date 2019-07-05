@@ -524,10 +524,26 @@ debugger;
 		 // myData.Weight = this.getView().byId("idweight").getValue();
 		 // myData.Tunch = this.getView().byId("idtunch").getValue();
 		 // myData.DueDate = this.getView().byId("DueDateId").getDateValue();
+		 id = "5d0ac34f34e68004b91c4ee8";
 		 if(id){
 		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			// "/CustomCalculations('"+myData.id+"')", "PUT", {},myData , this)
-		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('"+ id +"')",
+			var myData = {
+         "Date": "/Date(1560986374041)/",
+                "Customer": "5d0ac2f734e68004b91c4ee4",
+                "Cash": 0,
+                "Gold": 0,
+                "Silver": -217.9,
+                "Remarks": "Worked",
+                "Weight": 0,
+                "Tunch": 0,
+                "CreatedOn": "/Date(1560986447086)/",
+                "CreatedBy": "5cd2a47c82243354944969d7",
+                "ChangedOn": "/Date(1560986447086)/",
+                "ChangedBy": "5cd2a47c82243354944969d7",
+                "Product":"5d01d095a94a61374402b277"
+							};
+		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('" + id + "')",
 															 "PUT", {}, myData, this)
 		 .then(function(oData) {
 			 that.getView().setBusy(false);

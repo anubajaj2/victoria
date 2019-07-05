@@ -212,7 +212,7 @@ debugger;
      this.getView().getModel("local").getProperty("/EntryData",myData);
 		 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 		 this.getView().byId("idTable").getBinding("items").filter(oFilter);
-
+		 this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
 		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			 console.log(result);
 			 debugger;
@@ -607,6 +607,7 @@ if(!x){
 }
 var count = this.getView().byId("idTable").getItems().length;
 var that=this;
+
 sap.m.MessageBox.confirm(
 "Do u want to delete("  + count +   ")entries", {
 		title: "Confirm",
@@ -615,17 +616,22 @@ sap.m.MessageBox.confirm(
 		onClose: function(sAction) {
 			if(sAction==="OK"){
 			debugger;
-var myData=that.getView().getModel("local").getProperty("/EntryData");
-that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Entrys('"+ myData.Customer +"')",
-															 "DELETE", {}, {}, that)
-.then(function(oData) {
-	that.getView().setBusy(false);
-	sap.m.MessageToast.show("Data deleted Successfully");
-
-}).catch(function(oError) {
-	that.getView().setBusy(false);
-	var oPopover = that.getErrorMessage(oError);
-});
+			$.post("/deleteRecords",{
+				customerId: that.customerId
+			, entityName: "Entry"}).done(function(response){
+				sap.m.MessageToast.show(response.msg);
+			});
+			// var myData=that.getView().getModel("local").getProperty("/EntryData");
+			// that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Entrys('"+ myData.Customer +"')",
+			// 															 "DELETE", {}, {}, that)
+			// .then(function(oData) {
+			// 	that.getView().setBusy(false);
+			// 	sap.m.MessageToast.show("Data deleted Successfully");
+			//
+			// }).catch(function(oError) {
+			// 	that.getView().setBusy(false);
+			// 	var oPopover = that.getErrorMessage(oError);
+			// });
 
 
 						}

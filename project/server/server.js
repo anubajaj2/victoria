@@ -134,6 +134,40 @@ app.start = function() {
 					);
 			});
 
+		app.post('/deleteRecords', function(req, res) {
+
+				var customerId = req.body.Customer;
+				var entityName = req.body.entityName;
+				switch (entityName) {
+					case "Entry":
+						var Entry = app.models.Entry;
+						Entry.destroyAll({
+							where : {
+								"Customer": customerId
+							}
+						}).then(function(records){
+							res.send({
+								"msg": "All the records has been deleted successfully for the customer"
+							});
+						});
+						break;
+					case "Kacchi":
+						var Kacchi = app.models.Kacchi;
+						break;
+					case "RetailOrders":
+
+						break;
+					case "WholesaleOrders":
+
+ 						break;
+					default:
+
+				}
+
+
+
+			});
+
 		app.post('/getTotalEntryCustomer', function(req, res) {
 
 			var customerId = req.body.Customer;

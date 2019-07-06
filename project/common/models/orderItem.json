@@ -18,7 +18,7 @@
     },
     "Qty": {
       "type": "number",
-      "required": true,
+      "required": false,
       "default":0
     },
     "QtyD": {
@@ -28,7 +28,7 @@
     },
     "Weight": {
       "type": "number",
-      "required": true,
+      "required": false,
       "default":0
     },
     "WeightD": {
@@ -49,11 +49,6 @@
     "Remarks": {
       "type": "string",
       "required": false
-    },
-    "SubTotal": {
-      "type": "string",
-      "required": false,
-      "default":"null"
     },
     "CreatedOn": {
 			"type": "date",

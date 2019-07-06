@@ -213,7 +213,7 @@ sap.ui.define([
 					filters: orFilter,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{Date}"
+						value: "{}"
 					})
 				});
 			// }//order popup

@@ -277,11 +277,11 @@ if (data.Remarks === "") {
   returnTable.Remarks=data.Remarks;
 }
 //SubTotal
-if (data.SubTotal === "" || data.SubTotal === 0) {
-  returnTable.SubTotal= 0;
-}else {
-  returnTable.SubTotal=data.SubTotal;
-}
+// if (data.SubTotal === "" || data.SubTotal === 0) {
+//   returnTable.SubTotal= 0;
+// }else {
+//   returnTable.SubTotal=data.SubTotal;
+// }
 debugger;
 var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 if (data.ReturnId) {
@@ -509,25 +509,25 @@ for (var i = 0; i < oBinding.getLength(); i++) {
       oOrderDetail.MakingD=data.MakingD;
     }
   oOrderDetail.Remarks=data.Remarks;
-  oOrderDetail.SubTotal=data.SubTot;
+  // oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
   debugger;
 //Item data save
 if (data.itemNo) {
-  if (this.noChange.flag === false) {
-    debugger;
-    that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-            "/OrderItems('"+ data.itemNo +"')","PUT", {},
-            oOrderDetailsClone, this)
-    .then(function(oData) {
-          debugger;
-          that.getView().setBusy(false);
-  })
-    .catch(function(oError){
-    that.getView().setBusy(false);
-    var oPopover = that.getErrorMessage(oError);
-        });
-  }
+  // if (this.noChange.flag === false) {
+  //   debugger;
+  //   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+  //           "/OrderItems('"+ data.itemNo +"')","PUT", {},
+  //           oOrderDetailsClone, this)
+  //   .then(function(oData) {
+  //         debugger;
+  //         that.getView().setBusy(false);
+  // })
+  //   .catch(function(oError){
+  //   that.getView().setBusy(false);
+  //   var oPopover = that.getErrorMessage(oError);
+  //       });
+  // }
 }else {
   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/OrderItems","POST", {}, oOrderDetailsClone, this)
@@ -544,6 +544,8 @@ if (data.itemNo) {
       }//material compare if condition
     }//for loop
     that.getView().getModel("orderItems").setProperty("/itemData",allItems);
+    that.getView().setBusy(false);
+    sap.m.MessageToast.show("Data Saved Successfully");
     })
   .catch(function(oError){
   that.getView().setBusy(false);

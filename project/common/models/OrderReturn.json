@@ -17,7 +17,7 @@
     },
     "Weight": {
       "type": "number",
-      "required": true,
+      "required": false,
       "default":0
     },
     "KWeight": {
@@ -37,17 +37,12 @@
     },
     "Bhav": {
       "type": "number",
-      "required": false,
+      "required":false,
       "default":0.00
     },
     "Remarks": {
       "type": "string",
       "required": false,
-      "default":"null"
-    },
-    "SubTotal": {
-      "type": "string",
-      "required":false,
       "default":"null"
     },
     "CreatedOn": {

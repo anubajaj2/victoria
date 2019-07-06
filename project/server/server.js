@@ -50,7 +50,7 @@ app.start = function() {
 		app.post('/updatePhoto', function(req,res){
 				debugger;
 				var photoKey = req.body.id;
-				var content = req.body.content;
+				var content = req.body.Content;
 				var name = req.body.name;
 				var type = req.body.type;
 				var oPhoto = app.models.Photo;

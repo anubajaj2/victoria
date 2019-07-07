@@ -100,6 +100,10 @@
 		{
 				"key": "BG",
 				"value": "Buscuit Gold"
+		},
+		{
+				"key": "CASH",
+				"value": "Cash"
 		}
 	],
 	"BeneficiaryName": "",

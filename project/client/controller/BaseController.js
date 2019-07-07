@@ -693,6 +693,9 @@ sap.ui.define([
 				if (viewId === 'idsales') {
 					userEnterValue.Bhav = customCal.results[0].SilverReturns;
 				}
+
+			} else if (key === 'CASH') {
+// no default value load are required
 			}
 			that.getView().getModel('local').setProperty('/returnModel', userEnterValue);
 		},
@@ -787,7 +790,6 @@ sap.ui.define([
 			if (seletedLine.key === 'OG' ||
 				seletedLine.key === 'KG' ||
 				seletedLine.key === 'BG') {
-				debugger;
 				if (seletedLine.key === 'BG') {
 					var tunch = 100;
 				}
@@ -804,7 +806,6 @@ sap.ui.define([
 			} else if (seletedLine.key === 'OS' ||
 				seletedLine.key === 'KS' ||
 				seletedLine.key === 'BS') {
-				debugger;
 				if (seletedLine.key === 'BS') {
 					var tunch = 100;
 				}
@@ -819,6 +820,9 @@ sap.ui.define([
 				if (viewId == 'idsalesws') {
 					cells[cells.length - 3].setText(fineSilverF);
 				}
+			}else if (seletedLine.key === 'CASH') {
+				var subTotF =  this.getIndianCurr(bhav)
+				cells[cells.length - 1].setText(subTotF);
 			}
 		},
 		onRetItemValidation: function() {

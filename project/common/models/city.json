@@ -25,6 +25,11 @@
   },
   "validations": [],
   "relations": {
+    "ToCustomers":{
+      "type":"hasMany",
+      "model":"Customer",
+      "foreignKey": "City"
+    }
   },
   "acls": [
     {

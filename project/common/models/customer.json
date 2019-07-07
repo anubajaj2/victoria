@@ -74,6 +74,16 @@
       "type":"hasMany",
       "model":"WSOrderHeader",
       "foreignKey": "Customer"
+    },
+    "ToCity":{
+      "type":"belongsTo",
+      "model":"City",
+      "foreignKey":"City"
+    },
+    "ToGroup":{
+      "type":"belongsTo",
+      "model":"Group",
+      "foreignKey":"Group"
     }
   },
   "acls": [

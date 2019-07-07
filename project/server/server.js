@@ -64,11 +64,13 @@ app.start = function() {
 					 return res.send("done");
 				});
 			});
+
+
 			app.post('/kaachiDownload', function(req, res) {
 				debugger;
-				var Customer = app.models.Customer;
-				var custId = req.body.custId;
-				Customer.find({})
+				var Kacchi = app.models.Kacchi;
+				var custId = req.body.id;
+				Kacchi.find({Customer: custId})
 					.then(function(Records, err) {
 							if (Records) {
 
@@ -97,8 +99,13 @@ app.start = function() {
 							}
 						}
 
-					);
+					).catch(function(oError) {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+				});
 			});
+
+			
 			app.get('/anubhavDemo', function(req, res) {
 				debugger;
 				var Customer = app.models.Customer;

@@ -1,17 +1,62 @@
-sap.ui.define(["victoria/controller/BaseController"],
-function (BaseController) {
+sap.ui.define(["victoria/controller/BaseController",
+"sap/ui/model/json/JSONModel"],
+function (BaseController, JSONModel) {
   "use strict";
   return BaseController.extend("victoria.controller.editEntry",{
     onInit: function () {
+      var oViewModel = new JSONModel({
+                  "id": "",
+                  "City": "",
+                  "CustomerCode": "",
+                  "Name": "",
+                  });
 
+                  this.setModel(oViewModel, "customerModel");
     },
-    onPressed: function() {
+    onPressDownload: function() {
       debugger;
-      $.get("/anubhavDemo").then(function(returnData){
-
-      });
-      $.post("/kaachiDownload",{custId: "abc"}).then();
+      var test = this.getView().getModel("customerModel");
+      var custId = test.oData.id;
+      $.post("/kaachiDownload",{id: custId}).then();
     },
+
+    customerCodeCheck : function(oEvent){
+          $(function() {
+                  $('input:text:first').focus();
+                  var $inp = $('input:text');
+                  $inp.bind('keypress', function(e) {
+                      //var key = (e.keyCode ? e.keyCode : e.charCode);
+                      var key = e.which;
+                      if (key == 13) {
+                          e.preventDefault();
+                          var nxtIdx = $inp.index(this) + 1;
+                          $(":input:text:eq(" + nxtIdx + ")").focus();
+                      }
+                  });
+              });
+
+              var customerModel = this.getView().getModel("customerModel");
+              var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+              var customerCode = selectedCustData.CustomerCode;
+
+              var oCustCode = this.getView().byId("idCustomerCode").getValue();
+               var found =  customerCode;
+
+            if(found.length > 0){
+              customerModel.setProperty("/CustomerCode", selectedCustData.CustomerCode);
+              customerModel.setProperty("/id", selectedCustData.id);
+              customerModel.setProperty("/City", selectedCustData.City);
+              customerModel.setProperty("/Name", selectedCustData.Name);
+              customerModel.refresh();
+              }else{
+                customerModel.getData().City = "";
+                customerModel.getData().Name = "";
+                customerModel.getData().id = "";
+                customerModel.refresh();
+              }
+        },
+
+
     CustomerPopup: function (Evt) {
       if(!this.searchPopup){
         this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.popup",this);

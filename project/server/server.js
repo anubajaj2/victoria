@@ -34,7 +34,7 @@ app.start = function() {
 		}
 
 		app.post('/updatePhotoFlag', function(req, res) {
-			debugger;
+
 			var customerOrderKey = req.body.id;
 			var isPhoto = req.body.PhotoValue;
 			var oCustomerOrder = app.models.CustomerOrder;
@@ -48,7 +48,7 @@ app.start = function() {
 		});
 
 		app.post('/updatePhoto', function(req,res){
-				debugger;
+
 				var photoKey = req.body.id;
 				var content = req.body.Content;
 				var name = req.body.name;
@@ -67,47 +67,108 @@ app.start = function() {
 
 
 			app.post('/kaachiDownload', function(req, res) {
-				debugger;
-				var Kacchi = app.models.Kacchi;
+
+
 				var custId = req.body.id;
-				Kacchi.find({Customer: custId})
-					.then(function(Records, err) {
-							if (Records) {
+				//read customer name by id, group by group id, city by
+				//read kacchi and print report with all coloring, formatting, totaling
+				var responseData = [];
+				var oSubCounter = {};
+				var Customer = app.models.Customer;
 
-								var excel = require('exceljs');
-								var workbook = new excel.Workbook(); //creating workbook
-								var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
-								sheet.addRow().values = Object.keys(Records[0].__data);
+				var async = require('async');
 
-								for (var i = 0; i < Records["length"]; i++) {
-									sheet.addRow().values = Object.values(Records[i].__data);
-								}
+				async.waterfall([
+					function(callback) {
+						Customer.findById(custId,{
+							fields:{
+								"CustomerCode": true,
+								"Name":true,
+								"Group":true,
+								"City":true
+							}
+						}).then(function(customerRecord){
+								callback(customerRecord);
+						});
+					},
+					function(customerRecord, callback) {
+						// arg1 now equals 'one' and arg2 now equals 'two'
+						var City = app.models.City;
+						City.findById(customerRecord.City,{
+							fields:{
+								"cityName": true
+							}
+						})
+						.then(function(customerRecord, cityRecord, err) {
+							callback( customerRecord, cityRecord);
+						});
 
-								var tempfile = require('tempfile');
-								var tempFilePath = tempfile('.xlsx');
-								console.log("tempFilePath : ", tempFilePath);
-								workbook.xlsx.writeFile(tempFilePath).then(function() {
-									res.sendFile(tempFilePath, function(err) {
-										if (err) {
-											console.log('---------- error downloading file: ', err);
+					},
+					function(customerRecord, cityRecord, callback) {
+						// arg1 now equals 'three'
+						var Group = app.models.Group;
+						Group.findById(customerRecord.Group,{
+							fields:{
+								"groupName": true
+							}
+						})
+							.then(function(groupRecord, err) {
+							callback( customerRecord, cityRecord, groupRecord);
+						});
+					}
+				], function(customerRecord, cityRecord, groupRecord) {
+					// result now equals 'done'
+
+							try {
+								//read the kacchi Records
+								var Kacchi = app.models.Kacchi;
+								Kacchi.find({Customer: custId})
+									.then(function(Records, err) {
+											if (Records) {
+
+												var excel = require('exceljs');
+												var workbook = new excel.Workbook(); //creating workbook
+												var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+												sheet.addRow().values = Object.keys(Records[0].__data);
+
+												for (var i = 0; i < Records["length"]; i++) {
+													sheet.addRow().values = Object.values(Records[i].__data);
+												}
+
+												var tempfile = require('tempfile');
+												var tempFilePath = tempfile('.xlsx');
+												console.log("tempFilePath : ", tempFilePath);
+												workbook.xlsx.writeFile(tempFilePath).then(function() {
+													res.sendFile(tempFilePath, function(err) {
+														if (err) {
+															console.log('---------- error downloading file: ', err);
+														}
+													});
+													console.log('file is written @ ' + tempFilePath);
+												});
+
+											}
 										}
-									});
-									console.log('file is written @ ' + tempFilePath);
+
+									).catch(function(oError) {
+											that.getView().setBusy(false);
+											var oPopover = that.getErrorMessage(oError);
 								});
+							} catch (e) {
+
+							} finally {
 
 							}
 						}
+						//res.send(responseData);
 
-					).catch(function(oError) {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-				});
-			});
+			 );
+		 })
 
-			
 			app.get('/anubhavDemo', function(req, res) {
-				debugger;
+
 				var Customer = app.models.Customer;
 				Customer.find({})
 					.then(function(Records, err) {

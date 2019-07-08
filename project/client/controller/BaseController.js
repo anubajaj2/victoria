@@ -624,6 +624,12 @@ debugger;
 				odata.setProperty("/rows1", false);
 			}
 		},
+		ValueChangeMaterial: function(oEvent){
+		  var oSource = oEvent.getSource();
+		  var oFilter = new sap.ui.model.Filter("ProductCode",
+		  sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
+		  oSource.getBinding("suggestionItems").filter(oFilter);
+		},
 		deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 			debugger;
 			var that = this;

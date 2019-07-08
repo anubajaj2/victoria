@@ -364,7 +364,6 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
       var oPopover = that.getErrorMessage(oError);
                   		});
 }//data.ReturnId else part
-
 }//type check
 }//forloop
 return oCommit;
@@ -617,10 +616,8 @@ else {
 }
 },
 onClearScreen:function(oEvent){
-  debugger;
   var that = this;
   var saveStatus = this.byId('Sales--idSaveIcon').getColor();
-  debugger;
   if (!id) {
   var id = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
   }
@@ -658,7 +655,6 @@ onClearScreen:function(oEvent){
 },
 onClear:function(oEvent,id){
 var that = this;
-debugger;
 that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -806,12 +802,7 @@ onSetting:function(oEvent){
 OnCustChange:function(){
 
 },
-ValueChangeMaterial: function(oEvent){
-  var oSource = oEvent.getSource();
-  var oFilter = new sap.ui.model.Filter("ProductCode",
-  sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
-  oSource.getBinding("suggestionItems").filter(oFilter);
-},
+
 ValueChange:function(oEvent){
   var tablePath = "";
   var i = "";

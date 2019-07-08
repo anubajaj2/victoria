@@ -41,7 +41,7 @@
 				</label>
 				<template>
 					<!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
-					<m:Input value="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
+					<m:Text text="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
 				</template>
 			</Column>
 			<Column hAlign="Center" autoResizable="true" width="80px">

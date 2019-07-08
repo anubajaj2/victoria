@@ -45,14 +45,15 @@ sap.ui.define(
 
 				var selCust = oEvent.getParameter("selectedItem").getLabel();
 				var selCustName = oEvent.getParameter("selectedItem").getValue();
-				oCustDetail.customerId = selCust;
-				oCustDetail.CustomerName = selCustName;
-				// this.getView().byId("customerId").setValue(selCust);
-				// this.getView().byId("custName").setText(selCustName);
+				// oCustDetail.customerId = selCust;
+				// oCustDetail.CustomerName = selCustName;
 				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 					selCust);
+				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
+					selCustName);
+				this.getView().byId("WSHeaderFragment--custName").setText(selCustName);
 				// Removing error notif. if value is entered
 				this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
 
@@ -70,23 +71,7 @@ sap.ui.define(
 				var cells = oCurrentRow.getCells();
 				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
 				var newValue = oEvent.getParameters().newValue;
-				// var cell2 = cells[2].getValue();
-				// var cell3 = cells[3].getValue();
-				// var cell4 = cells[4].getValue();
-				// var cell5 = cells[5].getValue();
-				// // Removing error notif. if value is entered
-				// if (cell2 !== 0 || cell2 !== "") {
-				// 	cells[2].setValueState("None");
-				// }
-				// if (cell3 !== 0 || cell3 !== "") {
-				// 	cells[3].setValueState("None");
-				// }
-				// if (cell4 !== 0 || cell4 !== "") {
-				// 	cells[4].setValueState("None");
-				// }
-				// if (cell5 !== 0 || cell5 !== "") {
-				// 	cells[5].setValueState("None");
-				// }
+
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
@@ -210,10 +195,12 @@ sap.ui.define(
 						if (category.Type === "Silver") {
 							// cells[10].setText(weightF * tunch / 100);
 							cells[cells.length - 3].setText(weightF * tunch / 100);
+							cells[cells.length - 2].setText(0);
 							// category.SubTotalS = weightF * tunch / 100;
 						} else if (category.Type === "Gold") {
 							// cells[11].setText(weightF * tunch / 100);
 							cells[cells.length - 2].setText(weightF * tunch / 100);
+							cells[cells.length - 3].setText(0);
 							// category.SubTotalG = weightF * tunch / 100;
 						};
 					};
@@ -227,7 +214,7 @@ sap.ui.define(
 							// cells[12].setText(makingCharges + stonevalue);
 							// category.SubTot = makingCharges + stonevalue;
 							var subTot = makingCharges + stonevalue;
-							var subTotF =  this.getIndianCurr(subTot);
+							var subTotF = this.getIndianCurr(subTot);
 							cells[cells.length - 1].setText(subTotF);
 						} else {
 							// cells[12].setText(0);
@@ -374,15 +361,17 @@ sap.ui.define(
 						// cells[10].setText(0);
 						// cells[11].setText(0);
 						cells[cells.length - 3].setText(0);
-						cells[cells.length - 2].setText(0)
+						cells[cells.length - 2].setText(0);
 					} else {
 						if (category.Type === "Silver") {
 							// cells[10].setText(weightF * tunch / 100);
 							cells[cells.length - 3].setText(weightF * tunch / 100);
+							cells[cells.length - 2].setText(0);
 							// category.SubTotalS = weightF * tunch / 100;
 						} else if (category.Type === "Gold") {
 							// cells[11].setText(weightF * tunch / 100);
 							cells[cells.length - 2].setText(weightF * tunch / 100);
+							cells[cells.length - 3].setText(0);
 							// category.SubTotalG = weightF * tunch / 100;
 						};
 					};
@@ -396,7 +385,7 @@ sap.ui.define(
 							// cells[12].setText(makingCharges + stonevalue);
 							// category.SubTot = makingCharges + stonevalue;
 							var subTot = makingCharges + stonevalue;
-							var subTotF =  this.getIndianCurr(subTot);
+							var subTotF = this.getIndianCurr(subTot);
 							cells[cells.length - 1].setText(subTotF);
 						} else {
 							// cells[12].setText(0);
@@ -477,7 +466,7 @@ sap.ui.define(
 					//final charges on GS
 					if (charges) {
 						var subTot = charges + chargesD;
-						var subTotF =  this.getIndianCurr(subTot);
+						var subTotF = this.getIndianCurr(subTot);
 						cells[cells.length - 1].setText(subTotF);
 					} else {
 						cells[cells.length - 1].setText(0);
@@ -978,6 +967,7 @@ sap.ui.define(
 					if (returnCheck === true && itemError === false) {
 						this.commitRecords(oEvent);
 						this.setStatus("green");
+						MessageToast.show("Data Saved Successfully");
 					}
 
 					//error if no valid entry

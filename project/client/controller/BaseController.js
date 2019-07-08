@@ -801,7 +801,12 @@ sap.ui.define([
 				var subTotF =  this.getIndianCurr(subTotal)
 				cells[cells.length - 1].setText(subTotF);
 				if (viewId == 'idsalesws') {
+					if (subTotF) {
+						cells[cells.length - 2].setText(0);
+					}else{
 					cells[cells.length - 2].setText(fineGoldF);
+					cells[cells.length - 3].setText(0);
+					}
 				}
 			} else if (seletedLine.key === 'OS' ||
 				seletedLine.key === 'KS' ||
@@ -818,7 +823,12 @@ sap.ui.define([
 				cells[cells.length - 1].setText(subTotF);
 
 				if (viewId == 'idsalesws') {
-					cells[cells.length - 3].setText(fineSilverF);
+					if (subTotF) {
+						cells[cells.length - 3].setText(0);
+					} else {
+						cells[cells.length - 3].setText(fineSilverF);
+						cells[cells.length - 2].setText(0);
+					}
 				}
 			}else if (seletedLine.key === 'CASH') {
 				var subTotF =  this.getIndianCurr(bhav)

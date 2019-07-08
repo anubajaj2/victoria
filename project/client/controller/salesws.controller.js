@@ -609,6 +609,7 @@ sap.ui.define(
 								that.setStatus('green');
 								MessageToast.show("Screen cleared successfully!");
 							} else if (oAction === "Save & Clear") {
+								debugger;
 								var saveStatus = that.onSave(oEvent);
 								if (saveStatus) {
 									that.clearScreen(oEvent);

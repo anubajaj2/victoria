@@ -27,7 +27,8 @@ onInit: function (oEvent) {
     },
 _onRouteMatched:function(oEvent){
   var that = this;
-  this.onClear(oEvent);
+  var id = "";
+  this.onClear(oEvent,id);
 },
 getIndianCurr:function(value){
 debugger;
@@ -54,7 +55,6 @@ onConfirm:function(oEvent){
   debugger;
 this.byId("Sales--idSaveIcon").setColor('red');
 //order popup
-debugger;
 if (oEvent.getParameter('id') === 'orderNo'){
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderNo = oEvent.getParameter("selectedItem").getLabel();
@@ -62,14 +62,20 @@ var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split(
 // this.OrderDetails(orderId);
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
-this.getOrderDetails(orderId);
+if (orderDetail.Customer) {
+var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + orderDetail.Customer + "'");
+}else {
+var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + "");
+}
+
+this.getOrderDetails(orderId , oFilter);
 this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 //customer popup
 var selCust = oEvent.getParameter("selectedItem").getLabel();
 var selCustName = oEvent.getParameter("selectedItem").getValue();
-oCustDetail.customerId = selCust;
+oCustDetail.CustomerId = selCust;
 oCustDetail.CustomerName = selCustName;
 // this.getView().byId("customerId").setValue(selCust);
 this.getView().byId("Sales--custName").setText(selCustName);
@@ -79,38 +85,38 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
 }},
 
-getOrderDetails:function(orderId){
+getOrderDetails:function(orderId ,oFilter){
   debugger;
   var that = this;
-  // var ODataHelper2 = ODataHelper;
-  // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-  //             "/OrderHeaders('" + orderId + "')","GET", {},
-  //              {}, that)
-  //   .then(function(oData) {
-  //   that.getView().setBusy(false);
-  //   var custId = oData.Customer;
-  //   that.getView().getModel("local").setProperty("/orderHeader", oData);
-  //        debugger;
-         //assign the details on ui
-         // var that2 = this;
-         // that2.ODataHelper2.callOData(this.getOwnerComponent().getModel(),
-         //                 "/Customers('" + custId + "')","GET", {},
-         //                  {}, that2)
-         //     .then(function(oData) {
-         //       debugger;
-         // var custDetail = that.getView().getModel('local').getProperty('orderHeaderTemp');
-         //   // custDetail.CustomerId = oData.
-         //   // custDetail.CustomerName = oData.
-         // that.getView().getModel("local").setProperty("/orderHeaderTemp", custDetail);
-         //               })
-         //     .catch(function(oError) {
-         //               	});
-                // })
-   // .catch(function(oError) {
-   // that.getView().setBusy(false);
-   // var oPopover = that.getErrorMessage(oError);
-   //     		});
-
+  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                   "/OrderHeaders('" + orderId + "')", "GET",
+                   {filters: [oFilter]}, {}, this)
+    .then(function(oData) {
+    that.getView().setBusy(false);
+    var custId = oData.Customer;
+    that.getView().getModel("local").setProperty("/orderHeader", oData);
+     debugger;
+     // assign the details on ui
+   //   var that2 = this;
+   // that2.ODataHelper2.callOData(this.getOwnerComponent().getModel(),
+   //                 "/OrderHeaders('" + orderId + "')/ToOrderItems",
+   //                 "GET", {},{}, that2)
+   //   .then(function(oData) {
+   //       debugger;
+   // var custDetail = that.getView().getModel('local').getProperty('orderHeaderTemp');
+   //     // custDetail.CustomerId = oData.
+   //     // custDetail.CustomerName = oData.
+   // that.getView().getModel("local").setProperty("/orderHeaderTemp", custDetail);
+     //                 })
+     // .catch(function(oError) {
+     //   that.getView().setBusy(false);
+     //   var oPopover = that.getErrorMessage(oError);
+     //             	});
+                })
+   .catch(function(oError) {
+   that.getView().setBusy(false);
+   var oPopover = that.getErrorMessage(oError);
+       		});
 },
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
@@ -125,36 +131,72 @@ this.orderSearchPopup.destroyItems();
 orderCreate:function(oEvent){
   debugger;
 var that = this;
-that.getView().setBusy(true);
-// get the data from screen in local model
-var orderData = this.getView().getModel('local').getProperty("/orderHeader");
-if (orderData.Customer === "") {
-      this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
-      that.getView().setBusy(false);
-    }
-else {
-this.getView().byId("Sales--customerId").setValueState("None");
-//call the odata promise method to post the data
-orderData.Date = this.getView().byId("Sales--DateId").getValue();
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
-                          "POST", {}, orderData, this)
-             .then(function(oData) {
-              that.getView().setBusy(false);
-
-//create the new json model and get the order id no generated
-  var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-  oOrderId.OrderId=oData.id;
-  oOrderId.OrderNo=oData.OrderNo;
-  that.getView().getModel('local').setProperty('/OrderId',oOrderId);
-  //assign the no on ui
-  that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
-           })
-  .catch(function(oError) {
-    that.getView().setBusy(false);
-    var oPopover = that.getErrorMessage(oError);
-        		});
-          }
+if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
+{
+  var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
+  sap.m.MessageBox.confirm("Are you sure to delete the unsaved Data?",{
+  title: "Confirm",                                    // default
+  id:id,                                               // Id
+  styleClass: "",                                      // default
+  initialFocus: null,                                  // default
+  textDirection: sap.ui.core.TextDirection.Inherit,     // default
+  onClose : function(sButton){
+  if (sButton === MessageBox.Action.OK) {
+    debugger;
+    var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
+    var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
+    var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
+    var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
+    debugger;
+    that.onClear(oEvent,id);
+    debugger;
+    that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId',customerId);
+    // that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerName',customerName);
+    debugger;
+    that.getView().byId("Sales--custName").setText(customerName);
+    // that.getView().getModel('local').setProperty('/orderHeader/Date',orderdate);
+    that.getView().getModel('local').setProperty('/orderHeader/Customer',customerNo);
+    that.orderCheck();
+}//Sbutton if condition
+}//onClose
+});
+}else {
+  that.orderCheck();
+}
       },
+orderCheck:function(){
+  var that = this;
+  that.getView().setBusy(true);
+  that.byId("Sales--idSaveIcon").setColor('red');
+  // get the data from screen in local model
+  var orderData = this.getView().getModel('local').getProperty("/orderHeader");
+  if (orderData.Customer === "") {
+        this.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
+        that.getView().setBusy(false);
+      }
+  else {
+  this.getView().byId("Sales--customerId").setValueState("None");
+  //call the odata promise method to post the data
+  orderData.Date = this.getView().byId("Sales--DateId").getValue();
+  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
+                            "POST", {}, orderData, this)
+               .then(function(oData) {
+                that.getView().setBusy(false);
+
+  //create the new json model and get the order id no generated
+    var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+    oOrderId.OrderId=oData.id;
+    oOrderId.OrderNo=oData.OrderNo;
+    that.getView().getModel('local').setProperty('/OrderId',oOrderId);
+    //assign the no on ui
+    that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+             })
+    .catch(function(oError) {
+      that.getView().setBusy(false);
+      var oPopover = that.getErrorMessage(oError);
+          		});
+            }
+},
 onValidation: function() {
   var that = this;
   //---all validation true
@@ -439,6 +481,10 @@ if (valueCheck === false) {
 }else {
 
 }
+if (valueCheck === true && returnCheck === true && itemError === false) {
+  var statusGreen = true;
+  return statusGreen;
+}
 },
 commitRecords:function(oEvent){
   if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
@@ -570,7 +616,35 @@ else {
   });
 }
 },
-onClear:function(oEvent){
+onClearScreen:function(oEvent){
+  debugger;
+  var that = this;
+  var saveStatus = this.byId('Sales--idSaveIcon').getColor();
+  debugger;
+  if (!id) {
+  var id = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
+  }
+  if (saveStatus == "red") {
+  sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
+       title: "Alert!",
+       // id:id,
+       actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
+       onClose: function(oAction) {
+         if (oAction === "Clear") {
+           that.onClear(oEvent,id);
+           that.setStatus('green');
+           MessageToast.show("Screen cleared successfully!");
+         } else if (oAction === "Save & Clear") {
+           if (that.onSave(oEvent)) {
+             that.onClear(oEvent,id);
+             MessageToast.show("Data has been Saved! Screen cleared successfully!");
+           }
+         }
+       }
+     });
+  }
+},
+onClear:function(oEvent,id){
 var that = this;
 debugger;
 that.byId("Sales--idSaveIcon").setColor('green');
@@ -611,9 +685,9 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
   });
 //Clear Item table
-this.orderItem(oEvent);
+this.orderItem(oEvent,id);
 //return table
-this.orderReturn(oEvent);
+this.orderReturn(oEvent,id);
 //adjust width of order tablePath
 this.setWidths(false);
 
@@ -723,7 +797,7 @@ OnCustChange:function(){
 ValueChangeMaterial: function(oEvent){
   var oSource = oEvent.getSource();
   var oFilter = new sap.ui.model.Filter("ProductCode",
-  sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue"));
+  sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
   oSource.getBinding("suggestionItems").filter(oFilter);
 },
 ValueChange:function(oEvent){

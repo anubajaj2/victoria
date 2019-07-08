@@ -204,16 +204,26 @@ sap.ui.define([
 				//now create 2 filter one ge low and two le High
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom );
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE,dateTo);
+				if (customer) {
+				var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ,customer);
+			}else {
+				var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ,"");
+			}
+debugger;
 				var orFilter = new sap.ui.model.Filter({
 						filters :[oFilter1 , oFilter2],
 					  and: true
 					});
+					var orFilterF = new sap.ui.model.Filter({
+							filters :[orFilter , oFilter3],
+						  and: true
+						});
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
 					filters: orFilter,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{}"
+						value: "{Customer}"
 					})
 				});
 			// }//order popup
@@ -580,7 +590,7 @@ sap.ui.define([
 			}
 
 		},
-		setVisible: function(oEvent) {
+		setVisible: function(oEvent,id) {
 			debugger;
 			var oVisModel = new sap.ui.model.json.JSONModel({
 				rows1: true
@@ -603,6 +613,15 @@ sap.ui.define([
 					var odata = this.getView().getModel('visModel');
 					odata.setProperty("/rows1", false);
 				}
+			}else if (oEvent.getSource().getContent().getId() === "idsales") {
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
+			}else if (oEvent.getSource().getContent().getId() === "sales-page") {
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
+			}else if (id) {
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
 			}
 		},
 		deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
@@ -904,11 +923,10 @@ if (data.Tunch === "" || data.Tunch === 0) {
 }} //for loop
 			return returnError;
 		},
-		orderItem: function(oEvent) {
+		orderItem: function(oEvent,id) {
 			//create the model to set the getProperty
 			//visible or // NOT
-			this.setVisible(oEvent);
-
+			this.setVisible(oEvent,id);
 			//create json model
 			var oOrderItem = new sap.ui.model.json.JSONModel();
 			//create array
@@ -1008,11 +1026,10 @@ if (data.Tunch === "" || data.Tunch === 0) {
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
-		orderReturn: function(oEvent) {
-			debugger;
+		orderReturn: function(oEvent,id) {
 			//create the model to set the getProperty
 			//visible or // NOT
-			this.setVisible(oEvent);
+			this.setVisible(oEvent,id);
 			//create structure of an array
 			var oTransData = new sap.ui.model.json.JSONModel();
 			var aTtype = [];

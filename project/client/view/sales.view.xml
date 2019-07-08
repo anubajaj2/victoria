@@ -8,33 +8,33 @@
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content id="Header">
-			<m:VBox class="sapUiSmallMargin"
-				alignContent="sap.m.FlexAlignContent.Start">
-			<core:Fragment id="Sales" fragmentName="victoria.fragments.orderHeader" type="XML">
-			</core:Fragment>
-		</m:VBox>
+			<!-- <m:VBox class="sapUiSmallMargin" -->
+				<!-- alignContent="sap.m.FlexAlignContent.Start"> -->
+			<core:Fragment id="Sales"
+				fragmentName="victoria.fragments.orderHeader" type="XML"/>
+		<!-- </m:VBox> -->
 	</semantic:content>
 
 	<semantic:content id="WSTable">
-		<m:VBox class="sapUiSmallMargin"
-			alignContent="sap.m.FlexAlignContent.Start">
-		<core:Fragment fragmentName="victoria.fragments.orderItems" type="XML">
-		</core:Fragment>
-		</m:VBox>
+		<!-- <m:VBox class="sapUiSmallMargin"
+			alignContent="sap.m.FlexAlignContent.Start"> -->
+		<core:Fragment fragmentName="victoria.fragments.orderItems"
+			 type="XML"/>
+		<!-- </m:VBox> -->
 	</semantic:content>
 
 	<semantic:content id="Return">
-	<m:VBox class="sapUiSmallMargin">
+	<!-- <m:VBox class="sapUiSmallMargin"> -->
 	<core:Fragment fragmentName="victoria.fragments.orderReturn" type="XML">
 	</core:Fragment>
-	</m:VBox>
+	<!-- </m:VBox> -->
 	</semantic:content>
 
 	<semantic:customFooterContent>
 		<m:Button text="Save" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
 		<m:Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
 		<m:Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
-		<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+		<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClearScreen"/>
 	</semantic:customFooterContent>
 </semantic:FullscreenPage>
 </mvc:View>

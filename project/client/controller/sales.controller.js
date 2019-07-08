@@ -327,17 +327,17 @@ if (data.Remarks === "") {
 debugger;
 var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 if (data.ReturnId) {
-  that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                        "/OrderReturns('"+ oId +"')", "PUT",
-                         {},oReturnOrderClone, that)
-    .then(function(oData) {
-       debugger;
-    that.getView().setBusy(false);
-             })
-    .catch(function(oError){
-     that.getView().setBusy(false);
-     var oPopover = that.getErrorMessage(oError);
-     		});
+  // that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+  //                       "/OrderReturns('"+ oId +"')", "PUT",
+  //                        {},oReturnOrderClone, that)
+  //   .then(function(oData) {
+  //      debugger;
+  //   that.getView().setBusy(false);
+  //            })
+  //   .catch(function(oError){
+  //    that.getView().setBusy(false);
+  //    var oPopover = that.getErrorMessage(oError);
+  //    		});
 }else {
   //return data save
 that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -627,7 +627,6 @@ onClearScreen:function(oEvent){
   if (saveStatus == "red") {
   sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
        title: "Alert!",
-       // id:id,
        actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
        onClose: function(oAction) {
          if (oAction === "Clear") {
@@ -642,6 +641,19 @@ onClearScreen:function(oEvent){
          }
        }
      });
+  }else {
+    sap.m.MessageBox.error("Are you sure you want to clear all entries?",
+     {
+         title: "Alert!",
+         actions: ["Clear", MessageBox.Action.CANCEL],
+         onClose: function(oAction) {
+           if (oAction === "Clear") {
+             that.onClear(oEvent,id);
+             that.setStatus('green');
+             MessageToast.show("Screen cleared successfully!");
+           }
+           }
+         });
   }
 },
 onClear:function(oEvent,id){

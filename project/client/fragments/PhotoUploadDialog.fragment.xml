@@ -6,7 +6,7 @@
 			<content>
 				<l:SimpleForm editable="true">
 					<l:content>
-						<VBox>
+						<VBox id="idCoVbox">
 							<Label id="idCoPicLabel" text= "File name"/>
 							<unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%"
 							  iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10"
@@ -25,8 +25,8 @@
 			<buttons>
 				<Button icon="sap-icon://upload" id="idCoUpload" press="handleUploadPress" text="Upload Picture" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
 				  iconDensityAware="false"/>
-				<!-- <Button icon="sap-icon://camera" id="idCoCapture" press="handleCapturePress" text="Capture Picture" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
-					iconDensityAware="false"/> -->
+				<Button icon="sap-icon://camera" id="idCoCapture" press="handleCapturePress" text="Capture Picture" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
+					iconDensityAware="false"/>
 		  	<Button icon="sap-icon://sys-cancel" id="idCoClose" press="handleClosePress" text="Close" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true"
 					iconDensityAware="false"/>
 			</buttons>

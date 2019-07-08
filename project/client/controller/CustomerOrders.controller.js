@@ -156,7 +156,7 @@ sap.ui.define([
               $('input:text:first').focus();
                   debugger;
               var $inp = $('input:text');
-              $inp.bind('keydown', function(e) {
+              $inp.bind('keypress', function(e) {
                   //var key = (e.keyCode ? e.keyCode : e.charCode);
                   var key = e.which;
                   if (key == 13) {
@@ -194,10 +194,12 @@ sap.ui.define([
     handleUploadPress: function(oEvent) {
       debugger;
       var oFileUploader = sap.ui.getCore().byId("idCoUploader");
-      if (!oFileUploader.getValue()) {
-        sap.m.MessageToast.show("Choose a file first");
-        return;
-      }
+      // if (!oFileUploader.getValue()) {
+      //   sap.m.MessageToast.show("Choose a file first");
+      //   return;
+      // }
+      if (oFileUploader.getValue()) {
+        this.flag = 'U';
       var file = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
 
       var that = this;
@@ -210,156 +212,233 @@ sap.ui.define([
           oFile.imgContent = e.currentTarget.result;
           var picture = oFile.imgContent ;
           var that2 = that;
+          that.savePicToDb(that.fileName,that.fileType,picture);
           //if picture already exists update the picture
-          if (that.selRow.Picture==="X") {
-            var photoId = that.getView().getModel("photo").getData().id;
-            var payload = {
-              id: photoId,
-              Content: picture,
-              name: that.fileName,
-              type:that.fileType
-            };
-            $.post('/updatePhoto', payload)
-              .done(function(data, status) {
-                sap.m.MessageToast.show("Photo updated");
-                debugger;
-                var oModelPhoto = new JSONModel();
-                oModelPhoto.setData(payload);
-                that.getView().setModel(oModelPhoto, "photo");
-              })
-              .fail(function(xhr, status, error) {
-                sap.m.MessageBox.error("Failed to update photo");
-              });
-          } else{
-          // if picture doesn't exist then create new record
-              var payload = {
-                CustomerOrderId: that.selRow.id,
-                Content: picture,
-                Filename: that.fileName,
-                Filetype: that.fileType
-              }
-              that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
-                                "POST", {}, payload, that)
-                .then(function(oData) {
-                    sap.m.MessageToast.show("Photo uploaded Successfully");
-                    // update picture flag in customer orders
-                    debugger;
-              //show uploaded picture
-                    var oModelPhoto = new JSONModel();
-                    oModelPhoto.setData(oData);
-                    that.getView().setModel(oModelPhoto, "photo");
-             // update photo flag in customer order
-                    that2.selRow.Picture = "X";
-                    var payload = {
-                      id: that2.selRow.id,
-                      PhotoValue : that2.selRow.Picture
-                    };
-                    $.post('/updatePhotoFlag', payload)
-            					.done(function(data, status) {
-            						sap.m.MessageToast.show("Data updated");
-            					})
-            					.fail(function(xhr, status, error) {
-            						sap.m.MessageBox.error("Failed to update");
-            					});
-              // call clear to update the color of the image
-                      that2.onClear();
-                    that2.getView().setBusy(false);
-                  }).catch(function(oError) {
-                    that2.getView().setBusy(false);
-                    var oPopover = that.getErrorMessage(oError);
-                  });
-            ;}
+          // if (that.selRow.Picture==="X") {
+          //   var photoId = that.getView().getModel("photo").getData().id;
+          //   var payload = {
+          //     id: photoId,
+          //     Content: picture,
+          //     name: that.fileName,
+          //     type:that.fileType
+          //   };
+          //   $.post('/updatePhoto', payload)
+          //     .done(function(data, status) {
+          //       sap.m.MessageToast.show("Photo updated");
+          //       debugger;
+          //       var oModelPhoto = new JSONModel();
+          //       oModelPhoto.setData(payload);
+          //       that.getView().setModel(oModelPhoto, "photo");
+          //     })
+          //     .fail(function(xhr, status, error) {
+          //       sap.m.MessageBox.error("Failed to update photo");
+          //     });
+          // } else{
+          // // if picture doesn't exist then create new record
+          //     var payload = {
+          //       CustomerOrderId: that.selRow.id,
+          //       Content: picture,
+          //       Filename: that.fileName,
+          //       Filetype: that.fileType
+          //     }
+          //     that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos",
+          //                       "POST", {}, payload, that)
+          //       .then(function(oData) {
+          //           sap.m.MessageToast.show("Photo uploaded Successfully");
+          //           // update picture flag in customer orders
+          //           debugger;
+          //     //show uploaded picture
+          //           var oModelPhoto = new JSONModel();
+          //           oModelPhoto.setData(oData);
+          //           that.getView().setModel(oModelPhoto, "photo");
+          //    // update photo flag in customer order
+          //           that2.selRow.Picture = "X";
+          //           var payload = {
+          //             id: that2.selRow.id,
+          //             PhotoValue : that2.selRow.Picture
+          //           };
+          //           $.post('/updatePhotoFlag', payload)
+          //   					.done(function(data, status) {
+          //   						sap.m.MessageToast.show("Data updated");
+          //   					})
+          //   					.fail(function(xhr, status, error) {
+          //   						sap.m.MessageBox.error("Failed to update");
+          //   					});
+          //     // call clear to update the color of the image
+          //             that2.onClear();
+          //           that2.getView().setBusy(false);
+          //         }).catch(function(oError) {
+          //           that2.getView().setBusy(false);
+          //           var oPopover = that.getErrorMessage(oError);
+          //         });
+          //   ;}
         }
         reader.readAsDataURL(file);
+      }else if(this.flag === 'C') {
+        var snapId = 'Capture';
+        this.savePicToDb(this.attachName,
+                         "jpeg",
+                         document.getElementById(snapId).toDataURL())
+      }else{
+        sap.m.MessageToast.show("Upload or capture Picture");
+        return;
+      }
     },
-// Capture press
-    // handleCapturePress: function(oEvent){
-    //
-    // },
 
-//     handleCapturePress: function() {
-//           //This code was generated by the layout editor.
-//                 var that = this;
-//                 //Step 1: Create a popup object as a global variable
-//                 this.fixedDialog = new Dialog({
-//                 title: "Click on Capture to take photo",
-//                 beginButton: new sap.m.Button({
-//                 text: "Capture Photo",
-//                 press: function(oEvent){
-//                 // TO DO: get the object of our video player which live camera stream is running
-//                 //take the image object out of it and set to main page using global variable
-//                 that.imageVal =  document.getElementById("player");
-//                 var oPopup = oEvent.getSource();
-//                 that.attachName = oPopup.getParent().getContent()[1].getValue();
-//                 that.fixedDialog.close();
-//                 }
-//                 }),
-//                 content: [
-//                 new sap.ui.core.HTML({
-//                 content: "<video id='player' autoplay></video>"
-//                 }),
-//                 new sap.m.Input({
-//                 placeholder: 'please enter image name here',
-//                 required: true
-//                 })
-//                 ],
-//                 endButton: new sap.m.Button({
-//                 text: "Cancel",
-//                 press: function(){
-//                 debugger;
-//                 that.fixedDialog.close();
-//       }
-//       })
-//       });
-//
-//           this.getView().addDependent(this.fixedDialog);
-//           //Step 2: Launch the popup
-//           this.fixedDialog.open();
-//
-//           this.fixedDialog.attachBeforeClose(this.setImage, this);
-//
-//           var handleSuccess = function(stream){
-//           player.srcObject = stream;
-//           }
-//
-//           navigator.mediaDevices.getUserMedia({
-//           video: true
-//           }).then(handleSuccess);
-//
-//       },
-//
-// setImage: function(){
-// //Take the running image from the video stream of camera
-// var oVBox = this.getView().byId("wow");
-// var items = oVBox.getItems();
-// var snapId = 'anubhav-' + items.length;
-// var textId = snapId + '-text';
-// var imageVal = this.imageVal;
-//
-// //set that as a canvas element on HTML page
-// var oCanvas = new sap.ui.core.HTML({
-// content: "<canvas id='" + snapId +"' width='320px' height='320px' "+
-// " style='2px solid red'></canvas> " +
-// " <label id='" + textId + "'>" + this.attachName + "</label>"
-// });
-// oVBox.addItem(oCanvas);
-// oCanvas.addEventDelegate({
-// onAfterRendering: function(){
-// var snapShotCanvas = document.getElementById(snapId);
-// var oContext = snapShotCanvas.getContext('2d');
-// oContext.drawImage(imageVal, 0,0, snapShotCanvas.width, snapShotCanvas.height);
-// }
-// });
-//
-//
-// },
+    handleCapturePress: function() {
+    //This code was generated by the layout editor.
+          var that = this;
+          this.flag = 'C';
+          //Step 1: Create a popup object as a global variable
+          this.fixedDialog = new Dialog({
+          title: "Click on Capture to take photo",
+          beginButton: new sap.m.Button({
+          text: "Capture Photo",
+          press: function(oEvent){
+            debugger;
+          // TO DO: get the object of our video player which live camera stream is running
+          //take the image object out of it and set to main page using global variable
+          that.imageVal =  document.getElementById("player");
+          var oPopup = oEvent.getSource();
+          that.attachName = oPopup.getParent().getContent()[1].getValue();
+          that.fixedDialog.close();
+          }
+          }),
+          content: [
+          new sap.ui.core.HTML({
+          content: "<video id='player' autoplay></video>"
+          }),
+          new sap.m.Input({
+          placeholder: 'please enter image name here',
+          required: true
+          })
+          ],
+          endButton: new sap.m.Button({
+          text: "Cancel",
+          press: function(){
+          debugger;
+          that.fixedDialog.close();
+      }
+      })
+      });
+
+          this.getView().addDependent(this.fixedDialog);
+          //Step 2: Launch the popup
+          this.fixedDialog.open();
+
+          this.fixedDialog.attachBeforeClose(this.setImage, this);
+
+          var handleSuccess = function(stream){
+          player.srcObject = stream;
+          }
+
+          navigator.mediaDevices.getUserMedia({
+          video: true
+          }).then(handleSuccess);
+
+      },
+
+          setImage: function(){
+          //Take the running image from the video stream of camera
+          debugger;
+           var oVBox = this.getView().getDependents()[0].getContent()[0].getContent()[0];
+          // var items = oVBox.getItems();
+          // var snapId = 'anubhav-' + items.length;
+          // var textId = snapId + '-text';
+          var snapId = 'Capture';
+          var  textId = snapId + '-text';
+          var imageVal = this.imageVal;
+
+          //set that as a canvas element on HTML page
+          var oCanvas = new sap.ui.core.HTML({
+          content: "<canvas id='" + snapId +"' width='320px' height='320px' "+
+          " style='2px solid red'></canvas> " +
+          " <label id='" + textId + "'>" + this.attachName + "</label>"
+          });
+          oVBox.addItem(oCanvas);
+          oCanvas.addEventDelegate({
+          onAfterRendering: function(){
+          var snapShotCanvas = document.getElementById(snapId);
+          var oContext = snapShotCanvas.getContext('2d');
+          oContext.drawImage(imageVal, 0,0, snapShotCanvas.width, snapShotCanvas.height);
+          }
+          });
+      },
+
+      savePicToDb:function(fileName,fileType,picture){
+        debugger;
+        var that = this;
+        if (this.selRow.Picture==="X") {
+          var photoId = this.getView().getModel("photo").getData().id;
+          var payload = {
+            id: photoId,
+            Content: picture,
+            name: this.fileName,
+            type:this.fileType
+          };
+          $.post('/updatePhoto', payload)
+            .done(function(data, status) {
+              sap.m.MessageToast.show("Photo updated");
+              debugger;
+              var oModelPhoto = new JSONModel();
+              oModelPhoto.setData(payload);
+              that.getView().setModel(oModelPhoto, "photo");
+            })
+            .fail(function(xhr, status, error) {
+              sap.m.MessageBox.error("Failed to update photo");
+            });
+        } else{
+        // if picture doesn't exist then create new record
+            var that = this;
+            var payload = {
+              CustomerOrderId: this.selRow.id,
+              Content: picture,
+              Filename: this.fileName,
+              Filetype: this.fileType
+            }
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Photos",
+                              "POST", {}, payload, this)
+              .then(function(oData) {
+                  sap.m.MessageToast.show("Photo uploaded Successfully");
+                  // update picture flag in customer orders
+                  debugger;
+            //show uploaded picture
+                  var oModelPhoto = new JSONModel();
+                  oModelPhoto.setData(oData);
+                  that.getView().setModel(oModelPhoto, "photo");
+           // update photo flag in customer order
+                  that.selRow.Picture = "X";
+                  var payload = {
+                    id: that.selRow.id,
+                    PhotoValue : that.selRow.Picture
+                  };
+                  $.post('/updatePhotoFlag', payload)
+                    .done(function(data, status) {
+                      sap.m.MessageToast.show("Data updated");
+                    })
+                    .fail(function(xhr, status, error) {
+                      sap.m.MessageBox.error("Failed to update");
+                    });
+            // call clear to update the color of the image
+                    that.onClear();
+                  that.getView().setBusy(false);
+                }).catch(function(oError) {
+                  that.getView().setBusy(false);
+                  var oPopover = that.getErrorMessage(oError);
+                });
+          ;}
+      },
 // close photo upload popup
     handleClosePress: function(oEvent){
+      debugger;
       if (!this.photoPopup){
         this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
       }
       var oFileUploader = sap.ui.getCore().byId("idCoUploader");
       oFileUploader.setValue("");
+      var oVBox = this.getView().getDependents()[0].getContent()[0].getContent()[0];
+      //oVBox.getItems()[3].destroyLayoutData();
+      // oVBox.getItems()[3].setProperty("content", "");
       this.photoPopup.close();
     },
 
@@ -452,6 +531,7 @@ sap.ui.define([
       this.getView().getModel("local").setProperty("/customerOrder/Customer","");
       this.getView().getModel("local").setProperty("/customerOrder/Picture","");
       this.getView().byId("idCoTable").getBinding("items").filter([]);
+
     },
 
     onRefresh: function(){

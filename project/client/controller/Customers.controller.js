@@ -178,8 +178,24 @@ this.clearCustomer();
 			ValueChangeCustomer: function(oEvent){
 				var oSource = oEvent.getSource();
 				var oFilter = new sap.ui.model.Filter("CustomerCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase())
+
 				oSource.getBinding("suggestionItems").filter(oFilter);
+				// oSource.bindAggregation("suggestionItems", {
+				// 	path: '/Customers',
+				// 	template: new sap.m.ColumnListItem({
+				// 		label: "{CustomerCode}",
+				// 		value: "{Name} - {City}"
+				// 	})
+				// });
+				// oSource.getBinding( {
+				//  path: '/Customers',
+				//  template: new sap.m.DisplayListItem({
+				// 	 label: "{CustomerCode}",
+				// 	 value: "{Name} - {City}"
+				//  })
+			 // });
+
 			},
 
 			customerCodeCheck : function(oEvent){

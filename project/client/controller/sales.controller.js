@@ -51,6 +51,28 @@ this.getCustomerPopup(oEvent);
 getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
+onPrint:function(){
+debugger;
+var printHeader = this.getView().getModel("local").getProperty("/printCustomizing");
+var header = '<p>-------------------------------------------------------------------------------------------<br />'+
+             '<span id="s1"><strong>Company Name:</strong></span>'+printHeader.CompName+
+             '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />'+
+             '<strong>Address:</strong>'+printHeader.Address+
+             '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />'+
+             '<strong>Contact Number:</strong>'+printHeader.ContNumber+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '+
+             '&nbsp; &nbsp; &nbsp; &nbsp;<br /><strong>GSTN:</strong>'+printHeader.GSTNumber+'</p>'+
+             '<p>-------------------------------------------------------------------------------------------&nbsp; &nbsp; &nbsp;</p>'+
+             '<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br /><br /></p>';
+var myWindow = window.open("", "PrintWindow", "width=200,height=100");
+    myWindow.document.write(header);
+    myWindow.print();
+    myWindow.stop();
+},
 onConfirm:function(oEvent){
   debugger;
 this.byId("Sales--idSaveIcon").setColor('red');

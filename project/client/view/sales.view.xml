@@ -33,7 +33,7 @@
 	<semantic:customFooterContent>
 		<m:Button text="Save" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
 		<m:Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press=""/>
-		<m:Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press=""/>
+		<m:Button text="Print" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press="onPrint"/>
 		<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClearScreen"/>
 	</semantic:customFooterContent>
 </semantic:FullscreenPage>

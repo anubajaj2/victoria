@@ -55,7 +55,11 @@ sap.ui.define(
           that.getView().setBusy(false);
           if(oData.results.length > 0){
             // this.getView().getModel("local").getProperty("/printCustomizingData");
-
+            for (var i = 0; i < oData.results.length; i++) {
+              var sId = oData.results[i].Name;
+              var sValue = oData.results[i].Value;
+              sap.ui.getCore().byId(sId).setValue(sValue);
+            }
           }
         }).catch(function(oError) {
       });

@@ -346,6 +346,14 @@
 		"ChangedBy":"",
 		"ChangedOn":""
 	},
+	"printCustomizing":{
+   "CompName":"",
+	 "Address":"",
+	 "TnC":"",
+	 "GSTNumber":"",
+	 "ContNumber":"",
+	 "Marking":""
+	},
 
 	"CustomCalculation":{
 	"First": 0,

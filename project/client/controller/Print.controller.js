@@ -15,21 +15,58 @@ sap.ui.define(
     BaseController.prototype.onInit.apply(this);
     var oRouter = this.getRouter();
     oRouter.getRoute("Print").attachMatched(this._onRouteMatched, this);
+    // this.createModel();
+  },
+  createModel: function(){
+   // var oPrintmodel = new JSONModel();
+   // var oPrintItem = {
+   //     compName = "",
+   //     phone = "",
+   //     address = "",
+   //     rCompName="",
+   //     rAddress="",
+   //     rPhone="",
+   //     rWeight="",
+   //     rQuantity="",
+   //     rLessQunatity="",
+   //     rSubTotal="",
+   //     rMakingCharge="",
+   //     rBhav="",
+   //     rMakingType="",
+   //     rFooter="",
+   //     rReturnBhav="",
+   //     rReturnWeight="",
+   //     rFineTotal="",
+   //     rLessWeight=""
+   // }
   },
   getRouter: function(){
       return this.getOwnerComponent().getRouter();
   },
   _onRouteMatched: function(oEvent){
+    debugger;
       var that = this;
       that.clearScreen();
-      // that.createModel();
+      var allItems = this.getView().getModel("local").getProperty("/printCustomizingData");
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+          "/prints", "GET", {}, {}, this)
+        .then(function(oData) {
+          debugger;
+          that.getView().setBusy(false);
+          if(oData.results.length > 0){
+            // this.getView().getModel("local").getProperty("/printCustomizingData");
+
+          }
+        }).catch(function(oError) {
+      });
+      this.getView().setBusy(false);
 
   },
   clearScreen: function(){
     var that = this;
     that.byId("idCompName").setValue("");
     that.byId("idAdd").setValue("");
-    that.byId("idContNo").setValue("");
+    // that.byId("idContNo").setValue("");
 
   },
   updateData: function(oData){

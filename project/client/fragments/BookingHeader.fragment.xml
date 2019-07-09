@@ -1,0 +1,99 @@
+<core:FragmentDefinition xmlns:m="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" width="160px">
+
+
+	<f:Form id="BookingHeader" editable="true">
+
+		<f:layout>
+			<f:ResponsiveGridLayout
+				labelSpanXL="4" labelSpanL="4" labelSpanM="4"
+				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+				adjustLabelSpan="false"
+				columnsXL="2" columnsL="2" columnsM="2"
+				singleContainerFullSize="false"
+				 />
+		</f:layout>
+
+		<f:formContainers>
+			<!-- //Order detail -->
+			<f:FormContainer>
+				<f:formElements>
+					<f:FormElement label="{i18n>Customer}">
+						<f:fields>
+							<!-- <m:Label text="{i18n>Customer}" /> -->
+							<!-- <m:ComboBox id="idCustomerName" items="{/Customers}" change="onNameChange">
+								<m:items>
+									<core:Item key="{id}" text="{CustomerCode}"/>
+								</m:items>
+							</m:ComboBox> -->
+
+							<m:Input id="idCustomerCode" submit="customerCodeCheck" suggest="ValueChangeCustomer"
+								suggestionItems="{/Customers}" showSuggestion="true"
+								enabled="{viewModel>/codeEnabled}"
+								suggestionItemSelected="customerCodeCheck">
+								<m:suggestionItems>
+									<core:ListItem text="{CustomerCode}"/>
+								</m:suggestionItems>
+
+							</m:Input>
+							<m:Text id="idCustName" enableSelection="false"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>bookingDate}">
+						<f:fields>
+							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
+								displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}" width="55%">
+
+							</m:DatePicker>
+
+
+						</f:fields>
+
+					</f:FormElement>
+					<f:FormElement label="{i18n>bookingDetails}">
+						<f:fields>
+
+							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}" value="" >
+								<!-- <m:layoutData>
+									<l:GridData span="XL1 L1"/>
+								</m:layoutData> -->
+							</m:Input>
+							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" value="">
+								<!-- <m:layoutData>
+									<l:GridData span="XL3 L3"/>
+								</m:layoutData> -->
+							</m:Input>
+							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}" value="">
+								<!-- <m:layoutData>
+									<l:GridData span="XL3 L3"/>
+								</m:layoutData> -->
+							</m:Input>
+						</f:fields>
+					</f:FormElement>
+
+					<f:FormElement label =" ">
+						<f:fields>
+							<m:Button text="Send" press="onSend">
+							<!-- <m:layoutData>
+								<l:GridData span="XL5 L5"/>
+							</m:layoutData> -->
+						</m:Button>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+				<f:layoutData>
+					<f:GridContainerData halfGrid="true"></f:GridContainerData>
+				</f:layoutData>
+			</f:FormContainer>
+		</f:formContainers>
+
+	</f:Form>
+
+
+
+</core:FragmentDefinition>

@@ -34,6 +34,11 @@ sap.ui.define([
 						delay : 0
 					});
 
+					debugger;
+					BaseController.prototype.onInit.apply(this);
+
+	        var oRouter = this.getRouter();
+	      	oRouter.getRoute("Suppliers").attachMatched(this._onRouteMatched, this);
 //				this.getRouter().getRoute("Products").attachPatternMatched(this._onObjectMatched, this);
 //
 //				// Store original busy indicator delay, so it can be restored later on
@@ -44,6 +49,58 @@ sap.ui.define([
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
 //					}
 //				);
+			},
+			_onRouteMatched : function(){
+      var that = this;
+      that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
+      this.getView().byId("DateId").setDateValue(new Date());
+
+      },
+      customerCodeCheck:function(oEvent){
+				$(function() {
+								$('input:text:first').focus();
+								var $inp = $('input:text');
+								$inp.bind('keydown', function(e) {
+										//var key = (e.keyCode ? e.keyCode : e.charCode);
+										var key = e.which;
+										if (key == 13) {
+												e.preventDefault();
+												var nxtIdx = $inp.index(this) + 1;
+												$(":input:text:eq(" + nxtIdx + ")").focus();
+										}
+								});
+						});
+debugger;
+						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				    var cName = selectedCustData.Name.toUpperCase();
+						this.getView().byId("idCustName").setText(cName);
+			},
+			onClear:function(){
+				debugger;
+				var custid = this.getView().byId("idCustomerCode");
+				custid.setSelectedKey("");
+				this.getView().byId("idCustName").setText("");
+				this.getView().byId("idQnty").setValue("");
+				this.getView().byId("idBhav").setValue("");
+				this.getView().byId("idAdvance").setValue("");
+				this.getView().byId("DateId").setDateValue(new Date());
+
+
+			},
+			onNameChange: function(oEvent){
+
+				debugger;
+ 				var cName = oEvent.getParameter("value");
+				this.getView().byId("idCustName").setText(cName);
+
+			},
+
+			onMaterialSelect: function(oEvent){
+				//whatever material id selected push that in local model
+				debugger;
+					var myData = this.getView().getModel("local").getProperty("/demoData");
+					myData.Material = oEvent.getParameter("selectedItem").getKey();
+					 this.getView().getModel("local").setProperty("/demoData", myData);
 			},
 
 			/* =========================================================== */

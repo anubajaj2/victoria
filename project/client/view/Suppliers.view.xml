@@ -1,21 +1,35 @@
 <mvc:View
 	controllerName="victoria.controller.Suppliers"
-	xmlns="sap.m"
+	xmlns:m="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic"
-	xmlns:footerbar="sap.ushell.ui.footerbar">
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage
 		id="products"
 		navButtonPress="onNavBack"
 		showNavButton="true"
-		title="Manage Products"
+		title="{i18n>bookingTitle}"
 		busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 
-		<semantic:content>
-			
- 		</semantic:content>
+
+	<semantic:content id="Header">
+			<core:Fragment fragmentName="victoria.fragments.BookingHeader" type="XML"></core:Fragment>
+
+	</semantic:content>
+
+	<semantic:content id="MiddleArea">
+		<core:Fragment fragmentName="victoria.fragments.BookingMiddleArea" type="XML"></core:Fragment>
+	</semantic:content>
+
+
+	<semantic:customFooterContent>
+		<m:Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+	</semantic:customFooterContent>
 
 	</semantic:FullscreenPage>
 

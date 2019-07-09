@@ -10,13 +10,14 @@
 	<f:Form id="BookingHeader" editable="true">
 
 		<f:layout>
-			<f:ResponsiveGridLayout
-				labelSpanXL="4" labelSpanL="4" labelSpanM="4"
-				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-				adjustLabelSpan="false"
-				columnsXL="2" columnsL="2" columnsM="2"
-				singleContainerFullSize="false"
-				 />
+			<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2"
+				             labelSpanS="12"
+			               emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+										 adjustLabelSpan="false"
+			               columnsXL="4" columnsL="4" columnsM="4"
+										 singleContainerFullSize="true"/>
+
+
 		</f:layout>
 
 		<f:formContainers>
@@ -39,7 +40,9 @@
 								<m:suggestionItems>
 									<core:ListItem text="{CustomerCode}"/>
 								</m:suggestionItems>
-
+								<m:layoutData>
+									<l:GridData span="XL2 L2 M3 S5"/>
+								</m:layoutData>
 							</m:Input>
 							<m:Text id="idCustName" enableSelection="false"/>
 						</f:fields>
@@ -47,8 +50,10 @@
 					<f:FormElement label="{i18n>bookingDate}">
 						<f:fields>
 							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
-								displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}" width="55%">
-
+								displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}" >
+								<m:layoutData>
+									<l:GridData span="XL2 L2 M3 S5"/>
+								</m:layoutData>
 							</m:DatePicker>
 
 
@@ -59,19 +64,19 @@
 						<f:fields>
 
 							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}" value="" >
-								<!-- <m:layoutData>
-									<l:GridData span="XL1 L1"/>
-								</m:layoutData> -->
+								<m:layoutData>
+									<l:GridData span="XL1 L1 M2 S2"/>
+								</m:layoutData>
 							</m:Input>
 							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" value="">
-								<!-- <m:layoutData>
-									<l:GridData span="XL3 L3"/>
-								</m:layoutData> -->
+								<m:layoutData>
+									<l:GridData span="XL2 L2 M3 S3"/>
+								</m:layoutData>
 							</m:Input>
 							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}" value="">
-								<!-- <m:layoutData>
-									<l:GridData span="XL3 L3"/>
-								</m:layoutData> -->
+								<m:layoutData>
+									<l:GridData span="XL2 L2 M3 S3"/>
+								</m:layoutData>
 							</m:Input>
 						</f:fields>
 					</f:FormElement>
@@ -79,9 +84,9 @@
 					<f:FormElement label =" ">
 						<f:fields>
 							<m:Button text="Send" press="onSend">
-							<!-- <m:layoutData>
-								<l:GridData span="XL5 L5"/>
-							</m:layoutData> -->
+							<m:layoutData>
+								<l:GridData span="XL5 L5 M8 S8"/>
+							</m:layoutData>
 						</m:Button>
 						</f:fields>
 					</f:FormElement>

@@ -21,7 +21,7 @@
 					<m:ComboBox showSecondaryValues="true" selectionChange="onReturnValue"
 						id ="IdType" value="{returnModel>Type}"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"
-						items="{local>/returnType}">
+						items="{path: 'local>/returnType', templateShareable:false}">
 						<core:Item key="{local>key}" text="{local>value}" additionalText="{local>key}"/>
 					</m:ComboBox>
 				</template>

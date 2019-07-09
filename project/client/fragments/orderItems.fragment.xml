@@ -25,7 +25,7 @@
 						 showSuggestion="true"
 						 suggestionItemSelected="onMaterialSelect"
 						 value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
-						 suggestionItems="{/Products}"
+						 suggestionItems="{path: '/Products', templateShareable:false}"
 						 editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>
 							<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>

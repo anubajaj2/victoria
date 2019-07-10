@@ -17,7 +17,7 @@
     },
     "Product": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Cash": {
       "type": "number",

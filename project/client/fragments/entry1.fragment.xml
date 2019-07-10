@@ -63,18 +63,6 @@
           <Input id="idRemarks" type="Text" submit="onSubmit" value="{local>/EntryData/Remarks}"></Input>
         </f:fields>
       </f:FormElement>
-      <f:FormElement label="{i18n>tunch}">
-        <f:fields>
-          <!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
-            </Label> -->
-          <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}">
-            <!-- <layoutData>
-              <l:GridData span="L8"></l:GridData>
-            </layoutData> -->
-          </Input>
-          <Button text="{i18n>Calculate}" press="onCalculate"></Button>
-          </f:fields>
-          </f:FormElement>
           <f:FormElement label="{i18n>DueDate}">
           <f:fields>
             <DatePicker id="DueDateId" valueFormat="yyyy.MM.dd"
@@ -119,11 +107,11 @@
                     </RadioButtonGroup>
                 </f:fields>
               </f:FormElement>
-              <f:FormElement label="{i18n>material}">
+              <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
                 <f:fields>
-                  <Input id="idMat"  editable="true" type="Text" suggest=""
+                  <Input id="idMat"  editable="true" type="Text" suggest="ValueChangeMaterial"
                     placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
-                    showSuggestion="true" suggestionItems="{/Products}">
+                    showSuggestion="true" suggestionItems="{/Products}" visible="true">
                     <suggestionItems>
                       <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
                     </suggestionItems>
@@ -132,26 +120,50 @@
                     </layoutData>
                   </Input>
                   <Text id="idMatText" enableSelection="false"/>
+                  <Text id="idMatType" enableSelection="false"/>
                 </f:fields>
               </f:FormElement>
-              <f:FormElement label="{i18n>type}">
+              <!-- <f:FormElement label="{i18n>type}">
                 <f:fields>
-                  <Input id="idMatType" width="50%" value="">
+                  <Input id="idMatType" width="50%" value=""> -->
                     <!-- <layoutData>
                       <l:GridData span="L3"></l:GridData>
                     </layoutData> -->
-                  </Input>
+                  <!-- </Input>
                 </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>coWeight}">
+              </f:FormElement> -->
+              <f:FormElement label="{i18n>weitun}">
                 <f:fields>
-                  <Input id="idweight"  width="50%" submit="onSubmit" liveChange="decimalvalidator4" value="{path:'local>/EntryData/Weight'}">
-                    <!-- <layoutData>
-                      <l:GridData span="L3"></l:GridData>
-                    </layoutData> -->
+                  <Input id="idweight" submit="onSubmit" liveChange="decimalvalidator4" value="{path:'local>/EntryData/Weight'}">
+                    <layoutData>
+      								<l:GridData span="L3"></l:GridData>
+      							</layoutData>
                   </Input>
+                  <Label text="{i18n>multiply}" design="Bold" class="sapUiSmallMarginTop sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd  ">
+                  <layoutData>
+                  <l:GridData span="L1"/>
+                  </layoutData>
+                  </Label>
+                  <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}" enabled="true">
+                  <layoutData>
+                 <l:GridData span="L3"/>
+                 </layoutData>
+                 </Input>
+                 <Button text="{i18n>Calculate}" press="onCalculate"></Button>
                 </f:fields>
               </f:FormElement>
+              <!-- <f:FormElement label="{i18n>multiply}">
+                <f:fields> -->
+                  <!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
+                    </Label> -->
+                  <!-- <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}"> -->
+                    <!-- <layoutData>
+                      <l:GridData span="L8"></l:GridData>
+                    </layoutData> -->
+                  <!-- </Input>
+
+                  </f:fields>
+                  </f:FormElement> -->
         </f:formElements>
       </f:FormContainer>
       <!-- <f:FormContainer> -->

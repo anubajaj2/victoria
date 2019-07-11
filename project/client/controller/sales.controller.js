@@ -209,7 +209,7 @@ orderCheck:function(){
       delete orderData.ToOrderItems;
       delete orderData.ToCustomers;
       delete orderData.ToOrderReturns;
-      this.orderCustomCalculations();
+      that.orderCustomCalculations();
     }
   this.getView().byId("Sales--customerId").setValueState("None");
   //call the odata promise method to post the data

@@ -85,13 +85,13 @@ var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split(
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
 if (orderDetail.Customer) {
-var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + orderDetail.Customer + "'");
+var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,orderDetail.Customer);
 }else {
-var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + "");
+var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
 }
 
 this.getOrderDetails(orderId , oFilter);
-this.orderSearchPopup.destroyItems();
+// this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 //customer popup
@@ -153,12 +153,13 @@ this.orderSearchPopup.destroyItems();
 orderCreate:function(oEvent){
   debugger;
 var that = this;
+debugger;
 if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
 {
   var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
   sap.m.MessageBox.confirm("Are you sure to delete the unsaved Data?",{
   title: "Confirm",                                    // default
-  id:id,                                               // Id
+  // id:id,                                               // Id
   styleClass: "",                                      // default
   initialFocus: null,                                  // default
   textDirection: sap.ui.core.TextDirection.Inherit,     // default
@@ -170,6 +171,8 @@ if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
     var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
     var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
     debugger;
+    var order = that.getView().getModel('local').getProperty('/orderHeader')
+    // order.setData(null);
     that.onClear(oEvent,id);
     debugger;
     that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId',customerId);
@@ -197,6 +200,16 @@ orderCheck:function(){
         that.getView().setBusy(false);
       }
   else {
+    if (orderData) {
+      orderData.id = "";
+      orderData.CreatedBy = "";
+      orderData.ChangedBy = "";
+      orderData.CreatedOn = "";
+      orderData.CreatedBy = "";
+      delete orderData.ToOrderItems;
+      delete orderData.ToCustomers;
+      delete orderData.ToOrderReturns;
+    }
   this.getView().byId("Sales--customerId").setValueState("None");
   //call the odata promise method to post the data
   orderData.Date = this.getView().byId("Sales--DateId").getValue();
@@ -696,11 +709,11 @@ oHeader.GoldBhav=0;
 oHeader.SilverBhav=0;
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
-this.getView().getModel('local').setProperty('/orderHeader',oHeader);
-this.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
-this.getView().byId("Sales--DateId").setDateValue(new Date());
+that.getView().getModel('local').setProperty('/orderHeader',oHeader);
+that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
+that.getView().byId("Sales--DateId").setDateValue(new Date());
 //set the bhav details on Header
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
     "/CustomCalculations", "GET", {}, {}, this)
   .then(function(oData) {
     that.getView().getModel("local").setProperty("/CustomCalculations",oData);

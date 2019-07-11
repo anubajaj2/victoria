@@ -874,6 +874,17 @@ debugger;
 			for (var i = 0; i < tableBinding.getLength(); i++) {
 				var data = tableBinding.oList[i];
 				if (data.key !== "") {
+					if (data.key === "CASH")
+					{
+					if (data.Bhav === "" || data.Bhav === 0) {
+						this.getView().setBusy(false);
+						oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
+						returnError = true;
+					}else {
+						oTableDetails.getRows()[i].getCells()[1].setValueState("None");
+						this.getView().setBusy(false);
+					}
+					} else {
 					//Quantity
 					if (data.Weight === "" || data.Weight === 0) {
 						this.getView().setBusy(false);
@@ -926,7 +937,9 @@ if (data.Tunch === "" || data.Tunch === 0) {
 
 	 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 	} //key check
-}} //for loop
+}//bhav check
+}//data.key check
+} //for loop
 			return returnError;
 		},
 		orderItem: function(oEvent,id) {

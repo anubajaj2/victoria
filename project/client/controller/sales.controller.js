@@ -110,13 +110,19 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 getOrderDetails:function(orderId ,oFilter){
   debugger;
   var that = this;
+  // that.orderItem(oEvent);
+  // that.orderReturn(oEvent);
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')", "GET",
                    {filters: [oFilter]}, {}, this)
     .then(function(oData) {
     that.getView().setBusy(false);
     var custId = oData.Customer;
+    var customerData = that.allMasterData.customers[custId];
     that.getView().getModel("local").setProperty("/orderHeader", oData);
+    that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
+    that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
+    that.getView().byId("Sales--custName").setText(customerData.Name + " - " + customerData.City);
      debugger;
      // assign the details on ui
    //   var that2 = this;
@@ -144,7 +150,7 @@ getOrderDetails:function(orderId ,oFilter){
 valueHelpOrder:function(oEvent){
   debugger;
 this.orderPopup(oEvent);
-this.orderSearchPopup.destroyItems();
+// this.orderSearchPopup.destroyItems();
 },
 onCancel:function(oEvent) {
 this.orderSearchPopup.destroyItems();
@@ -170,16 +176,10 @@ if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
     var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
     var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
     var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
-    debugger;
     var order = that.getView().getModel('local').getProperty('/orderHeader')
-    // order.setData(null);
     that.onClear(oEvent,id);
-    debugger;
     that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId',customerId);
-    // that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerName',customerName);
-    debugger;
     that.getView().byId("Sales--custName").setText(customerName);
-    // that.getView().getModel('local').setProperty('/orderHeader/Date',orderdate);
     that.getView().getModel('local').setProperty('/orderHeader/Customer',customerNo);
     that.orderCheck();
 }//Sbutton if condition
@@ -209,6 +209,7 @@ orderCheck:function(){
       delete orderData.ToOrderItems;
       delete orderData.ToCustomers;
       delete orderData.ToOrderReturns;
+      this.orderCustomCalculations();
     }
   this.getView().byId("Sales--customerId").setValueState("None");
   //call the odata promise method to post the data
@@ -663,7 +664,8 @@ onClearScreen:function(oEvent){
        onClose: function(oAction) {
          if (oAction === "Clear") {
            that.onClear(oEvent,id);
-           that.setStatus('green');
+           that.byId("Sales--idSaveIcon").setColor('green');
+
            MessageToast.show("Screen cleared successfully!");
          } else if (oAction === "Save & Clear") {
            if (that.onSave(oEvent)) {
@@ -681,7 +683,7 @@ onClearScreen:function(oEvent){
          onClose: function(oAction) {
            if (oAction === "Clear") {
              that.onClear(oEvent,id);
-             that.setStatus('green');
+             that.byId("Sales--idSaveIcon").setColor('green');
              MessageToast.show("Screen cleared successfully!");
            }
            }
@@ -712,21 +714,23 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
 that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
 that.getView().byId("Sales--DateId").setDateValue(new Date());
+debugger;
+this.orderCustomCalculations();
 //set the bhav details on Header
-that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-    "/CustomCalculations", "GET", {}, {}, this)
-  .then(function(oData) {
-    that.getView().getModel("local").setProperty("/CustomCalculations",oData);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
-    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
-  }).catch(function(oError) {
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
-    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
-  });
+// that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+//     "/CustomCalculations", "GET", {}, {}, this)
+//   .then(function(oData) {
+//     that.getView().getModel("local").setProperty("/CustomCalculations",oData);
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
+//     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
+//   }).catch(function(oError) {
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
+//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+//     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
+//   });
 //Clear Item table
 this.orderItem(oEvent,id);
 //return table

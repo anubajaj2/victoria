@@ -1045,6 +1045,25 @@ if (data.Tunch === "" || data.Tunch === 0) {
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
 			}
 		},
+		orderCustomCalculations:function(){
+			var that = this;
+			debugger;
+			// var orderHeader = that.getView().getModel('local').getProperty('/orderHeaders');
+			that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+			    "/CustomCalculations", "GET", {}, {}, this)
+			  .then(function(oData) {
+			    // that.getView().getModel("local").setProperty("/CustomCalculations",oData);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
+			    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
+			  }).catch(function(oError) {
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+			    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
+			  });
+		},
 		orderReturn: function(oEvent,id) {
 			//create the model to set the getProperty
 			//visible or // NOT

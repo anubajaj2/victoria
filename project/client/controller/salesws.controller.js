@@ -101,7 +101,7 @@ sap.ui.define(
 						"MakingD": 0,
 						"Tunch": 0,
 						"Remarks": "",
-						"SubTotal": "",
+						"SubTotal": 0,
 						"SubTotalS": 0,
 						"SubTotalG": 0,
 						"Category": "",
@@ -120,7 +120,7 @@ sap.ui.define(
 				debugger;
 				this.setModel(oOrderItem, "orderItems");
 			},
-			orderReturn: function(oEvent,id) {
+			orderReturn: function(oEvent, id) {
 				//create the model to set the getProperty
 				//visible or // NOT
 				// this.setVisible(oEvent,id);
@@ -140,7 +140,7 @@ sap.ui.define(
 						"Remarks": "",
 						"SubTotalS": 0,
 						"SubTotalG": 0,
-						"SubTotal":"",
+						"SubTotal": 0,
 						"CreatedBy": "",
 						"CreatedOn": "",
 						"ChangedBy": "",
@@ -826,8 +826,8 @@ sap.ui.define(
 				this.getView().getModel('local').setProperty('/WSorderHeader', oHeader);
 				// this.getView().getModel("local").setProperty("/WSorderHeader/Date", formatter.getFormattedDate(0));
 				this.getView().byId("WSHeaderFragment--DateId").setDateValue(new Date());
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-						"/CustomCalculations", "GET", {}, {}, this)
+				this.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+						"/CustomCalculations", "GET", {}, {}, that)
 					.then(function(oData) {
 						debugger;
 						that.getView().getModel("local").setProperty("/CustomCalculations", oData);
@@ -972,6 +972,33 @@ sap.ui.define(
 			//on order create Button
 			orderCreate: function(oEvent) {
 				var that = this;
+				if (this.getView().getModel('local').getProperty('/WSOrderHeader').OrderNo) {
+					var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
+					MessageBox.confirm("Are you sure to delete the unsaved Data?", {
+						title: "Confirm", // default
+						onClose: function(sButton) {
+							if (sButton === MessageBox.Action.OK) {
+								debugger;
+								var orderdate = that.getView().getModel('local').getProperty('/WSOrderHeader').Date;
+								var customerNo = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+								var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
+								var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
+								var order = that.getView().getModel('local').getProperty('/WSOrderHeader')
+								that.clearScreen(oEvent);
+								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
+								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
+								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
+								// that.clearScreen(oEvent);
+								that.orderCheck();
+							} //Sbutton if condition
+						} //onClose
+					});
+				} else {
+					that.orderCheck();
+				}
+			},
+			orderCheck: function() {
+				  var that = this;
 				that.getView().setBusy(true);
 				// get the data from screen in local model
 				debugger;
@@ -981,6 +1008,17 @@ sap.ui.define(
 					that.getView().setBusy(false);
 				} else {
 					debugger;
+					if (orderData) {
+			      orderData.id = "";
+			      orderData.CreatedBy = "";
+			      orderData.ChangedBy = "";
+			      orderData.CreatedOn = "";
+			      orderData.CreatedBy = "";
+			      delete orderData.ToOrderItems;
+			      delete orderData.ToCustomers;
+			      delete orderData.ToOrderReturns;
+			      // that.orderCustomCalculations();
+			    }
 					//call the odata promise method to post the data
 					orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
@@ -1002,7 +1040,6 @@ sap.ui.define(
 						});
 				}
 			},
-
 			onValidation: function() {
 				var that = this;
 				//---all validation true
@@ -1300,7 +1337,7 @@ sap.ui.define(
 									} //for loop
 									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
 									that.getView().setBusy(false);
-							    sap.m.MessageToast.show("Data Saved Successfully");
+									sap.m.MessageToast.show("Data Saved Successfully");
 								})
 								.catch(function(oError) {
 									that.getView().setBusy(false);
@@ -1311,11 +1348,10 @@ sap.ui.define(
 					}
 					//Return values save
 					if (oCommit === false) {
-					that.onReturnSave(oEvent,oId,oCommit);
+						that.onReturnSave(oEvent, oId, oCommit);
 					}
 					that.byId("Sales--idSaveIcon").setColor('green');
-				}
-				else {
+				} else {
 					sap.m.MessageBox.error("No change in data records", {
 						title: "Error",
 						onClose: function(sButton) {}

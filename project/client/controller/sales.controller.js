@@ -198,7 +198,7 @@ this.orderPopup(oEvent);
 // this.orderSearchPopup.destroyItems();
 },
 onCancel:function(oEvent) {
-this.orderSearchPopup.destroyItems();
+// this.orderSearchPopup.destroyItems();
 },
 //on order create Button
 orderCreate:function(oEvent){

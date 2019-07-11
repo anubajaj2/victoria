@@ -39,24 +39,276 @@ sap.ui.define(
 			onConfirm: function(oEvent) {
 				debugger;
 				this.setStatus('red');
-				var oId = oEvent.getParameter('selectedItem').getId();
-				var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
-				var oSource = oId.split("-" [0])
 
-				var selCust = oEvent.getParameter("selectedItem").getLabel();
-				var selCustName = oEvent.getParameter("selectedItem").getValue();
-				// oCustDetail.customerId = selCust;
-				// oCustDetail.CustomerName = selCustName;
-				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
-					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
-					selCust);
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
-					selCustName);
-				this.getView().byId("WSHeaderFragment--custName").setText(selCustName);
-				// Removing error notif. if value is entered
-				this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
+				if (oEvent.getParameter('id') === 'orderNo') {
+					var orderDetail = this.getView().getModel('local').getProperty('/WSOrderHeader');
+					var orderNo = oEvent.getParameter("selectedItem").getLabel();
+					var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+					// this.OrderDetails(orderId);
+					this.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo",
+						orderNo);
+					if (orderDetail.Customer) {
+						var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + orderDetail.Customer + "'");
+					} else {
+						var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + "");
+					}
 
+					this.getOrderDetails(oEvent, orderId, oFilter);
+					this.orderSearchPopup.destroyItems();
+				} else {
+					var oId = oEvent.getParameter('selectedItem').getId();
+					var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+					var oSource = oId.split("-" [0])
+
+					var selCust = oEvent.getParameter("selectedItem").getLabel();
+					var selCustName = oEvent.getParameter("selectedItem").getValue();
+					// oCustDetail.customerId = selCust;
+					// oCustDetail.CustomerName = selCustName;
+					this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
+						oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+					this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+						selCust);
+					this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
+						selCustName);
+					this.getView().byId("WSHeaderFragment--custName").setText(selCustName);
+					// Removing error notif. if value is entered
+					this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
+				}
+			},
+			orderItem: function(oEvent, id) {
+				//create the model to set the getProperty
+				//visible or // NOT
+				debugger;
+				// this.setVisible(oEvent,id);
+				//create json model
+				var oOrderItem = new sap.ui.model.json.JSONModel();
+				//create array
+				var array = [];
+				//loop the array values
+				for (var i = 1; i <= 20; i++) {
+					//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
+					var oItem = {
+						"OrderNo": "",
+						"itemNo": "",
+						"Material": "",
+						// "MaterialCode": "",
+						"Description": "",
+						"Qty": 0,
+						"QtyD": 0,
+						"Weight": 0,
+						"WeightD": 0,
+						"Making": 0,
+						"MakingD": 0,
+						"Tunch": 0,
+						"Remarks": "",
+						"SubTotal": "",
+						"SubTotalS": 0,
+						"SubTotalG": 0,
+						"Category": "",
+						"CreatedBy": "",
+						"CreatedOn": "",
+						"ChangedBy": "",
+						"ChangedOn": ""
+					};
+					array.push(oItem);
+				}
+				//set the Data
+				oOrderItem.setData({
+					"itemData": array
+				});
+				//set the model
+				debugger;
+				this.setModel(oOrderItem, "orderItems");
+			},
+			orderReturn: function(oEvent,id) {
+				//create the model to set the getProperty
+				//visible or // NOT
+				// this.setVisible(oEvent,id);
+				//create structure of an array
+				var oTransData = new sap.ui.model.json.JSONModel();
+				var aTtype = [];
+				for (var i = 1; i <= 5; i++) {
+					var oRetailtab = {
+						"Type": "",
+						"key": "",
+						"ReturnId": "",
+						"Weight": 0,
+						"KWeight": 0,
+						"Tunch": 0,
+						"Qty": 0,
+						"Bhav": 0,
+						"Remarks": "",
+						"SubTotalS": 0,
+						"SubTotalG": 0,
+						"SubTotal":"",
+						"CreatedBy": "",
+						"CreatedOn": "",
+						"ChangedBy": "",
+						"ChangedOn": ""
+					};
+					aTtype.push(oRetailtab);
+				}
+				oTransData.setData({
+					"TransData": aTtype
+				});
+				this.setModel(oTransData, "returnModel");
+			},
+			getOrderDetails: function(oEvent, orderId, oFilter) {
+				debugger;
+				var that = this;
+				that.orderItem(oEvent);
+				that.orderReturn(oEvent);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/WSOrderHeaders('" + orderId + "')", "GET", {
+							filters: [oFilter]
+						}, {}, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						var custId = oData.Customer;
+						var customerData = that.allMasterData.customers[custId];
+
+						that.getView().getModel("local").setProperty("/WSOrderHeader", oData);
+						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
+						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
+						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + customerData.City);
+						debugger;
+						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+						// assign the details on ui
+						//   var that2 = this;
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+								"/WSOrderHeaders('" + orderId + "')/ToWSOrderItem",
+								"GET", {}, {}, that)
+							.then(function(oData) {
+								debugger;
+								if (oData.results.length > 0) {
+									// that.orderItem(oEvent);
+									var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+									for (var i = 0; i < oData.results.length; i++) {
+										debugger;
+										allItems[i].OrderNo = oData.results[i].OrderNo;
+										allItems[i].itemNo = oData.results[i].id;
+										allItems[i].Making = oData.results[i].Making;
+										allItems[i].MakingD = oData.results[i].MakingD;
+										allItems[i].Qty = oData.results[i].Qty;
+										allItems[i].QtyD = oData.results[i].QtyD;
+										allItems[i].SubTotal = oData.results[i].SubTotal;
+										allItems[i].SubTotalG = oData.results[i].SubTotalG;
+										allItems[i].SubTotalS = oData.results[i].SubTotalS;
+										allItems[i].Weight = oData.results[i].Weight;
+										allItems[i].WeightD = oData.results[i].WeightD;
+										allItems[i].Remarks = oData.results[i].Remarks;
+										var MaterialData = that.allMasterData.materials[oData.results[i].Material];
+										allItems[i].Material = oData.results[i].Material;
+										allItems[i].Description = MaterialData.ProductName;
+										allItems[i].MaterialCode = MaterialData.ProductCode;
+										// allItems[i].Category = MaterialData.ProductCode;
+									}
+									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
+								}
+							});
+
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+								"/WSOrderHeaders('" + orderId + "')/ToWSOrderReturns",
+								"GET", {}, {}, that)
+							.then(function(oData) {
+								debugger;
+								if (oData.results.length > 0) {
+									// that.orderReturn(oEvent);
+									var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
+									for (var i = 0; i < oData.results.length; i++) {
+										debugger;
+
+										// "key": "",
+
+										// allReturns[i].orderNo = oData.results[i].OrderNo;
+										allReturns[i].ReturnId = oData.results[i].id;
+										allReturns[i].Type = oData.results[i].Type;
+										allReturns[i].Weight = oData.results[i].Weight;
+										allReturns[i].KWeight = oData.results[i].KWeight;
+										allReturns[i].Tunch = oData.results[i].Tunch;
+										allReturns[i].Qty = oData.results[i].Qty;
+										allReturns[i].Bhav = oData.results[i].Bhav;
+										allReturns[i].SubTotalG = oData.results[i].SubTotalG;
+										allReturns[i].SubTotalS = oData.results[i].SubTotalS;
+										allReturns[i].Remarks = oData.results[i].Remarks;
+										allReturns[i].SubTotal = oData.results[i].SubTotal;
+									}
+									that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
+								}
+							});
+						// var custDetail = that.getView().getModel('local').getProperty('orderHeaderTemp');
+						//     // custDetail.CustomerId = oData.
+						//     // custDetail.CustomerName = oData.
+						// that.getView().getModel("local").setProperty("/orderHeaderTemp", custDetail);
+						//                 })
+						// .catch(function(oError) {
+						//   that.getView().setBusy(false);
+						//   var oPopover = that.getErrorMessage(oError);
+						//             	});
+					})
+					.catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+			},
+			//on order valuehelp,get the exsisting order from //DB
+			valueHelpOrder: function(oEvent) {
+				debugger;
+				this.orderPopup(oEvent);
+				this.orderSearchPopup.destroyItems();
+			},
+			orderPopup: function(oEvent) {
+				//call the popup screen dynamically
+				debugger;
+				// if (!this.orderSearchPopup) {
+				this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.orderSearchPopup);
+				var title = this.getView().getModel("i18n").getProperty("orderSearch");
+				this.orderSearchPopup.setTitle(title);
+				this.orderSearchPopup.sId = 'orderNo';
+				var orderDate = this.byId("WSHeaderFragment--DateId").getValue();
+				var customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
+				var dateFrom = new Date(orderDate);
+				dateFrom.setHours(0, 0, 0, 1)
+				var dateTo = new Date(orderDate);
+				dateTo.setHours(23, 59, 59, 59)
+				//Now you have to have 2 date Object
+				//firstDate object set the time to 000000 second object 240000
+				//now create 2 filter one ge low and two le High
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+				if (customer) {
+					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, customer);
+				} else {
+					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+				}
+				var orFilter = new sap.ui.model.Filter({
+					filters: [oFilter1, oFilter2],
+					and: true
+				});
+				var orFilterF = new sap.ui.model.Filter({
+					filters: [orFilter, oFilter3],
+					and: true
+				});
+				debugger;
+				this.orderSearchPopup.bindAggregation("items", {
+					path: '/WSOrderHeaders',
+					filters: orFilter,
+					// dataReceived: '.OrderDetailsFetched',
+					// change: '.OrderDetailsFetched'
+					template: new sap.m.DisplayListItem({
+						label: "{OrderNo}",
+						value: "{Customer}",
+						// modelContextChange: 'popupDetailsFetched'
+					})
+				});
+				debugger;
+				// }//order popup
+				this.orderSearchPopup.open();
+			},
+			popupDetailsFetched: function(oEvent) {
+				debugger;
 			},
 			ValueChange: function(oEvent) {
 				debugger;
@@ -568,6 +820,7 @@ sap.ui.define(
 				oHeaderT.CustomerId = "";
 				oHeader.OrderNo = "";
 				oHeader.Customer = "";
+				this.getView().byId("WSHeaderFragment--custName").setText("");
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 				// oHeader.Date=new Date();
 				this.getView().getModel('local').setProperty('/WSorderHeader', oHeader);
@@ -1038,14 +1291,16 @@ sap.ui.define(
 										if (allItems[i].Material === oData.Material) {
 											allItems[i].itemNo = oData.id;
 											allItems[i].OrderNo = oId;
-											if (oCommit === false) {
-												that.onReturnSave(oEvent, oId, oCommit);
-											}
-											that.setStatus('green');
+											// if (oCommit === false) {
+											// 	that.onReturnSave(oEvent, oId, oCommit);
+											// }
+											// that.setStatus('green');
 											break;
 										} //material compare if condition
 									} //for loop
 									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
+									that.getView().setBusy(false);
+							    sap.m.MessageToast.show("Data Saved Successfully");
 								})
 								.catch(function(oError) {
 									that.getView().setBusy(false);
@@ -1054,7 +1309,13 @@ sap.ui.define(
 
 						}
 					}
-				} else {
+					//Return values save
+					if (oCommit === false) {
+					that.onReturnSave(oEvent,oId,oCommit);
+					}
+					that.byId("Sales--idSaveIcon").setColor('green');
+				}
+				else {
 					sap.m.MessageBox.error("No change in data records", {
 						title: "Error",
 						onClose: function(sButton) {}

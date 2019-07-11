@@ -35,7 +35,7 @@
 							<f:fields>
 								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}"
 									showValueHelp="true" valueHelpRequest="valueHelpOrder"
-									valueHelpOnly="true" editable="true" enabled="true"/>
+									valueHelpOnly="true"/>
 								<Button text="{i18n>C}" press="orderCreate"/>
 								<Button icon="sap-icon://nav-back"/>
 								<Button icon="sap-icon://feeder-arrow"/>

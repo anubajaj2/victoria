@@ -74,8 +74,6 @@ var myWindow = window.open("", "PrintWindow", "width=200,height=100");
     myWindow.stop();
 },
 onConfirm:function(oEvent){
-  debugger;
-this.byId("Sales--idSaveIcon").setColor('red');
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
@@ -85,6 +83,7 @@ var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split(
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
 if (orderDetail.Customer) {
+this.byId("Sales--idSaveIcon").setColor('red');
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,orderDetail.Customer);
 }else {
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
@@ -126,20 +125,40 @@ getOrderDetails:function(orderId ,oFilter){
      debugger;
      // assign the details on ui
    //   var that2 = this;
-   // that2.ODataHelper2.callOData(this.getOwnerComponent().getModel(),
-   //                 "/OrderHeaders('" + orderId + "')/ToOrderItems",
-   //                 "GET", {},{}, that2)
-   //   .then(function(oData) {
-   //       debugger;
-   // var custDetail = that.getView().getModel('local').getProperty('orderHeaderTemp');
-   //     // custDetail.CustomerId = oData.
-   //     // custDetail.CustomerName = oData.
-   // that.getView().getModel("local").setProperty("/orderHeaderTemp", custDetail);
-     //                 })
-     // .catch(function(oError) {
-     //   that.getView().setBusy(false);
-     //   var oPopover = that.getErrorMessage(oError);
-     //             	});
+   that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                   "/OrderHeaders('" + orderId + "')/ToOrderItems",
+                   "GET", {},{}, that)
+     .then(function(oData) {
+         debugger;
+      	if (oData.results.length > 0) {
+          var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+          for (var i = 0; i < oData.results.length; i++) {
+            debugger;
+            allItems[i].OrderNo = oData.results[i].OrderNo;
+            allItems[i].itemNo = oData.results[i].id;
+            allItems[i].Making = oData.results[i].Making;
+            allItems[i].MakingD = oData.results[i].MakingD;
+            allItems[i].Qty = oData.results[i].Qty;
+            allItems[i].QtyD = oData.results[i].QtyD;
+            allItems[i].SubTotal = oData.results[i].SubTotal;
+            allItems[i].SubTotalG = oData.results[i].SubTotalG;
+            allItems[i].SubTotalS = oData.results[i].SubTotalS;
+            allItems[i].Weight = oData.results[i].Weight;
+            allItems[i].WeightD = oData.results[i].WeightD;
+            allItems[i].Remarks = oData.results[i].Remarks;
+            var MaterialData = that.allMasterData.materials[oData.results[i].Material];
+            allItems[i].Material = oData.results[i].Material;
+            allItems[i].Description = MaterialData.ProductName;
+            allItems[i].MaterialCode = MaterialData.ProductCode;
+            // allItems[i].Category = MaterialData.ProductCode;
+          }
+          that.getView().getModel("orderItems").setProperty("/itemData", allItems);
+        }
+           })
+     .catch(function(oError) {
+       that.getView().setBusy(false);
+       var oPopover = that.getErrorMessage(oError);
+                 	});
                 })
    .catch(function(oError) {
    that.getView().setBusy(false);

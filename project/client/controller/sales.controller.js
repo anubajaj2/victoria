@@ -260,7 +260,16 @@ if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
     that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId',customerId);
     that.getView().byId("Sales--custName").setText(customerName);
     that.getView().getModel('local').setProperty('/orderHeader/Customer',customerNo);
-    that.orderCheck();
+    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+			    "/CustomCalculations", "GET", {}, {}, that)
+			    .then(function(oData) {
+          that.orderCheck();
+  }).catch(function(oError) {
+	 that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
+	 that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
+	 that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+	 that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
+	});
 }//Sbutton if condition
 }//onClose
 });
@@ -484,6 +493,7 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 return oCommit;
 },
 ValueChangeHeader:function(oEvent){
+  debugger;
   var that = this;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
   var oTable = this.getView().byId("orderItemBases").getBinding('rows');

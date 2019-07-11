@@ -51,23 +51,57 @@ this.getCustomerPopup(oEvent);
 getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },
+// getPrintCustData: function(){
+//   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+//       "/prints", "GET", {}, {}, this)
+//     .then(function(oData) {
+//       debugger;
+//       // that.getView().setBusy(false);
+//       // if(oData.results.length > 0){
+//
+//     }).catch(function(oError) {
+//   });
+// },
 onPrint:function(){
 debugger;
 var printHeader = this.getView().getModel("local").getProperty("/printCustomizing");
-var header = '<p>-------------------------------------------------------------------------------------------<br />'+
-             '<span id="s1"><strong>Company Name:</strong></span>'+printHeader.CompName+
-             '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />'+
-             '<strong>Address:</strong>'+printHeader.Address+
-             '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />'+
-             '<strong>Contact Number:</strong>'+printHeader.ContNumber+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '+
-             '&nbsp; &nbsp; &nbsp; &nbsp;<br /><strong>GSTN:</strong>'+printHeader.GSTNumber+'</p>'+
-             '<p>-------------------------------------------------------------------------------------------&nbsp; &nbsp; &nbsp;</p>'+
-             '<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-             ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br /><br /></p>';
+var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp");
+var orderDetails = this.getView().getModel('local').getProperty("/orderHeader");
+// this.getPrintCustData();
+var that = this;
+
+// var allItems = this.getView().getModel("local").getProperty("/printCustomizingData");
+// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+//     "/prints", "GET", {}, {}, this)
+//   .then(function(oData) {
+//     debugger;
+//     // that.getView().getModel("local").setProperty("/printCustomizingData",oData);
+//
+//   }).catch(function(oError) {
+// });
+
+var orderDate = this.getView().byId("DateId");
+var header = '<p>--------------------------------------------------------------------------------------------------------------------------------<br />'+
+'<span id="idCompName"><strong>Company Name:</strong></span>Moti &amp; Sons Jewellers'+
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+'<strong>Customer Name:</strong>'+orderHeader.CustomerName+'<br />'+
+'<strong>Address:</strong>Jaipur&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+'<strong>City:</strong>Sikar<br />'+
+'<strong>Contact:</strong>+91-XXXXXXXXXXX'+
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+'<strong>Ph No:</strong>+91-88555111255<br />'+
+'<strong>GSTIN:</strong> GSTIN558855S0&nbsp;'+
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+'<strong>Print Date:</strong> dd.mm.yyyy<br />'+
+'--------------------------------------------------------------------------------------------------------------------------------<br />'+
+'<strong>Invoice No:</strong>&nbsp; &nbsp;'+orderDetails.OrderNo+
+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
+'<strong>Date:</strong>'+orderDetails.Date+'<br />'+'--------------------------------------------------------------------------------------------------------------------------------</p>'+'<p>&nbsp;</p>';
+             // for(var i=0 ; i <= header.length; i++){
+             //   debugger;
+             //   header.
+             // }
+             // $(header)[1].style.display = "none";
 var myWindow = window.open("", "PrintWindow", "width=200,height=100");
     myWindow.document.write(header);
     myWindow.print();

@@ -35,7 +35,7 @@ xmlns:core ="sap.ui.core">
       </f:FormElement>
 			<f:FormElement label="{i18n>TnC}">
 				<f:fields>
-					<TextArea id="idTnC" value="{local>/printCustomizing/TnC}"/>
+					<TextArea id="idTnC" value="{local>/printCustomizing/TnC}" liveChange="onSubmit"/>
 				</f:fields>
 			</f:FormElement>
     </f:formElements>
@@ -58,7 +58,7 @@ xmlns:core ="sap.ui.core">
       </f:FormElement>
 			<f:FormElement label="{i18n>marking}">
 				<f:fields>
-					<TextArea id="idMarking" value="{local>/printCustomizing/Marking}"/>
+					<TextArea id="idMarking" value="{local>/printCustomizing/Marking}" liveChange="onSubmit"/>
 				</f:fields>
 			</f:FormElement>
 		</f:formElements>

@@ -18,6 +18,14 @@ function (BaseController,
   return BaseController.extend("victoria.controller.Entry",{
     // formatter:formatter,
     onInit: function () {
+			var that=this;
+			that.getView().setBusy(true);
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+				}).catch(function(oError) {
+					var oPopover = that.getErrorMessage(oError);
+				});
 
         BaseController.prototype.onInit.apply(this);
         var oRouter = this.getRouter();
@@ -219,6 +227,7 @@ debugger;
 
     onConfirm: function (oEvent) {
       debugger;
+			var selectedCust = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
     var that=this;
      var myData = this.getView().getModel("local").getProperty("/EntryData");
      var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -641,7 +650,9 @@ sap.m.MessageBox.confirm(
 				customerId: that.customerId
 			, entityName: "Entry"}).done(function(response){
 				sap.m.MessageToast.show(response.msg);
+
 			});
+	    Entrys.refresh(true);
 			// var myData=that.getView().getModel("local").getProperty("/EntryData");
 			// that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Entrys('"+ myData.Customer +"')",
 			// 															 "DELETE", {}, {}, that)

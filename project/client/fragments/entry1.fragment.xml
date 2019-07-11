@@ -79,19 +79,22 @@
       </f:layoutData>
       </f:FormContainer>
       <f:FormContainer>
-        <f:formElements>
-                <f:FormElement label="{i18n>tCash}">
+              <f:formElements>
+                <f:FormElement>
            				<f:fields>
+                    <Label text="{i18n>tCash}" class="sapUiSmallMarginTop" textAlign="End"/>
                      <ObjectStatus id="idTC" text="" state="None" />
              			</f:fields>
            			</f:FormElement>
-           		<f:FormElement label="{i18n>tGold}">
+           		<f:FormElement>
            			<f:fields>
+                  <Label text="{i18n>tGold}" class="sapUiSmallMarginTop" textAlign="End"/>
                  <ObjectStatus id="idG" text="" state="None" />
            			</f:fields>
            		</f:FormElement>
-           		<f:FormElement label="{i18n>tSilver}">
+           		<f:FormElement>
            			<f:fields>
+                  <Label text="{i18n>tSilver}" class="sapUiSmallMarginTop" textAlign="End"/>
                <ObjectStatus id="idS" text="" state="None" />
            			</f:fields>
            		</f:FormElement>

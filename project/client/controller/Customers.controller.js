@@ -178,7 +178,7 @@ this.clearCustomer();
 			ValueChangeCustomer: function(oEvent){
 				var oSource = oEvent.getSource();
 				var oFilter = new sap.ui.model.Filter("CustomerCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase())
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
 
 				oSource.getBinding("suggestionItems").filter(oFilter);
 				// oSource.bindAggregation("suggestionItems", {
@@ -260,7 +260,7 @@ this.clearCustomer();
 						dataModel.setProperty("/typeEnabled", true);
 						this.additionalInfoValidation();
 						this.getView().byId("idName").focus();
-						customerModel.refresh();
+						// customerModel.refresh();
 						}else{
 							customerModel.getData().City = "";
 							customerModel.getData().MobilePhone = "0";
@@ -310,7 +310,7 @@ this.clearCustomer();
 			SaveCustomer : function(){
 				var that = this;
 				 var customerModel = this.getView().getModel("customerModel");
-				 var custId = customerModel.getProperty("/CustomerCode");
+				 var custId = customerModel.getData().CustomerCode;
  				var customerCode = that.getView().byId("idCustomerCode").getValue();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();

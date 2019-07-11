@@ -76,6 +76,7 @@ var myWindow = window.open("", "PrintWindow", "width=200,height=100");
 onConfirm:function(oEvent){
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
+this.byId("Sales--idSaveIcon").setColor('green');
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderNo = oEvent.getParameter("selectedItem").getLabel();
 var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
@@ -123,8 +124,7 @@ getOrderDetails:function(orderId ,oFilter){
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
     that.getView().byId("Sales--custName").setText(customerData.Name + " - " + customerData.City);
      debugger;
-     // assign the details on ui
-   //   var that2 = this;
+     // assign the item Details
    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')/ToOrderItems",
                    "GET", {},{}, that)
@@ -159,7 +159,37 @@ getOrderDetails:function(orderId ,oFilter){
        that.getView().setBusy(false);
        var oPopover = that.getErrorMessage(oError);
                  	});
-                })
+
+//Assign return table values
+that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                 "/OrderHeaders('" + orderId + "')/ToOrderReturns",
+                 "GET",{}, {}, that)
+.then(function(oData) {
+   debugger;
+if (oData.results.length > 0) {
+  	var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
+  for (var i = 0; i < oData.results.length; i++) {
+    debugger;
+    allReturns[i].ReturnId = oData.results[i].id;
+    allReturns[i].Type = oData.results[i].Type;
+    allReturns[i].Weight = oData.results[i].Weight;
+    allReturns[i].KWeight = oData.results[i].KWeight;
+    allReturns[i].Tunch = oData.results[i].Tunch;
+    allReturns[i].Qty = oData.results[i].Qty;
+    allReturns[i].Bhav = oData.results[i].Bhav;
+    allReturns[i].SubTotalG = oData.results[i].SubTotalG;
+    allReturns[i].SubTotalS = oData.results[i].SubTotalS;
+    allReturns[i].Remarks = oData.results[i].Remarks;
+    allReturns[i].SubTotal = oData.results[i].SubTotal;
+    }
+    that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
+    }
+    })
+    .catch(function(oError) {
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+    });
+      })
    .catch(function(oError) {
    that.getView().setBusy(false);
    var oPopover = that.getErrorMessage(oError);

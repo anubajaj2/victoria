@@ -141,8 +141,6 @@ getOrderDetails:function(orderId ,oFilter){
             allItems[i].Qty = oData.results[i].Qty;
             allItems[i].QtyD = oData.results[i].QtyD;
             allItems[i].SubTotal = oData.results[i].SubTotal;
-            allItems[i].SubTotalG = oData.results[i].SubTotalG;
-            allItems[i].SubTotalS = oData.results[i].SubTotalS;
             allItems[i].Weight = oData.results[i].Weight;
             allItems[i].WeightD = oData.results[i].WeightD;
             allItems[i].Remarks = oData.results[i].Remarks;
@@ -177,8 +175,6 @@ if (oData.results.length > 0) {
     allReturns[i].Tunch = oData.results[i].Tunch;
     allReturns[i].Qty = oData.results[i].Qty;
     allReturns[i].Bhav = oData.results[i].Bhav;
-    allReturns[i].SubTotalG = oData.results[i].SubTotalG;
-    allReturns[i].SubTotalS = oData.results[i].SubTotalS;
     allReturns[i].Remarks = oData.results[i].Remarks;
     allReturns[i].SubTotal = oData.results[i].SubTotal;
     }

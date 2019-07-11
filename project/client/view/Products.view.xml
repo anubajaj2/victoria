@@ -53,7 +53,8 @@
 		enabled="{viewModel>/codeEnabled}"
 	suggestionItemSelected="productCodeCheck">
 	<suggestionItems>
-		<core:ListItem text="{ProductCode}"/>
+		<core:ListItem text="{ProductCode} {ProductName}"
+									 additionalText="{Type}"/>
 	</suggestionItems>
 </Input>
 

@@ -48,8 +48,8 @@
 						enabled="{viewModel>/codeEnabled}"
 					suggestionItemSelected="customerCodeCheck">
 					<suggestionItems>
-						<core:ListItem text="{CustomerCode} {Name}"
-													additionalText="{City}"/>
+						<core:ListItem text="{CustomerCode}"
+													additionalText="{Name}"/>
 					</suggestionItems>
 				</Input>
 				<!-- <ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"

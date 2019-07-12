@@ -941,6 +941,7 @@ ValueChange:function(oEvent){
 
 Calculation:function(oEvent,tablePath,i){
   debugger;
+  var that = this;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   if (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader') {
   if (tablePath) {
@@ -960,13 +961,13 @@ Calculation:function(oEvent,tablePath,i){
   var tempWeight  = 0.00;
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
-  //capture if there is any change
-    if (newValue) {
-      this.noChange = {
-        "index" : i,
-        "false" : 'false'
-      };
-    }
+  // //capture if there is any change
+  //   if (newValue) {
+  //     this.noChange = {
+  //       "index" : i,
+  //       "false" : 'false'
+  //     };
+  //   }
 
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
@@ -974,6 +975,23 @@ Calculation:function(oEvent,tablePath,i){
   var silverpergm = orderHeader.SilverBhav / 1000;
   var oLocale = new sap.ui.core.Locale("en-US");
   var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+
+  if ((category.Category === "") || (category.Category) ) {
+    if (category.Material !== "") {
+    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                     "/Products('" + category.Material + "')", "GET",
+                     {}, {}, this)
+      .then(function(oData) {
+        debugger;
+        category.Category = oData.Category;
+        category.Making = oData.Making;
+      })
+      .catch(function(oError) {
+        that.getView().setBusy(false);
+        var oPopover = that.getErrorMessage(oError);
+      });
+    }
+  }
 
 if ((category.Type === 'Gold' && category.Category === "gm") ||
     (category.Type === 'Silver' && category.Category === "gm"))

@@ -238,6 +238,7 @@ this.clearCustomer();
 						customerModel.setProperty("/Address", found[0].Address);
 						customerModel.setProperty("/SecondaryPhone", found[0].SecondaryPhone);
 						customerModel.setProperty("/Group", found[0].Group);
+						customerModel.setProperty("/Id", found[0].id);
 						var oType = this.getView().byId("idType");
 						oType.setSelectedKey(found[0].Type);
 						customerModel.setProperty("/Type", found[0].Type);

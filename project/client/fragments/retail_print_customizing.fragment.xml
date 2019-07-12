@@ -23,7 +23,7 @@ xmlns:core ="sap.ui.core">
 				<f:FormElement>
 					<f:fields>
 						<Text text="Company Name" width="20%"/>
-						<Switch state="true" change="onSubmit" name="switch">
+						<Switch id="idRCompName" state="true" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>

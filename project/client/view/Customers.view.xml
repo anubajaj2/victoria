@@ -43,7 +43,7 @@
 						<core:Item text="{Company}" key="{Id}"/>
 					</suggestionItems>
 				</Input> -->
-				<Input id="idCustomerCode" submit="customerCodeCheck" suggest="ValueChangeCustomer"
+				<Input id="idCustomerCode" submit="customerCodeEnter" suggest="ValueChangeCustomer"
 					suggestionItems="{/Customers}" showSuggestion="true"
 						enabled="{viewModel>/codeEnabled}"
 					suggestionItemSelected="customerCodeCheck">

@@ -198,7 +198,7 @@ this.clearCustomer();
 
 			},
 
-			customerCodeCheck : function(oEvent){
+			customerCodeEnter : function(oEvent){
 				$(function() {
 								$('input:text:first').focus();
 								var $inp = $('input:text');
@@ -212,7 +212,60 @@ this.clearCustomer();
 										}
 								});
 						});
+						var customerModel = this.getView().getModel("customerModel");
+						var selData = oEvent.getParameter("value").toLocaleUpperCase();
+						var that = this;
+						customerModel.setProperty("/CustomerCode", selData);
+						// var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+						var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+						function getCustomerCode(selData) {
+						 		return customerJson.filter(
+						 			function (data) {
+						 				return data.CustomerCode === selData;
+						 			}
+						 		);
+						 	}
 
+						 	var found = getCustomerCode(selData);
+						var dataModel = this.getView().getModel("dataModel");
+					 var viewModel = this.getView().getModel("viewModel");
+						var oCustCode = this.getView().byId("idCustomerCode").getValue();
+					if(found.length > 0){
+						customerModel.setProperty("/CustomerCode", found[0].id);
+						customerModel.setProperty("/City", found[0].City);
+						customerModel.setProperty("/Name", found[0].Name);
+						customerModel.setProperty("/MobilePhone", found[0].MobilePhone);
+						customerModel.setProperty("/Address", found[0].Address);
+						customerModel.setProperty("/SecondaryPhone", found[0].SecondaryPhone);
+						customerModel.setProperty("/Group", found[0].Group);
+						var oType = this.getView().byId("idType");
+						oType.setSelectedKey(found[0].Type);
+						customerModel.setProperty("/Type", found[0].Type);
+						viewModel.setProperty("/buttonText", "Update");
+						viewModel.setProperty("/deleteEnabled", true);
+						viewModel.setProperty("/codeEnabled", false);
+						dataModel.setProperty("/typeEnabled", true);
+						this.additionalInfoValidation();
+						// this.getView().byId("idName").focus();
+						customerModel.refresh();
+						}else{
+							customerModel.getData().City = "";
+							customerModel.getData().MobilePhone = "0";
+							customerModel.getData().Address = "";
+							customerModel.getData().Name = "";
+							customerModel.getData().SecondaryPhone = "0";
+							customerModel.getData().Group = "";
+							customerModel.getData().Type = "";
+							viewModel.setProperty("/buttonText", "Save");
+							viewModel.setProperty("/deleteEnabled", false);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
+							// this.getView().byId("idName").focus();
+							customerModel.refresh();
+						}
+			},
+
+			customerCodeCheck : function(oEvent){
 						var customerModel = this.getView().getModel("customerModel");
 						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 						var customerCode = selectedCustData.CustomerCode;
@@ -222,20 +275,6 @@ this.clearCustomer();
 					 var viewModel = this.getView().getModel("viewModel");
 						var oCustCode = this.getView().byId("idCustomerCode").getValue();
 						 var found =  customerCode;
-				// that._onRouteMatched();
-				// var customerModel = this.getView().getModel("customerModel");
- 			 // var customerCode = customerModel.getData().CustomerCode;
- 			 // var customerJson = this.getView().getModel("customerModelInfo").getData().results;
-			 // var viewModel = this.getView().getModel("viewModel");
- 			 // function getCustomerCode(customerCode) {
- 				// 		return customerJson.filter(
- 				// 			function (data) {
- 				// 				return data.CustomerCode === customerCode;
- 				// 			}
- 				// 		);
- 				// 	}
-			 //
- 				// 	var found = getCustomerCode(customerCode);
 					if(found.length > 0){
 						customerModel.setProperty("/CustomerCode", selectedCustData.id);
 						customerModel.setProperty("/City", selectedCustData.City);

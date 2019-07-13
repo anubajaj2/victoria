@@ -124,7 +124,7 @@ var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
 }
 
-this.getOrderDetails(orderId , oFilter);
+this.getOrderDetails(oEvent,orderId , oFilter);
 // this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -141,7 +141,7 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
 }},
 
-getOrderDetails:function(orderId ,oFilter){
+getOrderDetails:function(oEvent,orderId ,oFilter){
   debugger;
   var that = this;
   // that.orderItem(oEvent);
@@ -174,7 +174,7 @@ getOrderDetails:function(orderId ,oFilter){
             allItems[i].MakingD = oData.results[i].MakingD;
             allItems[i].Qty = oData.results[i].Qty;
             allItems[i].QtyD = oData.results[i].QtyD;
-            allItems[i].SubTotal = oData.results[i].SubTotal;
+            // allItems[i].SubTotal = oData.results[i].SubTotal;
             allItems[i].Weight = oData.results[i].Weight;
             allItems[i].WeightD = oData.results[i].WeightD;
             allItems[i].Remarks = oData.results[i].Remarks;
@@ -183,6 +183,14 @@ getOrderDetails:function(orderId ,oFilter){
             allItems[i].Description = MaterialData.ProductName;
             allItems[i].MaterialCode = MaterialData.ProductCode;
             // allItems[i].Category = MaterialData.ProductCode;
+            // that.setNewValue(data,fieldId,newValue);
+            // that.getFloatValue(data,oFloatFormat,quantityOfStone);
+            // that.finalCalculation(category,data,priceF,tablePath,cells,
+            //                       quantityOfStone,gold20pergm,gold22pergm,
+            //                       silverpergm);
+            var oTablePath = "/itemData" + '/' + i;
+            oEvent.setId="orderReload";
+            that.Calculation(oEvent,oTablePath,i);
           }
           that.getView().getModel("orderItems").setProperty("/itemData", allItems);
         }
@@ -930,7 +938,6 @@ onSetting:function(oEvent){
 OnCustChange:function(){
 
 },
-
 ValueChange:function(oEvent){
   var tablePath = "";
   var i = "";
@@ -1163,7 +1170,9 @@ Calculation:function(oEvent,tablePath,i){
   debugger;
   var that = this;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-  if (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader') {
+  if ((oEvent.getId = "orderReload")
+  || (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader'))
+  {
   if (tablePath) {
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(tablePath);
   var path = tablePath;
@@ -1179,8 +1188,10 @@ Calculation:function(oEvent,tablePath,i){
   var data = this.getView().getModel('orderItems').getProperty(path);
   var priceF = 0.00;
   var tempWeight  = 0.00;
+  if (oEvent.getId != "orderReload") {
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
+  }
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
   var gold20pergm = orderHeader.GoldBhav20 / 10;
@@ -1191,9 +1202,9 @@ Calculation:function(oEvent,tablePath,i){
 
   if ((!category.Category) || (!category.Type) ) {
     if (category.Material !== "") {
-    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+    that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                      "/Products('" + category.Material + "')", "GET",
-                     {}, {}, this)
+                     {}, {}, that)
       .then(function(oData) {
         debugger;
         category.Category = oData.Category;

@@ -21,7 +21,7 @@
 					<StandardListItem id="salesws" icon="sap-icon://my-sales-order" title="Wholesale Sales" description=""></StandardListItem>
 					<StandardListItem id="Suppliers" icon="sap-icon://capital-projects" title="Booking" description=""></StandardListItem>
 					<StandardListItem id="Kacchi" icon="sap-icon://crm-service-manager" title="Kacchi" description=""></StandardListItem>
-					<StandardListItem id="reports" icon="sap-icon://signature" title="Reports" description=""></StandardListItem>
+					<StandardListItem id="reports" icon="sap-icon://expense-report" title="Reports" description=""></StandardListItem>
 					<StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="Pending Orders" description=""></StandardListItem>
 					<StandardListItem id="Customizing" icon="sap-icon://simulate" title="Customizing" description=""></StandardListItem>
 					<StandardListItem id="customerOrders" icon="sap-icon://customer-order-entry" title="Customer Orders" description=""></StandardListItem>

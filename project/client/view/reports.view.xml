@@ -28,15 +28,39 @@
       					</suggestionItems>
             </Input>
             <Label text="Name" labelFor="name" />
-            <Input id="idName" value="{customerModel>/Name}"/>
+            <Text id="idName" text="{customerModel>/Name}"/>
             <Label text="City" labelFor="city" />
-            <Input id="idCity" value="{customerModel>/City}"/>
+            <Text id="idCity" text="{customerModel>/City}"/>
           </f:content>
       </f:SimpleForm>
+      <VBox
+        alignItems="Center"
+        alignContent="Start">
+        <HBox
+            height="100px"
+            alignItems="Start"
+            alignContent="Center">
+            <items>
+              <Button text="Kacchi Download" width="200px" type="Emphasized" press="onPressDownload" class="sapUiSmallMarginEnd" />
+              <Button text="Entry Download" type="Reject" class="sapUiSmallMarginEnd" />
+              <Button text="Retail Sales Summary" type="Accept" />
+            </items>
+          </HBox>
+          <HBox
+              height="100px"
+              alignItems="Start"
+              alignContent="Center">
+              <items>
+                <Button text="Wholesale Summary" width="200px" type="Emphasized" class="sapUiSmallMarginEnd" />
+                <Button text="Booking Summary" type="Reject" class="sapUiSmallMarginEnd" />
+                <Button text="Pending Order Summary" type="Accept" />
+              </items>
+            </HBox>
+      </VBox>
 
     </semantic:content>
     <semantic:customFooterContent>
-				<Button text="Download" icon="sap-icon://excel-attachment" type="Accept" press="onPressDownload"/>
+				<Button text="Clear" type="Accept" press="onPressClear"/>
 
 		</semantic:customFooterContent>
   </semantic:FullscreenPage>

@@ -70,6 +70,9 @@ app.start = function() {
 
 
 				var custId = req.body.id;
+				var name = req.body.name;
+				var city = req.body.city;
+				var Ggroup;
 				//read customer name by id, group by group id, city by
 				//read kacchi and print report with all coloring, formatting, totaling
 				var responseData = [];
@@ -108,6 +111,7 @@ app.start = function() {
 					function(customerRecord, cityRecord, callback) {
 						// arg1 now equals 'three'
 						var Group = app.models.Group;
+						Ggroup = Group;
 						Group.findById(customerRecord.Group,{
 							fields:{
 								"groupName": true
@@ -126,16 +130,163 @@ app.start = function() {
 								Kacchi.find({Customer: custId})
 									.then(function(Records, err) {
 											if (Records) {
-
+debugger;
 												var excel = require('exceljs');
 												var workbook = new excel.Workbook(); //creating workbook
 												var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
-												sheet.addRow().values = Object.keys(Records[0].__data);
+												var heading = {heading:"Kachhi Report"};
+
+												sheet.mergeCells('A1:E1');
+												sheet.getCell('E1').value = 'Kacchi Report';
+												sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
+												sheet.getCell('A1').fill = {
+  type: 'pattern',
+  pattern:'solid',
+  fgColor:{argb:'808080'}
+};
+
+
+
+sheet.mergeCells('A2:D2');
+sheet.getCell('D2').value = 'Customer Name : ' + name + ' - ' + city + ' - ' + Ggroup;
+sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+
+
+
+
+
+var currentdate = new Date();
+var datetime = "Report Date: " + currentdate.getDate() + "."
+                + (currentdate.getMonth()+1)  + "."
+                + currentdate.getFullYear() + " / "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+sheet.getCell('E2').value = datetime;
+// sheet.getCell('E2').font = {
+//   bold: true
+// };
+// sheet.getCell('A2').font = {
+//   bold: true
+// };
+sheet.getRow(2).font === { bold: true };
+
+
+var header = Object.keys(Records[0].__data);
+header.splice(1,1);
+header.splice(5,5);
+
+												sheet.addRow().values = header;
+
+
+												sheet.getCell('A3').fill = {
+												type: 'pattern',
+												pattern:'solid',
+												fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('B3').fill = {
+												type: 'pattern',
+												pattern:'solid',
+												fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('C3').fill = {
+												type: 'pattern',
+												pattern:'solid',
+												fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('D3').fill = {
+												type: 'pattern',
+												pattern:'solid',
+												fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('E3').fill = {
+												type: 'pattern',
+												pattern:'solid',
+												fgColor:{argb:'A9A9A9'}
+												};
+
 
 												for (var i = 0; i < Records["length"]; i++) {
-													sheet.addRow().values = Object.values(Records[i].__data);
+					var items = Object.values(Records[i].__data);
+					items.splice(1,1);
+					items.splice(5,5);
+													sheet.addRow().values = items;
+
 												}
+
+var totText = Records["length"] + 4;
+var totCol = totText - 1;
+												sheet.getCell('A' + totText).value = "Total";
+												sheet.getCell('B' + totText).value = Records["length"];
+												sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(SUM(C4:C'+totCol+')," gm")' };
+												sheet.getCell('D' + totText).value = { formula: '=CONCATENATE(ROUND(AVERAGE(D4:D'+totCol+'),0)," T")' };
+												sheet.getCell('E' + totText).value = { formula: '=CONCATENATE(SUM(E4:E'+totCol+')," gm")' };
+
+
+												sheet.getCell('A' + totText).fill = {
+													type: 'pattern',
+													pattern:'solid',
+													fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('B' + totText).fill = {
+													type: 'pattern',
+													pattern:'solid',
+													fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('C' + totText).fill = {
+													type: 'pattern',
+													pattern:'solid',
+													fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('D' + totText).fill = {
+													type: 'pattern',
+													pattern:'solid',
+													fgColor:{argb:'A9A9A9'}
+												};
+												sheet.getCell('E' + totText).fill = {
+												  type: 'pattern',
+												  pattern:'solid',
+												  fgColor:{argb:'A9A9A9'}
+												};
+
+for(var j=1; j<=totText; j++){
+												sheet.getCell('A'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('B'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('C'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('D'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('E'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+
+
+}
+
+
+
 
 												var tempfile = require('tempfile');
 												var tempFilePath = tempfile('.xlsx');

@@ -1,6 +1,7 @@
 sap.ui.define(["victoria/controller/BaseController",
-"sap/ui/model/json/JSONModel"],
-function (BaseController, JSONModel) {
+"sap/ui/model/json/JSONModel",
+"sap/m/MessageToast"],
+function (BaseController, JSONModel, MessageToast) {
   "use strict";
   return BaseController.extend("victoria.controller.reports",{
     onInit: function () {
@@ -17,7 +18,21 @@ function (BaseController, JSONModel) {
       debugger;
       var test = this.getView().getModel("customerModel");
       var custId = test.oData.id;
-      $.post("/kaachiDownload",{id: custId}).then();
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/kaachiDownload",{id: custId, name: name, city: city}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+
+    onPressClear: function(){
+      this.getView().byId("idCustomerCode").setValue("");
+      this.getView().byId("idName").setText("");
+      this.getView().byId("idCity").setText("");
     },
 
     customerCodeCheck : function(oEvent){

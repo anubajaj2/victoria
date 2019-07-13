@@ -4,7 +4,7 @@
     id="editEntry"
     navButtonPress="onNavBack"
     showNavButton="true"
-    title="Edit Entry">
+    title="Reports">
     <semantic:content>
       <f:SimpleForm
   			minWidth="1024"

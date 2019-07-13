@@ -189,9 +189,9 @@
 								"target":["donald","customerOrders"]
 							},
 							{
-								"pattern": "editEntry",
-								"name": "editEntry",
-								"target":["donald","editEntry"]
+								"pattern": "reports",
+								"name": "reports",
+								"target":["donald","reports"]
 							},
 							{
 								"pattern": "CollaborationCenter",
@@ -368,12 +368,12 @@
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},
-				"editEntry": {
+				"reports": {
 					"transition": "slide",
 					"controlId":"__xmlview0--idSplitApp",
 					"clearAggregation": true,
-					"viewName": "editEntry",
-					"viewId":"ideditEntry",
+					"viewName": "reports",
+					"viewId":"idreports",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				},

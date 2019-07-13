@@ -2,7 +2,7 @@ sap.ui.define(["victoria/controller/BaseController",
 "sap/ui/model/json/JSONModel"],
 function (BaseController, JSONModel) {
   "use strict";
-  return BaseController.extend("victoria.controller.editEntry",{
+  return BaseController.extend("victoria.controller.reports",{
     onInit: function () {
       var oViewModel = new JSONModel({
                   "id": "",

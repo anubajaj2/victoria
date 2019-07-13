@@ -939,6 +939,226 @@ ValueChange:function(oEvent){
   this.byId("Sales--idSaveIcon").setColor('red');
 },//ValueChange function end
 
+setNewValue:function(data,fieldId,newValue){
+  //get the weight
+  if (fieldId === "IdWeight") {
+    if (data.Weight !== newValue) {
+      data.Weight = newValue;
+    }}
+    if (fieldId === "IdWeightD") {
+      if (data.WeightD !== newValue) {
+        data.WeightD = newValue;
+      }
+    }
+    //get the making charges
+    if (fieldId === "IdMaking") {
+      if (data.Making !== newValue) {
+        data.Making = newValue;
+      }
+    }
+    //making D
+    if (fieldId === "IdMakingD") {
+      if (data.MakingD !== newValue) {
+        data.MakingD = newValue;
+      }
+    }
+    // quantity of stone / quantityD
+    if (fieldId === "IdQtyD") {
+      if (data.QtyD !== newValue) {
+        data.QtyD = newValue;
+      }
+    }
+    // quantity
+    if (fieldId === "IdQty") {
+      if (data.Qty !== newValue) {
+        data.Qty = newValue;
+      }
+    }
+},
+
+getFloatValue:function(data,oFloatFormat,quantityOfStone){
+  if (data.Making === "") {
+    data.Making = 0;
+  // data.Making = 0;
+  }else if (data.Making ===0) {
+  data.Making = 0;
+  // making = 0;
+  }else {
+  var making = data.Making.toString();
+  data.Making = oFloatFormat.parse(making);
+  }
+
+//MakindD
+  if (data.MakingD === "" ){
+    data.MakingD=0;
+    makingD = 0;
+  }else if (data.MakingD === 0) {
+    data.MakingD=0;
+    makingD = 0;
+  }else {
+   var makingD = data.MakingD.toString();
+    data.MakingD = oFloatFormat.parse(makingD);
+  }
+//weight
+  if ( data.Weight === "" ){
+    data.Weight  = 0;
+  }else
+    if (data.Weight === 0) {
+    data.Weight  = 0;
+    }else{
+  var weight = data.Weight.toString();
+    data.Weight  = oFloatFormat.parse(weight);
+    }
+//WeightD
+  if ( data.WeightD === "") {
+     data.WeightD = 0;
+  } else if(data.WeightD ===0){
+     data.WeightD = 0;
+  }else {
+    var weightD = data.WeightD.toString();
+    data.WeightD = oFloatFormat.parse(weightD);
+  }
+  //Quantity
+    if (data.Qty === ""){
+      data.Qty = 0;
+    }else if (data.Qty === 0) {
+      data.Qty = 0;
+    }else {
+      var qty = data.Qty.toString();
+      data.Qty = oFloatFormat.parse(qty);
+    }
+//Quantity D
+  if (data.QtyD === ""){
+    data.QtyD = 0;
+    quantityOfStone = 0;
+  }else if (data.QtyD === 0) {
+    data.QtyD = 0;
+    quantityOfStone = 0;
+  }else {
+    var qtyD = data.QtyD.toString();
+    data.QtyD = oFloatFormat.parse(qtyD);
+    quantityOfStone = data.QtyD;
+  }
+},
+
+finalCalculation:function(category,data,priceF,tablePath,cells,
+                          quantityOfStone,gold20pergm,gold22pergm,
+                          silverpergm){
+  if ((category.Type === 'Gold' && category.Category === "gm") ||
+      (category.Type === 'Silver' && category.Category === "gm"))
+  {
+  //get the final weight
+  if (data.WeightD !== "" ||
+      data.WeightD !== 0) {
+  var weightF = data.Weight - data.WeightD;
+  }else {
+  var weightF = data.Weight;
+  }
+  if (category.Type === 'Gold' ) {
+  //get the gold price
+  if (category.Karat === '22/22') {
+  priceF = weightF * gold22pergm;
+  }else
+  if (category.Karat === '22/20') {
+  priceF = weightF * gold20pergm;
+  }
+  }else if (category.Type === 'Silver') {
+    priceF = weightF * silverpergm;
+  }
+  //Making charges
+  var makingCharges  = data.Making * weightF;
+  var stonevalue = quantityOfStone * data.MakingD;
+  if (priceF || makingCharges || stonevalue) {
+  var subTot = (priceF + makingCharges + stonevalue) ;
+  var subTotF =  this.getIndianCurr(subTot);
+    // gold price per gram
+    if (tablePath) {
+     debugger;
+    category.SubTot = subTotF;
+    this.byId("Sales--idSaveIcon").setColor('red');
+    //capture if there is any change
+    // this.noChange.flag = true;
+    this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+    }else {
+    cells[cells.length - 1].setText(subTotF);
+    }
+  }else {
+    cells[cells.length - 1].setText(0)
+  }
+  }else
+  if (category.Type === 'GS') {
+  //german silver//ignore Weight//Quantity Check
+  //charges of german silver
+  var charges = data.Qty * data.Making ;
+  var chargesD = data.QtyD * data.MakingD;
+  //final charges on GS
+  if (charges) {
+    var subTot = charges + chargesD;
+    var subTotF =  this.getIndianCurr(subTot);
+  if (tablePath) {
+   debugger;
+  category.SubTot = subTotF;
+  this.byId("Sales--idSaveIcon").setColor('red');
+  this.noChange = true;
+  this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+  }else {
+  cells[cells.length - 1].setText(subTotF);
+  }
+  }else {
+    cells[cells.length - 1].setText(0);
+  }}
+  else if ((category.Type ==="Gold" && category.Category === "pcs")||
+          (category.Type === 'Silver' && category.Category === "pcs"))
+  {
+      //get the final weight
+      if (data.WeightD !== "" ||
+          data.WeightD !== 0) {
+      var weightF = data.Weight - data.WeightD;
+      }else {
+      var weightF = data.Weight;
+      }
+
+      if (category.Type === 'Gold' ) {
+      //get the gold price
+      if (category.Karat === '22/22') {
+      priceF = weightF * gold22pergm;
+      }else
+      if (category.Karat === '22/20') {
+      priceF = weightF * gold20pergm;
+      }
+      }else if (category.Type === 'Silver') {
+        priceF = weightF * silverpergm;
+      }
+      if (!priceF) {
+        var priceF = 0;
+      }
+  //Making of Product
+  var makingOfProduct = data.Qty * data.Making;
+  if (!makingOfProduct) {
+    var makingOfProduct = 0;
+  }
+  //Stone value
+  var stonevalue = quantityOfStone * data.MakingD;
+  if (!stonevalue) {
+    var stonevalue = 0;
+  }
+  if (priceF || makingOfProduct || stonevalue) {
+  // gold price per gram
+  var subTot = priceF + makingOfProduct + stonevalue;
+  var subTotF =  this.getIndianCurr(subTot);
+  if (tablePath) {
+  category.SubTot = subTotF;
+  this.noChange = true;
+  this.byId("Sales--idSaveIcon").setColor('red');
+  this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+  }else {
+  cells[cells.length - 1].setText(subTotF);
+  }
+  }else {
+    cells[cells.length - 1].setText(0)
+  }}//end of per PCs calculation
+},
+
 Calculation:function(oEvent,tablePath,i){
   debugger;
   var that = this;
@@ -961,22 +1181,15 @@ Calculation:function(oEvent,tablePath,i){
   var tempWeight  = 0.00;
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
-  // //capture if there is any change
-  //   if (newValue) {
-  //     this.noChange = {
-  //       "index" : i,
-  //       "false" : 'false'
-  //     };
-  //   }
-
 //per gm
   var gold22pergm = orderHeader.GoldBhav22 / 10;
   var gold20pergm = orderHeader.GoldBhav20 / 10;
   var silverpergm = orderHeader.SilverBhav / 1000;
+  var quantityOfStone=0;
   var oLocale = new sap.ui.core.Locale("en-US");
   var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 
-  if ((category.Category === "") || (category.Category) ) {
+  if ((!category.Category) || (!category.Type) ) {
     if (category.Material !== "") {
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                      "/Products('" + category.Material + "')", "GET",
@@ -985,365 +1198,139 @@ Calculation:function(oEvent,tablePath,i){
         debugger;
         category.Category = oData.Category;
         category.Making = oData.Making;
+        category.Tunch = oData.Tunch;
+        that.setNewValue(data,fieldId,newValue);
+        that.getFloatValue(data,oFloatFormat,quantityOfStone);
+        that.finalCalculation(category,data,priceF,tablePath,cells,
+                              quantityOfStone,gold20pergm,gold22pergm,
+                              silverpergm);
       })
       .catch(function(oError) {
         that.getView().setBusy(false);
         var oPopover = that.getErrorMessage(oError);
       });
     }
-  }
-
-if ((category.Type === 'Gold' && category.Category === "gm") ||
-    (category.Type === 'Silver' && category.Category === "gm"))
-{
-//get the weight
-if (fieldId === "IdWeight") {
-  if (data.Weight !== newValue) {
-    data.Weight = newValue;
-  }
-}
-if ( data.Weight === "" ){
-  var weight = 0;
-}else
-  if (data.Weight === 0) {
-    var weight = 0;
-  }else{
-    var weight  = oFloatFormat.parse(data.Weight);
-  }
-
-if (fieldId === "IdWeightD") {
-  if (data.WeightD !== newValue) {
-    data.WeightD = newValue;
-  }
-}
-if ( data.WeightD === "") {
-  var weightD = 0;
-} else if(data.WeightD ===0){
-  var weightD = 0;
-}else {
-   var weightD = oFloatFormat.parse(data.WeightD);
-}
-
-//get the final weight
-if (weightD !== "" ||
-    weightD !== 0) {
-var weightF = weight - weightD;
-}else {
-var weightF = weight;
-}
-
-if (category.Type === 'Gold' ) {
-//get the gold price
-if (category.Karat === '22/22') {
-priceF = weightF * gold22pergm;
-}else
-if (category.Karat === '22/20') {
-priceF = weightF * gold20pergm;
-}
-}else if (category.Type === 'Silver') {
-  priceF = weightF * silverpergm;
-}
-
-//get the making charges
-if (fieldId === "IdMaking") {
-  if (data.Making !== newValue) {
-    data.Making = newValue;
-  }
-}
-if (data.Making === "") {
-  data.Making = 0;
-  var making = 0;
-}else if (data.Making ===0) {
-data.Making = 0;
-var making = 0;
-}else {
-  var making = oFloatFormat.parse(data.Making);
-}
-
-//making D
-if (fieldId === "IdMakingD") {
-  if (data.MakingD !== newValue) {
-    data.MakingD = newValue;
-  }
-}
-if (data.MakingD === "" ){
-  data.MakingD=0;
-  var makingD = 0;
-}else if (data.MakingD === 0) {
-  data.MakingD=0;
-  var makingD = 0;
-}else {
-  var makingD = oFloatFormat.parse(data.MakingD);
-}
-//Making charges
-var makingCharges  = making * weightF;
-// quantity of stone / quantityD
-if (fieldId === "IdQtyD") {
-  if (data.QtyD !== newValue) {
-    data.QtyD = newValue;
-  }
-}
-if (data.QtyD === ""){
-  data.QtyD = 0;
-  var quantityD = 0;
-  var quantityOfStone = 0;
-}else if (data.QtyD === 0) {
-  data.QtyD = 0;
-  var quantityD = 0;
-  var quantityOfStone = 0;
-}else {
-  var quantityD = oFloatFormat.parse(data.QtyD);
-  var quantityOfStone = quantityD;
-}
-
-var stonevalue = quantityOfStone * makingD;
-if (priceF || makingCharges || stonevalue) {
-var subTot = (priceF + makingCharges + stonevalue) ;
-  var subTotF =  this.getIndianCurr(subTot);
-  // gold price per gram
-  if (tablePath) {
-   debugger;
-  category.SubTot = subTotF;
-  this.byId("Sales--idSaveIcon").setColor('red');
-  //capture if there is any change
-  this.noChange.flag = true;
-  this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
   }else {
-  cells[cells.length - 1].setText(subTotF);
-  }
-}else {
-  cells[cells.length - 1].setText(0)
-}
-}else
-if (category.Type === 'GS') {
-//german silver//ignore Weight//Quantity Check
-//quantity
-  if (fieldId === "IdQty") {
-    if (data.Qty !== newValue) {
-      data.Qty = newValue;
-    }}
-  if (data.Qty === ""){
-    data.Qty = 0;
-    var quantity = 0;
-  }else if (data.Qty === 0 || data.Qty === "0") {
-    data.Qty = 0;
-    var quantity = 0;
-  }else {
-    var quantity = oFloatFormat.parse(data.Qty);
-  }
-
-//Making charges
-if (fieldId === "IdMaking") {
-  if (data.Making !== newValue) {
-    data.Making = newValue;
-  }
-}
-    if (data.Making === "") {
-      data.Making = 0;
-      var making = 0;
-    }else if (data.Making ===0) {
-    data.Making = 0;
-    var making = 0;
-    }else {
-      var making = oFloatFormat.parse(data.Making);
-    }
-//charges of german silver
-var charges = quantity * making ;
-
-//QuantityD
-if (fieldId === "IdQtyD") {
-  if (data.QtyD !== newValue) {
-    data.QtyD = newValue;
-  }
-}
-  if (data.QtyD === ""){
-    data.QtyD = 0;
-    var quantityD = 0;
-    var quantityOfStone = 0;
-  }else if (data.QtyD === 0 || data.QtyD === "0") {
-    var quantityD = 0;
-    var quantityOfStone = 0;
-  }else {
-    var quantityD = oFloatFormat.parse(data.QtyD);
-    var quantityOfStone = quantityD;
-  }
-
-// makingD charges
-if (fieldId === "IdMakingD") {
-  if (data.MakingD !== newValue) {
-    data.MakingD = newValue;
-  }
-}
-if (data.MakingD === "" ){
-   data.MakingD=0;
-  var makingD = 0;
-  }else if (data.MakingD === 0) {
-    data.MakingD=0;
-    var makingD = 0;
-  }else {
-    var makingD = oFloatFormat.parse(data.MakingD);
-  }
-var chargesD = quantityD * makingD;
-//final charges on GS
-if (charges) {
-  var subTot = charges + chargesD;
-  var subTotF =  this.getIndianCurr(subTot);
-if (tablePath) {
- debugger;
-category.SubTot = subTotF;
-this.byId("Sales--idSaveIcon").setColor('red');
-this.noChange = true;
-this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
-}else {
-cells[cells.length - 1].setText(subTotF);
-}
-}else {
-  cells[cells.length - 1].setText(0);
-}}
-else if ((category.Type ==="Gold" && category.Category === "pcs")||
-        (category.Type === 'Silver' && category.Category === "pcs"))
-{
-//quantity
-  if (fieldId === "IdQty") {
-    if (data.Qty !== newValue) {
-      data.Qty = newValue;
-    }}
-  if (data.Qty === ""){
-    data.Qty = 0;
-    var quantity = 0;
-  }else if (data.Qty === 0 || data.Qty === "0") {
-    data.Qty = 0;
-    var quantity = 0;
-  }else {
-    var quantity = oFloatFormat.parse(data.Qty);
-  }
-
-//QuantityD
-if (fieldId === "IdQtyD") {
-  if (data.QtyD !== newValue) {
-    data.QtyD = newValue;
-  }
-}
-  if (data.QtyD === ""){
-    data.QtyD = 0;
-    var quantityD = 0;
-    var quantityOfStone = 0;
-  }else if (data.QtyD === 0 || data.QtyD === "0") {
-    var quantityD = 0;
-    var quantityOfStone = 0;
-  }else {
-    var quantityD = oFloatFormat.parse(data.QtyD);
-    var quantityOfStone = quantityD;
-  }
-
-  if (fieldId === "IdWeight") {
-    if (data.Weight !== newValue) {
-      data.Weight = newValue;
-    }
-  }
-  if ( data.Weight === "" ){
-    var weight = 0;
-  }else
-    if (data.Weight === 0 || data.Weight === "0") {
-      var weight = 0;
-    }else{
-      var weight  = oFloatFormat.parse(data.Weight);
-    }
-
-    if (fieldId === "IdWeightD") {
-      if (data.WeightD !== newValue) {
-        data.WeightD = newValue;
-      }
-    }
-    if ( data.WeightD === "" ) {
-      var weightD = 0;
-    } else if(data.WeightD ===0 || data.Weight === "0"){
-      var weightD = 0;
-    }else {
-       var weightD = oFloatFormat.parse(data.WeightD);
-    }
-
-    //get the final weight
-    if (weightD !== "" ||
-        weightD !== 0) {
-    var weightF = weight - weightD;
-    }else {
-    var weightF = weight;
-    }
-
-    if (category.Type === 'Gold' ) {
-    //get the gold price
-    if (category.Karat === '22/22') {
-    priceF = weightF * gold22pergm;
-    }else
-    if (category.Karat === '22/20') {
-    priceF = weightF * gold20pergm;
-    }
-    }else if (category.Type === 'Silver') {
-      priceF = weightF * silverpergm;
-    }
-    if (!priceF) {
-      var priceF = 0;
-    }
-
-//Making charges
-if (fieldId === "IdMaking") {
-  if (data.Making !== newValue) {
-    data.Making = newValue;
-  }
-}
-    if (data.Making === "") {
-      data.Making = 0;
-      var making = 0;
-    }else if (data.Making ===0) {
-    data.Making = 0;
-    var making = 0;
-    }else {
-      var making = oFloatFormat.parse(data.Making);
-    }
-//making D
-if (fieldId === "IdMakingD") {
-  if (data.MakingD !== newValue) {
-    data.MakingD = newValue;
-  }
-}
-if (data.MakingD === "" ){
-   data.MakingD=0;
-  var makingD = 0;
-  }else if (data.MakingD === 0) {
-    data.MakingD=0;
-    var makingD = 0;
-  }else {
-    var makingD = oFloatFormat.parse(data.MakingD);
-  }
-
-//Making of Product
-var makingOfProduct = quantity * making;
-if (!makingOfProduct) {
-  var makingOfProduct = 0;
-}
-//Stone value
-var stonevalue = quantityOfStone * makingD;
-if (!stonevalue) {
-  var stonevalue = 0;
-}
-
-if (priceF || makingOfProduct || stonevalue) {
-// gold price per gram
-var subTot = priceF + makingOfProduct + stonevalue;
-var subTotF =  this.getIndianCurr(subTot);
-if (tablePath) {
-category.SubTot = subTotF;
-this.noChange = true;
-this.byId("Sales--idSaveIcon").setColor('red');
-this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
-}else {
-cells[cells.length - 1].setText(subTotF);
-}
-}else {
-  cells[cells.length - 1].setText(0)
-}}//end of per PCs calculation
-
+    this.setNewValue(data,fieldId,newValue);
+    this.getFloatValue(data,oFloatFormat,quantityOfStone);
+    this.finalCalculation(category,data,priceF,tablePath,cells,
+                          quantityOfStone,gold20pergm,gold22pergm,
+                          silverpergm);
+// if ((category.Type === 'Gold' && category.Category === "gm") ||
+//     (category.Type === 'Silver' && category.Category === "gm"))
+// {
+// //get the final weight
+// if (data.WeightD !== "" ||
+//     data.WeightD !== 0) {
+// var weightF = data.Weight - data.WeightD;
+// }else {
+// var weightF = data.Weight;
+// }
+// if (category.Type === 'Gold' ) {
+// //get the gold price
+// if (category.Karat === '22/22') {
+// priceF = weightF * gold22pergm;
+// }else
+// if (category.Karat === '22/20') {
+// priceF = weightF * gold20pergm;
+// }
+// }else if (category.Type === 'Silver') {
+//   priceF = weightF * silverpergm;
+// }
+// //Making charges
+// var makingCharges  = data.Making * weightF;
+// var stonevalue = quantityOfStone * data.MakingD;
+// if (priceF || makingCharges || stonevalue) {
+// var subTot = (priceF + makingCharges + stonevalue) ;
+// var subTotF =  this.getIndianCurr(subTot);
+//   // gold price per gram
+//   if (tablePath) {
+//    debugger;
+//   category.SubTot = subTotF;
+//   this.byId("Sales--idSaveIcon").setColor('red');
+//   //capture if there is any change
+//   // this.noChange.flag = true;
+//   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+//   }else {
+//   cells[cells.length - 1].setText(subTotF);
+//   }
+// }else {
+//   cells[cells.length - 1].setText(0)
+// }
+// }else
+// if (category.Type === 'GS') {
+// //german silver//ignore Weight//Quantity Check
+// //charges of german silver
+// var charges = data.Qty * data.Making ;
+// var chargesD = data.QtyD * data.MakingD;
+// //final charges on GS
+// if (charges) {
+//   var subTot = charges + chargesD;
+//   var subTotF =  this.getIndianCurr(subTot);
+// if (tablePath) {
+//  debugger;
+// category.SubTot = subTotF;
+// this.byId("Sales--idSaveIcon").setColor('red');
+// this.noChange = true;
+// this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+// }else {
+// cells[cells.length - 1].setText(subTotF);
+// }
+// }else {
+//   cells[cells.length - 1].setText(0);
+// }}
+// else if ((category.Type ==="Gold" && category.Category === "pcs")||
+//         (category.Type === 'Silver' && category.Category === "pcs"))
+// {
+//     //get the final weight
+//     if (data.WeightD !== "" ||
+//         data.WeightD !== 0) {
+//     var weightF = data.Weight - data.WeightD;
+//     }else {
+//     var weightF = data.Weight;
+//     }
+//
+//     if (category.Type === 'Gold' ) {
+//     //get the gold price
+//     if (category.Karat === '22/22') {
+//     priceF = weightF * gold22pergm;
+//     }else
+//     if (category.Karat === '22/20') {
+//     priceF = weightF * gold20pergm;
+//     }
+//     }else if (category.Type === 'Silver') {
+//       priceF = weightF * silverpergm;
+//     }
+//     if (!priceF) {
+//       var priceF = 0;
+//     }
+// //Making of Product
+// var makingOfProduct = data.Qty * data.Making;
+// if (!makingOfProduct) {
+//   var makingOfProduct = 0;
+// }
+// //Stone value
+// var stonevalue = quantityOfStone * data.MakingD;
+// if (!stonevalue) {
+//   var stonevalue = 0;
+// }
+//
+// if (priceF || makingOfProduct || stonevalue) {
+// // gold price per gram
+// var subTot = priceF + makingOfProduct + stonevalue;
+// var subTotF =  this.getIndianCurr(subTot);
+// if (tablePath) {
+// category.SubTot = subTotF;
+// this.noChange = true;
+// this.byId("Sales--idSaveIcon").setColor('red');
+// this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
+// }else {
+// cells[cells.length - 1].setText(subTotF);
+// }
+// }else {
+//   cells[cells.length - 1].setText(0)
+// }}//end of per PCs calculation
+}//Category else part
   this.byId("IdMaking");
   this.byId("IdMakingD");
   this.byId("IdWeightD");
@@ -1357,6 +1344,5 @@ toggleFullScreen:function(){
   var headerId = "Sales--orderHeader";
   this.toggleUiTable(btnId,headerId)
 }
-
 });
 });

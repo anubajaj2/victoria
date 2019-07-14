@@ -38,15 +38,18 @@ sap.ui.define(
 			},
 			onConfirm: function(oEvent) {
 
-				this.setStatus('red');
-
 				if (oEvent.getParameter('id') === 'orderNo') {
+					this.setStatus('green');
 					var orderDetail = this.getView().getModel('local').getProperty('/WSOrderHeader');
 					var orderNo = oEvent.getParameter("selectedItem").getLabel();
 					var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 					// this.OrderDetails(orderId);
 					this.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo",
 						orderNo);
+					var oOrderId = this.getView().getModel('local').getProperty('/OrderId');
+					oOrderId.OrderId = orderId;
+					oOrderId.OrderNo = orderNo;
+					this.getView().getModel('local').setProperty('/OrderId', oOrderId);
 					if (orderDetail.Customer) {
 						var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + orderDetail.Customer + "'");
 					} else {
@@ -56,6 +59,7 @@ sap.ui.define(
 					this.getOrderDetails(oEvent, orderId, oFilter);
 					this.orderSearchPopup.destroyItems();
 				} else {
+					this.setStatus('red');
 					var oId = oEvent.getParameter('selectedItem').getId();
 					var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 					var oSource = oId.split("-" [0])
@@ -932,7 +936,7 @@ sap.ui.define(
 				}
 			},
 			orderCheck: function() {
-				  var that = this;
+				var that = this;
 				that.getView().setBusy(true);
 				// get the data from screen in local model
 
@@ -943,16 +947,16 @@ sap.ui.define(
 				} else {
 
 					if (orderData) {
-			      orderData.id = "";
-			      orderData.CreatedBy = "";
-			      orderData.ChangedBy = "";
-			      orderData.CreatedOn = "";
-			      orderData.CreatedBy = "";
-			      delete orderData.ToWSOrderItem;
-			      delete orderData.ToCustomers;
-			      delete orderData.ToWSOrderReturns;
-			      // that.orderCustomCalculations();
-			    }
+						orderData.id = "";
+						orderData.CreatedBy = "";
+						orderData.ChangedBy = "";
+						orderData.CreatedOn = "";
+						orderData.CreatedBy = "";
+						delete orderData.ToWSOrderItem;
+						delete orderData.ToCustomers;
+						delete orderData.ToWSOrderReturns;
+						// that.orderCustomCalculations();
+					}
 					//call the odata promise method to post the data
 					orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
@@ -1112,29 +1116,31 @@ sap.ui.define(
 
 						var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 						//return data save
-						that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-								"/WSOrderReturns", "POST", {}, oReturnOrderClone, this)
-							.then(function(oData) {
+						if (data.ReturnId == false) {
+							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+									"/WSOrderReturns", "POST", {}, oReturnOrderClone, this)
+								.then(function(oData) {
 
-								that.getView().setBusy(false);
-								//loop the detaisl
-								var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
-								for (var i = 0; i < allItems.length; i++) {
-									if (allItems[i].Type === oData.Type) {
-										allItems[i].ReturnId = oData.id;
-										allItems[i].orderNo = oId;
-										oCommit = true;
-										break;
-									} //material compare if condition
-								} //for loop
-								that.getView().getModel("returnModel").setProperty("/TransData", allItems);
-								that.getView().setBusy(false);
-								sap.m.MessageToast.show("Data Saved Successfully");
-							})
-							.catch(function(oError) {
-								that.getView().setBusy(false);
-								var oPopover = that.getErrorMessage(oError);
-							});
+									that.getView().setBusy(false);
+									//loop the detaisl
+									var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
+									for (var i = 0; i < allItems.length; i++) {
+										if (allItems[i].Type === oData.Type) {
+											allItems[i].ReturnId = oData.id;
+											allItems[i].orderNo = oId;
+											oCommit = true;
+											break;
+										} //material compare if condition
+									} //for loop
+									that.getView().getModel("returnModel").setProperty("/TransData", allItems);
+									that.getView().setBusy(false);
+									sap.m.MessageToast.show("Data Saved Successfully");
+								})
+								.catch(function(oError) {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								});
+						}
 					} //type check
 				} //forloop
 				return oCommit;
@@ -1251,40 +1257,42 @@ sap.ui.define(
 							oOrderDetail.SubTotal = data.SubTot;
 							var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
 							//Item data save
-							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-									"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
-								.then(function(oData) {
+							debugger;
+							if (data.itemNo == false) {
+								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+										"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
+									.then(function(oData) {
 
-									//loop the detaisl
-									var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
-									that.getView().setBusy(false);
-									for (var i = 0; i < allItems.length; i++) {
-										if (allItems[i].Material === oData.Material) {
-											allItems[i].itemNo = oData.id;
-											allItems[i].OrderNo = oId;
-											// if (oCommit === false) {
-											// 	that.onReturnSave(oEvent, oId, oCommit);
-											// }
-											// that.setStatus('green');
-											break;
-										} //material compare if condition
-									} //for loop
-									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
-									that.getView().setBusy(false);
-									sap.m.MessageToast.show("Data Saved Successfully");
-								})
-								.catch(function(oError) {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								});
-
+										//loop the detaisl
+										var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
+										that.getView().setBusy(false);
+										for (var i = 0; i < allItems.length; i++) {
+											if (allItems[i].Material === oData.Material) {
+												allItems[i].itemNo = oData.id;
+												allItems[i].OrderNo = oId;
+												// if (oCommit === false) {
+												// 	that.onReturnSave(oEvent, oId, oCommit);
+												// }
+												// that.setStatus('green');
+												break;
+											} //material compare if condition
+										} //for loop
+										that.getView().getModel("orderItems").setProperty("/itemData", allItems);
+										that.getView().setBusy(false);
+										sap.m.MessageToast.show("Data Saved Successfully");
+									})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
+							}
 						}
 					}
 					//Return values save
 					if (oCommit === false) {
 						that.onReturnSave(oEvent, oId, oCommit);
 					}
-					that.byId("Sales--idSaveIcon").setColor('green');
+					that.setStatus('green');
 				} else {
 					sap.m.MessageBox.error("No change in data records", {
 						title: "Error",

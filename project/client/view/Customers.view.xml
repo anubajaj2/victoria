@@ -58,12 +58,7 @@
 	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
 </ComboBox> -->
 
-				<Label text="Name" required="true"/>
-				<!-- <ComboBox
-					id="idName"
-					type="Text"
-					value="{customerModel>/FirstName}">
-				</ComboBox> -->
+				<Label text="Name"/>
 				<Input
 					id="idName"
 					type="Text"
@@ -78,23 +73,32 @@
 					value="{customerModel>/Address}">
 				</Input>
 
-				<Label text="Group" required="true"/>
-				<ComboBox
+				<Label text="Group"/>
+				<Select
+					id="idGroup"
+					change="onSelectChange"
+					selectedKey= "{groupModelInfo/0/results}"
+					items="{
+						path: 'groupModelInfo>/results'
+					}">
+					<core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupName}" />
+				</Select>
+				<!-- <ComboBox
 					id="idGroup"
 					value="{customerModel>/Group}"
 					items="{groupModelInfo>/results}" valueState="{dataModel>/GroupState}" valueStateText="Group cannot be blank"
 																change="additionalInfoValidation">
 					<core:Item key="{groupModelInfo>groupName}" text="{groupModelInfo>groupName}" />
-				</ComboBox>
+				</ComboBox> -->
 
-				<Label text = "Type" required="true"/>
+				<Label text = "Type"/>
 				<Select
 					id="idType"
 					change="onSelectChange"
 					selectedKey= "{/typec/0/items}"
 					items="{
 						path: 'typec>/items'
-					}" valueState="{dataModel>/TypeState}" valueStateText="Type cannot be blank"	>
+					}">
 					<core:Item key="{typec>text}" text="{typec>text}" />
 				</Select>
 
@@ -107,15 +111,24 @@
 					}">
 					<core:Item key="{Id}" text="{Name}" />
 				</ComboBox> -->
-
-				<Label text="City" required="true"/>
+				<Label text="City"/>
+				<Select
+					id="idCity"
+					change="onSelectChange"
+					selectedKey= "{cityModelInfo/0/results}"
+					items="{
+						path: 'cityModelInfo>/results'
+					}">
+					<core:Item key="{cityModelInfo>id}" text="{cityModelInfo>cityName}" />
+				</Select>
+				<!-- <Label text="City"/>
 				<ComboBox
 					items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"
 					id="idCity"
 					value="{customerModel>/City}"
 															change="additionalInfoValidation">
 					<core:Item key="{cityModelInfo>cityName}" text="{cityModelInfo>cityName}" />
-				</ComboBox>
+				</ComboBox> -->
 
 
 				<Label text="Mobile Phone"/>

@@ -87,8 +87,21 @@ sap.ui.define([
 //				);
 			},
 			onSelectChange: function(oEvent){
-				var oSelect = oEvent.getParameter("selectedItem").getText();
+				var oValue = oEvent.getSource().getId();
+				var oSelect = oEvent.getParameter("selectedItem").getKey();
+				if(oValue === "__component0---idCustomers--idCity"){
+					this.getView().getModel("customerModel").setProperty("/City", oSelect);
+				}
+				if(oValue === "__component0---idCustomers--idType"){
 				this.getView().getModel("customerModel").setProperty("/Type", oSelect);
+			}
+			if(oValue === "__component0---idCustomers--idGroup"){
+			this.getView().getModel("customerModel").setProperty("/Group", oSelect);
+		}
+			},
+			onSelectChangeGroup: function(oEvent){
+				var oSelect = oEvent.getParameter("selectedItem").getText();
+				this.getView().getModel("customerModel").setProperty("/Group", oSelect);
 			},
 			getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
@@ -159,17 +172,20 @@ this.clearCustomer();
 					oDataModel.setProperty("/NameState", "None");
 				}
 				if(customerModel.getData().Group === ""){
-						oDataModel.setProperty("/GroupState", "Error");
+				var oSelKey = this.byId("idGroup").getSelectedKey();
+				customerModel.setProperty("/Group", oSelKey);
 				}else{
 					oDataModel.setProperty("/GroupState", "None");
 				}
 				if(customerModel.getData().City === ""){
-						oDataModel.setProperty("/CityState", "Error");
+				 var oSelKey = this.byId("idCity").getSelectedKey();
+					customerModel.setProperty("/City", oSelKey);
 				}else{
 					oDataModel.setProperty("/CityState", "None");
 				}
 				if(customerModel.getData().Type === ""){
-						oDataModel.setProperty("/TypeState", "Error");
+					var oSelKey = this.byId("idType").getSelectedKey();
+					customerModel.setProperty("/Type", oSelKey);
 				}else{
 					oDataModel.setProperty("/TypeState", "None");
 				}
@@ -236,7 +252,11 @@ this.clearCustomer();
 						customerModel.setProperty("/MobilePhone", found[0].MobilePhone);
 						customerModel.setProperty("/Address", found[0].Address);
 						customerModel.setProperty("/SecondaryPhone", found[0].SecondaryPhone);
+						var oGroup = this.getView().byId("idGroup");
+						oGroup.setSelectedKey(found[0].Group);
 						customerModel.setProperty("/Group", found[0].Group);
+						var oCity = this.getView().byId("idCity");
+						oCity.setSelectedKey(found[0].City);
 						customerModel.setProperty("/Id", found[0].id);
 						var oType = this.getView().byId("idType");
 						oType.setSelectedKey(found[0].Type);
@@ -245,7 +265,7 @@ this.clearCustomer();
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
 						dataModel.setProperty("/typeEnabled", true);
-						this.additionalInfoValidation();
+						// this.additionalInfoValidation();
 						// this.getView().byId("idName").focus();
 						customerModel.refresh();
 						}else{
@@ -259,9 +279,7 @@ this.clearCustomer();
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
-							this.additionalInfoValidation();
-							// this.getView().byId("idName").focus();
-							customerModel.refresh();
+							// customerModel.refresh();
 						}
 			},
 
@@ -282,14 +300,12 @@ this.clearCustomer();
 						customerModel.setProperty("/MobilePhone", selectedCustData.MobilePhone);
 						customerModel.setProperty("/Address", selectedCustData.Address);
 						customerModel.setProperty("/SecondaryPhone", selectedCustData.SecondaryPhone);
+						var oGroup = this.getView().byId("idGroup");
+						oGroup.setSelectedKey(selectedCustData.Group);
 						customerModel.setProperty("/Group", selectedCustData.Group);
-						// customerModel.getData().City = found[0].City;
-						// customerModel.getData().MobilePhone = found[0].MobilePhone;
-						// customerModel.getData().Address = found[0].Address;
-						// customerModel.getData().Name = found[0].Name;
-						// customerModel.getData().SecondaryPhone = found[0].SecondaryPhone;
-						// customerModel.getData().Group = found[0].Group;
-						// customerModel.getData().Type = found[0].Type;
+							var oCity = this.getView().byId("idCity");
+						oCity.setSelectedKey(selectedCustData.City);
+						customerModel.setProperty("/Id", selectedCustData.id);
 						var oType = this.getView().byId("idType");
 						oType.setSelectedKey(selectedCustData.Type);
 						customerModel.setProperty("/Type", selectedCustData.Type);
@@ -311,7 +327,7 @@ this.clearCustomer();
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
-							this.additionalInfoValidation();
+							// this.additionalInfoValidation();
 							this.getView().byId("idName").focus();
 							customerModel.refresh();
 						}
@@ -329,7 +345,7 @@ this.clearCustomer();
 				customerModel.getData().Name = "";
 				customerModel.getData().CustomerCode = "";
 				customerModel.getData().SecondaryPhone = "0";
-				customerModel.getData().Group = "";
+				// customerModel.getData().Group = "";
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
@@ -340,6 +356,11 @@ this.clearCustomer();
 				var typeValue = typeModel.getData().items[0].text;
 				var oType = this.getView().byId("idType");
 				oType.setSelectedKey(typeValue);
+				// var groupVal = groupModel.getData().results[0];
+				var oGroup = this.getView().byId("idGroup");
+				oGroup.setSelectedKey("");
+				var oCity = this.getView().byId("idCity");
+				oCity.setSelectedKey("");
 				dataModel.setProperty("/CityState", "None");
 				dataModel.setProperty("/GroupState", "None");
 				dataModel.setProperty("/NameState", "None");
@@ -354,23 +375,7 @@ this.clearCustomer();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 				customerModel.setProperty("/CustomerCode", oCuscode);
-				 // var customerCode = customerModel.getData().CustomerCode;
-				 // var customerJson = this.getView().getModel("customerModelInfo").getData().results;
-
-				 if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
-					 MessageToast.show("Please fill the required fields");
-					 return;
-				 }
-
-				 // function getCustomerCode(customerCode) {
-					// 		return customerJson.filter(
-					// 			function (data) {
-					// 				return data.CustomerCode === customerCode;
-					// 			}
-					// 		);
-					// 	}
-				 //
-					// 	var found = getCustomerCode(customerCode);
+				that.additionalInfoValidation();
 						if(custId.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),

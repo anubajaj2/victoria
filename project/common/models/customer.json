@@ -9,7 +9,7 @@
   "properties": {
     "City": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "MobilePhone": {
       "type": "string",
@@ -33,11 +33,11 @@
     },
     "Group": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Type": {
       "type":"string",
-      "required": true
+      "required": false
     }
   },
   "scope":{

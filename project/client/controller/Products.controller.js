@@ -193,7 +193,8 @@ this.clearProduct();
 				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
 				oSource.getBinding("suggestionItems").filter(oFilter);
 			},
-			productCodeCheck : function(oEvent){
+
+			productCodeEnter : function(oEvent){
 				$(function() {
 								$('input:text:first').focus();
 								var $inp = $('input:text');
@@ -207,6 +208,74 @@ this.clearProduct();
 										}
 								});
 						});
+				// var productModel = this.getView().getModel("Products");
+				var productModel = this.getView().getModel("productModel");
+				var selData = oEvent.getParameter("value").toLocaleUpperCase();
+				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				var productJson = this.getView().getModel("productModelInfo").getData().results;
+				function getProductCode(selData) {
+						return productJson.filter(
+							function (data) {
+								return data.ProductCode === selData;
+							}
+						);
+					}
+
+					var found = getProductCode(selData);
+			 var viewModel = this.getView().getModel("viewModel");
+				var oProdCode = this.getView().byId("idProductCode").getValue();
+					// var found = getProductCode(productCode);
+					if(found.length > 0){
+						// productModel.setProperty("/ProductCode", productCode);
+						// productModel.setProperty("/id", selectedMatData.id);
+						productModel.setProperty("/ProductCode", found[0].id);
+						productModel.setProperty("/ProductName", found[0].ProductName);
+						productModel.setProperty("/Category", found[0].Category);
+						productModel.setProperty("/Type", found[0].Type);
+						productModel.setProperty("/Making", found[0].Making);
+						productModel.setProperty("/CustomerTunch", found[0].CustomerTunch);
+						productModel.setProperty("/PricePerUnit", found[0].PricePerUnit);
+						productModel.setProperty("/Wastage", found[0].Wastage);
+						productModel.setProperty("/Tunch", found[0].Tunch);
+						productModel.setProperty("/AlertQuantity", found[0].AlertQuantity);
+						productModel.setProperty("/HindiName", found[0].HindiName);
+						productModel.setProperty("/Id", found[0].id);
+						if (found[0].Type === "Gold") {
+							viewModel.setProperty("/typeEnabled", true);
+						productModel.setProperty("/Karat", selectedMatData.Karat);
+						}
+						else{
+							var karatType = this.getView().byId("idKarat");
+							karatType.setSelectedKey("");
+						}
+						viewModel.setProperty("/buttonText", "Update");
+						viewModel.setProperty("/deleteEnabled", true);
+						viewModel.setProperty("/codeEnabled", false);
+						this.additionalInfoValidation();
+						// this.getView().byId("idProductName").focus();
+						productModel.refresh();
+						}else{
+							productModel.getData().Category = "";
+							productModel.getData().Type = "";
+							productModel.getData().Karat = "";
+							productModel.getData().CustomerTunch = 0;
+							productModel.getData().Making = 0;
+							productModel.getData().ProductName = "";
+							productModel.getData().PricePerUnit = 0;
+							productModel.getData().Wastage = 0;
+							productModel.getData().Tunch = 0;
+							productModel.getData().AlertQuantity = 0;
+							productModel.getData().HindiName = "";
+							viewModel.setProperty("/buttonText", "Save");
+							viewModel.setProperty("/deleteEnabled", false);
+							viewModel.setProperty("/codeEnabled", false);
+							this.additionalInfoValidation();
+							this.getView().byId("idProductName").focus();
+							productModel.refresh();
+
+						}
+			},
+			productCodeCheck : function(oEvent){
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
 				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());

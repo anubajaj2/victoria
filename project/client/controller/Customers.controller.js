@@ -214,7 +214,6 @@ this.clearCustomer();
 						});
 						var customerModel = this.getView().getModel("customerModel");
 						var selData = oEvent.getParameter("value").toLocaleUpperCase();
-						var that = this;
 						customerModel.setProperty("/CustomerCode", selData);
 						// var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 						var customerJson = this.getView().getModel("customerModelInfo").getData().results;
@@ -350,7 +349,7 @@ this.clearCustomer();
 			SaveCustomer : function(){
 				var that = this;
 				 var customerModel = this.getView().getModel("customerModel");
-				 var custId = customerModel.getData().CustomerCode;
+				 var custId = customerModel.getData().Id;
  				var customerCode = that.getView().byId("idCustomerCode").getValue();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();

@@ -48,13 +48,13 @@
 											enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
 </ComboBox> -->
-<Input id="idProductCode" submit="productCodeCheck" suggest="ValueChangeMaterial"
+<Input id="idProductCode" submit="productCodeEnter" suggest="ValueChangeMaterial"
 	suggestionItems="{/Products}" showSuggestion="true"
 		enabled="{viewModel>/codeEnabled}"
 	suggestionItemSelected="productCodeCheck">
 	<suggestionItems>
-		<core:ListItem text="{ProductCode} {ProductName}"
-									 additionalText="{Type}"/>
+		<core:ListItem text="{ProductCode}"
+									 additionalText="{ProductName} {Type}"/>
 	</suggestionItems>
 </Input>
 

@@ -143,6 +143,17 @@ sap.ui.define([
 			// }
 			this.searchPopup.open();
 		},
+		onSearch: function(oEvent){
+			var searchStr = oEvent.getParameter("value");
+			var oFilter = new sap.ui.model.Filter({
+				filters: [
+					new sap.ui.model.Filter("CustomerCode",sap.ui.model.FilterOperator.Contains,searchStr),
+					new sap.ui.model.Filter("Name",sap.ui.model.FilterOperator.Contains,searchStr)
+				],
+				and:false
+			});
+			this.searchPopup.getBinding("items").filter(oFilter);
+		},
 		getKachhiCustPopup: function(oEvent) {
 			if (!this.kCustomersearchPopup) {
 				this.kCustomersearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);

@@ -40,9 +40,7 @@ function (BaseController,
       this.getView().byId("DateId").setDateValue(new Date());
 
       },
-      onSearch: function (oEvent){
-debugger;
-      },
+
     onValueHelpRequest: function (oEvent) {
 					this.getCustomerPopup(oEvent);
     },

@@ -15,7 +15,6 @@
 					<StandardListItem id="Products" icon="sap-icon://add-product" title="Material" description=""></StandardListItem>
 					<StandardListItem id="City" icon="sap-icon://map" title="City" description=""></StandardListItem>
 					<StandardListItem id="Group" icon="sap-icon://overview-chart" title="Group" description=""></StandardListItem>
-
 					<StandardListItem id="Entry" icon="sap-icon://collections-insight" title="Entry" description=""></StandardListItem>
 					<StandardListItem id="sales" icon="sap-icon://crm-sales" title="Retail Sales" description=""></StandardListItem>
 					<StandardListItem id="salesws" icon="sap-icon://my-sales-order" title="Wholesale Sales" description=""></StandardListItem>
@@ -25,13 +24,12 @@
 					<StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="Pending Orders" description=""></StandardListItem>
 					<StandardListItem id="Customizing" icon="sap-icon://simulate" title="Customizing" description=""></StandardListItem>
 					<StandardListItem id="customerOrders" icon="sap-icon://customer-order-entry" title="Customer Orders" description=""></StandardListItem>
-					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
-					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
-					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="analytical" icon="sap-icon://bar-chart" title="Analytical Panel" description=""></StandardListItem>
+					<StandardListItem id="analytical" icon="sap-icon://bar-chart" title="Analytical Panel" description=""></StandardListItem>
 					<StandardListItem id="CollaborationCenter" icon="sap-icon://collaborate" title="Collaboration Center" description=""></StandardListItem>
 					<StandardListItem id="demo" icon="sap-icon://bar-chart" title="anubhav" description=""></StandardListItem>
 					<StandardListItem id="Print" icon="sap-icon://print" title="Print Customizing" description=""></StandardListItem>
-
+					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
+					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
 				</items>
 			</List>
 		</content>

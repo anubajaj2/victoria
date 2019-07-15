@@ -33,7 +33,7 @@
             <Text id="idCity" text="{customerModel>/City}"/>
           </f:content>
       </f:SimpleForm>
-      <VBox
+       <VBox
         alignItems="Center"
         alignContent="Start">
         <HBox
@@ -41,9 +41,9 @@
             alignItems="Start"
             alignContent="Center">
             <items>
-              <Button text="Kacchi Download" width="200px" type="Emphasized" press="onPressDownload" class="sapUiSmallMarginEnd" />
-              <Button text="Entry Download" type="Reject" class="sapUiSmallMarginEnd" />
-              <Button text="Retail Sales Summary" type="Accept" />
+              <Button text="Kacchi Download" width="200px" press="onPressDownload" class="sapUiSmallMarginEnd" />
+              <Button text="Entry Download" class="sapUiSmallMarginEnd" />
+              <Button text="Retail Sales Summary" class="sapUiSmallMarginEnd" />
             </items>
           </HBox>
           <HBox
@@ -51,17 +51,16 @@
               alignItems="Start"
               alignContent="Center">
               <items>
-                <Button text="Wholesale Summary" width="200px" type="Emphasized" class="sapUiSmallMarginEnd" />
-                <Button text="Booking Summary" type="Reject" class="sapUiSmallMarginEnd" />
-                <Button text="Pending Order Summary" type="Accept" />
+                <Button text="Wholesale Summary" width="200px"  class="sapUiSmallMarginEnd" />
+                <Button text="Booking Summary"  class="sapUiSmallMarginEnd" />
+                <Button text="Pending Order Summary" class="sapUiSmallMarginEnd" />
               </items>
             </HBox>
       </VBox>
 
     </semantic:content>
     <semantic:customFooterContent>
-				<Button text="Clear" type="Accept" press="onPressClear"/>
-
+				<Button text="Clear" type="Ghost" press="onPressClear"/>
 		</semantic:customFooterContent>
   </semantic:FullscreenPage>
 </mvc:View>

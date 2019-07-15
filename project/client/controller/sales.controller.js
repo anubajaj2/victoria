@@ -200,6 +200,7 @@ that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                  "GET",{}, {}, that)
 .then(function(oData) {
    debugger;
+oEvent.sId = "orderReload";
 if (oData.results.length > 0) {
   	var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
   for (var i = 0; i < oData.results.length; i++) {
@@ -211,12 +212,14 @@ if (oData.results.length > 0) {
     allReturns[i].Tunch = oData.results[i].Tunch;
     allReturns[i].Qty = oData.results[i].Qty;
     allReturns[i].Bhav = oData.results[i].Bhav;
+    allReturns[i].Key = oData.results[i].Key;
     allReturns[i].Remarks = oData.results[i].Remarks;
+    that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
     var seletedLine = "/TransData" + '/' + i;
     var orderHeader = that.getView().getModel('local').getProperty('/orderHeader');
     that.returnCalculation(oEvent, orderHeader, seletedLine);
     }
-    that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
+    // that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
     }
     })
     .catch(function(oError) {

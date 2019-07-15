@@ -822,7 +822,7 @@ debugger;
 		returnCalculation: function(oEvent, orderHeader, data) {
 			debugger;
 			if (oEvent.getId() === 'orderReload') {
-		  var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+		  var seletedLine = this.getView().getModel('returnModel').getProperty(data);
 
 			}else{
 		  var seletedLine = data;
@@ -831,17 +831,19 @@ debugger;
 			var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
 			var oCurrentRow = oEvent.getSource().getParent();
 			var cells = oCurrentRow.getCells();
+			this.getView().getModel('local').setProperty('/OrderReturn',seletedLine);
 			}
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+			if (newValue) {
 			this.setReturnNewValue(seletedLine,fieldId,newValue);
+			}
 			this.getReturnFloatValue(seletedLine,oFloatFormat);
 
 			if (seletedLine.key === 'OG' ||
 				seletedLine.key === 'KG' ||
 				seletedLine.key === 'BG') {
 				if (seletedLine.key === 'BG') {
-					// var tunch = 100;
 					seletedLine.Tunch = 100;
 				}
 				var bhavF = seletedLine.Bhav/10;
@@ -863,12 +865,9 @@ debugger;
 				seletedLine.key === 'KS' ||
 				seletedLine.key === 'BS') {
 				if (seletedLine.key === 'BS') {
-					// var tunch = 100;
 					seletedLine.Tunch = 100;
 				}
-				// var bhavF = bhav / 1000;
 				var bhavF = seletedLine.Bhav / 1000;
-				// var weightF = weight - kWeight;
 				var weightF = seletedLine.Weight - seletedLine.KWeight;
 				var fineSilver = (seletedLine.Tunch * weightF) / 100;
 				var fineSilverF =  this.getIndianCurr(fineSilver)

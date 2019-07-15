@@ -516,16 +516,18 @@ debugger;
 
    },
 	 _getDialog: function (selectedEntry) {
-		 	var oModel = new sap.ui.model.json.JSONModel();
-		 	oModel.setData(selectedEntry);
-		 	this.getView().setModel(oModel,"editPopup");
+
+
        if(!this.oDialog){
-				 
+				 	var oModel = new sap.ui.model.json.JSONModel();
 				 this.oDialog= sap.ui.xmlfragment("entryDialog","victoria.fragments.entryDialog",this);
-				 this.oDialog.setModel(oModel);
+
 
 				 // this.getView().addDependent(this.oDialog);
 			 }
+			 oModel.setData(selectedEntry);
+ 		 	 this.getView().setModel(oModel,"editPopup");
+			 this.oDialog.setModel(oModel);
 			 this.oDialog.open();
 			//  debugger;
 			//  var title = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;

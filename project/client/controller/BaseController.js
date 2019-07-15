@@ -743,15 +743,7 @@ debugger;
 			}
 			this.returnCalculation(oEvent, orderHeader, seletedLine);
 		},
-		returnCalculation: function(oEvent, orderHeader, seletedLine) {
-			debugger;
-			var newValue = oEvent.getParameters().newValue;
-			var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
-			var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
-			var oCurrentRow = oEvent.getSource().getParent();
-			var cells = oCurrentRow.getCells();
-			var oLocale = new sap.ui.core.Locale("en-US");
-			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+		setReturnNewValue:function(seletedLine,fieldId,newValue){
 			//weight
 			if (fieldId === 'IdWeightR') {
 				if (seletedLine.Weight !== newValue) {
@@ -776,52 +768,85 @@ debugger;
 					seletedLine.Bhav = newValue;
 				}
 			}
+		},
+		getReturnFloatValue:function(seletedLine,oFloatFormat){
 			//weight
 			if (seletedLine.Weight === "") {
 				var weight = 0;
+				seletedLine.Weight = 0;
 			} else
 			if (seletedLine.Weight === 0) {
 				var weight = 0;
+				seletedLine.Weight = 0
 			} else {
-				var weight = oFloatFormat.parse(seletedLine.Weight);
+				var weight = seletedLine.Weight.toString();
+				seletedLine.Weight = oFloatFormat.parse(weight);
 			}
 			//Katta weight
 			if (seletedLine.KWeight === "") {
 				var kWeight = 0;
+				seletedLine.KWeight = 0;
 			} else
 			if (seletedLine.KWeight === 0) {
 				var kWeight = 0;
+				seletedLine.KWeight = 0;
 			} else {
-				var kWeight = oFloatFormat.parse(seletedLine.KWeight);
+				var kWeight = seletedLine.KWeight.toString();
+				seletedLine.KWeight = oFloatFormat.parse(kWeight);
 			}
 			//tunch
 			if (seletedLine.Tunch === "") {
 				var tunch = 0;
+				seletedLine.Tunch = 0;
 			} else
 			if (seletedLine.Tunch === 0) {
 				var tunch = 0;
+				seletedLine.Tunch = 0;
 			} else {
-				var tunch = oFloatFormat.parse(seletedLine.Tunch);
+				var tunch = seletedLine.Tunch.toString();
+				seletedLine.Tunch = oFloatFormat.parse(tunch);
 			}
 			//bhav
 			if (seletedLine.Bhav === "") {
 				var bhav = 0;
+				seletedLine.Bhav = 0;
 			} else
 			if (seletedLine.Bhav === 0) {
 				var bhav = 0;
+				seletedLine.Bhav = 0;
 			} else {
-				//   var bhav  = oFloatFormat.parse(seletedLine.Bhav);
-				var bhav = seletedLine.Bhav;
+			 var bhav  =  seletedLine.Bhav.toString();
+			 seletedLine.Bhav = oFloatFormat.parse(bhav);
 			}
+		},
+		returnCalculation: function(oEvent, orderHeader, data) {
+			debugger;
+			if (oEvent.getId() === 'orderReload') {
+		  var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+
+			}else{
+		  var seletedLine = data;
+			var newValue = oEvent.getParameters().newValue;
+			var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
+			var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+			var oCurrentRow = oEvent.getSource().getParent();
+			var cells = oCurrentRow.getCells();
+			}
+			var oLocale = new sap.ui.core.Locale("en-US");
+			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+			this.setReturnNewValue(seletedLine,fieldId,newValue);
+			this.getReturnFloatValue(seletedLine,oFloatFormat);
+
 			if (seletedLine.key === 'OG' ||
 				seletedLine.key === 'KG' ||
 				seletedLine.key === 'BG') {
 				if (seletedLine.key === 'BG') {
-					var tunch = 100;
+					// var tunch = 100;
+					seletedLine.Tunch = 100;
 				}
-				var bhavF = bhav / 10;
-				var weightF = weight - kWeight;
-				var fineGold = (tunch * weightF) / 100;
+				var bhavF = seletedLine.Bhav/10;
+				var weightF = seletedLine.Weight - seletedLine.KWeight;
+				var fineGold = (seletedLine.Tunch * weightF) / 100;
 				var fineGoldF =  this.getIndianCurr(fineGold)
 				var subTotal = fineGold * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
@@ -840,8 +865,10 @@ debugger;
 				if (seletedLine.key === 'BS') {
 					var tunch = 100;
 				}
-				var bhavF = bhav / 1000;
-				var weightF = weight - kWeight;
+				// var bhavF = bhav / 1000;
+				var bhavF = seletedLine.Bhav / 1000;
+				// var weightF = weight - kWeight;
+				var weightF = seletedLine.Weight - seletedLine.KWeight;
 				var fineSilver = (tunch * weightF) / 100;
 				var fineSilverF =  this.getIndianCurr(fineSilver)
 				var subTotal = fineSilver * bhavF;

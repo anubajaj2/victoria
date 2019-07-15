@@ -108,9 +108,13 @@ var myWindow = window.open("", "PrintWindow", "width=200,height=100");
     myWindow.stop();
 },
 onConfirm:function(oEvent){
+  var that = this;
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
+debugger;
+var id = oEvent.getSource().getParent().getId().split('---')[1];
+that.onClear(oEvent,id);
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderNo = oEvent.getParameter("selectedItem").getLabel();
 var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
@@ -144,10 +148,6 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 getOrderDetails:function(oEvent,orderId ,oFilter){
   var that = this;
   debugger;
-  var id = oEvent.getSource().getParent().getId().split('---')[1];
-  that.onClear(oEvent,id);
-  // that.orderItem(oEvent);
-  // that.orderReturn(oEvent);
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')", "GET",
                    {filters: [oFilter]}, {}, this)
@@ -169,7 +169,6 @@ getOrderDetails:function(oEvent,orderId ,oFilter){
       	if (oData.results.length > 0) {
           var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
           for (var i = 0; i < oData.results.length; i++) {
-            debugger;
             allItems[i].OrderNo = oData.results[i].OrderNo;
             allItems[i].itemNo = oData.results[i].id;
             allItems[i].Making = oData.results[i].Making;
@@ -213,7 +212,9 @@ if (oData.results.length > 0) {
     allReturns[i].Qty = oData.results[i].Qty;
     allReturns[i].Bhav = oData.results[i].Bhav;
     allReturns[i].Remarks = oData.results[i].Remarks;
-    allReturns[i].SubTotal = oData.results[i].SubTotal;
+    var seletedLine = "/TransData" + '/' + i;
+    var orderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+    that.returnCalculation(oEvent, orderHeader, seletedLine);
     }
     that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
     }
@@ -1225,120 +1226,6 @@ Calculation:function(oEvent,tablePath,i){
     this.finalCalculation(category,data,priceF,tablePath,cells,
                           quantityOfStone,gold20pergm,gold22pergm,
                           silverpergm);
-// if ((category.Type === 'Gold' && category.Category === "gm") ||
-//     (category.Type === 'Silver' && category.Category === "gm"))
-// {
-// //get the final weight
-// if (data.WeightD !== "" ||
-//     data.WeightD !== 0) {
-// var weightF = data.Weight - data.WeightD;
-// }else {
-// var weightF = data.Weight;
-// }
-// if (category.Type === 'Gold' ) {
-// //get the gold price
-// if (category.Karat === '22/22') {
-// priceF = weightF * gold22pergm;
-// }else
-// if (category.Karat === '22/20') {
-// priceF = weightF * gold20pergm;
-// }
-// }else if (category.Type === 'Silver') {
-//   priceF = weightF * silverpergm;
-// }
-// //Making charges
-// var makingCharges  = data.Making * weightF;
-// var stonevalue = quantityOfStone * data.MakingD;
-// if (priceF || makingCharges || stonevalue) {
-// var subTot = (priceF + makingCharges + stonevalue) ;
-// var subTotF =  this.getIndianCurr(subTot);
-//   // gold price per gram
-//   if (tablePath) {
-//    debugger;
-//   category.SubTot = subTotF;
-//   this.byId("Sales--idSaveIcon").setColor('red');
-//   //capture if there is any change
-//   // this.noChange.flag = true;
-//   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
-//   }else {
-//   cells[cells.length - 1].setText(subTotF);
-//   }
-// }else {
-//   cells[cells.length - 1].setText(0)
-// }
-// }else
-// if (category.Type === 'GS') {
-// //german silver//ignore Weight//Quantity Check
-// //charges of german silver
-// var charges = data.Qty * data.Making ;
-// var chargesD = data.QtyD * data.MakingD;
-// //final charges on GS
-// if (charges) {
-//   var subTot = charges + chargesD;
-//   var subTotF =  this.getIndianCurr(subTot);
-// if (tablePath) {
-//  debugger;
-// category.SubTot = subTotF;
-// this.byId("Sales--idSaveIcon").setColor('red');
-// this.noChange = true;
-// this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
-// }else {
-// cells[cells.length - 1].setText(subTotF);
-// }
-// }else {
-//   cells[cells.length - 1].setText(0);
-// }}
-// else if ((category.Type ==="Gold" && category.Category === "pcs")||
-//         (category.Type === 'Silver' && category.Category === "pcs"))
-// {
-//     //get the final weight
-//     if (data.WeightD !== "" ||
-//         data.WeightD !== 0) {
-//     var weightF = data.Weight - data.WeightD;
-//     }else {
-//     var weightF = data.Weight;
-//     }
-//
-//     if (category.Type === 'Gold' ) {
-//     //get the gold price
-//     if (category.Karat === '22/22') {
-//     priceF = weightF * gold22pergm;
-//     }else
-//     if (category.Karat === '22/20') {
-//     priceF = weightF * gold20pergm;
-//     }
-//     }else if (category.Type === 'Silver') {
-//       priceF = weightF * silverpergm;
-//     }
-//     if (!priceF) {
-//       var priceF = 0;
-//     }
-// //Making of Product
-// var makingOfProduct = data.Qty * data.Making;
-// if (!makingOfProduct) {
-//   var makingOfProduct = 0;
-// }
-// //Stone value
-// var stonevalue = quantityOfStone * data.MakingD;
-// if (!stonevalue) {
-//   var stonevalue = 0;
-// }
-//
-// if (priceF || makingOfProduct || stonevalue) {
-// // gold price per gram
-// var subTot = priceF + makingOfProduct + stonevalue;
-// var subTotF =  this.getIndianCurr(subTot);
-// if (tablePath) {
-// category.SubTot = subTotF;
-// this.noChange = true;
-// this.byId("Sales--idSaveIcon").setColor('red');
-// this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
-// }else {
-// cells[cells.length - 1].setText(subTotF);
-// }
-// }else {
-//   cells[cells.length - 1].setText(0)
-// }}//end of per PCs calculation
 }//Category else part
   this.byId("IdMaking");
   this.byId("IdMakingD");

@@ -597,7 +597,10 @@ debugger;
 			});
 			//check for retail sales only
 			this.setModel(oVisModel, "visModel");
-
+			if (id) {
+				var odata = this.getView().getModel('visModel');
+				odata.setProperty("/rows1", false);
+			}else
 			if (oEvent.getParameter('name') === "sales") {
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", false);
@@ -617,9 +620,6 @@ debugger;
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", false);
 			}else if (oEvent.getSource().getContent().getId() === "sales-page") {
-				var odata = this.getView().getModel('visModel');
-				odata.setProperty("/rows1", false);
-			}else if (id) {
 				var odata = this.getView().getModel('visModel');
 				odata.setProperty("/rows1", false);
 			}

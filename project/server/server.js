@@ -354,20 +354,20 @@ right: {style:'thin'}
 			});
 
 		app.post('/deleteRecords', function(req, res) {
-
-				var customerId = req.body.Customer;
+			debugger;
+				var customerId = req.body.customerId;
 				var entityName = req.body.entityName;
 				switch (entityName) {
 					case "Entry":
 						var Entry = app.models.Entry;
 						Entry.destroyAll({
-							where : {
 								"Customer": customerId
-							}
 						}).then(function(records){
 							res.send({
 								"msg": "All the records has been deleted successfully for the customer"
 							});
+						}).catch(function(err,ns){
+							debugger;
 						});
 						break;
 					case "Kacchi":

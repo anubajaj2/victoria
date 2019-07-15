@@ -375,6 +375,17 @@
 	"ChangedBy":"",
 	"ChangedOn":""
 	},
+	"BookingDetail":{
+	  "BookingDate": "",
+	  "Customer": "",
+	  "Quantity":0,
+		"Bhav":0,
+		"Advance":0,
+	  "CreatedBy":"",
+		"CreatedOn":"",
+		"ChangedBy":"",
+		"ChangedOn":""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

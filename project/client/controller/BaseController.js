@@ -183,18 +183,18 @@ sap.ui.define([
 
 		orderPopup: function(oEvent) {
 			//call the popup screen dynamically
-			debugger;
+
 			// if (!this.orderSearchPopup) {
 				this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.orderSearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("orderSearch");
 				this.orderSearchPopup.setTitle(title);
 				this.orderSearchPopup.sId = 'orderNo';
-				debugger;
+
 				var orderDate = this.byId("Sales--DateId").getValue();
 				var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;
 				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
-				debugger;
+
 				var dateFrom = new Date(orderDate);
 				dateFrom.setHours(0,0,0,1)
 				var dateTo = new Date(orderDate);
@@ -218,18 +218,28 @@ debugger;
 							filters :[orFilter , oFilter3],
 						  and: true
 						});
+
+						// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						//     "/OrderHeaders", "GET", {expand: "ToCustomers",filters: orFilter}, {}, this)
+						//   .then(function(oData) {
+						//     debugger;
+						//   }).catch(function(oError) {
+						//     debugger;
+						//   });
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/OrderHeaders',
 					filters: orFilter,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{Customer}"
+						value: {path: 'Customer', formatter: this.getCustomerName.bind(this)}
 					})
 				});
 			// }//order popup
 			this.orderSearchPopup.open();
 		},
-
+		getCustomerName: function(custId){
+			return this.allMasterData.customers[custId].CustomerCode + "-" + this.allMasterData.customers[custId].Name
+		},
 		getMaterialPopup: function() {
 			if (!this.matSearchPopup) {
 				this.matSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);

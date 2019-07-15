@@ -863,13 +863,14 @@ debugger;
 				seletedLine.key === 'KS' ||
 				seletedLine.key === 'BS') {
 				if (seletedLine.key === 'BS') {
-					var tunch = 100;
+					// var tunch = 100;
+					seletedLine.Tunch = 100;
 				}
 				// var bhavF = bhav / 1000;
 				var bhavF = seletedLine.Bhav / 1000;
 				// var weightF = weight - kWeight;
 				var weightF = seletedLine.Weight - seletedLine.KWeight;
-				var fineSilver = (tunch * weightF) / 100;
+				var fineSilver = (seletedLine.Tunch * weightF) / 100;
 				var fineSilverF =  this.getIndianCurr(fineSilver)
 				var subTotal = fineSilver * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
@@ -884,7 +885,7 @@ debugger;
 					}
 				}
 			}else if (seletedLine.key === 'CASH') {
-				var subTotF =  this.getIndianCurr(bhav)
+				var subTotF =  this.getIndianCurr(seletedLine.Bhav)
 				cells[cells.length - 1].setText(subTotF);
 			}
 		},

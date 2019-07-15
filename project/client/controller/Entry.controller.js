@@ -515,27 +515,33 @@ debugger;
      }
 
    },
-	 _getDialog: function (oEvent) {
+	 _getDialog: function (selectedEntry) {
+		 	var oModel = new sap.ui.model.json.JSONModel();
+		 	oModel.setData(selectedEntry);
+		 	this.getView().setModel(oModel,"editPopup");
        if(!this.oDialog){
+				 
 				 this.oDialog= sap.ui.xmlfragment("entryDialog","victoria.fragments.entryDialog",this);
-				 this.getView().addDependent(this.oDialog);
+				 this.oDialog.setModel(oModel);
+
+				 // this.getView().addDependent(this.oDialog);
 			 }
 			 this.oDialog.open();
-			 debugger;
-			 var title = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
-			 sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
-			 var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
-			 sap.ui.getCore().byId("entryDialog--idDialogDate").setValue(cell0);
-			 var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
-			sap.ui.getCore().byId("entryDialog--idDialogCust").setValue(cell2);
-			 var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
-			  sap.ui.getCore().byId("entryDialog--idDialogAmt").setValue(cell3);
-			 var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
-			  sap.ui.getCore().byId("entryDialog--idDialogGold").setValue(cell4);
-			 var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[6].mProperties.text;
-			  sap.ui.getCore().byId("entryDialog--idDialogSil").setValue(cell5);
-			 var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
-			  sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
+			//  debugger;
+			//  var title = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+			//  sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
+			//  var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
+			//  sap.ui.getCore().byId("entryDialog--idDialogDate").setValue(cell0);
+			//  var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+			// sap.ui.getCore().byId("entryDialog--idDialogCust").setValue(cell2);
+			//  var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+			//   sap.ui.getCore().byId("entryDialog--idDialogAmt").setValue(cell3);
+			//  var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+			//   sap.ui.getCore().byId("entryDialog--idDialogGold").setValue(cell4);
+			//  var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[6].mProperties.text;
+			//   sap.ui.getCore().byId("entryDialog--idDialogSil").setValue(cell5);
+			//  var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
+			//   sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
 
 
 	 },
@@ -545,35 +551,31 @@ debugger;
 		 that.getView().setBusy(true);
 		 var myData = this.getView().getModel("local").getProperty("/EntryData");
 		 var id = myData.Customer;
-
-		 myData.Date = sap.ui.getCore().byId("entryDialog--idDialogDate").getValue();
-		 myData.Gold = sap.ui.getCore().byId("entryDialog--idDialogGold").getValue();
-		 myData.Cash = sap.ui.getCore().byId("entryDialog--idDialogAmt").getValue();
-		 myData.Silver = sap.ui.getCore().byId("entryDialog--idDialogSil").getValue();
-		 myData.Remarks = sap.ui.getCore().byId("entryDialog--idDialogRem").getValue();
-		 // myData.Weight = this.getView().byId("idweight").getValue();
-		 // myData.Tunch = this.getView().byId("idtunch").getValue();
-		 // myData.DueDate = this.getView().byId("DueDateId").getDateValue();
-		 id = "5d0ac34f34e68004b91c4ee8";
-		 if(id){
+		 var editEntry = this.getView().getModel("editPopup").getProperty("/");
+		 //id = "5d0ac34f34e68004b91c4ee8";
 		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			// "/CustomCalculations('"+myData.id+"')", "PUT", {},myData , this)
-			var myData = {
-         "Date": "/Date(1560986374041)/",
-                "Customer": "5d0ac2f734e68004b91c4ee4",
-                "Cash": 0,
-                "Gold": 0,
-                "Silver": -217.9,
-                "Remarks": "Worked",
-                "Weight": 0,
-                "Tunch": 0,
-                "CreatedOn": "/Date(1560986447086)/",
-                "CreatedBy": "5cd2a47c82243354944969d7",
-                "ChangedOn": "/Date(1560986447086)/",
-                "ChangedBy": "5cd2a47c82243354944969d7",
-                "Product":"5d01d095a94a61374402b277"
-							};
-		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('" + id + "')",
+			// var myData = {
+      //    "Date": editEntry.Date,
+      //           "Customer": editEntry.Customer,
+      //           "Cash": editEntry.Cash,
+      //           "Gold": editEntry.Gold,
+      //           "Silver": editEntry.Silver,
+      //           "Remarks": editEntry.Remarks,
+      //           "Weight": editEntry,,
+      //           "Tunch": 0,
+      //           "CreatedOn": "/Date(1560986447086)/",
+      //           "CreatedBy": "5cd2a47c82243354944969d7",
+      //           "ChangedOn": "/Date(1560986447086)/",
+      //           "ChangedBy": "5cd2a47c82243354944969d7",
+      //           "Product":"5d01d095a94a61374402b277"
+			// 				};
+			var myData = JSON.parse(JSON.stringify(editEntry));
+		  delete(myData.path);
+			delete(myData.ToCustomers);
+			delete(myData.ToProducts);
+			delete(myData.__metadata);
+		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), editEntry.path,
 															 "PUT", {}, myData, this)
 		 .then(function(oData) {
 			 that.getView().setBusy(false);
@@ -583,7 +585,6 @@ debugger;
 			 that.getView().setBusy(false);
 			 var oPopover = that.getErrorMessage(oError);
 		 });
-	 }
 
 
 	 },
@@ -593,13 +594,17 @@ debugger;
 
 	 onEdit: function (oEvent) {
 		 debugger;
-		 var oEvent =this.getView().byId("idTable").getSelectedItems().length;
-		 if(oEvent>1){
+
+		 var recCount =this.getView().byId("idTable").getSelectedItems().length;
+		 if(recCount>1){
 			 sap.m.MessageBox.alert(
 			 "Select one entry only");
 		 }
 		 else{
-		  this._getDialog();
+			 var selectedEntry = oEvent.getSource().getParent().getParent().getModel().getProperty(oEvent.getSource().getParent().getParent().getSelectedContextPaths()[0]);
+			 selectedEntry.path = oEvent.getSource().getParent().getParent().getSelectedContextPaths()[0];
+
+		  this._getDialog(selectedEntry);
      }
 
 		 // var dialog = new sap.m.Dialog({

@@ -24,12 +24,12 @@
 					<StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="Stock Maintenance" description=""></StandardListItem>
 					<StandardListItem id="Customizing" icon="sap-icon://simulate" title="Customizing" description=""></StandardListItem>
 					<StandardListItem id="customerOrders" icon="sap-icon://customer-order-entry" title="Customer Orders" description=""></StandardListItem>
-					<StandardListItem id="analytical" icon="sap-icon://bar-chart" title="Analytical Panel" description=""></StandardListItem>
-					<StandardListItem id="CollaborationCenter" icon="sap-icon://collaborate" title="Collaboration Center" description=""></StandardListItem>
 					<StandardListItem id="demo" icon="sap-icon://bar-chart" title="anubhav" description=""></StandardListItem>
 					<StandardListItem id="Print" icon="sap-icon://print" title="Print Customizing" description=""></StandardListItem>
 					<StandardListItem id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
+					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="CollaborationCenter" icon="sap-icon://collaborate" title="Collaboration Center" description=""></StandardListItem>
+					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="analytical" icon="sap-icon://bar-chart" title="Analytical Panel" description=""></StandardListItem>
 				</items>
 			</List>
 		</content>

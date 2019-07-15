@@ -142,8 +142,10 @@ this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 }},
 
 getOrderDetails:function(oEvent,orderId ,oFilter){
-  debugger;
   var that = this;
+  debugger;
+  var id = oEvent.getSource().getParent().getId().split('---')[1];
+  that.onClear(oEvent,id);
   // that.orderItem(oEvent);
   // that.orderReturn(oEvent);
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -174,7 +176,6 @@ getOrderDetails:function(oEvent,orderId ,oFilter){
             allItems[i].MakingD = oData.results[i].MakingD;
             allItems[i].Qty = oData.results[i].Qty;
             allItems[i].QtyD = oData.results[i].QtyD;
-            // allItems[i].SubTotal = oData.results[i].SubTotal;
             allItems[i].Weight = oData.results[i].Weight;
             allItems[i].WeightD = oData.results[i].WeightD;
             allItems[i].Remarks = oData.results[i].Remarks;
@@ -182,12 +183,6 @@ getOrderDetails:function(oEvent,orderId ,oFilter){
             allItems[i].Material = oData.results[i].Material;
             allItems[i].Description = MaterialData.ProductName;
             allItems[i].MaterialCode = MaterialData.ProductCode;
-            // allItems[i].Category = MaterialData.ProductCode;
-            // that.setNewValue(data,fieldId,newValue);
-            // that.getFloatValue(data,oFloatFormat,quantityOfStone);
-            // that.finalCalculation(category,data,priceF,tablePath,cells,
-            //                       quantityOfStone,gold20pergm,gold22pergm,
-            //                       silverpergm);
             var oTablePath = "/itemData" + '/' + i;
             oEvent.sId = "orderReload";
             that.Calculation(oEvent,oTablePath,i);

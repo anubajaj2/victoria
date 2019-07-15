@@ -189,7 +189,7 @@ getOrderDetails:function(oEvent,orderId ,oFilter){
             //                       quantityOfStone,gold20pergm,gold22pergm,
             //                       silverpergm);
             var oTablePath = "/itemData" + '/' + i;
-            oEvent.setId="orderReload";
+            oEvent.sId = "orderReload";
             that.Calculation(oEvent,oTablePath,i);
           }
           that.getView().getModel("orderItems").setProperty("/itemData", allItems);
@@ -1170,14 +1170,15 @@ Calculation:function(oEvent,tablePath,i){
   debugger;
   var that = this;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
-  if ((oEvent.getId = "orderReload")
+  if ((oEvent.getId() === "orderReload")
   || (oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader'))
   {
   if (tablePath) {
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(tablePath);
   var path = tablePath;
   var cells = this.getView().byId("orderItemBases")._getVisibleColumns();
-  }}else {
+  }
+  }else{
   var oPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(oPath);
   var path = this.getView().byId('orderItemBases').getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
@@ -1188,7 +1189,7 @@ Calculation:function(oEvent,tablePath,i){
   var data = this.getView().getModel('orderItems').getProperty(path);
   var priceF = 0.00;
   var tempWeight  = 0.00;
-  if (oEvent.getId != "orderReload") {
+  if (oEvent.getId() != "orderReload") {
   var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[1].split('-')[0];
   var newValue = oEvent.getParameters().newValue;
   }
@@ -1210,6 +1211,8 @@ Calculation:function(oEvent,tablePath,i){
         category.Category = oData.Category;
         category.Making = oData.Making;
         category.Tunch = oData.Tunch;
+        category.Type = oData.Type;
+        category.Karat = oData.Karat;
         that.setNewValue(data,fieldId,newValue);
         that.getFloatValue(data,oFloatFormat,quantityOfStone);
         that.finalCalculation(category,data,priceF,tablePath,cells,

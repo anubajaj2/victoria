@@ -238,8 +238,8 @@ debugger;
 				for(var i = 0; i<oSelCount; i++){
 					var oSelected = this.getView().byId("idTable").getSelectedItems()[i];
 					var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
-					myData1.BookingDate = oSelected.mAggregations.cells[0].mProperties.text;
-					myData1.Customer = this.getView().byId("idTable").getSelectedItems()[i].getBindingContext().getObject().Customer;
+					myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+					myData1.Customer = oSelected.getBindingContext().getObject().Customer;
 					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
 					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;

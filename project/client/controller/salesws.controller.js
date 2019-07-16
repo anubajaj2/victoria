@@ -291,20 +291,14 @@ sap.ui.define(
 				this.orderSearchPopup.bindAggregation("items", {
 					path: '/WSOrderHeaders',
 					filters: orFilter,
-					// dataReceived: '.OrderDetailsFetched',
-					// change: '.OrderDetailsFetched'
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: "{Customer}",
-						// modelContextChange: 'popupDetailsFetched'
+						value: {path: 'Customer', formatter: this.getCustomerName.bind(this)}
 					})
 				});
 
 				// }//order popup
 				this.orderSearchPopup.open();
-			},
-			popupDetailsFetched: function(oEvent) {
-
 			},
 			ValueChange: function(oEvent) {
 
@@ -912,7 +906,7 @@ sap.ui.define(
 				var that = this;
 				if (this.getView().getModel('local').getProperty('/WSOrderHeader').OrderNo) {
 					var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
-					MessageBox.confirm("Are you sure to delete the unsaved Data?", {
+					MessageBox.confirm("Are you sure you want to create a new Order? All unsaved changes will be lost!", {
 						title: "Confirm", // default
 						onClose: function(sButton) {
 							if (sButton === MessageBox.Action.OK) {
@@ -927,15 +921,15 @@ sap.ui.define(
 								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
 								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
 								// that.clearScreen(oEvent);
-								that.orderCheck();
+								that.newOrderCreate();
 							} //Sbutton if condition
 						} //onClose
 					});
 				} else {
-					that.orderCheck();
+					that.newOrderCreate();
 				}
 			},
-			orderCheck: function() {
+			newOrderCreate: function() {
 				var that = this;
 				that.getView().setBusy(true);
 				// get the data from screen in local model

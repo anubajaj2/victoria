@@ -669,7 +669,7 @@ debugger;
 			oTableData.splice(selIdxs, 1);
 			oTableData.push({
 				"Type": "",
-				"key": "",
+				"Key": "",
 				"ReturnId": "",
 				"Weight": 0,
 				"KWeight": 0,
@@ -704,7 +704,7 @@ debugger;
 			var that = this;
 			var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
 			if (key) {
-				userEnterValue.key = key;
+				userEnterValue.Key = key;
 			}
 
 			userEnterValue.Weight="0";
@@ -850,7 +850,9 @@ debugger;
 			debugger;
 			if (oEvent.getId() === 'orderReload') {
 		  var seletedLine = this.getView().getModel('returnModel').getProperty(data);
-
+			// var category = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(data);
+		  var path = data;
+		  var cells = this.getView().byId("OrderReturn")._getVisibleColumns();
 			}else{
 		  var seletedLine = data;
 			var newValue = oEvent.getParameters().newValue;
@@ -867,10 +869,10 @@ debugger;
 			}
 			this.getReturnFloatValue(seletedLine,oFloatFormat);
 
-			if (seletedLine.key === 'OG' ||
-				seletedLine.key === 'KG' ||
-				seletedLine.key === 'BG') {
-				if (seletedLine.key === 'BG') {
+			if (seletedLine.Key === 'OG' ||
+				seletedLine.Key === 'KG' ||
+				seletedLine.Key === 'BG') {
+				if (seletedLine.Key === 'BG') {
 					seletedLine.Tunch = 100;
 				}
 				var bhavF = seletedLine.Bhav/10;
@@ -879,6 +881,10 @@ debugger;
 				var fineGoldF =  this.getIndianCurr(fineGold)
 				var subTotal = fineGold * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
+				if (path) {
+					seletedLine.SubTotal = subTotF;
+					this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path , seletedLine);
+				}else {
 				cells[cells.length - 1].setText(subTotF);
 				if (viewId == 'idsalesws') {
 					if (subTotF) {
@@ -888,10 +894,11 @@ debugger;
 					cells[cells.length - 3].setText(0);
 					}
 				}
-			} else if (seletedLine.key === 'OS' ||
-				seletedLine.key === 'KS' ||
-				seletedLine.key === 'BS') {
-				if (seletedLine.key === 'BS') {
+			}//path check
+			} else if (seletedLine.Key === 'OS' ||
+				seletedLine.Key === 'KS' ||
+				seletedLine.Key === 'BS') {
+				if (seletedLine.Key === 'BS') {
 					seletedLine.Tunch = 100;
 				}
 				var bhavF = seletedLine.Bhav / 1000;
@@ -900,6 +907,10 @@ debugger;
 				var fineSilverF =  this.getIndianCurr(fineSilver)
 				var subTotal = fineSilver * bhavF;
 				var subTotF =  this.getIndianCurr(subTotal)
+				if (path) {
+					seletedLine.SubTotal = subTotF;
+					this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path , seletedLine);
+				}else {
 				cells[cells.length - 1].setText(subTotF);
 
 				if (viewId == 'idsalesws') {
@@ -910,10 +921,15 @@ debugger;
 						cells[cells.length - 2].setText(0);
 					}
 				}
-			}else if (seletedLine.key === 'CASH') {
-				var subTotF =  this.getIndianCurr(seletedLine.Bhav)
-				cells[cells.length - 1].setText(subTotF);
 			}
+			}else if (seletedLine.Key === 'CASH') {
+				var subTotF =  this.getIndianCurr(seletedLine.Bhav)
+				if (path) {
+					seletedLine.SubTotal = subTotF;
+					this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path , seletedLine);
+				}else {
+				cells[cells.length - 1].setText(subTotF);
+			}}
 		},
 		onRetItemValidation: function() {
 			debugger;

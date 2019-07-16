@@ -414,11 +414,13 @@ for (var i = 0; i < oBindingR.getLength(); i++) {
   }else {
     returnTable.Type=data.Type;
     //OrderId
-    if ((oHeader.id) || (oHeader.id != " ")) {
-      returnTable.OrderNo=oHeader.id;
-    }else if (oId) {
-      returnTable.OrderNo= oID;
+    if (oEvent.getId() ==="orderReload") {
+      if (oHeader.id) {
+        returnTable.OrderNo=oHeader.id;}
+    }else {
+      returnTable.OrderNo= oId;
     }
+
   //Weight
   if (data.Weight === "" || data.Weight === 0) {
     returnTable.Weight= 0;

@@ -237,14 +237,14 @@ debugger;
 				var oSelCount =this.getView().byId("idTable").getSelectedItems().length;
 				for(var i = 0; i<oSelCount; i++){
 					var oSelected = this.getView().byId("idTable").getSelectedItems()[i];
-					var myData = this.getView().getModel("local").getProperty("/BookingDlvDetail");
-					myData.BookingDate = oSelected.mAggregations.cells[0].mProperties.text;
-					myData.Customer = this.getView().byId("idTable").getSelectedItems()[i].getBindingContext().getObject().Customer;
-					myData.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
-					myData.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-					myData.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+					myData1.BookingDate = oSelected.mAggregations.cells[0].mProperties.text;
+					myData1.Customer = this.getView().byId("idTable").getSelectedItems()[i].getBindingContext().getObject().Customer;
+					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
+					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
-																		"POST", {}, myData, this)
+																		"POST", {}, myData1, this)
 					.then(function(oData) {
 						that.getView().setBusy(false);
 						sap.m.MessageToast.show("Data Saved Successfully");

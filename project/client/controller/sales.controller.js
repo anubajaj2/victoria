@@ -127,8 +127,8 @@ var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,
 }else {
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
 }
-
-this.getOrderDetails(oEvent,orderId , oFilter);
+oEvent.sId = "orderReload";
+this.getOrderDetails(oEvent,orderId,oFilter);
 // this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -414,11 +414,11 @@ for (var i = 0; i < oBindingR.getLength(); i++) {
   }else {
     returnTable.Type=data.Type;
     //OrderId
-    if (oEvent.getId() ==="orderReload") {
-      if (oHeader.id) {
-        returnTable.OrderNo=oHeader.id;}
-    }else {
-      returnTable.OrderNo= oId;
+      if ((oId) || (oId !="")) {
+        returnTable.OrderNo= oId;
+      }
+    else if (oHeader.id) {
+      returnTable.OrderNo=oHeader.id;
     }
 
   //Weight
@@ -650,7 +650,11 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
   if (data.Material !== "") {
-  oOrderDetail.OrderNo=oId;//orderno // ID
+    if (oId != "") {
+      oOrderDetail.OrderNo=oId;//orderno // ID
+    }else if (oHeader.id) {
+      oOrderDetail.OrderNo = oHeader.id;//orderno // ID
+    }
   oOrderDetail.Material=data.Material;
   // Quantity
   if (data.Qty === "" || data.Qty === 0) {

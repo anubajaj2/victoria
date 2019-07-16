@@ -657,7 +657,7 @@ debugger;
 			var id = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
 			if (id) {
 				if (viewId === 'idsales') {
-					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderReturns('" + id + "')",
 						"DELETE", {}, {}, that)
 				} else {
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderReturns('" + id + "')",
@@ -706,6 +706,12 @@ debugger;
 			if (key) {
 				userEnterValue.key = key;
 			}
+
+			userEnterValue.Weight="0";
+			userEnterValue.KWeight="0";
+			userEnterValue.Quantity="0";
+			userEnterValue.Remarks="";
+
 			if (key === 'OG') {
 				userEnterValue.Tunch = "100";
 				if (viewId === 'idsales') {
@@ -852,7 +858,7 @@ debugger;
 			var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
 			var oCurrentRow = oEvent.getSource().getParent();
 			var cells = oCurrentRow.getCells();
-			this.getView().getModel('local').setProperty('/OrderReturn',seletedLine);
+			// this.getView().getModel('local').setProperty('/OrderReturn',seletedLine);
 			}
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -983,9 +989,9 @@ if (data.Tunch === "" || data.Tunch === 0) {
 			oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
 			returnError = true;
 		}
-
-	 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 	} //key check
+	debugger;
+this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 }//bhav check
 }//data.key check
 } //for loop

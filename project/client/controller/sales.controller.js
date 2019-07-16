@@ -397,7 +397,7 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
 }//Gold/Silver check
 return returnError;
 },
-onReturnSave:function(oEvent,oId,oCommit) {
+onReturnSave:function(oEvent,oId,oCommit,oHeader) {
 var returnTable = this.getView().getModel('local').getProperty('/OrderReturn');
 var oReturnTable = this.getView().byId('OrderReturn');
 var oBindingR = oReturnTable.getBinding("rows");
@@ -410,8 +410,10 @@ for (var i = 0; i < oBindingR.getLength(); i++) {
   }else {
     returnTable.Type=data.Type;
     //OrderId
-    if (oId) {
-      returnTable.OrderNo=oId;
+    if (oHeader.id) {
+      returnTable.OrderNo=oHeader.id;
+    }else if (oId) {
+      returnTable.OrderNo= oID;
     }
   //Weight
   if (data.Weight === "" || data.Weight === 0) {
@@ -733,7 +735,7 @@ if (data.itemNo) {
 }
 //Return values save
 if (oCommit === false) {
-that.onReturnSave(oEvent,oId,oCommit);
+that.onReturnSave(oEvent,oId,oCommit,oHeader);
 }
 that.byId("Sales--idSaveIcon").setColor('green');
 }//if status is red only than commit

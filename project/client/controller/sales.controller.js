@@ -398,19 +398,23 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
 return returnError;
 },
 onReturnSave:function(oEvent,oId,oCommit,oHeader) {
+  debugger;
 var returnTable = this.getView().getModel('local').getProperty('/OrderReturn');
 var oReturnTable = this.getView().byId('OrderReturn');
 var oBindingR = oReturnTable.getBinding("rows");
 for (var i = 0; i < oBindingR.getLength(); i++) {
   var that = this;
   var data = oBindingR.oList[i];
+  //key
+  if (data.Key != "") {
+    returnTable.Key= data.Key;
   //Type
   if (data.Type === "" || data.Type === 0) {
     returnTable.Type= 0;
   }else {
     returnTable.Type=data.Type;
     //OrderId
-    if (oHeader.id) {
+    if ((oHeader.id) || (oHeader.id != " ")) {
       returnTable.OrderNo=oHeader.id;
     }else if (oId) {
       returnTable.OrderNo= oID;
@@ -451,12 +455,6 @@ if (data.Remarks === "") {
 }else {
   returnTable.Remarks=data.Remarks;
 }
-//SubTotal
-// if (data.SubTotal === "" || data.SubTotal === 0) {
-//   returnTable.SubTotal= 0;
-// }else {
-//   returnTable.SubTotal=data.SubTotal;
-// }
 debugger;
 var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 if (data.ReturnId) {
@@ -498,6 +496,7 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                   		});
 }//data.ReturnId else part
 }//type check
+}//key check
 }//forloop
 return oCommit;
 },

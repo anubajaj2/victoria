@@ -928,8 +928,8 @@ debugger;
 			var returnError = false;
 			for (var i = 0; i < tableBinding.getLength(); i++) {
 				var data = tableBinding.oList[i];
-				if (data.key !== "") {
-					if (data.key === "CASH")
+				if (data.Key !== "") {
+					if (data.Key === "CASH")
 					{
 					if (data.Bhav === "" || data.Bhav === 0) {
 						this.getView().setBusy(false);
@@ -955,7 +955,7 @@ debugger;
 					debugger;
 					if (data.Bhav === "" || data.Bhav === 0) {
 						if (((viewId == "idsalesws") &&
-								(data.key === "OG" || data.key === "OS" )) ||
+								(data.Key === "OG" || data.Key === "OS" )) ||
 							(viewId == "idsales")) {
 							this.getView().setBusy(false);
 							oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
@@ -971,7 +971,7 @@ debugger;
 
 //Tunch
 if (data.Tunch === "" || data.Tunch === 0) {
-	if ((data.key === "KG" || data.key === "KS") &&
+	if ((data.Key === "KG" || data.Key === "KS") &&
 			(viewId == "idsales"))
 			{
 		this.getView().setBusy(false);
@@ -989,11 +989,11 @@ if (data.Tunch === "" || data.Tunch === 0) {
 			oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
 			returnError = true;
 		}
-	} //key check
+	} //Key check
 	debugger;
 this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 }//bhav check
-}//data.key check
+}//data.Key check
 } //for loop
 			return returnError;
 		},
@@ -1129,7 +1129,7 @@ this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 			for (var i = 1; i <= 5; i++) {
 				var oRetailtab = {
 					"Type": "",
-					"key": "",
+					"Key": "",
 					"ReturnId": "",
 					"Weight": 0,
 					"KWeight": 0,

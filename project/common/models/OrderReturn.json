@@ -15,6 +15,10 @@
       "type": "string",
       "required":true
     },
+    "Key": {
+      "type": "string",
+      "required":true
+    },
     "Weight": {
       "type": "number",
       "required": false,
@@ -43,7 +47,7 @@
     "Remarks": {
       "type": "string",
       "required": false,
-      "default":"null"
+      "default":""
     },
     "CreatedOn": {
       "type": "date",

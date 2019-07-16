@@ -50,7 +50,7 @@
 					<f:FormElement label="{i18n>bookingDate}">
 						<f:fields>
 							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
-								displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}" >
+								displayFormat="dd.MM.yyyy" value="{path: 'local>/BookingDetail/BookingDate'}" >
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M3 S5"/>
 								</m:layoutData>
@@ -63,17 +63,17 @@
 					<f:FormElement label="{i18n>bookingDetails}">
 						<f:fields>
 
-							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}" value="" >
+							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}" value="{path:'local>/BookingDetail/Quantity'}" >
 								<m:layoutData>
 									<l:GridData span="XL1 L1 M2 S2"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" value="">
+							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" value="{path:'local>/BookingDetail/Bhav'}">
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M3 S3"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}" value="">
+							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}" value="{path:'local>/BookingDetail/Advance'}">
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M3 S3"/>
 								</m:layoutData>

@@ -9,7 +9,13 @@
 
 	<l:Splitter height="auto" width="100%">
 		<Table id="idTable" class="sapUiContentPadding"
-	    items=""
+	    items="{
+	           path: '/BookingDetails',
+	             sorter: {
+	             path: 'BookingDate',
+	             descending: 'true'
+	             }
+	           }"
 	    mode="MultiSelect" growing="true"
 		  growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
 	    <headerToolbar>
@@ -41,11 +47,16 @@
 	      <items>
 	        <ColumnListItem>
 	          <cells>
-							<Text text=""/>
-	            <Text text=""/>
-	          	<Text text=""/>
-	            <Text text=""/>
-	            <Text text=""/>
+							<Text text="{
+		                path: 'BookingDate',
+		                type: 'sap.ui.model.type.Date',
+		                formatOptions: {
+		                      style: 'medium',
+		                      pattern: 'dd.MM.yyyy'}}"/>
+	            <Text text="{Customer}"/>
+	          	<Text text="{Quantity}"/>
+	            <Text text="{Bhav}"/>
+	            <Text text="{Advance}"/>
 	        </cells>
 	      </ColumnListItem>
 	    </items>
@@ -63,7 +74,8 @@
 
 						<x:Avatar
 							src="sap-icon://arrow-right"
-							displaySize="M">
+							displaySize="M"
+							press="onRightArrowPress">
 						</x:Avatar>
 
 					</items>
@@ -85,7 +97,13 @@
 		</Button> -->
 
 		<Table id="idBookingDlvTable" class="sapUiContentPadding"
-	    items=""
+	    items="{
+	           path: '/BookingDlvDetails',
+	             sorter: {
+	             path: 'BookingDate',
+	             descending: 'true'
+	             }
+	           }"
 	    mode="MultiSelect" growing="true"
 		  growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
 	    <headerToolbar>
@@ -117,11 +135,16 @@
 	      <items>
 	        <ColumnListItem>
 	          <cells>
-							<Text text=""/>
-	            <Text text=""/>
-	          	<Text text=""/>
-	            <Text text=""/>
-	            <Text text=""/>
+							<Text text="{
+		                path: 'BookingDate',
+		                type: 'sap.ui.model.type.Date',
+		                formatOptions: {
+		                      style: 'medium',
+		                      pattern: 'dd.MM.yyyy'}}"/>
+	            <Text text="{Customer}"/>
+	          	<Text text="{Quantity}"/>
+	            <Text text="{Bhav}"/>
+	            <Text text="{Advance}"/>
 	        </cells>
 	      </ColumnListItem>
 	    </items>

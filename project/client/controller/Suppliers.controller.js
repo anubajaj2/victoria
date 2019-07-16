@@ -52,7 +52,7 @@ sap.ui.define([
 			},
 			_onRouteMatched : function(){
       var that = this;
-      that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
+      that.getView().getModel("local").setProperty("/BookingDetail/BookingDate", new Date());
       this.getView().byId("DateId").setDateValue(new Date());
 
       },
@@ -74,6 +74,9 @@ debugger;
 						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				    var cName = selectedCustData.Name.toUpperCase();
 						this.getView().byId("idCustName").setText(cName);
+
+						var myData = this.getView().getModel("local").getProperty("/BookingDetail");
+						myData.Customer = oEvent.getParameter("selectedItem").getBindingContext().sPath.split("'")[1];
 			},
 			onClear:function(){
 				debugger;
@@ -87,14 +90,171 @@ debugger;
 
 
 			},
-			onNameChange: function(oEvent){
+			_getDialog: function (oEvent) {
+	        if(!this.oDialog){
+	 				 this.oDialog= sap.ui.xmlfragment("BookingDialog","victoria.fragments.BookingDialog",this);
+	 				 this.getView().addDependent(this.oDialog);
+	 			 }
+	 			 this.oDialog.open();
+	 			 debugger;
+	 			 var title = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+	 			 sap.ui.getCore().byId("BookingDialog--idDialog-title").setText(title);
+	 			 var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
+	 			 sap.ui.getCore().byId("BookingDialog--idDialogDate").setValue(cell0);
+	 			 var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+	 			sap.ui.getCore().byId("BookingDialog--idDialogCust").setValue(cell2);
+	 			 var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+	 			  sap.ui.getCore().byId("BookingDialog--idDialogQnty").setValue(cell3);
+	 			 var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[3].mProperties.text;
+	 			  sap.ui.getCore().byId("BookingDialog--idDialogBhav").setValue(cell4);
+	 			 var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+	 			  sap.ui.getCore().byId("BookingDialog--idDialogAdv").setValue(cell5);
+
+	 	 },
+		 onPressHandleEntrySavePopup: function (oEvent){
+			 debugger;
+			 var that=this;
+			 that.getView().setBusy(true);
+			 var myData = this.getView().getModel("local").getProperty("/BookingDetail");
+			 var id = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+
+			 myData.BookingDate = sap.ui.getCore().byId("BookingDialog--idDialogDate").getValue();
+			 myData.Quantity = sap.ui.getCore().byId("BookingDialog--idDialogQnty").getValue();
+			 myData.Bhav = sap.ui.getCore().byId("BookingDialog--idDialogBhav").getValue();
+			 myData.Advance = sap.ui.getCore().byId("BookingDialog--idDialogAdv").getValue();
+			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+       myData.Customer = this.getView().byId("idTable").getSelectedItems()[0].getBindingContext().getObject().Customer;
+			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
+																 "PUT", {}, myData, this)
+			 .then(function(oData) {
+				 that.getView().setBusy(false);
+				 sap.m.MessageToast.show("Data updated Successfully");
+
+			 }).catch(function(oError) {
+				 that.getView().setBusy(false);
+				 var oPopover = that.getErrorMessage(oError);
+			 });
+		 },
+		 onPressHandleEntryCancelPopup: function () {
+			 this.oDialog.close();
+		 },
+
+		 onDelete: function(){
+	     var that=this;
+	     // debugger;
+	     sap.m.MessageBox.confirm(
+	"Deleting Selected Records", {
+	         title: "Confirm",
+	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+	         styleClass: "",
+	         onClose: function(sAction) {
+	           debugger;
+	           if(sAction==="OK"){
+	             debugger;
+	             var x = that.getView().byId("idTable").getSelectedItems();
+							 var nQnty = 0;
+							 var nBhav = 0;
+							 var nAdvance = 0;
+	            if(x.length){
+	              for(var i=0; i<x.length; i++){
+	                debugger;
+	                var myUrl = x[i].getBindingContext().sPath;
+	                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+								}
+
+	            }
+	          sap.m.MessageToast.show("Selected records are deleted");
+	        }
+	       }
+	     }
+	     );
+			 // debugger;
+	   },
+
+
+		onNameChange: function(oEvent){
 
 				debugger;
  				var cName = oEvent.getParameter("value");
 				this.getView().byId("idCustName").setText(cName);
 
 			},
+			onSend: function(){
+				debugger;
+				var that = this;
+				that.getView().setBusy(true);
+				var myData = this.getView().getModel("local").getProperty("/BookingDetail");
+				myData.BookingDate =  this.getView().byId("DateId").getDateValue();
+				myData.Quantity =  this.getView().byId("idQnty").getValue();
+				myData.Bhav =  this.getView().byId("idBhav").getValue();
+				myData.Advance =  this.getView().byId("idAdvance").getValue();
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+																	"POST", {}, myData, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+					sap.m.MessageToast.show("Data Saved Successfully");
 
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+					var oPopover = that.getErrorMessage(oError);
+				});
+			},
+			onUpdateFinished: function(oEvent){
+				debugger;
+				var oTable = oEvent.getSource();
+				var itemList = oTable.getItems();
+				var noOfItems = itemList.length;
+				var value1;
+				var id;
+				var cell;
+				debugger;
+				for (var i = 0; i < noOfItems; i++) {
+					debugger;
+					//Read the GUID from the Screen
+					var customerId = oTable.getItems()[i].getCells()[1].getText();
+					var customerData = this.allMasterData.customers[customerId];
+					oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name );
+					//Find the customer data for that Guid in customer collection
+					//Change the data on UI table with semantic information
+				}
+			},
+			onEdit: function (oEvent) {
+	 		 debugger;
+	 		 var oEvent =this.getView().byId("idTable").getSelectedItems().length;
+	 		 if(oEvent>1){
+	 			 sap.m.MessageBox.alert(
+	 			 "Select one entry only");
+	 		 }
+	 		 else{
+	 		  this._getDialog();
+	      }
+
+	 	 },
+			onRightArrowPress: function(oEvent){
+				debugger;
+				var that = this;
+				that.getView().setBusy(true);
+				var oSelCount =this.getView().byId("idTable").getSelectedItems().length;
+				for(var i = 0; i<oSelCount; i++){
+					var oSelected = this.getView().byId("idTable").getSelectedItems()[i];
+					var myData = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+					myData.BookingDate = oSelected.mAggregations.cells[0].mProperties.text;
+					myData.Customer = this.getView().byId("idTable").getSelectedItems()[i].getBindingContext().getObject().Customer;
+					myData.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
+					myData.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+					myData.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+																		"POST", {}, myData, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						sap.m.MessageToast.show("Data Saved Successfully");
+
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+				}
+			},
 			onMaterialSelect: function(oEvent){
 				//whatever material id selected push that in local model
 				debugger;

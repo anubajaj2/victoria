@@ -272,12 +272,13 @@ sap.ui.define(
 				//Now you have to have 2 date Object
 				//firstDate object set the time to 000000 second object 240000
 				//now create 2 filter one ge low and two le High
+				debugger;
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
 				if (customer) {
-					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, customer);
+					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.Contains, customer);
 				} else {
-					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+					var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.Contains, "");
 				}
 				var orFilter = new sap.ui.model.Filter({
 					filters: [oFilter1, oFilter2],
@@ -293,12 +294,56 @@ sap.ui.define(
 					filters: orFilter,
 					template: new sap.m.DisplayListItem({
 						label: "{OrderNo}",
-						value: {path: 'Customer', formatter: this.getCustomerName.bind(this)}
+						value: {
+							path: 'Customer',
+							formatter: this.getCustomerName.bind(this)
+						}
 					})
 				});
 
 				// }//order popup
 				this.orderSearchPopup.open();
+			},
+			onSearch: function(oEvent) {
+				debugger;
+				var sourceField = oEvent.getSource().getId();
+				var searchStr = oEvent.getParameter("value");
+				if (searchStr) {
+					var searchStrLower = searchStr.toLowerCase();
+					var searchStrUpper = searchStr.toUpperCase();
+					var searchStrUpLow = searchStr[0].toUpperCase() + searchStr.substr(1).toLowerCase();
+				} else {
+					searchStrLower = "";
+					searchStrUpper = "";
+					searchStrUpLow = "";
+				}
+				if (sourceField === "orderNo") {
+					var oFilter = new sap.ui.model.Filter({
+						filters: [
+							new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.Contains, searchStr)
+							// new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.Contains, searchStrLower),
+							// new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.Contains, searchStrUpper),
+							// new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.Contains, searchStrUpLow)
+						],
+						and: false
+					});
+					this.orderSearchPopup.getBinding("items").filter(oFilter);
+				} else {
+					var oFilter = new sap.ui.model.Filter({
+						filters: [
+							new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStrUpper),
+							new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStrLower),
+							new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStrUpper),
+							new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStrUpLow)
+						],
+						and: false
+					});
+					this.searchPopup.getBinding("items").filter(oFilter);
+				}
+			},
+			onLiveSearch: function(oEvent) {
+				debugger;
+				this.onSearch(oEvent);
 			},
 			ValueChange: function(oEvent) {
 

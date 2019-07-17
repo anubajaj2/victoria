@@ -14,7 +14,7 @@ size="30px" alt="Save Status" tooltip="Save Status"/>
 </Toolbar>
 </f:toolbar>
 <f:layout>
-<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="5" labelSpanM="3"
 emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 adjustLabelSpan="false"
 columnsXL="2" columnsL="3" columnsM="2"
@@ -93,6 +93,29 @@ valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
   liveChange="ValueChangeHeader"
       tooltip="{i18n>Sbhav}"
       value="{local>/orderHeader/SilverBhav}"/>
+</f:fields>
+</f:FormElement>
+</f:formElements>
+<f:layoutData>
+<f:GridContainerData halfGrid="true"></f:GridContainerData>
+</f:layoutData>
+</f:FormContainer>
+<!-- Total Details -->
+<f:FormContainer>
+<f:formElements>
+<f:FormElement label="{i18n>tOrderAmount}">
+<f:fields>
+  <Text/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>deductions}">
+<f:fields>
+<Text/>
+</f:fields>
+</f:FormElement>
+<f:FormElement label="{i18n>fBalance}">
+<f:fields>
+<Text/>
 </f:fields>
 </f:FormElement>
 </f:formElements>

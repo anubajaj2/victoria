@@ -114,13 +114,21 @@ if (oEvent.getParameter('id') === 'orderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
 debugger;
 var id = oEvent.getSource().getParent().getId().split('---')[1];
-that.onClear(oEvent,id);
+var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
+// that.onClear(oEvent,id);
+//Clear Item table
+this.orderItem(oEvent,id);
+//return table
+this.orderReturn(oEvent,id);
+//adjust width of order tablePath
+this.setWidths(false);
 var orderNo = oEvent.getParameter("selectedItem").getLabel();
 var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 // this.OrderDetails(orderId);
 this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
                                                 orderNo);
+this.getView().getModel("local").setProperty("/orderHeader/Date",orderDate);
 if (orderDetail.Customer) {
 this.byId("Sales--idSaveIcon").setColor('red');
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,orderDetail.Customer);
@@ -144,6 +152,13 @@ oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
                                                 selCust);
 }},
+
+onPayDateChange:function(oEvent){
+  debugger;
+  if (oEvent.getParameter('newValue')) {
+    this.getView().getModel('local').setProperty('/orderHeader/Date' ,oEvent.getParameter('newValue'));
+  }
+},
 
 getOrderDetails:function(oEvent,orderId ,oFilter){
   var that = this;

@@ -244,6 +244,7 @@ this.clearCustomer();
 						 	var found = getCustomerCode(selData);
 						var dataModel = this.getView().getModel("dataModel");
 					 var viewModel = this.getView().getModel("viewModel");
+					 this.getView().byId("idCustomerCode").setValue(selData);
 						var oCustCode = this.getView().byId("idCustomerCode").getValue();
 					if(found.length > 0){
 						customerModel.setProperty("/CustomerCode", found[0].id);
@@ -376,6 +377,12 @@ this.clearCustomer();
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 				customerModel.setProperty("/CustomerCode", oCuscode);
 				that.additionalInfoValidation();
+				var oret = true;
+				if(customerModel.getData().Name === ""){
+					that.additionalInfoValidation();
+					oret = false;
+			 }
+			 if(oret === true){
 						if(custId.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -401,6 +408,7 @@ this.clearCustomer();
 										MessageToast.show("Data could not be saved");
 								});
 						}
+					}
 
 			},
 

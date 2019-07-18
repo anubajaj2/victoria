@@ -211,6 +211,7 @@ this.clearProduct();
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
 				var selData = oEvent.getParameter("value").toLocaleUpperCase();
+					productModel.setProperty("/ProductCode", selData);
 				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var productJson = this.getView().getModel("productModelInfo").getData().results;
 				function getProductCode(selData) {

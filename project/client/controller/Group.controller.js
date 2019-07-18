@@ -247,7 +247,7 @@ this.clearGroup();
 			 	 var groupModel = this.getView().getModel("groupModel");
 			 	 var groupCode = groupModel.getData().groupCode;
 			 	 var groupJson = this.getView().getModel("groupModelInfo").getData().results;
-				 if(groupCode.getData().groupCode === "" ){
+				 if(groupCode === "" ){
 					 this.additionalInfoValidation();
 					MessageToast.show("Please fill the required fields");
 					return;

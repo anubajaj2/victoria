@@ -111,7 +111,7 @@
 	        <Title id="idBookingDlvTitle" text="{i18n>bookingDlvDetails}"></Title>
 	        <ToolbarSpacer/>
 	        <Button id="idDlvtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
-	        <Button icon="sap-icon://delete" press="onDelete"></Button>
+	        <Button icon="sap-icon://delete" press="onBookingDlvDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
 		  <!-- TODO: change All Text to i18N -->

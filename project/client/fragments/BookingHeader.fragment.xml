@@ -50,7 +50,7 @@
 					<f:FormElement label="{i18n>bookingDate}">
 						<f:fields>
 							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
-								displayFormat="dd.MM.yyyy" value="{path: 'local>/BookingDetail/BookingDate'}" >
+								displayFormat="dd.MM.yyyy"  >
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M3 S5"/>
 								</m:layoutData>

@@ -152,9 +152,6 @@ debugger;
 	           if(sAction==="OK"){
 	             debugger;
 	             var x = that.getView().byId("idTable").getSelectedItems();
-							 var nQnty = 0;
-							 var nBhav = 0;
-							 var nAdvance = 0;
 	            if(x.length){
 	              for(var i=0; i<x.length; i++){
 	                debugger;
@@ -171,6 +168,34 @@ debugger;
 			 // debugger;
 	   },
 
+		 onBookingDlvDelete: function(){
+	     var that=this;
+	     // debugger;
+	     sap.m.MessageBox.confirm(
+	"Deleting Selected Records", {
+	         title: "Confirm",
+	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+	         styleClass: "",
+	         onClose: function(sAction) {
+	           debugger;
+	           if(sAction==="OK"){
+	             debugger;
+	             var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
+	            if(x.length){
+	              for(var i=0; i<x.length; i++){
+	                debugger;
+	                var myUrl = x[i].getBindingContext().sPath;
+	                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+								}
+
+	            }
+	          sap.m.MessageToast.show("Selected records are deleted");
+	        }
+	       }
+	     }
+	     );
+			 // debugger;
+	   },
 
 		onNameChange: function(oEvent){
 
@@ -192,8 +217,7 @@ debugger;
 																	"POST", {}, myData, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Data Saved Successfully");
-
+					sap.m.MessageToast.show("Data Saved Successfully");					
 				}).catch(function(oError) {
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
@@ -248,6 +272,18 @@ debugger;
 					.then(function(oData) {
 						that.getView().setBusy(false);
 						sap.m.MessageToast.show("Data Saved Successfully");
+
+						var x = that.getView().byId("idTable").getSelectedItems();
+					 	if(x.length){
+						 for(var i=0; i<x.length; i++){
+							 debugger;
+							 var myUrl = x[i].getBindingContext().sPath;
+							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+						 }
+
+					 }
+
+
 
 					}).catch(function(oError) {
 						that.getView().setBusy(false);

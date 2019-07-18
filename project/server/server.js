@@ -72,7 +72,7 @@ app.start = function() {
 				var custId = req.body.id;
 				var name = req.body.name;
 				var city = req.body.city;
-				var Ggroup;
+				var Ggroup = "";
 				//read customer name by id, group by group id, city by
 				//read kacchi and print report with all coloring, formatting, totaling
 				var responseData = [];
@@ -81,7 +81,7 @@ app.start = function() {
 
 
 				var async = require('async');
-
+				;
 				async.waterfall([
 					function(callback) {
 						Customer.findById(custId,{
@@ -91,8 +91,8 @@ app.start = function() {
 								"Group":true,
 								"City":true
 							}
-						}).then(function(customerRecord){
-								callback(customerRecord);
+						}).then(function(customerRecord,err){
+								callback(err,customerRecord);
 						});
 					},
 					function(customerRecord, callback) {
@@ -103,8 +103,8 @@ app.start = function() {
 								"cityName": true
 							}
 						})
-						.then(function(customerRecord, cityRecord, err) {
-							callback( customerRecord, cityRecord);
+						.then(function(cityRecord, err) {
+							callback(err,customerRecord, cityRecord);
 						});
 
 					},
@@ -118,19 +118,21 @@ app.start = function() {
 							}
 						})
 							.then(function(groupRecord, err) {
-							callback( customerRecord, cityRecord, groupRecord);
+							callback(err,customerRecord, cityRecord, groupRecord);
 						});
 					}
-				], function(customerRecord, cityRecord, groupRecord) {
+				], function(err,customerRecord, cityRecord, groupRecord) {
 					// result now equals 'done'
-
+						//set all values to local variables which we need inside next promise
+						name = customerRecord.Name;
+						city = cityRecord.cityName;
+						Ggroup = groupRecord.groupName;
 							try {
 								//read the kacchi Records
 								var Kacchi = app.models.Kacchi;
 								Kacchi.find({Customer: custId})
 									.then(function(Records, err) {
 											if (Records) {
-debugger;
 												var excel = require('exceljs');
 												var workbook = new excel.Workbook(); //creating workbook
 												var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
@@ -354,7 +356,7 @@ right: {style:'thin'}
 			});
 
 		app.post('/deleteRecords', function(req, res) {
-			debugger;
+			;
 				var customerId = req.body.customerId;
 				var entityName = req.body.entityName;
 				switch (entityName) {
@@ -367,7 +369,7 @@ right: {style:'thin'}
 								"msg": "All the records has been deleted successfully for the customer"
 							});
 						}).catch(function(err,ns){
-							debugger;
+							;
 						});
 						break;
 					case "Kacchi":

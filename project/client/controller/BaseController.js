@@ -1124,8 +1124,8 @@ this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 			    "/CustomCalculations", "GET", {}, {}, this)
 			  .then(function(oData) {
 			    that.getView().getModel("local").setProperty("/CustomCalculations",oData);
-			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
-			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].Second);
+			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].First);
 			    that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
 			    that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
 			  }).catch(function(oError) {

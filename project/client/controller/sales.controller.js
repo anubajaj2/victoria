@@ -29,6 +29,42 @@ _onRouteMatched:function(oEvent){
   var that = this;
   var id = "";
   this.onClear(oEvent,id);
+  this.getPrintCustHeaderData();
+},
+getPrintCustHeaderData: function(){
+  var that = this;
+  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+      "/prints", "GET", {}, {}, this)
+    .then(function(oData) {
+      debugger;
+      var printHeadData = that.getView().getModel("local").getProperty("/printCustomizing");
+      for(var i = 0; i < oData.results.length ; i++){
+        switch (oData.results[i].Name) {
+          case "__component0---idPrint--idAdd":
+          printHeadData.Address = oData.results[i].Value;
+          break;
+          case "__component0---idPrint--idCompName":
+            printHeadData.CompName = oData.results[i].Value;
+            break;
+          case "__component0---idPrint--idTnC":
+            printHeadData.TnC = oData.results[i].Value;
+            break;
+          case "__component0---idPrint--idgstn":
+            printHeadData.GSTNumber = oData.results[i].Value;
+            break;
+          case "__component0---idPrint--idContNo":
+            printHeadData.ContNumber = oData.results[i].Value;
+            break;
+          case "__component0---idPrint--idMarking":
+            printHeadData.Marking = oData.results[i].Value;
+            break;
+          default:
+        }
+      };
+      that.getView().getModel("local").setProperty("/printCustomizing", printHeadData);
+
+    }).catch(function(oError) {
+  });
 },
 getIndianCurr:function(value){
 debugger;
@@ -64,100 +100,232 @@ getRouter: function() {
 // },
 onPrint:function(){
 debugger;
-var printHeader = this.getView().getModel("local").getProperty("/printCustomizing");
-var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp");
-var orderDetails = this.getView().getModel('local').getProperty("/orderHeader");
-// this.getPrintCustData();
 var that = this;
 
 // var allItems = this.getView().getModel("local").getProperty("/printCustomizingData");
-// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-//     "/prints", "GET", {}, {}, this)
-//   .then(function(oData) {
-//     debugger;
-//     // that.getView().getModel("local").setProperty("/printCustomizingData",oData);
-//
-//   }).catch(function(oError) {
-// });
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+    "/prints", "GET", {}, {}, this)
+  .then(function(oData) {
+    debugger;
+    that.retailPrint(oData);
+    // that.getView().getModel("local").setProperty("/printCustomizingData",oData);
 
-var orderDate = this.getView().byId("DateId");
-var header = '<p>--------------------------------------------------------------------------------------------------------------------------------<br />'+
-'<span id="idCompName"><strong>Company Name:</strong></span>Moti &amp; Sons Jewellers'+
-'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-'<strong>Customer Name:</strong>'+orderHeader.CustomerName+'<br />'+
-'<strong>Address:</strong>Jaipur&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-'<strong>City:</strong>Sikar<br />'+
-'<strong>Contact:</strong>+91-XXXXXXXXXXX'+
-'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-'<strong>Ph No:</strong>+91-88555111255<br />'+
-'<strong>GSTIN:</strong> GSTIN558855S0&nbsp;'+
-'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-'<strong>Print Date:</strong> dd.mm.yyyy<br />'+
-'--------------------------------------------------------------------------------------------------------------------------------<br />'+
-'<strong>Invoice No:</strong>&nbsp; &nbsp;'+orderDetails.OrderNo+
-'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+
-'<strong>Date:</strong>'+orderDetails.Date+'<br />'+'--------------------------------------------------------------------------------------------------------------------------------</p>'+'<p>&nbsp;</p>';
-             // for(var i=0 ; i <= header.length; i++){
-             //   debugger;
-             //   header.
-             // }
-             // $(header)[1].style.display = "none";
-var myWindow = window.open("", "PrintWindow", "width=200,height=100");
-    myWindow.document.write(header);
-    myWindow.print();
-    myWindow.stop();
+  }).catch(function(oError) {
+});
 },
-onConfirm:function(oEvent){
-  var that = this;
-//order popup
-if (oEvent.getParameter('id') === 'orderNo'){
-this.byId("Sales--idSaveIcon").setColor('green');
-debugger;
-var id = oEvent.getSource().getParent().getId().split('---')[1];
-var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
-var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
-// that.onClear(oEvent,id);
-//Clear Item table
-this.orderItem(oEvent,id);
-//return table
-this.orderReturn(oEvent,id);
-//adjust width of order tablePath
-this.setWidths(false);
-var orderNo = oEvent.getParameter("selectedItem").getLabel();
-var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-// this.OrderDetails(orderId);
-this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
-                                                orderNo);
-this.getView().getModel("local").setProperty("/orderHeader/Date",orderDate);
-if (orderDetail.Customer) {
-this.byId("Sales--idSaveIcon").setColor('red');
-var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,orderDetail.Customer);
-}else {
-var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
-}
-oEvent.sId = "orderReload";
-this.getOrderDetails(oEvent,orderId,oFilter);
-// this.orderSearchPopup.destroyItems();
-}else{
-var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
-//customer popup
-var selCust = oEvent.getParameter("selectedItem").getLabel();
-var selCustName = oEvent.getParameter("selectedItem").getValue();
-oCustDetail.CustomerId = selCust;
-oCustDetail.CustomerName = selCustName;
-// this.getView().byId("customerId").setValue(selCust);
-this.getView().byId("Sales--custName").setText(selCustName);
-this.getView().getModel("local").setProperty("/orderHeader/Customer",
-oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
-this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
-                                                selCust);
-}},
-
-onPayDateChange:function(oEvent){
+retailPrint:function(oData){
   debugger;
-  if (oEvent.getParameter('newValue')) {
-    this.getView().getModel('local').setProperty('/orderHeader/Date' ,oEvent.getParameter('newValue'));
+  var arrayRemoveFromPrint = [];
+  // var fieldsToHide = {hideName:""};
+  // arrayRemoveFromPrint.push(fieldsToHide);
+  var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
+  var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
+  var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
+  if(orderDetails.Date){
+    // var orderDate = formatter.getDateDDMMYYYYFormat(orderDetails.Date);
+    var orderDate = orderDetails.Date;
   }
+  if(orderDetails.Customer){
+    var custId = orderDetails.Customer;
+    var cusData = this.allMasterData.customers[custId];
+  }
+  var printDate = formatter.getFormattedDate(0);
+  var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title;
+  for(var i=0 ; i<oData.results.length ; i++){
+    switch (oData.results[i].Name) {
+      case "__component0---idPrint--idRCompName":
+       if(oData.results[i].Value === "true"){
+          rCompName = printCustHeadVal.CompName;
+       }else{
+             arrayRemoveFromPrint.push('idRCompName','idRCompNameVal');
+       }
+        break;
+      case "__component0---idPrint--idRAddress":
+       if(oData.results[i].Value === "true"){
+          rAddress = printCustHeadVal.Address;
+       }else {
+         arrayRemoveFromPrint.push('idRAddress','idRAddressVal');
+       }
+       break;
+      case "__component0---idPrint--idRPhoneNumber":
+        if(oData.results[i].Value === "true"){
+           rContNumber = printCustHeadVal.ContNumber;
+        }else {
+          arrayRemoveFromPrint.push('idRPhoneNumber','idRPhoneNumberVal');
+        }
+        break;
+      case "__component0---idPrint--idRGSTN":
+        if(oData.results[i].Value === "true"){
+           rGSTNumber = printCustHeadVal.GSTNumber;
+        }else {
+          arrayRemoveFromPrint.push('idRGSTN','idRGSTNVal');
+        }
+        break;
+        case "__component0---idPrint--idRWeight":
+        debugger;
+          if(oData.results[i].Value === "false"){
+            arrayRemoveFromPrint.push('idRWeight','idRWeightVal');
+          }
+          break;
+          case "__component0---idPrint--idREstimate":
+            if(oData.results[i].Value === "true"){
+               title = "Estimate";
+            }else {
+                title = "Invoice";
+            }
+            break;
+            case "__component0---idPrint--idRSubTotal":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRSubTotal','idRSubTotalVal');
+            }
+            break;
+            case "__component0---idPrint--idRBhav":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRBhav','idRBhavVal');
+            }
+            break;
+            case "__component0---idPrint--idRMakingCharge":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRMakingCharge','idRMakingChargeVal');
+            }
+            break;
+            case "__component0---idPrint--idRTnC":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRTnC','idRTnCVal');
+            }
+            break;
+            case "__component0---idPrint--idRQuantity":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRQuantity','idRQuantityVal');
+            }
+            break;
+            case "__component0---idPrint--idRReturnWeight":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnWeight','idRReturnWeightVal');
+            }
+            break;
+            case "__component0---idPrint--idRReturnBhav":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnBhav','idRReturnBhavVal');
+            }
+              break;
+      default:
+    }
+  }
+  var oTableDetails = this.getView().byId('orderItemBases');
+  var oBinding = oTableDetails.getBinding("rows");
+
+var header = '<p style="text-align: center;">&nbsp;<h2>'+title+'</h2></p><hr />'+
+'<table style="width: 900px;">'+
+'<tbody>'+
+'<tr display:blocked>'+
+'<td id="idRCompName" style="width: 160px;"><strong>Company Name</strong></td>'+
+'<td id="idRCompNameVal" style="width: 300px;">&nbsp;'+rCompName+'</td>'+
+'<td style="width: 150px;"><strong>Customer Name</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+orderHeader.CustomerName+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td id="idRAddress" style="width: 160px;"><strong>Address</strong></td>'+
+'<td id="idRAddressVal" style="width: 300px;">&nbsp;'+rAddress+'</td>'+
+'<td style="width: 150px;"><strong>City</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+cusData.City+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td id="idRPhoneNumber" style="width: 160px;"><strong>Ph No</strong></td>'+
+'<td id="idRPhoneNumberVal" style="width: 300px;">&nbsp;'+rContNumber+'</td>'+
+'<td style="width: 150px;"><strong>Ph No</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+cusData.MobilePhone+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td id="idRGSTN" style="width: 160px;"><strong>GSTN</strong></td>'+
+'<td id="idRGSTNVal" style="width: 300px;">&nbsp;'+rGSTNumber+'</td>'+
+'<td style="width: 150px;"><strong>Print Date</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+printDate+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<hr />'+
+'<table style="width: 900px;">'+
+'<tbody>'+
+'<tr>'+
+'<td style="width: 160px;"><strong>Invoice Number</strong></td>'+
+'<td style="width: 300px;">&nbsp;'+orderDetails.OrderNo+'</td>'+
+'<td style="width: 150px;"><strong>Date</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+orderDate+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<hr />';
+// Prepare table
+var table = '<p><h3>Orders:</h3></p>'+'<table style="width: 964px; height: 22px;" border="1px">'+
+// '<tbody>'+
+'<tr>'+
+'<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Product Name</h4></th>'+
+'<th id="idRQuantity" style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+'<th id="idRWeight" style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
+'<th id="idRMakingCharge" style="width: 80px;"><h4 style="text-align: center;">Making</h4></th>'+
+'<th id="idRSubTotal" style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
+'</tr>';
+// '</tbody>';
+var totalQuantity = 0;
+var sumOfSubTotal = "";
+for (var i = 0; i < oBinding.getLength(); i++) {
+  if(oBinding.oList[i].MaterialCode){
+    totalQuantity = totalQuantity + oBinding.oList[i].Qty;
+    sumOfSubTotal = sumOfSubTotal + oBinding.oList[i].SubTot;
+  table += '<tr>';
+  table += '<td style="width: 80px;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
+           '<td id="idRQuantityVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
+           '<td id="idRWeightVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
+           '<td id="idRMakingChargeVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
+           '<td id="idRSubTotalVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].SubTot+'</td></tr>';
+        }
+}
+  table += '<p>&nbsp;</p>'+
+           '<table style="height: 5px;" width="964">'+
+           '<tbody><tr style="height: 13.5px;">'+
+           '<td id="idRTotalVal" style="width: 100px; height: 13.5px;">&nbsp;<strong>Total</strong></td>'+
+           '<td style="width: 90px;">&nbsp;'+totalQuantity+'</td>'+
+           '<td style="width: 80px;">&nbsp;</td>'+
+           '<td style="width: 80px;">&nbsp;</td>'+
+           '<td style="width: 90px;">&nbsp;<strong> Sum(SubTotal)</strong></td>'+
+           '<td style="width: 80px; height: 13.5px;">&nbsp;'+sumOfSubTotal+'</td></tr>'+
+           '<tr></tr>'
+           '</tbody></table>';
+var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
+if (oReturns[0].Type){
+ table += '<table style="width: 964px; height: 22px;" border="1px">'+
+ '<tr>'+
+ '<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
+ '<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+ '<th id="idRReturnWeight" style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
+ '<th id="idRReturnBhav" style="width: 80px;"><h4 style="text-align: center;">Return Bhav</h4></th>'+
+ '<th style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
+ '</tr>'+
+ '<p><h3>Returns:</h3></p>';
+ for (var i = 0; i < oReturns.length; i++) {
+   if(oReturns[i].Type){
+     table += '<tr>';
+     table += '<td  style="width: 80px;">&nbsp;'+oReturns[i].Type+'</td>'+
+              '<td  style="width: 80px;">&nbsp;'+oReturns[i].Qty+'</td>'+
+              '<td  id="idRReturnWeightVal" style="width: 80px;">&nbsp;'+oReturns[i].Weight+'</td>'+
+              '<td  id="idRReturnBhavVal" style="width: 80px;">&nbsp;'+oReturns[i].Bhav+'</td>'+
+              '<td  style="width: 80px;">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
+   }
+ }
+}
+
+table += '</table>';
+
+  var myWindow = window.open("", "PrintWindow", "width=200,height=100");
+      myWindow.document.write(header+table);
+      for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
+        // myWindow.document.getElementById(arrayRemoveFromPrint[i]).style.visibility = "hidden";
+        myWindow.document.getElementById(arrayRemoveFromPrint[i]).style.display = "none";
+      }
+
+      myWindow.print();
+      myWindow.stop();
 },
 
 getOrderDetails:function(oEvent,orderId ,oFilter){

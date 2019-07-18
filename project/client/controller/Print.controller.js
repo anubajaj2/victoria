@@ -66,7 +66,7 @@ sap.ui.define(
               }else {
                 var sValue = oData.results[i].Value;
                 sap.ui.getCore().byId(sId).setValue(sValue);
-              }              
+              }
             }
           }
         }).catch(function(oError) {
@@ -122,22 +122,20 @@ sap.ui.define(
     this.getView().getModel("local").setProperty("/printCustomizingData", allItems);
     var oFilter = new sap.ui.model.Filter("Name","EQ",sId);
     if(allItems.Value){
-      debugger;
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+          "/prints", "GET", {filters: [oFilter]}, {}, this)
+        .then(function(oData) {
+          debugger;
+          that.getView().setBusy(false);
+          if(oData.results.length > 0){
+            that.updateData(oData);
+          }else{
+            that.createData(oData);
+          }
+        }).catch(function(oError) {
+      });
+      this.getView().setBusy(false);
     }
-    this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-        "/prints", "GET", {filters: [oFilter]}, {}, this)
-      .then(function(oData) {
-        debugger;
-        that.getView().setBusy(false);
-        if(oData.results.length > 0){
-          that.updateData(oData);
-        }else{
-          that.createData(oData);
-        }
-      }).catch(function(oError) {
-    });
-    this.getView().setBusy(false);
-
   }
 
 });

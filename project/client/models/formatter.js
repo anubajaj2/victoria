@@ -15,6 +15,13 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			}
 			return dd + '.' + mm + '.' + yyyy;
 		},
+		getDateDDMMYYYYFormat: function(date){
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+											  pattern: "dd.mm.yyyy"});
+
+		var oNow = date;
+		return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
+		},
 		getIndianCurr: function(value){
 			debugger;
 			if(value){

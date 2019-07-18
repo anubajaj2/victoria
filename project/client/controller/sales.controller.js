@@ -327,7 +327,57 @@ table += '</table>';
       myWindow.print();
       myWindow.stop();
 },
-
+onConfirm:function(oEvent){
+  var that = this;
+//order popup
+if (oEvent.getParameter('id') === 'orderNo'){
+this.byId("Sales--idSaveIcon").setColor('green');
+debugger;
+var id = oEvent.getSource().getParent().getId().split('---')[1];
+var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
+var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
+// that.onClear(oEvent,id);
+//Clear Item table
+this.orderItem(oEvent,id);
+//return table
+this.orderReturn(oEvent,id);
+//adjust width of order tablePath
+this.setWidths(false);
+var orderNo = oEvent.getParameter("selectedItem").getLabel();
+var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+// this.OrderDetails(orderId);
+this.getView().getModel("local").setProperty("/orderHeader/OrderNo",
+                                                orderNo);
+this.getView().getModel("local").setProperty("/orderHeader/Date",orderDate);
+if (orderDetail.Customer) {
+this.byId("Sales--idSaveIcon").setColor('red');
+var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,orderDetail.Customer);
+}else {
+var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+}
+oEvent.sId = "orderReload";
+this.getOrderDetails(oEvent,orderId,oFilter);
+// this.orderSearchPopup.destroyItems();
+}else{
+var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+//customer popup
+var selCust = oEvent.getParameter("selectedItem").getLabel();
+var selCustName = oEvent.getParameter("selectedItem").getValue();
+oCustDetail.CustomerId = selCust;
+oCustDetail.CustomerName = selCustName;
+// this.getView().byId("customerId").setValue(selCust);
+this.getView().byId("Sales--custName").setText(selCustName);
+this.getView().getModel("local").setProperty("/orderHeader/Customer",
+oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+                                                selCust);
+}},
+onPayDateChange:function(oEvent){
+  if (oEvent.getParameter('newValue')) {
+    this.getView().getModel('local').setProperty('/orderHeader/Date' ,
+                  oEvent.getParameter('newValue'));
+                }
+  },
 getOrderDetails:function(oEvent,orderId ,oFilter){
   var that = this;
   debugger;

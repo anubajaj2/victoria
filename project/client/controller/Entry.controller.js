@@ -55,8 +55,9 @@ function (BaseController,
 			var CT = "Silver Given @" + wtValue + 'x' + thValue;
 			var ST = "Gold Given @" + wtValue + 'x' + thValue;
 			var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
-			var posMat = "ke jama " + wtValue + 'x' + thValue;
-			var negMat = "ke naam " + wtValue + 'x' + thValue;
+			var rem = this.getView().byId("idMatText").getText();
+			var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
+			var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
       if (X > 0 && this.getView().byId("RB-1").getSelected()){
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(CR);
@@ -69,7 +70,7 @@ function (BaseController,
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(KR);
       }
-			else if (X > 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[3]==="Gold"){
+			else if (X > 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Gold"){
 				debugger;
 					this.getView().byId("idGold").setValue(X);
 				this.getView().byId("idRemarks").setValue(posMat);
@@ -79,7 +80,7 @@ function (BaseController,
 					this.getView().byId("idSilver").setValue(X);
 					this.getView().byId("idRemarks").setValue(posMat);
 			}
-			else if (X < 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[3]==="Gold"){
+			else if (X < 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Gold"){
 				debugger;
 				this.getView().byId("idGold").setValue(X);
 				this.getView().byId("idRemarks").setValue(negMat);
@@ -169,7 +170,7 @@ function (BaseController,
 }
 		},
 		onMaterialSelect: function (oEvent) {
-				debugger;
+			
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var selMat = oEvent.getParameter("selectedItem").getText();
 			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
@@ -298,12 +299,13 @@ function (BaseController,
      .then(function(oData) {
        that.getView().setBusy(false);
        sap.m.MessageToast.show("Data Saved Successfully");
-
+       that.onClear();
 
      }).catch(function(oError) {
        that.getView().setBusy(false);
        var oPopover = that.getErrorMessage(oError);
      });
+
 		   this.getView().byId("DateId").setDateValue( new Date());
 			 this.byId("DueDateId").setDateValue( new Date());
 			 debugger;
@@ -350,6 +352,7 @@ function (BaseController,
 			that.byId("idS").setState('Warning');
 		}
 	}
+
    },
 	 // getTotals: function (oEvent, numbers) {
 		//   // var myData = this.getView().getModel("local").getProperty("/EntryData");

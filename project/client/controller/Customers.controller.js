@@ -331,7 +331,7 @@ this.clearCustomer();
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
 							// this.additionalInfoValidation();
-							this.getView().byId("idName").focus();
+							that.getView().byId("idName").focus();
 							customerModel.refresh();
 						}
 			},

@@ -16,7 +16,7 @@ size="30px" alt="Save Status" tooltip="Save Status"/>
 <f:layout>
 <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="5" labelSpanM="3"
 emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-adjustLabelSpan="false"
+adjustLabelSpan="true"
 columnsXL="2" columnsL="3" columnsM="2"
 singleContainerFullSize="false"/>
 </f:layout>
@@ -28,7 +28,7 @@ singleContainerFullSize="false"/>
 <f:fields>
 <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
             displayFormat="dd.MM.yyyy" change="onPayDateChange"
-            width="50%"/>
+            width="60%"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>Customer}">

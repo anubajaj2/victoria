@@ -496,7 +496,8 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         //loop the detaisl
   var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
     for (var i = 0; i < allItems.length; i++) {
-    if (allItems[i].Type === oData.Type) {
+    if (allItems[i].Type === oData.Type &&
+        allItems[i].ReturnId === "") {
         allItems[i].ReturnId = oData.id;
         allItems[i].orderNo = oId;
         oCommit = true;

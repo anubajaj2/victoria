@@ -281,7 +281,7 @@ this.clearCustomer();
 							// customerModel.refresh();
 						}
 							}).catch(function(oError) {
-									MessageToast.show("cannot fetch the data");
+									// MessageToast.show("cannot fetch the data");
 							});
 
 			},

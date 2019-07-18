@@ -41,18 +41,18 @@ sap.ui.define([
 				//Making : MinimumReorderQuantity
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
+						"ProductCode": "",
+						"ProductName": "",
+						"Type": "",
+						"Karat": "",
+						"HindiName":"",
+						 "Tunch": 0,
+						 "Wastage": 0,
+						 "CustomerTunch": 0,
+						 "AlertQuantity": 0,
+						 "Making": 0,
 						"Category": "",
-				        "Type": "",
-								"Karat": "",
-				        "CustomerTunch": 0,
-				        "Making": 0,
-				        "ProductCode": "",
-				        "ProductName": "",
-				        "PricePerUnit": 0,
-				        "Wastage": 0,
-				        "Tunch": 0,
-				        "AlertQuantity": 0,
-				        "HindiName":""
+				     "PricePerUnit": 0
 				        });
 				var oViewModel1 = new JSONModel({
 					"items":[{"text": "Silver"},{"text": "Gold"},{"text": "GS"}]
@@ -274,7 +274,7 @@ this.clearProduct();
 
 						}
 					}).catch(function(oError) {
-							MessageToast.show("cannot fetch the data");
+							// MessageToast.show("cannot fetch the data");
 					});
 			},
 			productCodeCheck : function(oEvent){

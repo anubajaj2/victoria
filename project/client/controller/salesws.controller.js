@@ -55,7 +55,7 @@ sap.ui.define(
 					} else {
 						var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + "");
 					}
-
+					oEvent.sId = "orderReload";
 					this.getOrderDetails(oEvent, orderId, oFilter);
 					this.orderSearchPopup.destroyItems();
 				} else {
@@ -134,7 +134,7 @@ sap.ui.define(
 				for (var i = 1; i <= 5; i++) {
 					var oRetailtab = {
 						"Type": "",
-						"key": "",
+						"Key": "",
 						"ReturnId": "",
 						"Weight": 0,
 						"KWeight": 0,
@@ -167,6 +167,7 @@ sap.ui.define(
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
+
 						that.getView().setBusy(false);
 						var custId = oData.Customer;
 						var customerData = that.allMasterData.customers[custId];
@@ -195,9 +196,10 @@ sap.ui.define(
 										allItems[i].MakingD = oData.results[i].MakingD;
 										allItems[i].Qty = oData.results[i].Qty;
 										allItems[i].QtyD = oData.results[i].QtyD;
-										allItems[i].SubTotal = oData.results[i].SubTotal;
-										allItems[i].SubTotalG = oData.results[i].SubTotalG;
-										allItems[i].SubTotalS = oData.results[i].SubTotalS;
+										allItems[i].Tunch = oData.results[i].Tunch;
+										// allItems[i].SubTotal = oData.results[i].SubTotal;
+										// allItems[i].SubTotalG = oData.results[i].SubTotalG;
+										// allItems[i].SubTotalS = oData.results[i].SubTotalS;
 										allItems[i].Weight = oData.results[i].Weight;
 										allItems[i].WeightD = oData.results[i].WeightD;
 										allItems[i].Remarks = oData.results[i].Remarks;
@@ -206,9 +208,16 @@ sap.ui.define(
 										allItems[i].Description = MaterialData.ProductName;
 										allItems[i].MaterialCode = MaterialData.ProductCode;
 										// allItems[i].Category = MaterialData.ProductCode;
+										var oTablePath = "/itemData" + '/' + i;
+										oEvent.sId = "orderReload";
+										that.Calculation(oEvent, oTablePath, i);
 									}
 									that.getView().getModel("orderItems").setProperty("/itemData", allItems);
 								}
+							})
+							.catch(function(oError) {
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
 							});
 
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -216,15 +225,13 @@ sap.ui.define(
 								"GET", {}, {}, that)
 							.then(function(oData) {
 
+								oEvent.sId = "orderReload";
+								oEvent.viewId = "idsalesws";
 								if (oData.results.length > 0) {
 									// that.orderReturn(oEvent);
 									var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
 									for (var i = 0; i < oData.results.length; i++) {
 
-
-										// "key": "",
-
-										// allReturns[i].orderNo = oData.results[i].OrderNo;
 										allReturns[i].ReturnId = oData.results[i].id;
 										allReturns[i].Type = oData.results[i].Type;
 										allReturns[i].Weight = oData.results[i].Weight;
@@ -232,12 +239,14 @@ sap.ui.define(
 										allReturns[i].Tunch = oData.results[i].Tunch;
 										allReturns[i].Qty = oData.results[i].Qty;
 										allReturns[i].Bhav = oData.results[i].Bhav;
-										allReturns[i].SubTotalG = oData.results[i].SubTotalG;
-										allReturns[i].SubTotalS = oData.results[i].SubTotalS;
+										allReturns[i].Key = oData.results[i].Key;
 										allReturns[i].Remarks = oData.results[i].Remarks;
-										allReturns[i].SubTotal = oData.results[i].SubTotal;
+										that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
+										var seletedLine = "/TransData" + '/' + i;
+										var orderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
+										that.returnCalculation(oEvent, orderHeader, seletedLine);
 									}
-									that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
+									// that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
 								}
 							});
 
@@ -272,7 +281,7 @@ sap.ui.define(
 				//Now you have to have 2 date Object
 				//firstDate object set the time to 000000 second object 240000
 				//now create 2 filter one ge low and two le High
-				debugger;
+
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
 				if (customer) {
@@ -305,7 +314,7 @@ sap.ui.define(
 				this.orderSearchPopup.open();
 			},
 			onSearch: function(oEvent) {
-				debugger;
+
 				var sourceField = oEvent.getSource().getId();
 				var searchStr = oEvent.getParameter("value");
 				if (searchStr) {
@@ -342,16 +351,17 @@ sap.ui.define(
 				}
 			},
 			onLiveSearch: function(oEvent) {
-				debugger;
+
 				this.onSearch(oEvent);
 			},
 			ValueChange: function(oEvent) {
-
-				this.WSCalculation(oEvent);
+				var tablePath = "";
+				var i = "";
+				this.Calculation(oEvent, tablePath, i);
+				// this.WSCalculation(oEvent);
 				this.setStatus('red');
 			},
 			WSCalculation: function(oEvent) {
-
 
 				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
@@ -947,7 +957,7 @@ sap.ui.define(
 			},
 			//on order create Button
 			orderCreate: function(oEvent) {
-				debugger;
+
 				var that = this;
 				if (this.getView().getModel('local').getProperty('/WSOrderHeader').OrderNo) {
 					var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
@@ -1089,98 +1099,101 @@ sap.ui.define(
 				for (var i = 0; i < oBindingR.getLength(); i++) {
 					var that = this;
 					var data = oBindingR.oList[i];
-					//Type
-					if (data.Type === "" || data.Type === 0) {
-						returnTable.Type = 0;
-					} else {
-						returnTable.Type = data.Type;
-						//OrderId
-						if (oId) {
-							returnTable.OrderNo = oId;
-						}
-						//Weight
-						if (data.Weight === "" || data.Weight === 0) {
-							returnTable.Weight = 0;
+					if (data.Key != "") {
+						returnTable.Key = data.Key;
+						//Type
+						if (data.Type === "" || data.Type === 0) {
+							returnTable.Type = 0;
 						} else {
-							returnTable.Weight = data.Weight;
-						}
-						//kWeight
-						if (data.KWeight === "" || data.KWeight === 0) {
-							returnTable.KWeight = 0;
-						} else {
-							returnTable.KWeight = data.KWeight;
-						}
-						//tunch
-						if (data.Tunch === "" || data.Tunch === 0) {
-							returnTable.Tunch = 0;
-						} else {
-							returnTable.Tunch = data.Tunch;
-						}
-						//Quantity
-						if (data.Qty === "" || data.Qty === 0) {
-							returnTable.Qty = 0;
-						} else {
-							returnTable.Qty = data.Qty;
-						}
-						//Bhav
-						if (data.Bhav === "" || data.Bhav === 0) {
-							returnTable.Bhav = 0;
-						} else {
-							returnTable.Bhav = data.Bhav;
-						}
-						//Remarks
-						if (data.Remarks === "") {
-							returnTable.Remarks = "";
-						} else {
-							returnTable.Remarks = data.Remarks;
-						}
-						//SubTotal
-						if (data.SubTotal === "" || data.SubTotal === 0) {
-							returnTable.SubTotal = 0;
-						} else {
-							returnTable.SubTotal = data.SubTotal;
-						}
-						// SubTotalGold
-						if (data.SubTotalG === "" || data.SubTotalG === 0) {
-							returnTable.SubTotalG = 0;
-						} else {
-							returnTable.SubTotalG = data.SubTotalG;
-						}
-						//SubTotalSilver
-						if (data.SubTotalS === "" || data.SubTotalS === 0) {
-							returnTable.SubTotalS = 0;
-						} else {
-							returnTable.SubTotalS = data.SubTotalS;
-						}
+							returnTable.Type = data.Type;
+							//OrderId
+							if (oId) {
+								returnTable.OrderNo = oId;
+							}
+							//Weight
+							if (data.Weight === "" || data.Weight === 0) {
+								returnTable.Weight = 0;
+							} else {
+								returnTable.Weight = data.Weight;
+							}
+							//kWeight
+							if (data.KWeight === "" || data.KWeight === 0) {
+								returnTable.KWeight = 0;
+							} else {
+								returnTable.KWeight = data.KWeight;
+							}
+							//tunch
+							if (data.Tunch === "" || data.Tunch === 0) {
+								returnTable.Tunch = 0;
+							} else {
+								returnTable.Tunch = data.Tunch;
+							}
+							//Quantity
+							if (data.Qty === "" || data.Qty === 0) {
+								returnTable.Qty = 0;
+							} else {
+								returnTable.Qty = data.Qty;
+							}
+							//Bhav
+							if (data.Bhav === "" || data.Bhav === 0) {
+								returnTable.Bhav = 0;
+							} else {
+								returnTable.Bhav = data.Bhav;
+							}
+							//Remarks
+							if (data.Remarks === "") {
+								returnTable.Remarks = "";
+							} else {
+								returnTable.Remarks = data.Remarks;
+							}
+							//SubTotal
+							if (data.SubTotal === "" || data.SubTotal === 0) {
+								returnTable.SubTotal = 0;
+							} else {
+								returnTable.SubTotal = data.SubTotal;
+							}
+							// SubTotalGold
+							if (data.SubTotalG === "" || data.SubTotalG === 0) {
+								returnTable.SubTotalG = 0;
+							} else {
+								returnTable.SubTotalG = data.SubTotalG;
+							}
+							//SubTotalSilver
+							if (data.SubTotalS === "" || data.SubTotalS === 0) {
+								returnTable.SubTotalS = 0;
+							} else {
+								returnTable.SubTotalS = data.SubTotalS;
+							}
 
-						var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
-						//return data save
-						if (data.ReturnId == false) {
-							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-									"/WSOrderReturns", "POST", {}, oReturnOrderClone, this)
-								.then(function(oData) {
+							var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
+							//return data save
+							if (data.ReturnId == false) {
+								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+										"/WSOrderReturns", "POST", {}, oReturnOrderClone, this)
+									.then(function(oData) {
 
-									that.getView().setBusy(false);
-									//loop the detaisl
-									var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
-									for (var i = 0; i < allItems.length; i++) {
-										if (allItems[i].Type === oData.Type) {
-											allItems[i].ReturnId = oData.id;
-											allItems[i].orderNo = oId;
-											oCommit = true;
-											break;
-										} //material compare if condition
-									} //for loop
-									that.getView().getModel("returnModel").setProperty("/TransData", allItems);
-									that.getView().setBusy(false);
-									sap.m.MessageToast.show("Data Saved Successfully");
-								})
-								.catch(function(oError) {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								});
-						}
-					} //type check
+										that.getView().setBusy(false);
+										//loop the detaisl
+										var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
+										for (var i = 0; i < allItems.length; i++) {
+											if (allItems[i].Type === oData.Type) {
+												allItems[i].ReturnId = oData.id;
+												allItems[i].orderNo = oId;
+												oCommit = true;
+												break;
+											} //material compare if condition
+										} //for loop
+										that.getView().getModel("returnModel").setProperty("/TransData", allItems);
+										that.getView().setBusy(false);
+										sap.m.MessageToast.show("Data Saved Successfully");
+									})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
+							}
+						} //type check
+					} //key check
 				} //forloop
 				return oCommit;
 			},
@@ -1280,23 +1293,44 @@ sap.ui.define(
 							} else {
 								oOrderDetail.QtyD = data.QtyD;
 							}
+							// Weight
+							if (data.Weight === "" || data.Weight === 0) {
+								oOrderDetail.Weight = 0;
+							} else {
+								oOrderDetail.Weight = data.Weight;
+							}
+							// WeightD
+							if (data.WeightD === "" || data.WeightD === 0) {
+								oOrderDetail.WeightD = 0;
+							} else {
+								oOrderDetail.WeightD = data.WeightD;
+							}
 							//making
 							if (data.Making === "" || data.Making === 0) {
 								oOrderDetail.Making = 0;
 							} else {
 								oOrderDetail.Making = data.Making;
 							}
+
 							//makingD
 							if (data.MakingD === "" || data.MakingD === 0) {
 								oOrderDetail.MakingD = 0;
 							} else {
 								oOrderDetail.MakingD = data.MakingD;
 							}
+
+							//making
+							if (data.Tunch === "" || data.Tunch === 0) {
+								oOrderDetail.Tunch = 0;
+							} else {
+								oOrderDetail.Tunch = data.Tunch;
+							}
+
 							oOrderDetail.Remarks = data.Remarks;
-							oOrderDetail.SubTotal = data.SubTot;
+							// oOrderDetail.SubTotal = data.SubTot;
 							var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
 							//Item data save
-							debugger;
+
 							if (data.itemNo == false) {
 								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 										"/WSOrderItems", "POST", {}, oOrderDetailsClone, this)
@@ -1344,6 +1378,311 @@ sap.ui.define(
 				var btnId = "WSItemFragment--idFullScreenBtn";
 				var headerId = "WSHeaderFragment--WSOrderHeader";
 				this.toggleUiTable(btnId, headerId)
+			},
+			finalCalculation: function(category, data, tablePath, cells, quantityOfStone) {
+
+				var that = this;
+				if ((category.Type === 'Gold' && category.Category === "gm") ||
+					(category.Type === 'Silver' && category.Category === "gm")) {
+
+					//get the final weight // X=Weight - WeightD
+					if (data.WeightD !== "" ||
+						data.WeightD !== 0) {
+						var weightF = data.Weight - data.WeightD;
+					} else {
+						var weightF = data.Weight;
+					};
+
+					//Making charges
+					var makingCharges = data.Making * weightF;
+					var stonevalue = quantityOfStone * data.MakingD;
+
+
+					if (makingCharges || stonevalue) {
+						var subTot = makingCharges + stonevalue;
+						var subTotF = this.getIndianCurr(subTot);
+						if (tablePath) {
+
+							category.SubTot = subTotF;
+							this.setStatus('red');
+							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+						} else {
+							cells[cells.length - 1].setText(subTotF);
+						}
+					} else {
+						cells[cells.length - 1].setText(0);
+					};
+
+
+				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
+					(category.Type === 'Silver' && category.Category === "pcs")) {
+
+					//get the final weight // X=Weight - WeightD
+					if (data.WeightD !== "" ||
+						data.WeightD !== 0) {
+						var weightF = data.Weight - data.WeightD;
+					} else {
+						var weightF = data.Weight;
+					};
+
+					//Making charges
+					var makingCharges = data.Making * data.Qty;
+
+					var stonevalue = quantityOfStone * data.MakingD;
+
+
+					if (makingCharges || stonevalue) {
+						var subTot = makingCharges + stonevalue;
+						var subTotF = this.getIndianCurr(subTot);
+						if (tablePath) {
+
+							category.SubTot = subTotF;
+							this.setStatus('red');
+							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+						} else {
+							cells[cells.length - 1].setText(subTotF);
+						}
+					} else {
+						cells[cells.length - 1].setText(0);
+					};
+
+				} else if (category.Type === 'GS') {
+					//german silver//ignore Weight//Quantity Check
+
+					//charges of german silver
+					var charges = data.Qty * data.Making;
+
+					var chargesD = data.QtyD * data.MakingD;
+					//final charges on GS
+					if (charges) {
+						var subTot = charges + chargesD;
+						var subTotF = this.getIndianCurr(subTot);
+						if (tablePath) {
+
+							category.SubTot = subTotF;
+							this.setStatus('red');
+							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+						} else {
+							cells[cells.length - 1].setText(subTotF);
+						}
+					} else {
+						cells[cells.length - 1].setText(0);
+					}
+				};
+
+				if (category.Type === "Silver") {
+					var SubTotalS = weightF * data.Tunch / 100;
+					// var FSubTotalS = this.getIndianCurr(SubTotalS);
+					if (tablePath) {
+
+						category.SubTotalS = SubTotalS;
+						category.SubTotalG = 0
+						this.setStatus('red');
+						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+					} else {
+						cells[cells.length - 3].setText(SubTotalS);
+						cells[cells.length - 2].setText(0);
+					}
+
+				} else if (category.Type === "Gold") {
+
+					var SubTotalG = weightF * data.Tunch / 100;
+					// var FSubTotalG = this.getIndianCurr(SubTotalG);
+					if (tablePath) {
+
+						category.SubTotalG = SubTotalG;
+						category.SubTotalS = 0
+						this.setStatus('red');
+						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+					} else {
+						cells[cells.length - 2].setText(SubTotalG);
+						cells[cells.length - 3].setText(0);
+					}
+				};
+			},
+			PreCalc: function(data, fieldId, newValue, oFloatFormat, quantityOfStone) {
+
+				var that = this;
+				that.setNewValue(data, fieldId, newValue);
+				that.getFloatValue(data, oFloatFormat, quantityOfStone);
+			},
+			setNewValue: function(data, fieldId, newValue) {
+				//get the weight
+				if (fieldId === "IdWeight") {
+					if (data.Weight !== newValue) {
+						data.Weight = newValue;
+					}
+				}
+				if (fieldId === "IdWeightD") {
+					if (data.WeightD !== newValue) {
+						data.WeightD = newValue;
+					}
+				}
+				//get the making charges
+				if (fieldId === "IdMaking") {
+					if (data.Making !== newValue) {
+						data.Making = newValue;
+					}
+				}
+				//making D
+				if (fieldId === "IdMakingD") {
+					if (data.MakingD !== newValue) {
+						data.MakingD = newValue;
+					}
+				}
+
+				// quantity
+				if (fieldId === "IdQty") {
+					if (data.Qty !== newValue) {
+						data.Qty = newValue;
+					}
+				}
+
+				// quantity of stone / quantityD
+				if (fieldId === "IdQtyD") {
+					if (data.QtyD !== newValue) {
+						data.QtyD = newValue;
+					}
+				}
+
+				//Tunch
+				if (fieldId === "IdTunch") {
+					if (data.Tunch !== newValue) {
+						data.Tunch = newValue;
+					}
+				}
+
+			},
+			getFloatValue: function(data, oFloatFormat, quantityOfStone) {
+				if (data.Making === "") {
+					data.Making = 0;
+					// category.Making = 0;
+				} else if (data.Making === 0) {
+					data.Making = 0;
+					// making = 0;
+				} else {
+					var making = data.Making.toString();
+					data.Making = oFloatFormat.parse(making);
+				}
+
+				//MakindD
+				if (data.MakingD === "") {
+					data.MakingD = 0;
+					makingD = 0;
+				} else if (data.MakingD === 0) {
+					data.MakingD = 0;
+					makingD = 0;
+				} else {
+					var makingD = data.MakingD.toString();
+					data.MakingD = oFloatFormat.parse(makingD);
+				}
+				//weight
+				if (data.Weight === "") {
+					data.Weight = 0;
+				} else
+				if (data.Weight === 0) {
+					data.Weight = 0;
+				} else {
+					var weight = data.Weight.toString();
+					data.Weight = oFloatFormat.parse(weight);
+				}
+				//WeightD
+				if (data.WeightD === "") {
+					data.WeightD = 0;
+				} else if (data.WeightD === 0) {
+					data.WeightD = 0;
+				} else {
+					var weightD = data.WeightD.toString();
+					data.WeightD = oFloatFormat.parse(weightD);
+				}
+				//Quantity
+				if (data.Qty === "") {
+					data.Qty = 0;
+				} else if (data.Qty === 0) {
+					data.Qty = 0;
+				} else {
+					var qty = data.Qty.toString();
+					data.Qty = oFloatFormat.parse(qty);
+				}
+				//Quantity D
+				if (data.QtyD === "") {
+					data.QtyD = 0;
+					quantityOfStone = 0;
+				} else if (data.QtyD === 0) {
+					data.QtyD = 0;
+					quantityOfStone = 0;
+				} else {
+					var qtyD = data.QtyD.toString();
+					data.QtyD = oFloatFormat.parse(qtyD);
+					quantityOfStone = data.QtyD;
+				}
+
+				// Tunch
+				if (data.Tunch === "") {
+					data.Tunch = 0;
+					var tunch = 0;
+				} else if (data.Tunch === 0) {
+					data.Tunch = 0;
+					var tunch = 0;
+				} else {
+					var tunch = data.Tunch.toString();
+					data.Tunch = oFloatFormat.parse(tunch);
+					tunch = data.Tunch;
+				}
+			},
+			Calculation: function(oEvent, tablePath, i) {
+
+				var that = this;
+				if ((oEvent.getId() === "orderReload") ||
+					(oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader')) {
+					if (tablePath) {
+						var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(tablePath);
+						var path = tablePath;
+						var cells = this.getView().byId("WSItemFragment--orderItemBases")._getVisibleColumns();
+					}
+				} else {
+					var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+					var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
+					var oCurrentRow = oEvent.getSource().getParent();
+					var cells = oCurrentRow.getCells();
+					var i = oEvent.getSource().getParent().getIndex();
+				}
+				var data = this.getView().getModel('orderItems').getProperty(path);
+				if (oEvent.getId() != "orderReload") {
+					var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
+					var newValue = oEvent.getParameters().newValue;
+				}
+				var quantityOfStone = 0;
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				if ((!category.Category) || (!category.Type)) {
+					if (category.Material !== "") {
+						that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								"/Products('" + category.Material + "')", "GET", {}, {}, that)
+							.then(function(oData) {
+								category.Category = oData.Category;
+								category.Making = oData.Making;
+								category.Tunch = oData.Tunch;
+								category.Type = oData.Type;
+								// category.Karat = oData.Karat;
+								that.PreCalc(data, fieldId, newValue, oFloatFormat, quantityOfStone);
+								that.finalCalculation(category, data, tablePath, cells, quantityOfStone);
+							})
+							.catch(function(oError) {
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
+							});
+					}
+				}
+				that.PreCalc(data, fieldId, newValue, oFloatFormat, quantityOfStone);
+				that.finalCalculation(category, data, tablePath, cells, quantityOfStone);
+				this.byId("IdMaking");
+				this.byId("IdMakingD");
+				this.byId("IdWeightD");
+				this.byId("IdWeight");
+				this.byId("IdQty");
+				this.byId("IdQtyD");
+				this.byId("sbhavid");
 			},
 			onExit: function() {
 

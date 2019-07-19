@@ -779,7 +779,7 @@ sap.ui.define(
 			gSBhavK: 0,
 			ValueChangeHeader: function(oEvent) {
 
-				this.setStatus('red');
+				// this.setStatus('red');
 			},
 			// onTableExpand: function(oEvent) {
 			// 	var splitApp = sap.ui.getCore().byId("__xmlview0--idSplitApp");
@@ -1404,7 +1404,7 @@ sap.ui.define(
 						if (tablePath) {
 
 							category.SubTot = subTotF;
-							this.setStatus('red');
+							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
 							cells[cells.length - 1].setText(subTotF);
@@ -1437,7 +1437,7 @@ sap.ui.define(
 						if (tablePath) {
 
 							category.SubTot = subTotF;
-							this.setStatus('red');
+							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
 							cells[cells.length - 1].setText(subTotF);
@@ -1460,7 +1460,7 @@ sap.ui.define(
 						if (tablePath) {
 
 							category.SubTot = subTotF;
-							this.setStatus('red');
+							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
 							cells[cells.length - 1].setText(subTotF);
@@ -1477,7 +1477,7 @@ sap.ui.define(
 
 						category.SubTotalS = SubTotalS;
 						category.SubTotalG = 0
-						this.setStatus('red');
+						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 						cells[cells.length - 3].setText(SubTotalS);
@@ -1492,7 +1492,7 @@ sap.ui.define(
 
 						category.SubTotalG = SubTotalG;
 						category.SubTotalS = 0
-						this.setStatus('red');
+						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 						cells[cells.length - 2].setText(SubTotalG);

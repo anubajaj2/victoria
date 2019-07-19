@@ -876,7 +876,6 @@ sap.ui.define([
 						if (seletedLine.Key === 'OG' ||
 							seletedLine.Key === 'KG' ||
 							seletedLine.Key === 'BG') {
-								debugger;
 							if (seletedLine.Key === 'BG') {
 								seletedLine.Tunch = 100;
 							}
@@ -890,14 +889,15 @@ sap.ui.define([
 								seletedLine.SubTotal = subTotF;
 								if (viewId == 'idsalesws') {
 									if (subTotal) {
-										cells[cells.length - 2].setText(0);
-										cells[cells.length - 3].setText(0);
-									} else {
-										cells[cells.length - 2].setText(fineGold);
-										cells[cells.length - 3].setText(0);
-										cells[cells.length - 1].setText(0);
+										seletedLine.SubTotalG = 0
+										seletedLine.SubTotalS = 0;
+									}else{
+										seletedLine.SubTotal = 0.
+										seletedLine.SubTotalG = fineGold;
+										seletedLine.SubTotalS = 0;
 									}
 								}
+
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
 									cells[cells.length - 1].setText(subTotF);

@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-	<Dialog id="idDialog" title="Edit Booking" contentHeight="40rem" contentWidth="40rem" busyIndicatorDelay="0">
+	<Dialog id="idDialog" title="Confirm Quantity" contentHeight="15rem" contentWidth="15rem" busyIndicatorDelay="0">
 		<content>
 			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
 				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
@@ -16,12 +16,12 @@
           <Input id="idDialogBhav" value=""></Input>
           <Label text="{i18n>advance}"></Label>
           <Input id="idDialogAdv" value=""></Input>
+					<CheckBox text="Full Delivery" />
 				</f:content>
 			</f:SimpleForm>
 		</content>
 		<buttons>
-			<Button text="Save" id="save1" press="onPressHandleEntrySavePopup"/>
-			<Button text="Save" id="save2" press="onPressHandleDlvEntrySavePopup"/>
+			<Button text="Confirm Delivery" press="onPressHandleDlvConfirmPopup"/>
 			<Button text="Cancel" press="onPressHandleEntryCancelPopup"/>
 		</buttons>
 	</Dialog>

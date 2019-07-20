@@ -60,7 +60,7 @@
 	        </cells>
 	      </ColumnListItem>
 	    </items>
-			<layoutData><l:SplitterLayoutData size="45%" /></layoutData>
+			<layoutData><l:SplitterLayoutData size="48%" /></layoutData>
 		</Table>
 		<!-- <Button width="100%" text="Content 1">
 			<layoutData><l:SplitterLayoutData size="45%" /></layoutData>
@@ -74,7 +74,7 @@
 
 						<x:Avatar
 							src="sap-icon://arrow-right"
-							displaySize="M"
+							displaySize="S"
 							press="onRightArrowPress">
 						</x:Avatar>
 
@@ -148,7 +148,7 @@
 	        </cells>
 	      </ColumnListItem>
 	    </items>
-			<layoutData><l:SplitterLayoutData size="45%" /></layoutData>
+			<layoutData><l:SplitterLayoutData size="48%" /></layoutData>
 		</Table>
 		<!-- <Button width="100%" text="Content 3">
 			<layoutData><l:SplitterLayoutData size="45%" minSize="200px" /></layoutData>

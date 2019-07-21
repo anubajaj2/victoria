@@ -68,7 +68,7 @@ app.start = function() {
 
 			app.post('/kaachiDownload', function(req, res) {
 
-
+debugger;
 				var custId = req.body.id;
 				var name = req.body.name;
 				var city = req.body.city;
@@ -77,7 +77,7 @@ app.start = function() {
 				//read kacchi and print report with all coloring, formatting, totaling
 				var responseData = [];
 				var oSubCounter = {};
-				var Customer = app.models.Customer;
+				var Customer = app.models.customer;
 
 
 				var async = require('async');

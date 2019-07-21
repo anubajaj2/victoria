@@ -127,6 +127,10 @@ sap.ui.define([
 				var oSelect = oEvent.getParameter("selectedItem").getText();
 				this.getView().getModel("productModel").setProperty("/Karat", oSelect);
 			},
+			onCatChange: function(oEvent){
+				var oSelectCat = oEvent.getParameter("selectedItem").getText();
+				this.getView().getModel("productModel").setProperty("/Category", oSelectCat);
+			},
 
 			onTypeChange: function(oEvent){
 				// var oSelectType = oEvent.getParameter("selectedItem").get;
@@ -238,6 +242,8 @@ this.clearProduct();
 						// productModel.setProperty("/id", selectedMatData.id);
 						productModel.setProperty("/ProductCode", prodModInfo.id);
 						productModel.setProperty("/ProductName", prodModInfo.ProductName);
+						var oCat = that.getView().byId("idCategory");
+						oCat.setSelectedKey(prodModInfo.Category);
 						productModel.setProperty("/Category", prodModInfo.Category);
 						var oType = that.getView().byId("idType");
 						oType.setSelectedKey(prodModInfo.Type);
@@ -302,6 +308,8 @@ this.clearProduct();
 						// productModel.setProperty("/id", selectedMatData.id);
 						productModel.setProperty("/ProductCode", selectedMatData.id);
 						productModel.setProperty("/ProductName", selectedMatData.ProductName);
+						var oCat = this.getView().byId("idCategory");
+						oCat.setSelectedKey(selectedMatData.Category);
 						productModel.setProperty("/Category", selectedMatData.Category);
 						var oType = this.getView().byId("idType");
 						oType.setSelectedKey(selectedMatData.Type);
@@ -363,6 +371,8 @@ this.clearProduct();
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
 				var typeModel = this.getView().getModel("fixed");
+				var catType = this.getView().byId("idCategory");
+				catType.setSelectedKey("");
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
 				var karatType = this.getView().byId("idKarat");
@@ -404,6 +414,11 @@ this.clearProduct();
 				if ( prodType === "" ){
 						var typeKey = this.getView().byId("idType").getSelectedKey();
 						productModel.setProperty("/Type", typeKey);
+				}
+				var prodCat = productModel.getProperty("/Category");
+				if ( prodCat === "" ){
+						var catKey = this.getView().byId("idCategory").getSelectedKey();
+						productModel.setProperty("/Category", catKey);
 				}
 
 				that.additionalInfoValidation();

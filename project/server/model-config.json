@@ -139,6 +139,14 @@
   "KacchiBackup":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "BookingDetail":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "BookingDlvDetail":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

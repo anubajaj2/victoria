@@ -15,6 +15,10 @@
 			"type": "string",
 			"required": true
 		},
+		"Key": {
+      "type": "string",
+      "required":true
+    },
 		"Weight": {
 			"type": "number",
 			"required": false,
@@ -38,7 +42,7 @@
 		"Bhav": {
 			"type": "number",
 			"required": false,
-			"default": 0
+			"default": 0.00
 		},
 		"Remarks": {
 			"type": "string",

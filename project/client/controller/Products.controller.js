@@ -41,18 +41,18 @@ sap.ui.define([
 				//Making : MinimumReorderQuantity
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
+						"ProductCode": "",
+						"ProductName": "",
+						"Type": "",
+						"Karat": "",
+						"HindiName":"",
+						 "Tunch": 0,
+						 "Wastage": 0,
+						 "CustomerTunch": 0,
+						 "AlertQuantity": 0,
+						 "Making": 0,
 						"Category": "",
-				        "Type": "",
-								"Karat": "",
-				        "CustomerTunch": 0,
-				        "Making": 0,
-				        "ProductCode": "",
-				        "ProductName": "",
-				        "PricePerUnit": 0,
-				        "Wastage": 0,
-				        "Tunch": 0,
-				        "AlertQuantity": 0,
-				        "HindiName":""
+				     "PricePerUnit": 0
 				        });
 				var oViewModel1 = new JSONModel({
 					"items":[{"text": "Silver"},{"text": "Gold"},{"text": "GS"}]
@@ -177,9 +177,9 @@ this.clearProduct();
 			},
 
 			additionalInfoValidation : function(){
-				var customerModel = this.getView().getModel("productModel");
+				var productModel = this.getView().getModel("productModel");
 				var oDataModel = this.getView().getModel("dataModel");
-				if(customerModel.getData().ProductCode === ""){
+				if(productModel.getData().ProductCode === ""){
 						oDataModel.setProperty("/ProductCodeState", "Error");
 				}else{
 					oDataModel.setProperty("/ProductCodeState", "None");
@@ -211,47 +211,46 @@ this.clearProduct();
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
 				var selData = oEvent.getParameter("value").toLocaleUpperCase();
-				// var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				var productJson = this.getView().getModel("productModelInfo").getData().results;
-				function getProductCode(selData) {
-						return productJson.filter(
-							function (data) {
-								return data.ProductCode === selData;
-							}
-						);
-					}
-
-					var found = getProductCode(selData);
+					productModel.setProperty("/ProductCode", selData);
 			 var viewModel = this.getView().getModel("viewModel");
 				var oProdCode = this.getView().byId("idProductCode").getValue();
+				var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				 "/Products", "GET", {filters: [oFilter]}, {}, this)
+					.then(function(oData) {
+						var that =  this;
+						var oModelProduct = new JSONModel();
+				oModelProduct.setData(oData);
+				// that.getView().setModel(oModelCustomer, "customerModInfo");
+				var prodModInfo = oModelProduct.getData().results[0];
 					// var found = getProductCode(productCode);
-					if(found.length > 0){
+					if(prodModInfo.id.length > 0){
 						// productModel.setProperty("/ProductCode", productCode);
 						// productModel.setProperty("/id", selectedMatData.id);
-						productModel.setProperty("/ProductCode", found[0].id);
-						productModel.setProperty("/ProductName", found[0].ProductName);
-						productModel.setProperty("/Category", found[0].Category);
-						productModel.setProperty("/Type", found[0].Type);
-						productModel.setProperty("/Making", found[0].Making);
-						productModel.setProperty("/CustomerTunch", found[0].CustomerTunch);
-						productModel.setProperty("/PricePerUnit", found[0].PricePerUnit);
-						productModel.setProperty("/Wastage", found[0].Wastage);
-						productModel.setProperty("/Tunch", found[0].Tunch);
-						productModel.setProperty("/AlertQuantity", found[0].AlertQuantity);
-						productModel.setProperty("/HindiName", found[0].HindiName);
-						productModel.setProperty("/Id", found[0].id);
-						if (found[0].Type === "Gold") {
+						productModel.setProperty("/ProductCode", prodModInfo.id);
+						productModel.setProperty("/ProductName", prodModInfo.ProductName);
+						productModel.setProperty("/Category", prodModInfo.Category);
+						productModel.setProperty("/Type", prodModInfo.Type);
+						productModel.setProperty("/Making", prodModInfo.Making);
+						productModel.setProperty("/CustomerTunch", prodModInfo.CustomerTunch);
+						productModel.setProperty("/PricePerUnit", prodModInfo.PricePerUnit);
+						productModel.setProperty("/Wastage", prodModInfo.Wastage);
+						productModel.setProperty("/Tunch", prodModInfo.Tunch);
+						productModel.setProperty("/AlertQuantity", prodModInfo.AlertQuantity);
+						productModel.setProperty("/HindiName", prodModInfo.HindiName);
+						productModel.setProperty("/Id", prodModInfo.id);
+						if (prodModInfo.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
-						productModel.setProperty("/Karat", selectedMatData.Karat);
+						productModel.setProperty("/Karat", prodModInfo.Karat);
 						}
 						else{
-							var karatType = this.getView().byId("idKarat");
+							var karatType = that.getView().byId("idKarat");
 							karatType.setSelectedKey("");
 						}
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
-						this.additionalInfoValidation();
+						// that.additionalInfoValidation();
 						// this.getView().byId("idProductName").focus();
 						productModel.refresh();
 						}else{
@@ -269,11 +268,14 @@ this.clearProduct();
 							viewModel.setProperty("/buttonText", "Save");
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
-							this.additionalInfoValidation();
-							this.getView().byId("idProductName").focus();
+							that.additionalInfoValidation();
+							that.getView().byId("idProductName").focus();
 							productModel.refresh();
 
 						}
+					}).catch(function(oError) {
+							// MessageToast.show("cannot fetch the data");
+					});
 			},
 			productCodeCheck : function(oEvent){
 				// var productModel = this.getView().getModel("Products");

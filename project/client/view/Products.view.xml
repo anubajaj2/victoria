@@ -111,7 +111,7 @@
 				<Label text="Tunch"/>
 				<Input
 					id="idStandardCost"
-					type="Number"
+					type="Text"
 					change="onChange"
 					value="{productModel>/Tunch}">
 				</Input>
@@ -120,7 +120,7 @@
 				<Input
 					id="idReorderLevel"
 					change="onChange"
-					type="Number"
+					type="Text"
 					value="{productModel>/Wastage}">
 				</Input>
 
@@ -134,14 +134,14 @@
 				<Label text="Alert Quantity"/>
 				<Input
 					id="idTargetLevel"
-					type="Number"
+					type="Text"
 					value="{productModel>/AlertQuantity}">
 				</Input>
 
 				<Label text="Making"/>
 				<Input
 					id="idMinimumReorderQuantity"
-					type="Number"
+					type="Text"
 					value="{productModel>/Making}">
 				</Input>
 
@@ -167,7 +167,7 @@
 				</Select> -->
 				<Input
 					id="idPricePerUnit"
-					type="Number"
+					type="Text"
 					value="{productModel>/PricePerUnit}">
 				</Input>
 

@@ -58,7 +58,7 @@
 	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
 </ComboBox> -->
 
-				<Label text="Name"/>
+				<Label text="Name" required="true"/>
 				<Input
 					id="idName"
 					type="Text"

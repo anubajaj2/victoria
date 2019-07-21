@@ -228,39 +228,38 @@ this.clearCustomer();
 										}
 								});
 						});
+						var that = this;
 						var customerModel = this.getView().getModel("customerModel");
 						var selData = oEvent.getParameter("value").toLocaleUpperCase();
 						customerModel.setProperty("/CustomerCode", selData);
-						// var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-						var customerJson = this.getView().getModel("customerModelInfo").getData().results;
-						function getCustomerCode(selData) {
-						 		return customerJson.filter(
-						 			function (data) {
-						 				return data.CustomerCode === selData;
-						 			}
-						 		);
-						 	}
-
-						 	var found = getCustomerCode(selData);
-						var dataModel = this.getView().getModel("dataModel");
-					 var viewModel = this.getView().getModel("viewModel");
-						var oCustCode = this.getView().byId("idCustomerCode").getValue();
-					if(found.length > 0){
-						customerModel.setProperty("/CustomerCode", found[0].id);
-						customerModel.setProperty("/City", found[0].City);
-						customerModel.setProperty("/Name", found[0].Name);
-						customerModel.setProperty("/MobilePhone", found[0].MobilePhone);
-						customerModel.setProperty("/Address", found[0].Address);
-						customerModel.setProperty("/SecondaryPhone", found[0].SecondaryPhone);
-						var oGroup = this.getView().byId("idGroup");
-						oGroup.setSelectedKey(found[0].Group);
-						customerModel.setProperty("/Group", found[0].Group);
-						var oCity = this.getView().byId("idCity");
-						oCity.setSelectedKey(found[0].City);
-						customerModel.setProperty("/Id", found[0].id);
-						var oType = this.getView().byId("idType");
-						oType.setSelectedKey(found[0].Type);
-						customerModel.setProperty("/Type", found[0].Type);
+						var oFilter = new sap.ui.model.Filter("CustomerCode","EQ", selData);
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						 "/Customers", "GET", {filters: [oFilter]}, {}, this)
+							.then(function(oData) {
+								var oModelCustomer = new JSONModel();
+						oModelCustomer.setData(oData);
+						// that.getView().setModel(oModelCustomer, "customerModInfo");
+						var customerModInfo = oModelCustomer.getData().results[0];
+						var dataModel = that.getView().getModel("dataModel");
+						var viewModel = that.getView().getModel("viewModel");
+						that.getView().byId("idCustomerCode").setValue(selData);
+						var oCustCode = that.getView().byId("idCustomerCode").getValue();
+						if(customerModInfo.id.length > 0){
+						customerModel.setProperty("/CustomerCode", customerModInfo.id);
+						customerModel.setProperty("/City", customerModInfo.City);
+						customerModel.setProperty("/Name", customerModInfo.Name);
+						customerModel.setProperty("/MobilePhone", customerModInfo.MobilePhone);
+						customerModel.setProperty("/Address", customerModInfo.Address);
+						customerModel.setProperty("/SecondaryPhone", customerModInfo.SecondaryPhone);
+						var oGroup = that.getView().byId("idGroup");
+						oGroup.setSelectedKey(customerModInfo.Group);
+						customerModel.setProperty("/Group", customerModInfo.Group);
+						var oCity = that.getView().byId("idCity");
+						oCity.setSelectedKey(customerModInfo.City);
+						customerModel.setProperty("/Id", customerModInfo.id);
+						var oType = that.getView().byId("idType");
+						oType.setSelectedKey(customerModInfo.Type);
+						customerModel.setProperty("/Type", customerModInfo.Type);
 						viewModel.setProperty("/buttonText", "Update");
 						viewModel.setProperty("/deleteEnabled", true);
 						viewModel.setProperty("/codeEnabled", false);
@@ -281,6 +280,10 @@ this.clearCustomer();
 							viewModel.setProperty("/codeEnabled", false);
 							// customerModel.refresh();
 						}
+							}).catch(function(oError) {
+									// MessageToast.show("cannot fetch the data");
+							});
+
 			},
 
 			customerCodeCheck : function(oEvent){
@@ -328,7 +331,7 @@ this.clearCustomer();
 							viewModel.setProperty("/deleteEnabled", false);
 							viewModel.setProperty("/codeEnabled", false);
 							// this.additionalInfoValidation();
-							this.getView().byId("idName").focus();
+							that.getView().byId("idName").focus();
 							customerModel.refresh();
 						}
 			},
@@ -375,7 +378,14 @@ this.clearCustomer();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 				customerModel.setProperty("/CustomerCode", oCuscode);
-				that.additionalInfoValidation();
+				// that.additionalInfoValidation();
+				var oret = true;
+				if(customerModel.getData().Name === "" || customerModel.getData().CustomerCode === ""){
+					that.additionalInfoValidation();
+					MessageToast.show("Please fill the required fields");
+					oret = false;
+			 }
+			 if(oret === true){
 						if(custId.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -401,6 +411,7 @@ this.clearCustomer();
 										MessageToast.show("Data could not be saved");
 								});
 						}
+					}
 
 			},
 

@@ -1,57 +1,40 @@
 {
-  "name": "OrderReturn",
-  "plural": "OrderReturns",
+  "name": "BookingDlvDetail",
+  "plural": "BookingDlvDetails",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "OrderNo":{
-      "type":"string",
-      "required":true
+    "BookingDate": {
+      "type": "date",
+      "required": true,
+      "default": "null"
     },
-    "Type": {
+    "Customer": {
       "type": "string",
-      "required":true
+      "required": true,
+      "default": "null"
     },
-    "Key": {
-      "type": "string",
-      "required":true
-    },
-    "Weight": {
+    "Quantity":{
       "type": "number",
       "required": false,
-      "default":0
-    },
-    "KWeight": {
-      "type": "number",
-      "required": false,
-      "default":0
-    },
-    "Tunch": {
-      "type": "number",
-      "required": false,
-      "default":0
-    },
-    "Qty": {
-      "type": "number",
-      "required": false,
-      "default":0
-    },
-    "Bhav": {
-      "type": "number",
-      "required":false,
       "default":0.00
     },
-    "Remarks": {
-      "type": "string",
+    "Bhav":{
+      "type": "number",
       "required": false,
-      "default":""
+      "default":0.00
+    },
+    "Advance":{
+      "type": "number",
+      "required": false,
+      "default":0.00
     },
     "CreatedOn": {
       "type": "date",
-      "default": "null"
+      "required": "null"
     },
     "CreatedBy": {
       "type": "string",
@@ -59,7 +42,7 @@
     },
     "ChangedOn": {
       "type": "date",
-      "default": "null"
+      "required": "null"
     },
     "ChangedBy": {
       "type": "string",
@@ -71,10 +54,10 @@
   },
   "validations": [],
   "relations": {
-    "ToOrders":{
+    "ToCustomers":{
       "type":"belongsTo",
-      "model":"OrderHeader",
-      "foreignKey":"OrderNo"
+      "model":"Customer",
+      "foreignKey":"Customer"
     }
   },
   "acls": [

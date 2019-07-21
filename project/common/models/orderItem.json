@@ -10,7 +10,7 @@
   "properties": {
     "OrderNo": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "Material": {
       "type": "string",

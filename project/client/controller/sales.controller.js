@@ -357,6 +357,7 @@ var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,
 }
 oEvent.sId = "orderReload";
 this.getOrderDetails(oEvent,orderId,oFilter);
+this.byId("Sales--idSaveIcon").setColor('green');
 // this.orderSearchPopup.destroyItems();
 }else{
 var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -955,7 +956,8 @@ if (data.itemNo) {
     var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
     that.getView().setBusy(false);
     for (var i = 0; i < allItems.length; i++) {
-      if (allItems[i].Material === oData.Material) {
+      if (allItems[i].Material === oData.Material &&
+          allItems[i].itemNo === "") {
         allItems[i].itemNo = oData.id;
         allItems[i].OrderNo = oId;
         break;
@@ -1109,15 +1111,18 @@ if (selIdxs.length && selIdxs.length !== 0) {
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
     debugger;
-    that.byId("Sales--idSaveIcon").setColor('red');
+
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
         if (id){
+        that.byId("Sales--idSaveIcon").setColor('green');
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
                                   "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
-        }
+      }else {
+        that.byId("Sales--idSaveIcon").setColor('red');
+      }
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(selIdxs[i], 1);
         that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
@@ -1322,7 +1327,6 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
     if (tablePath) {
      debugger;
     category.SubTot = subTotF;
-    this.byId("Sales--idSaveIcon").setColor('red');
     //capture if there is any change
     // this.noChange.flag = true;
     this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
@@ -1345,7 +1349,7 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (tablePath) {
    debugger;
   category.SubTot = subTotF;
-  this.byId("Sales--idSaveIcon").setColor('red');
+  // this.byId("Sales--idSaveIcon").setColor('red');
   this.noChange = true;
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
   }else {
@@ -1396,7 +1400,7 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (tablePath) {
   category.SubTot = subTotF;
   this.noChange = true;
-  this.byId("Sales--idSaveIcon").setColor('red');
+  // this.byId("Sales--idSaveIcon").setColor('red');
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
   }else {
   cells[cells.length - 1].setText(subTotF);
@@ -1417,6 +1421,10 @@ Calculation:function(oEvent,tablePath,i){
   var category = this.getView().byId("orderItemBases").getModel("orderItems").getProperty(tablePath);
   var path = tablePath;
   var cells = this.getView().byId("orderItemBases")._getVisibleColumns();
+//only in case of table header change
+  if (oEvent.getId() != "orderReload") {
+    this.byId("Sales--idSaveIcon").setColor('red');
+  }
   }
   }else{
   var oPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();

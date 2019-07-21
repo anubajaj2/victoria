@@ -378,7 +378,7 @@ this.clearCustomer();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 				customerModel.setProperty("/CustomerCode", oCuscode);
-				// that.additionalInfoValidation();
+				that.additionalInfoValidation();
 				var oret = true;
 				if(customerModel.getData().Name === "" || customerModel.getData().CustomerCode === ""){
 					that.additionalInfoValidation();

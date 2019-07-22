@@ -259,6 +259,8 @@ this.clearProduct();
 						if (prodModInfo.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
 						productModel.setProperty("/Karat", prodModInfo.Karat);
+						var oKarat = that.getView().byId("idKarat");
+						oKarat.setSelectedKey(prodModInfo.Karat);
 						}
 						else{
 							var karatType = that.getView().byId("idKarat");

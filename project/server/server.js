@@ -77,7 +77,7 @@ debugger;
 				//read kacchi and print report with all coloring, formatting, totaling
 				var responseData = [];
 				var oSubCounter = {};
-				var Customer = app.models.customer;
+				var Customer = app.models.Customer;
 
 
 				var async = require('async');
@@ -91,8 +91,8 @@ debugger;
 								"Group":true,
 								"City":true
 							}
-						}).then(function(customerRecord,err){
-								callback(err,customerRecord);
+						}).then(function(customerRecord){
+								callback(customerRecord);
 						});
 					},
 					function(customerRecord, callback) {
@@ -130,7 +130,9 @@ debugger;
 							try {
 								//read the kacchi Records
 								var Kacchi = app.models.Kacchi;
-								Kacchi.find({Customer: custId})
+								Kacchi.find({where : {
+									"Customer": custId
+								}})
 									.then(function(Records, err) {
 											if (Records) {
 												var excel = require('exceljs');

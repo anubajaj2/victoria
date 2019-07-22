@@ -100,10 +100,10 @@
            		</f:FormElement>
               <f:FormElement>
                 <f:fields>
-                  <RadioButtonGroup columns="4" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
+                  <RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
                     <buttons>
+                      <RadioButton id="RB-1" text="{i18n>Chandi}" selected="true" enabled="true" editable="true"/>
                       <RadioButton id="RB-4" text="{i18n>material}" />
-                      <RadioButton id="RB-1" text="{i18n>Chandi}" />
                       <RadioButton id="RB-2" text="{i18n>Sona}" />
                       <RadioButton id="RB-3" text="{i18n>Kacchi}" />
                     </buttons>

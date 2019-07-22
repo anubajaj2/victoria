@@ -11,6 +11,7 @@ sap.ui.define([
   return BaseController.extend("victoria.controller.sales", {
   formatter: formatter,
   //global Variables
+  orderAmount:0,
   noChange :{
     index:0,
     flag:"true"},
@@ -71,11 +72,17 @@ debugger;
 if(value){
   var x=value;
   x=x.toString();
+  var decimal = x.split('.',2)
+  x = decimal[0];
   var lastThree = x.substring(x.length-3);
   var otherNumbers = x.substring(0,x.length-3);
   if(otherNumbers != '')
       lastThree = ',' + lastThree;
+      if (decimal[1]) {
+  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1];
+}else {
   var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+}
   return res;
 }
 },
@@ -1321,7 +1328,8 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   var makingCharges  = data.Making * weightF;
   var stonevalue = quantityOfStone * data.MakingD;
   if (priceF || makingCharges || stonevalue) {
-  var subTot = (priceF + makingCharges + stonevalue) ;
+  var subTot = (priceF + makingCharges + stonevalue);
+  this.orderAmount = subTot + this.orderAmount;
   var subTotF =  this.getIndianCurr(subTot);
     // gold price per gram
     if (tablePath) {
@@ -1396,6 +1404,7 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
+  this.orderAmount = subTot + this.orderAmount;
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
   category.SubTot = subTotF;

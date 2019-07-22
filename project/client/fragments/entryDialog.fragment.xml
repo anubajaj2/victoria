@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-	<Dialog id="idDialog" title="Add New User" contentHeight="40rem" contentWidth="40rem" busyIndicatorDelay="0">
+	<Dialog id="idDialog" title="Add New User" contentHeight="25rem" contentWidth="25rem" busyIndicatorDelay="0">
 		<content>
 			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
 				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">

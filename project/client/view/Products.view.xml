@@ -76,23 +76,22 @@
 					<core:Item key="{fixed>text}" text="{fixed>text}" />
 				</Select> -->
 
-				<ComboBox
+				<Select
 					id="idType"
-					type="Text"
-					selectionChange="onTypeChange"
-					value="{productModel>/Type}"
+					change="onTypeChange"
+					selectedKey="{/fixed/0/items}"
 					items="{
 						path: 'fixed>/items'
 					}">
 					<core:Item key="{fixed>text}" text="{fixed>text}" />
-				</ComboBox>
+				</Select>
 
 				<Label text = "Karat" required="false"/>
 				<Select
 					id="idKarat"
 					change="onSelectChange"
 					 enabled="{viewModel>/typeEnabled}"
-					 selectedKey= "{/Karat/0/items}"
+					 	 selectedKey= "{/Karat/0/items}"
 					items="{
 						path: 'Karat>/items'
 					}">
@@ -146,15 +145,15 @@
 				</Input>
 
 				<Label text="Category"/>
-				<ComboBox
+				<Select
 					id="idCategory"
-					type="Text"
-					value="{productModel>/Category}"
+					change="onCatChange"
+					selectedKey="{/per/0/items}"
 					items="{
 						path: 'per>/items'
 					}">
 					<core:Item key="{per>text}" text="{per>text}" />
-				</ComboBox>
+				</Select>
 
 				<Label text="MakingD"/>
 				<!-- <Select

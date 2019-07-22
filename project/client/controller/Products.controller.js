@@ -41,6 +41,7 @@ sap.ui.define([
 				//Making : MinimumReorderQuantity
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
+						"Id": "",
 						"ProductCode": "",
 						"ProductName": "",
 						"Type": "",
@@ -126,22 +127,28 @@ sap.ui.define([
 				var oSelect = oEvent.getParameter("selectedItem").getText();
 				this.getView().getModel("productModel").setProperty("/Karat", oSelect);
 			},
+			onCatChange: function(oEvent){
+				var oSelectCat = oEvent.getParameter("selectedItem").getText();
+				this.getView().getModel("productModel").setProperty("/Category", oSelectCat);
+			},
 
 			onTypeChange: function(oEvent){
 				// var oSelectType = oEvent.getParameter("selectedItem").get;
-				var oSelectType = this.getView().getModel("productModel").getProperty("/Type");
+				var oSelectType = oEvent.getParameter("selectedItem").getText();
 				var viewModel = this.getView().getModel("viewModel");
+				var productModel = this.getView().getModel("productModel");
+				productModel.setProperty("/Type", oSelectType);
 				if ( oSelectType  === "Gold") {
 					viewModel.setProperty("/typeEnabled", true);
 					var oKarat =  this.getView().byId("idKarat").getSelectedKey();
-					this.getView().getModel("productModel").setProperty("/Karat", oKarat);
+					productModel.setProperty("/Karat", oKarat);
 				}
 				else {
-					this.getView().getModel("productModel").getProperty("/Karat");
-					this.getView().getModel("productModel").setProperty("/Karat", "");
 					viewModel.setProperty("/typeEnabled", false);
-					// var karatType = this.getView().byId("idKarat");
-					// karatType.setSelectedKey("");
+						productModel.getProperty("/Karat");
+						productModel.setProperty("/Karat", "");
+						var karatType = this.getView().byId("idKarat");
+					karatType.setSelectedKey("");
 				}
 			},
 
@@ -184,7 +191,12 @@ this.clearProduct();
 				}else{
 					oDataModel.setProperty("/ProductCodeState", "None");
 				}
-
+				if(productModel.getData().Type === ""){
+					var oSelKey = this.byId("idType").getSelectedKey();
+					productModel.setProperty("/Type", oSelKey);
+				}else{
+					oDataModel.setProperty("/TypeState", "None");
+				}
 			},
 
 			ValueChangeMaterial: function(oEvent){
@@ -208,28 +220,33 @@ this.clearProduct();
 										}
 								});
 						});
+					var that =  this;
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
 				var selData = oEvent.getParameter("value").toLocaleUpperCase();
 					productModel.setProperty("/ProductCode", selData);
-			 var viewModel = this.getView().getModel("viewModel");
-				var oProdCode = this.getView().byId("idProductCode").getValue();
 				var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData);
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				 "/Products", "GET", {filters: [oFilter]}, {}, this)
 					.then(function(oData) {
-						var that =  this;
 						var oModelProduct = new JSONModel();
 				oModelProduct.setData(oData);
 				// that.getView().setModel(oModelCustomer, "customerModInfo");
 				var prodModInfo = oModelProduct.getData().results[0];
+				var viewModel = that.getView().getModel("viewModel");
+					that.getView().byId("idProductCode").setValue(selData);
+				 var oProdCode = that.getView().byId("idProductCode").getValue();
 					// var found = getProductCode(productCode);
 					if(prodModInfo.id.length > 0){
 						// productModel.setProperty("/ProductCode", productCode);
 						// productModel.setProperty("/id", selectedMatData.id);
 						productModel.setProperty("/ProductCode", prodModInfo.id);
 						productModel.setProperty("/ProductName", prodModInfo.ProductName);
+						var oCat = that.getView().byId("idCategory");
+						oCat.setSelectedKey(prodModInfo.Category);
 						productModel.setProperty("/Category", prodModInfo.Category);
+						var oType = that.getView().byId("idType");
+						oType.setSelectedKey(prodModInfo.Type);
 						productModel.setProperty("/Type", prodModInfo.Type);
 						productModel.setProperty("/Making", prodModInfo.Making);
 						productModel.setProperty("/CustomerTunch", prodModInfo.CustomerTunch);
@@ -242,6 +259,8 @@ this.clearProduct();
 						if (prodModInfo.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
 						productModel.setProperty("/Karat", prodModInfo.Karat);
+						var oKarat = that.getView().byId("idKarat");
+						oKarat.setSelectedKey(prodModInfo.Karat);
 						}
 						else{
 							var karatType = that.getView().byId("idKarat");
@@ -291,7 +310,11 @@ this.clearProduct();
 						// productModel.setProperty("/id", selectedMatData.id);
 						productModel.setProperty("/ProductCode", selectedMatData.id);
 						productModel.setProperty("/ProductName", selectedMatData.ProductName);
+						var oCat = this.getView().byId("idCategory");
+						oCat.setSelectedKey(selectedMatData.Category);
 						productModel.setProperty("/Category", selectedMatData.Category);
+						var oType = this.getView().byId("idType");
+						oType.setSelectedKey(selectedMatData.Type);
 						productModel.setProperty("/Type", selectedMatData.Type);
 						productModel.setProperty("/Making", selectedMatData.Making);
 						productModel.setProperty("/CustomerTunch", selectedMatData.CustomerTunch);
@@ -349,6 +372,9 @@ this.clearProduct();
 				var productModel = this.getView().getModel("productModel");
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
+				var typeModel = this.getView().getModel("fixed");
+				var catType = this.getView().byId("idCategory");
+				catType.setSelectedKey("");
 				productModel.getData().Category = "";
 				productModel.getData().Type = "";
 				var karatType = this.getView().byId("idKarat");
@@ -364,8 +390,11 @@ this.clearProduct();
 				productModel.getData().HindiName = "";
 				var prodId = this.getView().byId("idProductCode");
 				prodId.setSelectedKey("");
-				var prodType = this.getView().byId("idType");
-				prodType.setSelectedKey("");
+				// var prodType = this.getView().byId("idType");
+				// prodType.setSelectedKey("");
+				var typeValue = typeModel.getData().items[0].text;
+				var oType = this.getView().byId("idType");
+				oType.setSelectedKey(typeValue);
 				viewModel.setProperty("/codeEnabled", true);
 				viewModel.setProperty("/buttonText", "Save");
 				viewModel.setProperty("/deleteEnabled", false);
@@ -378,11 +407,23 @@ this.clearProduct();
 			SaveProduct : function(oEvent){
 				var that = this;
 				var productModel = that.getView().getModel("productModel");
-				var prodId = productModel.getProperty("/ProductCode");
+				var prodId = productModel.getData().Id;
 				var productCode = that.getView().byId("idProductCode").getValue();
 				productModel.setProperty("/ProductCode", productCode);
 				var oProdcode = productModel.getProperty("/ProductCode").toLocaleUpperCase();
 				productModel.setProperty("/ProductCode", oProdcode);
+				var prodType = productModel.getProperty("/Type");
+				if ( prodType === "" ){
+						var typeKey = this.getView().byId("idType").getSelectedKey();
+						productModel.setProperty("/Type", typeKey);
+				}
+				var prodCat = productModel.getProperty("/Category");
+				if ( prodCat === "" ){
+						var catKey = this.getView().byId("idCategory").getSelectedKey();
+						productModel.setProperty("/Category", catKey);
+				}
+
+				that.additionalInfoValidation();
 				if(productCode === ""){
 					this.additionalInfoValidation();
 				 MessageToast.show("Please fill the required fields");

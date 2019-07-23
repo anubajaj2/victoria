@@ -42,6 +42,18 @@
       "required": false,
       "default":0.00
     },
+    "TotalOrderValue":{
+      "type": "string",
+      "required": false
+    },
+    "Deduction":{
+      "type": "string",
+      "required": false
+    },
+    "FinalBalance":{
+      "type": "string",
+      "required": false
+    },
     "CreatedOn": {
       "type": "date",
       "required": "null"

@@ -1038,6 +1038,7 @@ onClearScreen:function(oEvent){
 },
 onClear:function(oEvent,id){
 var that = this;
+delete this.orderAmount;
 that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -1236,6 +1237,7 @@ setNewValue:function(data,fieldId,newValue){
 },
 
 getFloatValue:function(data,oFloatFormat,quantityOfStone){
+  if (data.Making) {
   if (data.Making === "") {
     data.Making = 0;
   // data.Making = 0;
@@ -1245,9 +1247,10 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
   }else {
   var making = data.Making.toString();
   data.Making = oFloatFormat.parse(making);
-  }
+}}
 
 //MakindD
+if (data.MakingD) {
   if (data.MakingD === "" ){
     data.MakingD=0;
     makingD = 0;
@@ -1257,8 +1260,12 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
   }else {
    var makingD = data.MakingD.toString();
     data.MakingD = oFloatFormat.parse(makingD);
+  }}else {
+    data.MakingD=0;
+    makingD = 0;
   }
 //weight
+if (data.Weight) {
   if ( data.Weight === "" ){
     data.Weight  = 0;
   }else
@@ -1267,17 +1274,25 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
     }else{
   var weight = data.Weight.toString();
     data.Weight  = oFloatFormat.parse(weight);
-    }
+  }}else {
+    data.Weight  = 0;
+  }
+
 //WeightD
-  if ( data.WeightD === "") {
+if (data.WeightD) {
+  if (data.WeightD === "") {
      data.WeightD = 0;
   } else if(data.WeightD ===0){
      data.WeightD = 0;
   }else {
     var weightD = data.WeightD.toString();
     data.WeightD = oFloatFormat.parse(weightD);
+  }}else {
+    data.WeightD = 0;
   }
+
   //Quantity
+  if (data.Qty) {
     if (data.Qty === ""){
       data.Qty = 0;
     }else if (data.Qty === 0) {
@@ -1285,8 +1300,12 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
     }else {
       var qty = data.Qty.toString();
       data.Qty = oFloatFormat.parse(qty);
+    }}else {
+      data.Qty = 0;
     }
+
 //Quantity D
+if (data.QtyD) {
   if (data.QtyD === ""){
     data.QtyD = 0;
     quantityOfStone = 0;
@@ -1297,6 +1316,8 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
     var qtyD = data.QtyD.toString();
     data.QtyD = oFloatFormat.parse(qtyD);
     quantityOfStone = data.QtyD;
+  }}else {
+    data.QtyD = 0;
   }
 },
 
@@ -1330,7 +1351,11 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (priceF || makingCharges || stonevalue) {
   var subTot = (priceF + makingCharges + stonevalue);
   this.orderAmount = subTot + this.orderAmount;
+  var orderAmount = this.orderAmount;
+  var orderAmountF = orderAmount.toString();
   var subTotF =  this.getIndianCurr(subTot);
+  var orderAmountF = this.getIndianCurr(orderAmountF);
+  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
     // gold price per gram
     if (tablePath) {
      debugger;
@@ -1354,6 +1379,12 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (charges) {
     var subTot = charges + chargesD;
     var subTotF =  this.getIndianCurr(subTot);
+    this.orderAmount = subTot + this.orderAmount;
+    var orderAmount = this.orderAmount;
+    var orderAmount = orderAmount.toString();
+    var orderAmountF = this.getIndianCurr(orderAmount);
+    this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+
   if (tablePath) {
    debugger;
   category.SubTot = subTotF;
@@ -1404,7 +1435,11 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
+  debugger;
   this.orderAmount = subTot + this.orderAmount;
+  var orderAmount = this.orderAmount.toString();
+  var orderAmountF = this.getIndianCurr(orderAmount);
+  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
   category.SubTot = subTotF;

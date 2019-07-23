@@ -17,10 +17,11 @@ function (BaseController, JSONModel, MessageToast) {
     onPressDownload: function() {
       debugger;
       var test = this.getView().getModel("customerModel");
+      var reportType = "Kacchi";
       var custId = test.oData.id;
       var name = test.oData.Name;
       var city = test.oData.City;
-      $.post("/kaachiDownload",{id: custId, name: name, city: city}).then(function(oData)
+      $.post("/kaachiDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");

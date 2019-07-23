@@ -68,7 +68,8 @@ app.start = function() {
 
 			app.post('/kaachiDownload', function(req, res) {
 
-			debugger;
+
+			var reportType = req.body.type;
 			var custId = req.body.id;
 			var name = req.body.name;
 			var city = req.body.city;
@@ -130,7 +131,7 @@ app.start = function() {
 				try {
 			//read the kacchi Records
 			var Kacchi = app.models.Kacchi;
-			debugger;
+			
 			Kacchi.find({where : {
 				"Customer": custId
 			}})
@@ -140,21 +141,25 @@ app.start = function() {
 							var workbook = new excel.Workbook(); //creating workbook
 							var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
-							var heading = {heading:"Kachhi Report"};
 
+							//Heading for excel
+							var heading = {heading:"Kachhi Report"};
 							sheet.mergeCells('A1:E1');
 							sheet.getCell('E1').value = 'Kacchi Report';
 							sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
 							sheet.getCell('A1').fill = {
-			  type: 'pattern',
-			  pattern:'solid',
-			  fgColor:{argb:'808080'}
-			};
+							  type: 'pattern',
+							  pattern:'solid',
+							  fgColor:{argb:'808080'}
+							};
 
+			//Merging second Row
 			sheet.mergeCells('A2:D2');
 			sheet.getCell('D2').value = 'Customer Name : ' + name + ' - ' + city + ' - ' + Ggroup;
 			sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
+
+			//Code for getting current datetime
 			var currentdate = new Date();
 			var datetime = "Report Date: " + currentdate.getDate() + "."
 			                + (currentdate.getMonth()+1)  + "."
@@ -165,13 +170,14 @@ app.start = function() {
 			sheet.getCell('E2').value = datetime;
 			sheet.getRow(2).font === { bold: true };
 
+			//Coding to remove unwanted header
 			var header = Object.keys(Records[0].__data);
 			header.splice(1,1);
 			header.splice(5,5);
 
 			sheet.addRow().values = header;
 
-
+			//Coding for cell color and bold character
 			sheet.getCell('A3').fill = {
 			type: 'pattern',
 			pattern:'solid',
@@ -199,14 +205,16 @@ app.start = function() {
 			};
 
 
+			//Coding to remove unwanted items or Rows
 			for (var i = 0; i < Records["length"]; i++) {
 			var items = Object.values(Records[i].__data);
 			items.splice(1,1);
 			items.splice(5,5);
 				sheet.addRow().values = items;
-
 			}
 
+
+			//Coding for formula and concatenation in the last line
 			var totText = Records["length"] + 4;
 			var totCol = totText - 1;
 			sheet.getCell('A' + totText).value = "Total";
@@ -242,6 +250,8 @@ app.start = function() {
 			  fgColor:{argb:'A9A9A9'}
 			};
 
+
+			//Coding for rows and column border
 			for(var j=1; j<=totText; j++){
 			sheet.getCell('A'+(j)).border = {
 			top: {style:'thin'},
@@ -279,9 +289,10 @@ app.start = function() {
 
 
 
-
-				var tempfile = require('tempfile');
-				var tempFilePath = tempfile('.xlsx');
+//Coding to download in a folder
+				var tempFilePath = 'C:\\dex\\' + reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth()+1)
+				                    + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes()
+														+ currentdate.getSeconds() + '.xlsx';
 				console.log("tempFilePath : ", tempFilePath);
 				workbook.xlsx.writeFile(tempFilePath).then(function() {
 					res.sendFile(tempFilePath, function(err) {

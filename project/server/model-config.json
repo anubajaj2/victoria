@@ -124,6 +124,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "stockMaint":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "Demo":{
     "dataSource": "mongoatlas",
     "public": true

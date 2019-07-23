@@ -176,6 +176,12 @@
 "Tunch":"0",
 "DueDate":""
 },
+"stockMaint":{
+"Product":"",
+"Description":"",
+"Quantity":"0",
+"Weight":"0"
+},
 	"orderHeader":{
 	  "OrderNo": 0,
 	  "Date": "",

@@ -40,6 +40,7 @@ sap.ui.define([
 					oTestcaseListModel: undefined,
 					sUrlTargetSystem: undefined,
 					toggleTableState: true,
+					deduction:0,
 					allMasterData: {
 						"customers": [],
 						"materials": [],
@@ -885,6 +886,9 @@ sap.ui.define([
 							var fineGoldF = this.getIndianCurr(fineGold)
 							var subTotal = fineGold * bhavF;
 							var subTotF = this.getIndianCurr(subTotal)
+							this.deduction = subTotal + this.deduction;
+							var deduction = this.deduction;
+							var deductionF = this.getIndianCurr(deduction);
 							if (path) {
 								seletedLine.SubTotal = subTotF;
 								if (viewId == 'idsalesws') {
@@ -896,8 +900,10 @@ sap.ui.define([
 										seletedLine.SubTotalG = fineGold;
 										seletedLine.SubTotalS = 0;
 									}
+								}else {
+									debugger;
+									this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
 								}
-
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
 									cells[cells.length - 1].setText(subTotF);
@@ -908,6 +914,9 @@ sap.ui.define([
 											cells[cells.length - 2].setText(fineGoldF);
 											cells[cells.length - 3].setText(0);
 										}
+									}else {
+										debugger;
+										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
 									}
 								} //path check
 							} else if (seletedLine.Key === 'OS' ||
@@ -922,6 +931,9 @@ sap.ui.define([
 								var fineSilverF = this.getIndianCurr(fineSilver)
 								var subTotal = fineSilver * bhavF;
 								var subTotF = this.getIndianCurr(subTotal)
+								this.deduction = subTotal + this.deduction;
+								var deduction = this.deduction;
+								var deductionF = this.getIndianCurr(deduction);
 								if (path) {
 									seletedLine.SubTotal = subTotF;
 									if (viewId == 'idsalesws') {
@@ -933,6 +945,9 @@ sap.ui.define([
 											seletedLine.SubTotalG = 0;
 											seletedLine.SubTotal = 0;
 										}
+									}else {
+										debugger;
+										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
 									}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
@@ -947,10 +962,21 @@ sap.ui.define([
 											cells[cells.length - 2].setText(0);
 											cells[cells.length - 1].setText(0);
 										}
+									}else {
+										debugger;
+										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
 									}
 								}
 							} else if (seletedLine.Key === 'CASH') {
 								var subTotF = this.getIndianCurr(seletedLine.Bhav)
+								this.deduction = seletedLine.Bhav;
+								var deduction = this.deduction;
+								var deductionF = this.getIndianCurr(deduction);
+								if (viewId == 'idsalesws') {
+								}else {
+								debugger;
+								this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+								}
 								if (path) {
 									seletedLine.SubTotal = subTotF;
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);

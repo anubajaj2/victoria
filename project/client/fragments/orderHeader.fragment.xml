@@ -111,12 +111,14 @@ valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 </f:FormElement>
 <f:FormElement label="{i18n>deductions}">
 <f:fields>
-<Input value="{local>/orderHeader/Deduction}" fieldWidth="30%"/>
+<Input value="{local>/orderHeader/Deduction}" textAlign="Right"
+   fieldWidth="30%"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>fBalance}">
 <f:fields>
-<Input value="{local>/orderHeader/FinalBalance}" fieldWidth="30%"/>
+<Input value="{local>/orderHeader/FinalBalance}" textAlign="Right"
+   fieldWidth="30%"/>
 </f:fields>
 </f:FormElement>
 </f:formElements>

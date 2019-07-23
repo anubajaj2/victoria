@@ -12,6 +12,7 @@ sap.ui.define([
   formatter: formatter,
   //global Variables
   orderAmount:0,
+  finalBal:0,
   noChange :{
     index:0,
     flag:"true"},
@@ -339,6 +340,7 @@ onConfirm:function(oEvent){
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
+delete this.orderAmount;
 debugger;
 var id = oEvent.getSource().getParent().getId().split('---')[1];
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
@@ -1039,6 +1041,7 @@ onClearScreen:function(oEvent){
 onClear:function(oEvent,id){
 var that = this;
 delete this.orderAmount;
+delete this.deduction;
 that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -1056,6 +1059,9 @@ oHeader.GoldBhav22=0;
 oHeader.GoldBhav20=0;
 oHeader.GoldBhav=0;
 oHeader.SilverBhav=0;
+oHeader.TotalOrderValue="";
+oHeader.Deduction="";
+oHeader.FinalBalance="";
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);

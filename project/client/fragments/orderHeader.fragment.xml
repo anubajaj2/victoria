@@ -14,17 +14,17 @@ size="30px" alt="Save Status" tooltip="Save Status"/>
 </Toolbar>
 </f:toolbar>
 <f:layout>
-<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="5" labelSpanM="3"
+<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3"
 emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 adjustLabelSpan="true"
-columnsXL="2" columnsL="3" columnsM="2"
+columnsXL="3" columnsL="3" columnsM="2"
 singleContainerFullSize="false"/>
 </f:layout>
 <f:formContainers>
 <!-- //Order detail -->
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="{i18n>Date}">
+<f:FormElement label="{i18n>Date}" textAlign="Left">
 <f:fields>
 <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
             displayFormat="dd.MM.yyyy" change="onPayDateChange"
@@ -103,9 +103,9 @@ valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 <!-- Total Details -->
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="{i18n>tOrderAmount}">
+<f:FormElement label="{i18n>tOrderAmount}" textAlign="Left">
 <f:fields>
-  <Text/>
+<Text textAlign="Right"/>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="{i18n>deductions}">

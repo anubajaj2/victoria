@@ -14,7 +14,7 @@ function (BaseController, JSONModel, MessageToast) {
 
                   this.setModel(oViewModel, "customerModel");
     },
-    onPressDownload: function() {
+    onPressKacchiDownload: function() {
       debugger;
       var test = this.getView().getModel("customerModel");
       var reportType = "Kacchi";
@@ -22,6 +22,22 @@ function (BaseController, JSONModel, MessageToast) {
       var name = test.oData.Name;
       var city = test.oData.City;
       $.post("/kaachiDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+
+    onPressEntryDownload: function() {
+      debugger;
+      var test = this.getView().getModel("customerModel");
+      var reportType = "Entry";
+      var custId = test.oData.id;
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/entryDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");

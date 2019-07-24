@@ -1257,7 +1257,9 @@ getFloatValue:function(data,oFloatFormat,quantityOfStone){
   }else {
   var making = data.Making.toString();
   data.Making = oFloatFormat.parse(making);
-}}
+}}else {
+  data.Making = 0;
+}
 
 //MakindD
 if (data.MakingD) {
@@ -1540,8 +1542,8 @@ Calculation:function(oEvent,tablePath,i){
                               silverpergm);
       debugger;
       that.finalBal = that.orderAmount - that.deduction;
-      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',that.finalBal);
-
+      var finalBal = that.getIndianCurr(that.finalBal);
+      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
       })
       .catch(function(oError) {
         that.getView().setBusy(false);

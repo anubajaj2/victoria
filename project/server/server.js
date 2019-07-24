@@ -318,6 +318,7 @@ app.start = function() {
 
 ///// Coding for Entry Download/////
 app.post('/entryDownload', function(req, res) {
+debugger;
 var reportType = req.body.type;
 var custId = req.body.id;
 var name = req.body.name;
@@ -380,7 +381,7 @@ Ggroup = groupRecord.groupName;
 	try {
 //read the kacchi Records
 var Entry = app.models.Entry;
-
+debugger;
 Entry.find({where : {
 	"Customer": custId
 }})

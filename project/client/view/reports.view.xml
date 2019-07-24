@@ -42,7 +42,7 @@
             alignContent="Center">
             <items>
               <Button text="Kacchi Download" width="200px" press="onPressKacchiDownload" class="sapUiSmallMarginEnd" />
-              <Button text="Entry Download" press="onPressEntryDownload class="sapUiSmallMarginEnd" />
+              <Button text="Entry Download" press="onPressEntryDownload" class="sapUiSmallMarginEnd" />
               <Button text="Retail Sales Summary" class="sapUiSmallMarginEnd" />
             </items>
           </HBox>

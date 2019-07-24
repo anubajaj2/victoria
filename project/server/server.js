@@ -345,39 +345,11 @@ async.waterfall([
 		}).then(function(customerRecord, err){
 				callback(err, customerRecord);
 		});
-	},
-function(customerRecord, callback) {
-	// arg1 now equals 'one' and arg2 now equals 'two'
-	var City = app.models.City;
-	City.findById(customerRecord.City,{
-		fields:{
-			"cityName": true
-		}
-	})
-	.then(function(cityRecord, err) {
-		callback(err,customerRecord, cityRecord);
-	});
-
-},
-function(customerRecord, cityRecord, callback) {
-	// arg1 now equals 'three'
-	var Group = app.models.Group;
-	Ggroup = Group;
-	Group.findById(customerRecord.Group,{
-		fields:{
-			"groupName": true
-		}
-	})
-		.then(function(groupRecord, err) {
-		callback(err,customerRecord, cityRecord, groupRecord);
-	});
-}
-], function(err,customerRecord, cityRecord, groupRecord) {
+	}
+], function(err,customerRecord) {
 // result now equals 'done'
 //set all values to local variables which we need inside next promise
 name = customerRecord.Name;
-city = cityRecord.cityName;
-Ggroup = groupRecord.groupName;
 	try {
 //read the kacchi Records
 var Entry = app.models.Entry;
@@ -405,7 +377,7 @@ Entry.find({where : {
 
 //Merging second Row
 sheet.mergeCells('A2:D2');
-sheet.getCell('D2').value = 'Customer Name : ' + name + ' - ' + city + ' - ' + Ggroup;
+sheet.getCell('D2').value = 'Customer Name : ' + name;
 sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
 

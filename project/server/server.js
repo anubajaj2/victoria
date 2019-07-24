@@ -376,14 +376,14 @@ Entry.find({where : {
 				};
 
 //Merging second Row
-sheet.mergeCells('A2:D2');
-sheet.getCell('D2').value = 'Customer Name : ' + name;
+sheet.mergeCells('A2:E2');
+sheet.getCell('E2').value = 'Customer Name : ' + name + '\\r\\n';
 sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
 
 //Code for getting current datetime
 var currentdate = new Date();
-var datetime = "Report Date: " + currentdate.getDate() + "."
+var datetime =  currentdate.getDate() + "."
 								+ (currentdate.getMonth()+1)  + "."
 								+ currentdate.getFullYear() + " / "
 								+ currentdate.getHours() + ":"
@@ -394,8 +394,11 @@ sheet.getRow(2).font === { bold: true };
 
 //Coding to remove unwanted header
 var header = Object.keys(Records[0].__data);
-header.splice(1,1);
-header.splice(5,5);
+debugger;
+header.splice(1,2);
+header.splice(4,8);
+header.splice(1,0,"Silver");
+header.splice(4,1);
 
 sheet.addRow().values = header;
 
@@ -426,24 +429,87 @@ pattern:'solid',
 fgColor:{argb:'A9A9A9'}
 };
 
-
+var totCash = 0;
 //Coding to remove unwanted items or Rows
 for (var i = 0; i < Records["length"]; i++) {
 var items = Object.values(Records[i].__data);
-items.splice(1,1);
-items.splice(5,5);
-	sheet.addRow().values = items;
+items.splice(1,2);
+items.splice(4,8);
+var s1 = items[3];
+items.splice(1,0,s1);
+items.splice(4,1);
+// totCash = totCash + items[2];
+// items[2] = items[2] + "/-";
+sheet.addRow().values = items;
 }
 
 
 //Coding for formula and concatenation in the last line
-var totText = Records["length"] + 4;
+var totText = Records["length"] + 5;
 var totCol = totText - 1;
 sheet.getCell('A' + totText).value = "Total";
-sheet.getCell('B' + totText).value = Records["length"];
-sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(SUM(C4:C'+totCol+')," gm")' };
-sheet.getCell('D' + totText).value = { formula: '=CONCATENATE(ROUND(AVERAGE(D4:D'+totCol+'),0)," T")' };
-sheet.getCell('E' + totText).value = { formula: '=CONCATENATE(SUM(E4:E'+totCol+')," gm")' };
+// sheet.getCell('B' + totText).value = { formula: '=CONCATENATE(SUM(B4:B'+totCol+')," gm")' };
+// sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(SUM(C4:C'+totCol+')," /-")' };
+// //sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(' + totCash + '," /-")' };
+// sheet.getCell('D' + totText).value = { formula: '=CONCATENATE(SUM(D4:D'+totCol+')," gm")' };
+//sheet.getCell('E' + totText).value = { formula: '=CONCATENATE(SUM(E4:E'+totCol+')," gm")' };
+
+sheet.getCell('B' + totText).value = { formula: '=SUM(B4:B'+totCol+')' };
+sheet.getCell('C' + totText).value = { formula: '=SUM(C4:C'+totCol+')' };
+//sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(' + totCash + '," /-")' };
+sheet.getCell('D' + totText).value = { formula: '=SUM(D4:D'+totCol+')' };
+
+
+// if(sheet.getCell('B' + totText).value == ''){
+// 	sheet.getCell('B' + totText).font = {
+// 		color:{argb:'00FFFF'},
+// 		bold:true
+// 	};
+// }else if (sheet.getCell('B' + totText).value < 0) {
+// 	sheet.getCell('B' + totText).font = {
+// 		color:{argb:'FF0000'},
+// 		bold:true
+// };
+// }else {
+// 	sheet.getCell('B' + totText).font = {
+// 		color:{argb:'000000'},
+// 		bold:true
+// };
+// }
+//
+// if(sheet.getCell('C' + totText).value == ''){
+// 	sheet.getCell('C' + totText).font = {
+// 		color:{argb:'00FFFF'},
+// 		bold:true
+// 	};
+// }else if (sheet.getCell('C' + totText).value < 0) {
+// 	sheet.getCell('C' + totText).font = {
+// 		color:{argb:'FF0000'},
+// 		bold:true
+// };
+// }else {
+// 	sheet.getCell('C' + totText).font = {
+// 		color:{argb:'000000'},
+// 		bold:true
+// };
+// }
+//
+// if(sheet.getCell('D' + totText).value == ''){
+// 	sheet.getCell('D' + totText).font = {
+// 		color:{argb:'00FFFF'},
+// 		bold:true
+// 	};
+// }else if (sheet.getCell('D' + totText).value < 0) {
+// 	sheet.getCell('D' + totText).font = {
+// 		color:{argb:'FF0000'},
+// 		bold:true
+// };
+// }else {
+// 	sheet.getCell('D' + totText).font = {
+// 		color:{argb:'000000'},
+// 		bold:true
+// };
+// }
 
 
 sheet.getCell('A' + totText).fill = {
@@ -475,6 +541,52 @@ sheet.getCell('E' + totText).fill = {
 
 //Coding for rows and column border
 for(var j=1; j<=totText; j++){
+////
+if(sheet.getCell('B' + (j)).value == ''){
+	sheet.getCell('B' + (j)).font = {
+		color:{argb:'00FFFF'}
+	};
+}else if (sheet.getCell('B' + (j)).value < 0) {
+	sheet.getCell('B' + (j)).font = {
+		color:{argb:'FF0000'}
+};
+}else {
+	sheet.getCell('B' + (j)).font = {
+		color:{argb:'000000'}
+};
+}
+
+if(sheet.getCell('C' + (j)).value == ''){
+	sheet.getCell('C' + (j)).font = {
+		color:{argb:'00FFFF'}
+	};
+}else if (sheet.getCell('C' + (j)).value < 0) {
+	sheet.getCell('C' + (j)).font = {
+		color:{argb:'FF0000'}
+};
+}else {
+	sheet.getCell('C' + (j)).font = {
+		color:{argb:'000000'}
+};
+}
+
+if(sheet.getCell('D' + (j)).value == ''){
+	sheet.getCell('D' + (j)).font = {
+		color:{argb:'00FFFF'}
+	};
+}else if (sheet.getCell('D' + (j)).value < 0) {
+	sheet.getCell('D' + (j)).font = {
+		color:{argb:'FF0000'}
+};
+}else {
+	sheet.getCell('D' + (j)).font = {
+		color:{argb:'000000'}
+};
+}
+
+
+
+////
 sheet.getCell('A'+(j)).border = {
 top: {style:'thin'},
 left: {style:'thin'},

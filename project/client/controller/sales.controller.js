@@ -1336,6 +1336,8 @@ if (data.QtyD) {
 finalCalculation:function(category,data,priceF,tablePath,cells,
                           quantityOfStone,gold20pergm,gold22pergm,
                           silverpergm){
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
   if ((category.Type === 'Gold' && category.Category === "gm") ||
       (category.Type === 'Silver' && category.Category === "gm"))
   {
@@ -1363,17 +1365,18 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (priceF || makingCharges || stonevalue) {
   var subTot = (priceF + makingCharges + stonevalue);
   debugger;
-  // if (this.valueChange === 'false') {
+  if ((data.SubTot) && (data.SubTot != "")) {
+  var currentSubTot = oFloatFormat.parse(data.SubTot);
+  this.orderAmount = subTot + this.orderAmount - currentSubTot;
+}else {
   this.orderAmount = subTot + this.orderAmount;
   var orderAmount = this.orderAmount;
-  var orderAmountF = orderAmount.toString();
-  var orderAmountF = this.getIndianCurr(orderAmountF);
-  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
-// }else {
-//   this.valueChange = 'true';
-// }
+}
+var orderAmount = this.orderAmount;
+var orderAmount = orderAmount.toString();
+var orderAmountF = this.getIndianCurr(orderAmount);
+this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   var subTotF =  this.getIndianCurr(subTot);
-
     // gold price per gram
     if (tablePath) {
      debugger;
@@ -1397,15 +1400,16 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (charges) {
     var subTot = charges + chargesD;
     var subTotF =  this.getIndianCurr(subTot);
-    // if (this.valueChange === 'false') {
+    if ((data.SubTot) && (data.SubTot != "")) {
+    var currentSubTot = oFloatFormat.parse(data.SubTot);
+    this.orderAmount = subTot + this.orderAmount - currentSubTot;
+  }else {
     this.orderAmount = subTot + this.orderAmount;
-    var orderAmount = this.orderAmount;
-    var orderAmount = orderAmount.toString();
-    var orderAmountF = this.getIndianCurr(orderAmount);
-    this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
-  // }else {
-  //   this.valueChange = 'true';
-  // }
+  }
+  var orderAmount = this.orderAmount;
+  var orderAmount = orderAmount.toString();
+  var orderAmountF = this.getIndianCurr(orderAmount);
+  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   if (tablePath) {
    debugger;
   category.SubTot = subTotF;
@@ -1457,14 +1461,16 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
   debugger;
-  // if (this.valueChange === 'false') {
-    this.orderAmount = subTot + this.orderAmount;
-    var orderAmount = this.orderAmount.toString();
-    var orderAmountF = this.getIndianCurr(orderAmount);
-    this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
-  // }else {
-  //   this.valueChange = 'false'
-  // }
+  if ((data.SubTot) && (data.SubTot != "")) {
+  var currentSubTot = oFloatFormat.parse(data.SubTot);
+  this.orderAmount = subTot + this.orderAmount - currentSubTot;
+}else {
+  this.orderAmount = subTot + this.orderAmount;
+}
+var orderAmount = this.orderAmount;
+var orderAmount = orderAmount.toString();
+var orderAmountF = this.getIndianCurr(orderAmount);
+this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
 
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
@@ -1559,6 +1565,10 @@ Calculation:function(oEvent,tablePath,i){
     this.finalCalculation(category,data,priceF,tablePath,cells,
                           quantityOfStone,gold20pergm,gold22pergm,
                           silverpergm);
+debugger;
+that.finalBal = that.orderAmount - that.deduction;
+var finalBal = that.getIndianCurr(that.finalBal);
+that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");
   this.byId("IdMakingD");

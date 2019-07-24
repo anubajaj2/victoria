@@ -886,7 +886,12 @@ sap.ui.define([
 							var fineGoldF = this.getIndianCurr(fineGold)
 							var subTotal = fineGold * bhavF;
 							var subTotF = this.getIndianCurr(subTotal)
+							if ((seletedLine.SubTotal) && (seletedLine.SubTotal !== "")) {
+							var currentSubTot = oFloatFormat.parse(seletedLine.SubTotal);
+							this.deduction = subTotal + this.deduction - currentSubTot;
+						}else {
 							this.deduction = subTotal + this.deduction;
+						}
 							var deduction = this.deduction;
 							var deductionF = this.getIndianCurr(deduction);
 							if (path) {
@@ -931,7 +936,12 @@ sap.ui.define([
 								var fineSilverF = this.getIndianCurr(fineSilver)
 								var subTotal = fineSilver * bhavF;
 								var subTotF = this.getIndianCurr(subTotal)
+								if ((seletedLine.SubTotal) && (seletedLine.SubTotal !== "")) {
+							  var currentSubTot = oFloatFormat.parse(seletedLine.SubTotal);
+								this.deduction = subTotal + this.deduction - currentSubTot;
+							}else {
 								this.deduction = subTotal + this.deduction;
+							}
 								var deduction = this.deduction;
 								var deductionF = this.getIndianCurr(deduction);
 								if (path) {
@@ -985,8 +995,7 @@ sap.ui.define([
 								}
 							}
 						},
-						onRetItemValidation: function() {
-								debugger;
+						onRetItemValidation: function(){
 								//line item validations
 								var that = this;
 								var viewId = this.getView().getId().split('---')[1];

@@ -20,6 +20,7 @@ sap.ui.define([
   headerNoChange:false,
 //return no Change
 noChangeReturn : false,
+valueChange:false,
 
 onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
@@ -341,6 +342,7 @@ onConfirm:function(oEvent){
 if (oEvent.getParameter('id') === 'orderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
 delete this.orderAmount;
+delete this.deduction;
 debugger;
 var id = oEvent.getSource().getParent().getId().split('---')[1];
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
@@ -817,6 +819,8 @@ var oBinding = oTableDetails.getBinding("rows");
 var itemError = false;
 var valueCheck = false;
 var returnCheck = false;
+delete this.orderAmount;
+delete this.deduction;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
@@ -1356,12 +1360,18 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   var stonevalue = quantityOfStone * data.MakingD;
   if (priceF || makingCharges || stonevalue) {
   var subTot = (priceF + makingCharges + stonevalue);
+  debugger;
+  // if (this.valueChange === 'false') {
   this.orderAmount = subTot + this.orderAmount;
   var orderAmount = this.orderAmount;
   var orderAmountF = orderAmount.toString();
-  var subTotF =  this.getIndianCurr(subTot);
   var orderAmountF = this.getIndianCurr(orderAmountF);
   this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+// }else {
+//   this.valueChange = 'true';
+// }
+  var subTotF =  this.getIndianCurr(subTot);
+
     // gold price per gram
     if (tablePath) {
      debugger;
@@ -1385,12 +1395,15 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   if (charges) {
     var subTot = charges + chargesD;
     var subTotF =  this.getIndianCurr(subTot);
+    // if (this.valueChange === 'false') {
     this.orderAmount = subTot + this.orderAmount;
     var orderAmount = this.orderAmount;
     var orderAmount = orderAmount.toString();
     var orderAmountF = this.getIndianCurr(orderAmount);
     this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
-
+  // }else {
+  //   this.valueChange = 'true';
+  // }
   if (tablePath) {
    debugger;
   category.SubTot = subTotF;
@@ -1442,10 +1455,15 @@ finalCalculation:function(category,data,priceF,tablePath,cells,
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
   debugger;
-  this.orderAmount = subTot + this.orderAmount;
-  var orderAmount = this.orderAmount.toString();
-  var orderAmountF = this.getIndianCurr(orderAmount);
-  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+  // if (this.valueChange === 'false') {
+    this.orderAmount = subTot + this.orderAmount;
+    var orderAmount = this.orderAmount.toString();
+    var orderAmountF = this.getIndianCurr(orderAmount);
+    this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+  // }else {
+  //   this.valueChange = 'false'
+  // }
+
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
   category.SubTot = subTotF;
@@ -1511,11 +1529,19 @@ Calculation:function(oEvent,tablePath,i){
         category.Tunch = oData.Tunch;
         category.Type = oData.Type;
         category.Karat = oData.Karat;
-        that.setNewValue(data,fieldId,newValue);
+        if (fieldId) {
+          that.setNewValue(data,fieldId,newValue);
+          this.valueChange = 'true';
+        }
+
         that.getFloatValue(data,oFloatFormat,quantityOfStone);
         that.finalCalculation(category,data,priceF,tablePath,cells,
                               quantityOfStone,gold20pergm,gold22pergm,
                               silverpergm);
+      debugger;
+      that.finalBal = that.orderAmount - that.deduction;
+      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',that.finalBal);
+
       })
       .catch(function(oError) {
         that.getView().setBusy(false);
@@ -1523,7 +1549,10 @@ Calculation:function(oEvent,tablePath,i){
       });
     }
   }else {
-    this.setNewValue(data,fieldId,newValue);
+    if (true) {
+      this.setNewValue(data,fieldId,newValue);
+      this.valueChange = "true"
+    }
     this.getFloatValue(data,oFloatFormat,quantityOfStone);
     this.finalCalculation(category,data,priceF,tablePath,cells,
                           quantityOfStone,gold20pergm,gold22pergm,

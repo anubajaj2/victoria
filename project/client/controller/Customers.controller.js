@@ -88,7 +88,7 @@ sap.ui.define([
 			},
 			onSelectChange: function(oEvent){
 				var oValue = oEvent.getSource().getId();
-				var oSelect = oEvent.getParameter("selectedItem").getKey();
+				var oSelect = oEvent.getParameter("selectedItem").getText();
 				if(oValue === "__component0---idCustomers--idCity"){
 					this.getView().getModel("customerModel").setProperty("/City", oSelect);
 				}

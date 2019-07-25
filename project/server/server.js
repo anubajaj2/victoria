@@ -101,11 +101,9 @@ app.start = function() {
 					fields:{
 						"cityName": true
 					}
-				})
-				.then(function(cityRecord, err) {
+				}).then(function(cityRecord, err) {
 					callback(err,customerRecord, cityRecord);
 				});
-
 			},
 			function(customerRecord, cityRecord, callback) {
 				// arg1 now equals 'three'
@@ -115,16 +113,16 @@ app.start = function() {
 					fields:{
 						"groupName": true
 					}
-				})
-					.then(function(groupRecord, err) {
-					callback(err,customerRecord, cityRecord, groupRecord);
-				});
-			}
+				}).then(function(groupRecord, err) {
+				callback(err,customerRecord, cityRecord, groupRecord);
+			});
+		}
 		], function(err,customerRecord, cityRecord, groupRecord) {
 		// result now equals 'done'
 			//set all values to local variables which we need inside next promise
 			name = customerRecord.Name;
-			city = cityRecord.cityName;
+			//city = cityRecord.cityName;
+			city = req.body.city;
 			Ggroup = groupRecord.groupName;
 				try {
 			//read the kacchi Records

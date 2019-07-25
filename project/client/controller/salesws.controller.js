@@ -11,7 +11,7 @@ sap.ui.define(
 	function(BaseController, JSONModel, History, formatter,
 		MessageToast, Filter, MessageBox) {
 		"use strict";
-
+  
 		return BaseController.extend("victoria.controller.salesws", {
 			formatter: formatter,
 			onInit: function(oEvent) {
@@ -1278,7 +1278,7 @@ sap.ui.define(
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
 					var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
-					var oBinding = oTableDetails.getBinding("rows");
+					var oBinding = oTableDetils.getBinding("rows");
 					var itemError = false;
 					var oCommit = false;
 					for (var i = 0; i < oBinding.getLength(); i++) {

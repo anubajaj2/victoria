@@ -5,7 +5,8 @@
 	xmlns:footerbar="sap.ushell.ui.footerbar"
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.ui.layout.form"
-	xmlns:l="sap.ui.layout" >
+	xmlns:l="sap.ui.layout"
+	xmlns:dnd="sap.ui.core.dnd" >
 
 	<l:Splitter height="auto" width="100%">
 		<Table id="idTable" class="sapUiContentPadding"
@@ -18,6 +19,7 @@
 	           }"
 	    mode="MultiSelect" growing="true"
 		  growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
+
 	    <headerToolbar>
 	      <Toolbar>
 	        <Title id="idTitle" text="{i18n>bookingDetails}"></Title>
@@ -26,7 +28,14 @@
 	        <Button icon="sap-icon://delete" press="onDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
-		  <!-- TODO: change All Text to i18N -->
+			<!-- <dragDropConfig>
+			<dnd:DragInfo
+				groupName="available2selected"
+				sourceAggregation="items" />
+			<dnd:DropInfo
+				groupName="selected2available"
+				drop="onDropAvailableProductsTable" />
+		</dragDropConfig> -->
 			<columns>
 				<Column>
 					<Label text="{i18n>date}"></Label>
@@ -44,7 +53,9 @@
 	        <Label text="{i18n>advance}"></Label>
 	      </Column>
 	      </columns>
+
 	      <items>
+
 	        <ColumnListItem>
 	          <cells>
 							<Text text="{
@@ -60,11 +71,13 @@
 	        </cells>
 	      </ColumnListItem>
 	    </items>
-			<layoutData><l:SplitterLayoutData size="48%" /></layoutData>
+			<layoutData><l:SplitterLayoutData size="47%" /></layoutData>
 		</Table>
 		<!-- <Button width="100%" text="Content 1">
 			<layoutData><l:SplitterLayoutData size="45%" /></layoutData>
 		</Button> -->
+
+
 		<Panel>
 				<FlexBox
 					height="auto"
@@ -82,6 +95,21 @@
 				</FlexBox>
 				<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
 			</Panel>
+
+			<!-- <VBox justifyContent="Center" class="sapUiTinyMarginBeginEnd">
+					<Button
+						class="sapUiTinyMarginBottom"
+						icon="sap-icon://navigation-right-arrow"
+						tooltip="Move to selected"
+						press="onRightArrowPress"
+						/>
+					<Button
+						icon="sap-icon://navigation-left-arrow"
+						tooltip="Move to available"
+						press="onLeftArrowPress"
+						/>
+				</VBox> -->
+
 		<!-- <FlexBox
 					alignItems="Center"
 					justifyContent="Center">
@@ -114,7 +142,7 @@
 	        <Button icon="sap-icon://delete" press="onBookingDlvDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
-		  <!-- TODO: change All Text to i18N -->
+
 			<columns>
 				<Column>
 					<Label text="{i18n>date}"></Label>
@@ -148,10 +176,11 @@
 	        </cells>
 	      </ColumnListItem>
 	    </items>
-			<layoutData><l:SplitterLayoutData size="48%" /></layoutData>
+			<layoutData><l:SplitterLayoutData size="47%" /></layoutData>
 		</Table>
 		<!-- <Button width="100%" text="Content 3">
 			<layoutData><l:SplitterLayoutData size="45%" minSize="200px" /></layoutData>
 		</Button> -->
+
 	</l:Splitter>
 </core:FragmentDefinition>

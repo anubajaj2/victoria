@@ -41,7 +41,7 @@
 									<core:ListItem text="{CustomerCode}"/>
 								</m:suggestionItems>
 								<m:layoutData>
-									<l:GridData span="XL2 L2 M3 S5"/>
+									<l:GridData span="XL2 L2 M2 S5"/>
 								</m:layoutData>
 							</m:Input>
 							<m:Text id="idCustName" enableSelection="false"/>
@@ -52,7 +52,7 @@
 							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
 								displayFormat="dd.MM.yyyy"  >
 								<m:layoutData>
-									<l:GridData span="XL2 L2 M3 S5"/>
+									<l:GridData span="XL2 L2 M2 S5"/>
 								</m:layoutData>
 							</m:DatePicker>
 
@@ -63,19 +63,19 @@
 					<f:FormElement label="{i18n>bookingDetails}">
 						<f:fields>
 
-							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}" value="{path:'local>/BookingDetail/Quantity'}" >
+							<m:Input type="Number" editable="true" id="idQnty" placeholder="{i18n>qty}"  >
 								<m:layoutData>
-									<l:GridData span="XL1 L1 M2 S2"/>
+									<l:GridData span="XL1 L1 M1 S2"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" value="{path:'local>/BookingDetail/Bhav'}">
+							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" >
 								<m:layoutData>
-									<l:GridData span="XL2 L2 M3 S3"/>
+									<l:GridData span="XL2 L2 M2 S3"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}" value="{path:'local>/BookingDetail/Advance'}">
+							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}">
 								<m:layoutData>
-									<l:GridData span="XL2 L2 M3 S3"/>
+									<l:GridData span="XL2 L2 M2 S3"/>
 								</m:layoutData>
 							</m:Input>
 						</f:fields>
@@ -85,10 +85,19 @@
 						<f:fields>
 							<m:Button text="Send" press="onSend">
 							<m:layoutData>
-								<l:GridData span="XL5 L5 M8 S8"/>
+								<l:GridData span="XL5 L5 M5 S8"/>
 							</m:layoutData>
 						</m:Button>
 						</f:fields>
+						<!-- <f:fields>
+						<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+						tooltip="fullscreen"
+						iconFirst="true" press="toggleFullScreen">
+						<m:layoutData>
+							<l:GridData span="XL1 L1 M1 S2"/>
+						</m:layoutData>
+						</m:Button>
+					  </f:fields> -->
 					</f:FormElement>
 				</f:formElements>
 				<f:layoutData>

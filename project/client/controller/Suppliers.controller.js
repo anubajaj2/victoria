@@ -3,12 +3,12 @@ sap.ui.define([
 		"victoria/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/ui/core/routing/History",
-		"victoria/models/formatter"
+		"victoria/models/formatter",
 	], function (
 		BaseController,
 		JSONModel,
 		History,
-		formatter
+		formatter,
 	) {
 		"use strict";
 
@@ -78,6 +78,11 @@ debugger;
 
 						var myData = this.getView().getModel("local").getProperty("/BookingDetail");
 						myData.Customer = oEvent.getParameter("selectedItem").getBindingContext().sPath.split("'")[1];
+
+						var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+						this.getView().byId("idTable").getBinding("items").filter(oFilter);
+						this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter);
+
 			},
 			onClear:function(){
 				debugger;
@@ -101,10 +106,12 @@ debugger;
 	 			 this.oEditDialog.open();
 				 if(oEvent === "idTitle"){
 					 var tabName = "idTable";
+					 sap.ui.getCore().byId("BookingDialog--save1").setVisible(true);
 					 sap.ui.getCore().byId("BookingDialog--save2").setVisible(false);
 				 }else{
 					 var tabName = "idBookingDlvTable";
 					 sap.ui.getCore().byId("BookingDialog--save1").setVisible(false);
+					 sap.ui.getCore().byId("BookingDialog--save2").setVisible(true);
 				 }
 	 			 debugger;
 	 			 var title = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[1].mProperties.text;
@@ -372,6 +379,8 @@ debugger;
 			},
 			onSend: function(){
 				debugger;
+
+
 				var that = this;
 				that.getView().setBusy(true);
 				var myData = this.getView().getModel("local").getProperty("/BookingDetail");
@@ -379,6 +388,12 @@ debugger;
 				myData.Quantity =  this.getView().byId("idQnty").getValue();
 				myData.Bhav =  this.getView().byId("idBhav").getValue();
 				myData.Advance =  this.getView().byId("idAdvance").getValue();
+
+				if(myData.Customer === "" || myData.BookingDate === "" || myData.Quantity === "" ||
+			     myData.Bhav === "" || myData.Advance ===""){
+						sap.m.MessageToast.show("Please fill all fields");
+						that.getView().setBusy(false);
+					}else{
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
 																	"POST", {}, myData, this)
 				.then(function(oData) {
@@ -389,6 +404,7 @@ debugger;
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});
+			 }
 			},
 			onUpdateFinished: function(oEvent){
 				debugger;
@@ -574,6 +590,13 @@ debugger;
 						}
 					}
 				});
+			},
+
+			toggleFullScreen:function(){
+				debugger;
+			  var btnId = "idFullScreenBtn";
+			  var headerId = "__component0---idSuppliers--BookingHeader";
+			  this.toggleUiTable(btnId,headerId)
 			},
 
 			_onBindingChange : function () {

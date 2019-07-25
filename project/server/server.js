@@ -375,8 +375,8 @@ Entry.find({where : {
 
 //Merging second Row
 sheet.mergeCells('A2:E2');
-sheet.getCell('E2').value = 'Customer Name : ' + name + '\\r\\n';
-sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+// sheet.getCell('E2').value = 'Customer Name : ' + name ;
+// sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
 
 //Code for getting current datetime
@@ -387,7 +387,9 @@ var datetime =  currentdate.getDate() + "."
 								+ currentdate.getHours() + ":"
 								+ currentdate.getMinutes() + ":"
 								+ currentdate.getSeconds();
-sheet.getCell('E2').value = datetime;
+sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime ;
+sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+//sheet.getCell('E2').value = datetime;
 sheet.getRow(2).font === { bold: true };
 
 //Coding to remove unwanted header

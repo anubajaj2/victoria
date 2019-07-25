@@ -1175,7 +1175,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
     debugger;
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
-        var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[i];
+        var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
@@ -1188,11 +1188,16 @@ if (selIdxs.length && selIdxs.length !== 0) {
       var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
       if (subtotalItem) {
         that.orderAmount = that.orderAmount - subtotalItem;
+        var orderAmountF = that.getIndianCurr(that.orderAmount);
+        that.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
       }
-        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-        oTableData.splice(selIdxs[i], 1);
-        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-          oTableData.push(
+    that.finalBal = that.orderAmount - that.deduction;
+    var finalBalF = that.getIndianCurr(that.finalBal);
+    that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBalF);
+    var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+    oTableData.splice(selIdxs[i], 1);
+    that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
+    oTableData.push(
             {
     					"OrderNo": "",
     					"itemNo": "",

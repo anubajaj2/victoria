@@ -779,7 +779,7 @@ sap.ui.define(
 			gSBhavK: 0,
 			ValueChangeHeader: function(oEvent) {
 
-				// this.setStatus('red');
+				this.setStatus('red');
 			},
 			// onTableExpand: function(oEvent) {
 			// 	var splitApp = sap.ui.getCore().byId("__xmlview0--idSplitApp");
@@ -1291,13 +1291,14 @@ sap.ui.define(
 				        that.getView().setBusy(false);
 				       })
 				  .catch(function(oError) {
+						debugger;
 				      that.getView().setBusy(false);
 				      var oPopover = that.getErrorMessage(oError);
 				                });
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
 					var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
-					var oBinding = oTableDetils.getBinding("rows");
+					var oBinding = oTableDetails.getBinding("rows");
 					var itemError = false;
 					var oCommit = false;
 					for (var i = 0; i < oBinding.getLength(); i++) {

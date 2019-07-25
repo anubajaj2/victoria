@@ -886,8 +886,10 @@ sap.ui.define([
 							var bhavF = seletedLine.Bhav / 10;
 							var weightF = seletedLine.Weight - seletedLine.KWeight;
 							var fineGold = (seletedLine.Tunch * weightF) / 100;
-							var fineGoldF = this.getIndianCurr(fineGold)
+							var subtotGold = parseFloat(fineGold).toFixed(3);
 							var subTotal = fineGold * bhavF;
+							var subTotalNoDecimal = parseFloat(subTotal).toFixed(0);
+							subTotalNoDecimal = this.getIndianCurr(subTotalNoDecimal);
 							var subTotF = this.getIndianCurr(subTotal)
 							if ((seletedLine.SubTotal) && (seletedLine.SubTotal !== "")) {
 							var currentSubTot = oFloatFormat.parse(seletedLine.SubTotal);
@@ -900,12 +902,13 @@ sap.ui.define([
 							if (path) {
 								seletedLine.SubTotal = subTotF;
 								if (viewId == 'idsalesws') {
+									seletedLine.SubTotal = subTotalNoDecimal;
 									if (subTotal) {
 										seletedLine.SubTotalG = 0
 										seletedLine.SubTotalS = 0;
 									}else{
 										seletedLine.SubTotal = 0.
-										seletedLine.SubTotalG = fineGold;
+										seletedLine.SubTotalG = subtotGold;
 										seletedLine.SubTotalS = 0;
 									}
 								}else {
@@ -916,10 +919,11 @@ sap.ui.define([
 								} else {
 									cells[cells.length - 1].setText(subTotF);
 									if (viewId == 'idsalesws') {
+										cells[cells.length - 1].setText(subTotalNoDecimal);
 										if (subTotF) {
 											cells[cells.length - 2].setText(0);
 										} else {
-											cells[cells.length - 2].setText(fineGoldF);
+											cells[cells.length - 2].setText(subtotGold);
 											cells[cells.length - 3].setText(0);
 										}
 									}else {
@@ -936,8 +940,10 @@ sap.ui.define([
 								var bhavF = seletedLine.Bhav / 1000;
 								var weightF = seletedLine.Weight - seletedLine.KWeight;
 								var fineSilver = (seletedLine.Tunch * weightF) / 100;
-								var fineSilverF = this.getIndianCurr(fineSilver)
+							  var subtotSilver = parseFloat(fineSilver).toFixed(2);
 								var subTotal = fineSilver * bhavF;
+								var subTotalNoDecimal = parseFloat(subTotal).toFixed(0);
+								subTotalNoDecimal = this.getIndianCurr(subTotalNoDecimal);
 								var subTotF = this.getIndianCurr(subTotal)
 								if ((seletedLine.SubTotal) && (seletedLine.SubTotal !== "")) {
 							  var currentSubTot = oFloatFormat.parse(seletedLine.SubTotal);
@@ -950,11 +956,12 @@ sap.ui.define([
 								if (path) {
 									seletedLine.SubTotal = subTotF;
 									if (viewId == 'idsalesws') {
+										seletedLine.SubTotal = subTotalNoDecimal;
 										if (subTotal) {
 											seletedLine.SubTotalG = 0
 											seletedLine.SubTotalS = 0;
 										}else{
-											seletedLine.SubTotalS = fineSilver;
+											seletedLine.SubTotalS = subtotSilver;
 											seletedLine.SubTotalG = 0;
 											seletedLine.SubTotal = 0;
 										}
@@ -967,11 +974,12 @@ sap.ui.define([
 									cells[cells.length - 1].setText(subTotF);
 
 									if (viewId == 'idsalesws') {
+										cells[cells.length - 1].setText(subTotalNoDecimal);
 										if (subTotal) {
 											cells[cells.length - 3].setText(0);
 											cells[cells.length - 2].setText(0);
 										} else {
-											cells[cells.length - 3].setText(fineSilver);
+											cells[cells.length - 3].setText(subtotSilver);
 											cells[cells.length - 2].setText(0);
 											cells[cells.length - 1].setText(0);
 										}
@@ -982,6 +990,8 @@ sap.ui.define([
 								}
 							} else if (seletedLine.Key === 'CASH') {
 								var subTotF = this.getIndianCurr(seletedLine.Bhav)
+								var wsSubTotF = parseFloat(seletedLine.Bhav).toFixed(0);
+								wsSubTotF = this.getIndianCurr(wsSubTotF);
 								if (this.deduction != "") {
 									if ((seletedLine.SubTotal) && seletedLine.SubTotal != "") {
 										var currentVal = oFloatFormat.parse(seletedLine.SubTotal);
@@ -1000,9 +1010,15 @@ sap.ui.define([
 								}
 								if (path) {
 									seletedLine.SubTotal = subTotF;
+									if (viewId == 'idsalesws') {
+										seletedLine.SubTotal = wsSubTotF;
+									}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
 									cells[cells.length - 1].setText(subTotF);
+									if (viewId == 'idsalesws') {
+											cells[cells.length - 1].setText(wsSubTotF);
+									}
 								}
 							}
 						},

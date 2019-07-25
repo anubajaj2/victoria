@@ -96,7 +96,7 @@
 					<m:Input id="IdMakingD" type="Number" value="{orderItems>MakingD}" maxLength="5" liveChange="ValueChange" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column width="60px" hAlign="Center" visible="{visModel>/rows1}">
+			<Column width="65px" hAlign="Center" visible="{visModel>/rows1}">
 				<label>
 					<m:Text text="{i18n>tunch}"></m:Text>
 				</label>
@@ -104,7 +104,7 @@
 					<m:Input id="IdTunch" type="Number" liveChange="ValueChange" value="{orderItems>Tunch}" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
-			<Column width="75px" hAlign="Center">
+			<Column width="80px" hAlign="Center">
 				<label>
 					<m:Text text="{i18n>remarks}"></m:Text>
 				</label>

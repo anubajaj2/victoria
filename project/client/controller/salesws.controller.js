@@ -1279,8 +1279,21 @@ sap.ui.define(
 			commitRecords: function(oEvent) {
 				if (this.getStatus() === 'red') {
 					var that = this;
+					var oHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
+				  var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 					//order header put
-					var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				                        "/WSOrderHeaders('"+ oId +"')", "PUT",
+				                         {},oHeader, this)
+				  .then(function(oData) {
+				    debugger;
+				    message.show("Order Saved");
+				        that.getView().setBusy(false);
+				       })
+				  .catch(function(oError) {
+				      that.getView().setBusy(false);
+				      var oPopover = that.getErrorMessage(oError);
+				                });
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
 					var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');

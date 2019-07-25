@@ -11,7 +11,7 @@ sap.ui.define(
 	function(BaseController, JSONModel, History, formatter,
 		MessageToast, Filter, MessageBox) {
 		"use strict";
-  
+
 		return BaseController.extend("victoria.controller.salesws", {
 			formatter: formatter,
 			onInit: function(oEvent) {
@@ -859,17 +859,17 @@ sap.ui.define(
 						}
 					});
 				} else if (saveStatus == "green") {
-					MessageBox.error("Are you sure you want to clear all entries?", {
-						title: "Alert!",
-						actions: ["Clear", MessageBox.Action.CANCEL],
-						onClose: function(oAction) {
-							if (oAction === "Clear") {
+					// MessageBox.error("Are you sure you want to clear all entries?", {
+					// 	title: "Alert!",
+					// 	actions: ["Clear", MessageBox.Action.CANCEL],
+					// 	onClose: function(oAction) {
+					// 		if (oAction === "Clear") {
 								that.clearScreen(oEvent);
 								that.setStatus('green');
-								MessageToast.show("Screen cleared successfully!");
-							}
-						}
-					});
+					// 			MessageToast.show("Screen cleared successfully!");
+					// 		}
+					// 	}
+					// });
 				}
 			},
 			onDelete: function(oEvent) {
@@ -1197,18 +1197,24 @@ sap.ui.define(
 				} //forloop
 				return oCommit;
 			},
-			getIndianCurr: function(value) {
-
-				if (value) {
-					var x = value;
-					x = x.toString();
-					var lastThree = x.substring(x.length - 3);
-					var otherNumbers = x.substring(0, x.length - 3);
-					if (otherNumbers != '')
-						lastThree = ',' + lastThree;
-					var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
-					return res;
-				}
+			getIndianCurr:function(value){
+			debugger;
+			if(value){
+			  var x=value;
+			  x=x.toString();
+			  var decimal = x.split('.',2)
+			  x = decimal[0];
+			  var lastThree = x.substring(x.length-3);
+			  var otherNumbers = x.substring(0,x.length-3);
+			  if(otherNumbers != '')
+			      lastThree = ',' + lastThree;
+			      if (decimal[1]) {
+			  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1];
+			}else {
+			  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+			}
+			  return res;
+			}
 			},
 			onSave: function(oEvent) {
 				var that = this;
@@ -1379,8 +1385,8 @@ sap.ui.define(
 				var headerId = "WSHeaderFragment--WSOrderHeader";
 				this.toggleUiTable(btnId, headerId)
 			},
-			finalCalculation: function(category, data, tablePath, cells, quantityOfStone) {
-
+			finalCalculation: function(category, data, tablePath, cells) {
+debugger;
 				var that = this;
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
 					(category.Type === 'Silver' && category.Category === "gm")) {
@@ -1395,11 +1401,12 @@ sap.ui.define(
 
 					//Making charges
 					var makingCharges = data.Making * weightF;
-					var stonevalue = quantityOfStone * data.MakingD;
+					var stonevalue = data.QtyD * data.MakingD;
 
 
 					if (makingCharges || stonevalue) {
 						var subTot = makingCharges + stonevalue;
+						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
@@ -1428,11 +1435,12 @@ sap.ui.define(
 					//Making charges
 					var makingCharges = data.Making * data.Qty;
 
-					var stonevalue = quantityOfStone * data.MakingD;
+					var stonevalue = data.QtyD * data.MakingD;
 
 
 					if (makingCharges || stonevalue) {
 						var subTot = makingCharges + stonevalue;
+						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
@@ -1456,6 +1464,7 @@ sap.ui.define(
 					//final charges on GS
 					if (charges) {
 						var subTot = charges + chargesD;
+						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
@@ -1472,6 +1481,7 @@ sap.ui.define(
 
 				if (category.Type === "Silver") {
 					var SubTotalS = weightF * data.Tunch / 100;
+					SubTotalS = parseFloat(SubTotalS).toFixed(2);
 					// var FSubTotalS = this.getIndianCurr(SubTotalS);
 					if (tablePath) {
 
@@ -1487,6 +1497,7 @@ sap.ui.define(
 				} else if (category.Type === "Gold") {
 
 					var SubTotalG = weightF * data.Tunch / 100;
+					SubTotalG = parseFloat(SubTotalG).toFixed(3);
 					// var FSubTotalG = this.getIndianCurr(SubTotalG);
 					if (tablePath) {
 
@@ -1500,11 +1511,11 @@ sap.ui.define(
 					}
 				};
 			},
-			PreCalc: function(data, fieldId, newValue, oFloatFormat, quantityOfStone) {
-
+			PreCalc: function(data, fieldId, newValue, oFloatFormat) {
+debugger;
 				var that = this;
 				that.setNewValue(data, fieldId, newValue);
-				that.getFloatValue(data, oFloatFormat, quantityOfStone);
+				that.getFloatValue(data, oFloatFormat);
 			},
 			setNewValue: function(data, fieldId, newValue) {
 				//get the weight
@@ -1553,7 +1564,7 @@ sap.ui.define(
 				}
 
 			},
-			getFloatValue: function(data, oFloatFormat, quantityOfStone) {
+			getFloatValue: function(data, oFloatFormat) {
 				if (data.Making === "") {
 					data.Making = 0;
 					// category.Making = 0;
@@ -1607,27 +1618,27 @@ sap.ui.define(
 				//Quantity D
 				if (data.QtyD === "") {
 					data.QtyD = 0;
-					quantityOfStone = 0;
+					// quantityOfStone = 0;
 				} else if (data.QtyD === 0) {
 					data.QtyD = 0;
-					quantityOfStone = 0;
+					// quantityOfStone = 0;
 				} else {
 					var qtyD = data.QtyD.toString();
 					data.QtyD = oFloatFormat.parse(qtyD);
-					quantityOfStone = data.QtyD;
+					// quantityOfStone = data.QtyD;
 				}
 
 				// Tunch
 				if (data.Tunch === "") {
 					data.Tunch = 0;
-					var tunch = 0;
+					// var tunch = 0;
 				} else if (data.Tunch === 0) {
 					data.Tunch = 0;
-					var tunch = 0;
+					// var tunch = 0;
 				} else {
 					var tunch = data.Tunch.toString();
 					data.Tunch = oFloatFormat.parse(tunch);
-					tunch = data.Tunch;
+					// tunch = data.Tunch;
 				}
 			},
 			Calculation: function(oEvent, tablePath, i) {
@@ -1665,8 +1676,8 @@ sap.ui.define(
 								category.Tunch = oData.Tunch;
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
-								that.PreCalc(data, fieldId, newValue, oFloatFormat, quantityOfStone);
-								that.finalCalculation(category, data, tablePath, cells, quantityOfStone);
+								that.PreCalc(data, fieldId, newValue, oFloatFormat);
+								that.finalCalculation(category, data, tablePath, cells);
 							})
 							.catch(function(oError) {
 								that.getView().setBusy(false);
@@ -1674,8 +1685,8 @@ sap.ui.define(
 							});
 					}
 				}
-				that.PreCalc(data, fieldId, newValue, oFloatFormat, quantityOfStone);
-				that.finalCalculation(category, data, tablePath, cells, quantityOfStone);
+				that.PreCalc(data, fieldId, newValue, oFloatFormat);
+				that.finalCalculation(category, data, tablePath, cells);
 				this.byId("IdMaking");
 				this.byId("IdMakingD");
 				this.byId("IdWeightD");

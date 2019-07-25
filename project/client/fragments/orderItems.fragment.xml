@@ -136,7 +136,7 @@
 				</label>
 				<template>
 					<!-- <m:Input value="{orderItems>SubTot}" editable="false"/> -->
-					<m:Text text="{orderItems>SubTot}" textAlign="Center" type="Number" editable="false"/>
+					<m:Text text="{orderItems>SubTotal}" textAlign="Center" type="Number" editable="false"/>
 				</template>
 			</Column>
 		</columns>

@@ -394,7 +394,7 @@ sheet.getRow(2).font === { bold: true };
 var header = Object.keys(Records[0].__data);
 debugger;
 header.splice(1,2);
-header.splice(4,8);
+header.splice(5,8);
 header.splice(1,0,"Silver");
 header.splice(4,1);
 
@@ -432,7 +432,7 @@ var totCash = 0;
 for (var i = 0; i < Records["length"]; i++) {
 var items = Object.values(Records[i].__data);
 items.splice(1,2);
-items.splice(4,8);
+items.splice(5,8);
 var s1 = items[3];
 items.splice(1,0,s1);
 items.splice(4,1);

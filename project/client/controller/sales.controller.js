@@ -125,55 +125,54 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 retailPrint:function(oData){
   debugger;
   var arrayRemoveFromPrint = [];
-  // var fieldsToHide = {hideName:""};
-  // arrayRemoveFromPrint.push(fieldsToHide);
+  var hideHeaderContents = [];
   var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
   var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
   var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
   if(orderDetails.Date){
     // var orderDate = formatter.getDateDDMMYYYYFormat(orderDetails.Date);
-    var orderDate = orderDetails.Date;
+    var orderDate = orderDetails.Date.toLocaleDateString();
   }
   if(orderDetails.Customer){
     var custId = orderDetails.Customer;
     var cusData = this.allMasterData.customers[custId];
   }
   var printDate = formatter.getFormattedDate(0);
-  var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title;
+  var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title,rTnC,rMarking;
   for(var i=0 ; i<oData.results.length ; i++){
     switch (oData.results[i].Name) {
       case "__component0---idPrint--idRCompName":
        if(oData.results[i].Value === "true"){
           rCompName = printCustHeadVal.CompName;
        }else{
-             arrayRemoveFromPrint.push('idRCompName','idRCompNameVal');
+             arrayRemoveFromPrint.push('idRCompName');
        }
         break;
       case "__component0---idPrint--idRAddress":
        if(oData.results[i].Value === "true"){
           rAddress = printCustHeadVal.Address;
        }else {
-         arrayRemoveFromPrint.push('idRAddress','idRAddressVal');
+         arrayRemoveFromPrint.push('idRAddress');
        }
        break;
-      case "__component0---idPrint--idRPhoneNumber":
+      case "__component0---idPrint--idContNo":
         if(oData.results[i].Value === "true"){
            rContNumber = printCustHeadVal.ContNumber;
         }else {
-          arrayRemoveFromPrint.push('idRPhoneNumber','idRPhoneNumberVal');
+          arrayRemoveFromPrint.push('idRPhoneNumber');
         }
         break;
       case "__component0---idPrint--idRGSTN":
         if(oData.results[i].Value === "true"){
            rGSTNumber = printCustHeadVal.GSTNumber;
         }else {
-          arrayRemoveFromPrint.push('idRGSTN','idRGSTNVal');
+          arrayRemoveFromPrint.push('idRGSTN');
         }
         break;
         case "__component0---idPrint--idRWeight":
         debugger;
           if(oData.results[i].Value === "false"){
-            arrayRemoveFromPrint.push('idRWeight','idRWeightVal');
+            arrayRemoveFromPrint.push('idRWeight');
           }
           break;
           case "__component0---idPrint--idREstimate":
@@ -185,71 +184,89 @@ retailPrint:function(oData){
             break;
             case "__component0---idPrint--idRSubTotal":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRSubTotal','idRSubTotalVal');
+              arrayRemoveFromPrint.push('idRSubTotal');
             }
             break;
             case "__component0---idPrint--idRBhav":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRBhav','idRBhavVal');
+              arrayRemoveFromPrint.push('idRBhav');
             }
             break;
             case "__component0---idPrint--idRMakingCharge":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRMakingCharge','idRMakingChargeVal');
+              arrayRemoveFromPrint.push('idRMakingCharge');
             }
             break;
             case "__component0---idPrint--idRTnC":
-            if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRTnC','idRTnCVal');
+            if(oData.results[i].Value === "true"){
+              rTnC = printCustHeadVal.TnC;
+            }else {
+                arrayRemoveFromPrint.push('idRTnC');
             }
             break;
+            case "__component0---idPrint--idRMarking":
+              if(oData.results[i].Value === "true"){
+                 rMarking = printCustHeadVal.Marking;
+              }else {
+                arrayRemoveFromPrint.push('idRMarking');
+              }
+              break;
             case "__component0---idPrint--idRQuantity":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRQuantity','idRQuantityVal');
+              arrayRemoveFromPrint.push('idRQuantity');
             }
             break;
             case "__component0---idPrint--idRReturnWeight":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRReturnWeight','idRReturnWeightVal');
+              arrayRemoveFromPrint.push('idRReturnWeight');
             }
             break;
             case "__component0---idPrint--idRReturnBhav":
             if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRReturnBhav','idRReturnBhavVal');
+              arrayRemoveFromPrint.push('idRReturnBhav');
             }
               break;
       default:
     }
   }
-  var oTableDetails = this.getView().byId('orderItemBases');
-  var oBinding = oTableDetails.getBinding("rows");
-
-var header = '<p style="text-align: center;">&nbsp;<h2>'+title+'</h2></p><hr />'+
-'<table style="width: 900px;">'+
+var header = '<h2 style="text-align: center;"><strong>'+title+'</strong></h2><hr />'+
+'<table style="display: inline-block; float: left; width: 450px; height: 100px;">'+
 '<tbody>'+
-'<tr display:blocked>'+
-'<td id="idRCompName" style="width: 160px;"><strong>Company Name</strong></td>'+
-'<td id="idRCompNameVal" style="width: 300px;">&nbsp;'+rCompName+'</td>'+
+'<tr>'+
+'<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
+'<td class="idRCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
+'<td class="idRAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
+'<td class="idRPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
+'<td class="idRGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<table style="display: inline-block; width: 500px; height: 100px;">'+
+'<tbody>'+
+'<tr>'+
 '<td style="width: 150px;"><strong>Customer Name</strong></td>'+
-'<td style="width: 270px;">&nbsp;'+orderHeader.CustomerName+'</td>'+
+'<td style="width: 350px;">'+orderHeader.CustomerName+'</td>'+
 '</tr>'+
 '<tr>'+
-'<td id="idRAddress" style="width: 160px;"><strong>Address</strong></td>'+
-'<td id="idRAddressVal" style="width: 300px;">&nbsp;'+rAddress+'</td>'+
 '<td style="width: 150px;"><strong>City</strong></td>'+
-'<td style="width: 270px;">&nbsp;'+cusData.City+'</td>'+
+'<td style="width: 350px;">'+cusData.City+'</td>'+
 '</tr>'+
 '<tr>'+
-'<td id="idRPhoneNumber" style="width: 160px;"><strong>Ph No</strong></td>'+
-'<td id="idRPhoneNumberVal" style="width: 300px;">&nbsp;'+rContNumber+'</td>'+
-'<td style="width: 150px;"><strong>Ph No</strong></td>'+
-'<td style="width: 270px;">&nbsp;'+cusData.MobilePhone+'</td>'+
+'<td style="width: 150px;"><strong>Customer Contact</strong></td>'+
+'<td style="width: 350px;">'+cusData.MobilePhone+'</td>'+
 '</tr>'+
 '<tr>'+
-'<td id="idRGSTN" style="width: 160px;"><strong>GSTN</strong></td>'+
-'<td id="idRGSTNVal" style="width: 300px;">&nbsp;'+rGSTNumber+'</td>'+
 '<td style="width: 150px;"><strong>Print Date</strong></td>'+
-'<td style="width: 270px;">&nbsp;'+printDate+'</td>'+
+'<td style="width: 350px;">'+printDate+'</td>'+
 '</tr>'+
 '</tbody>'+
 '</table>'+
@@ -265,74 +282,99 @@ var header = '<p style="text-align: center;">&nbsp;<h2>'+title+'</h2></p><hr />'
 '</tbody>'+
 '</table>'+
 '<hr />';
-// Prepare table
+
+// Prepare Order table header
 var table = '<p><h3>Orders:</h3></p>'+'<table style="width: 964px; height: 22px;" border="1px">'+
 // '<tbody>'+
 '<tr>'+
 '<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Product Name</h4></th>'+
-'<th id="idRQuantity" style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
-'<th id="idRWeight" style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
-'<th id="idRMakingCharge" style="width: 80px;"><h4 style="text-align: center;">Making</h4></th>'+
-'<th id="idRSubTotal" style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
+'<th class="idRQuantity" style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+'<th class="idRWeight" style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
+'<th class="idRMakingCharge" style="width: 80px;"><h4 style="text-align: center;">Making</h4></th>'+
+'<th class="idRSubTotal" style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
 '</tr>';
 // '</tbody>';
+// Order Table Line Items
+var oTableDetails = this.getView().byId('orderItemBases');
+var oBinding = oTableDetails.getBinding("rows");
 var totalQuantity = 0;
-var sumOfSubTotal = "";
+var sumOfSubTotal = 0.00;
 for (var i = 0; i < oBinding.getLength(); i++) {
   if(oBinding.oList[i].MaterialCode){
     totalQuantity = totalQuantity + oBinding.oList[i].Qty;
-    sumOfSubTotal = sumOfSubTotal + oBinding.oList[i].SubTot;
+    // sumOfSubTotal = sumOfSubTotal + oBinding.oList[i].SubTot;
   table += '<tr>';
   table += '<td style="width: 80px;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
-           '<td id="idRQuantityVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
-           '<td id="idRWeightVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
-           '<td id="idRMakingChargeVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
-           '<td id="idRSubTotalVal" style="width: 80px;">&nbsp;'+oBinding.oList[i].SubTot+'</td></tr>';
+           '<td class="idRQuantity" style="width: 80px;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
+           '<td class="idRWeight" style="width: 80px;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
+           '<td class="idRMakingCharge" style="width: 80px;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
+           '<td class="idRSubTotal" style="width: 80px;">&nbsp;'+oBinding.oList[i].SubTot+'</td></tr>';
         }
 }
+// table for order totals
   table += '<p>&nbsp;</p>'+
            '<table style="height: 5px;" width="964">'+
            '<tbody><tr style="height: 13.5px;">'+
-           '<td id="idRTotalVal" style="width: 100px; height: 13.5px;">&nbsp;<strong>Total</strong></td>'+
-           '<td style="width: 90px;">&nbsp;'+totalQuantity+'</td>'+
-           '<td style="width: 80px;">&nbsp;</td>'+
-           '<td style="width: 80px;">&nbsp;</td>'+
-           '<td style="width: 90px;">&nbsp;<strong> Sum(SubTotal)</strong></td>'+
-           '<td style="width: 80px; height: 13.5px;">&nbsp;'+sumOfSubTotal+'</td></tr>'+
+           '<td id="idRTotalVal" style="width: 100px; height: 13.5px;">&nbsp;<strong>totalQuantity</strong></td>'+
+           '<td style="width: 90px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+totalQuantity+'</td>'+
+           '<td style="width: 80px;">&nbsp;</td>'+'<td style="width: 80px;">&nbsp;</td>'+
+           '<td style="width: 90px;"><strong> Sum(SubTotal)</strong></td>'+
+           '<td style="width: 80px; height: 13.5px;">&nbsp;</td></tr>'+
            '<tr></tr>'
            '</tbody></table>';
+// Return table
 var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
 if (oReturns[0].Type){
  table += '<table style="width: 964px; height: 22px;" border="1px">'+
  '<tr>'+
  '<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
- '<th style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
- '<th id="idRReturnWeight" style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
- '<th id="idRReturnBhav" style="width: 80px;"><h4 style="text-align: center;">Return Bhav</h4></th>'+
- '<th style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
+ '<th class="idRReturnQuantity" style="width: 80px;"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+ '<th class="idRReturnWeight"   style="width: 80px;"><h4 style="text-align: center;">Weight</h4></th>'+
+ '<th class="idRReturnBhav" style="width: 80px;"><h4 style="text-align: center;">Return Bhav</h4></th>'+
+ '<th class="idRReturnSubTotal" style="width: 80px;"><h4 style="text-align: center;">Sub Total</h4></th>'+
  '</tr>'+
  '<p><h3>Returns:</h3></p>';
  for (var i = 0; i < oReturns.length; i++) {
    if(oReturns[i].Type){
      table += '<tr>';
      table += '<td  style="width: 80px;">&nbsp;'+oReturns[i].Type+'</td>'+
-              '<td  style="width: 80px;">&nbsp;'+oReturns[i].Qty+'</td>'+
-              '<td  id="idRReturnWeightVal" style="width: 80px;">&nbsp;'+oReturns[i].Weight+'</td>'+
-              '<td  id="idRReturnBhavVal" style="width: 80px;">&nbsp;'+oReturns[i].Bhav+'</td>'+
-              '<td  style="width: 80px;">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
+              '<td  class="idRReturnQuantity" style="width: 80px;">&nbsp;'+oReturns[i].Qty+'</td>'+
+              '<td  class="idRReturnWeight"   style="width: 80px;">&nbsp;'+oReturns[i].Weight+'</td>'+
+              '<td  class="idRReturnBhav"     style="width: 80px;">&nbsp;'+oReturns[i].Bhav+'</td>'+
+              '<td  class="idRReturnSubTotal" style="width: 80px;">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
    }
  }
+ table += '<table style="height: 5px;" width="964">'+
+          '<tbody><tr style="height: 13.5px;">'+
+          '<td id="idRFinalTotal" style="width: 100px; height: 13.5px;">&nbsp;<strong>Final Total</strong></td>'+
+          '<td style="width: 90px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'+
+          '<td style="width: 80px;">&nbsp;</td>'+'<td style="width: 80px;">&nbsp;</td>'+
+          '<td style="width: 90px;"></td>'+
+          '<td style="width: 80px; height: 13.5px;">&nbsp;</td></tr>'+
+          '<tr></tr>'
+          '</tbody></table>';
 }
-
-table += '</table>';
-
+table += '</table><hr/>';
+var footer = '<table style="height: 40px; width: 950px;">'+
+             '<tbody>'+
+             '<tr>'+
+             '<td class="idRTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
+             '<td class="idRTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td class="idRMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
+             '<td class="idRMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
+             '</tr>'+
+             '</tbody></table>';
+debugger;
   var myWindow = window.open("", "PrintWindow", "width=200,height=100");
-      myWindow.document.write(header+table);
-      for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
-        // myWindow.document.getElementById(arrayRemoveFromPrint[i]).style.visibility = "hidden";
-        myWindow.document.getElementById(arrayRemoveFromPrint[i]).style.display = "none";
+      myWindow.document.write(header+table+footer);
+      for (var i = 0; i < arrayRemoveFromPrint.length; i++){
+        var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
+        for(var j=0;j<coll.length;j++){
+          coll[j].style.display = "none";
+        }
       }
-
       myWindow.print();
       myWindow.stop();
 },

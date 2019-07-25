@@ -1117,6 +1117,8 @@ setWidths: function(settings){
 onDelete: function(oEvent) {
   var that = this;
 debugger;
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
 var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
@@ -1129,9 +1131,9 @@ if (selIdxs.length && selIdxs.length !== 0) {
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
     debugger;
-
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
+        var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[i];
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
@@ -1140,6 +1142,10 @@ if (selIdxs.length && selIdxs.length !== 0) {
         sap.m.MessageToast.show("Data Deleted Successfully");
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');
+      }
+      var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+      if (subtotalItem) {
+        that.orderAmount = that.orderAmount - subtotalItem;
       }
         var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
         oTableData.splice(selIdxs[i], 1);
@@ -1365,8 +1371,8 @@ var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
   if (priceF || makingCharges || stonevalue) {
   var subTot = (priceF + makingCharges + stonevalue);
   debugger;
-  if ((data.SubTot) && (data.SubTot != "")) {
-  var currentSubTot = oFloatFormat.parse(data.SubTot);
+  if ((data.SubTotal) && (data.SubTotal != "")) {
+  var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
 }else {
   this.orderAmount = subTot + this.orderAmount;
@@ -1380,7 +1386,7 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
     // gold price per gram
     if (tablePath) {
      debugger;
-    category.SubTot = subTotF;
+    category.SubTotal = subTotF;
     //capture if there is any change
     // this.noChange.flag = true;
     this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
@@ -1400,8 +1406,8 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
   if (charges) {
     var subTot = charges + chargesD;
     var subTotF =  this.getIndianCurr(subTot);
-    if ((data.SubTot) && (data.SubTot != "")) {
-    var currentSubTot = oFloatFormat.parse(data.SubTot);
+    if ((data.SubTotal) && (data.SubTotal != "")) {
+    var currentSubTot = oFloatFormat.parse(data.SubTotal);
     this.orderAmount = subTot + this.orderAmount - currentSubTot;
   }else {
     this.orderAmount = subTot + this.orderAmount;
@@ -1412,7 +1418,7 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
   this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   if (tablePath) {
    debugger;
-  category.SubTot = subTotF;
+  category.SubTotal = subTotF;
   // this.byId("Sales--idSaveIcon").setColor('red');
   this.noChange = true;
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
@@ -1461,8 +1467,8 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
   debugger;
-  if ((data.SubTot) && (data.SubTot != "")) {
-  var currentSubTot = oFloatFormat.parse(data.SubTot);
+  if ((data.SubTotal) && (data.SubTotal != "")) {
+  var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
 }else {
   this.orderAmount = subTot + this.orderAmount;
@@ -1474,7 +1480,7 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
 
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
-  category.SubTot = subTotF;
+  category.SubTotal = subTotF;
   this.noChange = true;
   // this.byId("Sales--idSaveIcon").setColor('red');
   this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);

@@ -773,6 +773,9 @@ sap.ui.define([
 							//WS order details
 						}
 						this.returnCalculation(oEvent, orderHeader, seletedLine);
+						this.finalBal = this.orderAmount - this.deduction;
+						var finalBal = this.getIndianCurr(this.finalBal);
+						this.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
 					},
 					setReturnNewValue: function(seletedLine, fieldId, newValue) {
 						//weight
@@ -979,12 +982,20 @@ sap.ui.define([
 								}
 							} else if (seletedLine.Key === 'CASH') {
 								var subTotF = this.getIndianCurr(seletedLine.Bhav)
+								if (this.deduction != "") {
+									if ((seletedLine.SubTotal) && seletedLine.SubTotal != "") {
+										var currentVal = oFloatFormat.parse(seletedLine.SubTotal);
+									this.deduction = this.deduction + seletedLine.Bhav - currentVal;
+								}else {
+									this.deduction = this.deduction + seletedLine.Bhav;
+								}
+								}else {
 								this.deduction = seletedLine.Bhav;
+								}
 								var deduction = this.deduction;
 								var deductionF = this.getIndianCurr(deduction);
 								if (viewId == 'idsalesws') {
 								}else {
-								debugger;
 								this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
 								}
 								if (path) {

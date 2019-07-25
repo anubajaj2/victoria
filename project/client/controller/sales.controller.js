@@ -610,7 +610,7 @@ onValidationItem:function(data,i)
   ((data.Type === 'Gold' && data.Category === "pcs") ||
   (data.Type === 'Silver' && data.Category ==="pcs")))
   {
-  if(data.Qty === "" || data.Qty === 0) {
+  if(data.Qty === "" || data.Qty === 0 || data.Qty === "0") {
     this.getView().setBusy(false);
     oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
     oTableDetails.getRows()[i].getCells()[4].setValueState("None");
@@ -627,7 +627,7 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
     (data.Type === 'Silver' && data.Category === "gm"))
     {
   //Weight check
-  if(data.Weight === "" || data.Weight === 0) {
+  if(data.Weight === "" || data.Weight === 0 || data.Weight === '0') {
   this.getView().setBusy(false);
   oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
   oTableDetails.getRows()[i].getCells()[2].setValueState("None");

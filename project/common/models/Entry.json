@@ -21,15 +21,15 @@
     },
     "Cash": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Gold": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Silver": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Remarks": {
       "type": "string",
@@ -37,11 +37,11 @@
     },
     "Weight": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Tunch": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "DueDate": {
       "type": "date",

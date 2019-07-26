@@ -506,8 +506,8 @@ debugger;
 		 this.byId("idTC").setText("");
 		 this.byId("idG").setText("");
 		 this.byId("idS").setText("");
-		 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
-															 "GET", {}, myData, this)
+		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+			// 												 "GET", {}, myData, this)
 		 this.byId("DueDateId").setDateValue( new Date());
      }
 

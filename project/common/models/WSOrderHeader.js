@@ -34,19 +34,40 @@ module.exports = function(WSOrderHeader) {
           }]
         },
         fields:{
-          "OrderNo": true
+          "OrderNo": true,
+          "id": true
         }
       })
       .then(function(orders) {
         //sort the orders in descending order created today
         if(orders.length > 0){
-          //if there are/is order created today sort and get next order no
 
+          //if there are/is order created today sort and get next order no
           orders.sort(function (a, b) {
 					  return b.OrderNo - a.OrderNo;
 					});
-          ctx.instance.OrderNo = orders[0].OrderNo + 1;
-          next();
+
+          //i am gonna create a new order only when the last order has at least one item inside
+          var oItem = ctx.Model.app.models.WSOrderItem;
+          oItem.findOne({where : {
+          				"OrderNo": orders[0].id.toString()
+          			}})
+          .then(function(record){
+                  if(record){
+                    //incrementing order no here --comes here when order has item
+                    ctx.instance.OrderNo = orders[0].OrderNo + 1;
+                    //telling system to go ahead and create new order with new no.
+                    //next() --> it will go to framework and create a new data record
+                    next();
+                  }else{
+                    //do not do anything
+                    //ctx.res(ctx.instance.__data);
+                    //return ctx.instance.__data;
+                    ctx.instance.OrderNo = orders[0].OrderNo;
+                    ctx.instance.__data.id = orders[0].id.toString();
+                    next(new Error("last order already empty use same:" + orders[0].id));
+                  }
+                });
         }else{
           //assign a fresh order no
           //for wholesale, this becomes 251

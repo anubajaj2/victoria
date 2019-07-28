@@ -9,15 +9,18 @@
   "properties": {
     "OrderNo": {
       "type": "number",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Date": {
       "type": "date",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Customer": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "null"
     },
     "Goldbhav":{
       "type": "number",

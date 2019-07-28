@@ -1022,8 +1022,40 @@ sap.ui.define(
 							that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
 						})
 						.catch(function(oError) {
+							debugger;
+							if (oError.responseText.includes("last order already empty use same")) {
+								var id = oError.responseText.split(':')[2];
+								if (id) {
+									that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+																						"/WSOrderHeaders(" + id + ")",
+																						"GET", {}, {}, that)
+									.then(function(oData) {
+										debugger;
+										that.getView().setBusy(false);
+							//create the new json model and get the order id no generated
+							var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
+							oOrderHeader.OrderId=oData.id;
+							oOrderHeader.OrderNo=oData.OrderNo;
+							debugger;
+							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
+							that.getView().getModel('local').setProperty('/WSOrderHeader',oOrderHeader);
+							sap.m.MessageToast.show(oBundle, {
+								duration: 3000,                  // default
+								width: "15em",                   // default
+								});
+									})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
+								}else {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								}
+							}else {
 							that.getView().setBusy(false);
 							var oPopover = that.getErrorMessage(oError);
+						}
 						});
 				}
 			},

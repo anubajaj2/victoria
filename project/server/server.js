@@ -151,13 +151,13 @@ app.start = function() {
 
 			//Merging second Row
 			sheet.mergeCells('A2:D2');
-			sheet.getCell('D2').value = 'Customer Name : ' + name + ' - ' + city + ' - ' + Ggroup;
+			sheet.getCell('D2').value =  name + ' - ' + city + ' - ' + Ggroup;
 			sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
 
 			//Code for getting current datetime
 			var currentdate = new Date();
-			var datetime = "Report Date: " + currentdate.getDate() + "."
+			var datetime =  currentdate.getDate() + "."
 			                + (currentdate.getMonth()+1)  + "."
 			                + currentdate.getFullYear() + " / "
 			                + currentdate.getHours() + ":"

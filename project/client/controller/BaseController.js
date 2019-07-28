@@ -775,7 +775,7 @@ sap.ui.define([
 						this.returnCalculation(oEvent, orderHeader, seletedLine);
 						this.finalBal = this.orderAmount - this.deduction;
 						var finalBal = this.getIndianCurr(this.finalBal);
-						this.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
+						this.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 					},
 					setReturnNewValue: function(seletedLine, fieldId, newValue) {
 						//weight
@@ -913,7 +913,7 @@ sap.ui.define([
 									}
 								}else {
 									debugger;
-									this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+									this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 								}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
@@ -928,7 +928,7 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
-										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 								} //path check
 							} else if (seletedLine.Key === 'OS' ||
@@ -967,7 +967,7 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
-										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
 								} else {
@@ -985,7 +985,7 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
-										this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 								}
 							} else if (seletedLine.Key === 'CASH') {
@@ -1006,7 +1006,7 @@ sap.ui.define([
 								var deductionF = this.getIndianCurr(deduction);
 								if (viewId == 'idsalesws') {
 								}else {
-								this.getView().getModel('local').setProperty('/orderHeader/Deduction',deductionF);
+								this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 								}
 								if (path) {
 									seletedLine.SubTotal = subTotF;

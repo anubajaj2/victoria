@@ -615,6 +615,7 @@ orderCheck:function(){
       if (oError.responseText.includes("last order already empty use same")) {
         var id = oError.responseText.split(':')[2];
         if (id) {
+          var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
           that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                                     "/OrderHeaders(" + id + ")",
                                     "GET", {}, {}, that)
@@ -623,10 +624,14 @@ orderCheck:function(){
             that.getView().setBusy(false);
       //create the new json model and get the order id no generated
       var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
-      oOrderHeader.OrderId=oData.id;
+      var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+      // oOrderHeader.Id=oData.id;
       oOrderHeader.OrderNo=oData.OrderNo;
+      oOrderHeader.Customer = customer;
+      oOrderId.OrderId=oData.id;
+      oOrderId.OrderNo=oData.OrderNo;
       that.headerNoChange = true;
-      that.getView().getModel('local').setProperty('/OrderId',oOrderHeader);
+      that.getView().getModel('local').setProperty('/OrderId',oOrderId);
       that.getView().getModel('local').setProperty('/orderHeader',oOrderHeader);
       var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
       sap.m.MessageToast.show(oBundle, {
@@ -820,7 +825,7 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         that.getView().getModel("returnModel").setProperty("/TransData",allItems);
         that.getView().setBusy(false);
   var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSave");
-        sap.m.MessageToast.show(dataSave);
+        sap.m.MessageToast.show(oBundle);
         })
     .catch(function(oError){
       that.getView().setBusy(false);
@@ -1101,7 +1106,7 @@ onClearScreen:function(oEvent){
   if (saveStatus == "red") {
 var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearConfirmation");
   // sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
-  sap.m.MessageBox.error(clearConfirmation, {
+  sap.m.MessageBox.error(oBundle, {
        title: "Alert!",
        actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
        onClose: function(oAction) {
@@ -1110,7 +1115,7 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clear
            that.byId("Sales--idSaveIcon").setColor('green');
 var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
            // MessageToast.show("Screen cleared successfully!");
-        MessageToast.show(clearSucess);
+        MessageToast.show(oBundle);
          } else if (oAction === "Save & Clear") {
            if (that.onSave(oEvent)) {
              that.onClear(oEvent,id);
@@ -1128,8 +1133,8 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clear
     //        if (oAction === "Clear") {
   that.onClear(oEvent,id);
   that.byId("Sales--idSaveIcon").setColor('green');
-  // var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
-  MessageToast.show("Screen cleared successfully!");
+  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
+  MessageToast.show(oBundle);
          //   }
          //   }
          // });
@@ -1156,9 +1161,6 @@ oHeader.GoldBhav22=0;
 oHeader.GoldBhav20=0;
 oHeader.GoldBhav=0;
 oHeader.SilverBhav=0;
-oHeader.TotalOrderValue="";
-oHeader.Deduction="";
-oHeader.FinalBalance="";
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
@@ -1232,11 +1234,11 @@ if (selIdxs.length && selIdxs.length !== 0) {
         if (subtotalItem) {
           that.orderAmount = that.orderAmount - subtotalItem;
           var orderAmountF = that.getIndianCurr(that.orderAmount);
-          that.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
         }
       that.finalBal = that.orderAmount - that.deduction;
       var finalBalF = that.getIndianCurr(that.finalBal);
-      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBalF);
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
@@ -1467,30 +1469,41 @@ var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
   //Making charges
   var makingCharges  = data.Making * weightF;
   var stonevalue = quantityOfStone * data.MakingD;
-  if (priceF || makingCharges || stonevalue) {
+  if ((priceF || makingCharges || stonevalue) ||
+   (priceF === 0 || makingCharges === 0 || stonevalue ===0) )
+   {
   var subTot = (priceF + makingCharges + stonevalue);
   debugger;
   if ((data.SubTotal) && (data.SubTotal != "")) {
   var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
 }else {
+  data.SubTotal = 0;
   this.orderAmount = subTot + this.orderAmount;
   var orderAmount = this.orderAmount;
 }
 var orderAmount = this.orderAmount;
 var orderAmount = orderAmount.toString();
 var orderAmountF = this.getIndianCurr(orderAmount);
-this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
   var subTotF =  this.getIndianCurr(subTot);
     // gold price per gram
     if (tablePath) {
      debugger;
-    category.SubTotal = subTotF;
+     if (subTotF) {
+     category.SubTotal = subTotF;
+   }else {
+     category.SubTotal = 0;
+   }
     //capture if there is any change
     // this.noChange.flag = true;
     this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
     }else {
-    cells[cells.length - 1].setText(subTotF);
+      if (subTotF != "") {
+          cells[cells.length - 1].setText(subTotF);
+      }else {
+        cells[cells.length - 1].setText('0');
+      }
     }
   }else {
     cells[cells.length - 1].setText(0)
@@ -1514,7 +1527,7 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
   var orderAmount = this.orderAmount;
   var orderAmount = orderAmount.toString();
   var orderAmountF = this.getIndianCurr(orderAmount);
-  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+  this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
   if (tablePath) {
    debugger;
   category.SubTotal = subTotF;
@@ -1575,7 +1588,7 @@ this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orde
 var orderAmount = this.orderAmount;
 var orderAmount = orderAmount.toString();
 var orderAmountF = this.getIndianCurr(orderAmount);
-this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
 
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
@@ -1654,7 +1667,7 @@ Calculation:function(oEvent,tablePath,i){
       debugger;
       that.finalBal = that.orderAmount - that.deduction;
       var finalBal = that.getIndianCurr(that.finalBal);
-      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
       })
       .catch(function(oError) {
         that.getView().setBusy(false);
@@ -1673,7 +1686,7 @@ Calculation:function(oEvent,tablePath,i){
 debugger;
 that.finalBal = that.orderAmount - that.deduction;
 var finalBal = that.getIndianCurr(that.finalBal);
-that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
+that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");
   this.byId("IdMakingD");

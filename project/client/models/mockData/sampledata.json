@@ -190,9 +190,6 @@
 		"GoldBhav20":0,
 		"GoldBhav":0,
 	  "SilverBhav":0,
-		"TotalOrderValue":"",
-		"Deduction":"",
-		"FinalBalance":"",
 		"CreatedBy":"",
 		"CreatedOn":"",
 		"ChangedBy":"",
@@ -222,7 +219,10 @@
 	},
 	"orderHeaderTemp":{
 	  "CustomerId": "",
-		"CustomerName": ""
+		"CustomerName": "",
+		"FinalBalance":"",
+		"Deduction":"",
+		"TotalOrderValue":""
 	},
 	"kachhiHeaderTemp":{
 	  "CustomerId": "",

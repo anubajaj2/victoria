@@ -3,6 +3,8 @@ sap.ui.define([
   "victoria/controller/BaseController",
   "sap/ui/model/json/JSONModel",
   "victoria/models/formatter",
+  "sap/ui/model/resource/ResourceModel",
+  "sap/ui/core/message/Message",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "sap/m/Dialog"
@@ -31,6 +33,7 @@ onInit: function (oEvent) {
 _onRouteMatched:function(oEvent){
   var that = this;
   var id = "";
+  // set i18n model on view
   this.onClear(oEvent,id);
   this.getPrintCustHeaderData();
 },
@@ -598,9 +601,8 @@ orderCheck:function(){
   orderData.Date = this.getView().byId("Sales--DateId").getValue();
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                             "POST", {}, orderData, this)
-               .then(function(oData) {
-                that.getView().setBusy(false);
-
+    .then(function(oData) {
+        that.getView().setBusy(false);
   //create the new json model and get the order id no generated
     var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
     oOrderId.OrderId=oData.id;
@@ -610,10 +612,42 @@ orderCheck:function(){
     that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
              })
     .catch(function(oError) {
+      debugger;
+      if (oError.responseText.includes("last order already empty use same")) {
+        var id = oError.responseText.split(':')[2];
+        if (id) {
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                                    "/OrderHeaders(" + id + ")",
+                                    "GET", {}, {}, that)
+          .then(function(oData) {
+            debugger;
+            that.getView().setBusy(false);
+      //create the new json model and get the order id no generated
+      var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+      oOrderHeader.OrderId=oData.id;
+      oOrderHeader.OrderNo=oData.OrderNo;
+      debugger;
+      var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("message");
+      that.getView().getModel('local').setProperty('/orderHeader',oOrderHeader);
+      sap.m.MessageToast.show(oBundle, {
+        duration: 3000,                  // default
+        width: "15em",                   // default
+        });
+          })
+          .catch(function(oError) {
+            that.getView().setBusy(false);
+            var oPopover = that.getErrorMessage(oError);
+          });
+        }else {
+          that.getView().setBusy(false);
+          var oPopover = that.getErrorMessage(oError);
+        }
+      }else {
       that.getView().setBusy(false);
       var oPopover = that.getErrorMessage(oError);
-          		});
-            }
+    }
+  });
+}//Else
 },
 onValidation: function() {
   var that = this;
@@ -647,6 +681,12 @@ onValidationItem:function(data,i)
 // //---all errors are false
   var returnError = false;
   debugger;
+  if ((data.Weight) && (data.WeightD) &&
+      (data.WeightD > data.Weight)){
+    oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+  }else {
+    oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+  }
   //Quantity
   if ((data.Type === 'GS') ||
   ((data.Type === 'Gold' && data.Category === "pcs") ||
@@ -1177,6 +1217,15 @@ if (selIdxs.length && selIdxs.length !== 0) {
       if (oSourceCall === 'orderItemBases') {
         var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+        var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+        if (subtotalItem) {
+          that.orderAmount = that.orderAmount - subtotalItem;
+          var orderAmountF = that.getIndianCurr(that.orderAmount);
+          that.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
+        }
+      that.finalBal = that.orderAmount - that.deduction;
+      var finalBalF = that.getIndianCurr(that.finalBal);
+      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBalF);
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
@@ -1185,15 +1234,6 @@ if (selIdxs.length && selIdxs.length !== 0) {
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');
       }
-      var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-      if (subtotalItem) {
-        that.orderAmount = that.orderAmount - subtotalItem;
-        var orderAmountF = that.getIndianCurr(that.orderAmount);
-        that.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
-      }
-    that.finalBal = that.orderAmount - that.deduction;
-    var finalBalF = that.getIndianCurr(that.finalBal);
-    that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBalF);
     var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
     oTableData.splice(selIdxs[i], 1);
     that.getView().getModel("orderItems").setProperty("/itemData",oTableData);

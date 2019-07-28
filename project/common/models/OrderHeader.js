@@ -2,7 +2,7 @@
 
 module.exports = function(OrderHeader) {
   debugger;
-  OrderHeader.observe('before save', function computePercentage(ctx, next) {
+  OrderHeader.observe('before save', function computePercentage(ctx,next) {
     if (ctx.instance) {
       //ctx.instance.OrderNo = 990;
       //Read only max order no for given, if order is found, +1 and create
@@ -61,8 +61,12 @@ module.exports = function(OrderHeader) {
                     next();
                   }else{
                     //do not do anything
+                    debugger;
+                    // return next();
                     //ctx.res(ctx.instance.__data);
                     //return ctx.instance.__data;
+                    ctx.instance.OrderNo = orders[0].OrderNo;
+                    ctx.instance.__data.id = orders[0].id.toString();
                     next(new Error("last order already empty use same:" + orders[0].id));
                   }
                 });

@@ -393,12 +393,14 @@ sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 sheet.getRow(2).font === { bold: true };
 
 //Coding to remove unwanted header
-var header = Object.keys(Records[0].__data);
+//var header = Object.keys(Records[0].__data);
 debugger;
-header.splice(1,2);
-header.splice(5,8);
-header.splice(1,0,"Silver");
-header.splice(4,1);
+// header.splice(1,2);
+// header.splice(5,8);
+// header.splice(1,0,"Silver");
+// header.splice(4,1);
+
+var header = ["Date","Silver","Cash","Gold","Remarks"];
 
 sheet.addRow().values = header;
 
@@ -430,157 +432,132 @@ fgColor:{argb:'A9A9A9'}
 };
 
 var totCash = 0;
+var totalB = 0;
+var totalC = 0;
+var totalD = 0;
+debugger;
 //Coding to remove unwanted items or Rows
 for (var i = 0; i < Records["length"]; i++) {
-var items = Object.values(Records[i].__data);
-items.splice(1,2);
-items.splice(5,8);
-var s1 = items[3];
-items.splice(1,0,s1);
-items.splice(4,1);
-// totCash = totCash + items[2];
-// items[2] = items[2] + "/-";
-sheet.addRow().values = items;
+var items = Records[i].__data;
+var item = [items["Date"],items["Silver"],items["Cash"],items["Gold"],items["Remarks"]];
+totalB = totalB + items["Silver"];
+totalC = totalC + items["Cash"];
+totalD = totalD + items["Gold"];
+sheet.addRow().values = item;
 }
 
 
 //Coding for formula and concatenation in the last line
 var totText = Records["length"] + 5;
 var totCol = totText - 1;
-sheet.getCell('A' + totText).value = "Total";
+sheet.getCell('A' + totText).value = "TOTAL";
 // sheet.getCell('B' + totText).value = { formula: '=CONCATENATE(SUM(B4:B'+totCol+')," gm")' };
 // sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(SUM(C4:C'+totCol+')," /-")' };
 // //sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(' + totCash + '," /-")' };
 // sheet.getCell('D' + totText).value = { formula: '=CONCATENATE(SUM(D4:D'+totCol+')," gm")' };
 //sheet.getCell('E' + totText).value = { formula: '=CONCATENATE(SUM(E4:E'+totCol+')," gm")' };
 
-sheet.getCell('B' + totText).value = { formula: '=SUM(B4:B'+totCol+')' };
-sheet.getCell('C' + totText).value = { formula: '=SUM(C4:C'+totCol+')' };
-//sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(' + totCash + '," /-")' };
-sheet.getCell('D' + totText).value = { formula: '=SUM(D4:D'+totCol+')' };
+// sheet.getCell('B' + totText).value = { formula: '=CONCATENATE('+ totalB + '," gm")' };
+// sheet.getCell('C' + totText).value = { formula: '=CONCATENATE(' + totalC + '," /-")' };
+// sheet.getCell('D' + totText).value = { formula: '=CONCATENATE('+ totalD + '," gm")' };
 
-
-// if(sheet.getCell('B' + totText).value == ''){
-// 	sheet.getCell('B' + totText).font = {
-// 		color:{argb:'00FFFF'},
-// 		bold:true
-// 	};
-// }else if (sheet.getCell('B' + totText).value < 0) {
-// 	sheet.getCell('B' + totText).font = {
-// 		color:{argb:'FF0000'},
-// 		bold:true
-// };
-// }else {
-// 	sheet.getCell('B' + totText).font = {
-// 		color:{argb:'000000'},
-// 		bold:true
-// };
-// }
-//
-// if(sheet.getCell('C' + totText).value == ''){
-// 	sheet.getCell('C' + totText).font = {
-// 		color:{argb:'00FFFF'},
-// 		bold:true
-// 	};
-// }else if (sheet.getCell('C' + totText).value < 0) {
-// 	sheet.getCell('C' + totText).font = {
-// 		color:{argb:'FF0000'},
-// 		bold:true
-// };
-// }else {
-// 	sheet.getCell('C' + totText).font = {
-// 		color:{argb:'000000'},
-// 		bold:true
-// };
-// }
-//
-// if(sheet.getCell('D' + totText).value == ''){
-// 	sheet.getCell('D' + totText).font = {
-// 		color:{argb:'00FFFF'},
-// 		bold:true
-// 	};
-// }else if (sheet.getCell('D' + totText).value < 0) {
-// 	sheet.getCell('D' + totText).font = {
-// 		color:{argb:'FF0000'},
-// 		bold:true
-// };
-// }else {
-// 	sheet.getCell('D' + totText).font = {
-// 		color:{argb:'000000'},
-// 		bold:true
-// };
-// }
+sheet.getCell('B' + totText).value = totalB ;
+sheet.getCell('C' + totText).value = totalC ;
+sheet.getCell('D' + totText).value = totalD ;
 
 
 sheet.getCell('A' + totText).fill = {
 	type: 'pattern',
 	pattern:'solid',
-	fgColor:{argb:'A9A9A9'}
+	fgColor:{argb:'00FFFF'},
+	bgColor:{argb:'00FFFF'}
 };
-sheet.getCell('B' + totText).fill = {
-	type: 'pattern',
-	pattern:'solid',
-	fgColor:{argb:'A9A9A9'}
+sheet.getCell('A' + totText).font = {
+	color:{argb:'0000FF'},
+	bold:true
 };
-sheet.getCell('C' + totText).fill = {
-	type: 'pattern',
-	pattern:'solid',
-	fgColor:{argb:'A9A9A9'}
-};
-sheet.getCell('D' + totText).fill = {
-	type: 'pattern',
-	pattern:'solid',
-	fgColor:{argb:'A9A9A9'}
-};
-sheet.getCell('E' + totText).fill = {
-	type: 'pattern',
-	pattern:'solid',
-	fgColor:{argb:'A9A9A9'}
-};
+
 
 
 //Coding for rows and column border
 for(var j=1; j<=totText; j++){
 ////
 if(sheet.getCell('B' + (j)).value == ''){
-	sheet.getCell('B' + (j)).font = {
-		color:{argb:'00FFFF'}
+	sheet.getCell('B' + (j)).fill = {
+		type: 'pattern',
+		pattern:'solid',
+		bgColor:{argb:'00FFFF'},
+		fgColor:{argb:'00FFFF'}
 	};
+
 }else if (sheet.getCell('B' + (j)).value < 0) {
 	sheet.getCell('B' + (j)).font = {
-		color:{argb:'FF0000'}
+		color:{argb:'FF0000'},
+		bold:true
 };
 }else {
 	sheet.getCell('B' + (j)).font = {
-		color:{argb:'000000'}
+		color:{argb:'000000'},
+		bold:true
 };
 }
 
 if(sheet.getCell('C' + (j)).value == ''){
-	sheet.getCell('C' + (j)).font = {
-		color:{argb:'00FFFF'}
+	sheet.getCell('C' + (j)).fill = {
+		type: 'pattern',
+		pattern:'solid',
+		bgColor:{argb:'00FFFF'},
+		fgColor:{argb:'00FFFF'}
 	};
+	if(j>3 && j<=(totText-2)){
+	var valC = sheet.getCell('C' + (j)).value ;
+	sheet.getCell('C' + (j)).value = valC + '/-' ;
+	sheet.getCell('C'  + (j)).alignment = { vertical: 'bottom', horizontal: 'right' };
+	}
+
+
 }else if (sheet.getCell('C' + (j)).value < 0) {
+	debugger;
 	sheet.getCell('C' + (j)).font = {
-		color:{argb:'FF0000'}
+		color:{argb:'FF0000'},
+		bold:true
 };
+if(j>3 && j<=(totText-2)){
+var valC = sheet.getCell('C' + (j)).value ;
+sheet.getCell('C' + (j)).value = valC + '/-' ;
+sheet.getCell('C'  + (j)).alignment = { vertical: 'bottom', horizontal: 'right' };
+}
+
 }else {
 	sheet.getCell('C' + (j)).font = {
-		color:{argb:'000000'}
+		color:{argb:'000000'},
+		bold:true
 };
+if(j>3 && j<=(totText-2)){
+var valC = sheet.getCell('C' + (j)).value ;
+sheet.getCell('C' + (j)).value = valC + '/-' ;
+sheet.getCell('C'  + (j)).alignment = { vertical: 'bottom', horizontal: 'right' };
+}
+
 }
 
 if(sheet.getCell('D' + (j)).value == ''){
-	sheet.getCell('D' + (j)).font = {
-		color:{argb:'00FFFF'}
+	sheet.getCell('D' + (j)).fill = {
+		type: 'pattern',
+		pattern:'solid',
+		bgColor:{argb:'00FFFF'},
+		fgColor:{argb:'00FFFF'}
 	};
+
 }else if (sheet.getCell('D' + (j)).value < 0) {
 	sheet.getCell('D' + (j)).font = {
-		color:{argb:'FF0000'}
+		color:{argb:'FF0000'},
+		bold:true
 };
 }else {
 	sheet.getCell('D' + (j)).font = {
-		color:{argb:'000000'}
+		color:{argb:'000000'},
+		bold:true
 };
 }
 
@@ -618,6 +595,31 @@ bottom: {style:'thin'},
 right: {style:'thin'}
 };
 }
+
+
+if (totalB == 0) {
+	sheet.getCell('B' + totText).value = totalB + '.00 gm';
+}else {
+	sheet.getCell('B' + totText).value = totalB + 'gm';
+}
+
+if (totalD == 0) {
+	sheet.getCell('D' + totText).value = totalD + '.00 gm';
+}else {
+	sheet.getCell('D' + totText).value = totalD + 'gm';
+}
+
+sheet.getCell('B'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+sheet.getCell('C' + totText).value = totalC + '/-';
+sheet.getCell('C'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+sheet.getCell('D'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+
+sheet.getCell('B' + totText).font = {
+	color:{argb:'800000'}
+};
+sheet.getCell('D' + totText).font = {
+	color:{argb:'800000'}
+};
 
 //Coding to download in a folder
 	var tempFilePath = 'C:\\dex\\' + reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth()+1)

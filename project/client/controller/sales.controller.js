@@ -3,8 +3,6 @@ sap.ui.define([
   "victoria/controller/BaseController",
   "sap/ui/model/json/JSONModel",
   "victoria/models/formatter",
-  "sap/ui/model/resource/ResourceModel",
-  "sap/ui/core/message/Message",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "sap/m/Dialog"
@@ -539,7 +537,8 @@ debugger;
 if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
 {
   var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
-  sap.m.MessageBox.confirm("Are you sure to delete the unsaved Data?",{
+  var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("deleteUnsaveData");
+  sap.m.MessageBox.confirm(oBundle,{
   title: "Confirm",                                    // default
   // id:id,                                               // Id
   styleClass: "",                                      // default
@@ -626,9 +625,10 @@ orderCheck:function(){
       var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
       oOrderHeader.OrderId=oData.id;
       oOrderHeader.OrderNo=oData.OrderNo;
-      debugger;
-      var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("message");
+      that.headerNoChange = true;
+      that.getView().getModel('local').setProperty('/OrderId',oOrderHeader);
       that.getView().getModel('local').setProperty('/orderHeader',oOrderHeader);
+      var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
       sap.m.MessageToast.show(oBundle, {
         duration: 3000,                  // default
         width: "15em",                   // default
@@ -658,8 +658,9 @@ onValidation: function() {
   if(oHeader.OrderNo === 0 ||
      oHeader.OrderNo === ""){
     retVal = false;
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
       MessageBox.show(
-        "Please create Order Number first", {
+        oBundle, {
           icon: MessageBox.Icon.ERROR,
           title: "Error",
           actions: [MessageBox.Action.OK],
@@ -818,7 +819,8 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         }//for loop
         that.getView().getModel("returnModel").setProperty("/TransData",allItems);
         that.getView().setBusy(false);
-        sap.m.MessageToast.show("Data Saved Successfully");
+  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSave");
+        sap.m.MessageToast.show(dataSave);
         })
     .catch(function(oError){
       that.getView().setBusy(false);
@@ -934,7 +936,8 @@ this.commitRecords(oEvent);
 }
 //error if no valid entry
 if (valueCheck === false) {
-  sap.m.MessageBox.error("Please Enter Valid entries before save",{
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("validEntries");
+  sap.m.MessageBox.error(oBundle,{
   title: "Error",                                    // default
   styleClass: "",                                      // default
   initialFocus: null,                                  // default
@@ -963,7 +966,8 @@ commitRecords:function(oEvent){
                          {},oHeader, this)
   .then(function(oData) {
     debugger;
-    message.show("Order Saved");
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
+    message.show(oBundle);
         that.getView().setBusy(false);
        })
   .catch(function(oError) {
@@ -1060,7 +1064,8 @@ if (data.itemNo) {
     }//for loop
     that.getView().getModel("orderItems").setProperty("/itemData",allItems);
     that.getView().setBusy(false);
-    sap.m.MessageToast.show("Data Saved Successfully");
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSucess");
+    sap.m.MessageToast.show(oBundle);
     })
   .catch(function(oError){
   that.getView().setBusy(false);
@@ -1076,7 +1081,8 @@ that.onReturnSave(oEvent,oId,oCommit,oHeader);
 that.byId("Sales--idSaveIcon").setColor('green');
 }//if status is red only than commit
 else {
-  sap.m.MessageBox.error("No Change in data records",{
+var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataNoChnage");
+  sap.m.MessageBox.error(oBundle,{
   title: "Error",                                    // default
   styleClass: "",                                      // default
   initialFocus: null,                                  // default
@@ -1087,20 +1093,24 @@ else {
 },
 onClearScreen:function(oEvent){
   var that = this;
+  debugger;
   var saveStatus = this.byId('Sales--idSaveIcon').getColor();
   if (!id) {
   var id = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
   }
   if (saveStatus == "red") {
-  sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearConfirmation");
+  // sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
+  sap.m.MessageBox.error(clearConfirmation, {
        title: "Alert!",
        actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
        onClose: function(oAction) {
          if (oAction === "Clear") {
            that.onClear(oEvent,id);
            that.byId("Sales--idSaveIcon").setColor('green');
-
-           MessageToast.show("Screen cleared successfully!");
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
+           // MessageToast.show("Screen cleared successfully!");
+        MessageToast.show(clearSucess);
          } else if (oAction === "Save & Clear") {
            if (that.onSave(oEvent)) {
              that.onClear(oEvent,id);
@@ -1110,18 +1120,19 @@ onClearScreen:function(oEvent){
        }
      });
   }else {
-    sap.m.MessageBox.error("Are you sure you want to clear all entries?",
-     {
-         title: "Alert!",
-         actions: ["Clear", MessageBox.Action.CANCEL],
-         onClose: function(oAction) {
-           if (oAction === "Clear") {
-             that.onClear(oEvent,id);
-             that.byId("Sales--idSaveIcon").setColor('green');
-             MessageToast.show("Screen cleared successfully!");
-           }
-           }
-         });
+    // sap.m.MessageBox.error("Are you sure you want to clear all entries?",
+    //  {
+    //      title: "Alert!",
+    //      actions: ["Clear", MessageBox.Action.CANCEL],
+    //      onClose: function(oAction) {
+    //        if (oAction === "Clear") {
+  that.onClear(oEvent,id);
+  that.byId("Sales--idSaveIcon").setColor('green');
+  // var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
+  MessageToast.show("Screen cleared successfully!");
+         //   }
+         //   }
+         // });
   }
 },
 onClear:function(oEvent,id){
@@ -1279,8 +1290,9 @@ if (selIdxs.length && selIdxs.length !== 0) {
 });
 
 }else { // if selindx length check
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selecteDeleteItem");
   MessageBox.show(
-    "Please Select the entry to be deleted", {
+      oBundle, {
       icon: MessageBox.Icon.ERROR,
       title: "Error",
       actions: [MessageBox.Action.OK],

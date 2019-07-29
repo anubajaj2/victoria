@@ -965,10 +965,12 @@ commitRecords:function(oEvent){
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
   var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
   if (this.headerNoChange === true) {
+    // oHeader.Date = new Date(oHeader.Date);
+  var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 //order header put
-  that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                        "/OrderHeaders('"+ oId +"')", "PUT",
-                         {},oHeader, this)
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                            "/OrderHeaders('" + oId + "')",
+                            "PUT", {}, oHeaderClone, this)
   .then(function(oData) {
     debugger;
 var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");

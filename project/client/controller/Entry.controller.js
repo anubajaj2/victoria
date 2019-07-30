@@ -64,6 +64,7 @@ function (BaseController,
 			var CT = "Silver Given @" + wtValue + 'x' + thValue;
 			var ST = "Gold Given @" + wtValue + 'x' + thValue;
 			var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
+			var splitText = this.getView().byId("idMatText").getText().split("-")[1]
 			var rem = this.getView().byId("idMatText").getText();
 			var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
 			var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
@@ -79,22 +80,32 @@ function (BaseController,
         this.getView().byId("idSilver").setValue(X);
         this.getView().byId("idRemarks").setValue(KR);
       }
-			else if (X > 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Gold"){
+			else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="Gold"){
 				debugger;
 					this.getView().byId("idGold").setValue(X);
 				this.getView().byId("idRemarks").setValue(posMat);
 			}
-			else if (X > 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Silver"){
+			else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="Silver"){
 				debugger;
 					this.getView().byId("idSilver").setValue(X);
 					this.getView().byId("idRemarks").setValue(posMat);
 			}
-			else if (X < 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Gold"){
+			else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="GS"){
+				debugger;
+					this.getView().byId("idSilver").setValue(X);
+					this.getView().byId("idRemarks").setValue(posMat);
+			}
+			else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="Gold"){
 				debugger;
 				this.getView().byId("idGold").setValue(X);
 				this.getView().byId("idRemarks").setValue(negMat);
 			}
-			else if (X < 0 && this.getView().byId("RB-4").getSelected() && this.getView().byId("idMatText").getText().split(" ")[2]==="Silver"){
+			else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="Silver"){
+				debugger;
+				this.getView().byId("idSilver").setValue(X);
+				this.getView().byId("idRemarks").setValue(negMat);
+			}
+			else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1]==="GS"){
 				debugger;
 				this.getView().byId("idSilver").setValue(X);
 				this.getView().byId("idRemarks").setValue(negMat);
@@ -453,9 +464,7 @@ debugger;
 						});
 		       this.byId("idCust").getValue();
 		       this.byId("idCustText").getText();
-					 this.byId("idMat").setValue("");
-					 this.byId("idMatText").setText("");
-					 this.byId("idMatType").setText("");
+
 		       this.byId("idweight").setValue("0");
 		       this.byId("idRemarks").setValue("");
 		       this.byId("idCash").setValue("0");
@@ -463,7 +472,31 @@ debugger;
 		       this.byId("idSilver").setValue("0");
 		       this.byId("idtunch").setValue("0");
 		       this.byId("DueDateId").setDateValue( new Date());
-				 }
+				 }else if (check === false){
+		       this.getView().byId("DateId").setDateValue( new Date());
+					 jQuery.sap.delayedCall(500, this, function() {
+							 this.getView().byId("idCust").focus();
+					 });
+
+		       this.byId("idCust").setValue("");
+		       this.byId("idCustText").setText("");
+					 // this.byId("idMat").setValue("");
+		       // this.byId("idMatText").setText("");
+					 // this.byId("idMatType").setText("");
+		     this.byId("idweight").setValue("0");
+		     this.byId("idRemarks").setValue("");
+		     this.byId("idCash").setValue("0");
+		     this.byId("idGold").setValue("0");
+		     this.byId("idSilver").setValue("0");
+		     this.byId("idtunch").setValue("0");
+				 this.byId("idTC").setText("");
+				 this.byId("idG").setText("");
+				 this.byId("idS").setText("");
+				 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+					// 												 "GET", {}, myData, this)
+				 this.byId("DueDateId").setDateValue( new Date());
+		     }
+
 			 },
 
    onClear: function(){
@@ -559,6 +592,9 @@ debugger;
 			 that.getView().setBusy(false);
 			 var oPopover = that.getErrorMessage(oError);
 		 });
+		 this.byId("idMat").setValue("");
+			this.byId("idMatText").setText("");
+			this.byId("idMatType").setText("");
 		 var g = sap.ui.getCore().byId("entryDialog--idDialogGold").getValue();
 		 var g1= parseFloat(sap.ui.getCore().byId("entryDialog--idDialogGold").getValue());
 		 var s = sap.ui.getCore().byId("entryDialog--idDialogSil").getValue();
@@ -727,6 +763,7 @@ sap.m.MessageBox.confirm(
 	 },
 
    onUpdateFinished: function (oEvent) {
+		 debugger;
      var oTable = oEvent.getSource();
      var itemList = oTable.getItems();
       var noOfItems = itemList.length;

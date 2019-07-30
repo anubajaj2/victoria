@@ -65,6 +65,31 @@ app.start = function() {
 				});
 			});
 
+			app.post('/updateRetailOrderHdr', function(req,res){
+
+					var OrderHeader = app.models.OrderHeader;
+					var RecordId = req.body.id;
+					var Customer = req.body.Customer;
+					var GoldBhav22 = req.body.GoldBhav22;
+					var GoldBhav20 = req.body.GoldBhav20;
+					var GoldBhav = app.models.GoldBhav;
+					var SilverBhav = app.models.SilverBhav;
+
+					var updateObj = {
+						Customer: Customer,
+						GoldBhav22: GoldBhav22,
+						GoldBhav20: GoldBhav20,
+						GoldBhav: GoldBhav,
+						SilverBhav: SilverBhav,
+						ChangedOn: new Date()
+					};
+					OrderHeader.findById(RecordId).then(function(instance) {
+						 instance.updateAttributes(updateObj);
+						 return res.send("done");
+					});
+				});
+
+
 
 			app.post('/kaachiDownload', function(req, res) {
 			var reportType = req.body.type;

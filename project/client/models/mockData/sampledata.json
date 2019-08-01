@@ -1,20 +1,19 @@
 {
 	"Authorization": "",
 	"LoginUser": "",
-	"CurrentUser":"",
-	"Role":"",
+	"CurrentUser": "",
+	"Role": "",
 	"messagesLength": "0",
 	"messages": [],
-  "trueOrFalse":[
+	"trueOrFalse": [{
+			"value": " "
+		},
 		{
-				"value": " "
-			},
+			"value": true
+		},
 		{
-				"value": true
-			},
-			{
-				"value": false
-			}
+			"value": false
+		}
 	],
 	"customersSet": [{
 			"key": "demo@gmail.com",
@@ -76,34 +75,33 @@
 			"value": "Shashank HDFC"
 		}
 	],
-	"returnType": [
-		{
-				"key": "OG",
-				"value": "Old Gold"
+	"returnType": [{
+			"key": "OG",
+			"value": "Old Gold"
 		},
 		{
-				"key": "OS",
-				"value": "Old Silver"
+			"key": "OS",
+			"value": "Old Silver"
 		},
 		{
-				"key": "KS",
-				"value": "Kacchi Silver"
+			"key": "KS",
+			"value": "Kacchi Silver"
 		},
 		{
-				"key": "KG",
-				"value": "Kaccha Gold"
+			"key": "KG",
+			"value": "Kaccha Gold"
 		},
 		{
-				"key": "BS",
-				"value": "Bank Silver"
+			"key": "BS",
+			"value": "Bank Silver"
 		},
 		{
-				"key": "BG",
-				"value": "Biscuit Gold"
+			"key": "BG",
+			"value": "Biscuit Gold"
 		},
 		{
-				"key": "CASH",
-				"value": "Cash"
+			"key": "CASH",
+			"value": "Cash"
 		}
 	],
 	"BeneficiaryName": "",
@@ -128,284 +126,293 @@
 		"Extra2": "",
 		"id": ""
 	},
-	"kacchiData":{
-		"Date":"",
-		"Customer":"null",
-		"PaggaNo":0,
-		"Weight":0,
-		"Tunch":0,
-		"Fine":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+	"kacchiData": {
+		"Date": "",
+		"Customer": "null",
+		"PaggaNo": 0,
+		"Weight": 0,
+		"Tunch": 0,
+		"Fine": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
 
 	},
 	"demoData": {
-		"CrDate":"",
-		"Customer":"",
-		"Material":""
+		"CrDate": "",
+		"Customer": "",
+		"Material": ""
 	},
 	"collaborationData": {
-"Date":"",
-"Material":"",
-"Qty":"",
-"Weight":"",
-"Remarks":""
-},
-"editEntryData":{
-"Date":"",
-"Customer":"",
-"Cash":"0",
-"Gold":"0",
-"Silver":"0",
-"Remarks":"",
-"Weight":"0",
-"Tunch":"0",
-"Due Date":""
-},
-"EntryData":{
-"Date":"",
-"Customer":"",
-"Product":"",
-"Cash":"0",
-"Gold":"0",
-"Silver":"0",
-"Remarks":"",
-"Weight":"0",
-"Tunch":"0",
-"DueDate":""
-},
-"stockMaint":{
-"Product":"",
-"Description":"",
-"Quantity":"0",
-"Weight":"0"
-},
-	"orderHeader":{
-	  "OrderNo": 0,
-	  "Date": "",
-	  "Customer": "",
-	  "GoldBhav22":0,
-		"GoldBhav20":0,
-		"GoldBhav":0,
-	  "SilverBhav":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+		"Date": "",
+		"Material": "",
+		"Qty": "",
+		"Weight": "",
+		"Remarks": ""
 	},
-	"OrderId":{
-		"OrderId":"",
-		"OrderNo":0
+	"editEntryData": {
+		"Date": "",
+		"Customer": "",
+		"Cash": "0",
+		"Gold": "0",
+		"Silver": "0",
+		"Remarks": "",
+		"Weight": "0",
+		"Tunch": "0",
+		"Due Date": ""
 	},
-	"WSOrderHeader":{
-	  "OrderNo": 0,
-	  "Date": "",
-	  "Customer": "",
-	  "Goldbhav":0,
-		"GoldbhavK":0,
-	  "SilverBhav":0,
-	  "SilverBhavK":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+	"EntryData": {
+		"Date": "",
+		"Customer": "",
+		"Product": "",
+		"Cash": "0",
+		"Gold": "0",
+		"Silver": "0",
+		"Remarks": "",
+		"Weight": "0",
+		"Tunch": "0",
+		"DueDate": ""
 	},
-	"entryHeaderTemp":{
-	  "CustomerId": "",
-		"ProductId":"",
+	"stockMaint": {
+		"Product": "",
+		"Description": "",
+		"Quantity": "0",
+		"Weight": "0"
+	},
+	"orderHeader": {
+		"OrderNo": 0,
+		"Date": "",
+		"Customer": "",
+		"GoldBhav22": 0,
+		"GoldBhav20": 0,
+		"GoldBhav": 0,
+		"SilverBhav": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"OrderId": {
+		"OrderId": "",
+		"OrderNo": 0
+	},
+	"WSOrderHeader": {
+		"OrderNo": 0,
+		"Date": "",
+		"Customer": "",
+		"Goldbhav": 0,
+		"GoldbhavK": 0,
+		"SilverBhav": 0,
+		"SilverBhavK": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"entryHeaderTemp": {
+		"CustomerId": "",
+		"ProductId": "",
 		"CustomerName": ""
 	},
-	"orderHeaderTemp":{
-	  "CustomerId": "",
+	"orderHeaderTemp": {
+		"CustomerId": "",
 		"CustomerName": "",
-		"FinalBalance":"",
-		"Deduction":"",
-		"TotalOrderValue":""
+		"FinalBalance": "",
+		"Deduction": "",
+		"TotalOrderValue": "",
+		"FinalBalanceCash": "",
+		"FinalBalanceGold": "",
+		"FinalBalanceSilver": "",
+		"DeductionCash": "",
+		"DeductionGold": "",
+		"DeductionSilver": "",
+		"TotalOrderValueCash": "",
+		"TotalOrderValueGold": "",
+		"TotalOrderValueSilver": ""
 	},
-	"kachhiHeaderTemp":{
-	  "CustomerId": "",
+	"kachhiHeaderTemp": {
+		"CustomerId": "",
 		"CustomerName": ""
 	},
-	"printCustomizingData":{
-	  "ID": "",
+	"printCustomizingData": {
+		"ID": "",
 		"Name": "",
 		"Value": ""
 	},
-		"customerOrder":{
-		"Date":"",
-		"DelDate":"",
-		"Customer":"",
-		"Material":"",
-		"Qty":"1",
-		"Weight":"0",
-		"Making":"0",
-		"Karigar":"",
-		"Remarks":"",
-		"Cash":"0",
-		"Gold":"0",
-		"Silver":"0",
-		"Picture":"",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+	"customerOrder": {
+		"Date": "",
+		"DelDate": "",
+		"Customer": "",
+		"Material": "",
+		"Qty": "1",
+		"Weight": "0",
+		"Making": "0",
+		"Karigar": "",
+		"Remarks": "",
+		"Cash": "0",
+		"Gold": "0",
+		"Silver": "0",
+		"Picture": "",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
 	},
-	"coTemp":{
-		"CustomerCode":"",
-		"MaterialCode":"",
-		"KarigarCode":""
+	"coTemp": {
+		"CustomerCode": "",
+		"MaterialCode": "",
+		"KarigarCode": ""
 	},
-	"orderItemBase":{
-		"OrderNo":"",
-		"itemNo":"",
-		"Material":"",
-		"MaterialCode":"",
-		"Description":"",
+	"orderItemBase": {
+		"OrderNo": "",
+		"itemNo": "",
+		"Material": "",
+		"MaterialCode": "",
+		"Description": "",
 		"Qty": 0,
 		"QtyD": 0,
-		"Weight":0,
-		"WeightD":0,
+		"Weight": 0,
+		"WeightD": 0,
 		"Making": 0,
 		"MakingD": 0,
-		"Karat":"",
+		"Karat": "",
 		"Tunch": 0,
-		"Remarks":"",
-		"SubTotal":"",
-		"SubTotalS":0,
-		"SubTotalG":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"OrderItem":{
-		"OrderNo":"",
-		"Material":"",
-		"Qty": 0,
-		"QtyD": 0,
-		"Weight":0,
-		"WeightD":0,
-		"Making": 0,
-		"MakingD": 0,
-		"Remarks":"",
-		"SubTotal":"",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"WSOrderItem":{
-		"OrderNo":"",
-		"Material":"",
-		"Qty": 0,
-		"QtyD": 0,
-		"Weight":0,
-		"WeightD":0,
-		"Making": 0,
-		"MakingD": 0,
-		"Tunch": 0,
-		"Remarks":"",
-		"SubTotal":0,
-		"SubTotalS":0,
-		"SubTotalG":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"RetailOrderItemTemp":{
-		"MaterialNo":"",
-		"MaterialName":""
-	},
-	"WSOrderItemTemp":{
-		"MaterialNo":"",
-		"MaterialName":""
-	},
-	"OrderReturn":{
-		"OrderNo":"",
-		"Type":"",
-		"Key":"",
-		"Weight":0,
-		"KWeight":0,
-		"Tunch":0,
-		"Qty":0,
-		"Bhav":0,
-		"Remarks":"",
-		"SubTotal":"",
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"WSOrderReturn":{
-		"OrderNo":"",
-		"Type":"",
-		"Weight":0,
-		"KWeight":0,
-		"Tunch":0,
-		"Qty":0,
-		"Bhav":0,
-		"Remarks":"",
-		"SubTotal":0,
+		"Remarks": "",
+		"SubTotal": "",
 		"SubTotalS": 0,
 		"SubTotalG": 0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
 	},
-	"printCustomizing":{
-   "CompName":"",
-	 "Address":"",
-	 "TnC":"",
-	 "GSTNumber":"",
-	 "ContNumber":"",
-	 "Marking":""
+	"OrderItem": {
+		"OrderNo": "",
+		"Material": "",
+		"Qty": 0,
+		"QtyD": 0,
+		"Weight": 0,
+		"WeightD": 0,
+		"Making": 0,
+		"MakingD": 0,
+		"Remarks": "",
+		"SubTotal": "",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"WSOrderItem": {
+		"OrderNo": "",
+		"Material": "",
+		"Qty": 0,
+		"QtyD": 0,
+		"Weight": 0,
+		"WeightD": 0,
+		"Making": 0,
+		"MakingD": 0,
+		"Tunch": 0,
+		"Remarks": "",
+		"SubTotal": 0,
+		"SubTotalS": 0,
+		"SubTotalG": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"RetailOrderItemTemp": {
+		"MaterialNo": "",
+		"MaterialName": ""
+	},
+	"WSOrderItemTemp": {
+		"MaterialNo": "",
+		"MaterialName": ""
+	},
+	"OrderReturn": {
+		"OrderNo": "",
+		"Type": "",
+		"Key": "",
+		"Weight": 0,
+		"KWeight": 0,
+		"Tunch": 0,
+		"Qty": 0,
+		"Bhav": 0,
+		"Remarks": "",
+		"SubTotal": "",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"WSOrderReturn": {
+		"OrderNo": "",
+		"Type": "",
+		"Weight": 0,
+		"KWeight": 0,
+		"Tunch": 0,
+		"Qty": 0,
+		"Bhav": 0,
+		"Remarks": "",
+		"SubTotal": 0,
+		"SubTotalS": 0,
+		"SubTotalG": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"printCustomizing": {
+		"CompName": "",
+		"Address": "",
+		"TnC": "",
+		"GSTNumber": "",
+		"ContNumber": "",
+		"Marking": ""
 	},
 
-	"CustomCalculation":{
-	"First": 0,
-	"Second": 0,
-	"Gold":0,
-	"Silver": 0,
-	"GoldReturns": 0,
-	"SilverReturns": 0,
-	"Gold1": 0,
-	"Silver1": 0,
-	"KacchaGold": 0,
-	"KacchaSilver": 0,
-	"GoldReturns1": 0,
-	"SilverReturns1": 0,
-	"KacchaGoldR": 0,
-	"KacchaSilverR": 0,
-	"CreatedBy":"",
-	"CreatedOn":"",
-	"ChangedBy":"",
-	"ChangedOn":""
+	"CustomCalculation": {
+		"First": 0,
+		"Second": 0,
+		"Gold": 0,
+		"Silver": 0,
+		"GoldReturns": 0,
+		"SilverReturns": 0,
+		"Gold1": 0,
+		"Silver1": 0,
+		"KacchaGold": 0,
+		"KacchaSilver": 0,
+		"GoldReturns1": 0,
+		"SilverReturns1": 0,
+		"KacchaGoldR": 0,
+		"KacchaSilverR": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
 	},
-	"BookingDetail":{
-	  "BookingDate": "",
-	  "Customer": "",
-	  "Quantity":0,
-		"Bhav":0,
-		"Advance":0,
-	  "CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
-	},
-	"BookingDlvDetail":{
+	"BookingDetail": {
 		"BookingDate": "",
 		"Customer": "",
-		"Quantity":0,
-		"Bhav":0,
-		"Advance":0,
-		"CreatedBy":"",
-		"CreatedOn":"",
-		"ChangedBy":"",
-		"ChangedOn":""
+		"Quantity": 0,
+		"Bhav": 0,
+		"Advance": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"BookingDlvDetail": {
+		"BookingDate": "",
+		"Customer": "",
+		"Quantity": 0,
+		"Bhav": 0,
+		"Advance": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
 	},
 	"countries": [{
 		"name": "Afghanistan",

@@ -11,10 +11,6 @@ module.exports = function(WSOrderHeader) {
       //read only order no from DB, not other columns pass date as yyyy-mm-dd
       ///ctx.instance.Date
       debugger;
-      // var date = ctx.instance.Date;
-      // date.setHours(0,0,0,0);
-      // var dateTo = JSON.parse(JSON.stringify(date));
-      // dateTo.addDays(1);
 
       var start = new Date(JSON.parse(JSON.stringify(ctx.instance.Date)));
       start.setHours(0,0,0,0);

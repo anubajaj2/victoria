@@ -190,8 +190,6 @@ function (BaseController,
 }
 		},
 		onMaterialSelect: function (oEvent) {
-debugger;
-
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var selMat = oEvent.getParameter("selectedItem").getText();
 			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
@@ -328,8 +326,6 @@ debugger;
      });
        this.getView().byId("DateId").setDateValue( new Date());
 			 this.byId("DueDateId").setDateValue( new Date());
-			 this.getView().byId("idMat").setValue("");
-			 debugger;
 			 var x=this.getView().byId("idTC").getText();
 			 var x1=parseFloat(this.byId("idTC").getText());
 			 var y=this.getView().byId("idCash").getValue();
@@ -368,10 +364,10 @@ debugger;
 		 parseFloat(z1);
 		if(parseFloat(z1)>0){
 			that.byId("idS").setState('Success');
-			debugger;
-		}else{
+			}else{
 			that.byId("idS").setState('Warning');
 		}
+		this.getView().byId("idMat").setValue("");
 	}
 
    },

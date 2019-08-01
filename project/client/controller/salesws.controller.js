@@ -14,6 +14,12 @@ sap.ui.define(
 
 		return BaseController.extend("victoria.controller.salesws", {
 			formatter: formatter,
+			FinalBalanceCash: 0,
+			FinalBalanceGold: 0,
+			FinalBalanceSilver: 0,
+			TotalOrderValueCash: 0,
+			TotalOrderValueGold: 0,
+			TotalOrderValueSilver: 0,
 			onInit: function(oEvent) {
 
 				BaseController.prototype.onInit.apply(this);
@@ -864,8 +870,8 @@ sap.ui.define(
 					// 	actions: ["Clear", MessageBox.Action.CANCEL],
 					// 	onClose: function(oAction) {
 					// 		if (oAction === "Clear") {
-								that.clearScreen(oEvent);
-								that.setStatus('green');
+					that.clearScreen(oEvent);
+					that.setStatus('green');
 					// 			MessageToast.show("Screen cleared successfully!");
 					// 		}
 					// 	}
@@ -1027,35 +1033,35 @@ sap.ui.define(
 								var id = oError.responseText.split(':')[2];
 								if (id) {
 									that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-																						"/WSOrderHeaders(" + id + ")",
-																						"GET", {}, {}, that)
-									.then(function(oData) {
-										debugger;
-										that.getView().setBusy(false);
-							//create the new json model and get the order id no generated
-							var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
-							oOrderHeader.OrderId=oData.id;
-							oOrderHeader.OrderNo=oData.OrderNo;
-							debugger;
-							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
-							that.getView().getModel('local').setProperty('/WSOrderHeader',oOrderHeader);
-							sap.m.MessageToast.show(oBundle, {
-								duration: 3000,                  // default
-								width: "15em",                   // default
-								});
-									})
-									.catch(function(oError) {
-										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
-									});
-								}else {
+											"/WSOrderHeaders(" + id + ")",
+											"GET", {}, {}, that)
+										.then(function(oData) {
+											debugger;
+											that.getView().setBusy(false);
+											//create the new json model and get the order id no generated
+											var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
+											oOrderHeader.OrderId = oData.id;
+											oOrderHeader.OrderNo = oData.OrderNo;
+											debugger;
+											var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
+											that.getView().getModel('local').setProperty('/WSOrderHeader', oOrderHeader);
+											sap.m.MessageToast.show(oBundle, {
+												duration: 3000, // default
+												width: "15em", // default
+											});
+										})
+										.catch(function(oError) {
+											that.getView().setBusy(false);
+											var oPopover = that.getErrorMessage(oError);
+										});
+								} else {
 									that.getView().setBusy(false);
 									var oPopover = that.getErrorMessage(oError);
 								}
-							}else {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-						}
+							} else {
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
+							}
 						});
 				}
 			},
@@ -1089,6 +1095,13 @@ sap.ui.define(
 				var tableBinding = oTableDetails.getBinding("rows");
 				//---all errors are false
 				var returnError = false;
+				// WeightD cannot be bigger than Weight
+				if ((data.Weight) && (data.WeightD) &&
+					(data.WeightD > data.Weight)) {
+					oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+				} else {
+					oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+				}
 				//Quantity
 				if ((data.Type === 'GS') ||
 					((data.Type === 'Gold' && data.Category === "pcs") ||
@@ -1229,24 +1242,24 @@ sap.ui.define(
 				} //forloop
 				return oCommit;
 			},
-			getIndianCurr:function(value){
-			debugger;
-			if(value){
-			  var x=value;
-			  x=x.toString();
-			  var decimal = x.split('.',2)
-			  x = decimal[0];
-			  var lastThree = x.substring(x.length-3);
-			  var otherNumbers = x.substring(0,x.length-3);
-			  if(otherNumbers != '')
-			      lastThree = ',' + lastThree;
-			      if (decimal[1]) {
-			  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1];
-			}else {
-			  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
-			}
-			  return res;
-			}
+			getIndianCurr: function(value) {
+				debugger;
+				if (value) {
+					var x = value;
+					x = x.toString();
+					var decimal = x.split('.', 2)
+					x = decimal[0];
+					var lastThree = x.substring(x.length - 3);
+					var otherNumbers = x.substring(0, x.length - 3);
+					if (otherNumbers != '')
+						lastThree = ',' + lastThree;
+					if (decimal[1]) {
+						var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1];
+					} else {
+						var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+					}
+					return res;
+				}
 			},
 			onSave: function(oEvent) {
 				var that = this;
@@ -1312,21 +1325,20 @@ sap.ui.define(
 				if (this.getStatus() === 'red') {
 					var that = this;
 					var oHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
-				  var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+					var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 					//order header put
 					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-				                        "/WSOrderHeaders('"+ oId +"')", "PUT",
-				                         {},oHeader, this)
-				  .then(function(oData) {
-				    debugger;
-				    message.show("Order Saved");
-				        that.getView().setBusy(false);
-				       })
-				  .catch(function(oError) {
-						debugger;
-				      that.getView().setBusy(false);
-				      var oPopover = that.getErrorMessage(oError);
-				                });
+							"/WSOrderHeaders('" + oId + "')", "PUT", {}, oHeader, this)
+						.then(function(oData) {
+							debugger;
+							message.show("Order Saved");
+							that.getView().setBusy(false);
+						})
+						.catch(function(oError) {
+							debugger;
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+						});
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
 					var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
@@ -1432,8 +1444,28 @@ sap.ui.define(
 				this.toggleUiTable(btnId, headerId)
 			},
 			finalCalculation: function(category, data, tablePath, cells) {
-debugger;
+				debugger;
 				var that = this;
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				if ((data.SubTotal) && (data.SubTotal != "")) {
+					var oldSubTot = oFloatFormat.parse(data.SubTotal);
+				} else {
+					var oldSubTot = 0;
+				}
+
+				if ((data.SubTotalG) && (data.SubTotalG != "")) {
+					var oldSubTotG = oFloatFormat.parse(data.SubTotalG);
+				} else {
+					var oldSubTotG = 0;
+				}
+
+				if ((data.SubTotalS) && (data.SubTotalS != "")) {
+					var oldSubTotS = oFloatFormat.parse(data.SubTotalS);
+				} else {
+					var oldSubTotS = 0;
+				}
+
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
 					(category.Type === 'Silver' && category.Category === "gm")) {
 
@@ -1449,14 +1481,15 @@ debugger;
 					var makingCharges = data.Making * weightF;
 					var stonevalue = data.QtyD * data.MakingD;
 
-
-					if (makingCharges || stonevalue) {
+debugger;
+					if ((makingCharges || stonevalue) ||
+						(makingCharges === 0 || stonevalue === 0)) {
 						var subTot = makingCharges + stonevalue;
 						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
-							category.SubTot = subTotF;
+							category.SubTotal = subTotF;
 							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
@@ -1483,14 +1516,15 @@ debugger;
 
 					var stonevalue = data.QtyD * data.MakingD;
 
-
-					if (makingCharges || stonevalue) {
+debugger;
+					if ((makingCharges || stonevalue) ||
+						(makingCharges === 0 || stonevalue === 0)) {
 						var subTot = makingCharges + stonevalue;
 						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
-							category.SubTot = subTotF;
+							category.SubTotal = subTotF;
 							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
@@ -1514,7 +1548,7 @@ debugger;
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
 
-							category.SubTot = subTotF;
+							category.SubTotal = subTotF;
 							// this.setStatus('red');
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
@@ -1556,9 +1590,37 @@ debugger;
 						cells[cells.length - 3].setText(0);
 					}
 				};
+				debugger;
+				if ((data.SubTotal) && (data.SubTotal != "")) {
+					var currentSubTot = oFloatFormat.parse(data.SubTotal);
+					this.TotalOrderValueCash = currentSubTot + this.TotalOrderValueCash - oldSubTot;
+				}
+				var orderAmountCash = this.TotalOrderValueCash.toString();
+				orderAmountCash = parseFloat(orderAmountCash).toFixed(0);
+				orderAmountCash = this.getIndianCurr(orderAmountCash);
+
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', orderAmountCash);
+
+				if ((data.SubTotalG) && (data.SubTotalG != "")) {
+					var currentSubTotG = oFloatFormat.parse(data.SubTotalG);
+					this.TotalOrderValueGold = currentSubTotG + this.TotalOrderValueGold - oldSubTotG;
+				}
+				var orderGold = this.TotalOrderValueGold.toString();
+				orderGold = parseFloat(orderGold).toFixed(3);
+				orderGold = this.getIndianCurr(orderGold);
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', orderGold);
+
+				if ((data.SubTotalS) && (data.SubTotalS != "")) {
+					var currentSubTotS = oFloatFormat.parse(data.SubTotalS);
+					this.TotalOrderValueSilver = currentSubTotS + this.TotalOrderValueSilver - oldSubTotS;
+				}
+				var orderSilver = this.TotalOrderValueSilver.toString();
+				orderSilver = parseFloat(orderSilver).toFixed(2);
+				orderSilver = this.getIndianCurr(orderSilver);
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', orderSilver);
 			},
 			PreCalc: function(data, fieldId, newValue, oFloatFormat) {
-debugger;
+				debugger;
 				var that = this;
 				that.setNewValue(data, fieldId, newValue);
 				that.getFloatValue(data, oFloatFormat);
@@ -1688,7 +1750,7 @@ debugger;
 				}
 			},
 			Calculation: function(oEvent, tablePath, i) {
-
+debugger;
 				var that = this;
 				if ((oEvent.getId() === "orderReload") ||
 					(oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader')) {
@@ -1717,6 +1779,7 @@ debugger;
 						that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								"/Products('" + category.Material + "')", "GET", {}, {}, that)
 							.then(function(oData) {
+								debugger;
 								category.Category = oData.Category;
 								category.Making = oData.Making;
 								category.Tunch = oData.Tunch;
@@ -1726,6 +1789,7 @@ debugger;
 								that.finalCalculation(category, data, tablePath, cells);
 							})
 							.catch(function(oError) {
+								debugger;
 								that.getView().setBusy(false);
 								var oPopover = that.getErrorMessage(oError);
 							});

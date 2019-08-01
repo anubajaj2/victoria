@@ -31,7 +31,6 @@ onInit: function (oEvent) {
 _onRouteMatched:function(oEvent){
   var that = this;
   var id = "";
-  // set i18n model on view
   this.onClear(oEvent,id);
   this.getPrintCustHeaderData();
 },
@@ -124,317 +123,316 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 });
 },
 retailPrint:function(oData){
-
-    debugger;
-    var arrayRemoveFromPrint = [];
-    var hideHeaderContents = [];
-    var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
-    var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
-    var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
-    if(orderDetails.Date){
-      // var orderDate = formatter.getDateDDMMYYYYFormat(orderDetails.Date);
-      var orderDate = orderDetails.Date.toLocaleDateString();
-    }
-    if(orderDetails.Customer){
-      var custId = orderDetails.Customer;
-      var cusData = this.allMasterData.customers[custId];
-    }
-    var printDate = formatter.getFormattedDate(0);
-    var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title,rTnC,rMarking;
-    for(var i=0 ; i<oData.results.length ; i++){
-      switch (oData.results[i].Name) {
-        case "__component0---idPrint--idRCompName":
-         if(oData.results[i].Value === "true"){
-            rCompName = printCustHeadVal.CompName;
-         }else{
-               arrayRemoveFromPrint.push('idRCompName');
-         }
-          break;
-        case "__component0---idPrint--idRAddress":
-         if(oData.results[i].Value === "true"){
-            rAddress = printCustHeadVal.Address;
-         }else {
-           arrayRemoveFromPrint.push('idRAddress');
-         }
-         break;
-        case "__component0---idPrint--idContNo":
-          if(oData.results[i].Value === "true"){
-             rContNumber = printCustHeadVal.ContNumber;
-          }else {
-            arrayRemoveFromPrint.push('idRPhoneNumber');
+  debugger;
+  var arrayRemoveFromPrint = [];
+  var hideHeaderContents = [];
+  var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
+  var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
+  var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
+  if(orderDetails.Date){
+    // var orderDate = formatter.getDateDDMMYYYYFormat(orderDetails.Date);
+    var orderDate = orderDetails.Date.toLocaleDateString();
+  }
+  if(orderDetails.Customer){
+    var custId = orderDetails.Customer;
+    var cusData = this.allMasterData.customers[custId];
+  }
+  var printDate = formatter.getFormattedDate(0);
+  var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title,rTnC,rMarking;
+  for(var i=0 ; i<oData.results.length ; i++){
+    switch (oData.results[i].Name) {
+      case "__component0---idPrint--idRCompName":
+       if(oData.results[i].Value === "true"){
+          rCompName = printCustHeadVal.CompName;
+       }else{
+             arrayRemoveFromPrint.push('idRCompName');
+       }
+        break;
+      case "__component0---idPrint--idRAddress":
+       if(oData.results[i].Value === "true"){
+          rAddress = printCustHeadVal.Address;
+       }else {
+         arrayRemoveFromPrint.push('idRAddress');
+       }
+       break;
+      case "__component0---idPrint--idContNo":
+        if(oData.results[i].Value === "true"){
+           rContNumber = printCustHeadVal.ContNumber;
+        }else {
+          arrayRemoveFromPrint.push('idRPhoneNumber');
+        }
+        break;
+      case "__component0---idPrint--idRGSTN":
+        if(oData.results[i].Value === "true"){
+           rGSTNumber = printCustHeadVal.GSTNumber;
+        }else {
+          arrayRemoveFromPrint.push('idRGSTN');
+        }
+        break;
+        case "__component0---idPrint--idRWeight":
+        debugger;
+          if(oData.results[i].Value === "false"){
+            arrayRemoveFromPrint.push('idRWeight');
           }
           break;
-        case "__component0---idPrint--idRGSTN":
-          if(oData.results[i].Value === "true"){
-             rGSTNumber = printCustHeadVal.GSTNumber;
-          }else {
-            arrayRemoveFromPrint.push('idRGSTN');
-          }
-          break;
-          case "__component0---idPrint--idRWeight":
-          debugger;
-            if(oData.results[i].Value === "false"){
-              arrayRemoveFromPrint.push('idRWeight');
+          case "__component0---idPrint--idREstimate":
+            if(oData.results[i].Value === "true"){
+               title = "Estimate";
+            }else {
+                title = "Invoice";
             }
             break;
-            case "__component0---idPrint--idREstimate":
+            case "__component0---idPrint--idRSubTotal":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRSubTotal');
+            }
+            break;
+            case "__component0---idPrint--idRBhav":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRBhav');
+            }
+            break;
+            case "__component0---idPrint--idRMakingCharge":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRMakingCharge');
+            }
+            break;
+            case "__component0---idPrint--idRTnC":
+            if(oData.results[i].Value === "true"){
+              rTnC = printCustHeadVal.TnC;
+            }else {
+                arrayRemoveFromPrint.push('idRTnC');
+            }
+            break;
+            case "__component0---idPrint--idRMarking":
               if(oData.results[i].Value === "true"){
-                 title = "Estimate";
+                 rMarking = printCustHeadVal.Marking;
               }else {
-                  title = "Invoice";
+                arrayRemoveFromPrint.push('idRMarking');
               }
               break;
-              case "__component0---idPrint--idRSubTotal":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRSubTotal');
-              }
-              break;
-              case "__component0---idPrint--idRBhav":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRBhav');
-              }
-              break;
-              case "__component0---idPrint--idRMakingCharge":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRMakingCharge');
-              }
-              break;
-              case "__component0---idPrint--idRTnC":
-              if(oData.results[i].Value === "true"){
-                rTnC = printCustHeadVal.TnC;
-              }else {
-                  arrayRemoveFromPrint.push('idRTnC');
-              }
-              break;
-              case "__component0---idPrint--idRMarking":
-                if(oData.results[i].Value === "true"){
-                   rMarking = printCustHeadVal.Marking;
-                }else {
-                  arrayRemoveFromPrint.push('idRMarking');
-                }
-                break;
-              case "__component0---idPrint--idRQuantity":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRQuantity');
-              }
-              break;
-              case "__component0---idPrint--idRReturnWeight":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnWeight');
-              }
-              break;
-              case "__component0---idPrint--idRReturnBhav":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnBhav');
-              }
-              break;
-              case "__component0---idPrint--idRWeightD":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRWeightD');
-              }
-              break;
-              case "__component0---idPrint--idRQuantityD":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRQuantityD');
-              }
-              break;
-              case "__component0---idPrint--idRMakingChargeD":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRMakingChargeD');
-              }
-              break;
-              case "__component0---idPrint--idRRemarks":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRRemarks');
-              }
-              break;
-              case "__component0---idPrint--idRReturnRemarks":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnRemarks');
-              }
-              break;
-              case "__component0---idPrint--idRReturnKattaWeight":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnKattaWeight');
-              }
-              break;
-              case "__component0---idPrint--idRReturnTunch":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnTunch');
-              }
-              break;
-              case "__component0---idPrint--idRReturnSubTotal":
-              if(oData.results[i].Value === "false"){
-                arrayRemoveFromPrint.push('idRReturnSubTotal');
-              }
-        default:
-      }
+            case "__component0---idPrint--idRQuantity":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRQuantity');
+            }
+            break;
+            case "__component0---idPrint--idRReturnWeight":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnWeight');
+            }
+            break;
+            case "__component0---idPrint--idRReturnBhav":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnBhav');
+            }
+            break;
+            case "__component0---idPrint--idRWeightD":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRWeightD');
+            }
+            break;
+            case "__component0---idPrint--idRQuantityD":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRQuantityD');
+            }
+            break;
+            case "__component0---idPrint--idRMakingChargeD":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRMakingChargeD');
+            }
+            break;
+            case "__component0---idPrint--idRRemarks":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRRemarks');
+            }
+            break;
+            case "__component0---idPrint--idRReturnRemarks":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnRemarks');
+            }
+            break;
+            case "__component0---idPrint--idRReturnKattaWeight":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnKattaWeight');
+            }
+            break;
+            case "__component0---idPrint--idRReturnTunch":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnTunch');
+            }
+            break;
+            case "__component0---idPrint--idRReturnSubTotal":
+            if(oData.results[i].Value === "false"){
+              arrayRemoveFromPrint.push('idRReturnSubTotal');
+            }
+      default:
     }
-  var header = '<h2 style="text-align: center;"><strong>'+title+'</strong></h2><hr />'+
-  '<table style="display: inline-block; float: left; width: 450px; height: 100px;">'+
-  '<tbody>'+
-  '<tr>'+
-  '<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
-  '<td class="idRCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
-  '<td class="idRAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
-  '<td class="idRPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
-  '<td class="idRGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
-  '</tr>'+
-  '</tbody>'+
-  '</table>'+
-  '<table style="display: inline-block; width: 500px; height: 100px;">'+
-  '<tbody>'+
-  '<tr>'+
-  '<td style="width: 150px;"><strong>Customer Name</strong></td>'+
-  '<td style="width: 350px;">'+orderHeader.CustomerName+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td style="width: 150px;"><strong>City</strong></td>'+
-  '<td style="width: 350px;">'+cusData.City+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td style="width: 150px;"><strong>Customer Contact</strong></td>'+
-  '<td style="width: 350px;">'+cusData.MobilePhone+'</td>'+
-  '</tr>'+
-  '<tr>'+
-  '<td style="width: 150px;"><strong>Print Date</strong></td>'+
-  '<td style="width: 350px;">'+printDate+'</td>'+
-  '</tr>'+
-  '</tbody>'+
-  '</table>'+
-  '<hr />'+
-  '<table style="width: 900px;">'+
-  '<tbody>'+
-  '<tr>'+
-  '<td style="width: 160px;"><strong>Invoice Number</strong></td>'+
-  '<td style="width: 300px;">&nbsp;'+orderDetails.OrderNo+'</td>'+
-  '<td style="width: 150px;"><strong>Date</strong></td>'+
-  '<td style="width: 270px;">&nbsp;'+orderDate+'</td>'+
-  '</tr>'+
-  '</tbody>'+
-  '</table>'+
-  '<hr />';
-
-  // Prepare Order table header
-  var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
-  // '<tbody>'+
-  '<tr>'+
-  '<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>'+
-  '<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
-  '<th class="idRQuantity" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>'+
-  '<th class="idRQuantityD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>'+
-  '<th class="idRWeight" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>'+
-  '<th class="idRWeightD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>'+
-  '<th class="idRMakingCharge" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>'+
-  '<th class="idRMakingChargeD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>'+
-  '<th class="idRRemarks" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>'+
-  '<th class="idRSubTotal" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
-  '</tr>';
-  // '</tbody>';
-  // Order Table Line Items
-  var oTableDetails = this.getView().byId('orderItemBases');
-  var oBinding = oTableDetails.getBinding("rows");
-  var totalQuantity = 0;
-  var sumOfSubTotal = 0.00;
-  for (var i = 0; i < oBinding.getLength(); i++) {
-    if(oBinding.oList[i].MaterialCode){
-      totalQuantity = totalQuantity + oBinding.oList[i].Qty;
-      table += '<tr>';
-    table += '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].MaterialCode+'</td>'+
-             '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
-             '<td class="idRQuantity" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
-             '<td class="idRQuantityD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].QtyD+'</td>'+
-             '<td class="idRWeight" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
-             '<td class="idRWeightD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].WeightD+'</td>'+
-             '<td class="idRMakingCharge" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
-             '<td class="idRMakingChargeD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].MakingD+'</td>'+
-             '<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Remarks+'</td>'+
-             '<td class="idRSubTotal" style="width: 80px;border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotal+'</td></tr>';
-          }
   }
-  // table for order totals
-  table += '<tr>'+'<td style="width: 80px;">&nbsp;</td>'+
-           '<td style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRQuantity" style="width: 80px;color:red">&nbsp;'+totalQuantity+'</td>'+
-           '<td class="idRQuantityD" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRWeight" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRWeightD" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRMakingCharge" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRMakingChargeD" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRRemarks" style="width: 80px;">&nbsp;</td>'+
-           '<td class="idRSubTotal" style="width: 80px;color:red"><strong>&nbsp;'+orderHeader.TotalOrderValue+'</td></tr>';
+var header = '<h2 style="text-align: center;"><strong>'+title+'</strong></h2><hr />'+
+'<table style="display: inline-block; float: left; width: 450px; height: 100px;">'+
+'<tbody>'+
+'<tr>'+
+'<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
+'<td class="idRCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
+'<td class="idRAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
+'<td class="idRPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
+'<td class="idRGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<table style="display: inline-block; width: 500px; height: 100px;">'+
+'<tbody>'+
+'<tr>'+
+'<td style="width: 150px;"><strong>Customer Name</strong></td>'+
+'<td style="width: 350px;">'+orderHeader.CustomerName+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td style="width: 150px;"><strong>City</strong></td>'+
+'<td style="width: 350px;">'+cusData.City+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td style="width: 150px;"><strong>Customer Contact</strong></td>'+
+'<td style="width: 350px;">'+cusData.MobilePhone+'</td>'+
+'</tr>'+
+'<tr>'+
+'<td style="width: 150px;"><strong>Print Date</strong></td>'+
+'<td style="width: 350px;">'+printDate+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<hr />'+
+'<table style="width: 900px;">'+
+'<tbody>'+
+'<tr>'+
+'<td style="width: 160px;"><strong>Invoice Number</strong></td>'+
+'<td style="width: 300px;">&nbsp;'+orderDetails.OrderNo+'</td>'+
+'<td style="width: 150px;"><strong>Date</strong></td>'+
+'<td style="width: 270px;">&nbsp;'+orderDate+'</td>'+
+'</tr>'+
+'</tbody>'+
+'</table>'+
+'<hr />';
 
-  // Return table
-  var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
-  if (oReturns[0].Type){
-   table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
-   '<tr>'+
-   '<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
-   '<th class="idRReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
-   '<th class="idRReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>'+
-   '<th class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>'+
-   '<th class="idRReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>'+
-   '<th class="idRReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>'+
-   '<th class="idRReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>'+
-   '<th class="idRReturnSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
-   '</tr>'+
-   '<p><h3>Returns:</h3></p>';
-   for (var i = 0; i < oReturns.length; i++) {
-     if(oReturns[i].Type){
-       table += '<tr>';
-       table += '<td  style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Type+'</td>'+
-                '<td  class="idRReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Qty+'</td>'+
-                '<td  class="idRReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Weight+'</td>'+
-                '<td  class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].KWeight+'</td>'+
-                '<td  class="idRReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Tunch+'</td>'+
-                '<td  class="idRReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Bhav+'</td>'+
-                '<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Remarks+'</td>'+
-                '<td  class="idRReturnSubTotal" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
-     }
-   }
-
-   table += '<tr>'+'<td style="width: 80px;color:red"><strong>&nbsp;Final Balance</strong></td>'+
-            '<td class="idRReturnQuantity" style="width: 80px;">&nbsp;'+'</td>'+
-            '<td class="idRReturnWeight" style="width: 80px;">&nbsp;</td>'+
-            '<td class="idRReturnKattaWeight" style="width: 80px;">&nbsp;</td>'+
-            '<td class="idRReturnTunch" style="width: 80px;">&nbsp;</td>'+
-            '<td class="idRReturnBhav" style="width: 80px;">&nbsp;</td>'+
-            '<td class="idRReturnRemarks" style="width: 80px;">&nbsp;</td>'+
-            '<td class="idRReturnSubTotal" style="width: 80px;color:red"><strong>&nbsp;'+orderHeader.FinalBalance+'</strong></td></tr>';
-
-  }
-  table += '</table>';
-  var footer = '<table style="height: 40px; width: 950px;">'+
-               '<tbody>'+
-               '<tr>'+
-               '<td class="idRTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
-               '<td class="idRTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
-               '</tr>'+
-               '<tr>'+
-               '<td class="idRMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
-               '<td class="idRMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
-               '</tr>'+
-               '</tbody></table>';
-  debugger;
-    var myWindow = window.open("", "PrintWindow", "width=200,height=100");
-        myWindow.document.write(header+table+footer);
-        for (var i = 0; i < arrayRemoveFromPrint.length; i++){
-          var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
-          for(var j=0;j<coll.length;j++){
-            coll[j].style.display = "none";
-          }
+// Prepare Order table header
+var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
+// '<tbody>'+
+'<tr>'+
+'<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>'+
+'<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
+'<th class="idRQuantity" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>'+
+'<th class="idRQuantityD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>'+
+'<th class="idRWeight" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>'+
+'<th class="idRWeightD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>'+
+'<th class="idRMakingCharge" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>'+
+'<th class="idRMakingChargeD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>'+
+'<th class="idRRemarks" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>'+
+'<th class="idRSubTotal" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
+'</tr>';
+// '</tbody>';
+// Order Table Line Items
+var oTableDetails = this.getView().byId('orderItemBases');
+var oBinding = oTableDetails.getBinding("rows");
+var totalQuantity = 0;
+var sumOfSubTotal = 0.00;
+for (var i = 0; i < oBinding.getLength(); i++) {
+  if(oBinding.oList[i].MaterialCode){
+    totalQuantity = totalQuantity + oBinding.oList[i].Qty;
+    table += '<tr>';
+  table += '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].MaterialCode+'</td>'+
+           '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
+           '<td class="idRQuantity" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
+           '<td class="idRQuantityD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].QtyD+'</td>'+
+           '<td class="idRWeight" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
+           '<td class="idRWeightD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].WeightD+'</td>'+
+           '<td class="idRMakingCharge" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
+           '<td class="idRMakingChargeD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].MakingD+'</td>'+
+           '<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Remarks+'</td>'+
+           '<td class="idRSubTotal" style="width: 80px;border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotal+'</td></tr>';
         }
-        myWindow.print();
-        myWindow.stop();
+}
+// table for order totals
+table += '<tr>'+'<td style="width: 80px;">&nbsp;</td>'+
+         '<td style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRQuantity" style="width: 80px;color:red">&nbsp;'+totalQuantity+'</td>'+
+         '<td class="idRQuantityD" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRWeight" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRWeightD" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRMakingCharge" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRMakingChargeD" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRRemarks" style="width: 80px;">&nbsp;</td>'+
+         '<td class="idRSubTotal" style="width: 80px;color:red"><strong>&nbsp;'+orderDetails.TotalOrderValue+'</td></tr>';
+
+// Return table
+var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
+if (oReturns[0].Type){
+ table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
+ '<tr>'+
+ '<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
+ '<th class="idRReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+ '<th class="idRReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>'+
+ '<th class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>'+
+ '<th class="idRReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>'+
+ '<th class="idRReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>'+
+ '<th class="idRReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>'+
+ '<th class="idRReturnSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
+ '</tr>'+
+ '<p><h3>Returns:</h3></p>';
+ for (var i = 0; i < oReturns.length; i++) {
+   if(oReturns[i].Type){
+     table += '<tr>';
+     table += '<td  style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Type+'</td>'+
+              '<td  class="idRReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Qty+'</td>'+
+              '<td  class="idRReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Weight+'</td>'+
+              '<td  class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].KWeight+'</td>'+
+              '<td  class="idRReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Tunch+'</td>'+
+              '<td  class="idRReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Bhav+'</td>'+
+              '<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Remarks+'</td>'+
+              '<td  class="idRReturnSubTotal" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
+   }
+ }
+
+ table += '<tr>'+'<td style="width: 80px;color:red"><strong>&nbsp;Final Balance</strong></td>'+
+          '<td class="idRReturnQuantity" style="width: 80px;">&nbsp;'+'</td>'+
+          '<td class="idRReturnWeight" style="width: 80px;">&nbsp;</td>'+
+          '<td class="idRReturnKattaWeight" style="width: 80px;">&nbsp;</td>'+
+          '<td class="idRReturnTunch" style="width: 80px;">&nbsp;</td>'+
+          '<td class="idRReturnBhav" style="width: 80px;">&nbsp;</td>'+
+          '<td class="idRReturnRemarks" style="width: 80px;">&nbsp;</td>'+
+          '<td class="idRReturnSubTotal" style="width: 80px;color:red"><strong>&nbsp;'+orderDetails.FinalBalance+'</strong></td></tr>';
+
+}
+table += '</table>';
+var footer = '<table style="height: 40px; width: 950px;">'+
+             '<tbody>'+
+             '<tr>'+
+             '<td class="idRTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
+             '<td class="idRTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
+             '</tr>'+
+             '<tr>'+
+             '<td class="idRMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
+             '<td class="idRMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
+             '</tr>'+
+             '</tbody></table>';
+debugger;
+  var myWindow = window.open("", "PrintWindow", "width=200,height=100");
+      myWindow.document.write(header+table+footer);
+      for (var i = 0; i < arrayRemoveFromPrint.length; i++){
+        var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
+        for(var j=0;j<coll.length;j++){
+          coll[j].style.display = "none";
+        }
+      }
+      myWindow.print();
+      myWindow.stop();
 },
 onConfirm:function(oEvent){
   var that = this;
@@ -594,8 +592,7 @@ debugger;
 if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
 {
   var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
-  var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("deleteUnsaveData");
-  sap.m.MessageBox.confirm(oBundle,{
+  sap.m.MessageBox.confirm("Are you sure to delete the unsaved Data?",{
   title: "Confirm",                                    // default
   // id:id,                                               // Id
   styleClass: "",                                      // default
@@ -657,8 +654,9 @@ orderCheck:function(){
   orderData.Date = this.getView().byId("Sales--DateId").getValue();
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                             "POST", {}, orderData, this)
-    .then(function(oData) {
-        that.getView().setBusy(false);
+               .then(function(oData) {
+                that.getView().setBusy(false);
+
   //create the new json model and get the order id no generated
     var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
     oOrderId.OrderId=oData.id;
@@ -668,48 +666,10 @@ orderCheck:function(){
     that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
              })
     .catch(function(oError) {
-      debugger;
-      if (oError.responseText.includes("last order already empty use same")) {
-        var id = oError.responseText.split(':')[2];
-        if (id) {
-          var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
-          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                                    "/OrderHeaders(" + id + ")",
-                                    "GET", {}, {}, that)
-          .then(function(oData) {
-            debugger;
-            that.getView().setBusy(false);
-      //create the new json model and get the order id no generated
-      var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
-      var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-      // oOrderHeader.Id=oData.id;
-      oOrderHeader.OrderNo=oData.OrderNo;
-      oOrderHeader.Customer = customer;
-      oOrderId.OrderId=oData.id;
-      oOrderId.OrderNo=oData.OrderNo;
-      that.headerNoChange = true;
-      that.getView().getModel('local').setProperty('/OrderId',oOrderId);
-      that.getView().getModel('local').setProperty('/orderHeader',oOrderHeader);
-      var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
-      sap.m.MessageToast.show(oBundle, {
-        duration: 3000,                  // default
-        width: "15em",                   // default
-        });
-          })
-          .catch(function(oError) {
-            that.getView().setBusy(false);
-            var oPopover = that.getErrorMessage(oError);
-          });
-        }else {
-          that.getView().setBusy(false);
-          var oPopover = that.getErrorMessage(oError);
-        }
-      }else {
       that.getView().setBusy(false);
       var oPopover = that.getErrorMessage(oError);
-    }
-  });
-}//Else
+          		});
+            }
 },
 onValidation: function() {
   var that = this;
@@ -720,9 +680,8 @@ onValidation: function() {
   if(oHeader.OrderNo === 0 ||
      oHeader.OrderNo === ""){
     retVal = false;
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
       MessageBox.show(
-        oBundle, {
+        "Please create Order Number first", {
           icon: MessageBox.Icon.ERROR,
           title: "Error",
           actions: [MessageBox.Action.OK],
@@ -744,12 +703,6 @@ onValidationItem:function(data,i)
 // //---all errors are false
   var returnError = false;
   debugger;
-  if ((data.Weight) && (data.WeightD) &&
-      (data.WeightD > data.Weight)){
-    oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
-  }else {
-    oTableDetails.getRows()[i].getCells()[4].setValueState("None");
-  }
   //Quantity
   if ((data.Type === 'GS') ||
   ((data.Type === 'Gold' && data.Category === "pcs") ||
@@ -881,8 +834,7 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         }//for loop
         that.getView().getModel("returnModel").setProperty("/TransData",allItems);
         that.getView().setBusy(false);
-  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSave");
-        sap.m.MessageToast.show(oBundle);
+        sap.m.MessageToast.show("Data Saved Successfully");
         })
     .catch(function(oError){
       that.getView().setBusy(false);
@@ -998,8 +950,7 @@ this.commitRecords(oEvent);
 }
 //error if no valid entry
 if (valueCheck === false) {
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("validEntries");
-  sap.m.MessageBox.error(oBundle,{
+  sap.m.MessageBox.error("Please Enter Valid entries before save",{
   title: "Error",                                    // default
   styleClass: "",                                      // default
   initialFocus: null,                                  // default
@@ -1022,16 +973,13 @@ commitRecords:function(oEvent){
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
   var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
   if (this.headerNoChange === true) {
-    // oHeader.Date = new Date(oHeader.Date);
-  var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 //order header put
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                            "/OrderHeaders('" + oId + "')",
-                            "PUT", {}, oHeaderClone, this)
+  that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                        "/OrderHeaders('"+ oId +"')", "PUT",
+                         {},oHeader, this)
   .then(function(oData) {
     debugger;
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
-    message.show(oBundle);
+    message.show("Order Saved");
         that.getView().setBusy(false);
        })
   .catch(function(oError) {
@@ -1128,8 +1076,7 @@ if (data.itemNo) {
     }//for loop
     that.getView().getModel("orderItems").setProperty("/itemData",allItems);
     that.getView().setBusy(false);
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSucess");
-    sap.m.MessageToast.show(oBundle);
+    sap.m.MessageToast.show("Data Saved Successfully");
     })
   .catch(function(oError){
   that.getView().setBusy(false);
@@ -1145,8 +1092,7 @@ that.onReturnSave(oEvent,oId,oCommit,oHeader);
 that.byId("Sales--idSaveIcon").setColor('green');
 }//if status is red only than commit
 else {
-var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataNoChnage");
-  sap.m.MessageBox.error(oBundle,{
+  sap.m.MessageBox.error("No Change in data records",{
   title: "Error",                                    // default
   styleClass: "",                                      // default
   initialFocus: null,                                  // default
@@ -1157,24 +1103,20 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
 },
 onClearScreen:function(oEvent){
   var that = this;
-  debugger;
   var saveStatus = this.byId('Sales--idSaveIcon').getColor();
   if (!id) {
   var id = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
   }
   if (saveStatus == "red") {
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearConfirmation");
-  // sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
-  sap.m.MessageBox.error(oBundle, {
+  sap.m.MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
        title: "Alert!",
        actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
        onClose: function(oAction) {
          if (oAction === "Clear") {
            that.onClear(oEvent,id);
            that.byId("Sales--idSaveIcon").setColor('green');
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
-           // MessageToast.show("Screen cleared successfully!");
-        MessageToast.show(oBundle);
+
+           MessageToast.show("Screen cleared successfully!");
          } else if (oAction === "Save & Clear") {
            if (that.onSave(oEvent)) {
              that.onClear(oEvent,id);
@@ -1184,19 +1126,18 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clear
        }
      });
   }else {
-    // sap.m.MessageBox.error("Are you sure you want to clear all entries?",
-    //  {
-    //      title: "Alert!",
-    //      actions: ["Clear", MessageBox.Action.CANCEL],
-    //      onClose: function(oAction) {
-    //        if (oAction === "Clear") {
-  that.onClear(oEvent,id);
-  that.byId("Sales--idSaveIcon").setColor('green');
-  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
-  MessageToast.show(oBundle);
-         //   }
-         //   }
-         // });
+    sap.m.MessageBox.error("Are you sure you want to clear all entries?",
+     {
+         title: "Alert!",
+         actions: ["Clear", MessageBox.Action.CANCEL],
+         onClose: function(oAction) {
+           if (oAction === "Clear") {
+             that.onClear(oEvent,id);
+             that.byId("Sales--idSaveIcon").setColor('green');
+             MessageToast.show("Screen cleared successfully!");
+           }
+           }
+         });
   }
 },
 onClear:function(oEvent,id){
@@ -1220,6 +1161,9 @@ oHeader.GoldBhav22=0;
 oHeader.GoldBhav20=0;
 oHeader.GoldBhav=0;
 oHeader.SilverBhav=0;
+oHeader.TotalOrderValue="";
+oHeader.Deduction="";
+oHeader.FinalBalance="";
 this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 // oHeader.Date=new Date();
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
@@ -1287,17 +1231,8 @@ if (selIdxs.length && selIdxs.length !== 0) {
     debugger;
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
-        var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
+        var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[i];
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-        var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-        if (subtotalItem) {
-          that.orderAmount = that.orderAmount - subtotalItem;
-          var orderAmountF = that.getIndianCurr(that.orderAmount);
-          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
-        }
-      that.finalBal = that.orderAmount - that.deduction;
-      var finalBalF = that.getIndianCurr(that.finalBal);
-      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
@@ -1306,10 +1241,14 @@ if (selIdxs.length && selIdxs.length !== 0) {
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');
       }
-    var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-    oTableData.splice(selIdxs[i], 1);
-    that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
-    oTableData.push(
+      var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+      if (subtotalItem) {
+        that.orderAmount = that.orderAmount - subtotalItem;
+      }
+        var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+        oTableData.splice(selIdxs[i], 1);
+        that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
+          oTableData.push(
             {
     					"OrderNo": "",
     					"itemNo": "",
@@ -1351,9 +1290,8 @@ if (selIdxs.length && selIdxs.length !== 0) {
 });
 
 }else { // if selindx length check
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selecteDeleteItem");
   MessageBox.show(
-      oBundle, {
+    "Please Select the entry to be deleted", {
       icon: MessageBox.Icon.ERROR,
       title: "Error",
       actions: [MessageBox.Action.OK],
@@ -1528,41 +1466,30 @@ var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
   //Making charges
   var makingCharges  = data.Making * weightF;
   var stonevalue = quantityOfStone * data.MakingD;
-  if ((priceF || makingCharges || stonevalue) ||
-   (priceF === 0 || makingCharges === 0 || stonevalue ===0) )
-   {
+  if (priceF || makingCharges || stonevalue) {
   var subTot = (priceF + makingCharges + stonevalue);
   debugger;
   if ((data.SubTotal) && (data.SubTotal != "")) {
   var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
 }else {
-  data.SubTotal = 0;
   this.orderAmount = subTot + this.orderAmount;
   var orderAmount = this.orderAmount;
 }
 var orderAmount = this.orderAmount;
 var orderAmount = orderAmount.toString();
 var orderAmountF = this.getIndianCurr(orderAmount);
-this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
+this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   var subTotF =  this.getIndianCurr(subTot);
     // gold price per gram
     if (tablePath) {
      debugger;
-     if (subTotF) {
-     category.SubTotal = subTotF;
-   }else {
-     category.SubTotal = 0;
-   }
+    category.SubTotal = subTotF;
     //capture if there is any change
     // this.noChange.flag = true;
     this.getView().byId("orderItemBases").getModel("orderItems").setProperty(tablePath , category);
     }else {
-      if (subTotF != "") {
-          cells[cells.length - 1].setText(subTotF);
-      }else {
-        cells[cells.length - 1].setText('0');
-      }
+    cells[cells.length - 1].setText(subTotF);
     }
   }else {
     cells[cells.length - 1].setText(0)
@@ -1586,7 +1513,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
   var orderAmount = this.orderAmount;
   var orderAmount = orderAmount.toString();
   var orderAmountF = this.getIndianCurr(orderAmount);
-  this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
+  this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
   if (tablePath) {
    debugger;
   category.SubTotal = subTotF;
@@ -1647,7 +1574,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
 var orderAmount = this.orderAmount;
 var orderAmount = orderAmount.toString();
 var orderAmountF = this.getIndianCurr(orderAmount);
-this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
+this.getView().getModel('local').setProperty('/orderHeader/TotalOrderValue',orderAmountF);
 
   var subTotF =  this.getIndianCurr(subTot);
   if (tablePath) {
@@ -1726,7 +1653,7 @@ Calculation:function(oEvent,tablePath,i){
       debugger;
       that.finalBal = that.orderAmount - that.deduction;
       var finalBal = that.getIndianCurr(that.finalBal);
-      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
+      that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
       })
       .catch(function(oError) {
         that.getView().setBusy(false);
@@ -1745,7 +1672,7 @@ Calculation:function(oEvent,tablePath,i){
 debugger;
 that.finalBal = that.orderAmount - that.deduction;
 var finalBal = that.getIndianCurr(that.finalBal);
-that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
+that.getView().getModel('local').setProperty('/orderHeader/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");
   this.byId("IdMakingD");

@@ -18,27 +18,7 @@ sap.ui.define(
     // this.createModel();
   },
   createModel: function(){
-   // var oPrintmodel = new JSONModel();
-   // var oPrintItem = {
-   //     compName = "",
-   //     phone = "",
-   //     address = "",
-   //     rCompName="",
-   //     rAddress="",
-   //     rPhone="",
-   //     rWeight="",
-   //     rQuantity="",
-   //     rLessQunatity="",
-   //     rSubTotal="",
-   //     rMakingCharge="",
-   //     rBhav="",
-   //     rMakingType="",
-   //     rFooter="",
-   //     rReturnBhav="",
-   //     rReturnWeight="",
-   //     rFineTotal="",
-   //     rLessWeight=""
-   // }
+
   },
   getRouter: function(){
       return this.getOwnerComponent().getRouter();
@@ -85,12 +65,14 @@ sap.ui.define(
     debugger;
     var that = this;
     var allItems = that.getView().getModel("local").getProperty("/printCustomizingData");
-    var id = oData.results[0].id;
-    this.getModel().update("/prints(" +id+ ")",allItems,{
-      success: function(){
-        // MessageToast.show("Updated successfully");
-      }
-    });
+    for (var i = 0; i < oData.results.length; i++) {
+      var id = oData.results[i].id;
+      this.getModel().update("/prints(" +id+ ")",allItems,{
+        success: function(){          
+        }
+      });
+    }
+
   },
   createData: function(oData){
     var that = this;

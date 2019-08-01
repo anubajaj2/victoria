@@ -396,6 +396,7 @@ debugger;
                 debugger;
                 var myUrl = x[i].getBindingContext().sPath;
                 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+									sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
 								var p = x[i].getBindingContext().getObject().Cash;
 								var q = x[i].getBindingContext().getObject().Gold;
 								var r = x[i].getBindingContext().getObject().Silver;
@@ -752,8 +753,11 @@ sap.m.MessageBox.confirm(
 				customerId: that.customerId
 			, entityName: "Entry"}).done(function(response){
 				sap.m.MessageToast.show(response.msg);
+				sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
+					// that.getView().byId("idTable").refresh(true);
 			});
-	    Entrys.refresh(true);
+			// this.getView().byId("idTable").refresh(true);
+	    // Entrys.refresh(true);
 				}
 						else if(sAction==="CANCEL"){
 							this.getView().setBusy(false);

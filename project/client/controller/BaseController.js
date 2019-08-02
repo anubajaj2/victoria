@@ -715,9 +715,12 @@ sap.ui.define([
 						}
 
 						userEnterValue.Weight = "0";
+						userEnterValue.Tunch = "0";
 						userEnterValue.KWeight = "0";
 						userEnterValue.Quantity = "0";
 						userEnterValue.Remarks = "";
+						userEnterValue.Bhav = "0";
+						userEnterValue.SubTotal = "0";
 
 						if (key === 'OG') {
 							userEnterValue.Tunch = "100";
@@ -777,7 +780,12 @@ sap.ui.define([
 						}
 						this.returnCalculation(oEvent, orderHeader, seletedLine);
 						this.finalBal = this.orderAmount - this.deduction;
+						if (this.finalBal === 0) {
+							var finalBal = 0;
+						}else {
 						var finalBal = this.getIndianCurr(this.finalBal);
+						}
+
 						this.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 					},
 					setReturnNewValue: function(seletedLine, fieldId, newValue) {
@@ -916,6 +924,9 @@ sap.ui.define([
 									}
 								}else {
 									debugger;
+									if (deductionF === '0' || deductionF === '' ) {
+										deductionF = '0';
+									}
 									this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 								}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
@@ -931,6 +942,9 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
+										if (deductionF === '0' || deductionF === '' ) {
+											deductionF = '0';
+										}
 										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 								} //path check
@@ -970,6 +984,9 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
+										if (deductionF === '0' || deductionF === '' ) {
+											deductionF = '0';
+										}
 										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 									this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
@@ -988,6 +1005,9 @@ sap.ui.define([
 										}
 									}else {
 										debugger;
+										if (deductionF === '0' || deductionF === '' ) {
+											deductionF = '0';
+										}
 										this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 									}
 								}
@@ -1009,6 +1029,9 @@ sap.ui.define([
 								var deductionF = this.getIndianCurr(deduction);
 								if (viewId == 'idsalesws') {
 								}else {
+									if (deductionF === '0' || deductionF === '' ) {
+										deductionF = '0';
+									}
 								this.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deductionF);
 								}
 								if (path) {

@@ -1214,6 +1214,9 @@ var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 // oHeaderT.CustomerName ="";
 this.getView().byId("Sales--custName").setText("");
 oHeaderT.CustomerId="";
+oHeaderT.FinalBalance="0";
+oHeaderT.Deduction="0";
+oHeaderT.TotalOrderValue="0";
 oHeader.OrderNo="";
 oHeader.Customer="";
 oHeader.GoldBhav22=0;
@@ -1296,7 +1299,11 @@ if (selIdxs.length && selIdxs.length !== 0) {
           that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
         }
       that.finalBal = that.orderAmount - that.deduction;
-      var finalBalF = that.getIndianCurr(that.finalBal);
+      if (this.finalBal === 0) {
+        var finalBalF = 0;
+      }else {
+      var finalBalF = this.getIndianCurr(this.finalBal);
+      }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
         that.byId("Sales--idSaveIcon").setColor('green');
@@ -1725,7 +1732,11 @@ Calculation:function(oEvent,tablePath,i){
                               silverpergm);
       debugger;
       that.finalBal = that.orderAmount - that.deduction;
-      var finalBal = that.getIndianCurr(that.finalBal);
+      if (that.finalBal === 0) {
+        var finalBal = 0;
+      }else {
+      var finalBal = this.getIndianCurr(this.finalBal);
+      }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
       })
       .catch(function(oError) {
@@ -1744,7 +1755,11 @@ Calculation:function(oEvent,tablePath,i){
                           silverpergm);
 debugger;
 that.finalBal = that.orderAmount - that.deduction;
-var finalBal = that.getIndianCurr(that.finalBal);
+if (that.finalBal === 0) {
+  var finalBal = 0;
+}else {
+var finalBal = this.getIndianCurr(this.finalBal);
+}
 that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");

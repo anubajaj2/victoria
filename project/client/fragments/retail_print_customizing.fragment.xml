@@ -193,17 +193,74 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Estimate"/>
-							<Switch state="true" id="idREstimate" change="onSubmit" name="switch">
-								<layoutData>
-									<FlexItemData growFactor="1" />
-									<!-- <l:GridData span="XL4 L4 "/> -->
-								</layoutData>
-							</Switch>
-							<Text/>
-							<Text/>
-							<Text/>
-							<Text/>
+						<Text text="WeightD" width="20%"/>
+						<Switch state="true" id="idRWeightD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="QuantityD" width="20%"/>
+						<Switch state="true" id="idRQuantityD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="MakingD" width="20%"/>
+						<Switch state="true" id="idRMakingChargeD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Remarks" width="20%"/>
+						<Switch state="true" id="idRRemarks" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Return Remarks" width="20%"/>
+						<Switch state="true" id="idRReturnRemarks" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="Katta Weight" width="20%"/>
+						<Switch state="true" id="idRReturnKattaWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="Return Tunch" width="20%"/>
+						<Switch state="true" id="idRReturnTunch" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="RetSubTotal" width="20%"/>
+						<Switch state="true" id="idRReturnSubTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>						
 					</f:fields>
 				</f:FormElement>
 			</f:formElements>

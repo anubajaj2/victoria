@@ -41,6 +41,9 @@ sap.ui.define([
 					sUrlTargetSystem: undefined,
 					toggleTableState: true,
 					deduction:0,
+					DeductionCash: 0,
+					DeductionGold: 0,
+					DeductionSilver: 0,
 					allMasterData: {
 						"customers": [],
 						"materials": [],

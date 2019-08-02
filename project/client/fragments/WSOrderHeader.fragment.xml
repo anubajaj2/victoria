@@ -2,16 +2,19 @@
 	<VBox class="sapUiSmallMargin">
 		<f:Form id="WSOrderHeader" editable="true">
 			<f:toolbar>
-			<Toolbar id="TB1">
-			<ToolbarSpacer/>
-			<core:Icon id="idSaveIcon" src="sap-icon://status-completed"
-			class="size1"	color="green"
-			size="30px" alt="Save Status" tooltip="Save Status"/>
-			</Toolbar>
+				<Toolbar id="TB1">
+					<ToolbarSpacer/>
+					<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="Save Status"/>
+				</Toolbar>
 			</f:toolbar>
 			<f:layout>
-				<f:ResponsiveGridLayout adjustLabelSpan="true"
-					columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+				<!-- <f:ResponsiveGridLayout adjustLabelSpan="true" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/> -->
+				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false" columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false"/>
+				<!-- <f:ColumnLayout
+					columnsM="2"
+					columnsL="3"
+					columnsXL="4"
+				/> -->
 			</f:layout>
 			<f:formContainers>
 				<!-- //Order detail -->
@@ -24,21 +27,26 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>Customer}">
 							<f:fields>
-								<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
-								      showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-								      valueLiveUpdate="true" required="true"
-											valueHelpOnly="true" editable="true" enabled="true"/>
-								<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+								<Input id="customerId"  value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" valueHelpOnly="true" editable="true" enabled="true"/>
+								<!-- <Text id="custName" fieldWidth="10%" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/> -->
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="">
+							<f:fields>
+								<Text id="custName"  value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>OrderNo}">
 							<f:fields>
-								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}"
-									showValueHelp="true" valueHelpRequest="valueHelpOrder"
-									valueHelpOnly="true"/>
+								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+								<!-- <Button text="{i18n>C}" press="orderCreate"/> -->
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="">
+							<f:fields>
 								<Button text="{i18n>C}" press="orderCreate"/>
-								<Button icon="sap-icon://nav-back"/>
-								<Button icon="sap-icon://feeder-arrow"/>
+								<Button icon="sap-icon://nav-back" fieldWidth="10%"/>
+								<Button icon="sap-icon://feeder-arrow" fieldWidth="10%"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
@@ -75,9 +83,46 @@
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
-					<f:layoutData>
+					<!-- <f:layoutData>
 						<f:GridContainerData halfGrid="true"></f:GridContainerData>
-					</f:layoutData>
+					</f:layoutData> -->
+				</f:FormContainer>
+				<!-- Total Details -->
+				<f:FormContainer>
+					<f:FormElement >
+						<f:fields>
+							<Label text="" textAlign="Center"/>
+							<Label text="Cash" textAlign="Center"/>
+							<Label text="Gold" textAlign="Center"/>
+							<Label text="Silver" textAlign="Center"/>
+						</f:fields>
+					</f:FormElement>
+					<f:formElements>
+						<f:FormElement label="{i18n>tOrderAmount}" textAlign="Left">
+							<f:fields>
+								<Input value="{local>/orderHeaderTemp/TotalOrderValueCash}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" fieldWidth="10%"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>deductions}">
+							<f:fields>
+								<Input value="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" fieldWidth="10%"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>fBalance}">
+							<f:fields>
+								<Input value="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" fieldWidth="10%"/>
+								<Input value="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" fieldWidth="10%"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<!-- <f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData> -->
 				</f:FormContainer>
 			</f:formContainers>
 		</f:Form>

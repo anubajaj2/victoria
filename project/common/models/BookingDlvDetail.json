@@ -32,6 +32,11 @@
       "required": false,
       "default":0.00
     },
+    "RecId": {
+      "type": "string",
+      "required": false,
+      "default": "null"
+    },
     "CreatedOn": {
       "type": "date",
       "required": "null"

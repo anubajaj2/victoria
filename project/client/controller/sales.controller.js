@@ -1373,7 +1373,6 @@ onSetting:function(oEvent){
 },
 
 previousOrder:function(oEvent){
-  debugger;
   var that = this;
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   $.post("/previousOrder",{OrderDetails: myData})
@@ -1389,6 +1388,11 @@ previousOrder:function(oEvent){
       var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
       }
       oEvent.sId = "orderReload";
+      var id = 'sales';
+      //Clear Item table
+      that.orderItem(oEvent,id);
+      //return table
+      that.orderReturn(oEvent,id);
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
     debugger;
@@ -1402,7 +1406,11 @@ nextOrder:function(oEvent){
   .then(function(result){
     console.log(result);
     if (result) {
-      debugger;
+      var id = 'sales';
+      //Clear Item table
+      that.orderItem(oEvent,id);
+      //return table
+      that.orderReturn(oEvent,id);
       var orderId = result.id;
       that.byId("Sales--idSaveIcon").setColor('green');
       if (result.Customer){

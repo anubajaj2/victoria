@@ -619,7 +619,6 @@ sap.ui.define([
 
 					},
 					setVisible: function(oEvent, id) {
-						debugger;
 						var oVisModel = new sap.ui.model.json.JSONModel({
 							rows1: true
 						});
@@ -1167,7 +1166,6 @@ sap.ui.define([
 									"itemData": array
 								});
 								//set the model
-								debugger;
 								this.setModel(oOrderItem, "orderItems");
 							},
 							hideDColumns: function(oEvent) {
@@ -1231,7 +1229,6 @@ sap.ui.define([
 							},
 							orderCustomCalculations: function() {
 								var that = this;
-								debugger;
 								// var orderHeader = that.getView().getModel('local').getProperty('/orderHeaders');
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 										"/CustomCalculations", "GET", {}, {}, this)

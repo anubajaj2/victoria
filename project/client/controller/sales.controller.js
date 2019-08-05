@@ -545,7 +545,6 @@ that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                  "GET",{}, {}, that)
 .then(function(oData) {
    debugger;
-oEvent.sId = "orderReload";
 if (oData.results.length > 0) {
   	var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
   for (var i = 0; i < oData.results.length; i++) {
@@ -561,6 +560,7 @@ if (oData.results.length > 0) {
     allReturns[i].Remarks = oData.results[i].Remarks;
     that.getView().getModel("returnModel").setProperty("/TransData", allReturns);
     var seletedLine = "/TransData" + '/' + i;
+    oEvent.sId = "orderReload";
     var orderHeader = that.getView().getModel('local').getProperty('/orderHeader');
     that.returnCalculation(oEvent, orderHeader, seletedLine);
     }
@@ -1395,12 +1395,12 @@ previousOrder:function(oEvent){
       }else {
       var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
       }
-      oEvent.sId = "orderReload";
       var id = 'sales';
       //Clear Item table
       that.orderItem(oEvent,id);
       //return table
       that.orderReturn(oEvent,id);
+      oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
     debugger;

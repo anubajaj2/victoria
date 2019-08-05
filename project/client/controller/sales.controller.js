@@ -1371,8 +1371,50 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selec
 onSetting:function(oEvent){
   this.hideDColumns(oEvent);
 },
-OnCustChange:function(){
 
+previousOrder:function(oEvent){
+  debugger;
+  var that = this;
+  var myData = this.getView().getModel("local").getProperty("/orderHeader");
+  $.post("/previousOrder",{OrderDetails: myData})
+  .then(function(result){
+    console.log(result);
+    if (result) {
+      debugger;
+      var orderId = result.id;
+      that.byId("Sales--idSaveIcon").setColor('green');
+      if (result.Customer){
+      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
+      }else {
+      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+      }
+      oEvent.sId = "orderReload";
+      that.getOrderDetails(oEvent,orderId,oFilter);
+    }
+    debugger;
+  });
+},
+nextOrder:function(oEvent){
+  debugger;
+  var that = this;
+  var myData = this.getView().getModel("local").getProperty("/orderHeader");
+  $.post("/nextOrder",{OrderDetails: myData})
+  .then(function(result){
+    console.log(result);
+    if (result) {
+      debugger;
+      var orderId = result.id;
+      that.byId("Sales--idSaveIcon").setColor('green');
+      if (result.Customer){
+      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
+      }else {
+      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+      }
+      oEvent.sId = "orderReload";
+      that.getOrderDetails(oEvent,orderId,oFilter);
+    }
+    debugger;
+  });
 },
 ValueChange:function(oEvent){
   var tablePath = "";
@@ -1735,7 +1777,7 @@ Calculation:function(oEvent,tablePath,i){
       if (that.finalBal === 0) {
         var finalBal = 0;
       }else {
-      var finalBal = this.getIndianCurr(this.finalBal);
+      var finalBal = that.getIndianCurr(that.finalBal);
       }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
       })

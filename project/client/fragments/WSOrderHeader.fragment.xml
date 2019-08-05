@@ -1,130 +1,117 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" width="160px">
-	<VBox class="sapUiSmallMargin">
-		<f:Form id="WSOrderHeader" editable="true">
-			<f:toolbar>
-				<Toolbar id="TB1">
-					<ToolbarSpacer/>
-					<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="Save Status"/>
-				</Toolbar>
-			</f:toolbar>
-			<f:layout>
-				<!-- <f:ResponsiveGridLayout adjustLabelSpan="true" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/> -->
-				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false" columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false"/>
-				<!-- <f:ColumnLayout
-					columnsM="2"
-					columnsL="3"
-					columnsXL="4"
-				/> -->
-			</f:layout>
-			<f:formContainers>
-				<!-- //Order detail -->
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement label="{i18n>Date}">
-							<f:fields>
-								<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" displayFormat="dd.MM.yyyy" change="onPayDateChange" width="50%"/>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="{i18n>Customer}">
-							<f:fields>
-								<Input id="customerId"  value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" valueHelpOnly="true" editable="true" enabled="true"/>
-								<!-- <Text id="custName" fieldWidth="10%" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/> -->
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="">
-							<f:fields>
-								<Text id="custName"  value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="{i18n>OrderNo}">
-							<f:fields>
-								<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
-								<!-- <Button text="{i18n>C}" press="orderCreate"/> -->
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="">
-							<f:fields>
-								<Button text="{i18n>C}" press="orderCreate"/>
-								<Button icon="sap-icon://nav-back" fieldWidth="10%"/>
-								<Button icon="sap-icon://feeder-arrow" fieldWidth="10%"/>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-					<f:layoutData>
-						<f:GridContainerData halfGrid="true"></f:GridContainerData>
-					</f:layoutData>
-				</f:FormContainer>
-			</f:formContainers>
-			<f:formContainers>
-				<!-- //tunch detail -->
-				<f:FormContainer>
-					<f:formElements>
-						<f:FormElement label="{i18n>WSGBhav}">
-							<f:fields>
-								<Input type="Number" id="idGbhav" liveChange="ValueChangeHeader" placeholder="{i18n>WSGBhav}" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
-							</f:fields>
-						</f:FormElement>
-
-						<f:FormElement label="{i18n>WSSBhav}">
-							<f:fields>
-								<Input type="Number" editable="true" id="idSBhav" liveChange="ValueChangeHeader" placeholder="{i18n>WSSBhav}" tooltip="{i18n>Gold}" value="{local>/WSOrderHeader/SilverBhav}"/>
-							</f:fields>
-						</f:FormElement>
-
-						<f:FormElement label="{i18n>WSGBhavK}">
-							<f:fields>
-								<Input type="Number" editable="true" id="idGbhavK" liveChange="ValueChangeHeader" placeholder="{i18n>WSGBhavK}" value="{local>/WSOrderHeader/GoldbhavK}"/>
-							</f:fields>
-						</f:FormElement>
-
-						<f:FormElement label="{i18n>WSSBhavK}">
-							<f:fields>
-								<Input type="Number" editable="true" id="idSBhavK" liveChange="ValueChangeHeader" placeholder="{i18n>WSSBhavK}" tooltip="{i18n>Sbhav}" value="{local>/WSOrderHeader/SilverBhavK}"/>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-					<!-- <f:layoutData>
-						<f:GridContainerData halfGrid="true"></f:GridContainerData>
-					</f:layoutData> -->
-				</f:FormContainer>
-				<!-- Total Details -->
-				<f:FormContainer>
-					<f:FormElement >
-						<f:fields>
-							<Label text="" textAlign="Center"/>
-							<Label text="Cash" textAlign="Center"/>
-							<Label text="Gold" textAlign="Center"/>
-							<Label text="Silver" textAlign="Center"/>
-						</f:fields>
-					</f:FormElement>
-					<f:formElements>
-						<f:FormElement label="{i18n>tOrderAmount}" textAlign="Left">
-							<f:fields>
-								<Input value="{local>/orderHeaderTemp/TotalOrderValueCash}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" fieldWidth="10%"/>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="{i18n>deductions}">
-							<f:fields>
-								<Input value="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" fieldWidth="10%"/>
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="{i18n>fBalance}">
-							<f:fields>
-								<Input value="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" fieldWidth="10%"/>
-								<Input value="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" fieldWidth="10%"/>
-							</f:fields>
-						</f:FormElement>
-					</f:formElements>
-					<!-- <f:layoutData>
-						<f:GridContainerData halfGrid="true"></f:GridContainerData>
-					</f:layoutData> -->
-				</f:FormContainer>
-			</f:formContainers>
-		</f:Form>
-	</VBox>
-</core:FragmentDefinition>
+	<l:VerticalLayout class="navigationExamples" width="100%">
+		<l:content>
+			<Panel class="sapUiDemoFlexBoxSizeAdjustments">
+				<headerToolbar>
+					<Toolbar id="TB1">
+						<ToolbarSpacer/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="Save Status"/>
+					</Toolbar>
+				</headerToolbar>
+				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
+					<VBox width='40%'>
+						<f:Form id="orderHeader" editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
+							</f:layout>
+							<f:formContainers>
+								<!-- //Order detail -->
+								<f:FormContainer >
+									<f:formElements>
+										<f:FormElement label="{i18n>Date}" textAlign="Left">
+											<f:fields>
+												<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" displayFormat="dd.MM.yyyy" change="onPayDateChange" width="60%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>Customer}">
+											<f:fields>
+												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" valueHelpOnly="true"/>
+												<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>OrderNo}">
+											<f:fields>
+												<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+												<Button text="{i18n>C}" press="orderCreate"/>
+												<Button icon="sap-icon://nav-back"/>
+												<Button icon="sap-icon://feeder-arrow"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData halfGrid="true"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+					<VBox width='25%'>
+						<f:Form id="orderHeaderBhav" editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="6" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
+							</f:layout>
+								<f:formContainers>
+									<!-- //tunch detail -->
+									<f:FormContainer>
+										<f:formElements>
+											<f:FormElement label="{i18n>WSGBhav}">
+												<f:fields>
+													<Input type="Number" fieldWidth="10px" id="idGbhav" placeholder="{i18n>WSGBhav}" tooltip="{i18n>WSGBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
+												</f:fields>
+											</f:FormElement>
+											<f:FormElement label="{i18n>WSSBhav}">
+												<f:fields>
+													<Input type="Number" fieldWidth="10px" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>WSSBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/SilverBhav}"/>
+												</f:fields>
+											</f:FormElement>
+											<f:FormElement label="{i18n>WSGBhavK}">
+												<f:fields>
+													<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/GoldbhavK}"/>
+												</f:fields>
+											</f:FormElement>
+											<f:FormElement label="{i18n>WSSBhavK}">
+												<f:fields>
+													<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{local>/WSOrderHeader/SilverBhavK}"/>
+												</f:fields>
+											</f:FormElement>
+										</f:formElements>
+										<f:layoutData>
+											<f:GridContainerData span="XL1 L2 M2 S4"></f:GridContainerData>
+										</f:layoutData>
+									</f:FormContainer>
+								</f:formContainers>
+							</f:Form>
+						</VBox>
+						<VBox width='35%'>
+							<Panel id="totals" headerText="Total" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+								<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+									<Label text="{i18n>tOrderAmount}" width="0%"/>
+									<Label text="Cash" fieldWidth="10%"/>
+									<Label text="Gold" fieldWidth="10%"/>
+									<Label text="Silver" fieldWidth="10%"/>
+								</FlexBox>
+								<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+									<Label text="{i18n>tOrderAmount}"/>
+									<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValueCash}"/>
+									<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}"/>
+									<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}"/>
+								</FlexBox>
+								<FlexBox justifyContent="SpaceBetween">
+									<Label text="{i18n>deductions}"/>
+									<Text text="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" fieldWidth="30%"/>
+									<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" fieldWidth="30%"/>
+									<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" fieldWidth="30%"/>
+								</FlexBox>
+								<FlexBox justifyContent="SpaceBetween">
+									<Label text="{i18n>fBalance}"/>
+									<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" fieldWidth="30%"/>
+									<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" fieldWidth="30%"/>
+									<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" fieldWidth="30%"/>
+								</FlexBox>
+							</Panel>
+						</VBox>
+					</FlexBox>
+				</Panel>
+			</l:content>
+		</l:VerticalLayout>
+	</core:FragmentDefinition>

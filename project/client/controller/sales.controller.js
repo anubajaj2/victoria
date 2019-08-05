@@ -1203,6 +1203,7 @@ onClear:function(oEvent,id){
 var that = this;
 delete this.orderAmount;
 delete this.deduction;
+delete this.finalBal;
 that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -1379,7 +1380,14 @@ previousOrder:function(oEvent){
   .then(function(result){
     console.log(result);
     if (result) {
-      debugger;
+      delete that.orderAmount;
+      delete that.deduction;
+      delete that.finalBal;
+      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+      oHeaderT.FinalBalance="0";
+      oHeaderT.Deduction="0";
+      oHeaderT.TotalOrderValue="0";
+      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
       var orderId = result.id;
       that.byId("Sales--idSaveIcon").setColor('green');
       if (result.Customer){
@@ -1407,6 +1415,14 @@ nextOrder:function(oEvent){
     console.log(result);
     if (result) {
       var id = 'sales';
+      delete that.orderAmount;
+      delete that.deduction;
+      delete that.finalBal;
+      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+      oHeaderT.FinalBalance="0";
+      oHeaderT.Deduction="0";
+      oHeaderT.TotalOrderValue="0";
+      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
       //Clear Item table
       that.orderItem(oEvent,id);
       //return table
@@ -1424,9 +1440,24 @@ nextOrder:function(oEvent){
     debugger;
   });
 },
+getTotals:function(oEvent){
+  var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+  var oLocale = new sap.ui.core.Locale("en-US");
+  var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+  if ((oHeaderT.FinalBalance) && (oHeaderT.FinalBalance !== "")) {
+    this.finalBal = oFloatFormat.parse(oHeaderT.FinalBalance)
+  }
+  if ((oHeaderT.TotalOrderValue) && (oHeaderT.TotalOrderValue !== "")) {
+    this.TotalOrderValue = oFloatFormat.parse(oHeaderT.TotalOrderValue)
+  }
+  if ((oHeaderT.Deduction) && (oHeaderT.Deduction !== "")) {
+    this.Deduction = oFloatFormat.parse(oHeaderT.Deduction)
+  }
+},
 ValueChange:function(oEvent){
   var tablePath = "";
   var i = "";
+  this.getTotals(oEvent);
   this.Calculation(oEvent ,tablePath,i);
   this.noChangeTable.push(this.noChange);
   this.byId("Sales--idSaveIcon").setColor('red');

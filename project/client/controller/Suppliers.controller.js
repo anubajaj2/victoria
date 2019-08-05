@@ -235,107 +235,169 @@ debugger;
       var qnty = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
       var dlvQnty = sap.ui.getCore().byId("BookingDialogMove--idDialogQnty").getValue();
 
-			if (qnty === dlvQnty){
-
-					var oSelected = this.getView().byId("idTable").getSelectedItem();
-					var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
-					myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-					myData1.Customer = oSelected.getBindingContext().getObject().Customer;
-					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
-					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-					myData1.Recid = oDraggedItem.getBindingContext().getObject().id;
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
-																		"POST", {}, myData1, this)
-					.then(function(oData) {
-						that.getView().setBusy(false);
-						sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
-
-						var x = that.getView().byId("idTable").getSelectedItems();
-					 	if(x.length){
-						 for(var i=0; i<x.length; i++){
-							 debugger;
-							 var myUrl = x[i].getBindingContext().sPath;
-							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
-						 }
-					 }
-					 that.oDialog.close();
-					}).catch(function(oError) {
-						that.getView().setBusy(false);
-						var oPopover = that.getErrorMessage(oError);
-					});
-
-			}else{
+			// if (qnty === dlvQnty){
+			//
+			// 		var oSelected = this.getView().byId("idTable").getSelectedItem();
+			// 		var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+			// 		myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			// 		myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			// 		myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
+			// 		myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			// 		myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			// 		myData1.Recid = oSelected.getBindingContext().getObject().id;
+			// 		this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+			// 															"POST", {}, myData1, this)
+			// 		.then(function(oData) {
+			// 			that.getView().setBusy(false);
+			// 			sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+			//
+			// 			var x = that.getView().byId("idTable").getSelectedItems();
+			// 		 	if(x.length){
+			// 			 for(var i=0; i<x.length; i++){
+			// 				 debugger;
+			// 				 var myUrl = x[i].getBindingContext().sPath;
+			// 				 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+			// 			 }
+			// 		 }
+			// 		 that.oDialog.close();
+			// 		}).catch(function(oError) {
+			// 			that.getView().setBusy(false);
+			// 			var oPopover = that.getErrorMessage(oError);
+			// 		});
+			//
+			// }else{
 				debugger;
 				if (parseInt(dlvQnty) > parseInt(qnty)){
 					sap.m.MessageToast.show("Delivery Quantity Should not be more than Ordered Quantity");
 				}else{
 					var oSelected = this.getView().byId("idTable").getSelectedItem();
-					var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
 
-
-        var recId =  oSelected.getBindingContext().getObject().id ;
+        var recId =  "'" + oSelected.getBindingContext().getObject().id + "'" ;
 				var oFilter = new sap.ui.model.Filter("Recid","EQ",  recId);
 				// filters: [oFilter]
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
 																	"GET", {filters: [oFilter]}, {}, this)
 												 .then(function(oData) {
 													 debugger;
-							  					 	that.getView().setBusy(false);
-														sap.m.MessageToast.show("reached");
+													 if(oData.results.length > 0 ){
+														 that.insertDlvDetails(oSelected,dlvQnty,qnty,oData);
+													 }else{
+														 that.appendDlvDetails(oSelected,dlvQnty,qnty);
+													 }
 							  	 			 }).catch(function(oError) {
 							  	 				 that.getView().setBusy(false);
 							  	 				 var oPopover = that.getErrorMessage(oError);
 							  	 			 });
+											 }
+										 // }
+		},
 
+		insertDlvDetails:function(oSelected,dlvQnty,qnty,oData){
+			var that=this;
+			var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+			myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			myData1.Quantity = parseInt(oData.results[0].Quantity) + parseInt(dlvQnty);
+			myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			myData1.Recid = "'" + oSelected.getBindingContext().getObject().id.split('"')[0] + "'";
+			var oId = oData.results[0].id;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails('" + oId + "')",
+																"PUT", {}, myData1, this)
+			.then(function(oData) {
+				that.getView().setBusy(false);
+				sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
 
+			var myData2 = that.getView().getModel("local").getProperty("/BookingDetail");
+			 var id = that.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
 
-
-				myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-				myData1.Customer = oSelected.getBindingContext().getObject().Customer;
-				myData1.Quantity = dlvQnty;
-				myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-				myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-				myData1.Recid = oSelected.getBindingContext().getObject().id;
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
-																	"POST", {}, myData1, this)
+			 var balQnty = parseInt(qnty) - parseInt(dlvQnty);
+			 if (balQnty > 0){
+				 myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+				myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
+				myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+				myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+				// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+				myData2.Customer = oSelected.getBindingContext().getObject().Customer;
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
+																	"PUT", {}, myData2, that)
 				.then(function(oData) {
-					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+					that.onClear();
+					// that.getView().setBusy(false);
+					// sap.m.MessageToast.show("Data updated Successfully");
 
-				var myData2 = that.getView().getModel("local").getProperty("/BookingDetail");
-	 			 var id = that.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
-
-	 			 myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-	 			 myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
-	 			 myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-	 			 myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-	 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
-	       myData2.Customer = oSelected.getBindingContext().getObject().Customer;
-	 			 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
-	 																 "PUT", {}, myData2, that)
-	 			 .then(function(oData) {
-					 that.onClear();
-	 				 // that.getView().setBusy(false);
-	 				 // sap.m.MessageToast.show("Data updated Successfully");
-
-	 			 }).catch(function(oError) {
-	 				 that.getView().setBusy(false);
-	 				 var oPopover = that.getErrorMessage(oError);
-	 			 });
-
-				 that.oDialog.close();
 				}).catch(function(oError) {
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});
+			 }else{
+				 	var x = oSelected;
+					// that.getView().byId("idTable").getSelectedItems();
+	 				 debugger;
+	 				 var myUrl = x.getBindingContext().sPath;
+	 				 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
 
-			}
+			 }
 
-			}
 
+			 that.oDialog.close();
+			}).catch(function(oError) {
+				that.getView().setBusy(false);
+				var oPopover = that.getErrorMessage(oError);
+			});
 		},
 
+		appendDlvDetails:function(oSelected,dlvQnty,qnty){
+			var that=this;
+			var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+			myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			myData1.Quantity = dlvQnty;
+			myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			myData1.Recid = "'" + oSelected.getBindingContext().getObject().id.split('"')[0] + "'";
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+																"POST", {}, myData1, this)
+			.then(function(oData) {
+				that.getView().setBusy(false);
+				sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+
+			var myData2 = that.getView().getModel("local").getProperty("/BookingDetail");
+			 var id = that.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+
+			 var balQnty = parseInt(qnty) - parseInt(dlvQnty);
+			 if (balQnty > 0){
+			 myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			 myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
+			 myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			 myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+			 myData2.Customer = oSelected.getBindingContext().getObject().Customer;
+			 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
+																 "PUT", {}, myData2, that)
+			 .then(function(oData) {
+				 that.onClear();
+				 // that.getView().setBusy(false);
+				 // sap.m.MessageToast.show("Data updated Successfully");
+
+			 }).catch(function(oError) {
+				 that.getView().setBusy(false);
+				 var oPopover = that.getErrorMessage(oError);
+			 });
+		 }else{
+			 var x = oSelected;
+			 // that.getView().byId("idTable").getSelectedItems();
+				debugger;
+				var myUrl = x.getBindingContext().sPath;
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+		 }
+
+			 that.oDialog.close();
+			}).catch(function(oError) {
+				that.getView().setBusy(false);
+				var oPopover = that.getErrorMessage(oError);
+			});
+		},
 		onPressHandleDlvReturnPopup: function(oEvent){
 			debugger;
 			var that=this;
@@ -345,86 +407,168 @@ debugger;
       var qnty = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
       var dlvQnty = sap.ui.getCore().byId("BookingDialogMove--idDialogQnty").getValue();
 
-			if (qnty === dlvQnty){
-
-					var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
-					var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
-					myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-					myData1.Customer = oSelected.getBindingContext().getObject().Customer;
-					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
-					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
-																		"POST", {}, myData1, this)
-					.then(function(oData) {
-						that.getView().setBusy(false);
-						sap.m.MessageToast.show("Delivery Quantity Return Successfully");
-
-						var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
-					 	if(x.length){
-						 for(var i=0; i<x.length; i++){
-							 debugger;
-							 var myUrl = x[i].getBindingContext().sPath;
-							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
-						 }
-					 }
-					 that.oDialog.close();
-					}).catch(function(oError) {
-						that.getView().setBusy(false);
-						var oPopover = that.getErrorMessage(oError);
-					});
-
-			}else{
+			// if (qnty === dlvQnty){
+			//
+			// 		var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
+			// 		var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+			// 		myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			// 		myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			// 		myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
+			// 		myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			// 		myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			// 		this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+			// 															"POST", {}, myData1, this)
+			// 		.then(function(oData) {
+			// 			that.getView().setBusy(false);
+			// 			sap.m.MessageToast.show("Delivery Quantity Return Successfully");
+			//
+			// 			var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
+			// 		 	if(x.length){
+			// 			 for(var i=0; i<x.length; i++){
+			// 				 debugger;
+			// 				 var myUrl = x[i].getBindingContext().sPath;
+			// 				 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+			// 			 }
+			// 		 }
+			// 		 that.oDialog.close();
+			// 		}).catch(function(oError) {
+			// 			that.getView().setBusy(false);
+			// 			var oPopover = that.getErrorMessage(oError);
+			// 		});
+			//
+			// }else{
 				debugger;
 				if (parseInt(dlvQnty) > parseInt(qnty)){
 					sap.m.MessageToast.show("Returned Delivery Quantity Should not be more than Delivery Quantity");
 				}else{
+
 				var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
-				var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
-				myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-				myData1.Customer = oSelected.getBindingContext().getObject().Customer;
-				myData1.Quantity = dlvQnty;
-				myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-				myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+				debugger;
+				var recId =  oSelected.getBindingContext().getObject().Recid ;
+
+				var oFilter = new sap.ui.model.Filter("id","EQ",  recId);
+				// filters: [oFilter]
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
-																	"POST", {}, myData1, this)
-				.then(function(oData) {
-					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
-
-				var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
-	 			 var id = that.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
-
-	 			 myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-	 			 myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
-	 			 myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-	 			 myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-	 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
-	       myData2.Customer = oSelected.getBindingContext().getObject().Customer;
-	 			 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDlvDetails('" + id + "')",
-	 																 "PUT", {}, myData2, that)
-	 			 .then(function(oData) {
-					 that.onClear();
-	 				 // that.getView().setBusy(false);
-	 				 // sap.m.MessageToast.show("Data updated Successfully");
-
-	 			 }).catch(function(oError) {
-	 				 that.getView().setBusy(false);
-	 				 var oPopover = that.getErrorMessage(oError);
-	 			 });
-
-				 that.oDialog.close();
-				}).catch(function(oError) {
-					that.getView().setBusy(false);
-					var oPopover = that.getErrorMessage(oError);
-				});
-
-			}
-
-			}
-
+																	"GET", {filters: [oFilter]}, {}, this)
+												 .then(function(oData) {
+													 debugger;
+								if(oData.results.length > 0){
+														 that.insertDetails(oSelected,dlvQnty,qnty,oData);
+									 }else{
+														 that.appendDetails(oSelected,dlvQnty,qnty);
+						 					 }
+					  	 			 }).catch(function(oError) {
+							  	 				 that.getView().setBusy(false);
+							  	 				 var oPopover = that.getErrorMessage(oError);
+							  	 			 });
+											 }
+										 // }
 		},
 
+		 insertDetails:function(oSelected,dlvQnty,qnty,oData){
+			 var that = this;
+			 var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+			 myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			 myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			 myData1.Quantity = parseInt(oData.results[0].Quantity) + parseInt(dlvQnty);
+			 myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			 myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 var oId = oData.results[0].id;
+			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails('" + oId + "')",
+																 "PUT", {}, myData1, this)
+			 .then(function(oData) {
+				 that.getView().setBusy(false);
+				 sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
+
+			 var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
+				var id = that.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+				var balQnty = parseInt(qnty) - parseInt(dlvQnty);
+				if (balQnty > 0){
+					myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+					myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
+					myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+					myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+					myData2.Customer = oSelected.getBindingContext().getObject().Customer;
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDlvDetails('" + id + "')",
+																		"PUT", {}, myData2, that)
+					.then(function(oData) {
+						that.onClear();
+						// that.getView().setBusy(false);
+						// sap.m.MessageToast.show("Data updated Successfully");
+
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+				}else{
+					var x = oSelected;
+	 			 // that.getView().byId("idTable").getSelectedItems();
+	 				debugger;
+	 				var myUrl = x.getBindingContext().sPath;
+	 				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+				}
+
+
+				that.oDialog.close();
+			 }).catch(function(oError) {
+				 that.getView().setBusy(false);
+				 var oPopover = that.getErrorMessage(oError);
+			 });
+
+
+		 },
+		 appendDetails:function(oSelected,dlvQnty,qnty){
+			 var that = this;
+			 var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+			 myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+			 myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+			 myData1.Quantity = dlvQnty;
+			 myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+			 myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+																 "POST", {}, myData1, this)
+			 .then(function(oData) {
+				 that.getView().setBusy(false);
+				 sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
+
+			 var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
+				var id = that.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+				var balQnty = parseInt(qnty) - parseInt(dlvQnty);
+				if (balQnty > 0){
+					myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+					myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
+					myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+					myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+					myData2.Customer = oSelected.getBindingContext().getObject().Customer;
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDlvDetails('" + id + "')",
+																		"PUT", {}, myData2, that)
+					.then(function(oData) {
+						that.onClear();
+						// that.getView().setBusy(false);
+						// sap.m.MessageToast.show("Data updated Successfully");
+
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+				}else{
+					var x = oSelected;
+	 			 // that.getView().byId("idTable").getSelectedItems();
+	 				debugger;
+	 				var myUrl = x.getBindingContext().sPath;
+	 				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+				}
+
+
+				that.oDialog.close();
+			 }).catch(function(oError) {
+				 that.getView().setBusy(false);
+				 var oPopover = that.getErrorMessage(oError);
+			 });
+
+		 },
 		 onPressHandleEntrySavePopup: function (oEvent){
 			 debugger;
 			 var that=this;
@@ -793,13 +937,64 @@ debugger;
 				  return;
 			  }
 
+				var recId =  "'" + oDraggedItem.getBindingContext().getObject().id + "'" ;
+				var oFilter = new sap.ui.model.Filter("Recid","EQ",  recId);
+				// filters: [oFilter]
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+																	"GET", {filters: [oFilter]}, {}, this)
+												 .then(function(oData) {
+													 debugger;
+													 if(oData.results.length > 0 ){
+														 that.insertDragDlvDetails(oDraggedItem,oData);
+													 }else{
+														 that.appendDragDlvDetails(oDraggedItem);
+													 }
+							  	 			 }).catch(function(oError) {
+							  	 				 that.getView().setBusy(false);
+							  	 				 var oPopover = that.getErrorMessage(oError);
+							  	 			 });
+			},
+			insertDragDlvDetails:function(oDraggedItem,oData){
+				var that=this;
+				var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+				myData1.BookingDate = oDraggedItem.getBindingContext().getObject().BookingDate;
+				myData1.Customer = oDraggedItem.getBindingContext().getObject().Customer;
+				myData1.Quantity = parseInt(oDraggedItem.mAggregations.cells[2].mProperties.text) +
+													 parseInt( oData.results[0].Quantity);
+				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
+				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Recid = "'" + oDraggedItem.getBindingContext().getObject().id + "'";
+				var oId = oData.results[0].id;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails('" + oId + "')",
+																	"PUT", {}, myData1, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+
+					var x = oDraggedItem;
+					// that.getView().byId("idTable").getSelectedItems();
+					// if(x.length){
+					//  for(var i=0; i<x.length; i++){
+						 debugger;
+						 var myUrl = x.getBindingContext().sPath;
+						 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+					//  }
+				 // }
+
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+					var oPopover = that.getErrorMessage(oError);
+				});
+			},
+			appendDragDlvDetails:function(oDraggedItem){
+				var that = this;
 				var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
 				myData1.BookingDate = oDraggedItem.getBindingContext().getObject().BookingDate;
 				myData1.Customer = oDraggedItem.getBindingContext().getObject().Customer;
 				myData1.Quantity = oDraggedItem.mAggregations.cells[2].mProperties.text;
 				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
-				myData1.Recid = oDraggedItem.getBindingContext().getObject().id;
+				myData1.Recid = "'" + oDraggedItem.getBindingContext().getObject().id + "'";
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
 																	"POST", {}, myData1, this)
 				.then(function(oData) {
@@ -820,42 +1015,45 @@ debugger;
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});
-
-
 			},
 			onDropBookingTable:function(oEvent){
 				debugger;
 				var that=this;
 				that.getView().setBusy(true);
+				var oDraggedItem = oEvent.getParameter("draggedControl");
+			  var oDraggedItemContext = oDraggedItem.getBindingContext();
 
-				var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
-				var oSelectedItem = aSelectedItems[0];
-				if (!oSelectedItem) {
+
+
+				// var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
+				// var oSelectedItem = aSelectedItems[0];
+				if (!oDraggedItemContext) {
 					sap.m.MessageToast.show("Please select a row!");
 					that.getView().setBusy(false);
 				  return;
 			  }
 
 				var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
-				myData1.BookingDate = oSelectedItem.getBindingContext().getObject().BookingDate;
-				myData1.Customer = oSelectedItem.getBindingContext().getObject().Customer;
-				myData1.Quantity = oSelectedItem.mAggregations.cells[2].mProperties.text;
-				myData1.Bhav = oSelectedItem.mAggregations.cells[3].mProperties.text;
-				myData1.Advance = oSelectedItem.mAggregations.cells[4].mProperties.text;
+				myData1.BookingDate = oDraggedItem.getBindingContext().getObject().BookingDate;
+				myData1.Customer = oDraggedItem.getBindingContext().getObject().Customer;
+				myData1.Quantity = oDraggedItem.mAggregations.cells[2].mProperties.text;
+				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
+				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
 																	"POST", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
 					sap.m.MessageToast.show("Delivery Quantity returned Successfully");
 
-					var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
-					if(x.length){
-					 for(var i=0; i<x.length; i++){
+					var x = oDraggedItem;
+					// that.getView().byId("idBookingDlvTable").getSelectedItems();
+					// if(x.length){
+					//  for(var i=0; i<x.length; i++){
 						 debugger;
-						 var myUrl = x[i].getBindingContext().sPath;
+						 var myUrl = x.getBindingContext().sPath;
 						 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
-					 }
-				 }
+					//  }
+				 // }
 
 				}).catch(function(oError) {
 					that.getView().setBusy(false);

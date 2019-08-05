@@ -72,7 +72,11 @@ sap.ui.define([
 								});
 						});
 debugger;
-						var selectedCustData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+            var selectedItem = oEvent.getParameter("selectedItem");
+						if(!selectedItem){
+							return;
+						}
+						var selectedCustData =selectedItem.getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				    var cName = selectedCustData.Name.toUpperCase();
 						this.getView().byId("idCustName").setText(cName);
 
@@ -83,16 +87,25 @@ debugger;
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 						this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter);
 
+						debugger;
+						jQuery.sap.delayedCall(500, this, function() {
+				        this.getView().byId("idQnty").focus();
+				    });
+
 			},
+
 			onClear:function(){
 				debugger;
 				var custid = this.getView().byId("idCustomerCode");
 				custid.setSelectedKey("");
+				custid.setValue("");
 				this.getView().byId("idCustName").setText("");
 				this.getView().byId("idQnty").setValue("");
 				this.getView().byId("idBhav").setValue("");
 				this.getView().byId("idAdvance").setValue("");
 				this.getView().byId("DateId").setDateValue(new Date());
+				this.getView().byId("idTable").removeSelections();
+				this.getView().byId("idBookingDlvTable").removeSelections();
 
 
 			},
@@ -154,8 +167,20 @@ debugger;
 				 this.oDialog= sap.ui.xmlfragment("BookingDialogMove","victoria.fragments.BookingDialogMove",this);
 				 this.getView().addDependent(this.oDialog);
 			 }
-			 this.oDialog.open();
+
 			 debugger;
+
+
+				 var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
+				 var oSelectedItem = aSelectedItems[0];
+				 if (!oSelectedItem) {
+					 sap.m.MessageToast.show("Please select a row!");
+					 that.getView().setBusy(false);
+					 return;
+				 }
+			this.oDialog.open();
+			sap.ui.getCore().byId("BookingDialogMove--cnf").setVisible(true);
+			sap.ui.getCore().byId("BookingDialogMove--ret").setVisible(false);
 			 // var title = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
 			 // sap.ui.getCore().byId("BookingDialog--idDialog-title").setText("Confirm Delivery Quantity");
 			 var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
@@ -170,6 +195,37 @@ debugger;
 				sap.ui.getCore().byId("BookingDialogMove--idDialogAdv").setValue(cell5).setVisible(false);
 
 	 },
+	 _getDialogLeftMove: function (oEvent) {
+			 if(!this.oDialog){
+				this.oDialog= sap.ui.xmlfragment("BookingDialogMove","victoria.fragments.BookingDialogMove",this);
+				this.getView().addDependent(this.oDialog);
+			}
+			var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
+			var oSelectedItem = aSelectedItems[0];
+			if (!oSelectedItem) {
+				sap.m.MessageToast.show("Please select a row!");
+				that.getView().setBusy(false);
+				return;
+			}
+
+			this.oDialog.open();
+			debugger;
+			sap.ui.getCore().byId("BookingDialogMove--cnf").setVisible(false);
+			sap.ui.getCore().byId("BookingDialogMove--ret").setVisible(true);
+			// var title = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+			// sap.ui.getCore().byId("BookingDialog--idDialog-title").setText("Confirm Delivery Quantity");
+			var cell0 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
+			sap.ui.getCore().byId("BookingDialogMove--idDialogDate").setValue(cell0).setVisible(false);
+			var cell2 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
+		 sap.ui.getCore().byId("BookingDialogMove--idDialogCust").setValue(cell2).setVisible(false);
+			var cell3 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+			 sap.ui.getCore().byId("BookingDialogMove--idDialogQnty").setValue(cell3);
+			var cell4 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[3].mProperties.text;
+			 sap.ui.getCore().byId("BookingDialogMove--idDialogBhav").setValue(cell4).setVisible(false);
+			var cell5 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+			 sap.ui.getCore().byId("BookingDialogMove--idDialogAdv").setValue(cell5).setVisible(false);
+
+	},
 	  onPressHandleDlvConfirmPopup: function(oEvent){
 			debugger;
 			var that=this;
@@ -188,6 +244,7 @@ debugger;
 					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
 					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					myData1.Recid = oDraggedItem.getBindingContext().getObject().id;
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
 																		"POST", {}, myData1, this)
 					.then(function(oData) {
@@ -213,13 +270,33 @@ debugger;
 				if (parseInt(dlvQnty) > parseInt(qnty)){
 					sap.m.MessageToast.show("Delivery Quantity Should not be more than Ordered Quantity");
 				}else{
-				var oSelected = this.getView().byId("idTable").getSelectedItem();
-				var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+					var oSelected = this.getView().byId("idTable").getSelectedItem();
+					var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+
+
+        var recId =  oSelected.getBindingContext().getObject().id ;
+				var oFilter = new sap.ui.model.Filter("Recid","EQ",  recId);
+				// filters: [oFilter]
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+																	"GET", {filters: [oFilter]}, {}, this)
+												 .then(function(oData) {
+													 debugger;
+							  					 	that.getView().setBusy(false);
+														sap.m.MessageToast.show("reached");
+							  	 			 }).catch(function(oError) {
+							  	 				 that.getView().setBusy(false);
+							  	 				 var oPopover = that.getErrorMessage(oError);
+							  	 			 });
+
+
+
+
 				myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
 				myData1.Customer = oSelected.getBindingContext().getObject().Customer;
 				myData1.Quantity = dlvQnty;
 				myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+				myData1.Recid = oSelected.getBindingContext().getObject().id;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
 																	"POST", {}, myData1, this)
 				.then(function(oData) {
@@ -258,6 +335,96 @@ debugger;
 			}
 
 		},
+
+		onPressHandleDlvReturnPopup: function(oEvent){
+			debugger;
+			var that=this;
+			that.getView().setBusy(true);
+			var myData = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+			var id = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+      var qnty = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+      var dlvQnty = sap.ui.getCore().byId("BookingDialogMove--idDialogQnty").getValue();
+
+			if (qnty === dlvQnty){
+
+					var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
+					var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+					myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+					myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+					myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
+					myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+					myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+																		"POST", {}, myData1, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						sap.m.MessageToast.show("Delivery Quantity Return Successfully");
+
+						var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
+					 	if(x.length){
+						 for(var i=0; i<x.length; i++){
+							 debugger;
+							 var myUrl = x[i].getBindingContext().sPath;
+							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+						 }
+					 }
+					 that.oDialog.close();
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+
+			}else{
+				debugger;
+				if (parseInt(dlvQnty) > parseInt(qnty)){
+					sap.m.MessageToast.show("Returned Delivery Quantity Should not be more than Delivery Quantity");
+				}else{
+				var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
+				var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+				myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+				myData1.Customer = oSelected.getBindingContext().getObject().Customer;
+				myData1.Quantity = dlvQnty;
+				myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+				myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+																	"POST", {}, myData1, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+					sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
+
+				var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
+	 			 var id = that.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
+
+	 			 myData2.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
+	 			 myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
+	 			 myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
+	 			 myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+	 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
+	       myData2.Customer = oSelected.getBindingContext().getObject().Customer;
+	 			 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDlvDetails('" + id + "')",
+	 																 "PUT", {}, myData2, that)
+	 			 .then(function(oData) {
+					 that.onClear();
+	 				 // that.getView().setBusy(false);
+	 				 // sap.m.MessageToast.show("Data updated Successfully");
+
+	 			 }).catch(function(oError) {
+	 				 that.getView().setBusy(false);
+	 				 var oPopover = that.getErrorMessage(oError);
+	 			 });
+
+				 that.oDialog.close();
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+					var oPopover = that.getErrorMessage(oError);
+				});
+
+			}
+
+			}
+
+		},
+
 		 onPressHandleEntrySavePopup: function (oEvent){
 			 debugger;
 			 var that=this;
@@ -311,6 +478,9 @@ debugger;
 		 onPressHandleEntryCancelPopup: function () {
 			 this.oEditDialog.close();
 		 },
+		 onPressHandleCancelMovePopup: function () {
+			 this.oDialog.close();
+		 },
 
 		 onDelete: function(){
 	     var that=this;
@@ -341,7 +511,7 @@ debugger;
 			 // debugger;
 	   },
 
-		 onBookingDlvDelete: function(){
+		 onBookingDlvDelete: function(oEvent){
 	     var that=this;
 	     // debugger;
 	     sap.m.MessageBox.confirm(
@@ -399,7 +569,7 @@ debugger;
 				.then(function(oData) {
 					that.getView().setBusy(false);
 					sap.m.MessageToast.show("Data Saved Successfully");
-					 that.onClear();
+					that.onClear();
 				}).catch(function(oError) {
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
@@ -475,43 +645,9 @@ debugger;
  	 		  this._getDialogMove();
  	      }
 
-
-
-				debugger;
-				// var that = this;
-				// that.getView().setBusy(true);
-				// var oSelCount =this.getView().byId("idTable").getSelectedItems().length;
-				// for(var i = 0; i<oSelCount; i++){
-				// 	var oSelected = this.getView().byId("idTable").getSelectedItems()[i];
-				// 	var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
-				// 	myData1.BookingDate = oSelected.getBindingContext().getObject().BookingDate;
-				// 	myData1.Customer = oSelected.getBindingContext().getObject().Customer;
-				// 	myData1.Quantity = oSelected.mAggregations.cells[2].mProperties.text;
-				// 	myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
-				// 	myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
-				// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
-				// 														"POST", {}, myData1, this)
-				// 	.then(function(oData) {
-				// 		that.getView().setBusy(false);
-				// 		sap.m.MessageToast.show("Data Saved Successfully");
-				//
-				// 		var x = that.getView().byId("idTable").getSelectedItems();
-				// 	 	if(x.length){
-				// 		 for(var i=0; i<x.length; i++){
-				// 			 debugger;
-				// 			 var myUrl = x[i].getBindingContext().sPath;
-				// 			 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
-				// 		 }
-				//
-				// 	 }
-				//
-				//
-				//
-				// 	}).catch(function(oError) {
-				// 		that.getView().setBusy(false);
-				// 		var oPopover = that.getErrorMessage(oError);
-				// 	});
-				// }
+			},
+			onLeftArrowPress:function(oEvent){
+				this._getDialogLeftMove();
 			},
 			onMaterialSelect: function(oEvent){
 				//whatever material id selected push that in local model
@@ -623,7 +759,112 @@ debugger;
 				oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
 				oViewModel.setProperty("/shareSendEmailMessage",
 				oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
+			},
+
+			onDropBookingTable:function(oEvent){
+				debugger;
+				var oDraggedItem = oEvent.getParameter("draggedControl");
+			  var oDraggedItemContext = oDraggedItem.getBindingContext();
+				if (!oDraggedItemContext) {
+					return;
+				}
+				var oBookingTable = this.getOwnerComponent().byId("idSuppliers").byId("idTable");
+			  var oModel = oBookingTable.getModel();
+			  oModel.setProperty("Rank", 0, oDraggedItemContext);
+			},
+			onDropBookingDeliveryTable:function(oEvent){
+				debugger;
+				var that=this;
+				that.getView().setBusy(true);
+				var oDraggedItem = oEvent.getParameter("draggedControl");
+			  var oDraggedItemContext = oDraggedItem.getBindingContext();
+				// if (!oDraggedItemContext) {
+				// 	return;
+				// }
+				// var oBookingTable = this.getOwnerComponent().byId("idSuppliers").byId("idTable");
+			  // var oModel = oBookingTable.getModel();
+			  // oModel.setProperty("Rank", 0, oDraggedItemContext);
+
+				// var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
+				// var oSelectedItem = aSelectedItems[0];
+				if (!oDraggedItemContext) {
+					sap.m.MessageToast.show("Please select a row!");
+					that.getView().setBusy(false);
+				  return;
+			  }
+
+				var myData1 = this.getView().getModel("local").getProperty("/BookingDlvDetail");
+				myData1.BookingDate = oDraggedItem.getBindingContext().getObject().BookingDate;
+				myData1.Customer = oDraggedItem.getBindingContext().getObject().Customer;
+				myData1.Quantity = oDraggedItem.mAggregations.cells[2].mProperties.text;
+				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
+				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Recid = oDraggedItem.getBindingContext().getObject().id;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDlvDetails",
+																	"POST", {}, myData1, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+
+					var x = oDraggedItem;
+					// that.getView().byId("idTable").getSelectedItems();
+					// if(x.length){
+					//  for(var i=0; i<x.length; i++){
+						 debugger;
+						 var myUrl = x.getBindingContext().sPath;
+						 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+					//  }
+				 // }
+
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+					var oPopover = that.getErrorMessage(oError);
+				});
+
+
+			},
+			onDropBookingTable:function(oEvent){
+				debugger;
+				var that=this;
+				that.getView().setBusy(true);
+
+				var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
+				var oSelectedItem = aSelectedItems[0];
+				if (!oSelectedItem) {
+					sap.m.MessageToast.show("Please select a row!");
+					that.getView().setBusy(false);
+				  return;
+			  }
+
+				var myData1 = this.getView().getModel("local").getProperty("/BookingDetail");
+				myData1.BookingDate = oSelectedItem.getBindingContext().getObject().BookingDate;
+				myData1.Customer = oSelectedItem.getBindingContext().getObject().Customer;
+				myData1.Quantity = oSelectedItem.mAggregations.cells[2].mProperties.text;
+				myData1.Bhav = oSelectedItem.mAggregations.cells[3].mProperties.text;
+				myData1.Advance = oSelectedItem.mAggregations.cells[4].mProperties.text;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
+																	"POST", {}, myData1, this)
+				.then(function(oData) {
+					that.getView().setBusy(false);
+					sap.m.MessageToast.show("Delivery Quantity returned Successfully");
+
+					var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
+					if(x.length){
+					 for(var i=0; i<x.length; i++){
+						 debugger;
+						 var myUrl = x[i].getBindingContext().sPath;
+						 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
+					 }
+				 }
+
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+					var oPopover = that.getErrorMessage(oError);
+				});
+
+
 			}
+
 
 		});
 

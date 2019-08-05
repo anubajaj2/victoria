@@ -33,7 +33,7 @@
 								</m:items>
 							</m:ComboBox> -->
 
-							<m:Input id="idCustomerCode" submit="customerCodeCheck" suggest="ValueChangeCustomer"
+							<m:Input id="idCustomerCode" submit="customerCodeCheck1" suggest="ValueChangeCustomer"
 								suggestionItems="{/Customers}" showSuggestion="true"
 								enabled="{viewModel>/codeEnabled}"
 								suggestionItemSelected="customerCodeCheck">

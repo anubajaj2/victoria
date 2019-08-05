@@ -28,14 +28,14 @@
 	        <Button icon="sap-icon://delete" press="onDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
-			<!-- <dragDropConfig>
+			<dragDropConfig>
 			<dnd:DragInfo
 				groupName="available2selected"
 				sourceAggregation="items" />
 			<dnd:DropInfo
 				groupName="selected2available"
 				drop="onDropAvailableProductsTable" />
-		</dragDropConfig> -->
+		</dragDropConfig>
 			<columns>
 				<Column>
 					<Label text="{i18n>date}"></Label>

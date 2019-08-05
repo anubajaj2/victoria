@@ -16,13 +16,13 @@
           <Input id="idDialogBhav" value=""></Input>
           <Label text="{i18n>advance}"></Label>
           <Input id="idDialogAdv" value=""></Input>
-					<CheckBox text="Full Delivery" />
 				</f:content>
 			</f:SimpleForm>
 		</content>
 		<buttons>
-			<Button text="Confirm Delivery" press="onPressHandleDlvConfirmPopup"/>
-			<Button text="Cancel" press="onPressHandleEntryCancelPopup"/>
+			<Button text="Confirm Delivery" id="cnf" press="onPressHandleDlvConfirmPopup"/>
+			<Button text="Return Delivery" id="ret" press="onPressHandleDlvReturnPopup"/>
+			<Button text="Cancel" press="onPressHandleCancelMovePopup"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

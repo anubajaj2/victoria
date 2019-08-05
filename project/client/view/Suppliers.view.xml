@@ -19,7 +19,7 @@
 		<semantic:customHeaderContent>
 			<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 			tooltip="fullscreen"
-			iconFirst="true" press="toggleFullScreen"/>			
+			iconFirst="true" press="toggleFullScreen"/>
     </semantic:customHeaderContent>
 
 	<semantic:content id="Header">
@@ -28,7 +28,7 @@
 	</semantic:content>
 
 	<semantic:content id="MiddleArea">
-		<core:Fragment fragmentName="victoria.fragments.BookingMiddleArea" type="XML"></core:Fragment>
+		<core:Fragment fragmentName="victoria.fragments.BookingMiddleArea_test" type="XML"></core:Fragment>
 	</semantic:content>
 
 

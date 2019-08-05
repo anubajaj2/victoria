@@ -32,9 +32,9 @@
       "required": false,
       "default":0.00
     },
-    "RecId": {
+    "Recid": {
       "type": "string",
-      "required": false,
+      "required": true,
       "default": "null"
     },
     "CreatedOn": {

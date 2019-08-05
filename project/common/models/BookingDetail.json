@@ -17,6 +17,7 @@
       "required": true,
       "default": "null"
     },
+
     "Quantity":{
       "type": "number",
       "required": false,
@@ -32,9 +33,9 @@
       "required": false,
       "default":0.00
     },
-    "RecId": {
+    "Recid": {
       "type": "string",
-      "required": false,
+      "required": true,
       "default": "null"
     },
     "CreatedOn": {

@@ -1303,7 +1303,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
       if (this.finalBal === 0) {
         var finalBalF = 0;
       }else {
-      var finalBalF = this.getIndianCurr(this.finalBal);
+      var finalBalF = that.getIndianCurr(that.finalBal);
       }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
@@ -1372,7 +1372,6 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selec
 onSetting:function(oEvent){
   this.hideDColumns(oEvent);
 },
-
 previousOrder:function(oEvent){
   var that = this;
   var myData = this.getView().getModel("local").getProperty("/orderHeader");

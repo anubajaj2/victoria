@@ -13,6 +13,7 @@ sap.ui.define([
   //global Variables
   orderAmount:0,
   finalBal:0,
+  settings:false,
   noChange :{
     index:0,
     flag:"true"},
@@ -746,9 +747,17 @@ onValidationItem:function(data,i)
   debugger;
   if ((data.Weight) && (data.WeightD) &&
       (data.WeightD > data.Weight)){
+    if (this.settings === true) {
+    oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
+    }else {
     oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+  }
   }else {
+    if (this.settings === true) {
+     oTableDetails.getRows()[i].getCells()[3].setValueState("None");
+    }else{
     oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+  }
   }
   //Quantity
   if ((data.Type === 'GS') ||
@@ -757,8 +766,13 @@ onValidationItem:function(data,i)
   {
   if(data.Qty === "" || data.Qty === 0 || data.Qty === "0") {
     this.getView().setBusy(false);
+    if (this.settings === true) {
+      oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
+      oTableDetails.getRows()[i].getCells()[3].setValueState("None");
+    }else {
     oTableDetails.getRows()[i].getCells()[2].setValueState("Error");
     oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+  }
     returnError = true;
     return;
     }else {
@@ -774,13 +788,22 @@ if ((data.Type === 'Gold' && data.Category === "gm")||
   //Weight check
   if(data.Weight === "" || data.Weight === 0 || data.Weight === '0') {
   this.getView().setBusy(false);
+  if (this.settings === true) {
+    oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
+    oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+  }else {
   oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
   oTableDetails.getRows()[i].getCells()[2].setValueState("None");
+  }
   returnError = true;
   return;
   }else {
   oOrderDetail.Weight =data.Weight;
+  if (this.settings === true) {
+oTableDetails.getRows()[i].getCells()[3].setValueState("None");
+  }else {
   oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+  }
   this.getView().setBusy(false);
   // returnError = false;
   }
@@ -1204,6 +1227,7 @@ var that = this;
 delete this.orderAmount;
 delete this.deduction;
 delete this.finalBal;
+this.settings = false;
 that.byId("Sales--idSaveIcon").setColor('green');
 var ovisibleSet = new sap.ui.model.json.JSONModel({
   set:true
@@ -1370,7 +1394,8 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selec
 }
 },
 onSetting:function(oEvent){
-  this.hideDColumns(oEvent);
+this.settings = true;
+this.hideDColumns(oEvent);
 },
 previousOrder:function(oEvent){
   var that = this;
@@ -1447,10 +1472,11 @@ getTotals:function(oEvent){
     this.finalBal = oFloatFormat.parse(oHeaderT.FinalBalance)
   }
   if ((oHeaderT.TotalOrderValue) && (oHeaderT.TotalOrderValue !== "")) {
-    this.TotalOrderValue = oFloatFormat.parse(oHeaderT.TotalOrderValue)
+    // this.TotalOrderValue = oFloatFormat.parse(oHeaderT.TotalOrderValue)
+    this.orderAmount = oFloatFormat.parse(oHeaderT.TotalOrderValue);
   }
   if ((oHeaderT.Deduction) && (oHeaderT.Deduction !== "")) {
-    this.Deduction = oFloatFormat.parse(oHeaderT.Deduction)
+    this.deduction = oFloatFormat.parse(oHeaderT.Deduction)
   }
 },
 ValueChange:function(oEvent){
@@ -1825,7 +1851,7 @@ Calculation:function(oEvent,tablePath,i){
       });
     }
   }else {
-    if (true) {
+    if (newValue != "") {
       this.setNewValue(data,fieldId,newValue);
       this.valueChange = "true"
     }

@@ -51,10 +51,10 @@
 				sourceAggregation="items" />
 			<dnd:DropInfo
 				groupName="booking2delivery"
+				drop="onDropBookingDeliveryTable"
+				targetAggregation="items"
+				dropPosition="Between"/>
 
-				drop="onDropBookingDeliveryTable" />
-				<!-- targetAggregation="items"
-				dropPosition="Between" -->
 			<dnd:DragDropInfo
 				sourceAggregation="items"
 				targetAggregation="items"

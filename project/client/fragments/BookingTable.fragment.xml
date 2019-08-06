@@ -33,7 +33,9 @@
 			sourceAggregation="items" />
 		<dnd:DropInfo
 			groupName="delivery2booking"
-			drop="onDropBookingTable" />
+			drop="onDropBookingTable"
+			targetAggregation="items"
+			dropPosition="Between" />
 	</dragDropConfig>
 		<columns>
 			<Column width="3rem">

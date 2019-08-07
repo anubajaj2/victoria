@@ -416,6 +416,16 @@
 		"ChangedBy": "",
 		"ChangedOn": ""
 	},
+	"WSTunch": {
+		"Customer": "",
+		"Material": "",
+		"Tunch": 0,
+		"Making": 0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
 	"countries": [{
 		"name": "Afghanistan",
 		"dial_code": "+93",

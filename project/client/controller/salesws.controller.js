@@ -367,6 +367,7 @@ sap.ui.define(
 				var tablePath = "";
 				var i = "";
 				this.Calculation(oEvent, tablePath, i);
+				this.onTunchChange(oEvent);
 				// this.WSCalculation(oEvent);
 				this.setStatus('red');
 			},
@@ -1831,38 +1832,75 @@ sap.ui.define(
 				this.byId("IdQtyD");
 				this.byId("sbhavid");
 			},
+			onTunchChange: function(oEvent) {
+				debugger;
+				var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
+				var data = this.getView().getModel('orderItems').getProperty(path);
+				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
+				var newValue = oEvent.getParameters().newValue;
+				var TunchData = this.getView().getModel('local').getProperty("/WSTunch");
+				TunchData.Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+				TunchData.Material = data.Material;
+				if (TunchData.Customer && TunchData.Material) {
+					if (fieldId === "IdTunch") {
+						if (data.Tunch !== newValue) {
+							TunchData.Tunch = newValue;
+						}
+					}
+
+					if (fieldId === "IdMaking") {
+						if (data.Making !== newValue) {
+							TunchData.Making = newValue;
+						}
+					}
+				}
+				// if (orderData.Customer === "")
+				//call the odata promise method to post the data
+				debugger;
+				if (TunchData.Tunch || TunchData.Making) {
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSTunchs",
+							"PUT", {}, TunchData, this)
+						.then(function(oData) {
+							debugger;
+							that.getView().setBusy(false);
+						})
+						.catch(function(oError) {
+							debugger;
+						})
+				}
+			},
 			getFinalBalance: function() {
 				debugger;
 				var that = this;
 				that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
 				if (that.FinalBalanceCash === 0) {
 					var FinalBalanceCash = 0;
-				}else {
-				var FinalBalanceCash = parseFloat(that.FinalBalanceCash).toFixed(0);
-				FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+				} else {
+					var FinalBalanceCash = parseFloat(that.FinalBalanceCash).toFixed(0);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
 
 				}
-				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 
 				that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
 				if (that.FinalBalanceGold === 0) {
 					var FinalBalanceGold = 0;
-				}else {
-				var FinalBalanceGold = parseFloat(that.FinalBalanceGold).toFixed(3);
-				FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+				} else {
+					var FinalBalanceGold = parseFloat(that.FinalBalanceGold).toFixed(3);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 
 				}
-				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold',FinalBalanceGold);
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
 
 				that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
 				if (that.FinalBalanceSilver === 0) {
 					var FinalBalanceSilver = 0;
-				}else {
-				var FinalBalanceSilver = parseFloat(that.FinalBalanceSilver).toFixed(2);
-				FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+				} else {
+					var FinalBalanceSilver = parseFloat(that.FinalBalanceSilver).toFixed(2);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
 
 				}
-				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
 			},
 			onReturnChange: function(oEvent) {
 				debugger;

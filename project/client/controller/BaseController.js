@@ -1061,7 +1061,8 @@ sap.ui.define([
 									var data = tableBinding.oList[i];
 									if (data.Key !== "") {
 										if (data.Key === "CASH") {
-											if (data.Bhav === "" || data.Bhav === 0) {
+											if (data.Bhav === "" || data.Bhav === 0 || data.Bhav === "0")
+											{
 												this.getView().setBusy(false);
 												oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
 												returnError = true;
@@ -1071,7 +1072,8 @@ sap.ui.define([
 											}
 										} else {
 											//Quantity
-											if (data.Weight === "" || data.Weight === 0) {
+											if (data.Weight === "" || data.Weight === 0 || data.Weight === "0")
+											 {
 												this.getView().setBusy(false);
 												oTableDetails.getRows()[i].getCells()[1].setValueState("Error");
 												returnError = true;
@@ -1083,7 +1085,8 @@ sap.ui.define([
 												// returnError = false;
 											}
 											debugger;
-											if (data.Bhav === "" || data.Bhav === 0) {
+											if (data.Bhav === "" || data.Bhav === 0 || data.Bhav === "0")
+											 {
 												if (((viewId == "idsalesws") &&
 														(data.Key === "OG" || data.Key === "OS")) ||
 													(viewId == "idsales")) {
@@ -1100,7 +1103,8 @@ sap.ui.define([
 											}
 
 											//Tunch
-											if (data.Tunch === "" || data.Tunch === 0) {
+											if (data.Tunch === "" || data.Tunch === 0 || data.Tunch === "0")
+											 {
 												if ((data.Key === "KG" || data.Key === "KS") &&
 													(viewId == "idsales")) {
 													this.getView().setBusy(false);

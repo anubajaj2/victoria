@@ -32,6 +32,7 @@ onInit: function (oEvent) {
 _onRouteMatched:function(oEvent){
   var that = this;
   var id = "";
+  debugger;
   // set i18n model on view
   this.onClear(oEvent,id);
   this.getPrintCustHeaderData();
@@ -1279,7 +1280,10 @@ this.setWidths(false);
 
 },
 setWidths: function(settings){
+  debugger;
   var oTable = this.getView().byId("orderItemBases");
+  var oTableReturn = this.getView().byId("OrderReturn")
+  var tableBinding = oTable.getBinding("rows");
   if(settings === false){
       //when setting button is reset
       oTable.getColumns()[0].setWidth("10%");
@@ -1292,8 +1296,23 @@ setWidths: function(settings){
       oTable.getColumns()[7].setWidth("10%");
       oTable.getColumns()[8].setWidth("10%");
       oTable.getColumns()[9].setWidth("15%");
+debugger;
+for (var i = 0; i < oTable.getRows().length; i++) {
+      oTable.getRows()[i].getCells()[2].setValueState('None');
+      oTable.getRows()[i].getCells()[4].setValueState('None');
+    }
   }else{
-    //when setting button is set - hidden some columns
+for (var i = 0; i < oTable.getRows().length; i++) {
+   oTable.getRows()[i].getCells()[2].setValueState('None');
+   oTable.getRows()[i].getCells()[3].setValueState('None');
+    }
+  }
+  for (var i = 0; i < oTableReturn.getRows().length; i++) {
+    oTableReturn.getRows()[i].getCells()[1].setValueState('None');
+    oTableReturn.getRows()[i].getCells()[2].setValueState('None');
+    oTableReturn.getRows()[i].getCells()[3].setValueState('None');
+    oTableReturn.getRows()[i].getCells()[4].setValueState('None');
+    oTableReturn.getRows()[i].getCells()[5].setValueState('None');
   }
 },
 onDelete: function(oEvent) {

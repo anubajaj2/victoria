@@ -747,11 +747,15 @@ onValidationItem:function(data,i)
   var returnError = false;
   debugger;
   if ((data.Weight) && (data.WeightD) &&
-      (data.WeightD > data.Weight)){
+      (data.WeightD >= data.Weight)){
     if (this.settings === true) {
     oTableDetails.getRows()[i].getCells()[3].setValueState("Error");
     }else {
     oTableDetails.getRows()[i].getCells()[4].setValueState("Error");
+    oTableDetails.getRows()[i].getCells()[5].setValueState("Error");
+    returnError = true;
+    this.getView().setBusy(false);
+    return;
   }
   }else {
     if (this.settings === true) {
@@ -1052,7 +1056,7 @@ commitRecords:function(oEvent){
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                             "/OrderHeaders('" + oId + "')",
                             "PUT", {}, oHeaderClone, this)
-  .then(function(oData) {
+.then(function(oData) {
     debugger;
 var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
     message.show(oBundle);

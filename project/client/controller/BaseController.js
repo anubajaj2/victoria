@@ -917,7 +917,7 @@ sap.ui.define([
 										seletedLine.SubTotalG = 0
 										seletedLine.SubTotalS = 0;
 									}else{
-										seletedLine.SubTotal = 0.
+										seletedLine.SubTotal = 0;
 										seletedLine.SubTotalG = subtotGold;
 										seletedLine.SubTotalS = 0;
 									}

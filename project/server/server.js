@@ -46,7 +46,6 @@ app.start = function() {
 				 return res.send("done");
 			});
 		});
-
 		app.post('/updatePhoto', function(req,res){
 
 				var photoKey = req.body.id;
@@ -64,8 +63,7 @@ app.start = function() {
 					 return res.send("done");
 				});
 			});
-
-			app.post('/updateRetailOrderHdr', function(req,res){
+		app.post('/updateRetailOrderHdr', function(req,res){
 
 					var OrderHeader = app.models.OrderHeader;
 					var RecordId = req.body.id;
@@ -88,10 +86,7 @@ app.start = function() {
 						 return res.send("done");
 					});
 				});
-
-
-
-			app.post('/kaachiDownload', function(req, res) {
+		app.post('/kaachiDownload', function(req, res) {
 			var reportType = req.body.type;
 			var custId = req.body.id;
 			var name = req.body.name;
@@ -337,10 +332,121 @@ app.start = function() {
 
 );
 })
-
-
 ///// Coding for Entry Download/////
-app.post('/pOrderDownload', function(req, res) {
+		app.get('/pOrderDownload', function(req, res) {
+		//--- Calculate total per batch, prepare json and return
+		var responseData = [];
+		var oSubCounter = {};
+		var CustomerOrder = app.models.CustomerOrder;
+		var Customer = app.models.Customer;
+		var City = app.models.City;
+		var Product = app.models.Product;
+
+		var async = require('async');
+		debugger;
+		async.waterfall([
+			function(callback) {
+				//1. read all the pending orders
+				CustomerOrder.find().then(function(pendingOrderRecords){
+						callback(null, pendingOrderRecords);
+				});
+			},
+			function(pendingOrderRecords, callback) {
+				//2. Each pending order has customer and karigar which is the ID
+				//   Take these ids in an arry and find all the customer names and karigar names
+				var allCust = [];
+				for (var i = 0; i < pendingOrderRecords.length; i++) {
+					allCust.push(pendingOrderRecords[i].Customer);
+				}
+				for (var i = 0; i < pendingOrderRecords.length; i++) {
+					allCust.push(pendingOrderRecords[i].Karigar);
+				}
+				//remove adjucent duplicates
+				allCust = allCust.filter(function(item, pos, self) {
+				    return self.indexOf(item) == pos;
+				});
+
+				Customer.find({
+					where: {
+						//3. this is how in loop back we read all items which are inside customer
+						id: {inq : allCust}
+					},
+					fields:{
+						"id": true,
+						"Name": true,
+						"City": true
+					}
+				})
+				.then(function(allCustomers, err) {
+					callback(null, pendingOrderRecords, allCustomers);
+				});
+
+			},
+			function(pendingOrderRecords, allCustomers, callback) {
+				// 4. now get the cities for all those karigars and customers
+				var allCities = [];
+				for (var i = 0; i < allCustomers.length; i++) {
+					allCities.push(allCustomers[i].City);
+				}
+				//remove adjucent duplicates
+				allCities = allCities.filter(function(item, pos, self) {
+				    return self.indexOf(item) == pos;
+				});
+
+				City.find({
+					where: {
+						id: {inq : allCities}
+					},
+					fields:{
+						"id": true,
+						"cityName": true
+					}
+				})
+					.then(function(CityRecords, err) {
+					callback(null, pendingOrderRecords, allCustomers, CityRecords);
+				});
+			},
+			function(pendingOrderRecords, allCustomers, CityRecords, callback) {
+				// 4. now get the cities for all those karigars and customers
+				var allProds = [];
+				for (var i = 0; i < pendingOrderRecords.length; i++) {
+					allProds.push(pendingOrderRecords[i].Material);
+				}
+				//remove adjucent duplicates
+				allProds = allProds.filter(function(item, pos, self) {
+				    return self.indexOf(item) == pos;
+				});
+
+				Product.find({
+					where: {
+						id: {inq : allProds}
+					},
+					fields:{
+						"id": true,
+						"ProductName": true
+					}
+				})
+					.then(function(ProductRecords, err) {
+					callback(null, pendingOrderRecords, allCustomers, CityRecords, ProductRecords);
+				});
+			}
+		], function(err, pendingOrderRecords, allCustomers, CityRecords, ProductRecords) {
+			// result now equals 'done'
+			debugger;
+			try {
+						//TODO: Now we have all the data of orders, their customers,
+						//cities, and products with ids
+						//prepare final collection and Add the excel code there
+
+					} catch (e) {
+
+					} finally {
+
+					}
+				}
+		);
+ });
+		app.post('/pOrderDownloadold', function(req, res) {
 debugger;
 var reportType = req.body.type;
 var custId = req.body.id;
@@ -631,9 +737,7 @@ var oPopover = that.getErrorMessage(oError);
 
 );
 })
-
-
-app.post('/entryDownload', function(req, res) {
+		app.post('/entryDownload', function(req, res) {
 var reportType = req.body.type;
 var custId = req.body.id;
 var name = req.body.name;
@@ -947,10 +1051,7 @@ var oPopover = that.getErrorMessage(oError);
 
 );
 })
-
-
-
-			app.get('/anubhavDemo', function(req, res) {
+		app.get('/anubhavDemo', function(req, res) {
 
 				var Customer = app.models.Customer;
 				Customer.find({})
@@ -984,7 +1085,6 @@ var oPopover = that.getErrorMessage(oError);
 
 					);
 			});
-
 		app.post('/deleteRecords', function(req, res) {
 			;
 				var customerId = req.body.customerId;
@@ -1018,7 +1118,6 @@ var oPopover = that.getErrorMessage(oError);
 
 
 			});
-
 		app.post('/getTotalEntryCustomer', function(req, res) {
 
 			var customerId = req.body.Customer;
@@ -1043,8 +1142,6 @@ var oPopover = that.getErrorMessage(oError);
 			});
 
 		});
-
-		//function to get previous order
 		app.post('/previousOrder', function(req ,res) {
 			debugger;
 			var OrderHeader = app.models.OrderHeader;
@@ -1133,10 +1230,9 @@ var oPopover = that.getErrorMessage(oError);
 		});
 		}
 
-});//previous order
-
+		});//previous order
 //function to get next order
-app.post('/nextOrder', function(req ,res) {
+		app.post('/nextOrder', function(req ,res) {
 	debugger;
 	var OrderHeader = app.models.OrderHeader;
 	var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
@@ -1214,7 +1310,7 @@ app.post('/nextOrder', function(req ,res) {
 	}
 });
 }
-});//next order
+		});//next order
 
 	});
 };

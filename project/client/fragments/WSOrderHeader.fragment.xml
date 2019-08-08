@@ -25,7 +25,11 @@
 										</f:FormElement>
 										<f:FormElement label="{i18n>Customer}">
 											<f:fields>
-												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" valueHelpOnly="true"/>
+												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" valueHelpOnly="true">
+													<layoutData>
+														<l:GridData span="XL2 L1 M3 S3"/>
+													</layoutData>
+												</Input>
 												<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
 											</f:fields>
 										</f:FormElement>
@@ -50,68 +54,68 @@
 							<f:layout>
 								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="6" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
 							</f:layout>
-								<f:formContainers>
-									<!-- //tunch detail -->
-									<f:FormContainer>
-										<f:formElements>
-											<f:FormElement label="{i18n>WSGBhav}">
-												<f:fields>
-													<Input type="Number" fieldWidth="10px" id="idGbhav" placeholder="{i18n>WSGBhav}" tooltip="{i18n>WSGBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
-												</f:fields>
-											</f:FormElement>
-											<f:FormElement label="{i18n>WSSBhav}">
-												<f:fields>
-													<Input type="Number" fieldWidth="10px" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>WSSBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/SilverBhav}"/>
-												</f:fields>
-											</f:FormElement>
-											<f:FormElement label="{i18n>WSGBhavK}">
-												<f:fields>
-													<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/GoldbhavK}"/>
-												</f:fields>
-											</f:FormElement>
-											<f:FormElement label="{i18n>WSSBhavK}">
-												<f:fields>
-													<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{local>/WSOrderHeader/SilverBhavK}"/>
-												</f:fields>
-											</f:FormElement>
-										</f:formElements>
-										<f:layoutData>
-											<f:GridContainerData span="XL1 L2 M2 S4"></f:GridContainerData>
-										</f:layoutData>
-									</f:FormContainer>
-								</f:formContainers>
-							</f:Form>
-						</VBox>
-						<VBox width='35%'>
-							<Panel id="totals" headerText="Total" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
-								<FlexBox justifyContent="SpaceBetween" alignItems="Center">
-									<Label text="{i18n>tOrderAmount}" width="0%"/>
-									<Label text="Cash" fieldWidth="10%"/>
-									<Label text="Gold" fieldWidth="10%"/>
-									<Label text="Silver" fieldWidth="10%"/>
-								</FlexBox>
-								<FlexBox justifyContent="SpaceBetween" alignItems="Center">
-									<Label text="{i18n>tOrderAmount}"/>
-									<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValueCash}"/>
-									<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}"/>
-									<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}"/>
-								</FlexBox>
-								<FlexBox justifyContent="SpaceBetween">
-									<Label text="{i18n>deductions}"/>
-									<Text text="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" fieldWidth="30%"/>
-									<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" fieldWidth="30%"/>
-									<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" fieldWidth="30%"/>
-								</FlexBox>
-								<FlexBox justifyContent="SpaceBetween">
-									<Label text="{i18n>fBalance}"/>
-									<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" fieldWidth="30%"/>
-									<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" fieldWidth="30%"/>
-									<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" fieldWidth="30%"/>
-								</FlexBox>
-							</Panel>
-						</VBox>
-					</FlexBox>
-				</Panel>
-			</l:content>
-		</l:VerticalLayout>
-	</core:FragmentDefinition>
+							<f:formContainers>
+								<!-- //tunch detail -->
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="{i18n>WSGBhav}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" id="idGbhav" placeholder="{i18n>WSGBhav}" tooltip="{i18n>WSGBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/Goldbhav}" editable="true"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSSBhav}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>WSSBhav}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/SilverBhav}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSGBhavK}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/GoldbhavK}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSSBhavK}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{local>/WSOrderHeader/SilverBhavK}"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData span="XL1 L2 M2 S4"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+					<VBox width='35%'>
+						<Panel id="totals" headerText="Total" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>tOrderAmount}" width="0%"/>
+								<Label text="Cash" fieldWidth="10%"/>
+								<Label text="Gold" fieldWidth="10%"/>
+								<Label text="Silver" fieldWidth="10%"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>tOrderAmount}" width="125px"/>
+								<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValueCash}" textAlign="Right" width="80px"/>
+								<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" width="60px"/>
+								<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" width="60px"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>deductions}" width="125px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" width="60px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" width="60px"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween">
+								<Label text="{i18n>fBalance}" width="125px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" width="60px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" width="60px"/>
+							</FlexBox>
+						</Panel>
+					</VBox>
+				</FlexBox>
+			</Panel>
+		</l:content>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

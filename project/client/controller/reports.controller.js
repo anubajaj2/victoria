@@ -49,7 +49,7 @@ function (BaseController, JSONModel, MessageToast) {
       var custId = test.oData.id;
       var name = test.oData.Name;
       var city = test.oData.City;
-      $.post("/pOrderDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+      $.get("/pOrderDownload").then(function(oData)
       {
       debugger;
       MessageToast.show("Data downloaded successfully");

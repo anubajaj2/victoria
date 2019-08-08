@@ -20,6 +20,9 @@ sap.ui.define(
 			TotalOrderValueCash: 0,
 			TotalOrderValueGold: 0,
 			TotalOrderValueSilver: 0,
+			DeductionCash: 0,
+			DeductionGold: 0,
+			DeductionSilver: 0,
 			onInit: function(oEvent) {
 
 				BaseController.prototype.onInit.apply(this);
@@ -264,7 +267,7 @@ sap.ui.define(
 			},
 			//on order valuehelp,get the exsisting order from //DB
 			valueHelpOrder: function(oEvent) {
-
+				debugger;
 				this.orderPopup(oEvent);
 				this.orderSearchPopup.destroyItems();
 			},
@@ -364,6 +367,7 @@ sap.ui.define(
 				var tablePath = "";
 				var i = "";
 				this.Calculation(oEvent, tablePath, i);
+				this.onTunchChange(oEvent);
 				// this.WSCalculation(oEvent);
 				this.setStatus('red');
 			},
@@ -801,6 +805,16 @@ sap.ui.define(
 			clearScreen: function(oEvent) {
 				var that = this;
 				this.setStatus('green');
+				delete this.TotalOrderValueCash;
+				delete this.TotalOrderValueGold;
+				delete this.TotalOrderValueSilver;
+				delete this.DeductionCash;
+				delete this.DeductionGold;
+				delete this.DeductionSilver;
+				delete this.FinalBalanceCash;
+				delete this.FinalBalanceGold;
+				delete this.FinalBalanceSilver;
+
 				var ovisibleSet = new JSONModel({
 					set: true
 				});
@@ -812,6 +826,16 @@ sap.ui.define(
 				oHeaderT.CustomerId = "";
 				oHeader.OrderNo = "";
 				oHeader.Customer = "";
+				oHeaderT.TotalOrderValueCash = "0";
+				oHeaderT.TotalOrderValueGold = "0";
+				oHeaderT.TotalOrderValueSilver = "0";
+				oHeaderT.DeductionCash = "0";
+				oHeaderT.DeductionGold = "0";
+				oHeaderT.DeductionSilver = "0";
+				oHeaderT.FinalBalanceCash = "0";
+				oHeaderT.FinalBalanceGold = "0";
+				oHeaderT.FinalBalanceSilver = "0";
+
 				this.getView().byId("WSHeaderFragment--custName").setText("");
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 				// oHeader.Date=new Date();
@@ -1028,7 +1052,7 @@ sap.ui.define(
 							that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
 						})
 						.catch(function(oError) {
-							debugger;
+
 							if (oError.responseText.includes("last order already empty use same")) {
 								var id = oError.responseText.split(':')[2];
 								if (id) {
@@ -1036,13 +1060,13 @@ sap.ui.define(
 											"/WSOrderHeaders(" + id + ")",
 											"GET", {}, {}, that)
 										.then(function(oData) {
-											debugger;
+
 											that.getView().setBusy(false);
 											//create the new json model and get the order id no generated
 											var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
 											oOrderHeader.OrderId = oData.id;
 											oOrderHeader.OrderNo = oData.OrderNo;
-											debugger;
+
 											var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
 											that.getView().getModel('local').setProperty('/WSOrderHeader', oOrderHeader);
 											sap.m.MessageToast.show(oBundle, {
@@ -1243,7 +1267,7 @@ sap.ui.define(
 				return oCommit;
 			},
 			getIndianCurr: function(value) {
-				debugger;
+
 				if (value) {
 					var x = value;
 					x = x.toString();
@@ -1330,12 +1354,12 @@ sap.ui.define(
 					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/WSOrderHeaders('" + oId + "')", "PUT", {}, oHeader, this)
 						.then(function(oData) {
-							debugger;
+
 							message.show("Order Saved");
 							that.getView().setBusy(false);
 						})
 						.catch(function(oError) {
-							debugger;
+
 							that.getView().setBusy(false);
 							var oPopover = that.getErrorMessage(oError);
 						});
@@ -1444,7 +1468,7 @@ sap.ui.define(
 				this.toggleUiTable(btnId, headerId)
 			},
 			finalCalculation: function(category, data, tablePath, cells) {
-				debugger;
+
 				var that = this;
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -1481,7 +1505,7 @@ sap.ui.define(
 					var makingCharges = data.Making * weightF;
 					var stonevalue = data.QtyD * data.MakingD;
 
-debugger;
+
 					if ((makingCharges || stonevalue) ||
 						(makingCharges === 0 || stonevalue === 0)) {
 						var subTot = makingCharges + stonevalue;
@@ -1516,7 +1540,7 @@ debugger;
 
 					var stonevalue = data.QtyD * data.MakingD;
 
-debugger;
+
 					if ((makingCharges || stonevalue) ||
 						(makingCharges === 0 || stonevalue === 0)) {
 						var subTot = makingCharges + stonevalue;
@@ -1590,7 +1614,7 @@ debugger;
 						cells[cells.length - 3].setText(0);
 					}
 				};
-				debugger;
+
 				if ((data.SubTotal) && (data.SubTotal != "")) {
 					var currentSubTot = oFloatFormat.parse(data.SubTotal);
 					this.TotalOrderValueCash = currentSubTot + this.TotalOrderValueCash - oldSubTot;
@@ -1620,7 +1644,7 @@ debugger;
 				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', orderSilver);
 			},
 			PreCalc: function(data, fieldId, newValue, oFloatFormat) {
-				debugger;
+
 				var that = this;
 				that.setNewValue(data, fieldId, newValue);
 				that.getFloatValue(data, oFloatFormat);
@@ -1750,7 +1774,7 @@ debugger;
 				}
 			},
 			Calculation: function(oEvent, tablePath, i) {
-debugger;
+
 				var that = this;
 				if ((oEvent.getId() === "orderReload") ||
 					(oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader')) {
@@ -1779,7 +1803,7 @@ debugger;
 						that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								"/Products('" + category.Material + "')", "GET", {}, {}, that)
 							.then(function(oData) {
-								debugger;
+
 								category.Category = oData.Category;
 								category.Making = oData.Making;
 								category.Tunch = oData.Tunch;
@@ -1787,9 +1811,10 @@ debugger;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
 								that.finalCalculation(category, data, tablePath, cells);
+								that.getFinalBalance();
 							})
 							.catch(function(oError) {
-								debugger;
+
 								that.getView().setBusy(false);
 								var oPopover = that.getErrorMessage(oError);
 							});
@@ -1797,6 +1822,8 @@ debugger;
 				}
 				that.PreCalc(data, fieldId, newValue, oFloatFormat);
 				that.finalCalculation(category, data, tablePath, cells);
+				that.getFinalBalance();
+
 				this.byId("IdMaking");
 				this.byId("IdMakingD");
 				this.byId("IdWeightD");
@@ -1804,6 +1831,274 @@ debugger;
 				this.byId("IdQty");
 				this.byId("IdQtyD");
 				this.byId("sbhavid");
+			},
+			onTunchChange: function(oEvent) {
+				debugger;
+				var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
+				var data = this.getView().getModel('orderItems').getProperty(path);
+				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
+				var newValue = oEvent.getParameters().newValue;
+				var TunchData = this.getView().getModel('local').getProperty("/WSTunch");
+				TunchData.Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+				TunchData.Material = data.Material;
+				if (TunchData.Customer && TunchData.Material) {
+					if (fieldId === "IdTunch") {
+						if (data.Tunch !== newValue) {
+							TunchData.Tunch = newValue;
+						}
+					}
+
+					if (fieldId === "IdMaking") {
+						if (data.Making !== newValue) {
+							TunchData.Making = newValue;
+						}
+					}
+				}
+				// if (orderData.Customer === "")
+				//call the odata promise method to post the data
+				debugger;
+				if (TunchData.Tunch || TunchData.Making) {
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSTunchs",
+							"PUT", {}, TunchData, this)
+						.then(function(oData) {
+							debugger;
+							that.getView().setBusy(false);
+						})
+						.catch(function(oError) {
+							debugger;
+						})
+				}
+			},
+			getFinalBalance: function() {
+				debugger;
+				var that = this;
+				that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
+				if (that.FinalBalanceCash === 0) {
+					var FinalBalanceCash = 0;
+				} else {
+					var FinalBalanceCash = parseFloat(that.FinalBalanceCash).toFixed(0);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+
+				}
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
+
+				that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
+				if (that.FinalBalanceGold === 0) {
+					var FinalBalanceGold = 0;
+				} else {
+					var FinalBalanceGold = parseFloat(that.FinalBalanceGold).toFixed(3);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+
+				}
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+
+				that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
+				if (that.FinalBalanceSilver === 0) {
+					var FinalBalanceSilver = 0;
+				} else {
+					var FinalBalanceSilver = parseFloat(that.FinalBalanceSilver).toFixed(2);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+
+				}
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+			},
+			onReturnChange: function(oEvent) {
+				debugger;
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
+					this.byId("Sales--idSaveIcon").setColor('red');
+				} else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
+					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+				};
+				var path = oEvent.getSource().getParent().getBindingContext("returnModel").getPath();
+				var seletedLine = this.getView().getModel('returnModel').getProperty(path);
+				var sourceId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+				if (sourceId === 'idsales') {
+					//retail sales detail
+					var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
+				} else {
+					//WS order details
+				}
+				this.returnCalculation(oEvent, orderHeader, seletedLine);
+				this.getFinalBalance();
+			},
+			returnCalculation: function(oEvent, orderHeader, data) {
+				debugger;
+				if (oEvent.getId() === 'orderReload') {
+					var seletedLine = this.getView().getModel('returnModel').getProperty(data);
+					// var category = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(data);
+					var path = data;
+					var cells = this.getView().byId("OrderReturn")._getVisibleColumns();
+					viewId = oEvent.viewId;
+				} else {
+					var seletedLine = data;
+					var newValue = oEvent.getParameters().newValue;
+					var fieldId = oEvent.getParameters().id.split('---')[1].split('--')[1].split('-')[0];
+					var viewId = oEvent.getSource().getId().split('---')[1].split('--')[0];
+					var oCurrentRow = oEvent.getSource().getParent();
+					var cells = oCurrentRow.getCells();
+					// this.getView().getModel('local').setProperty('/OrderReturn',seletedLine);
+				}
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				if (newValue) {
+					this.setReturnNewValue(seletedLine, fieldId, newValue);
+				}
+				this.getReturnFloatValue(seletedLine, oFloatFormat);
+
+				if ((seletedLine.SubTotal) && (seletedLine.SubTotal != "")) {
+					var oldSubTot = oFloatFormat.parse(seletedLine.SubTotal);
+				} else {
+					var oldSubTot = 0;
+				}
+
+				if ((seletedLine.SubTotalG) && (seletedLine.SubTotalG != "")) {
+					var oldSubTotG = oFloatFormat.parse(seletedLine.SubTotalG);
+				} else {
+					var oldSubTotG = 0;
+				}
+
+				if ((seletedLine.SubTotalS) && (seletedLine.SubTotalS != "")) {
+					var oldSubTotS = oFloatFormat.parse(seletedLine.SubTotalS);
+				} else {
+					var oldSubTotS = 0;
+				}
+				if (seletedLine.Key === 'OG' ||
+					seletedLine.Key === 'KG' ||
+					seletedLine.Key === 'BG') {
+					if (seletedLine.Key === 'BG') {
+						seletedLine.Tunch = 100;
+					}
+					var bhavF = seletedLine.Bhav / 10;
+					var weightF = seletedLine.Weight - seletedLine.KWeight;
+					var fineGold = (seletedLine.Tunch * weightF) / 100;
+					var subtotGold = parseFloat(fineGold).toFixed(3);
+					var subTotal = fineGold * bhavF;
+					var subTotalNoDecimal = parseFloat(subTotal).toFixed(0);
+					subTotalNoDecimal = this.getIndianCurr(subTotalNoDecimal);
+					var subTotF = this.getIndianCurr(subTotal)
+
+					if (path) {
+						seletedLine.SubTotal = subTotF;
+						if (viewId == 'idsalesws') {
+							seletedLine.SubTotal = subTotalNoDecimal;
+
+							if (subTotal) {
+								seletedLine.SubTotalG = 0
+								seletedLine.SubTotalS = 0;
+							} else {
+								seletedLine.SubTotal = 0.
+								seletedLine.SubTotalG = subtotGold;
+								seletedLine.SubTotalS = 0;
+							}
+						}
+						this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
+					} else {
+						cells[cells.length - 1].setText(subTotF);
+						if (viewId == 'idsalesws') {
+							cells[cells.length - 1].setText(subTotalNoDecimal);
+							if (subTotF) {
+								cells[cells.length - 2].setText(0);
+							} else {
+								cells[cells.length - 2].setText(subtotGold);
+								cells[cells.length - 3].setText(0);
+							}
+						}
+					} //path check
+				} else if (seletedLine.Key === 'OS' ||
+					seletedLine.Key === 'KS' ||
+					seletedLine.Key === 'BS') {
+					if (seletedLine.Key === 'BS') {
+						seletedLine.Tunch = 100;
+					}
+					var bhavF = seletedLine.Bhav / 1000;
+					var weightF = seletedLine.Weight - seletedLine.KWeight;
+					var fineSilver = (seletedLine.Tunch * weightF) / 100;
+					var subtotSilver = parseFloat(fineSilver).toFixed(2);
+					var subTotal = fineSilver * bhavF;
+					var subTotalNoDecimal = parseFloat(subTotal).toFixed(0);
+					subTotalNoDecimal = this.getIndianCurr(subTotalNoDecimal);
+					var subTotF = this.getIndianCurr(subTotal)
+					if (path) {
+						seletedLine.SubTotal = subTotF;
+						if (viewId == 'idsalesws') {
+							seletedLine.SubTotal = subTotalNoDecimal;
+							if (subTotal) {
+								seletedLine.SubTotalG = 0
+								seletedLine.SubTotalS = 0;
+							} else {
+								seletedLine.SubTotalS = subtotSilver;
+								seletedLine.SubTotalG = 0;
+								seletedLine.SubTotal = 0;
+							}
+						}
+
+						this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
+					} else {
+						cells[cells.length - 1].setText(subTotF);
+
+						if (viewId == 'idsalesws') {
+							cells[cells.length - 1].setText(subTotalNoDecimal);
+							if (subTotal) {
+								cells[cells.length - 3].setText(0);
+								cells[cells.length - 2].setText(0);
+							} else {
+								cells[cells.length - 3].setText(subtotSilver);
+								cells[cells.length - 2].setText(0);
+								cells[cells.length - 1].setText(0);
+							}
+						}
+					}
+				} else if (seletedLine.Key === 'CASH') {
+					var subTotF = this.getIndianCurr(seletedLine.Bhav)
+					var wsSubTotF = parseFloat(seletedLine.Bhav).toFixed(0);
+					wsSubTotF = this.getIndianCurr(wsSubTotF);
+					if (path) {
+						seletedLine.SubTotal = subTotF;
+						if (viewId == 'idsalesws') {
+							seletedLine.SubTotal = wsSubTotF;
+						}
+						this.getView().byId("OrderReturn").getModel("returnModel").setProperty(path, seletedLine);
+					} else {
+						cells[cells.length - 1].setText(subTotF);
+						if (viewId == 'idsalesws') {
+							cells[cells.length - 1].setText(wsSubTotF);
+						}
+					}
+				}
+				debugger;
+				if ((seletedLine.SubTotal) && (seletedLine.SubTotal !== "") &&
+					(seletedLine.SubTotal !== "0")) {
+					var currentSubTot = oFloatFormat.parse(seletedLine.SubTotal);
+					this.DeductionCash = currentSubTot + this.DeductionCash - oldSubTot;
+					this.DeductionGold = this.DeductionGold - oldSubTotG;
+					this.DeductionSilver = this.DeductionSilver - oldSubTotS;
+				} else {
+					this.DeductionCash = this.DeductionCash - oldSubTot;
+
+					if ((seletedLine.SubTotalG) && (seletedLine.SubTotalG !== "")) {
+						var currentSubTotG = oFloatFormat.parse(seletedLine.SubTotalG);
+						this.DeductionGold = currentSubTotG + this.DeductionGold - oldSubTotG;
+					}
+
+					if ((seletedLine.SubTotalS) && (seletedLine.SubTotalS !== "")) {
+						var currentSubTotS = oFloatFormat.parse(seletedLine.SubTotalS);
+						this.DeductionSilver = currentSubTotS + this.DeductionSilver - oldSubTotS;
+					}
+				}
+				var deduction = this.DeductionCash;
+				deduction = parseFloat(deduction).toFixed(0);
+				var deductionF = this.getIndianCurr(deduction);
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', deductionF);
+
+				var deductionG = this.DeductionGold;
+				deductionG = parseFloat(deductionG).toFixed(3);
+				var deductionGF = this.getIndianCurr(deductionG);
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', deductionGF);
+
+				var deductionS = this.DeductionSilver;
+				deductionS = parseFloat(deductionS).toFixed(2);
+				var deductionSF = this.getIndianCurr(deductionS);
+				this.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', deductionSF);
 			},
 			onExit: function() {
 

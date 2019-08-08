@@ -151,6 +151,10 @@
   "BookingDlvDetail":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "WSTunch":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 
 }

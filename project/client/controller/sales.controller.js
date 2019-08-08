@@ -995,6 +995,7 @@ var valueCheck = false;
 var returnCheck = false;
 delete this.orderAmount;
 delete this.deduction;
+delete this.finalBal;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];

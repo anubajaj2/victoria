@@ -765,6 +765,10 @@ sap.ui.define([
 						debugger;
 						if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 							this.byId("Sales--idSaveIcon").setColor('red');
+							var orderTemp = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+							if (this.orderAmount === "") {
+								this.orderAmount = orderTemp.TotalOrderValue;
+							}
 						} else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
 							this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 						};

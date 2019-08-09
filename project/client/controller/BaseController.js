@@ -660,17 +660,41 @@ sap.ui.define([
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;
 						var that = this;
-						var id = that.getView().getModel('returnModel').getProperty('/TransData')[i].ReturnId;
+						var id = that.getView().getModel('returnModel').getProperty('/TransData')[selIdxs].ReturnId;
 						if (id) {
 							if (viewId === 'idsales') {
+							// 	var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+							// 	var oLocale = new sap.ui.core.Locale("en-US");
+							//   var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+							// 	var subTotal = oFloatFormat.parse(that.getView().getModel('returnModel').getProperty('/TransData')[selIdxs].SubTotal);
+							// 	this.deduction = this.deduction - subTotal;
+							// 	if (this.deduction === 0) {
+							// 	this.finalBal = this.orderAmount;
+							// }else {
+							// 	this.finalBal = this.orderAmount - this.deduction;
+							// }
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderReturns('" + id + "')",
 									"DELETE", {}, {}, that)
+// //set value on screen
+// 								  if ((that.deduction) && (that.deduction !== "")) {
+// 										oHeaderT.Deduction = that.getIndianCurr(that.deduction);
+// 								  }else {
+// 								  	oHeaderT.Deduction = 0;
+// 								  }
+// 									if ((that.orderAmount) && (that.orderAmount !== "")) {
+// 										oHeaderT.TotalOrderValue = that.getIndianCurr(that.orderAmount);
+// 								  }
+// 									if ((that.finalBal) && (that.finalBal !== "")) {
+// 										oHeaderT.FinalBalance = that.getIndianCurr(that.finalBal);
+// 								  }
+// 									that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 							} else {
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderReturns('" + id + "')",
 									"DELETE", {}, {}, that)
 							}
 							sap.m.MessageToast.show("Data Deleted Successfully");
 						}
+						that.deleteReturn(oEvent , selIdxs);
 						var oTableData = that.getView().getModel("returnModel").getProperty("/TransData");
 						oTableData.splice(selIdxs, 1);
 						oTableData.push({

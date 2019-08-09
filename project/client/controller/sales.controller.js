@@ -73,7 +73,6 @@ getPrintCustHeaderData: function(){
   });
 },
 getIndianCurr:function(value){
-debugger;
 if(value){
   var x=value;
   x=x.toString();
@@ -999,9 +998,9 @@ var oBinding = oTableDetails.getBinding("rows");
 var itemError = false;
 var valueCheck = false;
 var returnCheck = false;
-delete this.orderAmount;
-delete this.deduction;
-delete this.finalBal;
+// delete this.orderAmount;
+// delete this.deduction;
+// delete this.finalBal;
 for (var i = 0; i < oBinding.getLength(); i++) {
   var that = this;
   var data = oBinding.oList[i];
@@ -1311,6 +1310,7 @@ debugger;
 for (var i = 0; i < oTable.getRows().length; i++) {
       oTable.getRows()[i].getCells()[2].setValueState('None');
       oTable.getRows()[i].getCells()[4].setValueState('None');
+      oTable.getRows()[i].getCells()[5].setValueState('None');
     }
   }else{
 for (var i = 0; i < oTable.getRows().length; i++) {
@@ -1640,6 +1640,33 @@ if (data.QtyD) {
   }}else {
     data.QtyD = 0;
   }
+},
+
+deleteReturn:function(oEvent , selIdxs){
+var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+var subTotal = oFloatFormat.parse(this.getView().getModel('returnModel').getProperty('/TransData')[selIdxs].SubTotal);
+this.deduction = this.deduction - subTotal;
+if (this.deduction === 0) {
+this.finalBal = this.orderAmount;
+}else {
+this.finalBal = this.orderAmount - this.deduction;
+}
+
+//set value on screen
+if ((this.deduction) && (this.deduction !== "")) {
+oHeaderT.Deduction = this.getIndianCurr(this.deduction);
+}else {
+oHeaderT.Deduction = 0;
+}
+if ((this.orderAmount) && (this.orderAmount !== "")) {
+oHeaderT.TotalOrderValue = this.getIndianCurr(this.orderAmount);
+}
+if ((this.finalBal) && (this.finalBal !== "")) {
+oHeaderT.FinalBalance = this.getIndianCurr(this.finalBal);
+}
+this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 },
 
 finalCalculation:function(category,data,priceF,tablePath,cells,

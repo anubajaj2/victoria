@@ -43,6 +43,10 @@ function (BaseController, JSONModel, MessageToast) {
     });
     },
 
+    onPressStockDownload:function(){
+
+    },
+
     onPressPOrderDownload:function(){
       var test = this.getView().getModel("customerModel");
       var reportType = "Pending_Order_Summary";

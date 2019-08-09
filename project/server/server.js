@@ -438,305 +438,569 @@ app.start = function() {
 						//cities, and products with ids
 						//prepare final collection and Add the excel code there
 
-					} catch (e) {
-
-					} finally {
-
-					}
-				}
-		);
- });
-		app.post('/pOrderDownloadold', function(req, res) {
-debugger;
-var reportType = req.body.type;
-var custId = req.body.id;
-var name = req.body.name;
-				//read customer name by id, group by group id, city by
-				//read kacchi and print report with all coloring, formatting, totaling
-var responseData = [];
-var oSubCounter = {};
-var Customer = app.models.Customer;
 
 
-var async = require('async');
-;
-async.waterfall([
-	function(callback) {
-		Customer.findById(custId,{
-			fields:{
-				"CustomerCode": true,
-				"Name":true,
-				"Group":true,
-				"City":true
-			}
-		}).then(function(customerRecord, err){
-				callback(err, customerRecord);
-		});
-	}
-], function(err,customerRecord) {
-// result now equals 'done'
-//set all values to local variables which we need inside next promise
-name = customerRecord.Name;
-	try {
-//read the kacchi Records
-var POrder = app.models.CustomerOrder;
-POrder.find({where : {
-	"Customer": custId
-}})
-.then(function(Records, err) {
-		debugger;
-			if (Records) {
-				var excel = require('exceljs');
-				var workbook = new excel.Workbook(); //creating workbook
-				var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+												var pOrders = [];
+
+												for(var p=0; p<pendingOrderRecords.length; p++){
+													var pOrder = {};
+
+													//let lPOrders = JSON.parse(JSON.stringify(pendingOrderRecords[p].__data));
+													var lPOrders = pendingOrderRecords[p].__data;
+													debugger;
+
+													var cov_date = new Date(lPOrders.Date);
+													pOrder.Date =  cov_date.getDate() + "."
+																					+ (cov_date.getMonth()+1)  + "."
+																					+ cov_date.getFullYear();
+
+													var del_date = new Date(lPOrders.DelDate);
+													pOrder.DelDate =  del_date.getDate() + "."
+																					+ (del_date.getMonth()+1)  + "."
+																					+ del_date.getFullYear();
 
 
-				//Heading for excel
-				var heading = {heading:"Pending Order Report"};
-				sheet.mergeCells('A1:I1');
-				sheet.getCell('I1').value = 'Pending Order Report';
-				sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
-				sheet.getCell('A1').fill = {
-					type: 'pattern',
-					pattern:'solid',
-					fgColor:{argb:'808080'}
-				};
+													// pOrder.Date = lPOrders.Date;
+													// pOrder.DelDate = lPOrders.DelDate;
+													pOrder.Qty = lPOrders.Qty;
+													pOrder.Weight = lPOrders.Weight;
+													pOrder.Making = lPOrders.Making;
+													pOrder.Remarks = lPOrders.Remarks;
+													//pOrder.Material = lPOrders.Material;
+													for(var m=0; m<ProductRecords.length; m++){
+														debugger;
+														let lMaterial = JSON.parse(JSON.stringify(ProductRecords[m].__data));
+														if (lPOrders.Material == lMaterial.id) {
+															pOrder.Material = lMaterial.ProductName;
+														}
+													}
+													for(var k=0; k<allCustomers.length; k++){
+														debugger;
+														let lKarigar = JSON.parse(JSON.stringify(allCustomers[k].__data));
+														if (lPOrders.Karigar == lKarigar.id) {
+															pOrder.Karigar = lKarigar.Name;
+														}
+														if (lPOrders.Karigar == "null") {
+															pOrder.Karigar = lPOrders.Karigar;
+														}
+													}
+													for (var c = 0; c < allCustomers.length; c++) {
+														debugger;
+														let lCustomer = JSON.parse(JSON.stringify(allCustomers[c].__data));
+														if (lPOrders.Customer == lCustomer.id) {
+															pOrder.Customer = lCustomer.Name;
+														}
+													}
 
-				var currentdate = new Date();
-				var datetime =  currentdate.getDate() + "."
-				                + (currentdate.getMonth()+1)  + "."
-				                + currentdate.getFullYear() + " / "
-				                + currentdate.getHours() + ":"
-				                + currentdate.getMinutes() + ":"
-				                + currentdate.getSeconds();
-
-debugger;
-var header = ["Date","Delivery Date","Customer Name","Item Name","Qty","Weight","Making","Remarks","Karigar"];
-sheet.addRow().values = header;
-
-//Coding for cell color and bold character
-sheet.getCell('A2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('B2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('C2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('D2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('E2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('F2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('G2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('H2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-sheet.getCell('I2').fill = {
-type: 'pattern',
-pattern:'solid',
-fgColor:{argb:'FFFF99'}
-};
-
-var totCash = 0;
-var totalE = 0;
-var totalF = 0;
-
-//Coding to remove unwanted items or Rows
-for (var i = 0; i < Records["length"]; i++) {
-var items = Records[i].__data;
-var item = [items["Date"],items["DelDate"],name,items["Material"],items["Qty"],items["Weight"],items["Making"],items["Remarks"],items["Karigar"]];
-totalE = totalE + items["Qty"];
-totalF = totalF + items["Weight"];
-sheet.addRow().values = item;
-}
+													pOrders.push(Object.assign({},pOrder));
 
 
-//Coding for formula and concatenation in the last line
-var totText = Records["length"] + 4;
-var totCol = totText - 1;
-sheet.getCell('A' + totText).value = "TOTAL";
+												}
+												debugger;
+												var reportType = "Pending_Order_Summary";
+												//var custId = req.body.id;
+												//var name = req.body.name;
 
-sheet.getCell('E' + totText).value = totalE ;
-sheet.getCell('F' + totText).value = totalF ;
-
-
-sheet.getCell('A' + totText).fill = {
-	type: 'pattern',
-	pattern:'solid',
-	fgColor:{argb:'339966'},
-	bgColor:{argb:'339966'}
-};
-sheet.getCell('A' + totText).font = {
-	color:{argb:'000000'}
-};
+												var excel = require('exceljs');
+												var workbook = new excel.Workbook(); //creating workbook
+												var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
 
+												//Heading for excel
+												var heading = {heading:"Pending Order Report"};
+												sheet.mergeCells('A1:I1');
+												sheet.getCell('I1').value = 'Pending Order Report';
+												sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
+												sheet.getCell('A1').fill = {
+													type: 'pattern',
+													pattern:'solid',
+													fgColor:{argb:'808080'}
+												};
 
-//Coding for rows and column border
-for(var j=1; j<=totText; j++){
-////
-// if(sheet.getCell('E' + (j)).value == ''){
-// 	sheet.getCell('E' + (j)).fill = {
-// 		type: 'pattern',
-// 		pattern:'solid',
-// 		bgColor:{argb:'00FFFF'},
-// 		fgColor:{argb:'00FFFF'}
-// 	};
+
+												var currentdate = new Date();
+												var datetime =  currentdate.getDate() + "."
+																				+ (currentdate.getMonth()+1)  + "."
+																				+ currentdate.getFullYear() + " / "
+																				+ currentdate.getHours() + ":"
+																				+ currentdate.getMinutes() + ":"
+																				+ currentdate.getSeconds();
+
+								debugger;
+								var header = ["Date","Delivery Date","Customer Name","Item Name","Qty","Weight","Making","Remarks","Karigar"];
+								sheet.addRow().values = header;
+
+								//Coding for cell color and bold character
+								sheet.getCell('A2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('B2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('C2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('D2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('E2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('F2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('G2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('H2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+								sheet.getCell('I2').fill = {
+								type: 'pattern',
+								pattern:'solid',
+								fgColor:{argb:'FFFF99'}
+								};
+
+								var totCash = 0;
+								var totalE = 0;
+								var totalF = 0;
+
+								//Coding to remove unwanted items or Rows
+								for (var i = 0; i < pOrders["length"]; i++) {
+								var items = pOrders[i];
+								var item = [items["Date"],items["DelDate"],items["Customer"],items["Material"],items["Qty"],items["Weight"],items["Making"],items["Remarks"],items["Karigar"]];
+								totalE = totalE + items["Qty"];
+								totalF = totalF + items["Weight"];
+								sheet.addRow().values = item;
+								}
+
+
+								//Coding for formula and concatenation in the last line
+								var totText = pOrders["length"] + 4;
+								var totCol = totText - 1;
+								sheet.mergeCells('A' + totText + ': D' + totText);
+								sheet.getCell('A' + totText).alignment = { vertical: 'middle', horizontal: 'center' };
+								sheet.getCell('A' + totText).value = "TOTAL";
+
+								sheet.getCell('E' + totText).value = totalE ;
+								sheet.getCell('F' + totText).value = totalF ;
+
+
+								sheet.getCell('A' + totText).fill = {
+									type: 'pattern',
+									pattern:'solid',
+									fgColor:{argb:'339966'},
+									bgColor:{argb:'339966'}
+								};
+								sheet.getCell('A' + totText).font = {
+									color:{argb:'000000'}
+								};
+
+								sheet.getCell('E' + totText).font = {
+									color:{argb:'000000'},
+									bold: true
+								};
+
+								sheet.getCell('F' + totText).font = {
+									color:{argb:'000000'},
+									bold: true
+								};
+
+
+								//Coding for rows and column border
+								for(var j=1; j<=totText; j++){
+
+								sheet.getCell('A'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('B'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('C'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('D'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('E'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('F'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('G'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('H'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								sheet.getCell('I'+(j)).border = {
+								top: {style:'thin'},
+								left: {style:'thin'},
+								bottom: {style:'thin'},
+								right: {style:'thin'}
+								};
+								}
+
+								sheet.getCell('F' + totText).value = totalF + 'gm';
+
+								sheet.getCell('E'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+								sheet.getCell('F'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+
+								debugger;
+								//Coding to download in a folder
+									var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth()+1)
+																			+ currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes()
+																			+ currentdate.getSeconds() + '.xlsx';
+									console.log("tempFilePath : ", tempFilePath);
+									workbook.xlsx.writeFile(tempFilePath).then(function() {
+										res.sendFile(tempFilePath, function(err) {
+											if (err) {
+												console.log('---------- error downloading file: ', err);
+											}
+										});
+										console.log('file is written @ ' + tempFilePath);
+									});
+
+											} catch (e) {
+
+											} finally {
+
+											}
+										}
+								);
+						 })
+// 		app.post('/pOrderDownloadold', function(req, res) {
+// debugger;
+// var reportType = req.body.type;
+// var custId = req.body.id;
+// var name = req.body.name;
+// 				//read customer name by id, group by group id, city by
+// 				//read kacchi and print report with all coloring, formatting, totaling
+// var responseData = [];
+// var oSubCounter = {};
+// var Customer = app.models.Customer;
 //
-// }else {
-// 	sheet.getCell('E' + (j)).font = {
-// 		color:{argb:'000000'}
+//
+// var async = require('async');
+// ;
+// async.waterfall([
+// 	function(callback) {
+// 		Customer.findById(custId,{
+// 			fields:{
+// 				"CustomerCode": true,
+// 				"Name":true,
+// 				"Group":true,
+// 				"City":true
+// 			}
+// 		}).then(function(customerRecord, err){
+// 				callback(err, customerRecord);
+// 		});
+// 	}
+// ], function(err,customerRecord) {
+// // result now equals 'done'
+// //set all values to local variables which we need inside next promise
+// name = customerRecord.Name;
+// 	try {
+// //read the kacchi Records
+// var POrder = app.models.CustomerOrder;
+// POrder.find({where : {
+// 	"Customer": custId
+// }})
+// .then(function(Records, err) {
+// 		debugger;
+// 			if (Records) {
+// 				var excel = require('exceljs');
+// 				var workbook = new excel.Workbook(); //creating workbook
+// 				var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+//
+//
+// 				//Heading for excel
+// 				var heading = {heading:"Pending Order Report"};
+// 				sheet.mergeCells('A1:I1');
+// 				sheet.getCell('I1').value = 'Pending Order Report';
+// 				sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
+// 				sheet.getCell('A1').fill = {
+// 					type: 'pattern',
+// 					pattern:'solid',
+// 					fgColor:{argb:'808080'}
+// 				};
+//
+// 				var currentdate = new Date();
+// 				var datetime =  currentdate.getDate() + "."
+// 				                + (currentdate.getMonth()+1)  + "."
+// 				                + currentdate.getFullYear() + " / "
+// 				                + currentdate.getHours() + ":"
+// 				                + currentdate.getMinutes() + ":"
+// 				                + currentdate.getSeconds();
+//
+// debugger;
+// var header = ["Date","Delivery Date","Customer Name","Item Name","Qty","Weight","Making","Remarks","Karigar"];
+// sheet.addRow().values = header;
+//
+// //Coding for cell color and bold character
+// sheet.getCell('A2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('B2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('C2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('D2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('E2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('F2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('G2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('H2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+// sheet.getCell('I2').fill = {
+// type: 'pattern',
+// pattern:'solid',
+// fgColor:{argb:'FFFF99'}
+// };
+//
+// var totCash = 0;
+// var totalE = 0;
+// var totalF = 0;
+//
+// //Coding to remove unwanted items or Rows
+// for (var i = 0; i < Records["length"]; i++) {
+// var items = Records[i].__data;
+// var item = [items["Date"],items["DelDate"],name,items["Material"],items["Qty"],items["Weight"],items["Making"],items["Remarks"],items["Karigar"]];
+// totalE = totalE + items["Qty"];
+// totalF = totalF + items["Weight"];
+// sheet.addRow().values = item;
+// }
+//
+//
+// //Coding for formula and concatenation in the last line
+// var totText = Records["length"] + 4;
+// var totCol = totText - 1;
+// sheet.getCell('A' + totText).value = "TOTAL";
+//
+// sheet.getCell('E' + totText).value = totalE ;
+// sheet.getCell('F' + totText).value = totalF ;
+//
+//
+// sheet.getCell('A' + totText).fill = {
+// 	type: 'pattern',
+// 	pattern:'solid',
+// 	fgColor:{argb:'339966'},
+// 	bgColor:{argb:'339966'}
+// };
+// sheet.getCell('A' + totText).font = {
+// 	color:{argb:'000000'}
+// };
+//
+//
+//
+// //Coding for rows and column border
+// for(var j=1; j<=totText; j++){
+// ////
+// // if(sheet.getCell('E' + (j)).value == ''){
+// // 	sheet.getCell('E' + (j)).fill = {
+// // 		type: 'pattern',
+// // 		pattern:'solid',
+// // 		bgColor:{argb:'00FFFF'},
+// // 		fgColor:{argb:'00FFFF'}
+// // 	};
+// //
+// // }else {
+// // 	sheet.getCell('E' + (j)).font = {
+// // 		color:{argb:'000000'}
+// // };
+// // }
+// //
+// // if(sheet.getCell('F' + (j)).value == ''){
+// // 	sheet.getCell('F' + (j)).fill = {
+// // 		type: 'pattern',
+// // 		pattern:'solid',
+// // 		bgColor:{argb:'00FFFF'},
+// // 		fgColor:{argb:'00FFFF'}
+// // 	};
+// //
+// // }else {
+// // 	sheet.getCell('F' + (j)).font = {
+// // 		color:{argb:'000000'}
+// // };
+// // }
+//
+//
+//
+// ////
+// sheet.getCell('A'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('B'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('C'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('D'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('E'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('F'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('G'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('H'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
+// };
+// sheet.getCell('I'+(j)).border = {
+// top: {style:'thin'},
+// left: {style:'thin'},
+// bottom: {style:'thin'},
+// right: {style:'thin'}
 // };
 // }
 //
-// if(sheet.getCell('F' + (j)).value == ''){
-// 	sheet.getCell('F' + (j)).fill = {
-// 		type: 'pattern',
-// 		pattern:'solid',
-// 		bgColor:{argb:'00FFFF'},
-// 		fgColor:{argb:'00FFFF'}
-// 	};
 //
-// }else {
-// 	sheet.getCell('F' + (j)).font = {
-// 		color:{argb:'000000'}
-// };
+// // if (totalF == 0) {
+// // 	sheet.getCell('D' + totText).value = totalD + '.00 gm';
+// // }else {
+// 	sheet.getCell('F' + totText).value = totalF + 'gm';
+// // }
+//
+// sheet.getCell('E'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+// // sheet.getCell('C' + totText).value = totalC + '/-';
+// // sheet.getCell('C'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+// sheet.getCell('F'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
+//
+//
+// // sheet.getCell('B' + totText).font = {
+// // 	color:{argb:'800000'}
+// // };
+// // sheet.getCell('D' + totText).font = {
+// // 	color:{argb:'800000'}
+// // };
+// debugger;
+// //Coding to download in a folder
+// 	var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth()+1)
+// 											+ currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes()
+// 											+ currentdate.getSeconds() + '.xlsx';
+// 	console.log("tempFilePath : ", tempFilePath);
+// 	workbook.xlsx.writeFile(tempFilePath).then(function() {
+// 		res.sendFile(tempFilePath, function(err) {
+// 			if (err) {
+// 				console.log('---------- error downloading file: ', err);
+// 			}
+// 		});
+// 		console.log('file is written @ ' + tempFilePath);
+// 	});
+//
 // }
-
-
-
-////
-sheet.getCell('A'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('B'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('C'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('D'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('E'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('F'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('G'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('H'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-sheet.getCell('I'+(j)).border = {
-top: {style:'thin'},
-left: {style:'thin'},
-bottom: {style:'thin'},
-right: {style:'thin'}
-};
-}
-
-
-// if (totalF == 0) {
-// 	sheet.getCell('D' + totText).value = totalD + '.00 gm';
-// }else {
-	sheet.getCell('F' + totText).value = totalF + 'gm';
 // }
-
-sheet.getCell('E'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
-// sheet.getCell('C' + totText).value = totalC + '/-';
-// sheet.getCell('C'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
-sheet.getCell('F'  + totText).alignment = { vertical: 'bottom', horizontal: 'right' };
-
-
-// sheet.getCell('B' + totText).font = {
-// 	color:{argb:'800000'}
-// };
-// sheet.getCell('D' + totText).font = {
-// 	color:{argb:'800000'}
-// };
-debugger;
-//Coding to download in a folder
-	var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth()+1)
-											+ currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes()
-											+ currentdate.getSeconds() + '.xlsx';
-	console.log("tempFilePath : ", tempFilePath);
-	workbook.xlsx.writeFile(tempFilePath).then(function() {
-		res.sendFile(tempFilePath, function(err) {
-			if (err) {
-				console.log('---------- error downloading file: ', err);
-			}
-		});
-		console.log('file is written @ ' + tempFilePath);
-	});
-
-}
-}
-
-).catch(function(oError) {
-that.getView().setBusy(false);
-var oPopover = that.getErrorMessage(oError);
-});
-} catch (e) {
-
-} finally {
-
-}
-}
-//res.send(responseData);
-
-);
-})
+//
+// ).catch(function(oError) {
+// that.getView().setBusy(false);
+// var oPopover = that.getErrorMessage(oError);
+// });
+// } catch (e) {
+//
+// } finally {
+//
+// }
+// }
+// //res.send(responseData);
+//
+// );
+// })
 		app.post('/entryDownload', function(req, res) {
 var reportType = req.body.type;
 var custId = req.body.id;

@@ -1459,7 +1459,6 @@ previousOrder:function(oEvent){
       oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
-    debugger;
   });
 },
 nextOrder:function(oEvent){
@@ -1937,6 +1936,18 @@ if (that.finalBal === 0) {
 }else {
 var finalBal = this.getIndianCurr(this.finalBal);
 }
+if (that.deduction === 0) {
+  var deduction = 0;
+}else {
+  var deduction = that.getIndianCurr(that.deduction);
+}
+if (that.orderAmount === 0) {
+  var orderAmount = 0;
+}else {
+  var orderAmount = that.getIndianCurr(that.orderAmount);
+}
+that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmount);
+that.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deduction);
 that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");

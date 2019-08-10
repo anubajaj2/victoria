@@ -332,7 +332,8 @@ app.start = function() {
 
 );
 })
-		app.post('/bookingDownload', function(req, res){
+
+	app.post('/bookingDownload', function(req, res){
 			debugger;
 	var reportType = req.body.type;
 	var custId = req.body.id;
@@ -352,7 +353,7 @@ app.start = function() {
 			B_Detail.find({
 				where: {
 					//3. this is how in loop back we read all items which are inside customer
-					Customer: custId
+					"Customer": custId
 				},
 				fields:{
 					"BookingDate": true,

@@ -75,6 +75,16 @@
       "model":"WSOrderHeader",
       "foreignKey": "Customer"
     },
+    "ToBookings":{
+      "type":"hasMany",
+      "model":"BookingDetail",
+      "foreignKey": "Customer"
+    },
+    "ToBookingsDlv":{
+      "type":"hasMany",
+      "model":"BookingDlvDetail",
+      "foreignKey": "Customer"
+    },
     "ToCity":{
       "type":"belongsTo",
       "model":"City",

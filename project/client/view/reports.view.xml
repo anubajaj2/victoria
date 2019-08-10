@@ -53,7 +53,7 @@
               alignContent="Center">
               <items>
                 <Button text="Wholesale Summary" width="200px"  class="sapUiSmallMarginEnd" />
-                <Button text="Booking Summary"  class="sapUiSmallMarginEnd" />
+                <Button text="Booking Summary"  press="onPressBookingDownload" class="sapUiSmallMarginEnd" />
                 <Button text="Pending Order Summary" press="onPressPOrderDownload" class="sapUiSmallMarginEnd" />
               </items>
             </HBox>

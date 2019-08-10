@@ -43,8 +43,18 @@ function (BaseController, JSONModel, MessageToast) {
     });
     },
 
-    onPressStockDownload:function(){
-
+    onPressBookingDownload:function(){
+      var test = this.getView().getModel("customerModel");
+      var reportType = "Booking_Summary";
+      var custId = test.oData.id;
+      $.post("/bookingDownload",{id: custId, type: reportType}).then(function(oData)
+      {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+      },function(oError){
+      debugger;
+      MessageToast.show("Data could not be downloaded");
+      });
     },
 
     onPressPOrderDownload:function(){

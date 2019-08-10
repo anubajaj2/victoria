@@ -1059,9 +1059,11 @@ commitRecords:function(oEvent){
     // oHeader.Date = new Date(oHeader.Date);
   var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 //order header put
-this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-                            "/OrderHeaders('" + oId + "')",
-                            "PUT", {}, oHeaderClone, this)
+$.post("/updateRetailOrderHdr",{OrderDetails: myData})
+
+// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+//                             "/OrderHeaders('" + oId + "')",
+//                             "PUT", {}, oHeaderClone, this)
 .then(function(oData) {
     debugger;
 var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
@@ -1457,7 +1459,6 @@ previousOrder:function(oEvent){
       oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
-    debugger;
   });
 },
 nextOrder:function(oEvent){
@@ -1900,6 +1901,18 @@ Calculation:function(oEvent,tablePath,i){
       }else {
       var finalBal = that.getIndianCurr(that.finalBal);
       }
+      if (that.deduction === 0) {
+        var deduction = 0;
+      }else {
+        var deduction = that.getIndianCurr(that.deduction);
+      }
+      if (that.orderAmount === 0) {
+        var orderAmount = 0;
+      }else {
+        var orderAmount = that.getIndianCurr(that.orderAmount);
+      }
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmount);
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deduction);
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
       })
       .catch(function(oError) {
@@ -1923,6 +1936,18 @@ if (that.finalBal === 0) {
 }else {
 var finalBal = this.getIndianCurr(this.finalBal);
 }
+if (that.deduction === 0) {
+  var deduction = 0;
+}else {
+  var deduction = that.getIndianCurr(that.deduction);
+}
+if (that.orderAmount === 0) {
+  var orderAmount = 0;
+}else {
+  var orderAmount = that.getIndianCurr(that.orderAmount);
+}
+that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmount);
+that.getView().getModel('local').setProperty('/orderHeaderTemp/Deduction',deduction);
 that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBal);
 }//Category else part
   this.byId("IdMaking");

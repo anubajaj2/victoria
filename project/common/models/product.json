@@ -61,6 +61,11 @@
   },
   "validations": [],
   "relations": {
+    "ToStock":{
+      "type":"hasMany",
+      "model":"Product",
+      "foreignKey":"Product"
+    }
   },
   "acls": [
     {

@@ -333,6 +333,44 @@ app.start = function() {
 );
 })
 
+app.post('/stockDownload', function(req, res){
+	debugger;
+var reportType = req.body.type;
+var responseData = [];
+var oSubCounter = {};
+
+var StockMaint = app.models.stockMaint;
+
+
+var async = require('async');
+;
+async.waterfall([
+	function(callback) {
+		StockMaint.find({
+			fields:{
+				"Product": true,
+				"Quantity": true,
+				"Weight": true
+			}
+		}).then(function(sRecord, err){
+				callback(err, sRecord);
+		});
+	}
+], function(err, sRecord) {
+
+	try {
+
+} catch (e) {
+
+} finally {
+
+}
+}
+//res.send(responseData);
+
+);
+})
+
 	app.post('/bookingDownload', function(req, res){
 	var reportType = req.body.type;
 	var custId = req.body.id;

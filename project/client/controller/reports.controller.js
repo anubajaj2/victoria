@@ -28,6 +28,18 @@ function (BaseController, JSONModel, MessageToast) {
     });
     },
 
+    onPressStockDownload: function(){
+      var reportType = "Stock";
+      $.post("/stockDownload",{type: reportType}).then(function()
+      {
+        debugger;
+        MessageToast.show("Data downloaded successfully");
+      },function(oError){
+        debugger;
+        MessageToast.show("Data could not be downloaded");
+      });
+    },
+
     onPressEntryDownload: function() {
       var test = this.getView().getModel("customerModel");
       var reportType = "Entry";

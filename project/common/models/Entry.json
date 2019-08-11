@@ -43,6 +43,14 @@
       "type": "number",
       "required": false
     },
+    "OrderType": {
+      "type": "string",
+      "required": false
+    },
+    "OrderNo": {
+      "type": "string",
+      "required": false
+    },
     "DueDate": {
       "type": "date",
       "required": false

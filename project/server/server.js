@@ -412,6 +412,9 @@ app.start = function() {
 	sheet.getCell('H2').value =  'Customer Name : ' + cRecord.Name;
 	sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
 
+	var nameCol = sheet.getColumn('E');
+	nameCol.width = 1;
+
 
 	//Code for getting current datetime
 	var currentdate = new Date();

@@ -29,7 +29,7 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     onPressStockDownload: function(){
-      var reportType = "Stock";
+      var reportType = "Stock_Report";
       $.post("/stockDownload",{type: reportType}).then(function()
       {
         debugger;

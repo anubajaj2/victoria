@@ -340,6 +340,7 @@ var responseData = [];
 var oSubCounter = {};
 
 var StockMaint = app.models.stockMaint;
+var Product = app.models.Product;
 
 
 var async = require('async');
@@ -355,11 +356,160 @@ async.waterfall([
 		}).then(function(sRecord, err){
 				callback(err, sRecord);
 		});
+	},
+	function(sRecord, callback) {
+		var allProd = [];
+		for (var i = 0; i < sRecord.length; i++) {
+			allProd.push(sRecord[i].Product);
+		}
+
+		//remove adjucent duplicates
+		allProd = allProd.filter(function(item, pos, self) {
+				return self.indexOf(item) == pos;
+		});
+
+		Product.find({
+			where: {
+				ProductCode: {inq : allProd}
+				//"ProductCode": sRecord.Product
+			},
+			fields:{
+				"ProductName": true,
+				"Type": true,
+				"ProductCode": true
+			}
+		}).then(function(pRecord, err){
+				callback(err, sRecord, pRecord);
+		});
 	}
-], function(err, sRecord) {
-debugger;
+], function(err, sRecord, pRecord) {
 	try {
 		debugger;
+var products=[];
+var count = 0;
+
+for (var i = 0; i < sRecord.length; i++) {
+var product = {};
+product.ProductCode = sRecord[i].Product;
+product.Quantity = sRecord[i].Quantity;
+product.Weight = sRecord[i].Weight;
+
+for (var j = 0; j < pRecord.length; j++) {
+	if (sRecord[i].Product == pRecord[j].ProductCode) {
+		product.ProductName = pRecord[j].ProductName;
+		product.Type = pRecord[j].Type;
+		break;
+	}
+}
+
+products.push(product);
+}
+
+
+var excel = require('exceljs');
+var workbook = new excel.Workbook(); //creating workbook
+var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+
+//Heading for excel
+var heading = {heading:"Stock Report"};
+sheet.mergeCells('A1:D1');
+sheet.getCell('D1').value = 'Stock Report';
+sheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
+sheet.getCell('A1').fill = {
+	type: 'pattern',
+	pattern:'solid',
+	fgColor:{argb:'808080'}
+};
+
+var currentdate = new Date();
+var datetime =  currentdate.getDate() + "."
+								+ (currentdate.getMonth()+1)  + "."
+								+ currentdate.getFullYear() + " / "
+								+ currentdate.getHours() + ":"
+								+ currentdate.getMinutes() + ":"
+								+ currentdate.getSeconds();
+
+debugger;
+var header = ["Material Name","Material Type","Tot Quantity","Tot Weight"];
+sheet.addRow().values = header;
+
+//Coding for cell color and bold character
+sheet.getCell('A2').fill = {
+type: 'pattern',
+pattern:'solid',
+fgColor:{argb:'A9A9A9'}
+};
+sheet.getCell('B2').fill = {
+type: 'pattern',
+pattern:'solid',
+fgColor:{argb:'A9A9A9'}
+};
+sheet.getCell('C2').fill = {
+type: 'pattern',
+pattern:'solid',
+fgColor:{argb:'A9A9A9'}
+};
+sheet.getCell('D2').fill = {
+type: 'pattern',
+pattern:'solid',
+fgColor:{argb:'A9A9A9'}
+};
+
+//Coding to remove unwanted items or Rows
+for (var i = 0; i < products["length"]; i++) {
+var items = products[i];
+var item = [items["ProductName"],items["Type"],items["Quantity"],items["Weight"]];
+sheet.addRow().values = item;
+}
+
+
+var totText = products["length"] + 2;
+var totCol = totText - 1;
+
+//Coding for rows and column border
+for(var j=1; j<=totText; j++){
+sheet.getCell('A'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('B'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('C'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+sheet.getCell('D'+(j)).border = {
+top: {style:'thin'},
+left: {style:'thin'},
+bottom: {style:'thin'},
+right: {style:'thin'}
+};
+}
+
+//Coding to download in a folder
+	var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth()+1)
+											+ currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes()
+											+ currentdate.getSeconds() + '.xlsx';
+	console.log("tempFilePath : ", tempFilePath);
+	workbook.xlsx.writeFile(tempFilePath).then(function() {
+		res.sendFile(tempFilePath, function(err) {
+			if (err) {
+				console.log('---------- error downloading file: ', err);
+			}
+		});
+		console.log('file is written @ ' + tempFilePath);
+	});
+
+
 } catch (e) {
 
 } finally {

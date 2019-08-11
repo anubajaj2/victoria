@@ -47,7 +47,8 @@ function (BaseController, JSONModel, MessageToast) {
       var test = this.getView().getModel("customerModel");
       var reportType = "Booking_Summary";
       var custId = test.oData.id;
-      $.post("/bookingDownload",{id: custId, type: reportType}).then(function(oData)
+      var custName = test.oData.Name;
+      $.post("/bookingDownload",{id: custId, name: custName, type: reportType}).then(function(oData)
       {
       debugger;
       MessageToast.show("Data downloaded successfully");

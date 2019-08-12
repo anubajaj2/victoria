@@ -172,7 +172,9 @@
 		"Remarks": "",
 		"Weight": "0",
 		"Tunch": "0",
-		"DueDate": ""
+		"DueDate": "",
+		"OrderType":"",
+		"OrderNo":""
 	},
 	"stockMaint": {
 		"Product": "",

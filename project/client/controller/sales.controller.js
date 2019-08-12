@@ -25,9 +25,9 @@ valueChange:false,
 
 onInit: function (oEvent) {
   BaseController.prototype.onInit.apply(this);
-  this.byId("idTransferButton").setEnabled(false);
   var oRouter = this.getRouter();
   oRouter.getRoute("sales").attachMatched(this._onRouteMatched, this);
+  this.byId("idRetailTransfer").setEnabled(false);
     },
 _onRouteMatched:function(oEvent){
   var that = this;
@@ -89,6 +89,60 @@ if(value){
 }
   return res;
 }
+},
+//retail Transfer
+onTransfer:function(oEvent){
+var that = this;
+var oLocale = new sap.ui.core.Locale("en-US");
+var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+debugger;
+var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
+var orderHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
+
+  if ((that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
+      (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
+  {
+  that.getView().setBusy(true);
+  var entryData = this.getView().getModel("local").getProperty("/EntryData");
+  entryData.Date = orderDetail.Date;
+  entryData.OrderNo = orderDetail.OrderNo;
+  entryData.OrderType = 'R';
+  // this.getView().byId("Sales--DateId").getDateValue();
+  entryData.Remarks = "[Auto-Entry]Retail Transfer"+ " " + orderDetail.Date;
+  entryData.Cash = 0 - finalAmount;
+  entryData.Customer = orderDetail.Customer;
+  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+                                  "POST", {}, entryData, this)
+  .then(function(oData) {
+    that.getView().setBusy(false);
+    sap.m.MessageToast.show("Data Transferred Successfully");
+    }).catch(function(oError) {
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+    });
+
+  }else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
+    var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+        MessageBox.show(
+        oBundle, {
+        icon: MessageBox.Icon.ERROR,
+        title: "Error",
+        actions: [MessageBox.Action.OK],
+        onClose: function(oAction) { }
+            }
+        );
+  }else {
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+    MessageBox.show(
+    oBundle, {
+    icon: MessageBox.Icon.ERROR,
+    title: "Error",
+    actions: [MessageBox.Action.OK],
+    onClose: function(oAction) { }
+        }
+    );
+  }
 },
 //customer value help
 valueHelpCustomer:function(oEvent){
@@ -448,6 +502,7 @@ onConfirm:function(oEvent){
 //order popup
 if (oEvent.getParameter('id') === 'orderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
+this.byId("idRetailTransfer").setEnabled(true);
 delete this.orderAmount;
 delete this.deduction;
 debugger;
@@ -1042,10 +1097,11 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("valid
   });
 }
 }else {
-
+this.byId("idRetailTransfer").setEnabled(true);
 }
 if (valueCheck === true && returnCheck === true && itemError === false) {
   var statusGreen = true;
+  this.byId("idRetailTransfer").setEnabled(true);
   return statusGreen;
 }
 },
@@ -1179,6 +1235,7 @@ if (oCommit === false) {
 that.onReturnSave(oEvent,oId,oCommit,oHeader);
 }
 that.byId("Sales--idSaveIcon").setColor('green');
+this.byId("idRetailTransfer").setEnabled(true);
 }//if status is red only than commit
 else {
 var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataNoChnage");
@@ -1434,6 +1491,7 @@ previousOrder:function(oEvent){
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   $.post("/previousOrder",{OrderDetails: myData})
   .then(function(result){
+    that.byId("idRetailTransfer").setEnabled(true);
     console.log(result);
     if (result) {
       delete that.orderAmount;
@@ -1468,6 +1526,7 @@ nextOrder:function(oEvent){
   $.post("/nextOrder",{OrderDetails: myData})
   .then(function(result){
     console.log(result);
+  that.byId("idRetailTransfer").setEnabled(true);
     if (result) {
       var id = 'sales';
       delete that.orderAmount;

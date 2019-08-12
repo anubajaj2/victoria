@@ -108,8 +108,9 @@ var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
   entryData.Date = orderDetail.Date;
   entryData.OrderNo = orderDetail.OrderNo;
   entryData.OrderType = 'R';
-  // this.getView().byId("Sales--DateId").getDateValue();
-  entryData.Remarks = "[Auto-Entry]Retail Transfer"+ " " + orderDetail.Date;
+  var date = this.getView().byId("Sales--DateId").getDateValue();
+  entryData.Remarks = "[Auto-Entry]Retail Transfer"+ " " + date;
+  //orderDetail.Date;
   entryData.Cash = 0 - finalAmount;
   entryData.Customer = orderDetail.Customer;
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",

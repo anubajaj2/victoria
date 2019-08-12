@@ -1116,21 +1116,28 @@ commitRecords:function(oEvent){
     // oHeader.Date = new Date(oHeader.Date);
   var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 //order header put
-$.post("/updateRetailOrderHdr",{OrderDetails: myData})
+// $.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
+// .done(function(data, status) {
+//   sap.m.MessageToast.show("Order Header updated");
+//   debugger;
+// })
+// .fail(function(xhr, status, error) {
+//   sap.m.MessageBox.error("Failed to update Header");
+// });
 
 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 //                             "/OrderHeaders('" + oId + "')",
 //                             "PUT", {}, oHeaderClone, this)
-.then(function(oData) {
-    debugger;
-var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
-    message.show(oBundle);
-        that.getView().setBusy(false);
-       })
-  .catch(function(oError) {
-      that.getView().setBusy(false);
-      var oPopover = that.getErrorMessage(oError);
-                });
+// .then(function(oData) {
+//     debugger;
+// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
+//     message.show(oBundle);
+//         that.getView().setBusy(false);
+//        })
+//   .catch(function(oError) {
+//       that.getView().setBusy(false);
+//       var oPopover = that.getErrorMessage(oError);
+//                 });
         }
   var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
   var oTableDetails = this.getView().byId('orderItemBases');
@@ -1213,7 +1220,8 @@ if (data.itemNo) {
     that.getView().setBusy(false);
     for (var i = 0; i < allItems.length; i++) {
       if (allItems[i].Material === oData.Material &&
-          allItems[i].itemNo === "") {
+        allItems[i].itemNo === "") {
+      that.stockTransfer(allItems[i]);
         allItems[i].itemNo = oData.id;
         allItems[i].OrderNo = oId;
         break;
@@ -1248,6 +1256,9 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
   onClose : function(sButton){}
   });
 }
+},
+stockTransfer:function(allItems){
+  debugger;
 },
 onClearScreen:function(oEvent){
   var that = this;

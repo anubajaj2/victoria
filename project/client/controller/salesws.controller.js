@@ -1840,7 +1840,7 @@ sap.ui.define(
 				var newValue = oEvent.getParameters().newValue;
 				var TunchData = this.getView().getModel('local').getProperty("/WSTunch");
 				TunchData.Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-				TunchData.Material = data.Material;
+				TunchData.Product = data.Material;
 				if (TunchData.Customer && TunchData.Material) {
 					if (fieldId === "IdTunch") {
 						if (data.Tunch !== newValue) {
@@ -2099,6 +2099,43 @@ sap.ui.define(
 				deductionS = parseFloat(deductionS).toFixed(2);
 				var deductionSF = this.getIndianCurr(deductionS);
 				this.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', deductionSF);
+			},
+			onMaterialSelect: function(oEvent) {
+				debugger;
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
+					this.byId("Sales--idSaveIcon").setColor('red');
+				}
+				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
+				var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
+				oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+				//Making
+				if (selectedMatData.Making) {
+					oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/Making", 0);
+				}
+				//Makind D field
+				if (selectedMatData.PricePerUnit) {
+					oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+				}
+
+				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
+				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
+				if (selectedMatData.Tunch) {
+					oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+				}
+
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
+					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+				}
 			},
 			onExit: function() {
 

@@ -7,6 +7,11 @@
     "validateUpsert": true
   },
   "properties": {
+    "Date": {
+      "type": "date",
+      "required": true,
+      "default": "null"
+    },
     "Product": {
       "type": "string",
       "required": true
@@ -22,6 +27,18 @@
     "Weight": {
       "type": "number",
       "required": true
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "OrderType": {
+      "type": "string",
+      "required": false
+    },
+    "OrderId": {
+      "type": "string",
+      "required": false
     },
     "CreatedOn": {
       "type": "date"

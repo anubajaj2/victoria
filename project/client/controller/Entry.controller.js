@@ -130,7 +130,7 @@ function (BaseController,
 				$('input').on('input.idCash',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idCash-inner"){
 					debugger;
- 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,1})?/)[0];
+ 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,0})?/)[0];
 				}
  				});
  			});
@@ -263,7 +263,7 @@ function (BaseController,
 		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			 console.log(result);
 			 debugger;
-			 that.byId("idTC").setText(result.CashTotal);
+			 that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
 			 that.byId("idTC").getText();
 			 parseFloat(that.byId("idTC").getText());
 			 if(parseFloat(that.byId("idTC").getText())>0){
@@ -272,7 +272,7 @@ function (BaseController,
 			 }else{
 				 that.byId("idTC").setState('Warning');
 			 }
-			 that.getView().byId("idG").setText(result.GoldTotal);
+			 that.getView().byId("idG").setText(parseFloat(result.GoldTotal.toFixed(3)));
 			 that.byId("idG").getText();
 			parseFloat(that.byId("idG").getText());
 			if(parseFloat(that.byId("idG").getText())>0){
@@ -281,10 +281,14 @@ function (BaseController,
 			}else{
 				that.byId("idG").setState('Warning');
 			}
-			 that.getView().byId("idS").setText(result.SilverTotal);
+			 that.getView().byId("idS").setText(parseFloat(result.SilverTotal.toFixed(2)));
 			 that.byId("idS").getText();
-			parseFloat(that.byId("idS").getText());
-			if(parseFloat(that.byId("idS").getText())>0){
+			 parseFloat(that.byId("idS").getText());
+			 parseFloat(that.byId("idS").getText()).toFixed(3);
+			// parseFloat(that.byId("idS").getText());
+			// parseFloat(that.byId("idS").getText()).toFixed(3);
+			// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+			if(parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3))>0){
 				that.byId("idS").setState('Success');
 				debugger;
 			}else{
@@ -331,10 +335,13 @@ function (BaseController,
 			 var y=this.getView().byId("idCash").getValue();
 			 var y1=parseFloat(this.byId("idCash").getValue());
 			 var z = x1+y1;
-			 this.byId("idTC").setText(z);
+			 z.toFixed(0);
+ 			parseFloat(z.toFixed(0));
+			 this.byId("idTC").setText(parseFloat(z.toFixed(0)));
 			 var z1 = this.byId("idTC").getText();
-			 parseFloat(z1);
-			if(parseFloat(z1)>0){
+			 parseFloat(this.byId("idTC").getText()).toFixed(0);
+			debugger;
+			if(parseFloat(parseFloat(this.byId("idTC").getText()).toFixed(0))>0){
 				that.byId("idTC").setState('Success');
 				debugger;
 			}else{
@@ -345,10 +352,12 @@ function (BaseController,
 			var y=this.getView().byId("idGold").getValue();
 			var y1=parseFloat(this.byId("idGold").getValue());
 			var z = x1+y1;
-			this.byId("idG").setText(z);
+			z.toFixed(3);
+			parseFloat(z.toFixed(3));
+			this.byId("idG").setText(parseFloat(z.toFixed(3)));
 			var z1 = this.byId("idG").getText();
-			parseFloat(z1);
-		 if(parseFloat(z1)>0){
+			parseFloat(this.byId("idG").getText()).toFixed(3);
+			 if(parseFloat(parseFloat(this.byId("idG").getText()).toFixed(3))>0){
 			 that.byId("idG").setState('Success');
 			 debugger;
 		 }else{
@@ -359,10 +368,12 @@ function (BaseController,
 		 var y=this.getView().byId("idSilver").getValue();
 		 var y1=parseFloat(this.byId("idSilver").getValue());
 		 var z = x1+y1;
-		 this.byId("idS").setText(z);
+		 z.toFixed(2);
+		 parseFloat(z.toFixed(2));
+		 this.byId("idS").setText(parseFloat(z.toFixed(2)));
 		 var z1 = this.byId("idS").getText();
-		 parseFloat(z1);
-		if(parseFloat(z1)>0){
+		 parseFloat(this.byId("idS").getText()).toFixed(2);
+		if(parseFloat(parseFloat(this.byId("idS").getText()).toFixed(2))>0){
 			that.byId("idS").setState('Success');
 			}else{
 			that.byId("idS").setState('Warning');
@@ -409,7 +420,10 @@ function (BaseController,
 							var CA = that.byId("idTC").getText();
 							var CA1 = parseFloat(CA);
 							var TCA = CA1 - nCash;
-							that.byId("idTC").setText(TCA);
+							TCA.toFixed(0);
+							parseFloat(TCA.toFixed(0));
+							that.byId("idTC").setText(parseFloat(TCA.toFixed(0)));
+							// that.byId("idTC").setText(TCA);
 							that.byId("idTC").getText();
 							parseFloat(that.byId("idTC").getText());
 							if(parseFloat(that.byId("idTC").getText())>0){
@@ -422,7 +436,10 @@ function (BaseController,
 							var GA = that.byId("idG").getText();
 							var GA1 = parseFloat(GA);
 							var TGA = GA1 - nGold;
-							that.byId("idG").setText(TGA);
+							TGA.toFixed(3);
+							parseFloat(TGA.toFixed(3));
+							that.byId("idG").setText(parseFloat(TGA.toFixed(3)));
+							// that.byId("idG").setText(TGA);
 							that.byId("idG").getText();
 						 parseFloat(that.byId("idG").getText());
 						 if(parseFloat(that.byId("idG").getText())>0){
@@ -435,7 +452,10 @@ function (BaseController,
 							var SA = that.byId("idS").getText();
 							var SA1 = parseFloat(SA);
 							var TSA = SA1 - nSilver;
-							that.byId("idS").setText(TSA);
+							TSA.toFixed(2);
+							parseFloat(TSA.toFixed(2));
+							that.byId("idS").setText(parseFloat(TSA.toFixed(2)));
+							// that.byId("idS").setText(TSA);
 							that.byId("idS").getText();
 						 parseFloat(that.byId("idS").getText());
 						 if(parseFloat(that.byId("idS").getText())>0){
@@ -627,7 +647,10 @@ function (BaseController,
 	 	 var cash11 = nCash-parseFloat(this.getView().byId("idTable").getSelectedItem().getCells()[4].getText())
 	 	 var cash12 = cash11 + TGC1;
 	 	var z = cash12;
-		 this.byId("idTC").setText(z);
+		z.toFixed(0);
+		parseFloat(z.toFixed(0));
+		this.byId("idTC").setText(parseFloat(z.toFixed(0)));
+		 // this.byId("idTC").setText(z);
 		 var z1 = this.byId("idTC").getText();
 		 parseFloat(z1);
 		if(parseFloat(z1)>0){
@@ -665,7 +688,10 @@ function (BaseController,
 		 var gold11 = nGold-parseFloat(this.getView().byId("idTable").getSelectedItem().getCells()[5].getText())
 		 var gold12 = gold11 + TGC1;
 		var z = gold12;
-		this.byId("idG").setText(z);
+		z.toFixed(3);
+		parseFloat(z.toFixed(3));
+		this.byId("idG").setText(parseFloat(z.toFixed(3)));
+		// this.byId("idG").setText(z);
 		var z1 = this.byId("idG").getText();
 		parseFloat(z1);
 	 if(parseFloat(z1)>0){
@@ -703,7 +729,10 @@ function (BaseController,
 		var silver11 = nSilver-parseFloat(this.getView().byId("idTable").getSelectedItem().getCells()[6].getText())
 		var silver12 = silver11 + TGC1;
 	 var z = silver12;
-	 this.byId("idS").setText(z);
+	 z.toFixed(2);
+	 parseFloat(z.toFixed(2));
+	 this.byId("idS").setText(parseFloat(z.toFixed(2)));
+	 // this.byId("idS").setText(z);
 	 var z1 = this.byId("idS").getText();
 	 parseFloat(z1);
 	if(parseFloat(z1)>0){
@@ -750,7 +779,35 @@ sap.m.MessageBox.confirm(
 			, entityName: "Entry"}).done(function(response){
 				sap.m.MessageToast.show(response.msg);
 				sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
-					// that.getView().byId("idTable").refresh(true);
+				sap.ui.getCore().byId("__component0---idEntry--idTC").setText("0");
+				var z1=sap.ui.getCore().byId("__component0---idEntry--idTC").getText();
+				if(parseFloat(z1)>0){
+						sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Success');
+					debugger;
+				}else{
+					sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Warning');
+				}
+
+				sap.ui.getCore().byId("__component0---idEntry--idG").setText("0");
+				var z1=sap.ui.getCore().byId("__component0---idEntry--idG").getText();
+				if(parseFloat(z1)>0){
+						sap.ui.getCore().byId("__component0---idEntry--idG").setState('Success');
+					debugger;
+				}else{
+					sap.ui.getCore().byId("__component0---idEntry--idG").setState('Warning');
+				}
+				sap.ui.getCore().byId("__component0---idEntry--idS").setText("0");
+				var z1=sap.ui.getCore().byId("__component0---idEntry--idS").getText();
+				if(parseFloat(z1)>0){
+						sap.ui.getCore().byId("__component0---idEntry--idS").setState('Success');
+					debugger;
+				}else{
+					sap.ui.getCore().byId("__component0---idEntry--idS").setState('Warning');
+				}
+				// sap.ui.getCore().byId("__component0---idEntry--idTC").setState("Warning");
+				// sap.ui.getCore().byId("__component0---idEntry--idG").setText("Warning");
+				// sap.ui.getCore().byId("__component0---idEntry--idS").setText("Warning");
+				// 	// that.getView().byId("idTable").refresh(true);
 			});
 			// this.getView().byId("idTable").refresh(true);
 	    // Entrys.refresh(true);

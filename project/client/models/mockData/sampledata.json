@@ -177,10 +177,12 @@
 		"OrderNo":""
 	},
 	"stockMaint": {
+		"Date": "",
 		"Product": "",
 		"Description": "",
 		"Quantity": "0",
-		"Weight": "0"
+		"Weight": "0",
+		"Remarks": ""
 	},
 	"orderHeader": {
 		"OrderNo": 0,

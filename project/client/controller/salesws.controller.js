@@ -1834,24 +1834,39 @@ sap.ui.define(
 			},
 			onTunchChange: function(oEvent) {
 				debugger;
+				var that = this;
 				var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
 				var data = this.getView().getModel('orderItems').getProperty(path);
 				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
 				var newValue = oEvent.getParameters().newValue;
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				var TunchData = this.getView().getModel('local').getProperty("/WSTunch");
 				TunchData.Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 				TunchData.Product = data.Material;
-				if (TunchData.Customer && TunchData.Material) {
+				if (TunchData.Customer && TunchData.Product) {
 					if (fieldId === "IdTunch") {
 						if (data.Tunch !== newValue) {
-							TunchData.Tunch = newValue;
+							TunchData.Tunch = oFloatFormat.parse(newValue);
+						} else {
+							TunchData.Tunch = data.Tunch;
 						}
 					}
 
 					if (fieldId === "IdMaking") {
 						if (data.Making !== newValue) {
-							TunchData.Making = newValue;
+							TunchData.Making = oFloatFormat.parse(newValue);
+						} else {
+							TunchData.Making = data.Making;
 						}
+					}
+
+					if (TunchData.Making === 0) {
+						TunchData.Making = data.Making;
+					}
+
+					if (TunchData.Tunch === 0) {
+						TunchData.Tunch = data.Tunch;
 					}
 				}
 				// if (orderData.Customer === "")
@@ -1859,7 +1874,7 @@ sap.ui.define(
 				debugger;
 				if (TunchData.Tunch || TunchData.Making) {
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSTunchs",
-							"PUT", {}, TunchData, this)
+							"POST", {}, TunchData, this)
 						.then(function(oData) {
 							debugger;
 							that.getView().setBusy(false);
@@ -2127,11 +2142,42 @@ sap.ui.define(
 				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
 				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
 				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
-				if (selectedMatData.Tunch) {
-					oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-				} else {
-					oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+debugger;
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
+					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+					var oFilter1 = new sap.ui.model.Filter("Product", sap.ui.model.FilterOperator.EQ, Customer);
+					var oFilter2 = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.EQ, selectedMatData.id);
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
+							"/WSTunchs", "GET", {
+								filters: [oFilter1, oFilter2]
+							}, {}, this)
+						.then(function(oData) {
+							debugger;
+							selectedMatData.Making = oData.Making;
+							selectedMatData.Tunch = oData.Tunch;
+							if (selectedMatData.Tunch) {
+								oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+							} else {
+								oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+							}
+						})
+						.catch(function(oError) {
+							debugger;
+							if (selectedMatData.Tunch) {
+								oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+							} else {
+								oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+							}
+						});
+
 				}
+
+				// if (selectedMatData.Tunch) {
+				// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+				// } else {
+				// 	oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+				// }
 
 				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
 					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');

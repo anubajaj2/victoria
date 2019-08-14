@@ -11,11 +11,12 @@
       navButtonPress="onNavBack"
       showNavButton="true"
       title="Stock Maintenance">
-
     <semantic:content>
     <VBox class="sapUiSmallMargin">
-  <f:SimpleForm id=""
-    editable="true"
+  <f:Form id="idstock"
+    editable="true">
+    <f:layout>
+      <f:ResponsiveGridLayout
     layout="ResponsiveGridLayout"
     labelSpanXL="3"
     labelSpanL="3"
@@ -26,45 +27,101 @@
     emptySpanL="0"
     emptySpanM="0"
     emptySpanS="0"
-    columnsXL="1"
-    columnsL="1"
-    columnsM="1"
-    singleContainerFullSize="false" >
-    <f:content>
-      <Label text="{i18n>coMaterial}" />
-      <Input id="idMat" editable="true" type="Text" suggest="ValueChangeMaterial"
-        showSuggestion="true" suggestionItems="{/Products}" suggestionItemSelected="onMaterialSelect"
-          placeholder="Enter Product.." visible="true" value="{SupplierName}" width="auto">
-          <suggestionItems>
-            <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
-          </suggestionItems>
-        <layoutData>
-          <l:GridData span="XL2 L2" />
-        </layoutData>
-      </Input>
-      <Text id="idMatText" enableSelection="false"/>
-      <Text id="idMatType" enableSelection="false"/>
-      <Label text="{i18n>qty}" />
-      <Input id="idqty" value="">
-        <layoutData>
-          <l:GridData span="XL1 L2 M2 S4" />
-        </layoutData>
-      </Input>
-      <Label text="{i18n>weight}" />
-      <Input id="idweight" value="">
-        <layoutData>
-          <l:GridData span="XL1 L2 M2 S4" />
-        </layoutData>
-      </Input>
-      <Label></Label>
-      <Button text="{i18n>Send}" width="auto" press="onSend">
-        <layoutData>
-          <l:GridData span="XL1 L2 M2 S4" />
-        </layoutData>
-      </Button>
-      <Button text="{i18n>Clear}" width="30%" press="onClear"></Button>
-      </f:content>
-  </f:SimpleForm>
+    columnsXL="2"
+    columnsL="2"
+    columnsM="2"
+    singleContainerFullSize="false" />
+  </f:layout>
+    <f:formContainers>
+      <f:FormContainer>
+        <f:formElements>
+          <f:FormElement label="{i18n>Date}">
+            <f:fields>
+              <DatePicker id="idDate" width="11rem" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
+                displayFormat="dd.MM.yyyy" value="{path: 'local>/stockMaint/Date'}"></DatePicker>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>coMaterial}">
+            <f:fields>
+              <Input id="idMat" editable="true" type="Text" suggest="ValueChangeMaterial"
+                showSuggestion="true" suggestionItems="{/Products}" suggestionItemSelected="onMaterialSelect"
+                  placeholder="Enter Product.." visible="true" value="{SupplierName}" width="auto">
+                  <suggestionItems>
+                    <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
+                  </suggestionItems>
+                <layoutData>
+                  <l:GridData span="XL4 L4" />
+                </layoutData>
+              </Input>
+              <Text id="idMatText" enableSelection="false"/>
+              <Text id="idMatType" enableSelection="false"/>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>qty}">
+            <f:fields>
+                <Input id="idqty" value="" >
+                  <layoutData>
+                    <l:GridData span="XL4 L4 M2 S4" />
+                  </layoutData>
+                </Input>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>weight}">
+            <f:fields>
+              <Input id="idweight" value="">
+                <layoutData>
+                  <l:GridData span="XL4 L4 M2 S4" />
+                </layoutData>
+              </Input>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="{i18n>Remarks}">
+            <f:fields>
+              <Input id="idRemarks" type="Text" submit="onSubmit" value="{local>/stockMaint/Remarks}">
+                <layoutData>
+                  <l:GridData span="XL8 L8" />
+                </layoutData>
+              </Input>
+            </f:fields>
+          </f:FormElement>
+          <f:FormElement label="">
+            <f:fields>
+              <Button text="{i18n>Send}" press="onSend" >
+                <layoutData>
+                  <l:GridData span="XL4 L4 M2 S4" />
+                </layoutData>
+              </Button>
+              <Button text="{i18n>Clear}" press="onClear" width="auto" >
+                <layoutData>
+                  <l:GridData span="XL4 L4 M2 S4" />
+                </layoutData>
+              </Button>
+            </f:fields>
+          </f:FormElement>
+        </f:formElements>
+        <f:layoutData>
+          <f:GridContainerData halfGrid="true">
+          </f:GridContainerData>
+        </f:layoutData>
+      </f:FormContainer>
+      <f:FormContainer>
+        <f:formElements>
+          <f:FormElement>
+            <f:fields>
+              <Label text="{i18n>totalQty}" class="sapUiSmallMarginTop" textAlign="End" />
+               <ObjectStatus id="idQty" text="" state="None" />
+            </f:fields>
+            </f:FormElement>
+            <f:FormElement>
+              <f:fields>
+                <Label text="{i18n>totalwt}" class="sapUiSmallMarginTop" textAlign="End" />
+                <ObjectStatus id="idWt" text="" state="None" />
+              </f:fields>
+            </f:FormElement>
+        </f:formElements>
+      </f:FormContainer>
+    </f:formContainers>
+  </f:Form>
   <Table id="idTable" items="{path:'/stockMaints'}" class="sapUiContentPadding"
     growingThreshold="20" growing="true" mode="MultiSelect" >
     <headerToolbar>
@@ -75,6 +132,9 @@
       </OverflowToolbar>
     </headerToolbar>
     <columns>
+      <Column>
+        <Text text="{i18n>Date}"/>
+      </Column>
       <Column>
         <Text text="{i18n>coMaterial}"/>
       </Column>
@@ -87,14 +147,19 @@
         <Column>
             <Text text="{i18n>weight}"/>
           </Column>
+          <Column>
+            <Text text="{i18n>Remarks}"/>
+          </Column>
     </columns>
     <items>
       <ColumnListItem>
         <cells>
+        <Text text="{Date}"/>
         <Text text="{Product}"/>
         <Text text="{Description}"/>
         <Text text="{Quantity}"/>
         <Text text="{Weight}"/>
+        <Text text="{Remarks}"/>
       </cells>
       </ColumnListItem>
     </items>

@@ -28,6 +28,7 @@ sap.ui.define(
 				BaseController.prototype.onInit.apply(this);
 				var oRouter = this.getRouter();
 				oRouter.getRoute("salesws").attachMatched(this._onRouteMatched, this);
+				this.getPrintCustHeaderData();
 			},
 			_onRouteMatched: function(oEvent) {
 
@@ -2273,129 +2274,139 @@ debugger;
 				var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title,rTnC,rMarking;
 				for(var i=0 ; i<oData.results.length ; i++){
 					switch (oData.results[i].Name) {
-						case "__component0---idPrint--idRCompName":
+						case "__component0---idPrint--idWCompName":
 						 if(oData.results[i].Value === "true"){
 								rCompName = printCustHeadVal.CompName;
 						 }else{
-									 arrayRemoveFromPrint.push('idRCompName');
+									 arrayRemoveFromPrint.push('idWCompName');
 						 }
 							break;
-						case "__component0---idPrint--idRAddress":
+						case "__component0---idPrint--idWAddress":
 						 if(oData.results[i].Value === "true"){
 								rAddress = printCustHeadVal.Address;
 						 }else {
-							 arrayRemoveFromPrint.push('idRAddress');
+							 arrayRemoveFromPrint.push('idWAddress');
 						 }
 						 break;
 						case "__component0---idPrint--idContNo":
 							if(oData.results[i].Value === "true"){
 								 rContNumber = printCustHeadVal.ContNumber;
 							}else {
-								arrayRemoveFromPrint.push('idRPhoneNumber');
+								arrayRemoveFromPrint.push('idWPhoneNumber');
 							}
 							break;
-						case "__component0---idPrint--idRGSTN":
+						case "__component0---idPrint--idWGSTN":
 							if(oData.results[i].Value === "true"){
 								 rGSTNumber = printCustHeadVal.GSTNumber;
 							}else {
-								arrayRemoveFromPrint.push('idRGSTN');
+								arrayRemoveFromPrint.push('idWGSTN');
 							}
 							break;
-							case "__component0---idPrint--idRWeight":
+							case "__component0---idPrint--idWWeight":
 							debugger;
 								if(oData.results[i].Value === "false"){
-									arrayRemoveFromPrint.push('idRWeight');
+									arrayRemoveFromPrint.push('idWWeight');
 								}
 								break;
-								case "__component0---idPrint--idREstimate":
+								case "__component0---idPrint--idWEstimate":
 									if(oData.results[i].Value === "true"){
 										 title = "Estimate";
 									}else {
 											title = "Invoice";
 									}
 									break;
-									case "__component0---idPrint--idRSubTotal":
+									case "__component0---idPrint--idWSubTotal":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRSubTotal');
+										arrayRemoveFromPrint.push('idWSubTotal');
 									}
 									break;
-									case "__component0---idPrint--idRBhav":
+									case "__component0---idPrint--idWSubTotalS":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRBhav');
+										arrayRemoveFromPrint.push('idWSubTotalS');
 									}
 									break;
-									case "__component0---idPrint--idRMakingCharge":
+									case "__component0---idPrint--idWSubTotalG":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRMakingCharge');
+										arrayRemoveFromPrint.push('idWSubTotalG');
 									}
 									break;
-									case "__component0---idPrint--idRTnC":
+									case "__component0---idPrint--idWBhav":
+									if(oData.results[i].Value === "false"){
+										arrayRemoveFromPrint.push('idWBhav');
+									}
+									break;
+									case "__component0---idPrint--idWMakingCharge":
+									if(oData.results[i].Value === "false"){
+										arrayRemoveFromPrint.push('idWMakingCharge');
+									}
+									break;
+									case "__component0---idPrint--idWTnC":
 									if(oData.results[i].Value === "true"){
 										rTnC = printCustHeadVal.TnC;
 									}else {
-											arrayRemoveFromPrint.push('idRTnC');
+											arrayRemoveFromPrint.push('idWTnC');
 									}
 									break;
-									case "__component0---idPrint--idRMarking":
+									case "__component0---idPrint--idWMarking":
 										if(oData.results[i].Value === "true"){
 											 rMarking = printCustHeadVal.Marking;
 										}else {
-											arrayRemoveFromPrint.push('idRMarking');
+											arrayRemoveFromPrint.push('idWMarking');
 										}
 										break;
-									case "__component0---idPrint--idRQuantity":
+									case "__component0---idPrint--idWQuantity":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRQuantity');
+										arrayRemoveFromPrint.push('idWQuantity');
 									}
 									break;
-									case "__component0---idPrint--idRReturnWeight":
+									case "__component0---idPrint--idWReturnWeight":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnWeight');
+										arrayRemoveFromPrint.push('idWReturnWeight');
 									}
 									break;
-									case "__component0---idPrint--idRReturnBhav":
+									case "__component0---idPrint--idWReturnBhav":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnBhav');
+										arrayRemoveFromPrint.push('idWReturnBhav');
 									}
 									break;
-									case "__component0---idPrint--idRWeightD":
+									case "__component0---idPrint--idWWeightD":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRWeightD');
+										arrayRemoveFromPrint.push('idWWeightD');
 									}
 									break;
-									case "__component0---idPrint--idRQuantityD":
+									case "__component0---idPrint--idWQuantityD":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRQuantityD');
+										arrayRemoveFromPrint.push('idWQuantityD');
 									}
 									break;
-									case "__component0---idPrint--idRMakingChargeD":
+									case "__component0---idPrint--idWMakingChargeD":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRMakingChargeD');
+										arrayRemoveFromPrint.push('idWMakingChargeD');
 									}
 									break;
-									case "__component0---idPrint--idRRemarks":
+									case "__component0---idPrint--idWRemarks":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRRemarks');
+										arrayRemoveFromPrint.push('idWRemarks');
 									}
 									break;
-									case "__component0---idPrint--idRReturnRemarks":
+									case "__component0---idPrint--idWReturnRemarks":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnRemarks');
+										arrayRemoveFromPrint.push('idWReturnRemarks');
 									}
 									break;
-									case "__component0---idPrint--idRReturnKattaWeight":
+									case "__component0---idPrint--idWReturnKattaWeight":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnKattaWeight');
+										arrayRemoveFromPrint.push('idWReturnKattaWeight');
 									}
 									break;
-									case "__component0---idPrint--idRReturnTunch":
+									case "__component0---idPrint--idWReturnTunch":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnTunch');
+										arrayRemoveFromPrint.push('idWReturnTunch');
 									}
 									break;
-									case "__component0---idPrint--idRReturnSubTotal":
+									case "__component0---idPrint--idWReturnSubTotal":
 									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idRReturnSubTotal');
+										arrayRemoveFromPrint.push('idWReturnSubTotal');
 									}
 						default:
 					}
@@ -2404,24 +2415,24 @@ debugger;
 			'<table style="display: inline-block; float: left; width: 450px; height: 100px;">'+
 			'<tbody>'+
 			'<tr>'+
-			'<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
-			'<td class="idRCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
+			'<td class="idWCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
+			'<td class="idWCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
 			'</tr>'+
 			'<tr>'+
-			'<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
-			'<td class="idRAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
+			'<td class="idWAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
+			'<td class="idWAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
 			'</tr>'+
 			'<tr>'+
-			'<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
-			'<td class="idRPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
+			'<td class="idWPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
+			'<td class="idWPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
 			'</tr>'+
 			'<tr>'+
-			'<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
-			'<td class="idRGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
+			'<td class="idWGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
+			'<td class="idWGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
 			'</tr>'+
 			'</tbody>'+
 			'</table>'+
-			'<table style="display: inline-block; width: 500px; height: 100px;">'+
+			'<table style="display: inline-block; width: 450px; height: 100px;">'+
 			'<tbody>'+
 			'<tr>'+
 			'<td style="width: 150px;"><strong>Customer Name</strong></td>'+
@@ -2458,16 +2469,19 @@ debugger;
 			var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
 			// '<tbody>'+
 			'<tr>'+
-			'<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>'+
-			// '<th style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
-			'<th class="idRQuantity" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>'+
-			'<th class="idRQuantityD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>'+
-			'<th class="idRWeight" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>'+
-			'<th class="idRWeightD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>'+
-			'<th class="idRMakingCharge" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>'+
-			'<th class="idRMakingChargeD" style="width: 80px;border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>'+
-			'<th class="idRRemarks" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>'+
-			'<th class="idRSubTotal" style="width: 80px;border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
+			'<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>'+
+			// '<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
+			'<th class="idWQuantity" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>'+
+			'<th class="idWQuantityD" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>'+
+			'<th class="idWWeight" style=" border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>'+
+			'<th class="idWWeightD" style=" border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>'+
+			'<th class="idWMakingCharge" style=" border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>'+
+			'<th class="idWMakingChargeD" style=" border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>'+
+			'<th class="idWTunch" style=" border: 1px solid black;"><h4 style="text-align: center;">Tunch</h4></th>'+
+			'<th class="idWRemarks" style=" border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>'+
+			'<th class="idWSubTotalS" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>'+
+			'<th class="idWSubTotalG" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>'+
+			'<th class="idWSubTotal" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
 			'</tr>';
 			// '</tbody>';
 			// Order Table Line Items
@@ -2481,30 +2495,39 @@ debugger;
 					totalQuantity = totalQuantity + oBinding.oList[i].Qty;
 					totalWeight = totalWeight + oBinding.oList[i].Weight;
 					var matDesc = oBinding.oList[i].MaterialCode.concat('-',oBinding.oList[i].Description);
+					if(!oBinding.oList[i].Remarks){
+						oBinding.oList[i].Remarks = "";
+					}
 					table += '<tr>';
-				table += '<td style="width: 80px;border: 1px solid black;">&nbsp;'+matDesc+'</td>'+
-								 // '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
-								 '<td class="idRQuantity" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
-								 '<td class="idRQuantityD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].QtyD+'</td>'+
-								 '<td class="idRWeight" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
-								 '<td class="idRWeightD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].WeightD+'</td>'+
-								 '<td class="idRMakingCharge" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
-								 '<td class="idRMakingChargeD" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].MakingD+'</td>'+
-								 '<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Remarks+'</td>'+
-								 '<td class="idRSubTotal" style="width: 80px;border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotal+'</td></tr>';
+				table += '<td style=" border: 1px solid black;">&nbsp;'+matDesc+'</td>'+
+								 // '<td style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
+								 '<td class="idWQuantity" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
+								 '<td class="idWQuantityD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].QtyD+'</td>'+
+								 '<td class="idWWeight" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
+								 '<td class="idWWeightD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].WeightD+'</td>'+
+								 '<td class="idWMakingCharge" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
+								 '<td class="idWMakingChargeD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].MakingD+'</td>'+
+								 '<td class="idWTunch" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Tunch+'</td>'+
+								 '<td class="idWRemarks" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Remarks+'</td>'+
+								 '<td class="idWSubTotalS" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotalS+'</td>'+
+								 '<td class="idWSubTotalG" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotalG+'</td>'+
+								 '<td class="idWSubTotal" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotal+'</td></tr>';
 							}
 			}
 			// table for order totals
-			table += '<tr>'+'<td style="width: 80px;">&nbsp;</td>'+
-							 // '<td style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRQuantity" style="width: 80px;"><strong>&nbsp;'+totalQuantity+'</strong></td>'+
-							 '<td class="idRQuantityD" style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRWeight" style="width: 80px;"><strong>&nbsp;'+totalWeight+'</strong></td>'+
-							 '<td class="idRWeightD" style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRMakingCharge" style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRMakingChargeD" style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRRemarks" style="width: 80px;">&nbsp;</td>'+
-							 '<td class="idRSubTotal" style="width: 80px;"><strong>&nbsp;'+orderHeader.TotalOrderValue+'</strong></td></tr>';
+			table += '<tr>'+'<td style=" ">&nbsp;</td>'+
+							 // '<td style=" ">&nbsp;</td>'+
+							 '<td class="idWQuantity" style=" "><strong>&nbsp;'+totalQuantity+'</strong></td>'+
+							 '<td class="idWQuantityD" style=" ">&nbsp;</td>'+
+							 '<td class="idWWeight" style=" "><strong>&nbsp;'+totalWeight+'</strong></td>'+
+							 '<td class="idWWeightD" style=" ">&nbsp;</td>'+
+							 '<td class="idWMakingCharge" style=" ">&nbsp;</td>'+
+							 '<td class="idWMakingChargeD" style=" ">&nbsp;</td>'+
+							 '<td class="idWTunch" style=" ">&nbsp;</td>'+
+							 '<td class="idWRemarks" style=" ">&nbsp;</td>'+
+							 '<td class="idWSubTotalS" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueSilver+'</strong></td>'+
+							 '<td class="idWSubTotalG" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueGold+'</strong></td>'+
+							 '<td class="idWSubTotal" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueCash+'</strong></td></tr>';
 
 			// Return table
 			var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
@@ -2512,51 +2535,60 @@ debugger;
 			 table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
 			 '<tr>'+
 			 '<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
-			 '<th class="idRReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
-			 '<th class="idRReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>'+
-			 '<th class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>'+
-			 '<th class="idRReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>'+
-			 '<th class="idRReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>'+
-			 '<th class="idRReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>'+
-			 '<th class="idRReturnSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
+			 '<th class="idWReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
+			 '<th class="idWReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>'+
+			 '<th class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>'+
+			 '<th class="idWReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>'+
+			 '<th class="idWReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>'+
+			 '<th class="idWReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>'+
+			 '<th class="idWSubTotalS" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>'+
+			 '<th class="idWSubTotalG" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>'+
+			 '<th class="idWSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
 			 '</tr>'+
 			 '<p><h3>Returns:</h3></p>';
 			 for (var i = 0; i < oReturns.length; i++) {
 				 if(oReturns[i].Type){
 					 var retTotQuant = retTotQuant + oReturns[i].Qty;
 					 var retTotWeight = retTotWeight + oReturns[i].Weight;
+					 if(!oReturns[i].Remarks){
+ 						oReturns[i].Remarks = "";
+ 					}
 					 table += '<tr>';
 					 table += '<td  style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Type+'</td>'+
-										'<td  class="idRReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Qty+'</td>'+
-										'<td  class="idRReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Weight+'</td>'+
-										'<td  class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].KWeight+'</td>'+
-										'<td  class="idRReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Tunch+'</td>'+
-										'<td  class="idRReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Bhav+'</td>'+
-										'<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Remarks+'</td>'+
-										'<td  class="idRReturnSubTotal" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
+										'<td  class="idWReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Qty+'</td>'+
+										'<td  class="idWReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Weight+'</td>'+
+										'<td  class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].KWeight+'</td>'+
+										'<td  class="idWReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Tunch+'</td>'+
+										'<td  class="idWReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Bhav+'</td>'+
+										'<td  class="idWReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Remarks+'</td>'+
+										'<td  class="idWSubTotalS" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotalS+'</td>'+
+										'<td  class="idWSubTotalG" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotalG+'</td>'+
+										'<td  class="idWSubTotal" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
 				 }
 			 }
 
 			 table += '<tr>'+'<td style="width: 80px;"><strong>&nbsp;Final Balance</strong></td>'+
-								'<td class="idRReturnQuantity" style="width: 80px;">&nbsp;'+'</td>'+
-								'<td class="idRReturnWeight" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idRReturnKattaWeight" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idRReturnTunch" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idRReturnBhav" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idRReturnRemarks" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idRReturnSubTotal" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalance+'</strong></td></tr>';
+								'<td class="idWReturnQuantity" style="width: 80px;">&nbsp;'+'</td>'+
+								'<td class="idWReturnWeight" style="width: 80px;">&nbsp;</td>'+
+								'<td class="idWReturnKattaWeight" style="width: 80px;">&nbsp;</td>'+
+								'<td class="idWReturnTunch" style="width: 80px;">&nbsp;</td>'+
+								'<td class="idWReturnBhav" style="width: 80px;">&nbsp;</td>'+
+								'<td class="idWReturnRemarks" style="width: 80px;">&nbsp;</td>'+
+								'<td class="idWSubTotalS" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceSilver+'</strong></td>'+
+								'<td class="idWSubTotalG" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceGold+'</strong></td>'+
+								'<td class="idWSubTotal" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceCash+'</strong></td></tr>';
 
 			}
 			table += '</table>';
 			var footer = '<table style="height: 40px; width: 950px;">'+
 									 '<tbody>'+
 									 '<tr>'+
-									 '<td class="idRTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
-									 '<td class="idRTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
+									 '<td class="idWTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
+									 '<td class="idWTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
 									 '</tr>'+
 									 '<tr>'+
-									 '<td class="idRMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
-									 '<td class="idRMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
+									 '<td class="idWMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
+									 '<td class="idWMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
 									 '</tr>'+
 									 '</tbody></table>';
 			debugger;

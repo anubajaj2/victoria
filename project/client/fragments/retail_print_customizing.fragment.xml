@@ -260,7 +260,7 @@ xmlns:core ="sap.ui.core">
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
-						<Text/>						
+						<Text/>
 					</f:fields>
 				</f:FormElement>
 			</f:formElements>
@@ -421,18 +421,49 @@ xmlns:core ="sap.ui.core">
 					</f:fields>
 				</f:FormElement>
 			</f:formElements>
+
+
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="WeightD" width="20%"/>
+						<Switch state="true" id="idWWeightD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="QuantityD" width="20%"/>
+						<Switch state="true" id="idWQuantityD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="MakingD" width="20%"/>
+						<Switch state="true" id="idWMakingChargeD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
 						<Text text="Sub Gold Total" width="20%"/>
-						<Switch state="true" id="idWSubGoldTotal" change="onSubmit" name="switch">
+						<Switch state="true" id="idWSubTotalG" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
             <Text text="Sub Silver Total" width="20%"/>
-						<Switch state="true" id="idWSubSilverTotal" change="onSubmit" name="switch">
+						<Switch state="true" id="idWSubTotalS" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 								<l:GridData span="XL4 L4 "/>

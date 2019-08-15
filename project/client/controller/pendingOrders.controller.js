@@ -21,6 +21,7 @@ function (BaseController,MessageBox,MessageToast,History) {
   },
   onMaterialSelect: function (oEvent) {
     debugger;
+    var that=this;
     var selMat = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
     var myData = this.getView().getModel("local").getProperty("/stockMaint");
     selMat.ProductCode;
@@ -35,6 +36,18 @@ function (BaseController,MessageBox,MessageToast,History) {
     this.getView().byId("idTable").getBinding("items").filter(oFilter);
     $.post("/getTotalStockProduct",{Product: myData.Product}).then(function(result){
       console.log(result);
+      that.byId("idQty").setText(result.QuantityTotal);
+      that.byId("idWt").setText(result.WeightTotal);
+      if(parseFloat(that.byId("idQty").getText())>0){
+        that.byId("idQty").setState('Success');
+        }else{
+        that.byId("idQty").setState('Warning');
+      }
+      if(parseFloat(that.byId("idWt").getText())>0){
+        that.byId("idWt").setState('Success');
+        }else{
+        that.byId("idWt").setState('Warning');
+      }
     });
   },
   onSend: function (oEvent) {

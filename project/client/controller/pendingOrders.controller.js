@@ -33,6 +33,9 @@ function (BaseController,MessageBox,MessageToast,History) {
      this.getView().getModel("local").getProperty("/stockMaint",myData);
     var oFilter = new sap.ui.model.Filter("Product","EQ", "'" + myData.Product + "'");
     this.getView().byId("idTable").getBinding("items").filter(oFilter);
+    $.post("/getTotalStockProduct",{Product: myData.Product}).then(function(result){
+      console.log(result);
+    });
   },
   onSend: function (oEvent) {
     var that=this;

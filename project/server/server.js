@@ -1721,6 +1721,27 @@ var oPopover = that.getErrorMessage(oError);
 			});
 
 		});
+		app.post('/getTotalStockProduct', function(req, res) {
+
+			var productId = req.body.Product;
+			var StockMaint = app.models.stockMaint;
+			StockMaint.find({
+				where : {
+					"Product": productId
+				}
+			}).then(function(records){
+				var tQuantity = 0, tWeight = 0;
+				for (var i = 0; i < records.length; i++) {
+					tQuantity = tQuantity + records[i].Quantity;
+					tWeight = tWeight + records[i].Weight;
+								}
+				res.send({
+					"QuantityTotal": tQuantity,
+					"WeightTotal": tWeight
+				});
+			});
+
+		});
 		app.post('/previousOrder', function(req ,res) {
 			debugger;
 			var OrderHeader = app.models.OrderHeader;

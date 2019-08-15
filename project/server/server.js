@@ -2004,7 +2004,7 @@ var oPopover = that.getErrorMessage(oError);
 //function to get next order
 		app.post('/nextWSOrder', function(req ,res) {
 	debugger;
-	var WSOrderHeader = app.models.OrderHeader;
+	var WSOrderHeader = app.models.WSOrderHeader;
 	var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
 	start.setHours(0,0,0,0);
 

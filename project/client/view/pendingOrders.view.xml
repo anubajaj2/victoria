@@ -59,7 +59,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>qty}">
             <f:fields>
-                <Input id="idqty" value="" >
+                <Input id="idqty" value="{path:'local>/stockMaint/Quantity'}" >
                   <layoutData>
                     <l:GridData span="XL4 L4 M2 S4" />
                   </layoutData>
@@ -68,7 +68,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>weight}">
             <f:fields>
-              <Input id="idweight" value="">
+              <Input id="idweight" value="{path:'local>/stockMaint/Weight'}">
                 <layoutData>
                   <l:GridData span="XL4 L4 M2 S4" />
                 </layoutData>
@@ -122,12 +122,19 @@
       </f:FormContainer>
     </f:formContainers>
   </f:Form>
-  <Table id="idTable" items="{path:'/stockMaints'}" class="sapUiContentPadding"
-    growingThreshold="20" growing="true" mode="MultiSelect" >
+  <Table id="idTable" items="{path:'/stockMaints',
+    sorter: {
+    path: 'Date',
+    descending: 'true'
+    }
+     }" class="sapUiContentPadding"
+    growingThreshold="20" growing="true" mode="MultiSelect" updateFinished="onUpdateFinished" >
     <headerToolbar>
       <OverflowToolbar>
         <content>
-          <Title text="Products" level="H1"/>
+          <Title id="idTitle" text="{i18n>product}" level="H1"/>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://delete" press="onDelete"></Button>
         </content>
       </OverflowToolbar>
     </headerToolbar>
@@ -137,6 +144,9 @@
       </Column>
       <Column>
         <Text text="{i18n>coMaterial}"/>
+      </Column>
+      <Column visible="false">
+        <Label text="{i18n>prodId}"></Label>
       </Column>
       <Column>
         <Text text="{i18n>description}"/>
@@ -154,7 +164,13 @@
     <items>
       <ColumnListItem>
         <cells>
-        <Text text="{Date}"/>
+        <Text text= "{
+              path: 'Date',
+              type: 'sap.ui.model.type.Date',
+              formatOptions: {
+                    style: 'medium',
+                    pattern: 'dd.MM.yyyy'}}"/>
+        <Text text=""/>
         <Text text="{Product}"/>
         <Text text="{Description}"/>
         <Text text="{Quantity}"/>

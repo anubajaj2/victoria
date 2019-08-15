@@ -9,24 +9,23 @@
   "properties": {
     "Date": {
       "type": "date",
-      "required": true,
-      "default": "null"
-    },
+      "required": true
+      },
     "Product": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Description": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Quantity": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Weight": {
       "type": "number",
-      "required": true
+      "required": false
     },
     "Remarks": {
       "type": "string",

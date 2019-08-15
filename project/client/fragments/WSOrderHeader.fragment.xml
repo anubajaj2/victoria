@@ -37,8 +37,8 @@
 											<f:fields>
 												<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 												<Button text="{i18n>C}" press="orderCreate"/>
-												<Button icon="sap-icon://nav-back"/>
-												<Button icon="sap-icon://feeder-arrow"/>
+												<Button icon="sap-icon://nav-back" press="previousOrder"/>
+												<Button icon="sap-icon://feeder-arrow" press="nextOrder"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>

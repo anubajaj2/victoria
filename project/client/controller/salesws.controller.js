@@ -2184,6 +2184,75 @@ debugger;
 					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 				}
 			},
+			previousOrder:function(oEvent){
+				debugger;
+			  var that = this;
+			  var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
+			  $.post("/previousWSOrder",{OrderDetails: myData})
+			  .then(function(result){
+			    // that.byId("idRetailTransfer").setEnabled(true);
+			    console.log(result);
+			    if (result) {
+			      // delete that.orderAmount;
+			      // delete that.deduction;
+			      // delete that.finalBal;
+			      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+			      // oHeaderT.FinalBalance="0";
+			      // oHeaderT.Deduction="0";
+			      // oHeaderT.TotalOrderValue="0";
+			      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
+			      var orderId = result.id;
+			      // that.byId("Sales--idSaveIcon").setColor('green');
+			      if (result.Customer){
+			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
+			      }else {
+			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+			      }
+			      var id = 'WSsales';
+			      //Clear Item table
+			      that.orderItem(oEvent,id);
+			      //return table
+			      that.orderReturn(oEvent,id);
+			      oEvent.sId = "orderReload";
+			      that.getOrderDetails(oEvent,orderId,oFilter);
+			    }
+			  });
+			},
+			nextOrder:function(oEvent){
+			  debugger;
+			  var that = this;
+			  var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
+			  $.post("/nextWSOrder",{OrderDetails: myData})
+			  .then(function(result){
+			    console.log(result);
+			  // that.byId("idRetailTransfer").setEnabled(true);
+			    if (result) {
+			      var id = 'WSsales';
+			      // delete that.orderAmount;
+			      // delete that.deduction;
+			      // delete that.finalBal;
+			      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+			      // oHeaderT.FinalBalance="0";
+			      // oHeaderT.Deduction="0";
+			      // oHeaderT.TotalOrderValue="0";
+			      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
+			      //Clear Item table
+			      that.orderItem(oEvent,id);
+			      //return table
+			      that.orderReturn(oEvent,id);
+			      var orderId = result.id;
+			      // that.byId("Sales--idSaveIcon").setColor('green');
+			      if (result.Customer){
+			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
+			      }else {
+			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+			      }
+			      oEvent.sId = "orderReload";
+			      that.getOrderDetails(oEvent,orderId,oFilter);
+			    }
+			    debugger;
+			  });
+			},
 			onExit: function() {
 
 				if (this.searchPopup) {

@@ -1891,6 +1891,175 @@ var oPopover = that.getErrorMessage(oError);
 }
 		});//next order
 
+		app.post('/previousWSOrder', function(req ,res) {
+			debugger;
+			var WSOrderHeader = app.models.WSOrderHeader;
+			var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
+			start.setHours(0,0,0,0);
+
+			var end = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
+			end.setHours(23,59,59,999);
+			if (req.body.OrderDetails.OrderNo === "") {
+
+				WSOrderHeader.find({
+				where: {
+					and: [{
+						Date: {
+							gt: start
+						}
+					}, {
+						Date: {
+							lt: end
+						}
+					}]
+				},
+				fields:{
+					"OrderNo": true,
+					"Customer":true,
+					"id": true
+				}
+			})
+			.then(function(orders) {
+				//sort the orders in descending order created today
+				if(orders.length > 0){
+					//if there are/is order created today sort and get next order no
+					orders.sort(function (a, b) {
+						return b.OrderNo - a.OrderNo;
+					});
+					res.send({
+						"OrderNo": orders[0].OrderNo,
+						"Customer":orders[0].Customer.toString(),
+						"id": orders[0].id.toString()
+					});
+				}
+			});
+
+		}else {
+			debugger;
+			var orderId = req.body.OrderDetails.id;
+			var orderNo = req.body.OrderDetails.OrderNo;
+			WSOrderHeader.find({
+			where: {
+				and: [{
+					Date: {
+						gt: start
+					}
+				}, {
+					Date: {
+						lt: end
+					}
+				},
+				{
+				OrderNo: {
+					lt:orderNo
+				}
+				}
+			]},
+			fields:{
+				"OrderNo": true,
+				"Customer":true,
+				"id": true
+			}
+		})
+		.then(function(orders) {
+			debugger;
+			//sort the orders in descending order created today
+			if(orders.length > 0){
+				//if there are/is order created today sort and get next order no
+				orders.sort(function (a, b) {
+					return b.OrderNo - a.OrderNo;
+				});
+				//if there are/is order created today sort and pass the previous order no
+				res.send({
+					"OrderNo": orders[0].OrderNo,
+					"Customer":orders[0].Customer,
+					"id": orders[0].id.toString()
+				});
+			}
+		});
+		}
+
+		});//previous order
+//function to get next order
+		app.post('/nextWSOrder', function(req ,res) {
+	debugger;
+	var WSOrderHeader = app.models.OrderHeader;
+	var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
+	start.setHours(0,0,0,0);
+
+	var end = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
+	end.setHours(23,59,59,999);
+	if (req.body.OrderDetails.OrderNo === "") {
+
+		WSOrderHeader.find({
+		where: {
+			and: [{
+				Date: {
+					gt: start
+				}
+			}, {
+				Date: {
+					lt: end
+				}
+			}]
+		},
+		fields:{
+			"OrderNo": true,
+			"Customer":true,
+			"id": true
+		}
+	})
+	.then(function(orders) {
+		//sort the orders in descending order created today
+		if(orders.length > 0){
+			res.send({
+				"OrderNo": orders[0].OrderNo,
+				"Customer":orders[0].Customer.toString(),
+				"id": orders[0].id.toString()
+			});
+		}
+	});
+
+}else {
+	debugger;
+	var orderId = req.body.OrderDetails.id;
+	var orderNo = req.body.OrderDetails.OrderNo;
+	WSOrderHeader.find({
+	where: {
+		and: [{
+			Date: {
+				gt: start
+			}
+		}, {
+			Date: {
+				lt: end
+			}
+		},
+		{
+		OrderNo: {
+			gt:orderNo
+		}
+		}
+	]},
+	fields:{
+		"OrderNo": true,
+		"Customer":true,
+		"id": true
+	}
+})
+.then(function(orders) {
+	debugger;
+	if(orders.length > 0){
+		//if there are/is order created today pass next order no
+		res.send({
+			"OrderNo": orders[0].OrderNo,
+			"Customer":orders[0].Customer.toString(),
+			"id": orders[0].id.toString()
+		});
+	}
+});
+}
+		});//next order
 	});
 };
 

@@ -808,6 +808,7 @@ onValidationItem:function(data,i)
      oTableDetails.getRows()[i].getCells()[3].setValueState("None");
     }else{
     oTableDetails.getRows()[i].getCells()[4].setValueState("None");
+    oTableDetails.getRows()[i].getCells()[5].setValueState("None");
   }
   }
   //Quantity
@@ -1389,6 +1390,7 @@ for (var i = 0; i < oTable.getRows().length; i++) {
 for (var i = 0; i < oTable.getRows().length; i++) {
    oTable.getRows()[i].getCells()[2].setValueState('None');
    oTable.getRows()[i].getCells()[3].setValueState('None');
+   oTable.getRows()[i].getCells()[4].setValueState('None');
     }
   }
   for (var i = 0; i < oTableReturn.getRows().length; i++) {
@@ -1502,6 +1504,7 @@ this.hideDColumns(oEvent);
 },
 previousOrder:function(oEvent){
   var that = this;
+  this.setWidths(false);
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   $.post("/previousOrder",{OrderDetails: myData})
   .then(function(result){
@@ -1534,8 +1537,8 @@ previousOrder:function(oEvent){
   });
 },
 nextOrder:function(oEvent){
-
   var that = this;
+  this.setWidths(false);
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   $.post("/nextOrder",{OrderDetails: myData})
   .then(function(result){

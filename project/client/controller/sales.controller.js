@@ -109,7 +109,8 @@ var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
   entryData.OrderNo = orderDetail.OrderNo;
   entryData.OrderType = 'R';
   var date = this.getView().byId("Sales--DateId").getDateValue();
-  entryData.Remarks = "[Auto-Entry]Retail Transfer"+ " " + date;
+  entryData.Remarks = "[Auto-Entry]Retail Transfer for Order" + "" +
+                      orderDetail.OrderNo+ " " + date;
   //orderDetail.Date;
   entryData.Cash = 0 - finalAmount;
   entryData.Customer = orderDetail.Customer;
@@ -1259,6 +1260,35 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
 },
 stockTransfer:function(allItems){
   debugger;
+var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
+var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
+var stockData = this.getView().getModel('local').getProperty('/stockMaint');
+stockData.Product = allItems.Material;
+stockData.Description = allItems.MaterialCode;
+if (allItems.Qty === '') {
+stockData.Quantity = 0;
+}else {
+stockData.Quantity = allItems.Qty;
+}
+if (allItems.Weight === '') {
+stockData.Weight = 0;
+}else {
+stockData.Weight = allItems.Weight;
+}
+
+stockData.Date = orderDate;
+stockData.Remarks = "[Auto-Entry]Retail Sales Stock "+"for order"+ " "+orderNo;
+
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
+                                  "POST", {}, stockData, this)
+  .then(function(oData) {
+    that.getView().setBusy(false);
+    sap.m.MessageToast.show("Stock Updated Successfully");
+    }).catch(function(oError) {
+    that.getView().setBusy(false);
+    var oPopover = that.getErrorMessage(oError);
+    });
+
 },
 onClearScreen:function(oEvent){
   var that = this;

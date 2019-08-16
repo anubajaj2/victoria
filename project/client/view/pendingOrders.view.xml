@@ -43,7 +43,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>coMaterial}">
             <f:fields>
-              <Input id="idMat" editable="true" type="Text" suggest="ValueChangeMaterial"
+              <Input id="idMat" editable="true" submit="onSubmit" suggest="ValueChangeMaterial"
                 showSuggestion="true" suggestionItems="{/Products}" suggestionItemSelected="onMaterialSelect"
                   placeholder="Enter Product.." visible="true" value="{SupplierName}" width="auto">
                   <suggestionItems>
@@ -59,7 +59,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>qty}">
             <f:fields>
-                <Input id="idqty" value="{path:'local>/stockMaint/Quantity'}" >
+                <Input id="idqty" submit="onSubmit" value="{path:'local>/stockMaint/Quantity'}" >
                   <layoutData>
                     <l:GridData span="XL4 L4 M2 S4" />
                   </layoutData>
@@ -68,7 +68,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>weight}">
             <f:fields>
-              <Input id="idweight" value="{path:'local>/stockMaint/Weight'}">
+              <Input id="idweight" submit="onSubmit" value="{path:'local>/stockMaint/Weight'}">
                 <layoutData>
                   <l:GridData span="XL4 L4 M2 S4" />
                 </layoutData>
@@ -77,7 +77,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>Remarks}">
             <f:fields>
-              <Input id="idRemarks" type="Text" submit="onSubmit" value="{local>/stockMaint/Remarks}">
+              <Input id="idRemarks" submit="onSubmit" value="{local>/stockMaint/Remarks}">
                 <layoutData>
                   <l:GridData span="XL8 L8" />
                 </layoutData>

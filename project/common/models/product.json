@@ -54,6 +54,11 @@
     "PricePerUnit": {
       "type": "string",
       "required": false
+    },
+    "WSTunch":{
+      "type":"hasMany",
+      "model":"WSTunch",
+      "foreignKey": "Product"
     }
   },
   "scope":{

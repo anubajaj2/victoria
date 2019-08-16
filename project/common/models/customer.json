@@ -94,7 +94,13 @@
       "type":"belongsTo",
       "model":"Group",
       "foreignKey":"Group"
+    },
+    "WSTunch":{
+      "type":"hasMany",
+      "model":"WSTunch",
+      "foreignKey": "Customer"
     }
+
   },
   "acls": [
     {

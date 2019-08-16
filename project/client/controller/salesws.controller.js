@@ -904,10 +904,12 @@ sap.ui.define(
 				}
 			},
 			onDelete: function(oEvent) {
-
+debugger;
 				var that = this;
 				var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				// Correcting source call as there's a fragment id defined for items table
 				if (oSourceCall !== "OrderReturn") {
 					oSourceCall = "WSItemFragment--orderItemBases";
@@ -924,6 +926,51 @@ sap.ui.define(
 								for (var i = selIdxs.length - 1; i >= 0; --i) {
 									if (oSourceCall === 'WSItemFragment--orderItemBases') {
 										var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+										// TotalOrderValueCash: 0,
+										// TotalOrderValueGold: 0,
+										// TotalOrderValueSilver: 0,
+										var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
+										var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+						        if (subtotalItem) {
+						          that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
+						          var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
+						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+						        }
+										var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
+						        if (subtotalItemS) {
+						          that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
+						          var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
+						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
+						        }
+										var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
+						        if (subtotalItemG) {
+						          that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
+						          var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
+						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
+						        }
+						      that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
+						      that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
+						      that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
+						      if (that.FinalBalanceCash === 0) {
+						        var FinalBalanceCash = 0;
+						      }else {
+						      var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
+						      }
+						      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+
+									if (that.FinalBalanceGold === 0) {
+										var FinalBalanceGold = 0;
+									}else {
+									var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
+									}
+									that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold',FinalBalanceGold);
+
+									if (that.FinalBalanceSilver === 0) {
+										var FinalBalanceSilver = 0;
+									}else {
+									var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
+									}
+									that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
 										// If row contains id(which means it has been saved in DB)
 										if (id) {
 											var myUrl = "/WSOrderItems('" + id + "')"

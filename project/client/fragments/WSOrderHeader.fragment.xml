@@ -87,12 +87,24 @@
 						</f:Form>
 					</VBox>
 					<VBox width='35%'>
-						<Panel id="totals" headerText="Total" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+						<Panel id="totals" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Total"/>
+									<RadioButtonGroup id="idRBG" columns="3" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
+                    <buttons>
+                      <RadioButton id="RB-1" text="{i18n>Cash}" selected="true" enabled="true" editable="true"/>
+                      <RadioButton id="RB-4" text="{i18n>Gold}" />
+                      <RadioButton id="RB-2" text="{i18n>Silver}" />
+                    </buttons>
+                    </RadioButtonGroup>
+								</Toolbar>
+							</headerToolbar>
 							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
 								<Label text="{i18n>tOrderAmount}" width="0%"/>
-								<Label text="Cash" fieldWidth="10%"/>
-								<Label text="Gold" fieldWidth="10%"/>
-								<Label text="Silver" fieldWidth="10%"/>
+								<Label text="{i18n>Cash}" fieldWidth="10%"/>
+								<Label text="{i18n>Gold}" fieldWidth="10%"/>
+								<Label text="{i18n>Silver}" fieldWidth="10%"/>
 							</FlexBox>
 							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
 								<Label text="{i18n>tOrderAmount}" width="125px"/>

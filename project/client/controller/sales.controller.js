@@ -32,8 +32,6 @@ onInit: function (oEvent) {
 _onRouteMatched:function(oEvent){
   var that = this;
   var id = "";
-  debugger;
-  // set i18n model on view
   this.onClear(oEvent,id);
   this.getPrintCustHeaderData();
 },
@@ -42,7 +40,6 @@ getPrintCustHeaderData: function(){
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
       "/prints", "GET", {}, {}, this)
     .then(function(oData) {
-      debugger;
       var printHeadData = that.getView().getModel("local").getProperty("/printCustomizing");
       for(var i = 0; i < oData.results.length ; i++){
         switch (oData.results[i].Name) {
@@ -95,7 +92,6 @@ onTransfer:function(oEvent){
 var that = this;
 var oLocale = new sap.ui.core.Locale("en-US");
 var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
-debugger;
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
@@ -507,7 +503,6 @@ this.byId("Sales--idSaveIcon").setColor('green');
 this.byId("idRetailTransfer").setEnabled(true);
 delete this.orderAmount;
 delete this.deduction;
-debugger;
 var id = oEvent.getSource().getParent().getId().split('---')[1];
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
@@ -556,7 +551,6 @@ onPayDateChange:function(oEvent){
   },
 getOrderDetails:function(oEvent,orderId ,oFilter){
   var that = this;
-  debugger;
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')", "GET",
                    {filters: [oFilter]}, {}, this)
@@ -568,13 +562,12 @@ getOrderDetails:function(oEvent,orderId ,oFilter){
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
     that.getView().byId("Sales--custName").setText(customerData.Name + " - " + customerData.City);
-     debugger;
+
      // assign the item Details
    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')/ToOrderItems",
                    "GET", {},{}, that)
      .then(function(oData) {
-         debugger;
       	if (oData.results.length > 0) {
           var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
           for (var i = 0; i < oData.results.length; i++) {
@@ -608,11 +601,9 @@ that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                  "/OrderHeaders('" + orderId + "')/ToOrderReturns",
                  "GET",{}, {}, that)
 .then(function(oData) {
-   debugger;
 if (oData.results.length > 0) {
   	var allReturns = that.getView().getModel("returnModel").getProperty("/TransData");
   for (var i = 0; i < oData.results.length; i++) {
-    debugger;
     allReturns[i].ReturnId = oData.results[i].id;
     allReturns[i].Type = oData.results[i].Type;
     allReturns[i].Weight = oData.results[i].Weight;
@@ -643,7 +634,6 @@ if (oData.results.length > 0) {
 },
 //on order valuehelp,get the exsisting order from //DB
 valueHelpOrder:function(oEvent){
-  debugger;
 this.orderPopup(oEvent);
 // this.orderSearchPopup.destroyItems();
 },
@@ -652,9 +642,7 @@ onCancel:function(oEvent) {
 },
 //on order create Button
 orderCreate:function(oEvent){
-  debugger;
 var that = this;
-debugger;
 if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
 {
   var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
@@ -667,7 +655,6 @@ if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
   textDirection: sap.ui.core.TextDirection.Inherit,     // default
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
-    debugger;
     var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
     var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
     var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
@@ -732,7 +719,6 @@ orderCheck:function(){
     that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
              })
     .catch(function(oError) {
-      debugger;
       if (oError.responseText.includes("last order already empty use same")) {
         var id = oError.responseText.split(':')[2];
         if (id) {
@@ -741,7 +727,6 @@ orderCheck:function(){
                                     "/OrderHeaders(" + id + ")",
                                     "GET", {}, {}, that)
           .then(function(oData) {
-            debugger;
             that.getView().setBusy(false);
       //create the new json model and get the order id no generated
       var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
@@ -807,7 +792,6 @@ onValidationItem:function(data,i)
   var tableBinding = oTableDetails.getBinding("rows");
 // //---all errors are false
   var returnError = false;
-  debugger;
   if ((data.Weight) && (data.WeightD) &&
       (data.WeightD >= data.Weight)){
     if (this.settings === true) {
@@ -878,7 +862,6 @@ oTableDetails.getRows()[i].getCells()[3].setValueState("None");
 return returnError;
 },
 onReturnSave:function(oEvent,oId,oCommit,oHeader) {
-  debugger;
 var returnTable = this.getView().getModel('local').getProperty('/OrderReturn');
 var oReturnTable = this.getView().byId('OrderReturn');
 var oBindingR = oReturnTable.getBinding("rows");
@@ -937,7 +920,6 @@ if (data.Remarks === "") {
 }else {
   returnTable.Remarks=data.Remarks;
 }
-debugger;
 var oReturnOrderClone = JSON.parse(JSON.stringify(returnTable));
 if (data.ReturnId) {
   // that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -956,7 +938,6 @@ if (data.ReturnId) {
 that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/OrderReturns","POST", {}, oReturnOrderClone, that)
     .then(function(oData) {
-        debugger;
       that.getView().setBusy(false);
         //loop the detaisl
   var allItems = that.getView().getModel("returnModel").getProperty("/TransData");
@@ -985,7 +966,6 @@ that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 return oCommit;
 },
 ValueChangeHeader:function(oEvent){
-  debugger;
   var that = this;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
   var oTable = this.getView().byId("orderItemBases").getBinding('rows');
@@ -1065,7 +1045,6 @@ for (var i = 0; i < oBinding.getLength(); i++) {
 if (data.Material !== "") {
 valueCheck = true;
 //check to 1st check return table
-debugger;
 if (i=== 0 && returnCheck === false) {
 //Return table values check
   if (this.onRetItemValidation() === false) {
@@ -1110,7 +1089,6 @@ if (valueCheck === true && returnCheck === true && itemError === false) {
 commitRecords:function(oEvent){
   if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
   var that = this;
-  debugger;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
   var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
   if (this.headerNoChange === true) {
@@ -1194,7 +1172,6 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   oOrderDetail.Remarks=data.Remarks;
   // oOrderDetail.SubTotal=data.SubTot;
   var oOrderDetailsClone = JSON.parse(JSON.stringify(oOrderDetail));
-  debugger;
 //Item data save
 if (data.itemNo) {
   // if (this.noChange.flag === false) {
@@ -1215,7 +1192,6 @@ if (data.itemNo) {
   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/OrderItems","POST", {}, oOrderDetailsClone, this)
   .then(function(oData) {
-    debugger;
     //loop the detaisl
     var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
     that.getView().setBusy(false);
@@ -1259,7 +1235,6 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
 }
 },
 stockTransfer:function(allItems){
-  debugger;
 var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
 var stockData = this.getView().getModel('local').getProperty('/stockMaint');
@@ -1292,7 +1267,6 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
 },
 onClearScreen:function(oEvent){
   var that = this;
-  debugger;
   var saveStatus = this.byId('Sales--idSaveIcon').getColor();
   if (!id) {
   var id = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
@@ -1365,7 +1339,6 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
 that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
 that.getView().byId("Sales--DateId").setDateValue(new Date());
-debugger;
 this.orderCustomCalculations();
 //set the bhav details on Header
 // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -1391,7 +1364,6 @@ this.setWidths(false);
 
 },
 setWidths: function(settings){
-  debugger;
   var oTable = this.getView().byId("orderItemBases");
   var oTableReturn = this.getView().byId("OrderReturn")
   var tableBinding = oTable.getBinding("rows");
@@ -1407,7 +1379,7 @@ setWidths: function(settings){
       oTable.getColumns()[7].setWidth("10%");
       oTable.getColumns()[8].setWidth("10%");
       oTable.getColumns()[9].setWidth("15%");
-debugger;
+
 for (var i = 0; i < oTable.getRows().length; i++) {
       oTable.getRows()[i].getCells()[2].setValueState('None');
       oTable.getRows()[i].getCells()[4].setValueState('None');
@@ -1429,7 +1401,7 @@ for (var i = 0; i < oTable.getRows().length; i++) {
 },
 onDelete: function(oEvent) {
   var that = this;
-debugger;
+
 var oLocale = new sap.ui.core.Locale("en-US");
 var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
@@ -1443,7 +1415,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
   textDirection: sap.ui.core.TextDirection.Inherit,     // default
   onClose : function(sButton){
   if (sButton === MessageBox.Action.OK) {
-    debugger;
+
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
         var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
@@ -1500,7 +1472,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
           that.getView().getModel("orderItems").setProperty("/itemData",oTableData);
     }//sourcecallCheck
     else if (oSourceCall === 'OrderReturn') {
-      debugger;
+
       that.deleteReturnValues(oEvent,i,selIdxs[i],viewId,oTableData);
     }//order return else part
     }//for i loop
@@ -1562,7 +1534,7 @@ previousOrder:function(oEvent){
   });
 },
 nextOrder:function(oEvent){
-  debugger;
+
   var that = this;
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   $.post("/nextOrder",{OrderDetails: myData})
@@ -1593,7 +1565,7 @@ nextOrder:function(oEvent){
       oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
-    debugger;
+
   });
 },
 getTotals:function(oEvent){
@@ -1804,7 +1776,7 @@ var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
    (priceF === 0 || makingCharges === 0 || stonevalue ===0) )
    {
   var subTot = (priceF + makingCharges + stonevalue);
-  debugger;
+
   if ((data.SubTotal) && (data.SubTotal != "")) {
   var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
@@ -1820,7 +1792,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
   var subTotF =  this.getIndianCurr(subTot);
     // gold price per gram
     if (tablePath) {
-     debugger;
+
      if (subTotF) {
      category.SubTotal = subTotF;
    }else {
@@ -1860,7 +1832,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
   var orderAmountF = this.getIndianCurr(orderAmount);
   this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',orderAmountF);
   if (tablePath) {
-   debugger;
+
   category.SubTotal = subTotF;
   // this.byId("Sales--idSaveIcon").setColor('red');
   this.noChange = true;
@@ -1909,7 +1881,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
   if (priceF || makingOfProduct || stonevalue) {
   // gold price per gram
   var subTot = priceF + makingOfProduct + stonevalue;
-  debugger;
+
   if ((data.SubTotal) && (data.SubTotal != "")) {
   var currentSubTot = oFloatFormat.parse(data.SubTotal);
   this.orderAmount = subTot + this.orderAmount - currentSubTot;
@@ -1936,7 +1908,7 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValue',
 },
 
 Calculation:function(oEvent,tablePath,i){
-  debugger;
+
   var that = this;
   var orderHeader = this.getView().getModel('local').getProperty('/orderHeader');
   if ((oEvent.getId() === "orderReload")
@@ -1980,7 +1952,6 @@ Calculation:function(oEvent,tablePath,i){
                      "/Products('" + category.Material + "')", "GET",
                      {}, {}, that)
       .then(function(oData) {
-        debugger;
         category.Category = oData.Category;
         category.Making = oData.Making;
         category.Tunch = oData.Tunch;
@@ -1995,7 +1966,6 @@ Calculation:function(oEvent,tablePath,i){
         that.finalCalculation(category,data,priceF,tablePath,cells,
                               quantityOfStone,gold20pergm,gold22pergm,
                               silverpergm);
-      debugger;
       that.finalBal = that.orderAmount - that.deduction;
       if (that.finalBal === 0) {
         var finalBal = 0;
@@ -2030,7 +2000,7 @@ Calculation:function(oEvent,tablePath,i){
     this.finalCalculation(category,data,priceF,tablePath,cells,
                           quantityOfStone,gold20pergm,gold22pergm,
                           silverpergm);
-debugger;
+
 that.finalBal = that.orderAmount - that.deduction;
 if (that.finalBal === 0) {
   var finalBal = 0;

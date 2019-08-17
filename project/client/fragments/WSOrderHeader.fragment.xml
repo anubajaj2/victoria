@@ -91,11 +91,12 @@
 							<headerToolbar>
 								<Toolbar height="3rem">
 									<Title text="Total"/>
-									<RadioButtonGroup id="idRBG" columns="3" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
+									<RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
                     <buttons>
-                      <RadioButton id="RB-1" text="{i18n>Cash}" selected="true" enabled="true" editable="true"/>
-                      <RadioButton id="RB-4" text="{i18n>Gold}" />
-                      <RadioButton id="RB-2" text="{i18n>Silver}" />
+											<RadioButton id="RB-4" text="{i18n>Original}" selected="true" enabled="true" editable="true"/>
+                      <RadioButton id="RB-1" text="{i18n>Cash}" />
+                      <RadioButton id="RB-2" text="{i18n>Gold}" />
+                      <RadioButton id="RB-3" text="{i18n>Silver}" />
                     </buttons>
                     </RadioButtonGroup>
 								</Toolbar>
@@ -109,20 +110,20 @@
 							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
 								<Label text="{i18n>tOrderAmount}" width="125px"/>
 								<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValueCash}" textAlign="Right" width="80px"/>
-								<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" width="60px"/>
-								<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" width="60px"/>
+								<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" width="80px"/>
+								<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" width="80px"/>
 							</FlexBox>
 							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
 								<Label text="{i18n>deductions}" width="125px"/>
 								<Text text="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" width="80px"/>
-								<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" width="60px"/>
-								<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" width="60px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" width="80px"/>
 							</FlexBox>
 							<FlexBox justifyContent="SpaceBetween">
 								<Label text="{i18n>fBalance}" width="125px"/>
 								<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" width="80px"/>
-								<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" width="60px"/>
-								<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" width="60px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" width="80px"/>
 							</FlexBox>
 						</Panel>
 					</VBox>

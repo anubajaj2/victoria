@@ -1860,6 +1860,7 @@ debugger;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
 								that.finalCalculation(category, data, tablePath, cells);
 								that.getFinalBalance();
+								that.onRadioButtonSelect();
 							})
 							.catch(function(oError) {
 
@@ -1871,7 +1872,7 @@ debugger;
 				that.PreCalc(data, fieldId, newValue, oFloatFormat);
 				that.finalCalculation(category, data, tablePath, cells);
 				that.getFinalBalance();
-
+				that.onRadioButtonSelect();
 				this.byId("IdMaking");
 				this.byId("IdMakingD");
 				this.byId("IdWeightD");
@@ -1983,6 +1984,7 @@ debugger;
 				}
 				this.returnCalculation(oEvent, orderHeader, seletedLine);
 				this.getFinalBalance();
+				that.onRadioButtonSelect();
 			},
 			returnCalculation: function(oEvent, orderHeader, data) {
 				debugger;
@@ -2299,6 +2301,173 @@ debugger;
 			    }
 			    debugger;
 			  });
+			},
+			onRadioButtonSelect:function() {
+				var that = this;
+				debugger;
+								var oLocale = new sap.ui.core.Locale("en-US");
+								var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				var WSHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				if(this.getView().byId("WSHeaderFragment--RB-1").getSelected()){//Cash RadioButton
+					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / 1000;
+					var TotalOrderValueGold = that.TotalOrderValueGold * WSHeader.Goldbhav;
+					var DeductionGold = that.DeductionGold * WSHeader.Goldbhav;
+					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav/1000;
+					var FinalBalanceGold = that.FinalBalanceGold * WSHeader.Goldbhav;
+					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / 1000;;
+					var TotalOrderValueCash = that.TotalOrderValueCash;
+					var DeductionCash = that.DeductionCash;
+					var FinalBalanceCash = that.FinalBalanceCash;
+
+					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(0);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(0);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+					FinalBalanceCash = parseFloat(FinalBalanceCash).toFixed(0);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+					TotalOrderValueSilver = parseFloat(TotalOrderValueSilver).toFixed(0);
+					TotalOrderValueSilver = that.getIndianCurr(TotalOrderValueSilver);
+					TotalOrderValueCash = parseFloat(TotalOrderValueCash).toFixed(0);
+					TotalOrderValueCash = that.getIndianCurr(TotalOrderValueCash);
+					TotalOrderValueGold = parseFloat(TotalOrderValueGold).toFixed(0);
+					TotalOrderValueGold = that.getIndianCurr(TotalOrderValueGold);
+					DeductionGold = parseFloat(DeductionGold).toFixed(0);
+					DeductionGold = that.getIndianCurr(DeductionGold);
+					DeductionSilver = parseFloat(DeductionSilver).toFixed(0);
+					DeductionSilver = that.getIndianCurr(DeductionSilver);
+					DeductionCash = parseFloat(DeductionCash).toFixed(0);
+					DeductionCash = that.getIndianCurr(DeductionCash);
+
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
+				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+
+				}else if (this.getView().byId("WSHeaderFragment--RB-2").getSelected()) { //Gold RadioButton
+					debugger;
+					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
+					var TotalOrderValueGold = that.TotalOrderValueGold;
+					var TotalOrderValueCash = that.TotalOrderValueCash / WSHeader.Goldbhav;
+					var DeductionGold = that.DeductionGold;
+					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
+					var DeductionCash = that.DeductionCash / WSHeader.Goldbhav;
+					var FinalBalanceGold = that.FinalBalanceGold;
+					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
+					var FinalBalanceCash = that.FinalBalanceCash / WSHeader.Goldbhav;
+
+					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(3);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+					FinalBalanceCash = parseFloat(FinalBalanceCash).toFixed(3);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+					TotalOrderValueSilver = parseFloat(TotalOrderValueSilver).toFixed(3);
+					TotalOrderValueSilver = that.getIndianCurr(TotalOrderValueSilver);
+					TotalOrderValueGold = parseFloat(TotalOrderValueGold).toFixed(3);
+					TotalOrderValueGold = that.getIndianCurr(TotalOrderValueGold);
+					TotalOrderValueCash = parseFloat(TotalOrderValueCash).toFixed(3);
+					TotalOrderValueCash = that.getIndianCurr(TotalOrderValueCash);
+					DeductionGold = parseFloat(DeductionGold).toFixed(3);
+					DeductionGold = that.getIndianCurr(DeductionGold);
+					DeductionSilver = parseFloat(DeductionSilver).toFixed(3);
+					DeductionSilver = that.getIndianCurr(DeductionSilver);
+					DeductionCash = parseFloat(DeductionCash).toFixed(3);
+					DeductionCash = that.getIndianCurr(DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
+				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+
+				}else if (this.getView().byId("WSHeaderFragment--RB-3").getSelected()) {//Silver RadioButton
+					debugger;
+					var TotalOrderValueSilver = that.TotalOrderValueSilver ;
+					var TotalOrderValueGold = that.TotalOrderValueGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var TotalOrderValueCash = 1000 * that.TotalOrderValueCash / WSHeader.SilverBhav;
+					var DeductionGold = that.DeductionGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var DeductionSilver = that.DeductionSilver;
+					var DeductionCash = 1000 * that.DeductionCash / WSHeader.SilverBhav;
+					var FinalBalanceGold = that.FinalBalanceGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var FinalBalanceSilver = that.FinalBalanceSilver;
+					var FinalBalanceCash = 1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
+
+					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(2);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(2);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+					FinalBalanceCash = parseFloat(FinalBalanceCash).toFixed(2);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+					TotalOrderValueSilver = parseFloat(TotalOrderValueSilver).toFixed(2);
+					TotalOrderValueSilver = that.getIndianCurr(TotalOrderValueSilver);
+					TotalOrderValueGold = parseFloat(TotalOrderValueGold).toFixed(2);
+					TotalOrderValueGold = that.getIndianCurr(TotalOrderValueGold);
+					TotalOrderValueCash = parseFloat(TotalOrderValueCash).toFixed(2);
+					TotalOrderValueCash = that.getIndianCurr(TotalOrderValueCash);
+					DeductionGold = parseFloat(DeductionGold).toFixed(2);
+					DeductionGold = that.getIndianCurr(DeductionGold);
+					DeductionSilver = parseFloat(DeductionSilver).toFixed(2);
+					DeductionSilver = that.getIndianCurr(DeductionSilver);
+					DeductionCash = parseFloat(DeductionCash).toFixed(2);
+					DeductionCash = that.getIndianCurr(DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
+				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+
+				}else if (this.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+					debugger;
+					var TotalOrderValueSilver = that.TotalOrderValueSilver;
+					var TotalOrderValueGold = that.TotalOrderValueGold;
+					var TotalOrderValueCash = that.TotalOrderValueCash;
+					var DeductionGold = that.DeductionGold;
+					var DeductionSilver = that.DeductionSilver;
+					var DeductionCash = that.DeductionCash;
+					var FinalBalanceGold = that.FinalBalanceGold;
+					var FinalBalanceSilver = that.FinalBalanceSilver;
+					var FinalBalanceCash = that.FinalBalanceCash;
+
+					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
+					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(2);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
+					FinalBalanceCash = parseFloat(FinalBalanceCash).toFixed(0);
+					FinalBalanceCash = that.getIndianCurr(FinalBalanceCash);
+					TotalOrderValueSilver = parseFloat(TotalOrderValueSilver).toFixed(2);
+					TotalOrderValueSilver = that.getIndianCurr(TotalOrderValueSilver);
+					TotalOrderValueGold = parseFloat(TotalOrderValueGold).toFixed(3);
+					TotalOrderValueGold = that.getIndianCurr(TotalOrderValueGold);
+					TotalOrderValueCash = parseFloat(TotalOrderValueCash).toFixed(0);
+					TotalOrderValueCash = that.getIndianCurr(TotalOrderValueCash);
+					DeductionGold = parseFloat(DeductionGold).toFixed(3);
+					DeductionGold = that.getIndianCurr(DeductionGold);
+					DeductionSilver = parseFloat(DeductionSilver).toFixed(2);
+					DeductionSilver = that.getIndianCurr(DeductionSilver);
+					DeductionCash = parseFloat(DeductionCash).toFixed(0);
+					DeductionCash = that.getIndianCurr(DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
+				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+				}
 			},
 			onExit: function() {
 

@@ -181,7 +181,16 @@ sap.ui.define(
 						that.getView().setBusy(false);
 						var custId = oData.Customer;
 						var customerData = that.allMasterData.customers[custId];
-
+						debugger;
+						if (oData.SummaryMode == "O") {
+							that.getView().byId("WSHeaderFragment--RB-4").setSelected(true);
+						} else if (oData.SummaryMode == "C") {
+							that.getView().byId("WSHeaderFragment--RB-1").setSelected(true);
+						} else if (oData.SummaryMode == "G") {
+							that.getView().byId("WSHeaderFragment--RB-2").setSelected(true);
+						} else if (oData.SummaryMode == "S") {
+							that.getView().byId("WSHeaderFragment--RB-3").setSelected(true);
+						}
 						that.getView().getModel("local").setProperty("/WSOrderHeader", oData);
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
@@ -904,7 +913,7 @@ sap.ui.define(
 				}
 			},
 			onDelete: function(oEvent) {
-debugger;
+				debugger;
 				var that = this;
 				var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oSourceCall = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[1];
@@ -931,46 +940,46 @@ debugger;
 										// TotalOrderValueSilver: 0,
 										var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
 										var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-						        if (subtotalItem) {
-						          that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
-						          var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
-						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
-						        }
+										if (subtotalItem) {
+											that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
+											var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
+										}
 										var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
-						        if (subtotalItemS) {
-						          that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
-						          var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
-						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
-						        }
+										if (subtotalItemS) {
+											that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
+											var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+										}
 										var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
-						        if (subtotalItemG) {
-						          that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
-						          var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
-						          that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
-						        }
-						      that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
-						      that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
-						      that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
-						      if (that.FinalBalanceCash === 0) {
-						        var FinalBalanceCash = 0;
-						      }else {
-						      var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
-						      }
-						      that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+										if (subtotalItemG) {
+											that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
+											var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+										}
+										that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
+										that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
+										that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
+										if (that.FinalBalanceCash === 0) {
+											var FinalBalanceCash = 0;
+										} else {
+											var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 
-									if (that.FinalBalanceGold === 0) {
-										var FinalBalanceGold = 0;
-									}else {
-									var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
-									}
-									that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold',FinalBalanceGold);
+										if (that.FinalBalanceGold === 0) {
+											var FinalBalanceGold = 0;
+										} else {
+											var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
 
-									if (that.FinalBalanceSilver === 0) {
-										var FinalBalanceSilver = 0;
-									}else {
-									var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
-									}
-									that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
+										if (that.FinalBalanceSilver === 0) {
+											var FinalBalanceSilver = 0;
+										} else {
+											var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
 										// If row contains id(which means it has been saved in DB)
 										if (id) {
 											var myUrl = "/WSOrderItems('" + id + "')"
@@ -1053,6 +1062,16 @@ debugger;
 								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
 								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
 								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
+				if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+					var SummaryMode = "C";
+				}	else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+					var SummaryMode = "G";
+				}	else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+					var SummaryMode = "S";
+				}	else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+					var SummaryMode = "O";
+				}
+				that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
 								// that.clearScreen(oEvent);
 								that.newOrderCreate();
 							} //Sbutton if condition
@@ -2192,7 +2211,7 @@ debugger;
 				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
 				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
 				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
-debugger;
+				debugger;
 				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
 					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 					var oFilter1 = new sap.ui.model.Filter("Product", sap.ui.model.FilterOperator.EQ, Customer);
@@ -2233,86 +2252,90 @@ debugger;
 					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 				}
 			},
-			previousOrder:function(oEvent){
+			previousOrder: function(oEvent) {
 				debugger;
-			  var that = this;
-			  var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
-			  $.post("/previousWSOrder",{OrderDetails: myData})
-			  .then(function(result){
-			    // that.byId("idRetailTransfer").setEnabled(true);
-			    console.log(result);
-			    if (result) {
-			      // delete that.orderAmount;
-			      // delete that.deduction;
-			      // delete that.finalBal;
-			      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-			      // oHeaderT.FinalBalance="0";
-			      // oHeaderT.Deduction="0";
-			      // oHeaderT.TotalOrderValue="0";
-			      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
-			      var orderId = result.id;
-			      // that.byId("Sales--idSaveIcon").setColor('green');
-			      if (result.Customer){
-			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
-			      }else {
-			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
-			      }
-			      var id = 'WSsales';
-			      //Clear Item table
-			      that.orderItem(oEvent,id);
-			      //return table
-			      that.orderReturn(oEvent,id);
-			      oEvent.sId = "orderReload";
-			      that.getOrderDetails(oEvent,orderId,oFilter);
-			    }
-			  });
+				var that = this;
+				var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
+				$.post("/previousWSOrder", {
+						OrderDetails: myData
+					})
+					.then(function(result) {
+						// that.byId("idRetailTransfer").setEnabled(true);
+						console.log(result);
+						if (result) {
+							// delete that.orderAmount;
+							// delete that.deduction;
+							// delete that.finalBal;
+							var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+							// oHeaderT.FinalBalance="0";
+							// oHeaderT.Deduction="0";
+							// oHeaderT.TotalOrderValue="0";
+							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
+							var orderId = result.id;
+							// that.byId("Sales--idSaveIcon").setColor('green');
+							if (result.Customer) {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, result.Customer);
+							} else {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+							}
+							var id = 'WSsales';
+							//Clear Item table
+							that.orderItem(oEvent, id);
+							//return table
+							that.orderReturn(oEvent, id);
+							oEvent.sId = "orderReload";
+							that.getOrderDetails(oEvent, orderId, oFilter);
+						}
+					});
 			},
-			nextOrder:function(oEvent){
-			  debugger;
-			  var that = this;
-			  var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
-			  $.post("/nextWSOrder",{OrderDetails: myData})
-			  .then(function(result){
-			    console.log(result);
-			  // that.byId("idRetailTransfer").setEnabled(true);
-			    if (result) {
-			      var id = 'WSsales';
-			      // delete that.orderAmount;
-			      // delete that.deduction;
-			      // delete that.finalBal;
-			      var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-			      // oHeaderT.FinalBalance="0";
-			      // oHeaderT.Deduction="0";
-			      // oHeaderT.TotalOrderValue="0";
-			      that.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
-			      //Clear Item table
-			      that.orderItem(oEvent,id);
-			      //return table
-			      that.orderReturn(oEvent,id);
-			      var orderId = result.id;
-			      // that.byId("Sales--idSaveIcon").setColor('green');
-			      if (result.Customer){
-			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
-			      }else {
-			      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
-			      }
-			      oEvent.sId = "orderReload";
-			      that.getOrderDetails(oEvent,orderId,oFilter);
-			    }
-			    debugger;
-			  });
+			nextOrder: function(oEvent) {
+				debugger;
+				var that = this;
+				var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
+				$.post("/nextWSOrder", {
+						OrderDetails: myData
+					})
+					.then(function(result) {
+						console.log(result);
+						// that.byId("idRetailTransfer").setEnabled(true);
+						if (result) {
+							var id = 'WSsales';
+							// delete that.orderAmount;
+							// delete that.deduction;
+							// delete that.finalBal;
+							var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+							// oHeaderT.FinalBalance="0";
+							// oHeaderT.Deduction="0";
+							// oHeaderT.TotalOrderValue="0";
+							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
+							//Clear Item table
+							that.orderItem(oEvent, id);
+							//return table
+							that.orderReturn(oEvent, id);
+							var orderId = result.id;
+							// that.byId("Sales--idSaveIcon").setColor('green');
+							if (result.Customer) {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, result.Customer);
+							} else {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+							}
+							oEvent.sId = "orderReload";
+							that.getOrderDetails(oEvent, orderId, oFilter);
+						}
+						debugger;
+					});
 			},
-			onRadioButtonSelect:function() {
+			onRadioButtonSelect: function() {
 				var that = this;
 				debugger;
-								var oLocale = new sap.ui.core.Locale("en-US");
-								var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				var WSHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
-				if(this.getView().byId("WSHeaderFragment--RB-1").getSelected()){//Cash RadioButton
+				if (this.getView().byId("WSHeaderFragment--RB-1").getSelected()) { //Cash RadioButton
 					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / 1000;
 					var TotalOrderValueGold = that.TotalOrderValueGold * WSHeader.Goldbhav;
 					var DeductionGold = that.DeductionGold * WSHeader.Goldbhav;
-					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav/1000;
+					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / 1000;
 					var FinalBalanceGold = that.FinalBalanceGold * WSHeader.Goldbhav;
 					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / 1000;;
 					var TotalOrderValueCash = that.TotalOrderValueCash;
@@ -2338,17 +2361,17 @@ debugger;
 					DeductionCash = parseFloat(DeductionCash).toFixed(0);
 					DeductionCash = that.getIndianCurr(DeductionCash);
 
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
-				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 
-				}else if (this.getView().byId("WSHeaderFragment--RB-2").getSelected()) { //Gold RadioButton
+				} else if (this.getView().byId("WSHeaderFragment--RB-2").getSelected()) { //Gold RadioButton
 					debugger;
 					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
 					var TotalOrderValueGold = that.TotalOrderValueGold;
@@ -2378,25 +2401,25 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(3);
 					DeductionCash = that.getIndianCurr(DeductionCash);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
-				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 
-				}else if (this.getView().byId("WSHeaderFragment--RB-3").getSelected()) {//Silver RadioButton
+				} else if (this.getView().byId("WSHeaderFragment--RB-3").getSelected()) { //Silver RadioButton
 					debugger;
-					var TotalOrderValueSilver = that.TotalOrderValueSilver ;
-					var TotalOrderValueGold = that.TotalOrderValueGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var TotalOrderValueSilver = that.TotalOrderValueSilver;
+					var TotalOrderValueGold = that.TotalOrderValueGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var TotalOrderValueCash = 1000 * that.TotalOrderValueCash / WSHeader.SilverBhav;
-					var DeductionGold = that.DeductionGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var DeductionGold = that.DeductionGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var DeductionSilver = that.DeductionSilver;
 					var DeductionCash = 1000 * that.DeductionCash / WSHeader.SilverBhav;
-					var FinalBalanceGold = that.FinalBalanceGold * 1000 * WSHeader.Goldbhav / ( WSHeader.SilverBhav);
+					var FinalBalanceGold = that.FinalBalanceGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var FinalBalanceSilver = that.FinalBalanceSilver;
 					var FinalBalanceCash = 1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
 
@@ -2418,17 +2441,17 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(2);
 					DeductionCash = that.getIndianCurr(DeductionCash);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
-				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 
-				}else if (this.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+				} else if (this.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
 					debugger;
 					var TotalOrderValueSilver = that.TotalOrderValueSilver;
 					var TotalOrderValueGold = that.TotalOrderValueGold;
@@ -2458,15 +2481,15 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(0);
 					DeductionCash = that.getIndianCurr(DeductionCash);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver',DeductionSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold',DeductionGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash',DeductionCash);
-				  that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver',TotalOrderValueSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold',TotalOrderValueGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash',TotalOrderValueCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver',FinalBalanceSilver);
-					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash',FinalBalanceCash);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 				}
 			},
 			onExit: function() {
@@ -2475,42 +2498,41 @@ debugger;
 					this.searchPopup.destroy();
 				}
 			},
-			getPrintCustHeaderData: function(){
-			  var that = this;
-			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			      "/prints", "GET", {}, {}, this)
-			    .then(function(oData) {
-			      debugger;
-			      var printHeadData = that.getView().getModel("local").getProperty("/printCustomizing");
-			      for(var i = 0; i < oData.results.length ; i++){
-			        switch (oData.results[i].Name) {
-			          case "__component0---idPrint--idAdd":
-			          printHeadData.Address = oData.results[i].Value;
-			          break;
-			          case "__component0---idPrint--idCompName":
-			            printHeadData.CompName = oData.results[i].Value;
-			            break;
-			          case "__component0---idPrint--idTnC":
-			            printHeadData.TnC = oData.results[i].Value;
-			            break;
-			          case "__component0---idPrint--idgstn":
-			            printHeadData.GSTNumber = oData.results[i].Value;
-			            break;
-			          case "__component0---idPrint--idContNo":
-			            printHeadData.ContNumber = oData.results[i].Value;
-			            break;
-			          case "__component0---idPrint--idMarking":
-			            printHeadData.Marking = oData.results[i].Value;
-			            break;
-			          default:
-			        }
-			      };
-			      that.getView().getModel("local").setProperty("/printCustomizing", printHeadData);
+			getPrintCustHeaderData: function() {
+				var that = this;
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/prints", "GET", {}, {}, this)
+					.then(function(oData) {
+						debugger;
+						var printHeadData = that.getView().getModel("local").getProperty("/printCustomizing");
+						for (var i = 0; i < oData.results.length; i++) {
+							switch (oData.results[i].Name) {
+								case "__component0---idPrint--idAdd":
+									printHeadData.Address = oData.results[i].Value;
+									break;
+								case "__component0---idPrint--idCompName":
+									printHeadData.CompName = oData.results[i].Value;
+									break;
+								case "__component0---idPrint--idTnC":
+									printHeadData.TnC = oData.results[i].Value;
+									break;
+								case "__component0---idPrint--idgstn":
+									printHeadData.GSTNumber = oData.results[i].Value;
+									break;
+								case "__component0---idPrint--idContNo":
+									printHeadData.ContNumber = oData.results[i].Value;
+									break;
+								case "__component0---idPrint--idMarking":
+									printHeadData.Marking = oData.results[i].Value;
+									break;
+								default:
+							}
+						};
+						that.getView().getModel("local").setProperty("/printCustomizing", printHeadData);
 
-			    }).catch(function(oError) {
-			  });
+					}).catch(function(oError) {});
 			},
-			onPrintWs:function(){
+			onPrintWs: function() {
 				debugger;
 				var that = this;
 
@@ -2522,371 +2544,370 @@ debugger;
 						that.wholesalePrint(oData);
 						// that.getView().getModel("local").setProperty("/printCustomizingData",oData);
 
-					}).catch(function(oError) {
-				});
+					}).catch(function(oError) {});
 			},
-			wholesalePrint:function(oData){
+			wholesalePrint: function(oData) {
 				debugger;
 				var arrayRemoveFromPrint = [];
 				var hideHeaderContents = [];
 				var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
 				var orderDetails = this.getView().getModel('local').getProperty("/WSOrderHeader"); //order no/date/Gold/Silver Bhav
 				var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
-				if(orderDetails.Date){
-					 var orderLocDate = orderDetails.Date
+				if (orderDetails.Date) {
+					var orderLocDate = orderDetails.Date
 
-					 var dd = orderLocDate.getDate();
-					 var mm = orderLocDate.getMonth() + 1;
-					 var yyyy = orderLocDate.getFullYear();
-					 if (dd < 10) {
-						 dd = '0' + dd;
-					 }
-					 if (mm < 10) {
-						 mm = '0' + mm;
-					 }
-					 var orderDate = dd + '.' + mm + '.' + yyyy;
+					var dd = orderLocDate.getDate();
+					var mm = orderLocDate.getMonth() + 1;
+					var yyyy = orderLocDate.getFullYear();
+					if (dd < 10) {
+						dd = '0' + dd;
+					}
+					if (mm < 10) {
+						mm = '0' + mm;
+					}
+					var orderDate = dd + '.' + mm + '.' + yyyy;
 
 
 
-					 // var orderDate = orderLocDate.replace(/\-/g, '.');
-					 // formatter.getDateDDMMYYYYFormat(orderLocDate);
+					// var orderDate = orderLocDate.replace(/\-/g, '.');
+					// formatter.getDateDDMMYYYYFormat(orderLocDate);
 				}
-				if(orderDetails.Customer){
+				if (orderDetails.Customer) {
 					var custId = orderDetails.Customer;
 					var cusData = this.allMasterData.customers[custId];
 				}
 				var printDate = formatter.getFormattedDate(0);
-				var rCompName,rAddress,rContNumber,rGSTNumber,rEstimate,rWeight,rBhav,rSubtotal,title,rTnC,rMarking;
-				for(var i=0 ; i<oData.results.length ; i++){
+				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
+				for (var i = 0; i < oData.results.length; i++) {
 					switch (oData.results[i].Name) {
 						case "__component0---idPrint--idWCompName":
-						 if(oData.results[i].Value === "true"){
+							if (oData.results[i].Value === "true") {
 								rCompName = printCustHeadVal.CompName;
-						 }else{
-									 arrayRemoveFromPrint.push('idWCompName');
-						 }
+							} else {
+								arrayRemoveFromPrint.push('idWCompName');
+							}
 							break;
 						case "__component0---idPrint--idWAddress":
-						 if(oData.results[i].Value === "true"){
+							if (oData.results[i].Value === "true") {
 								rAddress = printCustHeadVal.Address;
-						 }else {
-							 arrayRemoveFromPrint.push('idWAddress');
-						 }
-						 break;
+							} else {
+								arrayRemoveFromPrint.push('idWAddress');
+							}
+							break;
 						case "__component0---idPrint--idContNo":
-							if(oData.results[i].Value === "true"){
-								 rContNumber = printCustHeadVal.ContNumber;
-							}else {
+							if (oData.results[i].Value === "true") {
+								rContNumber = printCustHeadVal.ContNumber;
+							} else {
 								arrayRemoveFromPrint.push('idWPhoneNumber');
 							}
 							break;
 						case "__component0---idPrint--idWGSTN":
-							if(oData.results[i].Value === "true"){
-								 rGSTNumber = printCustHeadVal.GSTNumber;
-							}else {
+							if (oData.results[i].Value === "true") {
+								rGSTNumber = printCustHeadVal.GSTNumber;
+							} else {
 								arrayRemoveFromPrint.push('idWGSTN');
 							}
 							break;
-							case "__component0---idPrint--idWWeight":
+						case "__component0---idPrint--idWWeight":
 							debugger;
-								if(oData.results[i].Value === "false"){
-									arrayRemoveFromPrint.push('idWWeight');
-								}
-								break;
-								case "__component0---idPrint--idWEstimate":
-									if(oData.results[i].Value === "true"){
-										 title = "Estimate";
-									}else {
-											title = "Invoice";
-									}
-									break;
-									case "__component0---idPrint--idWSubTotal":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWSubTotal');
-									}
-									break;
-									case "__component0---idPrint--idWSubTotalS":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWSubTotalS');
-									}
-									break;
-									case "__component0---idPrint--idWSubTotalG":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWSubTotalG');
-									}
-									break;
-									case "__component0---idPrint--idWBhav":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWBhav');
-									}
-									break;
-									case "__component0---idPrint--idWMakingCharge":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWMakingCharge');
-									}
-									break;
-									case "__component0---idPrint--idWTnC":
-									if(oData.results[i].Value === "true"){
-										rTnC = printCustHeadVal.TnC;
-									}else {
-											arrayRemoveFromPrint.push('idWTnC');
-									}
-									break;
-									case "__component0---idPrint--idWMarking":
-										if(oData.results[i].Value === "true"){
-											 rMarking = printCustHeadVal.Marking;
-										}else {
-											arrayRemoveFromPrint.push('idWMarking');
-										}
-										break;
-									case "__component0---idPrint--idWQuantity":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWQuantity');
-									}
-									break;
-									case "__component0---idPrint--idWReturnWeight":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnWeight');
-									}
-									break;
-									case "__component0---idPrint--idWReturnBhav":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnBhav');
-									}
-									break;
-									case "__component0---idPrint--idWWeightD":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWWeightD');
-									}
-									break;
-									case "__component0---idPrint--idWQuantityD":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWQuantityD');
-									}
-									break;
-									case "__component0---idPrint--idWMakingChargeD":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWMakingChargeD');
-									}
-									break;
-									case "__component0---idPrint--idWRemarks":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWRemarks');
-									}
-									break;
-									case "__component0---idPrint--idWReturnRemarks":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnRemarks');
-									}
-									break;
-									case "__component0---idPrint--idWReturnKattaWeight":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnKattaWeight');
-									}
-									break;
-									case "__component0---idPrint--idWReturnTunch":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnTunch');
-									}
-									break;
-									case "__component0---idPrint--idWReturnSubTotal":
-									if(oData.results[i].Value === "false"){
-										arrayRemoveFromPrint.push('idWReturnSubTotal');
-									}
-						default:
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWWeight');
+							}
+							break;
+						case "__component0---idPrint--idWEstimate":
+							if (oData.results[i].Value === "true") {
+								title = "Estimate";
+							} else {
+								title = "Invoice";
+							}
+							break;
+						case "__component0---idPrint--idWSubTotal":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWSubTotal');
+							}
+							break;
+						case "__component0---idPrint--idWSubTotalS":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWSubTotalS');
+							}
+							break;
+						case "__component0---idPrint--idWSubTotalG":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWSubTotalG');
+							}
+							break;
+						case "__component0---idPrint--idWBhav":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWBhav');
+							}
+							break;
+						case "__component0---idPrint--idWMakingCharge":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWMakingCharge');
+							}
+							break;
+						case "__component0---idPrint--idWTnC":
+							if (oData.results[i].Value === "true") {
+								rTnC = printCustHeadVal.TnC;
+							} else {
+								arrayRemoveFromPrint.push('idWTnC');
+							}
+							break;
+						case "__component0---idPrint--idWMarking":
+							if (oData.results[i].Value === "true") {
+								rMarking = printCustHeadVal.Marking;
+							} else {
+								arrayRemoveFromPrint.push('idWMarking');
+							}
+							break;
+						case "__component0---idPrint--idWQuantity":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWQuantity');
+							}
+							break;
+						case "__component0---idPrint--idWReturnWeight":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnWeight');
+							}
+							break;
+						case "__component0---idPrint--idWReturnBhav":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnBhav');
+							}
+							break;
+						case "__component0---idPrint--idWWeightD":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWWeightD');
+							}
+							break;
+						case "__component0---idPrint--idWQuantityD":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWQuantityD');
+							}
+							break;
+						case "__component0---idPrint--idWMakingChargeD":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWMakingChargeD');
+							}
+							break;
+						case "__component0---idPrint--idWRemarks":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWRemarks');
+							}
+							break;
+						case "__component0---idPrint--idWReturnRemarks":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnRemarks');
+							}
+							break;
+						case "__component0---idPrint--idWReturnKattaWeight":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnKattaWeight');
+							}
+							break;
+						case "__component0---idPrint--idWReturnTunch":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnTunch');
+							}
+							break;
+						case "__component0---idPrint--idWReturnSubTotal":
+							if (oData.results[i].Value === "false") {
+								arrayRemoveFromPrint.push('idWReturnSubTotal');
+							}
+							default:
 					}
 				}
-			var header = '<h2 style="text-align: center;"><strong>'+title+'</strong></h2><hr />'+
-			'<table style="display: inline-block; float: left; width: 450px; height: 100px;">'+
-			'<tbody>'+
-			'<tr>'+
-			'<td class="idWCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>'+
-			'<td class="idWCompName" style="width: 300px; height: 13.5px;">'+rCompName+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td class="idWAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>'+
-			'<td class="idWAddress" style="width: 300px; height: 13px;">'+rAddress+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td class="idWPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>'+
-			'<td class="idWPhoneNumber" style="width: 300px; height: 13px;">'+rContNumber+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td class="idWGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>'+
-			'<td class="idWGSTN" style="width: 300px; height: 13px;">'+rGSTNumber+'</td>'+
-			'</tr>'+
-			'</tbody>'+
-			'</table>'+
-			'<table style="display: inline-block; width: 450px; height: 100px;">'+
-			'<tbody>'+
-			'<tr>'+
-			'<td style="width: 150px;"><strong>Customer Name</strong></td>'+
-			'<td style="width: 350px;">'+orderHeader.CustomerName+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td style="width: 150px;"><strong>City</strong></td>'+
-			'<td style="width: 350px;">'+cusData.City+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td style="width: 150px;"><strong>Customer Contact</strong></td>'+
-			'<td style="width: 350px;">'+cusData.MobilePhone+'</td>'+
-			'</tr>'+
-			'<tr>'+
-			'<td style="width: 150px;"><strong>Print Date</strong></td>'+
-			'<td style="width: 350px;">'+printDate+'</td>'+
-			'</tr>'+
-			'</tbody>'+
-			'</table>'+
-			'<hr />'+
-			'<table style="width: 900px;">'+
-			'<tbody>'+
-			'<tr>'+
-			'<td style="width: 160px;"><strong>Invoice Number</strong></td>'+
-			'<td style="width: 300px;">&nbsp;'+orderDetails.OrderNo+'</td>'+
-			'<td style="width: 150px;"><strong>Date</strong></td>'+
-			'<td style="width: 270px;">&nbsp;'+orderDate+'</td>'+
-			'</tr>'+
-			'</tbody>'+
-			'</table>'+
-			'<hr />';
+				var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
+					'<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
+					'<tbody>' +
+					'<tr>' +
+					'<td class="idWCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
+					'<td class="idWCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td class="idWAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>' +
+					'<td class="idWAddress" style="width: 300px; height: 13px;">' + rAddress + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td class="idWPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>' +
+					'<td class="idWPhoneNumber" style="width: 300px; height: 13px;">' + rContNumber + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td class="idWGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>' +
+					'<td class="idWGSTN" style="width: 300px; height: 13px;">' + rGSTNumber + '</td>' +
+					'</tr>' +
+					'</tbody>' +
+					'</table>' +
+					'<table style="display: inline-block; width: 450px; height: 100px;">' +
+					'<tbody>' +
+					'<tr>' +
+					'<td style="width: 150px;"><strong>Customer Name</strong></td>' +
+					'<td style="width: 350px;">' + orderHeader.CustomerName + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td style="width: 150px;"><strong>City</strong></td>' +
+					'<td style="width: 350px;">' + cusData.City + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td style="width: 150px;"><strong>Customer Contact</strong></td>' +
+					'<td style="width: 350px;">' + cusData.MobilePhone + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td style="width: 150px;"><strong>Print Date</strong></td>' +
+					'<td style="width: 350px;">' + printDate + '</td>' +
+					'</tr>' +
+					'</tbody>' +
+					'</table>' +
+					'<hr />' +
+					'<table style="width: 900px;">' +
+					'<tbody>' +
+					'<tr>' +
+					'<td style="width: 160px;"><strong>Invoice Number</strong></td>' +
+					'<td style="width: 300px;">&nbsp;' + orderDetails.OrderNo + '</td>' +
+					'<td style="width: 150px;"><strong>Date</strong></td>' +
+					'<td style="width: 270px;">&nbsp;' + orderDate + '</td>' +
+					'</tr>' +
+					'</tbody>' +
+					'</table>' +
+					'<hr />';
 
-			// Prepare Order table header
-			var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
-			// '<tbody>'+
-			'<tr>'+
-			'<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>'+
-			// '<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
-			'<th class="idWQuantity" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>'+
-			'<th class="idWQuantityD" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>'+
-			'<th class="idWWeight" style=" border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>'+
-			'<th class="idWWeightD" style=" border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>'+
-			'<th class="idWMakingCharge" style=" border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>'+
-			'<th class="idWMakingChargeD" style=" border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>'+
-			'<th class="idWTunch" style=" border: 1px solid black;"><h4 style="text-align: center;">Tunch</h4></th>'+
-			'<th class="idWRemarks" style=" border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>'+
-			'<th class="idWSubTotalS" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>'+
-			'<th class="idWSubTotalG" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>'+
-			'<th class="idWSubTotal" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
-			'</tr>';
-			// '</tbody>';
-			// Order Table Line Items
-			var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
-			var oBinding = oTableDetails.getBinding("rows");
-			var totalQuantity = 0;
-			var totalWeight = 0;
-			var sumOfSubTotal = 0.00;
-			for (var i = 0; i < oBinding.getLength(); i++) {
-				if(oBinding.oList[i].MaterialCode){
-					totalQuantity = totalQuantity + oBinding.oList[i].Qty;
-					totalWeight = totalWeight + oBinding.oList[i].Weight;
-					var matDesc = oBinding.oList[i].MaterialCode.concat('-',oBinding.oList[i].Description);
-					if(!oBinding.oList[i].Remarks){
-						oBinding.oList[i].Remarks = "";
-					}
-					table += '<tr>';
-				table += '<td style=" border: 1px solid black;">&nbsp;'+matDesc+'</td>'+
-								 // '<td style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
-								 '<td class="idWQuantity" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Qty+'</td>'+
-								 '<td class="idWQuantityD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].QtyD+'</td>'+
-								 '<td class="idWWeight" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Weight+'</td>'+
-								 '<td class="idWWeightD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].WeightD+'</td>'+
-								 '<td class="idWMakingCharge" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Making+'</td>'+
-								 '<td class="idWMakingChargeD" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].MakingD+'</td>'+
-								 '<td class="idWTunch" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Tunch+'</td>'+
-								 '<td class="idWRemarks" style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Remarks+'</td>'+
-								 '<td class="idWSubTotalS" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotalS+'</td>'+
-								 '<td class="idWSubTotalG" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotalG+'</td>'+
-								 '<td class="idWSubTotal" style=" border: 1px solid black;s">&nbsp;'+oBinding.oList[i].SubTotal+'</td></tr>';
-							}
-			}
-			// table for order totals
-			table += '<tr>'+'<td style=" ">&nbsp;</td>'+
-							 // '<td style=" ">&nbsp;</td>'+
-							 '<td class="idWQuantity" style=" "><strong>&nbsp;'+totalQuantity+'</strong></td>'+
-							 '<td class="idWQuantityD" style=" ">&nbsp;</td>'+
-							 '<td class="idWWeight" style=" "><strong>&nbsp;'+totalWeight+'</strong></td>'+
-							 '<td class="idWWeightD" style=" ">&nbsp;</td>'+
-							 '<td class="idWMakingCharge" style=" ">&nbsp;</td>'+
-							 '<td class="idWMakingChargeD" style=" ">&nbsp;</td>'+
-							 '<td class="idWTunch" style=" ">&nbsp;</td>'+
-							 '<td class="idWRemarks" style=" ">&nbsp;</td>'+
-							 '<td class="idWSubTotalS" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueSilver+'</strong></td>'+
-							 '<td class="idWSubTotalG" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueGold+'</strong></td>'+
-							 '<td class="idWSubTotal" style=" "><strong>&nbsp;'+orderHeader.TotalOrderValueCash+'</strong></td></tr>';
-
-			// Return table
-			var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
-			if (oReturns[0].Type){
-			 table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>"+
-			 '<tr>'+
-			 '<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>'+
-			 '<th class="idWReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>'+
-			 '<th class="idWReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>'+
-			 '<th class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>'+
-			 '<th class="idWReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>'+
-			 '<th class="idWReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>'+
-			 '<th class="idWReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>'+
-			 '<th class="idWSubTotalS" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>'+
-			 '<th class="idWSubTotalG" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>'+
-			 '<th class="idWSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>'+
-			 '</tr>'+
-			 '<p><h3>Returns:</h3></p>';
-			 for (var i = 0; i < oReturns.length; i++) {
-				 if(oReturns[i].Type){
-					 var retTotQuant = retTotQuant + oReturns[i].Qty;
-					 var retTotWeight = retTotWeight + oReturns[i].Weight;
-					 if(!oReturns[i].Remarks){
- 						oReturns[i].Remarks = "";
- 					}
-					 table += '<tr>';
-					 table += '<td  style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Type+'</td>'+
-										'<td  class="idWReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Qty+'</td>'+
-										'<td  class="idWReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Weight+'</td>'+
-										'<td  class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].KWeight+'</td>'+
-										'<td  class="idWReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Tunch+'</td>'+
-										'<td  class="idWReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Bhav+'</td>'+
-										'<td  class="idWReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].Remarks+'</td>'+
-										'<td  class="idWSubTotalS" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotalS+'</td>'+
-										'<td  class="idWSubTotalG" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotalG+'</td>'+
-										'<td  class="idWSubTotal" style="width: 80px;border:1px solid black">&nbsp;'+oReturns[i].SubTotal+'</td></tr>';
-				 }
-			 }
-
-			 table += '<tr>'+'<td style="width: 80px;"><strong>&nbsp;Final Balance</strong></td>'+
-								'<td class="idWReturnQuantity" style="width: 80px;">&nbsp;'+'</td>'+
-								'<td class="idWReturnWeight" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idWReturnKattaWeight" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idWReturnTunch" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idWReturnBhav" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idWReturnRemarks" style="width: 80px;">&nbsp;</td>'+
-								'<td class="idWSubTotalS" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceSilver+'</strong></td>'+
-								'<td class="idWSubTotalG" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceGold+'</strong></td>'+
-								'<td class="idWSubTotal" style="width: 80px;"><strong>&nbsp;'+orderHeader.FinalBalanceCash+'</strong></td></tr>';
-
-			}
-			table += '</table>';
-			var footer = '<table style="height: 40px; width: 950px;">'+
-									 '<tbody>'+
-									 '<tr>'+
-									 '<td class="idWTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>'+
-									 '<td class="idWTnC" style="width: 800px;">&nbsp;'+rTnC+'</td>'+
-									 '</tr>'+
-									 '<tr>'+
-									 '<td class="idWMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>'+
-									 '<td class="idWMarking" style="width: 800px;">&nbsp;'+rMarking+'</td>'+
-									 '</tr>'+
-									 '</tbody></table>';
-			debugger;
-				var myWindow = window.open("", "PrintWindow", "width=200,height=100");
-						myWindow.document.write(header+table+footer);
-						for (var i = 0; i < arrayRemoveFromPrint.length; i++){
-							var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
-							for(var j=0;j<coll.length;j++){
-								coll[j].style.display = "none";
-							}
+				// Prepare Order table header
+				var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
+					// '<tbody>'+
+					'<tr>' +
+					'<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>' +
+					// '<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Description</h4></th>'+
+					'<th class="idWQuantity" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Qty</h4></th>' +
+					'<th class="idWQuantityD" style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;QtyD</h4></th>' +
+					'<th class="idWWeight" style=" border: 1px solid black;"><h4 style="text-align: center;">Weight</h4></th>' +
+					'<th class="idWWeightD" style=" border: 1px solid black;"><h4 style="text-align: center;">WeightD</h4></th>' +
+					'<th class="idWMakingCharge" style=" border: 1px solid black;"><h4 style="text-align: center;">Making</h4></th>' +
+					'<th class="idWMakingChargeD" style=" border: 1px solid black;"><h4 style="text-align: center;">MakingD</h4></th>' +
+					'<th class="idWTunch" style=" border: 1px solid black;"><h4 style="text-align: center;">Tunch</h4></th>' +
+					'<th class="idWRemarks" style=" border: 1px solid black"><h4 style="text-align: center;">Remarks</h4></th>' +
+					'<th class="idWSubTotalS" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>' +
+					'<th class="idWSubTotalG" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>' +
+					'<th class="idWSubTotal" style=" border: 1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>' +
+					'</tr>';
+				// '</tbody>';
+				// Order Table Line Items
+				var oTableDetails = this.getView().byId('WSItemFragment--orderItemBases');
+				var oBinding = oTableDetails.getBinding("rows");
+				var totalQuantity = 0;
+				var totalWeight = 0;
+				var sumOfSubTotal = 0.00;
+				for (var i = 0; i < oBinding.getLength(); i++) {
+					if (oBinding.oList[i].MaterialCode) {
+						totalQuantity = totalQuantity + oBinding.oList[i].Qty;
+						totalWeight = totalWeight + oBinding.oList[i].Weight;
+						var matDesc = oBinding.oList[i].MaterialCode.concat('-', oBinding.oList[i].Description);
+						if (!oBinding.oList[i].Remarks) {
+							oBinding.oList[i].Remarks = "";
 						}
-						myWindow.print();
-						myWindow.stop();
+						table += '<tr>';
+						table += '<td style=" border: 1px solid black;">&nbsp;' + matDesc + '</td>' +
+							// '<td style=" border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
+							'<td class="idWQuantity" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].Qty + '</td>' +
+							'<td class="idWQuantityD" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].QtyD + '</td>' +
+							'<td class="idWWeight" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].Weight + '</td>' +
+							'<td class="idWWeightD" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].WeightD + '</td>' +
+							'<td class="idWMakingCharge" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].Making + '</td>' +
+							'<td class="idWMakingChargeD" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].MakingD + '</td>' +
+							'<td class="idWTunch" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].Tunch + '</td>' +
+							'<td class="idWRemarks" style=" border: 1px solid black;">&nbsp;' + oBinding.oList[i].Remarks + '</td>' +
+							'<td class="idWSubTotalS" style=" border: 1px solid black;s">&nbsp;' + oBinding.oList[i].SubTotalS + '</td>' +
+							'<td class="idWSubTotalG" style=" border: 1px solid black;s">&nbsp;' + oBinding.oList[i].SubTotalG + '</td>' +
+							'<td class="idWSubTotal" style=" border: 1px solid black;s">&nbsp;' + oBinding.oList[i].SubTotal + '</td></tr>';
+					}
+				}
+				// table for order totals
+				table += '<tr>' + '<td style=" ">&nbsp;</td>' +
+					// '<td style=" ">&nbsp;</td>'+
+					'<td class="idWQuantity" style=" "><strong>&nbsp;' + totalQuantity + '</strong></td>' +
+					'<td class="idWQuantityD" style=" ">&nbsp;</td>' +
+					'<td class="idWWeight" style=" "><strong>&nbsp;' + totalWeight + '</strong></td>' +
+					'<td class="idWWeightD" style=" ">&nbsp;</td>' +
+					'<td class="idWMakingCharge" style=" ">&nbsp;</td>' +
+					'<td class="idWMakingChargeD" style=" ">&nbsp;</td>' +
+					'<td class="idWTunch" style=" ">&nbsp;</td>' +
+					'<td class="idWRemarks" style=" ">&nbsp;</td>' +
+					'<td class="idWSubTotalS" style=" "><strong>&nbsp;' + orderHeader.TotalOrderValueSilver + '</strong></td>' +
+					'<td class="idWSubTotalG" style=" "><strong>&nbsp;' + orderHeader.TotalOrderValueGold + '</strong></td>' +
+					'<td class="idWSubTotal" style=" "><strong>&nbsp;' + orderHeader.TotalOrderValueCash + '</strong></td></tr>';
+
+				// Return table
+				var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
+				if (oReturns[0].Type) {
+					table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
+						'<tr>' +
+						'<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>' +
+						'<th class="idWReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>' +
+						'<th class="idWReturnWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Weight</h4></th>' +
+						'<th class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Katta Weight</h4></th>' +
+						'<th class="idWReturnTunch"   style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Tunch(%)</h4></th>' +
+						'<th class="idWReturnBhav" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Bhav</h4></th>' +
+						'<th class="idWReturnRemarks" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Return Remarks</h4></th>' +
+						'<th class="idWSubTotalS" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Silver</h4></th>' +
+						'<th class="idWSubTotalG" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total Gold</h4></th>' +
+						'<th class="idWSubTotal" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">Sub Total</h4></th>' +
+						'</tr>' +
+						'<p><h3>Returns:</h3></p>';
+					for (var i = 0; i < oReturns.length; i++) {
+						if (oReturns[i].Type) {
+							var retTotQuant = retTotQuant + oReturns[i].Qty;
+							var retTotWeight = retTotWeight + oReturns[i].Weight;
+							if (!oReturns[i].Remarks) {
+								oReturns[i].Remarks = "";
+							}
+							table += '<tr>';
+							table += '<td  style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Type + '</td>' +
+								'<td  class="idWReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Qty + '</td>' +
+								'<td  class="idWReturnWeight"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Weight + '</td>' +
+								'<td  class="idWReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].KWeight + '</td>' +
+								'<td  class="idWReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Tunch + '</td>' +
+								'<td  class="idWReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Bhav + '</td>' +
+								'<td  class="idWReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Remarks + '</td>' +
+								'<td  class="idWSubTotalS" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].SubTotalS + '</td>' +
+								'<td  class="idWSubTotalG" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].SubTotalG + '</td>' +
+								'<td  class="idWSubTotal" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].SubTotal + '</td></tr>';
+						}
+					}
+
+					table += '<tr>' + '<td style="width: 80px;"><strong>&nbsp;Final Balance</strong></td>' +
+						'<td class="idWReturnQuantity" style="width: 80px;">&nbsp;' + '</td>' +
+						'<td class="idWReturnWeight" style="width: 80px;">&nbsp;</td>' +
+						'<td class="idWReturnKattaWeight" style="width: 80px;">&nbsp;</td>' +
+						'<td class="idWReturnTunch" style="width: 80px;">&nbsp;</td>' +
+						'<td class="idWReturnBhav" style="width: 80px;">&nbsp;</td>' +
+						'<td class="idWReturnRemarks" style="width: 80px;">&nbsp;</td>' +
+						'<td class="idWSubTotalS" style="width: 80px;"><strong>&nbsp;' + orderHeader.FinalBalanceSilver + '</strong></td>' +
+						'<td class="idWSubTotalG" style="width: 80px;"><strong>&nbsp;' + orderHeader.FinalBalanceGold + '</strong></td>' +
+						'<td class="idWSubTotal" style="width: 80px;"><strong>&nbsp;' + orderHeader.FinalBalanceCash + '</strong></td></tr>';
+
+				}
+				table += '</table>';
+				var footer = '<table style="height: 40px; width: 950px;">' +
+					'<tbody>' +
+					'<tr>' +
+					'<td class="idWTnC" style="width: 150px;"><strong>Terms &amp; Conditions:</strong></td>' +
+					'<td class="idWTnC" style="width: 800px;">&nbsp;' + rTnC + '</td>' +
+					'</tr>' +
+					'<tr>' +
+					'<td class="idWMarking" style="width: 150px;">&nbsp;<strong>Marking:</strong></td>' +
+					'<td class="idWMarking" style="width: 800px;">&nbsp;' + rMarking + '</td>' +
+					'</tr>' +
+					'</tbody></table>';
+				debugger;
+				var myWindow = window.open("", "PrintWindow", "width=200,height=100");
+				myWindow.document.write(header + table + footer);
+				for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
+					var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
+					for (var j = 0; j < coll.length; j++) {
+						coll[j].style.display = "none";
+					}
+				}
+				myWindow.print();
+				myWindow.stop();
 
 			}
 		});

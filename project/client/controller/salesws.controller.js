@@ -1653,32 +1653,36 @@ debugger;
 				if (category.Type === "Silver") {
 					var SubTotalS = weightF * data.Tunch / 100;
 					SubTotalS = parseFloat(SubTotalS).toFixed(2);
+					var SubTotalG = 0;
+					SubTotalG = parseFloat(SubTotalG).toFixed(3);
 					// var FSubTotalS = this.getIndianCurr(SubTotalS);
 					if (tablePath) {
 
 						category.SubTotalS = SubTotalS;
-						category.SubTotalG = 0
+						category.SubTotalG = SubTotalG;
 						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 						cells[cells.length - 3].setText(SubTotalS);
-						cells[cells.length - 2].setText(0);
+						cells[cells.length - 2].setText(SubTotalG);
 					}
 
 				} else if (category.Type === "Gold") {
 
 					var SubTotalG = weightF * data.Tunch / 100;
 					SubTotalG = parseFloat(SubTotalG).toFixed(3);
+					var SubTotalS = 0;
+					SubTotalS = parseFloat(SubTotalS).toFixed(2);
 					// var FSubTotalG = this.getIndianCurr(SubTotalG);
 					if (tablePath) {
 
 						category.SubTotalG = SubTotalG;
-						category.SubTotalS = 0
+						category.SubTotalS = SubTotalS;
 						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 						cells[cells.length - 2].setText(SubTotalG);
-						cells[cells.length - 3].setText(0);
+						cells[cells.length - 3].setText(SubTotalS);
 					}
 				};
 
@@ -1967,7 +1971,8 @@ debugger;
 
 				that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
 				if (that.FinalBalanceGold === 0) {
-					var FinalBalanceGold = 0;
+					var FinalBalanceGold = parseFloat(0).toFixed(3);
+					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 				} else {
 					var FinalBalanceGold = parseFloat(that.FinalBalanceGold).toFixed(3);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
@@ -1977,7 +1982,8 @@ debugger;
 
 				that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
 				if (that.FinalBalanceSilver === 0) {
-					var FinalBalanceSilver = 0;
+					var FinalBalanceSilver = parseFloat(0).toFixed(2);
+					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);
 				} else {
 					var FinalBalanceSilver = parseFloat(that.FinalBalanceSilver).toFixed(2);
 					FinalBalanceSilver = that.getIndianCurr(FinalBalanceSilver);

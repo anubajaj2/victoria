@@ -2263,13 +2263,27 @@ sap.ui.define(
 						// that.byId("idRetailTransfer").setEnabled(true);
 						console.log(result);
 						if (result) {
-							// delete that.orderAmount;
-							// delete that.deduction;
-							// delete that.finalBal;
+							debugger;
+							delete that.TotalOrderValueCash;
+							delete that.TotalOrderValueGold;
+							delete that.TotalOrderValueSilver;
+							delete that.DeductionCash;
+							delete that.DeductionGold;
+							delete that.DeductionSilver;
+							delete that.FinalBalanceCash;
+							delete that.FinalBalanceGold;
+							delete that.FinalBalanceSilver;
+
 							var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-							// oHeaderT.FinalBalance="0";
-							// oHeaderT.Deduction="0";
-							// oHeaderT.TotalOrderValue="0";
+							oHeaderT.TotalOrderValueCash = "0";
+							oHeaderT.TotalOrderValueGold = "0";
+							oHeaderT.TotalOrderValueSilver = "0";
+							oHeaderT.DeductionCash = "0";
+							oHeaderT.DeductionGold = "0";
+							oHeaderT.DeductionSilver = "0";
+							oHeaderT.FinalBalanceCash = "0";
+							oHeaderT.FinalBalanceGold = "0";
+							oHeaderT.FinalBalanceSilver = "0";
 							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 							var orderId = result.id;
 							// that.byId("Sales--idSaveIcon").setColor('green');
@@ -2298,15 +2312,30 @@ sap.ui.define(
 					.then(function(result) {
 						console.log(result);
 						// that.byId("idRetailTransfer").setEnabled(true);
+						debugger;
 						if (result) {
 							var id = 'WSsales';
-							// delete that.orderAmount;
-							// delete that.deduction;
-							// delete that.finalBal;
+
+							delete that.TotalOrderValueCash;
+							delete that.TotalOrderValueGold;
+							delete that.TotalOrderValueSilver;
+							delete that.DeductionCash;
+							delete that.DeductionGold;
+							delete that.DeductionSilver;
+							delete that.FinalBalanceCash;
+							delete that.FinalBalanceGold;
+							delete that.FinalBalanceSilver;
+
 							var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-							// oHeaderT.FinalBalance="0";
-							// oHeaderT.Deduction="0";
-							// oHeaderT.TotalOrderValue="0";
+							oHeaderT.TotalOrderValueCash = "0";
+							oHeaderT.TotalOrderValueGold = "0";
+							oHeaderT.TotalOrderValueSilver = "0";
+							oHeaderT.DeductionCash = "0";
+							oHeaderT.DeductionGold = "0";
+							oHeaderT.DeductionSilver = "0";
+							oHeaderT.FinalBalanceCash = "0";
+							oHeaderT.FinalBalanceGold = "0";
+							oHeaderT.FinalBalanceSilver = "0";
 							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 							//Clear Item table
 							that.orderItem(oEvent, id);

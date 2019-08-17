@@ -203,7 +203,7 @@ sap.ui.define(
 								"/WSOrderHeaders('" + orderId + "')/ToWSOrderItem",
 								"GET", {}, {}, that)
 							.then(function(oData) {
-
+debugger;
 								if (oData.results.length > 0) {
 									// that.orderItem(oEvent);
 									var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
@@ -2362,10 +2362,10 @@ sap.ui.define(
 				var WSHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				if (this.getView().byId("WSHeaderFragment--RB-1").getSelected()) { //Cash RadioButton
 					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / 1000;
-					var TotalOrderValueGold = that.TotalOrderValueGold * WSHeader.Goldbhav;
-					var DeductionGold = that.DeductionGold * WSHeader.Goldbhav;
+					var TotalOrderValueGold = that.TotalOrderValueGold * WSHeader.Goldbhav / 10;
+					var DeductionGold = that.DeductionGold * WSHeader.Goldbhav / 10;
 					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / 1000;
-					var FinalBalanceGold = that.FinalBalanceGold * WSHeader.Goldbhav;
+					var FinalBalanceGold = that.FinalBalanceGold * WSHeader.Goldbhav / 10;
 					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / 1000;;
 					var TotalOrderValueCash = that.TotalOrderValueCash;
 					var DeductionCash = that.DeductionCash;
@@ -2402,15 +2402,15 @@ sap.ui.define(
 
 				} else if (this.getView().byId("WSHeaderFragment--RB-2").getSelected()) { //Gold RadioButton
 					debugger;
-					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
+					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
 					var TotalOrderValueGold = that.TotalOrderValueGold;
-					var TotalOrderValueCash = that.TotalOrderValueCash / WSHeader.Goldbhav;
+					var TotalOrderValueCash = that.TotalOrderValueCash  * 10 / WSHeader.Goldbhav;
 					var DeductionGold = that.DeductionGold;
-					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
-					var DeductionCash = that.DeductionCash / WSHeader.Goldbhav;
+					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
+					var DeductionCash = that.DeductionCash * 10 / WSHeader.Goldbhav;
 					var FinalBalanceGold = that.FinalBalanceGold;
-					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / (1000 * WSHeader.Goldbhav);
-					var FinalBalanceCash = that.FinalBalanceCash / WSHeader.Goldbhav;
+					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
+					var FinalBalanceCash = that.FinalBalanceCash * 10 / WSHeader.Goldbhav;
 
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
@@ -2443,14 +2443,14 @@ sap.ui.define(
 				} else if (this.getView().byId("WSHeaderFragment--RB-3").getSelected()) { //Silver RadioButton
 					debugger;
 					var TotalOrderValueSilver = that.TotalOrderValueSilver;
-					var TotalOrderValueGold = that.TotalOrderValueGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
-					var TotalOrderValueCash = 1000 * that.TotalOrderValueCash / WSHeader.SilverBhav;
-					var DeductionGold = that.DeductionGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
+					var TotalOrderValueGold = that.TotalOrderValueGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
+					var TotalOrderValueCash = 100 * that.TotalOrderValueCash / WSHeader.SilverBhav;
+					var DeductionGold = that.DeductionGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var DeductionSilver = that.DeductionSilver;
-					var DeductionCash = 1000 * that.DeductionCash / WSHeader.SilverBhav;
-					var FinalBalanceGold = that.FinalBalanceGold * 1000 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
+					var DeductionCash = 100 * that.DeductionCash / WSHeader.SilverBhav;
+					var FinalBalanceGold = that.FinalBalanceGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var FinalBalanceSilver = that.FinalBalanceSilver;
-					var FinalBalanceCash = 1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
+					var FinalBalanceCash = 100 * that.FinalBalanceCash / WSHeader.SilverBhav;
 
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(2);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);

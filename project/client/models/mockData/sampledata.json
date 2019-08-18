@@ -234,7 +234,9 @@
 		"DeductionSilver": "",
 		"TotalOrderValueCash": "",
 		"TotalOrderValueGold": "",
-		"TotalOrderValueSilver": ""
+		"TotalOrderValueSilver": "",
+		"CombinedBalance": "",
+		"BalanceSuffix" : ""
 	},
 	"kachhiHeaderTemp": {
 		"CustomerId": "",

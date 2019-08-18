@@ -2220,7 +2220,7 @@ debugger;
 				debugger;
 				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
 					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-					var oFilter1 = new sap.ui.model.Filter("Product", sap.ui.model.FilterOperator.EQ, Customer);
+					var oFilter1 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, Customer);
 					var oFilter2 = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.EQ, selectedMatData.id);
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
@@ -2376,7 +2376,8 @@ debugger;
 					var TotalOrderValueCash = that.TotalOrderValueCash;
 					var DeductionCash = that.DeductionCash;
 					var FinalBalanceCash = that.FinalBalanceCash;
-
+					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					var BalanceSuffix = "Rupees of Cash";
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(0);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(0);
@@ -2395,6 +2396,8 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(0);
 					DeductionCash = that.getIndianCurr(DeductionCash);
+					CombinedBalance = parseFloat(CombinedBalance).toFixed(0);
+					CombinedBalance = that.getIndianCurr(CombinedBalance);
 
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
@@ -2417,7 +2420,8 @@ debugger;
 					var FinalBalanceGold = that.FinalBalanceGold;
 					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
 					var FinalBalanceCash = that.FinalBalanceCash * 10 / WSHeader.Goldbhav;
-
+					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					var BalanceSuffix = "grams of Gold";
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(3);
@@ -2436,6 +2440,8 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(3);
 					DeductionCash = that.getIndianCurr(DeductionCash);
+					CombinedBalance = parseFloat(CombinedBalance).toFixed(3);
+					CombinedBalance = that.getIndianCurr(CombinedBalance);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
@@ -2457,6 +2463,8 @@ debugger;
 					var FinalBalanceGold = that.FinalBalanceGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var FinalBalanceSilver = that.FinalBalanceSilver;
 					var FinalBalanceCash = 100 * that.FinalBalanceCash / WSHeader.SilverBhav;
+					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					var BalanceSuffix = "grams of Silver";
 
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(2);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
@@ -2476,6 +2484,9 @@ debugger;
 					DeductionSilver = that.getIndianCurr(DeductionSilver);
 					DeductionCash = parseFloat(DeductionCash).toFixed(2);
 					DeductionCash = that.getIndianCurr(DeductionCash);
+					CombinedBalance = parseFloat(CombinedBalance).toFixed(2);
+					CombinedBalance = that.getIndianCurr(CombinedBalance);
+
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', DeductionSilver);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionGold', DeductionGold);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionCash', DeductionCash);
@@ -2497,7 +2508,8 @@ debugger;
 					var FinalBalanceGold = that.FinalBalanceGold;
 					var FinalBalanceSilver = that.FinalBalanceSilver;
 					var FinalBalanceCash = that.FinalBalanceCash;
-
+					var CombinedBalance = "*Click on Gold, Silver or Cash";
+					var BalanceSuffix = "buttons for Combined Balance";
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(2);
@@ -2526,6 +2538,9 @@ debugger;
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
 					that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
 				}
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/CombinedBalance', CombinedBalance);
+				that.getView().getModel('local').setProperty('/orderHeaderTemp/BalanceSuffix', BalanceSuffix);
+
 			},
 			onExit: function() {
 

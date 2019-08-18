@@ -92,13 +92,13 @@
 								<Toolbar height="3rem">
 									<Title text="Total"/>
 									<RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
-                    <buttons>
+										<buttons>
 											<RadioButton id="RB-4" text="{i18n>Original}" selected="true" enabled="true" editable="true"/>
-                      <RadioButton id="RB-1" text="{i18n>Cash}" />
-                      <RadioButton id="RB-2" text="{i18n>Gold}" />
-                      <RadioButton id="RB-3" text="{i18n>Silver}" />
-                    </buttons>
-                    </RadioButtonGroup>
+											<RadioButton id="RB-1" text="{i18n>Cash}"/>
+											<RadioButton id="RB-2" text="{i18n>Gold}"/>
+											<RadioButton id="RB-3" text="{i18n>Silver}"/>
+										</buttons>
+									</RadioButtonGroup>
 								</Toolbar>
 							</headerToolbar>
 							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
@@ -124,6 +124,18 @@
 								<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" width="80px"/>
 								<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" width="80px"/>
 								<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" width="80px"/>
+							</FlexBox>
+						</Panel>
+						<Panel id="totalsC" width="auto" accessibleRole="Region" expandable='false'>
+							<headerToolbar>
+								<Toolbar height="2rem">
+									<Title text="{i18n>CombinedBalance}"/>
+								</Toolbar>
+							</headerToolbar>
+							<FlexBox justifyContent="Start">
+								<!-- <Title text="{i18n>CombinedBalance}" width="150px"/> -->
+								<Text text="{local>/orderHeaderTemp/CombinedBalance}" textAlign="Right" width="192px"/>
+								<Text text="{local>/orderHeaderTemp/BalanceSuffix}" textAlign="Right" width="192px"/>
 							</FlexBox>
 						</Panel>
 					</VBox>

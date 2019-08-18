@@ -203,7 +203,7 @@ sap.ui.define(
 								"/WSOrderHeaders('" + orderId + "')/ToWSOrderItem",
 								"GET", {}, {}, that)
 							.then(function(oData) {
-debugger;
+								debugger;
 								if (oData.results.length > 0) {
 									// that.orderItem(oEvent);
 									var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
@@ -224,8 +224,13 @@ debugger;
 										allItems[i].Remarks = oData.results[i].Remarks;
 										var MaterialData = that.allMasterData.materials[oData.results[i].Material];
 										allItems[i].Material = oData.results[i].Material;
-										allItems[i].Description = MaterialData.ProductName;
-										allItems[i].MaterialCode = MaterialData.ProductCode;
+										if (MaterialData) {
+											allItems[i].Description = MaterialData.ProductName;
+											allItems[i].MaterialCode = MaterialData.ProductCode;
+										} else {
+											MessageToast.show("One or more Materials in Order has been deleted in Master! Order Cannot be reloaded!");
+										}
+
 										// allItems[i].Category = MaterialData.ProductCode;
 										var oTablePath = "/itemData" + '/' + i;
 										oEvent.sId = "orderReload";
@@ -845,7 +850,9 @@ debugger;
 				oHeaderT.FinalBalanceCash = "0";
 				oHeaderT.FinalBalanceGold = "0";
 				oHeaderT.FinalBalanceSilver = "0";
-
+				oHeaderT.CombinedBalance = "";
+				oHeaderT.BalanceSuffix = "";
+				this.getView().byId("WSHeaderFragment--RB-4").setSelected(true);
 				this.getView().byId("WSHeaderFragment--custName").setText("");
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 				// oHeader.Date=new Date();
@@ -1062,16 +1069,16 @@ debugger;
 								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
 								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
 								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
-				if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
-					var SummaryMode = "C";
-				}	else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
-					var SummaryMode = "G";
-				}	else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
-					var SummaryMode = "S";
-				}	else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
-					var SummaryMode = "O";
-				}
-				that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
+								if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+									var SummaryMode = "C";
+								} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+									var SummaryMode = "G";
+								} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+									var SummaryMode = "S";
+								} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+									var SummaryMode = "O";
+								}
+								that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
 								// that.clearScreen(oEvent);
 								that.newOrderCreate();
 							} //Sbutton if condition
@@ -2290,6 +2297,8 @@ debugger;
 							oHeaderT.FinalBalanceCash = "0";
 							oHeaderT.FinalBalanceGold = "0";
 							oHeaderT.FinalBalanceSilver = "0";
+							oHeaderT.CombinedBalance = "";
+							oHeaderT.BalanceSuffix = "";
 							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 							var orderId = result.id;
 							// that.byId("Sales--idSaveIcon").setColor('green');
@@ -2342,6 +2351,8 @@ debugger;
 							oHeaderT.FinalBalanceCash = "0";
 							oHeaderT.FinalBalanceGold = "0";
 							oHeaderT.FinalBalanceSilver = "0";
+							oHeaderT.CombinedBalance = "";
+							oHeaderT.BalanceSuffix = "";
 							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
 							//Clear Item table
 							that.orderItem(oEvent, id);
@@ -2413,7 +2424,7 @@ debugger;
 					debugger;
 					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
 					var TotalOrderValueGold = that.TotalOrderValueGold;
-					var TotalOrderValueCash = that.TotalOrderValueCash  * 10 / WSHeader.Goldbhav;
+					var TotalOrderValueCash = that.TotalOrderValueCash * 10 / WSHeader.Goldbhav;
 					var DeductionGold = that.DeductionGold;
 					var DeductionSilver = that.DeductionSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
 					var DeductionCash = that.DeductionCash * 10 / WSHeader.Goldbhav;
@@ -2546,6 +2557,90 @@ debugger;
 
 				if (this.searchPopup) {
 					this.searchPopup.destroy();
+				}
+			},
+			onTransfer: function(oEvent) {
+				debugger;
+				var that = this;
+				var oLocale = new sap.ui.core.Locale("en-US");
+				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				var orderDetail = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				var orderHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				var finalAmount = oFloatFormat.parse(orderHeaderT.CombinedBalance);
+				var finalCash = oFloatFormat.parse(orderHeaderT.FinalBalanceCash);
+				var finalGold = oFloatFormat.parse(orderHeaderT.FinalBalanceGold);
+				var finalSilver = oFloatFormat.parse(orderHeaderT.FinalBalanceSilver);
+
+				if ((that.getStatus() === 'green') &&
+					(finalAmount) && (finalAmount !== "" || finalAmount !== 0)) {
+					that.getView().setBusy(true);
+					var entryData = this.getView().getModel("local").getProperty("/EntryData");
+					entryData.Date = orderDetail.Date;
+					entryData.OrderNo = orderDetail.OrderNo;
+					entryData.OrderType = 'W';
+					var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+					entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + " " +
+						orderDetail.OrderNo + " " + date;
+					if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+						entryData.Cash = 0 - finalAmount;
+					} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+						entryData.Gold = 0 - finalAmount;
+					} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+						entryData.Silver = 0 - finalAmount;
+					} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
+						MessageBox.show(
+							oBundle, {
+								icon: MessageBox.Icon.ERROR,
+								title: "Error",
+								actions: [MessageBox.Action.OK],
+								onClose: function(oAction) {}
+							}
+						);
+					}
+					entryData.Customer = orderDetail.Customer;
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+							"POST", {}, entryData, this)
+						.then(function(oData) {
+							that.getView().setBusy(false);
+							sap.m.MessageToast.show("Data Transferred Successfully");
+						}).catch(function(oError) {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+						});
+
+				} else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
+				} else {
+					if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
+						MessageBox.show(
+							oBundle, {
+								icon: MessageBox.Icon.ERROR,
+								title: "Error",
+								actions: [MessageBox.Action.OK],
+								onClose: function(oAction) {}
+							}
+						);
+					} else {
+						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+						MessageBox.show(
+							oBundle, {
+								icon: MessageBox.Icon.ERROR,
+								title: "Error",
+								actions: [MessageBox.Action.OK],
+								onClose: function(oAction) {}
+							}
+						);
+					}
 				}
 			},
 			getPrintCustHeaderData: function() {

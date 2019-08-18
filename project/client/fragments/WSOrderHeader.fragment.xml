@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" width="160px">
-	<l:VerticalLayout class="navigationExamples" width="100%">
+	<l:VerticalLayout id="WSOrderHeader" class="navigationExamples" width="100%">
 		<l:content>
 			<Panel class="sapUiDemoFlexBoxSizeAdjustments">
 				<headerToolbar>
@@ -10,7 +10,7 @@
 				</headerToolbar>
 				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
 					<VBox width='40%'>
-						<f:Form id="orderHeader" editable="true">
+						<f:Form  editable="true">
 							<f:layout>
 								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
 							</f:layout>
@@ -133,7 +133,6 @@
 								</Toolbar>
 							</headerToolbar>
 							<FlexBox justifyContent="Start">
-								<!-- <Title text="{i18n>CombinedBalance}" width="150px"/> -->
 								<Text text="{local>/orderHeaderTemp/CombinedBalance}" textAlign="Right" width="192px"/>
 								<Text text="{local>/orderHeaderTemp/BalanceSuffix}" textAlign="Right" width="192px"/>
 							</FlexBox>

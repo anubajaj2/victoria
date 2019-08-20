@@ -98,7 +98,7 @@ var orderHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTem
 var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
 var custId = orderDetail.Customer;
 var orderNo = orderHeaderT.OrderId;
-var date = orderDetail.Date;
+var date = new Date(orderDetail.Date);
 var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 debugger;
 if (postedEntryData.Cash === finalAmount) {
@@ -111,14 +111,16 @@ if (postedEntryData.Cash === finalAmount) {
       onClose: function(oAction) { }
           }
       );
-}else if ((postedEntryData.Cash !== "")&&
+}else if (((postedEntryData.Cash !== "")&&
+          (postedEntryData.Cash !== "0")&&
+          (postedEntryData.Cash !== 0))&&
           (finalAmount) &&
           (finalAmount !== "" || finalAmount !== 0)&&
           (postedEntryData.Cash !== finalAmount))
 {
 debugger;
 var entryData = this.getView().getModel("local").getProperty("/EntryData");
-entryData.Date = orderDetail.Date;
+entryData.Date = new Date(orderDetail.Date);
 // entryData.OrderNo = orderDetail.OrderNo;
 entryData.OrderNo = orderHeaderT.OrderId;
 entryData.OrderType = 'R';
@@ -138,7 +140,9 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("Trans
  MessageToast.show(oBundle);
 })
 }else
-  if ((postedEntryData.Cash === "")&&
+  if ((postedEntryData.Cash === "" ||
+       postedEntryData.Cash === "0" ||
+       postedEntryData.Cash === 0)&&
       (that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
       (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
   {

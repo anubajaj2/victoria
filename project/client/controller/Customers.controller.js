@@ -415,7 +415,7 @@ this.clearCustomer();
 
 			},
 
-			deleteCustomer : function(){
+			deleteCustomer : async function(){
 				var that = this;
 				var customerModel = this.getView().getModel("customerModel");
 				var customerCode = customerModel.getData().CustomerCode;
@@ -434,37 +434,134 @@ this.clearCustomer();
 
 					 var found = getCustomerCode(customerCode);
 					 	var typeModel = this.getView().getModel("typec");
-					 if(customerCode.length > 0){
+						debugger;
+						var flg = true;
+					  // await this.validateCustomer(customerCode,flg);
 
-							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Customers('" + customerCode + "')", "DELETE", {},{}, this)
-								.then(function(oData) {
-								MessageToast.show("Deleted successfully");
-								customerModel.getData().City = "";
-								customerModel.getData().MobilePhone = "0";
-								customerModel.getData().Address = "";
-								customerModel.getData().CustomerCode = ""
-								customerModel.getData().Name = "";
-								customerModel.getData().SecondaryPhone = "0";
-								customerModel.getData().Group = "";
-								// var typeValue = typeModel.getData().items[0].text;
-								// var oType = this.getView().byId("idType");
-								customerModel.refresh();
-								// // that._onRouteMatched();
-								that.clearCustomer();
-								}).catch(function(oError) {
-										MessageToast.show("Could not delete the entry");
-								});
 
+						var that=this;
+						var tables=["/Entrys","/OrderHeaders","/WSOrderHeaders","/CustomerOrders","/BookingDetails","/BookingDlvDetails","/Kacchis"];
+						var oFilter = new sap.ui.model.Filter("Customer","EQ",  "'"+customerCode+"'");
+						for(var i=0; i<tables.length; i++){
+							debugger;
+
+							await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
+																				"GET", {filters: [oFilter]}, {}, this)
+															 .then(function(oData) {
+																 debugger;
+																 if(oData.results.length > 0 ){
+																	 that.Errmsg();
+																	 flg = true;
+																	 // break;
+																 }else{
+																	 flg = false;
+																 }
+
+															 }).catch(function(oError) {
+																 var oPopover = that.getErrorMessage(oError);
+															 });
+
+															 if(flg === true){
+									 							// this.deleteCnfCustomer();
+									 							break;
+									 						}
 						}
-						else{
-							MessageToast.show("Data not available");
-						}
+            debugger;
+						if(flg === false){
+						 this.deleteCnfCustomer(customerCode,customerModel);
+
+					 }
+
+
+						debugger;
 
 			},
 
+      // validateCustomer:async function(customerCode,flg){
+			// 	debugger;
+			// 	var that=this;
+			// 	var tables=["/Entrys","/OrderHeaders","/OrderHeaders","/CustomerOrders"];
+			// 	var oFilter = new sap.ui.model.Filter("Customer","EQ",  "'"+customerCode+"'");
+			// 	for(var i=0; i<tables.length; i++){
+			// 		debugger;
+			//
+			// 		await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
+			// 															"GET", {filters: [oFilter]}, {}, this)
+			// 										 .then(function(oData) {
+			// 											 debugger;
+			// 											 if(oData.results.length > 0 ){
+			// 												 that.Errmsg();
+			// 												 flg = true;
+			// 												 break;
+			// 											 }else{
+			// 												 flg = false;
+			//
+			// 											 }
+			//
+			// 										 }).catch(function(oError) {
+			// 											 var oPopover = that.getErrorMessage(oError);
+			// 										 });
+			//
+			// 										 if(flg === false){
+			// 				 							this.deleteCnfCustomer();
+			// 				 							break;
+			// 				 						}
+			// 	}
+			// },
+
+      Errmsg:function(){
+				MessageToast.show("Customer Used, Can not delete");
+			},
+			deleteCnfCustomer:function(customerCode,customerModel){
+				var that=this;
+
+				sap.m.MessageBox.confirm(
+ 	"Do you want to delete Customer", {
+ 	         title: "Confirm",
+ 	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+ 	         styleClass: "",
+ 	         onClose: function(sAction) {
+ 	           debugger;
+ 	           if(sAction==="OK"){
+ 	             debugger;
 
 
+			 					 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+			 					  "/Customers('" + customerCode + "')", "DELETE", {},{}, that)
+			 					 	.then(function(oData) {
+			 					 	MessageToast.show("Deleted successfully");
+			 					 	customerModel.getData().City = "";
+			 					 	customerModel.getData().MobilePhone = "0";
+			 					 	customerModel.getData().Address = "";
+			 					 	customerModel.getData().CustomerCode = ""
+			 					 	customerModel.getData().Name = "";
+			 					 	customerModel.getData().SecondaryPhone = "0";
+			 					 	customerModel.getData().Group = "";
+			 					 	// var typeValue = typeModel.getData().items[0].text;
+			 					 	// var oType = this.getView().byId("idType");
+			 					 	customerModel.refresh();
+			 					 	// // that._onRouteMatched();
+			 					 	that.clearCustomer();
+			 					 	}).catch(function(oError) {
+			 					 			MessageToast.show("Could not delete the entry");
+			 					 	});
+
+
+
+ 	          // sap.m.MessageToast.show("Selected records are deleted");
+ 	        }
+ 	       }
+ 	     }
+ 	     );
+
+
+
+
+
+
+
+
+			},
 			selectedCustomer: function(oEvent){
 				var item = oEvent.getParameter("selectedItem");
 				var key = item.getText();

@@ -417,6 +417,7 @@ this.clearCustomer();
 
 			deleteCustomer : async function(){
 				var that = this;
+				that.getView().setBusy(true);
 				var customerModel = this.getView().getModel("customerModel");
 				var customerCode = customerModel.getData().CustomerCode;
 				var customerJson = this.getView().getModel("customerModelInfo").getData().results;
@@ -464,12 +465,13 @@ this.clearCustomer();
 															 if(flg === true){
 									 							// this.deleteCnfCustomer();
 									 							break;
+																that.getView().setBusy(false);
 									 						}
 						}
             debugger;
 						if(flg === false){
 						 this.deleteCnfCustomer(customerCode,customerModel);
-
+						 this.getView().setBusy(false);
 					 }
 
 
@@ -511,6 +513,7 @@ this.clearCustomer();
 
       Errmsg:function(){
 				MessageToast.show("Customer Used, Can not delete");
+				this.getView().setBusy(false);
 			},
 			deleteCnfCustomer:function(customerCode,customerModel){
 				var that=this;

@@ -116,21 +116,24 @@ if (postedEntryData.Cash === finalAmount) {
           (postedEntryData.Cash !== 0))&&
           (finalAmount) &&
           (finalAmount !== "" || finalAmount !== 0)&&
+          (that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
           (postedEntryData.Cash !== finalAmount))
 {
 debugger;
 var entryData = this.getView().getModel("local").getProperty("/EntryData");
 entryData.Date = new Date(orderDetail.Date);
-// entryData.OrderNo = orderDetail.OrderNo;
 entryData.OrderNo = orderHeaderT.OrderId;
 entryData.OrderType = 'R';
 var date = this.getView().byId("Sales--DateId").getDateValue();
 entryData.Remarks = "[Auto-Entry]Retail Transfer for Order" + "" +
                   orderDetail.OrderNo+ " " + date;
 var id = postedEntryData.id;
-//orderDetail.Date;
 entryData.Cash = 0 - finalAmount;
 entryData.Customer = orderDetail.Customer;
+entryData.ChangedBy = "";
+entryData.ChangedOn = "";
+entryData.CreatedBy = "";
+entryData.CreatedOn = "";
 //change in final amount
 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                           "/Entrys('"+ id + "')",
@@ -158,6 +161,10 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("Trans
   //orderDetail.Date;
   entryData.Cash = 0 - finalAmount;
   entryData.Customer = orderDetail.Customer;
+  entryData.ChangedBy = "";
+  entryData.ChangedOn = "";
+  entryData.CreatedBy = "";
+  entryData.CreatedOn = "";
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
                                   "POST", {}, entryData, this)
   .then(function(oData) {
@@ -1372,22 +1379,14 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clear
        }
      });
   }else {
-    // sap.m.MessageBox.error("Are you sure you want to clear all entries?",
-    //  {
-    //      title: "Alert!",
-    //      actions: ["Clear", MessageBox.Action.CANCEL],
-    //      onClose: function(oAction) {
-    //        if (oAction === "Clear") {
   that.onClear(oEvent,id);
   that.byId("Sales--idSaveIcon").setColor('green');
   var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("clearSucess");
   MessageToast.show(oBundle);
-         //   }
-         //   }
-         // });
   }
 },
 onClear:function(oEvent,id){
+debugger;
 var that = this;
 delete this.orderAmount;
 delete this.deduction;
@@ -1418,23 +1417,18 @@ this.getView().getModel('local').setProperty('/orderHeaderTemp',oHeaderT);
 that.getView().getModel('local').setProperty('/orderHeader',oHeader);
 that.getView().getModel("local").setProperty("/orderHeader/Date", formatter.getFormattedDate(0));
 that.getView().byId("Sales--DateId").setDateValue(new Date());
+var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
+postedEntryData.Customer = "";
+postedEntryData.Date ="";
+postedEntryData.OrderNo ="";
+postedEntryData.OrderType ="";
+postedEntryData.Remarks ="";
+postedEntryData.id ="";
+postedEntryData.Cash ="";
+postedEntryData.ChangedBy="";
+postedEntryData.ChangedOn="";
+that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
 this.orderCustomCalculations();
-//set the bhav details on Header
-// that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-//     "/CustomCalculations", "GET", {}, {}, this)
-//   .then(function(oData) {
-//     that.getView().getModel("local").setProperty("/CustomCalculations",oData);
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", oData.results[0].First);
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", oData.results[0].Second);
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", oData.results[0].Gold);
-//     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", oData.results[0].Silver);
-//   }).catch(function(oError) {
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
-//     that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
-//     that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
-//   });
-//Clear Item table
 this.orderItem(oEvent,id);
 //return table
 this.orderReturn(oEvent,id);

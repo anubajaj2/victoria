@@ -100,7 +100,7 @@ var custId = orderDetail.Customer;
 var orderNo = orderHeaderT.OrderId;
 var date = orderDetail.Date;
 var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
-that.getEntryData(oEvent,custId,orderNo,date,postedEntryData);
+debugger;
 if (postedEntryData.Cash === finalAmount) {
   var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
       MessageBox.show(
@@ -111,8 +111,35 @@ if (postedEntryData.Cash === finalAmount) {
       onClose: function(oAction) { }
           }
       );
+}else if ((postedEntryData.Cash !== "")&&
+          (finalAmount) &&
+          (finalAmount !== "" || finalAmount !== 0)&&
+          (postedEntryData.Cash !== finalAmount))
+{
+debugger;
+var entryData = this.getView().getModel("local").getProperty("/EntryData");
+entryData.Date = orderDetail.Date;
+// entryData.OrderNo = orderDetail.OrderNo;
+entryData.OrderNo = orderHeaderT.OrderId;
+entryData.OrderType = 'R';
+var date = this.getView().byId("Sales--DateId").getDateValue();
+entryData.Remarks = "[Auto-Entry]Retail Transfer for Order" + "" +
+                  orderDetail.OrderNo+ " " + date;
+var id = postedEntryData.id;
+//orderDetail.Date;
+entryData.Cash = 0 - finalAmount;
+entryData.Customer = orderDetail.Customer;
+//change in final amount
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                          "/Entrys('"+ id + "')",
+                          "PUT", {}, entryData, this)
+.then(function(oData) {
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("TransferAmountUpdated");
+ MessageToast.show(oBundle);
+})
 }else
-  if ((that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
+  if ((postedEntryData.Cash === "")&&
+      (that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
       (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
   {
   that.getView().setBusy(true);
@@ -158,6 +185,7 @@ var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveB
         }
     );
   }
+
 },
 //customer value help
 valueHelpCustomer:function(oEvent){
@@ -569,6 +597,7 @@ onPayDateChange:function(oEvent){
   },
 getEntryData:function(oEvent,custId,orderNo,date,postedEntryData){
   debugger;
+var retVal;
 var that = this;
 var orderDate = date;
 var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
@@ -583,7 +612,9 @@ postedEntryData.Customer = result.Customer;
 postedEntryData.Cash = result.Cash;
 postedEntryData.OrderNo = result.OrderNo;
 postedEntryData.id = result.id;
+retVal = true;
 })
+return retVal;
 },
 getOrderDetails:function(oEvent,orderId ,oFilter,orderNo){
   var that = this;
@@ -601,7 +632,8 @@ getOrderDetails:function(oEvent,orderId ,oFilter,orderNo){
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
     that.getView().byId("Sales--custName").setText(customerData.Name + " - " + customerData.City);
-
+    var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
+    that.getEntryData(oEvent,custId,orderNo,date,postedEntryData)
      // assign the item Details
    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')/ToOrderItems",

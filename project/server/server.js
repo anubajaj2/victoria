@@ -1698,7 +1698,7 @@ var oPopover = that.getErrorMessage(oError);
 
 			});
 		app.post('/getTotalEntryCustomer', function(req, res) {
-
+			debugger;
 			var customerId = req.body.Customer;
 			var Entry = app.models.Entry;
 			Entry.find({
@@ -1741,6 +1741,39 @@ var oPopover = that.getErrorMessage(oError);
 				});
 			});
 
+		});
+		app.post('/EntryTransfer', function(req ,res) {
+			debugger;
+			var date = new Date(JSON.parse(JSON.stringify(req.body.entryData.Date)));
+			var orderNo = req.body.entryData.OrderNo;
+			var customer = req.body.entryData.Customer;
+			var Entry = app.models.Entry;
+				Entry.find({
+					where:{
+						"Date":date,
+						"Customer":customer,
+						"OrderType":'R'
+					},
+					fields:{
+						"Customer": true,
+						"Cash":true,
+						"OrderNo":true,
+						"id": true
+					}
+				})
+			.then(function(entry) {
+				debugger;
+				for (var i = 0; i < entry.length; i++) {
+				if (entry[i].OrderNo === orderNo ) {
+					res.send({
+						"OrderNo": entry[i].OrderNo,
+						"Cash": entry[i].Cash,
+						"Customer":entry[i].Customer.toString(),
+						"id": entry[i].id.toString()
+					});
+				}
+				}
+			})
 		});
 		app.post('/previousOrder', function(req ,res) {
 			debugger;

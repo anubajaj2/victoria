@@ -89,20 +89,37 @@ if(value){
 },
 //retail Transfer
 onTransfer:function(oEvent){
+  debugger;
 var that = this;
 var oLocale = new sap.ui.core.Locale("en-US");
 var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 var orderHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 var finalAmount = oFloatFormat.parse(orderHeaderT.FinalBalance);
-
+var custId = orderDetail.Customer;
+var orderNo = orderHeaderT.OrderId;
+var date = orderDetail.Date;
+var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
+that.getEntryData(oEvent,custId,orderNo,date,postedEntryData);
+if (postedEntryData.Cash === finalAmount) {
+  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+      MessageBox.show(
+      oBundle, {
+      icon: MessageBox.Icon.ERROR,
+      title: "Error",
+      actions: [MessageBox.Action.OK],
+      onClose: function(oAction) { }
+          }
+      );
+}else
   if ((that.byId("Sales--idSaveIcon").getColor()=== 'green') &&
       (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
   {
   that.getView().setBusy(true);
   var entryData = this.getView().getModel("local").getProperty("/EntryData");
   entryData.Date = orderDetail.Date;
-  entryData.OrderNo = orderDetail.OrderNo;
+  // entryData.OrderNo = orderDetail.OrderNo;
+  entryData.OrderNo = orderHeaderT.OrderId;
   entryData.OrderType = 'R';
   var date = this.getView().byId("Sales--DateId").getDateValue();
   entryData.Remarks = "[Auto-Entry]Retail Transfer for Order" + "" +
@@ -526,7 +543,8 @@ var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,
 var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
 }
 oEvent.sId = "orderReload";
-this.getOrderDetails(oEvent,orderId,oFilter);
+this.getView().getModel("local").setProperty("/orderHeaderTemp/OrderId",orderId);
+this.getOrderDetails(oEvent,orderId,oFilter,orderNo);
 this.byId("Sales--idSaveIcon").setColor('green');
 // this.orderSearchPopup.destroyItems();
 }else{
@@ -549,14 +567,35 @@ onPayDateChange:function(oEvent){
                   oEvent.getParameter('newValue'));
                 }
   },
-getOrderDetails:function(oEvent,orderId ,oFilter){
+getEntryData:function(oEvent,custId,orderNo,date,postedEntryData){
+  debugger;
+var that = this;
+var orderDate = date;
+var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+var entryData = this.getView().getModel('local').getProperty('/EntryData');
+entryData.OrderNo = orderId;
+entryData.Date = orderDate;
+entryData.Customer = custId;
+$.post("/EntryTransfer",{entryData})
+.then(function(result){
+  debugger;
+postedEntryData.Customer = result.Customer;
+postedEntryData.Cash = result.Cash;
+postedEntryData.OrderNo = result.OrderNo;
+postedEntryData.id = result.id;
+})
+},
+getOrderDetails:function(oEvent,orderId ,oFilter,orderNo){
   var that = this;
+  debugger;
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                    "/OrderHeaders('" + orderId + "')", "GET",
                    {filters: [oFilter]}, {}, this)
     .then(function(oData) {
     that.getView().setBusy(false);
+    var date = oData.Date;
     var custId = oData.Customer;
+    // that.getEntryData(oEvent,custId,orderNo,date)
     var customerData = that.allMasterData.customers[custId];
     that.getView().getModel("local").setProperty("/orderHeader", oData);
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
@@ -1129,9 +1168,11 @@ for (var i = 0; i < oBinding.getLength(); i++) {
   var data = oBinding.oList[i];
   if (data.Material !== "") {
     if (oId != "") {
-      oOrderDetail.OrderNo=oId;//orderno // ID
+oOrderDetail.OrderNo=oId;//orderno // ID
+this.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId',oId);
     }else if (oHeader.id) {
-      oOrderDetail.OrderNo = oHeader.id;//orderno // ID
+oOrderDetail.OrderNo = oHeader.id;//orderno // ID
+this.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId',oHeader.id);
     }
   oOrderDetail.Material=data.Material;
   // Quantity
@@ -1236,18 +1277,20 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
 }
 },
 stockTransfer:function(allItems){
+  debugger;
+var that = this;
 var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
 var stockData = this.getView().getModel('local').getProperty('/stockMaint');
 stockData.Product = allItems.Material;
 stockData.Description = allItems.MaterialCode;
 if (allItems.Qty === '') {
-stockData.Quantity = 0;
+stockData.Quantity = '0';
 }else {
 stockData.Quantity = allItems.Qty;
 }
 if (allItems.Weight === '') {
-stockData.Weight = 0;
+stockData.Weight = '0';
 }else {
 stockData.Weight = allItems.Weight;
 }
@@ -1264,7 +1307,6 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
     that.getView().setBusy(false);
     var oPopover = that.getErrorMessage(oError);
     });
-
 },
 onClearScreen:function(oEvent){
   var that = this;
@@ -1422,6 +1464,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
       if (oSourceCall === 'orderItemBases') {
         var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
         var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+        var pid = that.getView().getModel("orderItems").getProperty("/itemData")[i].Material;
         var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
         if (subtotalItem) {
           that.orderAmount = that.orderAmount - subtotalItem;
@@ -1436,9 +1479,13 @@ if (selIdxs.length && selIdxs.length !== 0) {
       }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
+          debugger;
         that.byId("Sales--idSaveIcon").setColor('green');
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
                                   "DELETE", {}, {}, that)
+        // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+        //                             "/Products('" + pid + "')/ToStock",
+        //                                 "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');

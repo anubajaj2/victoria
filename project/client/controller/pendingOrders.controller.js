@@ -85,7 +85,7 @@ function (BaseController,MessageBox,MessageToast,History) {
       that.getView().setBusy(false);
       var oPopover = that.getErrorMessage(oError);
     });
-    this.getView().byId("idDate").setDateValue( new Date());
+    // this.getView().byId("idDate").setDateValue( new Date());
     // this.getView().byId("idMat").setValue("");
     var x=this.getView().byId("idQty").getText();
     var x1=parseFloat(this.byId("idQty").getText());

@@ -1427,6 +1427,8 @@ postedEntryData.id ="";
 postedEntryData.Cash ="";
 postedEntryData.ChangedBy="";
 postedEntryData.ChangedOn="";
+postedEntryData.CreatedBy="";
+postedEntryData.CreatedOn="";
 that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
 this.orderCustomCalculations();
 this.orderItem(oEvent,id);

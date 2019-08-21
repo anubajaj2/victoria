@@ -328,8 +328,8 @@ function (BaseController,
        that.getView().setBusy(false);
        var oPopover = that.getErrorMessage(oError);
      });
-       this.getView().byId("DateId").setDateValue( new Date());
-			 this.byId("DueDateId").setDateValue( new Date());
+       // this.getView().byId("DateId").setDateValue( new Date());
+			 // this.byId("DueDateId").setDateValue( new Date());
 			 var x=this.getView().byId("idTC").getText();
 			 var x1=parseFloat(this.byId("idTC").getText());
 			 var y=this.getView().byId("idCash").getValue();

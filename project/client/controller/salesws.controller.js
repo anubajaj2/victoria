@@ -2227,13 +2227,17 @@ sap.ui.define(
 				debugger;
 				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
 					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-					var oFilter1 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, Customer);
-					var oFilter2 = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.EQ, selectedMatData.id);
+					var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
+					var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
+					var oFilter = new sap.ui.model.Filter({
+						filters: [oFilter1, oFilter2],
+						and:true
+					})
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
 							"/WSTunchs", "GET", {
 								filters: [oFilter1, oFilter2]
-							}, {}, this)
+							}, null, this)
 						.then(function(oData) {
 							debugger;
 							selectedMatData.Making = oData.Making;

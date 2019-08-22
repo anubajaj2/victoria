@@ -21,10 +21,12 @@
     },
     "Quantity": {
       "type": "number",
+      "default": 0,
       "required": false
     },
     "Weight": {
       "type": "number",
+      "default": 0,
       "required": false
     },
     "Remarks": {

@@ -76,6 +76,11 @@
       "type":"belongsTo",
       "model":"OrderHeader",
       "foreignKey":"OrderNo"
+    },
+    "ToStock":{
+      "type":"hasMany",
+      "model":"stockMaint",
+      "foreignKey":"Material"
     }
   },
   "acls": [

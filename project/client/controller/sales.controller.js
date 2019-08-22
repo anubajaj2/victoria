@@ -725,6 +725,7 @@ onCancel:function(oEvent) {
 //on order create Button
 orderCreate:function(oEvent){
 var that = this;
+debugger;
 if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo)
 {
   var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
@@ -797,6 +798,7 @@ orderCheck:function(){
     oOrderId.OrderId=oData.id;
     oOrderId.OrderNo=oData.OrderNo;
     that.getView().getModel('local').setProperty('/OrderId',oOrderId);
+    that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId',oData.id);
     //assign the no on ui
     that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
              })
@@ -813,7 +815,6 @@ orderCheck:function(){
       //create the new json model and get the order id no generated
       var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
       var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-      // oOrderHeader.Id=oData.id;
       oOrderHeader.OrderNo=oData.OrderNo;
       oOrderHeader.Customer = customer;
       oOrderId.OrderId=oData.id;
@@ -821,6 +822,7 @@ orderCheck:function(){
       that.headerNoChange = true;
       that.getView().getModel('local').setProperty('/OrderId',oOrderId);
       that.getView().getModel('local').setProperty('/orderHeader',oOrderHeader);
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId',oData.id);
       var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
       sap.m.MessageToast.show(oBundle, {
         duration: 3000,                  // default
@@ -1173,10 +1175,11 @@ commitRecords:function(oEvent){
   if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
   var that = this;
   var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
-  var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
+  var oId = that.getView().getModel('local').getProperty('/orderHeaderTemp').OrderId;
   if (this.headerNoChange === true) {
     // oHeader.Date = new Date(oHeader.Date);
-  var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
+    debugger;
+  // var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 //order header put
 // $.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
 // .done(function(data, status) {
@@ -1187,19 +1190,19 @@ commitRecords:function(oEvent){
 //   sap.m.MessageBox.error("Failed to update Header");
 // });
 
-// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-//                             "/OrderHeaders('" + oId + "')",
-//                             "PUT", {}, oHeaderClone, this)
-// .then(function(oData) {
-//     debugger;
-// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
-//     message.show(oBundle);
-//         that.getView().setBusy(false);
-//        })
-//   .catch(function(oError) {
-//       that.getView().setBusy(false);
-//       var oPopover = that.getErrorMessage(oError);
-//                 });
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                            "/OrderHeaders('" + oId + "')",
+                            "PUT", {}, oHeader, this)
+.then(function(oData) {
+    debugger;
+var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
+    message.show(oBundle);
+        that.getView().setBusy(false);
+       })
+  .catch(function(oError) {
+      that.getView().setBusy(false);
+      var oPopover = that.getErrorMessage(oError);
+                });
         }
   var oOrderDetail = this.getView().getModel('local').getProperty('/OrderItem')
   var oTableDetails = this.getView().byId('orderItemBases');
@@ -1283,9 +1286,10 @@ if (data.itemNo) {
     for (var i = 0; i < allItems.length; i++) {
       if (allItems[i].Material === oData.Material &&
         allItems[i].itemNo === "") {
-      that.stockTransfer(allItems[i]);
+        debugger;
         allItems[i].itemNo = oData.id;
         allItems[i].OrderNo = oId;
+        that.stockTransfer(allItems[i]);
         break;
       }//material compare if condition
     }//for loop
@@ -1320,9 +1324,9 @@ var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("dataN
 }
 },
 stockTransfer:function(allItems){
-  debugger;
 var that = this;
 var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
+// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
 var orderDate = this.getView().getModel('local').getProperty('/orderHeader/Date');
 var stockData = this.getView().getModel('local').getProperty('/stockMaint');
 stockData.Product = allItems.Material;
@@ -1337,7 +1341,8 @@ stockData.Weight = '0';
 }else {
 stockData.Weight = allItems.Weight;
 }
-
+stockData.OrderItemId=allItems.itemNo;
+stockData.OrderType = 'R';
 stockData.Date = orderDate;
 stockData.Remarks = "[Auto-Entry]Retail Sales Stock "+"for order"+ " "+orderNo;
 
@@ -1476,8 +1481,8 @@ for (var i = 0; i < oTable.getRows().length; i++) {
   }
 },
 onDelete: function(oEvent) {
-  var that = this;
-
+  debugger;
+var that = this;
 var oLocale = new sap.ui.core.Locale("en-US");
 var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 var viewId = oEvent.getSource().getParent().getParent().getId().split('---')[1].split('--')[0];
@@ -1495,8 +1500,10 @@ if (selIdxs.length && selIdxs.length !== 0) {
       for(var i = selIdxs.length - 1; i >= 0; --i){
       if (oSourceCall === 'orderItemBases') {
         var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
-        var id  = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-        var pid = that.getView().getModel("orderItems").getProperty("/itemData")[i].Material;
+        var id  = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].itemNo;
+        var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
+        var orderId  = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+        var date = that.getView().byId("Sales--DateId").getDateValue();
         var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
         if (subtotalItem) {
           that.orderAmount = that.orderAmount - subtotalItem;
@@ -1511,13 +1518,47 @@ if (selIdxs.length && selIdxs.length !== 0) {
       }
       that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalance',finalBalF);
         if (id){
-          debugger;
-        that.byId("Sales--idSaveIcon").setColor('green');
-        that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-                                  "DELETE", {}, {}, that)
-        // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-        //                             "/Products('" + pid + "')/ToStock",
-        //                                 "DELETE", {}, {}, that)
+    var stockData = that.getView().getModel('local').getProperty('/stockMaint')
+    stockData.Product = pid;
+    stockData.OrderItemId = orderId;
+    stockData.Date = date;
+    stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
+    stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
+    debugger;
+    that.byId("Sales--idSaveIcon").setColor('green');
+    // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+    //                               "DELETE", {}, {}, that)
+    debugger;
+var ofilter1 = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.EQ,  "'"+date+"'");
+var ofilter3 = new sap.ui.model.Filter("OrderItemId",sap.ui.model.FilterOperator.Contains,  "'"+orderId+"'");
+// var ofilter = []
+var ofilter = new sap.ui.model.Filter({
+  filters: [ofilter1,ofilter3],
+  and: true
+});
+// that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+//                             "/stockMaints","GET", ofilter3, {}, that)
+that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                            "/Products('"+ pid +"')/ToStock",
+                            "GET",ofilter, {}, that)
+.then(function(oData) {
+  debugger;
+})
+.catch(function(oError) {
+  that.getView().setBusy(false);
+  var oPopover = that.getErrorMessage(oError);
+});
+      // $.post("/StockDelete",{Stock: stockData})
+      // .then(function(result){
+      //   debugger;
+      //   var stockId = result.id;
+      //   that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+      //                             "/stockMaints('" + stockId + "')",
+      //                                 "DELETE", {}, {}, that)
+      // });
+      // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+      //                             "/Products('" + pid + "')/ToStock",
+      //                                 "DELETE", {}, {}, that)
         sap.m.MessageToast.show("Data Deleted Successfully");
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');

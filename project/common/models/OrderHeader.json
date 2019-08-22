@@ -9,13 +9,11 @@
   "properties": {
     "OrderNo": {
       "type": "number",
-      "required": true,
-      "default": "null"
+      "required": true
     },
     "Date": {
       "type": "date",
-      "required": true,
-      "default": "null"
+      "required": true
     },
     "Customer": {
       "type": "string",

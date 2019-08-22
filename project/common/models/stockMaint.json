@@ -37,7 +37,7 @@
       "type": "string",
       "required": false
     },
-    "OrderId": {
+    "OrderItemId": {
       "type": "string",
       "required": false
     },

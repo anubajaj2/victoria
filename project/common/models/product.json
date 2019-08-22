@@ -68,7 +68,7 @@
   "relations": {
     "ToStock":{
       "type":"hasMany",
-      "model":"Product",
+      "model":"stockMaint",
       "foreignKey":"Product"
     }
   },

@@ -1529,18 +1529,14 @@ if (selIdxs.length && selIdxs.length !== 0) {
     // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
     //                               "DELETE", {}, {}, that)
     debugger;
-var ofilter1 = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.Contains,  "'"+date+"'");
-var ofilter3 = new sap.ui.model.Filter("OrderItemId",sap.ui.model.FilterOperator.Contains,  "'"+orderId+"'");
-// var ofilter = []
-var ofilter = new sap.ui.model.Filter({
-  filters: [ofilter1,ofilter3],
-  and: true
-});
+
 // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 //                             "/stockMaints","GET", ofilter3, {}, that)
 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                            "/Products('"+ pid +"')/ToStock",
-                            "GET",ofilter3, {}, that)
+                            "/stockMaints",
+                            "GET",{
+                              filters: [new sap.ui.model.Filter("Product",sap.ui.model.FilterOperator.EQ, "'" + pid + "'" )]
+                            }, {}, that)
 .then(function(oData) {
   debugger;
 })

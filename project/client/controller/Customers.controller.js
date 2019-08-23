@@ -86,6 +86,7 @@ sap.ui.define([
 //					}
 //				);
 			},
+
 			onSelectChange: function(oEvent){
 				var oValue = oEvent.getSource().getId();
 				var oSelect = oEvent.getParameter("selectedItem").getText();
@@ -155,7 +156,103 @@ sap.ui.define([
 							}).catch(function(oError) {
 									MessageToast.show("cannot fetch the data");
 							});
-this.clearCustomer();
+					this.clearCustomer();
+
+					$(document).keydown(function(evt){
+
+					var elm = document.URL.split('/');
+
+					if (elm[elm.length-1] === 'Customers'){
+					if (evt.keyCode==68 && (evt.ctrlKey) && (evt.altKey)){
+					evt.preventDefault();
+					// alert('Ctr + Alt + D Pressed');
+					that.deleteAllCustomers();
+					}else if (evt.keyCode==69 && (evt.ctrlKey) && (evt.altKey)) {
+						evt.preventDefault();
+						// alert('Ctr + Alt + E Pressed');
+						that.deleteAllEntrys();
+					}else if (evt.keyCode==65 && (evt.ctrlKey) && (evt.altKey)) {
+						evt.preventDefault();
+						// alert('Ctr + Alt + A Pressed');
+						that.deleteAllTables();
+					}
+					}
+					});
+			},
+
+			deleteAllCustomers:function(){
+				debugger;
+				var that=this;
+				sap.m.MessageBox.confirm(
+ 					"Do you want to Delete All Customers?", {
+ 	         title: "Confirm",
+ 	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+ 	         styleClass: "",
+ 	         onClose: function(sAction) {
+ 	           debugger;
+ 	           if(sAction==="OK"){
+ 	            $.post("/deleteRecords",{
+								// customerId: "",
+							 entityName: "Customer"}).done(function(response){
+								sap.m.MessageToast.show(response.msg);
+ 	          // sap.m.MessageToast.show("Selected records are deleted");
+					});
+ 	        }
+ 	       }
+ 	     }
+ 	     );
+
+			},
+
+			deleteAllEntrys:function(){
+				debugger;
+				var that=this;
+				sap.m.MessageBox.confirm(
+ 					"Do you want to Delete All Entrys?", {
+ 	         title: "Confirm",
+ 	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+ 	         styleClass: "",
+ 	         onClose: function(sAction) {
+ 	           debugger;
+ 	           if(sAction==="OK"){
+                debugger;
+
+							$.post("/deleteRecords",{
+								// customerId: "",
+							 entityName: "EntryD"}).done(function(response){
+								sap.m.MessageToast.show(response.msg);
+ 	          // sap.m.MessageToast.show("Selected records are deleted");
+					});
+ 	        }
+ 	       }
+ 	     }
+ 	     );
+
+			},
+
+			deleteAllTables:function(){
+				debugger;
+				var that=this;
+				sap.m.MessageBox.confirm(
+ 					"Do you want to Delete All Tables?", {
+ 	         title: "Confirm",
+ 	         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+ 	         styleClass: "",
+ 	         onClose: function(sAction) {
+ 	           debugger;
+ 	           if(sAction==="OK"){
+ 	             
+							$.post("/deleteRecords",{
+								// customerId: "",
+							 entityName: "DelAll"}).done(function(response){
+								sap.m.MessageToast.show(response.msg);
+ 	          // sap.m.MessageToast.show("Selected records are deleted");
+					});
+ 	        }
+ 	       }
+ 	     }
+ 	     );
+
 			},
 
 			additionalInfoValidation : function(){

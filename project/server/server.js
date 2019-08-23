@@ -1690,6 +1690,60 @@ var oPopover = that.getErrorMessage(oError);
 					case "WholesaleOrders":
 
  						break;
+						case "Customer":
+							var Customer = app.models.Customer;
+							Customer.destroyAll({
+									// "Customer": customerId
+							}).then(function(records){
+								res.send({
+									"msg": "All the records has been deleted successfully"
+								});
+							}).catch(function(err,ns){
+								;
+							});
+							break;
+							case "EntryD":
+								var Entry = app.models.Entry;
+								Entry.destroyAll({
+										// "Customer": customerId
+								}).then(function(records){
+									res.send({
+										"msg": "All the records has been deleted successfully from Entry Table"
+									});
+								}).catch(function(err,ns){
+									;
+								});
+								break;
+								case "DelAll":
+								  var msg = "All records from All Tables Deleted";
+
+
+									var Customer = app.models.Customer;
+									Customer.destroyAll({}).then(function(records){
+										var Entry = app.models.Entry;
+										Entry.destroyAll({}).then(function(records){
+											var Booking = app.models.BookingDetail;
+											Booking.destroyAll({}).then(function(records){
+												res.send({
+													"msg": msg
+												});
+											}).catch(function(err,ns){
+												;
+											});
+										}).catch(function(err,ns){
+											;
+										});
+
+										// res.send({
+										// 	"msg": "All the records has been deleted successfully from Entry Table"
+										// });
+									}).catch(function(err,ns){
+										;
+									});
+									res.send({
+										"msg": msg
+									});
+									break;
 					default:
 
 				}

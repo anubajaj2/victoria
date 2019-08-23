@@ -1529,7 +1529,7 @@ if (selIdxs.length && selIdxs.length !== 0) {
     // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
     //                               "DELETE", {}, {}, that)
     debugger;
-var ofilter1 = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.EQ,  "'"+date+"'");
+var ofilter1 = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.Contains,  "'"+date+"'");
 var ofilter3 = new sap.ui.model.Filter("OrderItemId",sap.ui.model.FilterOperator.Contains,  "'"+orderId+"'");
 // var ofilter = []
 var ofilter = new sap.ui.model.Filter({
@@ -1540,7 +1540,7 @@ var ofilter = new sap.ui.model.Filter({
 //                             "/stockMaints","GET", ofilter3, {}, that)
 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                             "/Products('"+ pid +"')/ToStock",
-                            "GET",ofilter, {}, that)
+                            "GET",ofilter3, {}, that)
 .then(function(oData) {
   debugger;
 })
@@ -1548,6 +1548,7 @@ that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
   that.getView().setBusy(false);
   var oPopover = that.getErrorMessage(oError);
 });
+debugger;
       // $.post("/StockDelete",{Stock: stockData})
       // .then(function(result){
       //   debugger;

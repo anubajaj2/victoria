@@ -486,7 +486,7 @@ this.clearProduct();
 
 			},
 
-			deleteProduct : function(){
+			deleteProduct : async function(){
 				var that = this;
 				var productModel = this.getView().getModel("productModel");
  			 var productCode = productModel.getData().ProductCode;
@@ -499,43 +499,128 @@ this.clearProduct();
  						);
  					}
 
+					debugger;
+					var flg = true;
+					var that=this;
+					var tables=["/Entrys","/OrderItems","/WSOrderItems","/CustomerOrders"];
+					var oFilter = new sap.ui.model.Filter("Material",sap.ui.model.FilterOperator.Contains,  "'"+productCode+"'");
+
+					for(var i=0; i<tables.length; i++){
+						debugger;
+
+						await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
+																			"GET", {filters: [oFilter]}, {}, this)
+														 .then(function(oData) {
+															 debugger;
+															 if(oData.results.length > 0 ){
+																 that.Errmsgprd();
+																 flg = true;
+																 // break;
+															 }else{
+																 flg = false;
+															 }
+
+														 }).catch(function(oError) {
+															 var oPopover = that.getErrorMessage(oError);
+														 });
+
+														 if(flg === true){
+															// this.deleteCnfCustomer();
+															break;
+															that.getView().setBusy(false);
+														}
+					}
+					debugger;
+					if(flg === false){
+					 this.deleteCnfProduct(productCode,productModel);
+					 this.getView().setBusy(false);
+				 }
+
+
  					// var found = getProductCode(productCode);
  					// if(found.length > 0){
-					if(productCode.length > 0){
-
-							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Products('" + productCode + "')", "DELETE", {},{}, this)
-								.then(function(oData) {
-								MessageToast.show("Deleted successfully");
-								productModel.getData().Category = "";
-								productModel.getData().Type = "";
-								productModel.getData().Karat = "";
-								productModel.getData().CustomerTunch = 0;
-								productModel.getData().Making = 0;
-								productModel.getData().ProductCode = "";
-								productModel.getData().ProductName = "";
-								productModel.getData().PricePerUnit = 0;
-								productModel.getData().Wastage = 0;
-								productModel.getData().Tunch = 0;
-								productModel.getData().AlertQuantity = 0;
-								productModel.getData().HindiName = "";
-								productModel.refresh();
-								that.clearProduct();
-								// that._onRouteMatched();
-
-								}).catch(function(oError) {
-										MessageToast.show("Could not delete the entry");
-								});
-
-						}
-						else{
-							MessageToast.show("Data not available");
-						}
+					// if(productCode.length > 0){
+					//
+					// 		this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					// 		 "/Products('" + productCode + "')", "DELETE", {},{}, this)
+					// 			.then(function(oData) {
+					// 			MessageToast.show("Deleted successfully");
+					// 			productModel.getData().Category = "";
+					// 			productModel.getData().Type = "";
+					// 			productModel.getData().Karat = "";
+					// 			productModel.getData().CustomerTunch = 0;
+					// 			productModel.getData().Making = 0;
+					// 			productModel.getData().ProductCode = "";
+					// 			productModel.getData().ProductName = "";
+					// 			productModel.getData().PricePerUnit = 0;
+					// 			productModel.getData().Wastage = 0;
+					// 			productModel.getData().Tunch = 0;
+					// 			productModel.getData().AlertQuantity = 0;
+					// 			productModel.getData().HindiName = "";
+					// 			productModel.refresh();
+					// 			that.clearProduct();
+					// 			// that._onRouteMatched();
+					//
+					// 			}).catch(function(oError) {
+					// 					MessageToast.show("Could not delete the entry");
+					// 			});
+					//
+					// 	}
+					// 	else{
+					// 		MessageToast.show("Data not available");
+					// 	}
 
 			},
 
+			Errmsgprd:function(){
+				MessageToast.show("Product Used, Can not delete");
+				this.getView().setBusy(false);
+			},
+			deleteCnfProduct:function(productCode,productModel){
+				var that=this;
+
+				sap.m.MessageBox.confirm(
+	"Do you want to delete Customer", {
+					 title: "Confirm",
+					 actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+					 styleClass: "",
+					 onClose: function(sAction) {
+						 debugger;
+						 if(sAction==="OK"){
+							 debugger;
 
 
+								 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/Products('" + productCode + "')", "DELETE", {},{}, that)
+									.then(function(oData) {
+													MessageToast.show("Deleted successfully");
+													productModel.getData().Category = "";
+													productModel.getData().Type = "";
+													productModel.getData().Karat = "";
+													productModel.getData().CustomerTunch = 0;
+													productModel.getData().Making = 0;
+													productModel.getData().ProductCode = "";
+													productModel.getData().ProductName = "";
+													productModel.getData().PricePerUnit = 0;
+													productModel.getData().Wastage = 0;
+													productModel.getData().Tunch = 0;
+													productModel.getData().AlertQuantity = 0;
+													productModel.getData().HindiName = "";
+													productModel.refresh();
+													that.clearProduct();
+									}).catch(function(oError) {
+											MessageToast.show("Could not delete the entry");
+									});
+
+
+
+						// sap.m.MessageToast.show("Selected records are deleted");
+					}
+				 }
+			 }
+			 );
+
+	},
 
 			selectedProduct: function(oEvent){
 				var item = oEvent.getParameter("selectedItem");

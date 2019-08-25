@@ -7,14 +7,18 @@ sap.ui.define([
 		"sap/ui/core/routing/History",
 		"victoria/models/formatter",
 		"sap/m/MessageToast",
-		"sap/ui/model/Filter"
+		"sap/ui/model/Filter",
+		"victoria/libs/googletrans",
+		"victoria/libs/googletransapi"
 	], function (
 		BaseController,
 		JSONModel,
 		History,
 		formatter,
 		MessageToast,
-		Filter
+		Filter,
+		googletrans,
+		googletransapi
 	) {
 		"use strict";
 
@@ -122,7 +126,55 @@ sap.ui.define([
 
 				var oRouter = this.getRouter();
 			oRouter.getRoute("Products").attachMatched(this._onRouteMatched, this);
+
+
+
+
+
+
 			},
+			onAfterRendering:function(){
+				debugger;
+				// var state = this.getView().byId("idHindiName").getState();
+				// if(state=== true){
+      google.load("elements", "1", {
+            packages: "transliteration"
+          });
+
+      // function onLoad() {
+        var options = {
+            sourceLanguage:
+                google.elements.transliteration.LanguageCode.ENGLISH,
+            destinationLanguage:
+                [google.elements.transliteration.LanguageCode.HINDI],
+            shortcutKey: 'ctrl+g',
+            transliterationEnabled: true
+        };
+
+        // Create an instance on TransliterationControl with the required
+        // options.
+				debugger;
+        var control =
+            new google.elements.transliteration.TransliterationControl(options);
+
+        // Enable transliteration in the textbox with id
+        // 'transliterateTextarea'.
+        control.makeTransliteratable(['__component0---idProducts--idHindi-inner']);
+				control.showControl('translControl');
+				// }
+			},
+
+			// onSubmit:function(oEvent){
+			// 	debugger;
+			// 	var state = oEvent.getParameters().state;
+			// 	if(state=== false){
+			// 	debugger;
+			// }
+			// else{
+			// 	debugger;
+			// 				}
+			// },
+
 			onSelectChange: function(oEvent){
 				var oSelect = oEvent.getParameter("selectedItem").getText();
 				this.getView().getModel("productModel").setProperty("/Karat", oSelect);
@@ -436,7 +488,7 @@ this.clearProduct();
 				// 	filters: aFilters,
 				// 	success: function(data){
 				// 		if(data.results.length > 0){
-
+debugger;
 						if(prodId.length > 0){
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Products('"+prodId+"')", "PUT", {}, productModel.getData() , this)

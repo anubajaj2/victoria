@@ -7,6 +7,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:smartField="sap.ui.comp.smartfield"
 	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:l = "sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
 	<semantic:FullscreenPage
@@ -105,7 +106,23 @@
 					type="Text"
 					value="{productModel>/HindiName}"
 					class = "hinditext">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+						<l:GridData span="XL4 L4 M4 S6"/>
+					</layoutData>
 				</Input>
+				<!-- <div id='translControl'></div> -->
+				<core:HTML content='&lt;div id=&quot;translControl&quot;width=&quot;28px&quot;&gt;&lt;/div&gt;'>
+
+				</core:HTML>
+
+				<!-- <Switch id="idHindiName" state="true" change="onSubmit" name="switch"
+					 customTextOn="HINDI" customTextOff="ENG">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+						<l:GridData span="XL1 L1 M1 S5"/>
+					</layoutData>
+				</Switch> -->
 
 				<Label text="Tunch"/>
 				<Input

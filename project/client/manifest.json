@@ -61,7 +61,12 @@
 			"css": [{
 				"uri": "css/style.css",
 				"id": "mystyle"
-			}]
+			},
+			{
+				"uri": "css/googlecss.css",
+				"id": "googlestyle"
+			}
+		]
 		},
 		"models": {
 			"local": {

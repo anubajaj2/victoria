@@ -65,6 +65,11 @@
       "type":"belongsTo",
       "model":"Product",
       "foreignKey":"Product"
+    },
+    "ToItems":{
+      "type":"belongsTo",
+      "model":"OrderItem",
+      "foreignKey":"OrderItemId"
     }
   },
   "acls": [

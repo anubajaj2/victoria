@@ -2592,15 +2592,18 @@ sap.ui.define(
 					} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
 						entryData.Silver = 0 - finalAmount;
 					} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
-						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
-						MessageBox.show(
-							oBundle, {
-								icon: MessageBox.Icon.ERROR,
-								title: "Error",
-								actions: [MessageBox.Action.OK],
-								onClose: function(oAction) {}
-							}
-						);
+						entryData.Cash = 0 - finalAmount;
+						entryData.Gold = 0 - finalAmount;
+						entryData.Silver = 0 - finalAmount;
+						// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
+						// MessageBox.show(
+						// 	oBundle, {
+						// 		icon: MessageBox.Icon.ERROR,
+						// 		title: "Error",
+						// 		actions: [MessageBox.Action.OK],
+						// 		onClose: function(oAction) {}
+						// 	}
+						// );
 					}
 					entryData.Customer = orderDetail.Customer;
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",

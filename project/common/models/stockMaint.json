@@ -70,6 +70,11 @@
       "type":"belongsTo",
       "model":"OrderItem",
       "foreignKey":"OrderItemId"
+    },
+    "ToWSItems":{
+      "type":"belongsTo",
+      "model":"WSOrderItem",
+      "foreignKey":"OrderItemId"
     }
   },
   "acls": [

@@ -195,7 +195,8 @@ sap.ui.define(
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
 						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + customerData.City);
-
+						var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
+				    that.getEntryData(oEvent,custId,orderNo,date,postedEntryData)
 						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 						// assign the details on ui
 						//   var that2 = this;
@@ -216,9 +217,6 @@ sap.ui.define(
 										allItems[i].Qty = oData.results[i].Qty;
 										allItems[i].QtyD = oData.results[i].QtyD;
 										allItems[i].Tunch = oData.results[i].Tunch;
-										// allItems[i].SubTotal = oData.results[i].SubTotal;
-										// allItems[i].SubTotalG = oData.results[i].SubTotalG;
-										// allItems[i].SubTotalS = oData.results[i].SubTotalS;
 										allItems[i].Weight = oData.results[i].Weight;
 										allItems[i].WeightD = oData.results[i].WeightD;
 										allItems[i].Remarks = oData.results[i].Remarks;
@@ -942,6 +940,9 @@ sap.ui.define(
 								for (var i = selIdxs.length - 1; i >= 0; --i) {
 									if (oSourceCall === 'WSItemFragment--orderItemBases') {
 										var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+        						var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
+      							var orderId  = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+										var date = that.getView().byId("Sales--DateId").getDateValue();
 										// TotalOrderValueCash: 0,
 										// TotalOrderValueGold: 0,
 										// TotalOrderValueSilver: 0,
@@ -992,6 +993,12 @@ sap.ui.define(
 											var myUrl = "/WSOrderItems('" + id + "')"
 											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
 												"DELETE", {}, {}, that);
+												var stockData = that.getView().getModel('local').getProperty('/stockMaint')
+										    stockData.Product = pid;
+										    stockData.OrderItemId = orderId;
+										    stockData.Date = date;
+										    stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
+										    stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
 										} else {
 											that.setStatus("red");
 										};
@@ -1449,6 +1456,12 @@ sap.ui.define(
 						if (data.Material !== "") {
 							oOrderDetail.OrderNo = oId; //orderno // ID
 							oOrderDetail.Material = data.Material;
+							// Quantity
+						  if (data.Qty === "" || data.Qty === 0) {
+						    oOrderDetail.Qty= 0;
+						  }else {
+						    oOrderDetail.Qty=data.Qty;
+						  }
 							// QuantityD
 							if (data.QtyD === "" || data.QtyD === 0) {
 								oOrderDetail.QtyD = 0;
@@ -1505,6 +1518,7 @@ sap.ui.define(
 											if (allItems[i].Material === oData.Material) {
 												allItems[i].itemNo = oData.id;
 												allItems[i].OrderNo = oId;
+												        that.stockTransfer(allItems[i]);
 												// if (oCommit === false) {
 												// 	that.onReturnSave(oEvent, oId, oCommit);
 												// }
@@ -1534,6 +1548,39 @@ sap.ui.define(
 						onClose: function(sButton) {}
 					});
 				}
+			},
+			stockTransfer:function(allItems){
+			var that = this;
+			var orderNo = this.getView().getModel('local').getProperty('/WSOrderHeader/OrderNo');
+			// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+			var orderDate = this.getView().getModel('local').getProperty('/WSOrderHeader/Date');
+			var stockData = this.getView().getModel('local').getProperty('/stockMaint');
+			stockData.Product = allItems.Material;
+			stockData.Description = allItems.MaterialCode;
+			if (allItems.Qty === '') {
+			stockData.Quantity = '0';
+			}else {
+			stockData.Quantity = allItems.Qty;
+			}
+			if (allItems.Weight === '') {
+			stockData.Weight = '0';
+			}else {
+			stockData.Weight = allItems.Weight;
+			}
+			stockData.OrderItemId=allItems.itemNo;
+			stockData.OrderType = 'W';
+			stockData.Date = orderDate;
+			stockData.Remarks = "[Auto-Entry]Wholesale Sales Stock "+"for order"+ " "+orderNo;
+
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
+			                                  "POST", {}, stockData, this)
+			  .then(function(oData) {
+			    that.getView().setBusy(false);
+			    sap.m.MessageToast.show("Stock Updated Successfully");
+			    }).catch(function(oError) {
+			    that.getView().setBusy(false);
+			    var oPopover = that.getErrorMessage(oError);
+			    });
 			},
 			toggleFullScreen: function() {
 
@@ -2627,17 +2674,6 @@ sap.ui.define(
 						}
 					);
 				} else {
-					if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
-						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
-						MessageBox.show(
-							oBundle, {
-								icon: MessageBox.Icon.ERROR,
-								title: "Error",
-								actions: [MessageBox.Action.OK],
-								onClose: function(oAction) {}
-							}
-						);
-					} else {
 						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
 						MessageBox.show(
 							oBundle, {
@@ -2647,8 +2683,29 @@ sap.ui.define(
 								onClose: function(oAction) {}
 							}
 						);
-					}
+
 				}
+			},
+			getEntryData:function(oEvent,custId,orderNo,date,postedEntryData){
+			  debugger;
+			var retVal;
+			var that = this;
+			var orderDate = date;
+			var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+			var entryData = this.getView().getModel('local').getProperty('/EntryData');
+			entryData.OrderNo = orderId;
+			entryData.Date = orderDate;
+			entryData.Customer = custId;
+			$.post("/EntryTransfer",{entryData})
+			.then(function(result){
+			  debugger;
+			postedEntryData.Customer = result.Customer;
+			postedEntryData.Cash = result.Cash;
+			postedEntryData.OrderNo = result.OrderNo;
+			postedEntryData.id = result.id;
+			retVal = true;
+			})
+			return retVal;
 			},
 			getPrintCustHeaderData: function() {
 				var that = this;

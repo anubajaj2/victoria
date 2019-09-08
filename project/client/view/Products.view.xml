@@ -18,6 +18,17 @@
 		busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+			tooltip="fullscreen"
+			iconFirst="true" press="toggleFullScreen"/>
+    </semantic:customHeaderContent>
+
+		<semantic:content id="Header">
+			<f:Form id="ProductHeader" editable="true">
+			</f:Form>
+		</semantic:content>
+
 		<semantic:content>
 		<f:SimpleForm
 			minWidth="1024"
@@ -52,7 +63,8 @@
 <Input id="idProductCode" submit="productCodeEnter" suggest="ValueChangeMaterial"
 	suggestionItems="{/Products}" showSuggestion="true"
 		enabled="{viewModel>/codeEnabled}"
-	suggestionItemSelected="productCodeCheck">
+	suggestionItemSelected="productCodeCheck" liveChange="onKeyPress"
+	change="productCodeEnter">
 	<suggestionItems>
 		<core:ListItem text="{ProductCode}"
 									 additionalText="{ProductName} {Type}"/>

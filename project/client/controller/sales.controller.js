@@ -554,7 +554,8 @@ retailPrint:function(oData){
 onConfirm:function(oEvent){
   var that = this;
 //order popup
-if (oEvent.getParameter('id') === 'orderNo'){
+// if (oEvent.getParameter('id') === 'orderNo'){
+if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo'){
 this.byId("Sales--idSaveIcon").setColor('green');
 this.byId("idRetailTransfer").setEnabled(true);
 delete this.orderAmount;

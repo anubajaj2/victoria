@@ -133,8 +133,23 @@ sap.ui.define([
 
 
 			},
+
+			onKeyPress:function(oEvent){
+
+				var input = oEvent.getSource();
+				input.setValue(input.getValue().toUpperCase());
+			},
+
+			toggleFullScreen:function(){
+				debugger;
+			  var btnId = "idFullScreenBtn";
+			  var headerId = "__component0---idProducts--ProductHeader";
+			  this.toggleUiTable(btnId,headerId)
+			},
+
 			onAfterRendering:function(){
 				debugger;
+
 				// var state = this.getView().byId("idHindiName").getState();
 				// if(state=== true){
       google.load("elements", "1", {
@@ -161,6 +176,94 @@ sap.ui.define([
         // 'transliterateTextarea'.
         control.makeTransliteratable(['__component0---idProducts--idHindi-inner']);
 				control.showControl('translControl');
+				// }
+
+        debugger;
+				window.focus = this;
+				this.getView().byId("idProductCode").attachBrowserEvent("focusout",newFunction);
+				function newFunction() {
+					debugger;
+					var focusthis = window.focus;
+					var productModel = focusthis.getView().getModel("productModel");
+					var selProd = focusthis.getView().byId("idProductCode").getValue();
+					var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selProd);
+					var that = focusthis;
+
+					focusthis.ODataHelper.callOData(focusthis.getOwnerComponent().getModel(),
+					 "/Products", "GET", {filters: [oFilter]}, {}, focusthis)
+						.then(function(oData) {
+	            debugger;
+							if(oData.results.length > 0){
+								debugger;
+								that.getView().byId("idProductCode").setValue(oData.results[0].ProductCode);
+								// that.getView().byId("idCustomerCode").setEditable(false);
+								that.getView().byId("idProductName").setValue(oData.results[0].ProductName);
+								that.getView().byId("idType").setSelectedKey(oData.results[0].Type);
+								that.getView().byId("idKarat").setSelectedKey(oData.results[0].Karat);
+								that.getView().byId("idHindi").setValue(oData.results[0].HindiName);
+								that.getView().byId("idStandardCost").setValue(oData.results[0].Tunch);
+								that.getView().byId("idReorderLevel").setValue(oData.results[0].Wastage);
+								that.getView().byId("idListPrice").setValue(oData.results[0].CustomerTunch);
+								that.getView().byId("idTargetLevel").setValue(oData.results[0].AlertQuantity);
+								that.getView().byId("idMinimumReorderQuantity").setValue(oData.results[0].Making);
+								that.getView().byId("idCategory").setValue(oData.results[0].Category);
+								that.getView().byId("idPricePerUnit").setValue(oData.results[0].MakingD);
+								var viewModel = that.getView().getModel("viewModel");
+								var prodModInfo = oData.results[0];
+								productModel.setProperty("/ProductCode", prodModInfo.id);
+								productModel.setProperty("/ProductName", prodModInfo.ProductName);
+								var oCat = that.getView().byId("idCategory");
+								oCat.setSelectedKey(prodModInfo.Category);
+								productModel.setProperty("/Category", prodModInfo.Category);
+								var oType = that.getView().byId("idType");
+								oType.setSelectedKey(prodModInfo.Type);
+								productModel.setProperty("/Type", prodModInfo.Type);
+								productModel.setProperty("/Making", prodModInfo.Making);
+								productModel.setProperty("/CustomerTunch", prodModInfo.CustomerTunch);
+								productModel.setProperty("/PricePerUnit", prodModInfo.PricePerUnit);
+								productModel.setProperty("/Wastage", prodModInfo.Wastage);
+								productModel.setProperty("/Tunch", prodModInfo.Tunch);
+								productModel.setProperty("/AlertQuantity", prodModInfo.AlertQuantity);
+								productModel.setProperty("/HindiName", prodModInfo.HindiName);
+								productModel.setProperty("/Id", prodModInfo.id);
+								if (prodModInfo.Type === "Gold") {
+									viewModel.setProperty("/typeEnabled", true);
+								productModel.setProperty("/Karat", prodModInfo.Karat);
+								var oKarat = that.getView().byId("idKarat");
+								oKarat.setSelectedKey(prodModInfo.Karat);
+								}
+								else{
+									var karatType = that.getView().byId("idKarat");
+									karatType.setSelectedKey("");
+								}
+
+
+
+								viewModel.setProperty("/buttonText", "Update");
+								viewModel.setProperty("/deleteEnabled", true);
+								viewModel.setProperty("/codeEnabled", false);
+
+							}else{
+								// that.getView().byId("idCustomerCode").setEditable(true);
+							}
+
+						}).catch(function(oError) {
+								// MessageToast.show("cannot fetch the data");
+						});
+
+
+
+				}
+
+				// this.getView().byId("idProductCode").addEventDelegate({
+        //     onfocusout : function(focusthat) {
+				// 			debugger;
+        //       // alert("focus");
+        //     }
+        //   });
+				// this.getView().byId("idProductCode").addEventListener("focusout", fncFocusOut);
+        // function fncFocusOut(){
+				// 	debugger;
 				// }
 			},
 
@@ -259,6 +362,7 @@ this.clearProduct();
 			},
 
 			productCodeEnter : function(oEvent){
+				debugger;
 				$(function() {
 								$('input:text:first').focus();
 								var $inp = $('input:text');
@@ -349,6 +453,7 @@ this.clearProduct();
 					});
 			},
 			productCodeCheck : function(oEvent){
+				debugger;
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
 				var selectedMatData =oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
@@ -375,6 +480,7 @@ this.clearProduct();
 						productModel.setProperty("/Tunch", selectedMatData.Tunch);
 						productModel.setProperty("/AlertQuantity", selectedMatData.AlertQuantity);
 						productModel.setProperty("/HindiName", selectedMatData.HindiName);
+						productModel.setProperty("/Id", selectedMatData.id);
 						if (selectedMatData.Type === "Gold") {
 							viewModel.setProperty("/typeEnabled", true);
 						productModel.setProperty("/Karat", selectedMatData.Karat);
@@ -421,6 +527,7 @@ this.clearProduct();
 			},
 
 			clearProduct : function(){
+				debugger;
 				var productModel = this.getView().getModel("productModel");
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
@@ -431,6 +538,7 @@ this.clearProduct();
 				productModel.getData().Type = "";
 				var karatType = this.getView().byId("idKarat");
 				karatType.setSelectedKey("");
+				productModel.getData().Id = "";
 				productModel.getData().ProductCode = "";
 				productModel.getData().CustomerTunch = 0;
 				productModel.getData().Making = 0;
@@ -442,6 +550,7 @@ this.clearProduct();
 				productModel.getData().HindiName = "";
 				var prodId = this.getView().byId("idProductCode");
 				prodId.setSelectedKey("");
+				prodId.setValue("");
 				// var prodType = this.getView().byId("idType");
 				// prodType.setSelectedKey("");
 				var typeValue = typeModel.getData().items[0].text;
@@ -457,9 +566,11 @@ this.clearProduct();
 			},
 
 			SaveProduct : function(oEvent){
+				debugger;
 				var that = this;
 				var productModel = that.getView().getModel("productModel");
 				var prodId = productModel.getData().Id;
+				// var prodId = productModel.getData().ProductCode;
 				var productCode = that.getView().byId("idProductCode").getValue();
 				productModel.setProperty("/ProductCode", productCode);
 				var oProdcode = productModel.getProperty("/ProductCode").toLocaleUpperCase();
@@ -502,15 +613,31 @@ debugger;
 
 						}
 						else{
+							var oFilter = new sap.ui.model.Filter("ProductCode","EQ", oProdcode);
+
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Product", "POST", {},productModel.getData() , this)
+							 "/Products", "GET", {filters: [oFilter]}, {}, this)
 								.then(function(oData) {
-								MessageToast.show("Data saved successfully");
-								// that._onRouteMatched();
-									that.clearProduct();
+									if (oData.results.length > 0 ){
+										MessageToast.show("Product Code Exist. Data not saved");
+									}	else{
+
+										that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+										 "/Product", "POST", {},productModel.getData() , that)
+											.then(function(oData) {
+											MessageToast.show("Data saved successfully");
+											// that._onRouteMatched();
+												that.clearProduct();
+											}).catch(function(oError) {
+													MessageToast.show("Data could not be saved");
+											});
+									}
 								}).catch(function(oError) {
 										MessageToast.show("Data could not be saved");
 								});
+
+
+
 						}
 						// if(data.results.length === 0){
 						// 	that.createNewProduct();

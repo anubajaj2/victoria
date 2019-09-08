@@ -122,6 +122,13 @@ sap.ui.define([
 this.clearGroup();
 			 },
 
+			 toggleFullScreen:function(){
+ 				debugger;
+ 			  var btnId = "idFullScreenBtn";
+ 			  var headerId = "__component0---idGroup--GroupHeader";
+ 			  this.toggleUiTable(btnId,headerId)
+ 			},
+
 			 additionalInfoValidation : function(){
 			 	var customerModel = this.getView().getModel("groupModel");
 			 	var oDataModel = this.getView().getModel("dataModel");

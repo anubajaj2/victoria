@@ -85,11 +85,16 @@ sap.ui.define([
 //						oViewModel.setProperty("/delay", iOriginalBusyDelay);
 //					}
 //				);
+
+
+
 			},
 
 			onSelectChange: function(oEvent){
+				debugger;
 				var oValue = oEvent.getSource().getId();
-				var oSelect = oEvent.getParameter("selectedItem").getText();
+				// var oSelect = oEvent.getParameter("selectedItem").getText();
+				var oSelect = oEvent.getParameter("selectedItem").mProperties.key;
 				if(oValue === "__component0---idCustomers--idCity"){
 					this.getView().getModel("customerModel").setProperty("/City", oSelect);
 				}
@@ -178,6 +183,89 @@ sap.ui.define([
 					}
 					}
 					});
+
+			},
+
+			onAfterRendering:function(){
+				var focusthis = this;
+
+				this.getView().byId("idCustomerCode").attachBrowserEvent("focusout",myFunction);
+				function myFunction() {
+				var selCust = document.getElementById("__component0---idCustomers--idCustomerCode-inner").value;
+        var that = focusthis;
+				var customerModel = focusthis.getView().getModel("customerModel");
+				// var selData = oEvent.getParameter("value").toLocaleUpperCase();
+				customerModel.setProperty("/CustomerCode", selCust);
+				var oFilter = new sap.ui.model.Filter("CustomerCode","EQ", selCust);
+				focusthis.ODataHelper.callOData(focusthis.getOwnerComponent().getModel(),
+				 "/Customers", "GET", {filters: [oFilter]}, {}, focusthis)
+					.then(function(oData) {
+            debugger;
+						if(oData.results.length > 0){
+							that.getView().byId("idCustomerCode").setValue(oData.results[0].CustomerCode);
+							// that.getView().byId("idCustomerCode").setEditable(false);
+							that.getView().byId("idName").setValue(oData.results[0].Name);
+							that.getView().byId("idCity").setSelectedKey(oData.results[0].City);
+							that.getView().byId("idGroup").setSelectedKey(oData.results[0].Group);
+							that.getView().byId("idAddress").setValue(oData.results[0].Address);
+							that.getView().byId("idType").setValue(oData.results[0].Type);
+							that.getView().byId("idMobilePhone").setValue(oData.results[0].MobilePhone);
+							that.getView().byId("idSecondaryPhone").setValue(oData.results[0].SecondaryPhone);
+
+
+							customerModel.setProperty("/CustomerCode", oData.results[0].id);
+							customerModel.setProperty("/City", oData.results[0].City);
+							customerModel.setProperty("/Name", oData.results[0].Name);
+							customerModel.setProperty("/MobilePhone", oData.results[0].MobilePhone);
+							customerModel.setProperty("/Address", oData.results[0].Address);
+							customerModel.setProperty("/SecondaryPhone", oData.results[0].SecondaryPhone);
+							var oGroup = that.getView().byId("idGroup");
+							oGroup.setSelectedKey(oData.results[0].Group);
+							customerModel.setProperty("/Group", oData.results[0].Group);
+							var oCity = that.getView().byId("idCity");
+							oCity.setSelectedKey(oData.results[0].City);
+							customerModel.setProperty("/Id", oData.results[0].id);
+							var oType = that.getView().byId("idType");
+							oType.setSelectedKey(oData.results[0].Type);
+							customerModel.setProperty("/Type", oData.results[0].Type);
+
+
+							var viewModel = that.getView().getModel("viewModel");
+							viewModel.setProperty("/buttonText", "Update");
+							viewModel.setProperty("/deleteEnabled", true);
+							viewModel.setProperty("/codeEnabled", false);
+
+						}else{
+							that.getView().byId("idCustomerCode").setEditable(true);
+						}
+
+					}).catch(function(oError) {
+							// MessageToast.show("cannot fetch the data");
+					});
+
+
+
+
+
+
+				}
+
+			},
+
+		  _myFunction1:function(){
+				debugger;
+			},
+			onKeyPress:function(oEvent){
+
+				var input = oEvent.getSource();
+    		input.setValue(input.getValue().toUpperCase());
+			},
+
+			toggleFullScreen:function(){
+				debugger;
+			  var btnId = "idFullScreenBtn";
+			  var headerId = "__component0---idCustomers--CustomerHeader";
+			  this.toggleUiTable(btnId,headerId)
 			},
 
 			deleteAllCustomers:function(){
@@ -241,7 +329,7 @@ sap.ui.define([
  	         onClose: function(sAction) {
  	           debugger;
  	           if(sAction==="OK"){
- 	             
+
 							$.post("/deleteRecords",{
 								// customerId: "",
 							 entityName: "DelAll"}).done(function(response){
@@ -256,6 +344,7 @@ sap.ui.define([
 			},
 
 			additionalInfoValidation : function(){
+				debugger;
 				var customerModel = this.getView().getModel("customerModel");
 				var oDataModel = this.getView().getModel("dataModel");
 				if(customerModel.getData().CustomerCode === ""){
@@ -312,6 +401,7 @@ sap.ui.define([
 			},
 
 			customerCodeEnter : function(oEvent){
+				debugger;
 				$(function() {
 								$('input:text:first').focus();
 								var $inp = $('input:text');
@@ -326,6 +416,7 @@ sap.ui.define([
 								});
 						});
 						var that = this;
+						debugger;
 						var customerModel = this.getView().getModel("customerModel");
 						var selData = oEvent.getParameter("value").toLocaleUpperCase();
 						customerModel.setProperty("/CustomerCode", selData);
@@ -393,6 +484,7 @@ sap.ui.define([
 					 var viewModel = this.getView().getModel("viewModel");
 						var oCustCode = this.getView().byId("idCustomerCode").getValue();
 						 var found =  customerCode;
+						 debugger;
 					if(found.length > 0){
 						customerModel.setProperty("/CustomerCode", selectedCustData.id);
 						customerModel.setProperty("/City", selectedCustData.City);
@@ -434,6 +526,8 @@ sap.ui.define([
 			},
 
 			clearCustomer : function(){
+				// document.getElementById("__component0---idCustomers--idCustomerCode").addEventListener("focusout",myFunction);
+				this.getView().byId("idCustomerCode").setEditable(true);
 				var customerModel = this.getView().getModel("customerModel");
 				var viewModel = this.getView().getModel("viewModel");
 				var dataModel = this.getView().getModel("dataModel");
@@ -465,16 +559,22 @@ sap.ui.define([
 				dataModel.setProperty("/GroupState", "None");
 				dataModel.setProperty("/NameState", "None");
 				customerModel.refresh();
+				// this.clearValues();
+				var custid = this.getView().byId("idCustomerCode");
+				custid.setSelectedKey("");
+				custid.setValue("");
 			},
 
 			SaveCustomer : function(){
+				debugger;
 				var that = this;
-				 var customerModel = this.getView().getModel("customerModel");
-				 var custId = customerModel.getData().Id;
+				var customerModel = this.getView().getModel("customerModel");
+				var custId = customerModel.getData().Id;
  				var customerCode = that.getView().byId("idCustomerCode").getValue();
  				customerModel.setProperty("/CustomerCode", customerCode);
 				var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 				customerModel.setProperty("/CustomerCode", oCuscode);
+				debugger;
 				that.additionalInfoValidation();
 				var oret = true;
 				if(customerModel.getData().Name === "" || customerModel.getData().CustomerCode === ""){
@@ -482,7 +582,9 @@ sap.ui.define([
 					MessageToast.show("Please fill the required fields");
 					oret = false;
 			 }
+			 debugger;
 			 if(oret === true){
+
 						if(custId.length > 0){
 
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -497,29 +599,54 @@ sap.ui.define([
 
 						}
 						else{
+              var that = this;
+							var oFilter = new sap.ui.model.Filter("CustomerCode","EQ", oCuscode);
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							 "/Customer", "POST", {},customerModel.getData() , this)
+							 "/Customers", "GET", {filters: [oFilter]}, {}, this)
 								.then(function(oData) {
-								MessageToast.show("Data saved successfully");
-							// that.clearCustomer();
-								// that._onRouteMatched();
-								that.clearCustomer();
+									debugger;
+									if (oData.results.length > 0 ){
+										MessageToast.show("Customer Code Exist. Data not saved");
+									}	else{
+									that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									 "/Customer", "POST", {},customerModel.getData() , that)
+										.then(function(oData) {
+										MessageToast.show("Data saved successfully");
+									// that.clearCustomer();
+										// that._onRouteMatched();
+										that.clearCustomer();
+										}).catch(function(oError) {
+												MessageToast.show("Data could not be saved");
+										});
+									}
+
+
 								}).catch(function(oError) {
-										MessageToast.show("Data could not be saved");
+										// MessageToast.show("cannot fetch the data");
 								});
+
+
+
+
+
+
+
+
 						}
 					}
 
 			},
 
 			deleteCustomer : async function(){
+				debugger;
 				var that = this;
 				that.getView().setBusy(true);
 				var customerModel = this.getView().getModel("customerModel");
-				var customerCode = customerModel.getData().CustomerCode;
+				var customerCode = customerModel.getData().Id;
 				var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 				if(customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" || customerModel.getData().Group === ""){
 					MessageToast.show("Please fill the required fields");
+					that.getView().setBusy(false);
 					return;
 				}
 				function getCustomerCode(customerCode) {
@@ -810,6 +937,7 @@ sap.ui.define([
 				});
 			},
 			Save: function(){
+				debugger;
 				var that = this;
 				var aFilters = [];
 				var oFilter = new Filter("Company", "EQ", that.getModel("customerModel").getProperty("/Company"));

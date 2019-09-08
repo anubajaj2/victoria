@@ -5,6 +5,11 @@
     navButtonPress="onNavBack"
     showNavButton="true"
     title="Entry">
+    <semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+			tooltip="fullscreen"
+			iconFirst="true" press="toggleFullScreen"/>
+    </semantic:customHeaderContent>
     <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.entry1" type="XML"></core:Fragment>
       <!-- <core:Fragment fragmentName="victoria.fragments.entry2" type="XML"></core:Fragment> -->

@@ -246,6 +246,13 @@ customerCityInfo : function(cityName){
 		}
 },
 
+toggleFullScreen:function(){
+	debugger;
+	var btnId = "idFullScreenBtn";
+	var headerId = "__component0---idCity--CityHeader";
+	this.toggleUiTable(btnId,headerId)
+},
+
 saveCity : function(){
 	var that = this;
 	 var cityModel = this.getView().getModel("cityModel");

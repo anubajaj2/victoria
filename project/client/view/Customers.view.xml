@@ -16,6 +16,16 @@
 		title="Manage Customers"
 		busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+			tooltip="fullscreen"
+			iconFirst="true" press="toggleFullScreen"/>
+    </semantic:customHeaderContent>
+
+		<semantic:content id="Header">
+			<f:Form id="CustomerHeader" editable="true">
+			</f:Form>
+		</semantic:content>
 
 		<semantic:content>
 		<f:SimpleForm
@@ -31,7 +41,7 @@
 			columnsM="1"
 			class="editableForm">
 			<f:content>
- 			    <Label text="Customer Code" labelFor="customerCode" required="true"/>
+ 			    <Label text="Customer Code" labelFor="customerCode" required="true" />
 				<!-- <Input
 					id="customerCode"
 					type="Text"
@@ -46,7 +56,8 @@
 				<Input id="idCustomerCode" submit="customerCodeEnter" suggest="ValueChangeCustomer"
 					suggestionItems="{/Customers}" showSuggestion="true"
 						enabled="{viewModel>/codeEnabled}"
-					suggestionItemSelected="customerCodeCheck">
+					suggestionItemSelected="customerCodeCheck" liveChange="onKeyPress"
+					change="customerCodeEnter">
 					<suggestionItems>
 						<core:ListItem text="{CustomerCode}"
 													additionalText="{Name}"/>

@@ -1720,13 +1720,63 @@ var oPopover = that.getErrorMessage(oError);
 
 									var Customer = app.models.Customer;
 									Customer.destroyAll({}).then(function(records){
+										var Product = app.models.Product;
+										Product.destroyAll({}).then(function(records){
 										var Entry = app.models.Entry;
 										Entry.destroyAll({}).then(function(records){
 											var Booking = app.models.BookingDetail;
 											Booking.destroyAll({}).then(function(records){
-												res.send({
-													"msg": msg
-												});
+												var OrderHeader = app.models.OrderHeader;
+												OrderHeader.destroyAll({}).then(function(records){
+													var OrderItem = app.models.OrderItem;
+													OrderItem.destroyAll({}).then(function(records){
+														var OrderReturn = app.models.OrderReturn;
+														OrderReturn.destroyAll({}).then(function(records){
+															var WSOrderHeader = app.models.WSOrderHeader;
+															WSOrderHeader.destroyAll({}).then(function(records){
+																var WSOrderItem = app.models.WSOrderItem;
+																WSOrderItem.destroyAll({}).then(function(records){
+																	var WSOrderReturn = app.models.WSOrderReturn;
+																	WSOrderReturn.destroyAll({}).then(function(records){
+																		var Kacchi = app.models.Kacchi;
+																		Kacchi.destroyAll({}).then(function(records){
+																			var CustomerOrder = app.models.CustomerOrder;
+																			CustomerOrder.destroyAll({}).then(function(records){
+																				var StockMaint = app.models.StockMaint;
+																				StockMaint.destroyAll({}).then(function(records){
+																			res.send({
+																				"msg": msg
+																			});
+																		}).catch(function(err,ns){
+													 						;
+													 					});	
+																		}).catch(function(err,ns){
+													 						;
+													 					});
+															}).catch(function(err,ns){
+										 						;
+										 					});
+															}).catch(function(err,ns){
+							 									;
+							 								});
+														}).catch(function(err,ns){
+			 												;
+			 											});
+														}).catch(function(err,ns){
+			 												;
+			 											});
+														}).catch(function(err,ns){
+															;
+														});
+														}).catch(function(err,ns){
+			 												;
+			 											});
+													}).catch(function(err,ns){
+		 												;
+		 											});
+											 }).catch(function(err,ns){
+												;
+											 });
 											}).catch(function(err,ns){
 												;
 											});

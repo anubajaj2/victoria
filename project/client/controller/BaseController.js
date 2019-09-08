@@ -204,7 +204,7 @@ sap.ui.define([
 						this.getView().addDependent(this.orderSearchPopup);
 						var title = this.getView().getModel("i18n").getProperty("orderSearch");
 						this.orderSearchPopup.setTitle(title);
-						this.orderSearchPopup.sId = 'orderNo';
+						// this.orderSearchPopup.sId = 'orderNo';
 
 						var orderDate = this.byId("Sales--DateId").getValue();
 						var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;

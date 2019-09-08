@@ -48,7 +48,8 @@ sap.ui.define(
 			},
 			onConfirm: function(oEvent) {
 
-				if (oEvent.getParameter('id') === 'orderNo') {
+				// if (oEvent.getParameter('id') === 'orderNo') {
+				if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo'){
 					this.setStatus('green');
 					var orderDetail = this.getView().getModel('local').getProperty('/WSOrderHeader');
 					var orderNo = oEvent.getParameter("selectedItem").getLabel();
@@ -292,7 +293,7 @@ sap.ui.define(
 				this.getView().addDependent(this.orderSearchPopup);
 				var title = this.getView().getModel("i18n").getProperty("orderSearch");
 				this.orderSearchPopup.setTitle(title);
-				this.orderSearchPopup.sId = 'orderNo';
+				// this.orderSearchPopup.sId = 'orderNo';
 				var orderDate = this.byId("WSHeaderFragment--DateId").getValue();
 				var customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);

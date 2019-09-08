@@ -123,6 +123,14 @@ function (BaseController,
         this.getView().byId("idRemarks").setValue(KT);
       }
     },
+
+		toggleFullScreen:function(){
+			debugger;
+			var btnId = "idFullScreenBtn";
+			var headerId = "__component0---idEntry--idcust1";
+			this.toggleUiTable(btnId,headerId)
+		},
+
 		decimalvalidator1: function (oEvent) {
 						debugger;
 			if(oEvent.mParameters.id==="__component0---idEntry--idCash"){

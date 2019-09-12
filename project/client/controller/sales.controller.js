@@ -1521,42 +1521,22 @@ if (selIdxs.length && selIdxs.length !== 0) {
         if (id){
     var stockData = that.getView().getModel('local').getProperty('/stockMaint')
     stockData.Product = pid;
-    stockData.OrderItemId = orderId;
+    stockData.OrderItemId = id;
     stockData.Date = date;
     stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
     stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
     debugger;
     that.byId("Sales--idSaveIcon").setColor('green');
-    // that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
-    //                               "DELETE", {}, {}, that)
-    debugger;
-
-// that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-//                             "/stockMaints","GET", ofilter3, {}, that)
-that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                            "/stockMaints",
-                            "GET",{
-                              filters: [new sap.ui.model.Filter("Product",sap.ui.model.FilterOperator.EQ, "'" + pid + "'" )]
-                            }, {}, that)
-.then(function(oData) {
-  debugger;
-})
-.catch(function(oError) {
-  that.getView().setBusy(false);
-  var oPopover = that.getErrorMessage(oError);
-});
-debugger;
-      // $.post("/StockDelete",{Stock: stockData})
-      // .then(function(result){
-      //   debugger;
-      //   var stockId = result.id;
-      //   that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-      //                             "/stockMaints('" + stockId + "')",
-      //                                 "DELETE", {}, {}, that)
-      // });
-      // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-      //                             "/Products('" + pid + "')/ToStock",
-      //                                 "DELETE", {}, {}, that)
+    that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
+                                  "DELETE", {}, {}, that)
+      $.post("/StockDelete",{Stock: stockData})
+      .then(function(result){
+        debugger;
+        var stockId = result.id;
+        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                                  "/stockMaints('" + stockId + "')",
+                                      "DELETE", {}, {}, that)
+      });
         sap.m.MessageToast.show("Data Deleted Successfully");
       }else {
         that.byId("Sales--idSaveIcon").setColor('red');

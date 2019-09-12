@@ -1749,7 +1749,7 @@ var oPopover = that.getErrorMessage(oError);
 																			});
 																		}).catch(function(err,ns){
 													 						;
-													 					});	
+													 					});
 																		}).catch(function(err,ns){
 													 						;
 													 					});
@@ -2050,6 +2050,7 @@ var oPopover = that.getErrorMessage(oError);
 		});//next order
 
 		app.post('/StockDelete',function(req ,res){
+			debugger;
 		var date = new Date(JSON.parse(JSON.stringify(req.body.Stock.Date)));
 		var materialId = req.body.Stock.Product;
 		var orderNo = req.body.Stock.OrderItemId;
@@ -2057,33 +2058,25 @@ var oPopover = that.getErrorMessage(oError);
 		debugger;
 		Stock.find({
 			where:{
-				// "Date":date,
-				// "Product":materialId
 				"OrderItemId":orderNo
-				// "OrderType":'R'
 			},
 			fields:{
 				"Product": true,
 				"Quantity":true,
 				"Weight":true,
-				"OrderId":true,
+				"OrderItemId":true,
 				"id": true
 			}
 		})
 		.then(function(Stock) {
 			debugger;
-			for (var i = 0; i < Stock.length; i++) {
-			if (Stock[i].OrderNo === orderNo ) {
 				res.send({
-					"Product": Stock[i].Product,
-					"Quantity":Stock[i].Quantity,
-					"Weight":Stock[i].Weight,
-					"OrderId":Stock[i].OrderId,
-					"id": Stock[i].id
+					"Product": Stock[0].Product.toString(),
+					"Quantity":Stock[0].Quantity,
+					"Weight":Stock[0].Weight,
+					"id": Stock[0].id.toString()
 				});
-			}
-			}
-		})
+		});
 		});//StockDelete
 		app.post('/previousWSOrder', function(req ,res) {
 			debugger;

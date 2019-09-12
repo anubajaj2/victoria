@@ -68,7 +68,7 @@
           </f:FormElement>
           <f:FormElement label="{i18n>weight}">
             <f:fields>
-              <Input id="idweight" submit="onSubmit" value="{path:'local>/stockMaint/Weight'}">
+              <Input id="idweight" submit="onSubmit" liveChange="decimalvalidator" value="{path:'local>/stockMaint/Weight'}">
                 <layoutData>
                   <l:GridData span="XL4 L4 M2 S4" />
                 </layoutData>

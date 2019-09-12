@@ -34,6 +34,20 @@ function (BaseController,MessageBox,MessageToast,History) {
               });
           });
 },
+
+decimalvalidator: function (oEvent) {
+          debugger;
+    if(oEvent.mParameters.id==="__component0---idpendingOrders--idweight"){
+    $(function() {
+      $('input').on('input.idweight',function(event) {
+        if(event.currentTarget.id=="__component0---idpendingOrders--idweight-inner"){
+        debugger;
+        this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,3})?/)[0];
+      }
+      });
+    });
+}
+  },
   onMaterialSelect: function (oEvent) {
     var that=this;
     var selMat = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
@@ -73,7 +87,22 @@ function (BaseController,MessageBox,MessageToast,History) {
     myData.Description=this.getView().byId("idMatText").getText();
     myData.Description=myData.Description.split("-")[0];
     myData.Quantity=this.getView().byId("idqty").getValue();
-    myData.Weight=this.getView().byId("idweight").getValue();
+    var y=this.getView().byId("idweight").getValue();
+    var y1=parseFloat(this.byId("idweight").getValue());
+    if(this.getView().byId("idMatText").getText().split("-")[1]==="Gold")
+    {
+       var w1 = y1.toFixed(3);
+       var w2 = parseFloat(w1);
+       myData.Weight=w2;
+     }
+     else if(this.getView().byId("idMatText").getText().split("-")[1]==="Silver")
+     {
+       var w3 = y1.toFixed(2);
+       var w4 = parseFloat(w3);
+       myData.Weight=w4;
+     }
+
+
     myData.Remarks = this.getView().byId("idRemarks").getValue();
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),"/stockMaints",
                             "POST", {}, myData, this)
@@ -103,7 +132,19 @@ function (BaseController,MessageBox,MessageToast,History) {
    var x1=parseFloat(this.byId("idWt").getText());
    var y=this.getView().byId("idweight").getValue();
    var y1=parseFloat(this.byId("idweight").getValue());
-   var z = x1+y1;
+   if(this.getView().byId("idMatText").getText().split("-")[1]==="Gold")
+   {
+      var y2 = y1.toFixed(3);
+      var y3 = parseFloat(y2);
+       var z = x1+y3;
+    }
+   else if(this.getView().byId("idMatText").getText().split("-")[1]==="Silver")
+   {
+     var y4 = y1.toFixed(2);
+     var y5 = parseFloat(y4);
+     var z = x1+y5;
+   }
+   // var z = x1+y3;
    this.byId("idWt").setText(parseFloat(z));
    var z1 = this.byId("idWt").getText();
   if(parseFloat(z1)>0){

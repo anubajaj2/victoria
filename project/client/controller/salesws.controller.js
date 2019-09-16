@@ -49,7 +49,7 @@ sap.ui.define(
 			onConfirm: function(oEvent) {
 
 				// if (oEvent.getParameter('id') === 'orderNo') {
-				if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo'){
+				if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo') {
 					this.setStatus('green');
 					var orderDetail = this.getView().getModel('local').getProperty('/WSOrderHeader');
 					var orderNo = oEvent.getParameter("selectedItem").getLabel();
@@ -67,7 +67,7 @@ sap.ui.define(
 						var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + "");
 					}
 					oEvent.sId = "orderReload";
-					this.getOrderDetails(oEvent, orderId, oFilter);
+					this.getOrderDetails(oEvent, orderId, oFilter, orderNo);
 					this.orderSearchPopup.destroyItems();
 				} else {
 					this.setStatus('red');
@@ -168,7 +168,7 @@ sap.ui.define(
 				});
 				this.setModel(oTransData, "returnModel");
 			},
-			getOrderDetails: function(oEvent, orderId, oFilter) {
+			getOrderDetails: function(oEvent, orderId, oFilter, orderNo) {
 
 				var that = this;
 				that.orderItem(oEvent);
@@ -180,6 +180,7 @@ sap.ui.define(
 					.then(function(oData) {
 
 						that.getView().setBusy(false);
+						var date = oData.Date;
 						var custId = oData.Customer;
 						var customerData = that.allMasterData.customers[custId];
 						debugger;
@@ -197,7 +198,7 @@ sap.ui.define(
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
 						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + customerData.City);
 						var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
-				    that.getEntryData(oEvent,custId,orderNo,date,postedEntryData)
+						that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
 						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 						// assign the details on ui
 						//   var that2 = this;
@@ -381,7 +382,7 @@ sap.ui.define(
 				var tablePath = "";
 				var i = "";
 				this.Calculation(oEvent, tablePath, i);
-				this.onTunchChange(oEvent);
+				// this.onTunchChange(oEvent);
 				// this.WSCalculation(oEvent);
 				this.setStatus('red');
 			},
@@ -941,9 +942,9 @@ sap.ui.define(
 								for (var i = selIdxs.length - 1; i >= 0; --i) {
 									if (oSourceCall === 'WSItemFragment--orderItemBases') {
 										var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-        						var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
-      							var orderId  = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
-										var date = that.getView().byId("Sales--DateId").getDateValue();
+										var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
+										var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+										var date = that.getView().byId("WSHeaderFragment--DateId").getDateValue();
 										// TotalOrderValueCash: 0,
 										// TotalOrderValueGold: 0,
 										// TotalOrderValueSilver: 0,
@@ -991,15 +992,24 @@ sap.ui.define(
 										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
 										// If row contains id(which means it has been saved in DB)
 										if (id) {
+
+											var stockData = that.getView().getModel('local').getProperty('/stockMaint')
+											stockData.Product = pid;
+											stockData.OrderItemId = id;
+											stockData.Date = date;
+											stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
+											stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
 											var myUrl = "/WSOrderItems('" + id + "')"
 											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-												"DELETE", {}, {}, that);
-												var stockData = that.getView().getModel('local').getProperty('/stockMaint')
-										    stockData.Product = pid;
-										    stockData.OrderItemId = orderId;
-										    stockData.Date = date;
-										    stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
-										    stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
+												"DELETE", {}, {}, that)
+												$.post("/StockDelete",{Stock: stockData})
+									      .then(function(result){
+									        debugger;
+									        var stockId = result.id;
+									        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									                                  "/stockMaints('" + stockId + "')",
+									                                      "DELETE", {}, {}, that)
+									      });
 										} else {
 											that.setStatus("red");
 										};
@@ -1458,11 +1468,11 @@ sap.ui.define(
 							oOrderDetail.OrderNo = oId; //orderno // ID
 							oOrderDetail.Material = data.Material;
 							// Quantity
-						  if (data.Qty === "" || data.Qty === 0) {
-						    oOrderDetail.Qty= 0;
-						  }else {
-						    oOrderDetail.Qty=data.Qty;
-						  }
+							if (data.Qty === "" || data.Qty === 0) {
+								oOrderDetail.Qty = 0;
+							} else {
+								oOrderDetail.Qty = data.Qty;
+							}
 							// QuantityD
 							if (data.QtyD === "" || data.QtyD === 0) {
 								oOrderDetail.QtyD = 0;
@@ -1519,7 +1529,7 @@ sap.ui.define(
 											if (allItems[i].Material === oData.Material) {
 												allItems[i].itemNo = oData.id;
 												allItems[i].OrderNo = oId;
-												        that.stockTransfer(allItems[i]);
+												that.stockTransfer(allItems[i]);
 												// if (oCommit === false) {
 												// 	that.onReturnSave(oEvent, oId, oCommit);
 												// }
@@ -1550,38 +1560,38 @@ sap.ui.define(
 					});
 				}
 			},
-			stockTransfer:function(allItems){
-			var that = this;
-			var orderNo = this.getView().getModel('local').getProperty('/WSOrderHeader/OrderNo');
-			// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
-			var orderDate = this.getView().getModel('local').getProperty('/WSOrderHeader/Date');
-			var stockData = this.getView().getModel('local').getProperty('/stockMaint');
-			stockData.Product = allItems.Material;
-			stockData.Description = allItems.MaterialCode;
-			if (allItems.Qty === '') {
-			stockData.Quantity = '0';
-			}else {
-			stockData.Quantity = allItems.Qty;
-			}
-			if (allItems.Weight === '') {
-			stockData.Weight = '0';
-			}else {
-			stockData.Weight = allItems.Weight;
-			}
-			stockData.OrderItemId=allItems.itemNo;
-			stockData.OrderType = 'W';
-			stockData.Date = orderDate;
-			stockData.Remarks = "[Auto-Entry]Wholesale Sales Stock "+"for order"+ " "+orderNo;
+			stockTransfer: function(allItems) {
+				var that = this;
+				var orderNo = this.getView().getModel('local').getProperty('/WSOrderHeader/OrderNo');
+				// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+				var orderDate = this.getView().getModel('local').getProperty('/WSOrderHeader/Date');
+				var stockData = this.getView().getModel('local').getProperty('/stockMaint');
+				stockData.Product = allItems.Material;
+				stockData.Description = allItems.MaterialCode;
+				if (allItems.Qty === '') {
+					stockData.Quantity = '0';
+				} else {
+					stockData.Quantity = allItems.Qty;
+				}
+				if (allItems.Weight === '') {
+					stockData.Weight = '0';
+				} else {
+					stockData.Weight = allItems.Weight;
+				}
+				stockData.OrderItemId = allItems.itemNo;
+				stockData.OrderType = 'W';
+				stockData.Date = orderDate;
+				stockData.Remarks = "[Auto-Entry]Wholesale Sales Stock " + "for order" + " " + orderNo;
 
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
-			                                  "POST", {}, stockData, this)
-			  .then(function(oData) {
-			    that.getView().setBusy(false);
-			    sap.m.MessageToast.show("Stock Updated Successfully");
-			    }).catch(function(oError) {
-			    that.getView().setBusy(false);
-			    var oPopover = that.getErrorMessage(oError);
-			    });
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/stockMaints",
+						"POST", {}, stockData, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						sap.m.MessageToast.show("Stock Updated Successfully");
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
 			},
 			toggleFullScreen: function() {
 
@@ -1776,6 +1786,7 @@ sap.ui.define(
 				that.getFloatValue(data, oFloatFormat);
 			},
 			setNewValue: function(data, fieldId, newValue) {
+				var that = this;
 				//get the weight
 				if (fieldId === "IdWeight") {
 					if (data.Weight !== newValue) {
@@ -1791,6 +1802,7 @@ sap.ui.define(
 				if (fieldId === "IdMaking") {
 					if (data.Making !== newValue) {
 						data.Making = newValue;
+						that.onTunchMakingChange(data, fieldId, newValue);
 					}
 				}
 				//making D
@@ -1818,6 +1830,7 @@ sap.ui.define(
 				if (fieldId === "IdTunch") {
 					if (data.Tunch !== newValue) {
 						data.Tunch = newValue;
+						that.onTunchMakingChange(data, fieldId, newValue);
 					}
 				}
 
@@ -1959,13 +1972,13 @@ sap.ui.define(
 				this.byId("IdQtyD");
 				this.byId("sbhavid");
 			},
-			onTunchChange: function(oEvent) {
+			onTunchMakingChange: function(data, fieldId, newValue) {
 				debugger;
 				var that = this;
-				var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
-				var data = this.getView().getModel('orderItems').getProperty(path);
-				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
-				var newValue = oEvent.getParameters().newValue;
+				// var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
+				// var data = this.getView().getModel('orderItems').getProperty(path);
+				// var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
+				// var newValue = oEvent.getParameters().newValue;
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				var TunchData = this.getView().getModel('local').getProperty("/WSTunch");
@@ -2279,7 +2292,7 @@ sap.ui.define(
 					var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
 					var oFilter = new sap.ui.model.Filter({
 						filters: [oFilter1, oFilter2],
-						and:true
+						and: true
 					})
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
@@ -2288,12 +2301,16 @@ sap.ui.define(
 							}, null, this)
 						.then(function(oData) {
 							debugger;
-							selectedMatData.Making = oData.Making;
-							selectedMatData.Tunch = oData.Tunch;
+							if (oData.results.length > 0) {
+								selectedMatData.Making = oData.results[0].Making;
+								selectedMatData.Tunch = oData.results[0].Tunch;
+							}
+
 							if (selectedMatData.Tunch) {
 								oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-							} else {
-								oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+							}
+							if (selectedMatData.Making) {
+								oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
 							}
 						})
 						.catch(function(oError) {
@@ -2430,6 +2447,8 @@ sap.ui.define(
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				var WSHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				if (this.getView().byId("WSHeaderFragment--RB-1").getSelected()) { //Cash RadioButton
+
+					//Conversion to required mode (Cash/Gold/Silver)
 					var TotalOrderValueSilver = that.TotalOrderValueSilver * WSHeader.SilverBhav / 1000;
 					var TotalOrderValueGold = that.TotalOrderValueGold * WSHeader.Goldbhav / 10;
 					var DeductionGold = that.DeductionGold * WSHeader.Goldbhav / 10;
@@ -2439,8 +2458,23 @@ sap.ui.define(
 					var TotalOrderValueCash = that.TotalOrderValueCash;
 					var DeductionCash = that.DeductionCash;
 					var FinalBalanceCash = that.FinalBalanceCash;
-					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+
+					// Adding all cash together
+					TotalOrderValueCash = TotalOrderValueCash + TotalOrderValueSilver + TotalOrderValueGold;
+					TotalOrderValueSilver = 0;
+					TotalOrderValueGold = 0;
+
+					DeductionCash = DeductionCash + DeductionGold + DeductionSilver;
+					DeductionSilver = 0;
+					DeductionGold = 0;
+
+					FinalBalanceCash = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					FinalBalanceSilver = 0;
+					FinalBalanceGold = 0;
+
+					var CombinedBalance = FinalBalanceCash;
 					var BalanceSuffix = "Rupees of Cash";
+
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(0);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(0);
@@ -2483,8 +2517,22 @@ sap.ui.define(
 					var FinalBalanceGold = that.FinalBalanceGold;
 					var FinalBalanceSilver = that.FinalBalanceSilver * WSHeader.SilverBhav / (100 * WSHeader.Goldbhav);
 					var FinalBalanceCash = that.FinalBalanceCash * 10 / WSHeader.Goldbhav;
-					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+
+					TotalOrderValueGold = TotalOrderValueCash + TotalOrderValueSilver + TotalOrderValueGold;
+					TotalOrderValueSilver = 0;
+					TotalOrderValueCash = 0;
+
+					DeductionGold = DeductionCash + DeductionGold + DeductionSilver;
+					DeductionSilver = 0;
+					DeductionCash = 0;
+
+					FinalBalanceGold = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					FinalBalanceSilver = 0;
+					FinalBalanceCash = 0;
+
+					var CombinedBalance = FinalBalanceGold;
 					var BalanceSuffix = "grams of Gold";
+
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(3);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
 					FinalBalanceSilver = parseFloat(FinalBalanceSilver).toFixed(3);
@@ -2528,6 +2576,19 @@ sap.ui.define(
 					var FinalBalanceCash = 100 * that.FinalBalanceCash / WSHeader.SilverBhav;
 					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
 					var BalanceSuffix = "grams of Silver";
+
+
+					TotalOrderValueSilver = TotalOrderValueCash + TotalOrderValueSilver + TotalOrderValueGold;
+					TotalOrderValueGold = 0;
+					TotalOrderValueCash = 0;
+
+					DeductionSilver = DeductionCash + DeductionGold + DeductionSilver;
+					DeductionGold = 0;
+					DeductionCash = 0;
+
+					FinalBalanceSilver = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					FinalBalanceGold = 0;
+					FinalBalanceCash = 0;
 
 					FinalBalanceGold = parseFloat(FinalBalanceGold).toFixed(2);
 					FinalBalanceGold = that.getIndianCurr(FinalBalanceGold);
@@ -2675,38 +2736,40 @@ sap.ui.define(
 						}
 					);
 				} else {
-						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
-						MessageBox.show(
-							oBundle, {
-								icon: MessageBox.Icon.ERROR,
-								title: "Error",
-								actions: [MessageBox.Action.OK],
-								onClose: function(oAction) {}
-							}
-						);
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
 
 				}
 			},
-			getEntryData:function(oEvent,custId,orderNo,date,postedEntryData){
-			  debugger;
-			var retVal;
-			var that = this;
-			var orderDate = date;
-			var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
-			var entryData = this.getView().getModel('local').getProperty('/EntryData');
-			entryData.OrderNo = orderId;
-			entryData.Date = orderDate;
-			entryData.Customer = custId;
-			$.post("/EntryTransfer",{entryData})
-			.then(function(result){
-			  debugger;
-			postedEntryData.Customer = result.Customer;
-			postedEntryData.Cash = result.Cash;
-			postedEntryData.OrderNo = result.OrderNo;
-			postedEntryData.id = result.id;
-			retVal = true;
-			})
-			return retVal;
+			getEntryData: function(oEvent, custId, orderNo, date, postedEntryData) {
+				debugger;
+				var retVal;
+				var that = this;
+				var orderDate = date;
+				var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+				var entryData = this.getView().getModel('local').getProperty('/EntryData');
+				entryData.OrderNo = orderId;
+				entryData.Date = orderDate;
+				entryData.Customer = custId;
+				$.post("/EntryTransfer", {
+						entryData
+					})
+					.then(function(result) {
+						debugger;
+						postedEntryData.Customer = result.Customer;
+						postedEntryData.Cash = result.Cash;
+						postedEntryData.OrderNo = result.OrderNo;
+						postedEntryData.id = result.id;
+						retVal = true;
+					})
+				return retVal;
 			},
 			getPrintCustHeaderData: function() {
 				var that = this;

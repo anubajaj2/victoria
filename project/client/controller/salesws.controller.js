@@ -2767,18 +2767,10 @@ sap.ui.define(
 				      onClose: function(oAction) { }
 				          }
 				      );
-				}else if (
-									((postedEntryData.Cash !== "")&&
+				}else if (((postedEntryData.Cash !== "")&&
 				          (postedEntryData.Cash !== "0")&&
-				          (postedEntryData.Cash !== 0)) ||
-									((postedEntryData.Gold !== "")&&
-				          (postedEntryData.Gold !== "0")&&
-				          (postedEntryData.Gold !== 0))||
-									((postedEntryData.Silver !== "")&&
-									(postedEntryData.Silver !== "0")&&
-									(postedEntryData.Silver !== 0))
-									)&&
-				         ( (finalAmount) || (finalGold) || (finalSilver) )&&
+				          (postedEntryData.Cash !== 0))&&
+				          (finalAmount) &&
 				          (finalAmount !== "" || finalAmount !== 0)&&
 				          (that.getStatus() === 'green') &&
 				          (postedEntryData.Cash !== finalAmount))

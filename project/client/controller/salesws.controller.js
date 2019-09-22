@@ -852,6 +852,19 @@ sap.ui.define(
 				oHeaderT.FinalBalanceSilver = "0";
 				oHeaderT.CombinedBalance = "";
 				oHeaderT.BalanceSuffix = "";
+				var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
+				postedEntryData.Customer = "";
+				postedEntryData.Date ="";
+				postedEntryData.OrderNo ="";
+				postedEntryData.OrderType ="";
+				postedEntryData.Remarks ="";
+				postedEntryData.id ="";
+				postedEntryData.Cash ="";
+				postedEntryData.ChangedBy="";
+				postedEntryData.ChangedOn="";
+				postedEntryData.CreatedBy="";
+				postedEntryData.CreatedOn="";
+				that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
 				this.getView().byId("WSHeaderFragment--RB-4").setSelected(true);
 				this.getView().byId("WSHeaderFragment--custName").setText("");
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
@@ -2683,70 +2696,190 @@ sap.ui.define(
 				var finalCash = oFloatFormat.parse(orderHeaderT.FinalBalanceCash);
 				var finalGold = oFloatFormat.parse(orderHeaderT.FinalBalanceGold);
 				var finalSilver = oFloatFormat.parse(orderHeaderT.FinalBalanceSilver);
+				var date = new Date(orderDetail.Date);
+				var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 
-				if ((that.getStatus() === 'green') &&
-					(finalAmount) && (finalAmount !== "" || finalAmount !== 0)) {
-					that.getView().setBusy(true);
-					var entryData = this.getView().getModel("local").getProperty("/EntryData");
-					entryData.Date = orderDetail.Date;
-					entryData.OrderNo = orderDetail.OrderNo;
-					entryData.OrderType = 'W';
-					var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
-					entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + " " +
-						orderDetail.OrderNo + " " + date;
+
+				// if ((that.getStatus() === 'green') &&
+				// 	(finalAmount) && (finalAmount !== "" || finalAmount !== 0)) {
+				// 	that.getView().setBusy(true);
+				// 	var entryData = this.getView().getModel("local").getProperty("/EntryData");
+				// 	entryData.Date = orderDetail.Date;
+				// 	entryData.OrderNo = orderDetail.OrderNo;
+				// 	entryData.OrderType = 'W';
+				// 	var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+				// 	entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + " " +
+				// 		orderDetail.OrderNo + " " + date;
+				// 	if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+				// 		entryData.Cash = 0 - finalAmount;
+				// 	} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+				// 		entryData.Gold = 0 - finalAmount;
+				// 	} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+				// 		entryData.Silver = 0 - finalAmount;
+				// 	} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+				// 		entryData.Cash = 0 - finalAmount;
+				// 		entryData.Gold = 0 - finalAmount;
+				// 		entryData.Silver = 0 - finalAmount;
+				//
+				// 	}
+				// 	entryData.Customer = orderDetail.Customer;
+				// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+				// 			"POST", {}, entryData, this)
+				// 		.then(function(oData) {
+				// 			that.getView().setBusy(false);
+				// 			sap.m.MessageToast.show("Data Transferred Successfully");
+				// 		}).catch(function(oError) {
+				// 			that.getView().setBusy(false);
+				// 			var oPopover = that.getErrorMessage(oError);
+				// 		});
+				//
+				// } else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
+				// 	var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+				// 	MessageBox.show(
+				// 		oBundle, {
+				// 			icon: MessageBox.Icon.ERROR,
+				// 			title: "Error",
+				// 			actions: [MessageBox.Action.OK],
+				// 			onClose: function(oAction) {}
+				// 		}
+				// 	);
+				// } else {
+				// 	var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+				// 	MessageBox.show(
+				// 		oBundle, {
+				// 			icon: MessageBox.Icon.ERROR,
+				// 			title: "Error",
+				// 			actions: [MessageBox.Action.OK],
+				// 			onClose: function(oAction) {}
+				// 		}
+				// 	);
+				//
+				// }
+
+
+				if (postedEntryData.Cash === finalAmount) {
+				  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+				      MessageBox.show(
+				      oBundle, {
+				      icon: MessageBox.Icon.ERROR,
+				      title: "Error",
+				      actions: [MessageBox.Action.OK],
+				      onClose: function(oAction) { }
+				          }
+				      );
+				}else if (
+									((postedEntryData.Cash !== "")&&
+				          (postedEntryData.Cash !== "0")&&
+				          (postedEntryData.Cash !== 0)) ||
+									((postedEntryData.Gold !== "")&&
+				          (postedEntryData.Gold !== "0")&&
+				          (postedEntryData.Gold !== 0))||
+									((postedEntryData.Silver !== "")&&
+									(postedEntryData.Silver !== "0")&&
+									(postedEntryData.Silver !== 0))
+									)&&
+				         ( (finalAmount) || (finalGold) || (finalSilver) )&&
+				          (finalAmount !== "" || finalAmount !== 0)&&
+				          (that.getStatus() === 'green') &&
+				          (postedEntryData.Cash !== finalAmount))
+				{
+				debugger;
+				var entryData = this.getView().getModel("local").getProperty("/EntryData");
+				entryData.Date = new Date(orderDetail.Date);
+				entryData.OrderNo = orderHeaderT.OrderId;
+				entryData.OrderType = 'W';
+				var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+				entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order"  + "" +
+				                  orderDetail.OrderNo+ " " + date;
+				var id = postedEntryData.id;
 					if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
 						entryData.Cash = 0 - finalAmount;
 					} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
-						entryData.Gold = 0 - finalAmount;
+						entryData.Gold = 0 - finalGold;
 					} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
-						entryData.Silver = 0 - finalAmount;
+						entryData.Silver = 0 - finalSilver;
 					} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
 						entryData.Cash = 0 - finalAmount;
-						entryData.Gold = 0 - finalAmount;
-						entryData.Silver = 0 - finalAmount;
-						// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("selectSummaryRadio");
-						// MessageBox.show(
-						// 	oBundle, {
-						// 		icon: MessageBox.Icon.ERROR,
-						// 		title: "Error",
-						// 		actions: [MessageBox.Action.OK],
-						// 		onClose: function(oAction) {}
-						// 	}
-						// );
+						entryData.Gold = 0 - finalGold;
+						entryData.Silver = 0 - finalSilver;
 					}
-					entryData.Customer = orderDetail.Customer;
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
-							"POST", {}, entryData, this)
-						.then(function(oData) {
-							that.getView().setBusy(false);
-							sap.m.MessageToast.show("Data Transferred Successfully");
-						}).catch(function(oError) {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-						});
+				entryData.Customer = orderDetail.Customer;
+				entryData.ChangedBy = "";
+				entryData.ChangedOn = "";
+				entryData.CreatedBy = "";
+				entryData.CreatedOn = "";
+				//change in final amount
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				                          "/Entrys('"+ id + "')",
+				                          "PUT", {}, entryData, this)
+				.then(function(oData) {
+				var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("TransferAmountUpdated");
+				 MessageToast.show(oBundle);
+				})
+				}else
+				  if ((postedEntryData.Cash === "" ||
+				       postedEntryData.Cash === "0" ||
+				       postedEntryData.Cash === 0)&&
+				      (that.getStatus() === 'green') &&
+				      (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
+				  {
+				  that.getView().setBusy(true);
+				  var entryData = this.getView().getModel("local").getProperty("/EntryData");
+				  entryData.Date = orderDetail.Date;
+				  // entryData.OrderNo = orderDetail.OrderNo;
+				  entryData.OrderNo = orderHeaderT.OrderId;
+				  entryData.OrderType = 'W';
+				  var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+				  entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + "" +
+				                      orderDetail.OrderNo+ " " + date;
+				  //orderDetail.Date;
+					if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+						entryData.Cash = 0 - finalAmount;
+					} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+						entryData.Gold = 0 - finalGold;
+					} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+						entryData.Silver = 0 - finalSilver;
+					} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+						entryData.Cash = 0 - finalAmount;
+						entryData.Gold = 0 - finalGold;
+						entryData.Silver = 0 - finalSilver;
+					}
+				  entryData.Customer = orderDetail.Customer;
+				  entryData.ChangedBy = "";
+				  entryData.ChangedOn = "";
+				  entryData.CreatedBy = "";
+				  entryData.CreatedOn = "";
+				  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+				                                  "POST", {}, entryData, this)
+				  .then(function(oData) {
+				    that.getView().setBusy(false);
+				    sap.m.MessageToast.show("Data Transferred Successfully");
+				    }).catch(function(oError) {
+				    that.getView().setBusy(false);
+				    var oPopover = that.getErrorMessage(oError);
+				    });
 
-				} else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
-					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
-					MessageBox.show(
-						oBundle, {
-							icon: MessageBox.Icon.ERROR,
-							title: "Error",
-							actions: [MessageBox.Action.OK],
-							onClose: function(oAction) {}
-						}
-					);
-				} else {
-					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
-					MessageBox.show(
-						oBundle, {
-							icon: MessageBox.Icon.ERROR,
-							title: "Error",
-							actions: [MessageBox.Action.OK],
-							onClose: function(oAction) {}
-						}
-					);
-
-				}
+				  }else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
+				    var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+				        MessageBox.show(
+				        oBundle, {
+				        icon: MessageBox.Icon.ERROR,
+				        title: "Error",
+				        actions: [MessageBox.Action.OK],
+				        onClose: function(oAction) { }
+				            }
+				        );
+				  }else {
+				var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+				    MessageBox.show(
+				    oBundle, {
+				    icon: MessageBox.Icon.ERROR,
+				    title: "Error",
+				    actions: [MessageBox.Action.OK],
+				    onClose: function(oAction) { }
+				        }
+				    );
+				  }
 			},
 			getEntryData: function(oEvent, custId, orderNo, date, postedEntryData) {
 				debugger;

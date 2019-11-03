@@ -85,6 +85,67 @@ function (BaseController, JSONModel, MessageToast) {
       MessageToast.show("Data could not be downloaded");
       });
     },
+// code added by surya -start
+    onPressCustCodeDownload: function() {
+      var test = this.getView().getModel("customerModel");
+      var reportType = "Customer_Codes";
+      var custId = test.oData.id;
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/custCodeDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+
+    onPressMaterialDownload: function() {
+      var test = this.getView().getModel("customerModel");
+      var reportType = "Materials";
+      var custId = test.oData.id;
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/materialDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+
+    onPressCityDownload: function() {
+      var test = this.getView().getModel("customerModel");
+      var reportType = "City";
+      var custId = test.oData.id;
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/cityDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+
+    onPressGroupDownload: function() {
+      var test = this.getView().getModel("customerModel");
+      var reportType = "Groups";
+      var custId = test.oData.id;
+      var name = test.oData.Name;
+      var city = test.oData.City;
+      $.post("/groupsDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    {
+      debugger;
+      MessageToast.show("Data downloaded successfully");
+    },function(oError){debugger;
+      MessageToast.show("Data could not be downloaded");
+    });
+    },
+// code added by surya end
 
     onPressClear: function(){
       this.getView().byId("idCustomerCode").setValue("");

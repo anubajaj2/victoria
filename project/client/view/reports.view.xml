@@ -57,6 +57,17 @@
                 <Button text="Pending Order Summary" press="onPressPOrderDownload" class="sapUiSmallMarginEnd" />
               </items>
             </HBox>
+            <HBox
+                height="100px"
+                alignItems="Start"
+                alignContent="Center">
+                <items>
+                  <Button text="Material" width="200px" press="onPressMaterialDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="City" press="onPressCityDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="Group" press="onPressGroupDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="Customer Code Details" press="onPressCustCodeDownload" class="sapUiSmallMarginEnd" />
+                </items>
+              </HBox>
       </VBox>
 
     </semantic:content>

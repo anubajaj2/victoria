@@ -87,12 +87,8 @@ function (BaseController, JSONModel, MessageToast) {
     },
 // code added by surya -start
     onPressCustCodeDownload: function() {
-      var test = this.getView().getModel("customerModel");
       var reportType = "Customer_Codes";
-      var custId = test.oData.id;
-      var name = test.oData.Name;
-      var city = test.oData.City;
-      $.post("/custCodeDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+      $.post("/custCodeDownload",{type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");
@@ -102,12 +98,8 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     onPressMaterialDownload: function() {
-      var test = this.getView().getModel("customerModel");
       var reportType = "Materials";
-      var custId = test.oData.id;
-      var name = test.oData.Name;
-      var city = test.oData.City;
-      $.post("/materialDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+      $.post("/materialDownload",{type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");
@@ -117,12 +109,8 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     onPressCityDownload: function() {
-      var test = this.getView().getModel("customerModel");
       var reportType = "City";
-      var custId = test.oData.id;
-      var name = test.oData.Name;
-      var city = test.oData.City;
-      $.post("/cityDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+      $.post("/cityDownload",{type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");
@@ -132,12 +120,8 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     onPressGroupDownload: function() {
-      var test = this.getView().getModel("customerModel");
       var reportType = "Groups";
-      var custId = test.oData.id;
-      var name = test.oData.Name;
-      var city = test.oData.City;
-      $.post("/groupsDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+      $.post("/groupsDownload",{type: reportType}).then(function(oData)
     {
       debugger;
       MessageToast.show("Data downloaded successfully");

@@ -1631,368 +1631,412 @@ var oPopover = that.getErrorMessage(oError);
 );
 })
 
+
 ///// code added by Surya - start
 app.post('/custCodeDownload', function(req, res) {
+	debugger;
 	var reportType = req.body.type;
-	//var custId = req.body.id;
-	//var name = req.body.name;
-	//var city = req.body.city;
-	//var Ggroup = "";
-	//read customer name by id, group by group id, city by
+
 	var responseData = [];
-	//var oSubCounter = {};
-	var Customer = app.models.Customer;
 
 	var async = require('async');
+	var Customer = app.models.Customer;
 	async.waterfall([
 			function(callback) {
+				//Find all Customers
+				Customer.find({})
+					.then(function(customerRecord, err) {
+						// call second function of the waterfall
+						callback(err, customerRecord);
+					});
+			},
+			function(customerRecord, callback) {
+				//Loop customer data and put all the city and Group codes in different arrays
 
-				try {
-					Customer.find({})
-						.then(function(customerRecord, err) {
+				var arrCities = [];
+				var arrGroups = [];
 
-							// result now equals 'done'
-							//set all values to local variables which we need inside next promise
-							//name = customerRecord.Name;
-							if (customerRecord) {
-								var excel = require('exceljs');
-								var workbook = new excel.Workbook(); //creating workbook
-								var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
-
-
-								//Heading for excel
-								var heading = {
-									heading: "Customer Code Report"
-								};
-								sheet.mergeCells('A1:H1');
-								sheet.getCell('H1').value = 'Customer Code Report';
-								sheet.getCell('A1').alignment = {
-									vertical: 'middle',
-									horizontal: 'center'
-								};
-								sheet.getCell('A1').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: '808080'
-									}
-								};
-
-								//Merging second Row
-								sheet.mergeCells('A2:H2');
-
-								//Code for getting current datetime
-								var currentdate = new Date();
-								var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-								sheet.getCell('G2').value = datetime;
-								sheet.getRow(2).font === {
-									bold: true
-								};
-
-								//sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime ;
-								//sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
-								//sheet.getRow(2).font === { bold: true };
-
-								// Header creation
-								var header = ["City", "MobilePhone", "Address", "CustomerCode", "Name", "SecondaryPhone", "Group", "Type"];
-								sheet.addRow().values = header;
-
-								//Coding for cell color and bold character
-								sheet.getCell('A2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('B2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('C2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('D2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('E2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('F2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('G2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('H2').fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-
-								// Looping through the records
-								for (var i = 0; i < customerRecord["length"]; i++) {
-									var items = customerRecord[i];
-									var item = [items["City"], items["MobilePhone"], items["Address"], items["CustomerCode"], items["Name"], items["SecondaryPhone "], items["Group"], items["Type"]];
-									sheet.addRow().values = item;
-								}
-
-								var totText = customerRecord["length"] + 5;
-								var totCol = totText - 1;
-								//sheet.getCell('A' + totText).value = "TOTAL";
-								//sheet.getCell('B' + totText).value = totalB ;
-								//sheet.getCell('C' + totText).value = totalC ;
-								//sheet.getCell('D' + totText).value = totalD ;
-
-								//sheet.getCell('A' + totText).fill = {
-								//type: 'pattern',
-								//pattern:'solid',
-								//fgColor:{argb:'00FFFF'},
-								//bgColor:{argb:'00FFFF'}
-								//};
-								//sheet.getCell('A' + totText).font = {
-								//color:{argb:'0000FF'},
-								//bold:true
-								//};
-
-
-								sheet.getCell('A' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('B' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('C' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('D' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('E' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('F' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('G' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('H' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-
-
-								//Coding for rows and column border
-								for (var j = 1; j <= totText; j++) {
-									sheet.getCell('A' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('B' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('C' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('D' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('E' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('F' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('G' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-									sheet.getCell('H' + (j)).border = {
-										top: {
-											style: 'thin'
-										},
-										left: {
-											style: 'thin'
-										},
-										bottom: {
-											style: 'thin'
-										},
-										right: {
-											style: 'thin'
-										}
-									};
-								}
-
-
-								//Coding to download in a folder
-								var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-								console.log("tempFilePath : ", tempFilePath);
-								workbook.xlsx.writeFile(tempFilePath).then(function() {
-									res.sendFile(tempFilePath, function(err) {
-										if (err) {
-											console.log('---------- error downloading file: ', err);
-										}
-									});
-									console.log('file is written @ ' + tempFilePath);
-								});
-							}
-						}).catch(function(oError) {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-						});
-				} catch (e) {
-
-				} finally {
-
+				for (var i = 0; i < customerRecord["length"]; i++) {
+					if (!(arrCities.includes(customerRecord[i].City.toString()))) {
+						arrCities.push(customerRecord[i].City.toString());
+					}
+					if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
+						arrGroups.push(customerRecord[i].Group.toString());
+					}
 				}
+				//Fetch city data on the basis of city codes array
+				var City = app.models.City;
+				City.find({
+					where: {
+						id: {
+							inq: arrCities
+						}
+					},
+					fields: {
+						"cityCode": true,
+						"cityName": true
+					}
+				}).then(function(cityRecord, err) {
+					callback(err, customerRecord, cityRecord,arrGroups);
+				});
+			}
+		], function(err, customerRecord, cityRecord,arrGroups) {
+			//get grouprecord
+
+			try {
+				//Fetch Groups data on the basis of group codes array
+				var Group = app.models.Group;
+				Group.find({
+					where: {
+						id: {
+							inq: arrGroups
+						}
+					},
+					fields: {
+						"groupCode": true,
+						"groupName": true
+					}
+				}).then(function(groupRecord, err) {
+					var custFinals = [];
+
+					for (var i = 0; i < customerRecord.length; i++) {
+						var custFinal = {};
+						//Get fields from customer table
+						custFinal.MobilePhone = customerRecord[i].MobilePhone;
+						custFinal.Address = customerRecord[i].Address;
+						custFinal.CustomerCode = customerRecord[i].CustomerCode;
+						custFinal.Name = customerRecord[i].Name;
+						custFinal.SecondaryPhone = customerRecord[i].SecondaryPhone;
+						custFinal.Type = customerRecord[i].Type;
+
+						//loop through city records to get city name
+						for (var m = 0; m < cityRecord.length; m++) {
+							if (customerRecord[i].City.toString() == cityRecord[m].cityCode.toString()) {
+								custFinal.City = cityRecord[m].cityCode.toString();
+								break;
+							}
+						}
+
+						//loop through Group records to get group name
+						for (var k = 0; k < groupRecord.length; k++) {
+							if (customerRecord[k].Group.toString() == groupRecord[k].groupCode.toString()) {
+								custFinal.Group = groupRecord[k].groupCode.toString();
+								break;
+							}
+						}
+						//Now push prepared record object to the array of Final Customer
+						custFinals.push(custFinal);
+					}
+
+					if (custFinals) {
+						// complete excel processing and downloading
+						var excel = require('exceljs');
+						var workbook = new excel.Workbook(); //creating workbook
+						var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+		//Heading for excel
+
+						sheet.mergeCells('A1:H1');
+						sheet.getCell('H1').value = 'Customer Code Report';
+						sheet.getCell('A1').alignment = {
+							vertical: 'middle',
+							horizontal: 'center'
+						};
+						sheet.getCell('A1').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: '808080'
+							}
+						};
+
+						//Merging second Row
+						sheet.mergeCells('A2:H2');
+
+						//Code for getting current datetime
+						var currentdate = new Date();
+						var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+						sheet.getCell('G2').value = datetime;
+						sheet.getRow(2).font === {
+							bold: true
+						};
+
+						// Header creation
+						var header = ["City", "MobilePhone", "Address", "CustomerCode", "Name", "SecondaryPhone", "Group", "Type"];
+						sheet.addRow().values = header;
+
+						//Coding for cell color and bold character
+						sheet.getCell('A2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('B2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('C2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('D2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('E2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('F2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('G2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('H2').fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+
+						// Looping through the records
+						for (var l = 0; l < customerRecord["length"]; l++) {
+							var items = customerRecord[l];
+							var item = [items["City"], items["MobilePhone"], items["Address"], items["CustomerCode"], items["Name"], items["SecondaryPhone "], items["Group"], items["Type"]];
+							sheet.addRow().values = item;
+						}
+
+						var totText = customerRecord["length"] + 5;
+
+						sheet.getCell('A' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('B' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('C' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('D' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('E' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('F' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('G' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+						sheet.getCell('H' + totText).fill = {
+							type: 'pattern',
+							pattern: 'solid',
+							fgColor: {
+								argb: 'A9A9A9'
+							}
+						};
+
+
+						//Coding for rows and column border
+						for (var j = 1; j <= totText; j++) {
+							sheet.getCell('A' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('B' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('C' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('D' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('E' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('F' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('G' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+							sheet.getCell('H' + (j)).border = {
+								top: {
+									style: 'thin'
+								},
+								left: {
+									style: 'thin'
+								},
+								bottom: {
+									style: 'thin'
+								},
+								right: {
+									style: 'thin'
+								}
+							};
+						}
+
+
+						//Coding to download in a folder
+						var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+						console.log("tempFilePath : ", tempFilePath);
+						workbook.xlsx.writeFile(tempFilePath).then(function() {
+							res.sendFile(tempFilePath, function(err) {
+								if (err) {
+									console.log('---------- error downloading file: ', err);
+								}
+							});
+							console.log('file is written @ ' + tempFilePath);
+						});
+					}
+				}).catch(function(oError) {
+					that.getView().setBusy(false);
+				});
+			} catch (e) {
+
+			} finally {
 
 			}
-		]
+		}
 		//res.send(responseData);
+
 	);
 });
 
 app.post('/materialDownload', function(req, res) {
 	var reportType = req.body.type;
-	//var custId = req.body.id;
-	//var name = req.body.name;
-	//var city = req.body.city;
-	//var Ggroup = "";
 	//read products
 	var responseData = [];
-	//var oSubCounter = {};
 	var Product = app.models.Product;
 
 	var async = require('async');
@@ -2036,20 +2080,19 @@ app.post('/materialDownload', function(req, res) {
 								//Code for getting current datetime
 								var currentdate = new Date();
 								var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-								sheet.getCell('N2').value = datetime;
+								sheet.getCell('A2').value = datetime;
 								sheet.getRow(2).font === {
 									bold: true
 								};
-
-								//sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime ;
-								//sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
-								//sheet.getRow(2).font === { bold: true };
 
 								// Header creation
 								var header = ["ProductCode", "ProductName", "Type", "Karat", "HindiName", "Tunch", "Wastage", "CustomerTunch", "AlertQuantity", "Making", "Category", "PricePerUnit", "WSTunch"];
 								sheet.addRow().values = header;
 
 								//Coding for cell color and bold character
+								sheet.getRow(3).font === {
+									bold: true
+								};
 								sheet.getCell('A2').fill = {
 									type: 'pattern',
 									pattern: 'solid',
@@ -2141,6 +2184,97 @@ app.post('/materialDownload', function(req, res) {
 										argb: 'A9A9A9'
 									}
 								};
+								sheet.getCell('A3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('B3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('C3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('D3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('E3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('F3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('G3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('H3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('I3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('J3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('K3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('L3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('M3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
 
 								// Looping through the records
 								for (var i = 0; i < records["length"]; i++) {
@@ -2149,116 +2283,8 @@ app.post('/materialDownload', function(req, res) {
 									sheet.addRow().values = item;
 								}
 
-								var totText = records["length"] + 8;
+								var totText = records["length"] + 3;
 								var totCol = totText - 1;
-								//sheet.getCell('A' + totText).value = "TOTAL";
-								//sheet.getCell('B' + totText).value = totalB ;
-								//sheet.getCell('C' + totText).value = totalC ;
-								//sheet.getCell('D' + totText).value = totalD ;
-
-								//sheet.getCell('A' + totText).fill = {
-								//type: 'pattern',
-								//pattern:'solid',
-								//fgColor:{argb:'00FFFF'},
-								//bgColor:{argb:'00FFFF'}
-								//};
-								//sheet.getCell('A' + totText).font = {
-								//color:{argb:'0000FF'},
-								//bold:true
-								//};
-
-
-								sheet.getCell('A' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('B' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('C' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('D' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('E' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('F' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('G' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('H' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('I' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('J' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('K' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('L' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('M' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
 
 								//Coding for rows and column border
 								for (var j = 1; j <= totText; j++) {
@@ -2477,10 +2503,6 @@ app.post('/materialDownload', function(req, res) {
 
 app.post('/cityDownload', function(req, res) {
 	var reportType = req.body.type;
-	//var custId = req.body.id;
-	//var name = req.body.name;
-	//var city = req.body.city;
-	//var Ggroup = "";
 	//read cities
 	var responseData = [];
 	//var oSubCounter = {};
@@ -2527,20 +2549,19 @@ app.post('/cityDownload', function(req, res) {
 								//Code for getting current datetime
 								var currentdate = new Date();
 								var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-								sheet.getCell('D2').value = datetime;
+								sheet.getCell('A2').value = datetime;
 								sheet.getRow(2).font === {
 									bold: true
 								};
-
-								//sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime ;
-								//sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
-								//sheet.getRow(2).font === { bold: true };
 
 								// Header creation
 								var header = ["cityCode", "cityName", "state"];
 								sheet.addRow().values = header;
 
 								//Coding for cell color and bold character
+								sheet.getRow(3).font === {
+									bold: true
+								};
 								sheet.getCell('A2').fill = {
 									type: 'pattern',
 									pattern: 'solid',
@@ -2562,6 +2583,28 @@ app.post('/cityDownload', function(req, res) {
 										argb: 'A9A9A9'
 									}
 								};
+								sheet.getCell('A3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('B3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('C3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+
 
 								// Looping through the records
 								for (var i = 0; i < records["length"]; i++) {
@@ -2589,27 +2632,27 @@ app.post('/cityDownload', function(req, res) {
 								//};
 
 
-								sheet.getCell('A' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('B' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('C' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
+		//						sheet.getCell('A' + totText).fill = {
+	  //						type: 'pattern',
+		//						pattern: 'solid',
+		//							fgColor: {
+		//								argb: 'A9A9A9'
+		//							}
+		//						};
+		//						sheet.getCell('B' + totText).fill = {
+		//							type: 'pattern',
+		//							pattern: 'solid',
+		//							fgColor: {
+		//								argb: 'A9A9A9'
+		//							}
+		//						};
+		//						sheet.getCell('C' + totText).fill = {
+		//							type: 'pattern',
+		//							pattern: 'solid',
+		//							fgColor: {
+		//								argb: 'A9A9A9'
+		//							}
+		//						};
 								//Coding for rows and column border
 								for (var j = 1; j <= totText; j++) {
 									sheet.getCell('A' + (j)).border = {
@@ -2687,10 +2730,6 @@ app.post('/cityDownload', function(req, res) {
 
 app.post('/groupsDownload', function(req, res) {
 	var reportType = req.body.type;
-	//var custId = req.body.id;
-	//var name = req.body.name;
-	//var city = req.body.city;
-	//var Ggroup = "";
 	//read Groups
 	var responseData = [];
 	//var oSubCounter = {};
@@ -2737,20 +2776,19 @@ app.post('/groupsDownload', function(req, res) {
 								//Code for getting current datetime
 								var currentdate = new Date();
 								var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-								sheet.getCell('D2').value = datetime;
+								sheet.getCell('A2').value = datetime;
 								sheet.getRow(2).font === {
 									bold: true
 								};
-
-								//sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime ;
-								//sheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
-								//sheet.getRow(2).font === { bold: true };
 
 								// Header creation
 								var header = ["groupCode", "groupName", "description"];
 								sheet.addRow().values = header;
 
 								//Coding for cell color and bold character
+								sheet.getRow(3).font === {
+									bold: true
+								};
 								sheet.getCell('A2').fill = {
 									type: 'pattern',
 									pattern: 'solid',
@@ -2772,6 +2810,27 @@ app.post('/groupsDownload', function(req, res) {
 										argb: 'A9A9A9'
 									}
 								};
+								sheet.getCell('A3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('B3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('C3').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
 
 								// Looping through the records
 								for (var i = 0; i < records["length"]; i++) {
@@ -2782,44 +2841,7 @@ app.post('/groupsDownload', function(req, res) {
 
 								var totText = records["length"] + 3;
 								var totCol = totText - 1;
-								//sheet.getCell('A' + totText).value = "TOTAL";
-								//sheet.getCell('B' + totText).value = totalB ;
-								//sheet.getCell('C' + totText).value = totalC ;
-								//sheet.getCell('D' + totText).value = totalD ;
 
-								//sheet.getCell('A' + totText).fill = {
-								//type: 'pattern',
-								//pattern:'solid',
-								//fgColor:{argb:'00FFFF'},
-								//bgColor:{argb:'00FFFF'}
-								//};
-								//sheet.getCell('A' + totText).font = {
-								//color:{argb:'0000FF'},
-								//bold:true
-								//};
-
-
-								sheet.getCell('A' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('B' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
-								sheet.getCell('C' + totText).fill = {
-									type: 'pattern',
-									pattern: 'solid',
-									fgColor: {
-										argb: 'A9A9A9'
-									}
-								};
 								//Coding for rows and column border
 								for (var j = 1; j <= totText; j++) {
 									sheet.getCell('A' + (j)).border = {
@@ -2865,7 +2887,6 @@ app.post('/groupsDownload', function(req, res) {
 										}
 									};
 								}
-
 
 								//Coding to download in a folder
 								var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';

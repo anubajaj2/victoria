@@ -170,7 +170,7 @@ sap.ui.define([
 								filters: [oFilter1],
 								template: new sap.m.DisplayListItem({
 									label: "{CustomerCode}",
-									value: "{Name} - {City}"
+									value: "{Name} - {city}"
 								})
 							});
 						}
@@ -652,10 +652,25 @@ sap.ui.define([
 						}
 					},
 					ValueChangeMaterial: function(oEvent) {
-						var oSource = oEvent.getSource();
-						var oFilter = new sap.ui.model.Filter("ProductCode",
-							sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
-						oSource.getBinding("suggestionItems").filter(oFilter);
+
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
+ 					this.byId("Sales--idSaveIcon").setColor('red');
+ 				 }
+
+				debugger;
+ 				var oSource = oEvent.getSource();
+				var oFilter = new sap.ui.model.Filter("ProductCode",
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
+				var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
+				var getData = JSON.parse(oResult.aLastContextData);
+
+				var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+
+				 var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
+				 var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				 oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
+				 oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
+				 var oSource = oEvent.getSource();
 					},
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;

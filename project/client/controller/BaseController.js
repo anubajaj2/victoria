@@ -154,6 +154,7 @@ sap.ui.define([
 														debugger;
 										 return Name + "-" + that.allMasterData.cities[cityId].cityName
 									}
+								}
 								})
 							});
 						}

@@ -48,7 +48,8 @@ sap.ui.define([
 						"customers": [],
 						"materials": [],
 						"orderHeader": [],
-						"customCalculations": []
+						"customCalculations": [],
+						"cities":[]
 					},
 
 					/**
@@ -82,6 +83,14 @@ sap.ui.define([
 							}).catch(function(oError) {
 								var oPopover = that.getErrorMessage(oError);
 							});
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Cities", "GET", null, null, this)
+							.then(function(oData) {
+								for (var i = 0; i < oData.results.length; i++) {
+								that.allMasterData.cities[oData.results[i].id] = oData.results[i];
+							}
+						}).catch(function(oError) {
+							var oPopover = that.getErrorMessage(oError);
+						});
 						this.fetchValuesFromCustomizing();
 
 					},
@@ -125,6 +134,7 @@ sap.ui.define([
 					//fieldId: "",
 					getCustomerPopup: function(oEvent) {
 						if (!this.searchPopup) {
+							var that = this;
 							this.searchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 							this.getView().addDependent(this.searchPopup);
 							var title = this.getView().getModel("i18n").getProperty("customer");
@@ -133,7 +143,17 @@ sap.ui.define([
 								path: '/Customers',
 								template: new sap.m.DisplayListItem({
 									label: "{CustomerCode}",
-									value: "{Name} - {City}"
+									value:
+									{
+									parts: [{
+									 path: "Name"
+											}, {
+									 path: "City"
+											 }],
+								 formatter: function (Name, cityId) {
+														debugger;
+										 return Name + "-" + that.allMasterData.cities[cityId].cityName
+									}
 								})
 							});
 						}
@@ -170,7 +190,7 @@ sap.ui.define([
 								filters: [oFilter1],
 								template: new sap.m.DisplayListItem({
 									label: "{CustomerCode}",
-									value: "{Name} - {City}"
+									value: "{Name} - {city}"
 								})
 							});
 						}
@@ -652,10 +672,25 @@ sap.ui.define([
 						}
 					},
 					ValueChangeMaterial: function(oEvent) {
-						var oSource = oEvent.getSource();
-						var oFilter = new sap.ui.model.Filter("ProductCode",
-							sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
-						oSource.getBinding("suggestionItems").filter(oFilter);
+
+				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
+ 					this.byId("Sales--idSaveIcon").setColor('red');
+ 				 }
+
+				debugger;
+ 				var oSource = oEvent.getSource();
+				var oFilter = new sap.ui.model.Filter("ProductCode",
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
+				var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
+				var getData = JSON.parse(oResult.aLastContextData);
+
+				var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+
+				 var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
+				 var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				 oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
+				 oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
+				 var oSource = oEvent.getSource();
 					},
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;

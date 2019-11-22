@@ -170,6 +170,27 @@ sap.ui.define([
 					},
 					getCustomer:function(oEvent){
 						debugger;
+						var that = this;
+						var oSource = oEvent.getSource();
+						var oFilter = new sap.ui.model.Filter("CustomerCode",
+						sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
+						var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
+						var getData = JSON.parse(oResult.aLastContextData);
+
+						var cityId = getData.City;
+						var customerCode = getData.CustomerCode;
+						var name = getData.Name;
+
+						var getId = this.getView().byId("Sales--customerId");
+						if (!getId){
+							this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
+							this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+
+						}else{
+							this.getView().byId("Sales--customerId").setValue(customerCode);
+							this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+						}
+
 					},
 
 					onSearch: function(oEvent) {
@@ -221,43 +242,43 @@ sap.ui.define([
 						this.karigarsearchPopup.open();
 					},
 
-					orderPopup: function(oEvent) {
+				orderPopup: function(oEvent) {
 						//call the popup screen dynamically
 
 						// if (!this.orderSearchPopup) {
-						this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
-						this.getView().addDependent(this.orderSearchPopup);
-						var title = this.getView().getModel("i18n").getProperty("orderSearch");
-						this.orderSearchPopup.setTitle(title);
-						// this.orderSearchPopup.sId = 'orderNo';
+				this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
+				this.getView().addDependent(this.orderSearchPopup);
+				var title = this.getView().getModel("i18n").getProperty("orderSearch");
+				this.orderSearchPopup.setTitle(title);
+				// this.orderSearchPopup.sId = 'orderNo';
 
-						var orderDate = this.byId("Sales--DateId").getValue();
-						var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;
-						//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
+				var orderDate = this.byId("Sales--DateId").getValue();
+				var customer = this.getView().getModel('local').getProperty('/orderHeader').Customer;
+				//when you sending date to filter use date Object var oObj = new Date(yyyymmdd);
 
-						var dateFrom = new Date(orderDate);
-						dateFrom.setHours(0, 0, 0, 1)
-						var dateTo = new Date(orderDate);
-						dateTo.setHours(23, 59, 59, 59)
-						//Now you have to have 2 date Object
-						//firstDate object set the time to 000000 second object 240000
-						//now create 2 filter one ge low and two le High
-						var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
-						var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
-						if (customer) {
-							var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, customer);
-						} else {
-							var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
-						}
-						debugger;
-						var orFilter = new sap.ui.model.Filter({
-							filters: [oFilter1, oFilter2],
-							and: true
-						});
-						var orFilterF = new sap.ui.model.Filter({
-							filters: [orFilter, oFilter3],
-							and: true
-						});
+				var dateFrom = new Date(orderDate);
+				dateFrom.setHours(0, 0, 0, 1)
+				var dateTo = new Date(orderDate);
+				dateTo.setHours(23, 59, 59, 59)
+				//Now you have to have 2 date Object
+				//firstDate object set the time to 000000 second object 240000
+				//now create 2 filter one ge low and two le High
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+				if (customer) {
+						var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, customer);
+				} else {
+						var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+				}
+					debugger;
+				var orFilter = new sap.ui.model.Filter({
+					filters: [oFilter1, oFilter2],
+					and: true
+				});
+				var orFilterF = new sap.ui.model.Filter({
+					filters: [orFilter, oFilter3],
+					and: true
+			});
 
 						// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						//     "/OrderHeaders", "GET", {expand: "ToCustomers",filters: orFilter}, {}, this)
@@ -266,24 +287,24 @@ sap.ui.define([
 						//   }).catch(function(oError) {
 						//     debugger;
 						//   });
-						this.orderSearchPopup.bindAggregation("items", {
-							path: '/OrderHeaders',
-							filters: orFilter,
-							template: new sap.m.DisplayListItem({
-								label: "{OrderNo}",
-								value: {
-									path: 'Customer',
-									formatter: this.getCustomerName.bind(this)
-								}
-							})
-						});
+			this.orderSearchPopup.bindAggregation("items", {
+					path: '/OrderHeaders',
+					filters: orFilter,
+					template: new sap.m.DisplayListItem({
+					label: "{OrderNo}",
+					value: {
+						path: 'Customer',
+						formatter: this.getCustomerName.bind(this)
+						}
+					})
+				});
 						// }//order popup
-						this.orderSearchPopup.open();
+					this.orderSearchPopup.open();
 					},
 					getCustomerName: function(custId) {
 						return this.allMasterData.customers[custId].CustomerCode + "-" + this.allMasterData.customers[custId].Name
 					},
-					getMaterialPopup: function() {
+				getMaterialPopup: function() {
 						if (!this.matSearchPopup) {
 							this.matSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 							this.getView().addDependent(this.matSearchPopup);
@@ -1231,6 +1252,14 @@ sap.ui.define([
 								} else {
 									oModel.setProperty('/set', true);
 								}
+							},
+							onCustomerSelect:function(oEvent){
+								debugger;
+								var that = this;
+								var selectData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+								this.getView().byId("Sales--customerId").setValue(selectData.CustomerCode);
+								var cityId = selectData.City;
+								this.getView().byId("Sales--custName").setText(selectData.Name + "-" + name + "-" + that.allMasterData.cities[cityId].cityName);
 							},
 							onMaterialSelect: function(oEvent) {
 								debugger;

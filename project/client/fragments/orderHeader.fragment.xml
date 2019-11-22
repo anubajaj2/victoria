@@ -41,7 +41,15 @@ xmlns:core ="sap.ui.core" width="160px">
   <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
         showValueHelp="true" valueHelpRequest="valueHelpCustomer"
         valueLiveUpdate="true" required="true" editable="true"
-        submit="onEnter"/>
+        suggestionItemSelected="onCustomerSelect"
+        submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+    <suggestionItems>
+      <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+      </suggestionItems>
+      <layoutData>
+        <l:GridData span="XL3 L3"/>
+      </layoutData>
+    </Input>
       <!--  valueHelpOnly="true"-->
   <!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
     editable="false"/> -->

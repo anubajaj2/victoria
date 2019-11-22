@@ -34,11 +34,16 @@
       </f:FormElement>
       <f:FormElement label="{i18n>Customer}">
         <f:fields>
-          <Input  showValueHelp="true" editable="true" submit="onEnter"
-            valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}" id="idCust">
-            <layoutData>
-              <l:GridData span="XL3 L3"/>
-            </layoutData>
+          <Input  id="idCust" showValueHelp="true" editable="true" submit="onEnter"
+            valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
+            suggestionItemSelected="onCustomerSelect"
+            submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+            <suggestionItems>
+              <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+              </suggestionItems>
+              <layoutData>
+                <l:GridData span="XL3 L3"/>
+              </layoutData>
           </Input>
           <Text id="idCustText" enableSelection="false"/>
         </f:fields>

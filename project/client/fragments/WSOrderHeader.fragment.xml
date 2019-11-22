@@ -26,12 +26,16 @@
 										<f:FormElement label="{i18n>Customer}">
 											<f:fields>
 												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" editable="true"
-													submit="onEnter">
-													<layoutData>
-														<l:GridData span="XL2 L1 M3 S3"/>
-													</layoutData>
-												</Input>
-												<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+													showSuggestion="true" suggestionItems="{/Customers}" submit="onEnter">
+																									
+													<suggestionItems>
+											      <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+											      </suggestionItems>
+											      <layoutData>
+											        <l:GridData span="XL2 L1 M3 S3"/>
+											      </layoutData>
+											    </Input>
+										<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">

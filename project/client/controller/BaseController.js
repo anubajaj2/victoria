@@ -154,7 +154,7 @@ sap.ui.define([
 														debugger;
 										 return Name + "-" + that.allMasterData.cities[cityId].cityName
 									}
-								}
+								 }
 								})
 							});
 						}
@@ -168,6 +168,10 @@ sap.ui.define([
 						// }
 						this.searchPopup.open();
 					},
+					getCustomer:function(oEvent){
+						debugger;
+					},
+
 					onSearch: function(oEvent) {
 						var searchStr = oEvent.getParameter("value");
 						var oFilter = new sap.ui.model.Filter({
@@ -672,27 +676,31 @@ sap.ui.define([
 							odata.setProperty("/rows1", false);
 						}
 					},
-					ValueChangeMaterial: function(oEvent) {
-
-				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
- 					this.byId("Sales--idSaveIcon").setColor('red');
- 				 }
-
+			ValueChangeMaterial: function(oEvent,viewId) {
 				debugger;
  				var oSource = oEvent.getSource();
 				var oFilter = new sap.ui.model.Filter("ProductCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("suggestValue").toLocaleUpperCase());
+				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
 				var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
 				var getData = JSON.parse(oResult.aLastContextData);
 
-				var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+				//var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+				var getMatCode =  this.getView().byId("idMat");
 
-				 var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
-				 var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
-				 oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
-				 oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
-				 var oSource = oEvent.getSource();
-					},
+				if(!getMatCode){
+					var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
+					var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+					oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
+					oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
+
+				}else {
+
+					this.getView().byId("idMat").setValue(getData.ProductCode);
+					this.getView().byId("idMatText").setText(getData.ProductName + "-" + getData.Type);
+
+				}
+
+			},
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;
 						var that = this;

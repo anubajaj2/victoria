@@ -34,7 +34,7 @@
       </f:FormElement>
       <f:FormElement label="{i18n>Customer}">
         <f:fields>
-          <Input  showValueHelp="true" valueHelpOnly="true"
+          <Input  showValueHelp="true" editable="true" submit="onEnter"
             valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}" id="idCust">
             <layoutData>
               <l:GridData span="XL3 L3"/>
@@ -112,7 +112,7 @@
               </f:FormElement>
               <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
                 <f:fields>
-                  <Input id="idMat"  editable="true" type="Text" suggest="ValueChangeMaterial"
+                  <Input id="idMat"  editable="true" type="Text" submit="ValueChangeMaterial"
                     placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
                     showSuggestion="true" suggestionItems="{/Products}" visible="true">
                     <suggestionItems>

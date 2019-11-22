@@ -53,6 +53,9 @@ function (BaseController,
     onValueHelpRequest: function (oEvent) {
 					this.getCustomerPopup(oEvent);
     },
+		onEnter:function(oEvent){
+		  this.getCustomer(oEvent);
+		},
     onCalculate: function (evt) {
       debugger;
       var wtValue = this.byId("idweight").getValue();

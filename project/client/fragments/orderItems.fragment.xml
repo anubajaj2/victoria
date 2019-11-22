@@ -20,11 +20,11 @@
 					<m:Text text="{i18n>material}"></m:Text>
 				</label>
 				<template>
-					<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
+			<!-- <m:Input text="{orderItemBases>material}" showValueHelp="true" valueHelpRequest="onMaterialF4"></m:Input> -->
 					<m:Input id="idMaterial"
 						 showSuggestion="true"
 						 suggestionItemSelected="onMaterialSelect"
-             suggest="ValueChangeMaterial"
+             submit="ValueChangeMaterial"
 						 value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
 						 suggestionItems="{path: '/Products', templateShareable:false}"
 						 editable="{= ${orderItems>itemNo} === '' ? true : false}">

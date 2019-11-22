@@ -40,7 +40,9 @@ xmlns:core ="sap.ui.core" width="160px">
   <f:fields>
   <Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}"
         showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-        valueLiveUpdate="true" required="true" valueHelpOnly="true"/>
+        valueLiveUpdate="true" required="true" editable="true"
+        submit="onEnter"/>
+      <!--  valueHelpOnly="true"-->
   <!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
     editable="false"/> -->
     <Text id ="custName" value="{local>/orderHeaderTemp/CustomerName}"

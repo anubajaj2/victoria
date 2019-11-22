@@ -39,6 +39,9 @@ sap.ui.define(
 
 				this.getCustomerPopup(oEvent);
 			},
+			onEnter:function(oEvent){
+			  this.getCustomer(oEvent);
+			},
 			setStatus: function(color) {
 				this.byId("WSHeaderFragment--idSaveIcon").setColor(color);
 			},

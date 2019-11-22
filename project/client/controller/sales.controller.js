@@ -203,6 +203,10 @@ valueHelpCustomer:function(oEvent){
 
 this.getCustomerPopup(oEvent);
 },
+
+onEnter:function(oEvent){
+  this.getCustomer(oEvent);
+},
 getRouter: function() {
   return this.getOwnerComponent().getRouter();
 },

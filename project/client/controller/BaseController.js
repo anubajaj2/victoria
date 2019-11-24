@@ -699,27 +699,53 @@ sap.ui.define([
 					},
 			ValueChangeMaterial: function(oEvent,viewId) {
 				debugger;
- 				var oSource = oEvent.getSource();
-				var oFilter = new sap.ui.model.Filter("ProductCode",
-				sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
-				var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
-				var getData = JSON.parse(oResult.aLastContextData);
-
-				//var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
-				var getMatCode =  this.getView().byId("idMat");
-
-				if(!getMatCode){
-					var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
-					var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
-					oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
-					oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
-
-				}else {
-
-					this.getView().byId("idMat").setValue(getData.ProductCode);
-					this.getView().byId("idMatText").setText(getData.ProductName + "-" + getData.Type);
-
-				}
+			  $(function() {
+			          $('input:text:first').focus();
+			          var $inp = $('input:text');
+			          $inp.bind('keypress', function(e) {
+			              //var key = (e.keyCode ? e.keyCode : e.charCode);
+			              var key = e.which;
+			              if (key == 13) {
+			                  e.preventDefault();
+			                  var nxtIdx = $inp.index(this) + 1;
+			                  $(":input:text:eq(" + nxtIdx + ")").focus();
+			              }
+			          });
+			      });
+			    var that =  this;
+				var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
+				var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
+			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData);
+			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			   "/Products", "GET", {filters: [oFilter]}, {}, this)
+			    .then(function(oData) {
+							oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
+			    }).catch(function(oError) {
+			        // MessageToast.show("cannot fetch the data");
+			    });
+				// debugger;
+ 				// var oSource = oEvent.getSource();
+				// var oFilter = new sap.ui.model.Filter("ProductCode",
+				// sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
+				// var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
+				// var getData = JSON.parse(oResult.aLastContextData);
+				//
+				// //var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+				// var getMatCode =  this.getView().byId("idMat");
+				//
+				// if(!getMatCode){
+				// 	var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
+				// 	var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				// 	oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
+				// 	oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
+				//
+				// }else {
+				//
+				// 	this.getView().byId("idMat").setValue(getData.ProductCode);
+				// 	this.getView().byId("idMatText").setText(getData.ProductName + "-" + getData.Type);
+				//
+				// }
 
 			},
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {

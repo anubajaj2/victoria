@@ -55,6 +55,7 @@
                 <Button text="Wholesale Summary" width="200px"  class="sapUiSmallMarginEnd" />
                 <Button text="Booking Summary"  press="onPressBookingDownload" class="sapUiSmallMarginEnd" />
                 <Button text="Pending Order Summary" press="onPressPOrderDownload" class="sapUiSmallMarginEnd" />
+                <Button text="Group Wise Report" press="onPressGWiseDownload" class="sapUiSmallMarginEnd" />
               </items>
             </HBox>
             <HBox

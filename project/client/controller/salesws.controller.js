@@ -31,12 +31,19 @@ sap.ui.define(
 				this.getPrintCustHeaderData();
 			},
 			_onRouteMatched: function(oEvent) {
-
 				var that = this;
 				this.clearScreen(oEvent);
+				setTimeout(function(){
+					$("input[type='Number']").focus(function () {
+						$(this).select();
+					});}, 3000);
+			},
+			onAfterRendering: function(){
+			  $("input[type='Number']").focus(function () {
+			    $(this).select();
+			  });
 			},
 			valueHelpCustomer: function(oEvent) {
-
 				this.getCustomerPopup(oEvent);
 			},
 			onEnter:function(oEvent){

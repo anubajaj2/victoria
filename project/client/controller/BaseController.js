@@ -94,6 +94,15 @@ sap.ui.define([
 						this.fetchValuesFromCustomizing();
 
 					},
+					onAfterRendering: function () {
+						$("input[type='Number']").focus(function () {
+							$(this).select();
+						});
+					},
+
+					onBeforeShow : function(evt) {
+						alert("hello");
+					},
 					fetchValuesFromCustomizing: function() {
 						var that = this;
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
@@ -167,30 +176,6 @@ sap.ui.define([
 						// 	this.searchPopup.setTitle(title);
 						// }
 						this.searchPopup.open();
-					},
-					getCustomer:function(oEvent){
-						debugger;
-						var that = this;
-						var oSource = oEvent.getSource();
-						var oFilter = new sap.ui.model.Filter("CustomerCode",
-						sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
-						var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
-						var getData = JSON.parse(oResult.aLastContextData);
-
-						var cityId = getData.City;
-						var customerCode = getData.CustomerCode;
-						var name = getData.Name;
-
-						var getId = this.getView().byId("Sales--customerId");
-						if (!getId){
-							this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
-							this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
-
-						}else{
-							this.getView().byId("Sales--customerId").setValue(customerCode);
-							this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
-						}
-
 					},
 
 					onSearch: function(oEvent) {
@@ -1279,14 +1264,74 @@ sap.ui.define([
 									oModel.setProperty('/set', true);
 								}
 							},
-							onCustomerSelect:function(oEvent){
+
+							onCustomerSelect:function(oEvent, custName, custId){
 								debugger;
 								var that = this;
-								var selectData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
-								this.getView().byId("Sales--customerId").setValue(selectData.CustomerCode);
-								var cityId = selectData.City;
-								this.getView().byId("Sales--custName").setText(selectData.Name + "-" + name + "-" + that.allMasterData.cities[cityId].cityName);
+								if(oEvent.getParameter("selectedItem")){
+									var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+								  this.setCustomerIdAndCustomerName(selectedData);
+							  }
 							},
+
+							getCustomer:function(oEvent){
+								debugger;
+								var that = this;
+								var oSource = oEvent.getSource();
+								if(oEvent.getParameter("value")){
+									var searchValue = oEvent.getParameter("value").toLocaleUpperCase();
+									var items = oSource.getBinding("suggestionItems").aLastContextData;
+									var filteredObj = items.find((item)=> {
+										if(JSON.parse(item).CustomerCode === searchValue){
+												return items;
+											}
+										});
+									var selectedData = JSON.parse(filteredObj);
+								  this.setCustomerIdAndCustomerName(selectedData);
+							  }
+						  },
+
+							setCustomerIdAndCustomerName: function(selectedCustomer){
+								debugger;
+							 var that = this;
+							 var cityId = selectedCustomer.City;
+							 var customerCode = selectedCustomer.CustomerCode;
+							 var name = selectedCustomer.Name;
+							 var salesId = this.getView().byId("Sales--customerId");
+							 var entryId = this.getView().byId("idCust");
+							 var wsId =  this.getView().byId("WSHeaderFragment--customerId");
+							 if (!salesId & !entryId){
+								 this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
+								 this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+								 this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
+									 selectedCustomer.id);
+								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+										customerCode);
+								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
+										 name);
+							 }
+							 else if (!salesId & !wsId){
+								 this.getView().byId("idCust").setValue(customerCode);
+								 this.getView().byId("idCustText").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+								 this.getView().getModel("local").setProperty("/EntryData/Customer",
+									 selectedCustomer.id);
+								 this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
+										customerCode);
+								 var myData = this.getView().getModel("local").getProperty("/EntryData");
+								 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+								 this.getView().byId("idTable").getBinding("items").filter(oFilter);
+
+							 }
+							 else {
+								 this.getView().byId("Sales--customerId").setValue(customerCode);
+								 this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+								 this.getView().getModel("local").setProperty("/orderHeader/Customer",
+									 selectedCustomer.id);
+								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+										customerCode);
+							 }
+						 },
+
 							onMaterialSelect: function(oEvent) {
 								debugger;
 								if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {

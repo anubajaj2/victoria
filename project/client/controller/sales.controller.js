@@ -34,7 +34,12 @@ _onRouteMatched:function(oEvent){
   var id = "";
   this.onClear(oEvent,id);
   this.getPrintCustHeaderData();
+  setTimeout(function(){
+    $("input[type='Number']").focus(function () {
+      $(this).select();
+    });}, 3000);
 },
+
 getPrintCustHeaderData: function(){
   var that = this;
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),

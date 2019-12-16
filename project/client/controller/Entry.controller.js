@@ -155,7 +155,7 @@ function (BaseController,
 				$('input').on('input.idGold',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idGold-inner"){
 							debugger;
- 			    this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,2})?/)[0];
+ 			    this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
 				}
  				});
  			});
@@ -168,7 +168,7 @@ function (BaseController,
 				$('input').on('input.idSilver',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idSilver-inner"){
 					debugger;
- 			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
+ 			    this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
 				}
  				});
  			});

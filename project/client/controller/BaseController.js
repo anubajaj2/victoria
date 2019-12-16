@@ -1312,14 +1312,58 @@ sap.ui.define([
 							 }
 							 else if (!salesId & !wsId){
 								 this.getView().byId("idCust").setValue(customerCode);
-								 this.getView().byId("idCustText").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+								 this.getView().byId("idCustText").setText(name);
 								 this.getView().getModel("local").setProperty("/EntryData/Customer",
-									 selectedCustomer.id);
-								 this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
-										customerCode);
-								 var myData = this.getView().getModel("local").getProperty("/EntryData");
-								 var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-								 this.getView().byId("idTable").getBinding("items").filter(oFilter);
+								 selectedCustomer.id);
+								this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
+							  customerCode);
+								var myData = this.getView().getModel("local").getProperty("/EntryData");
+
+								this.getView().getModel("local").getProperty("/EntryData",myData);
+								var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+								this.getView().byId("idTable").getBinding("items").filter(oFilter);
+								this.customerId = selectedCustomer.id;
+								$.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
+									console.log(result);
+									debugger;
+									if(result.CashTotal === null){
+										that.byId("idTC").setText('0');
+								  }
+									else{
+											that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
+									}
+									that.byId("idTC").getText();
+									parseFloat(that.byId("idTC").getText());
+									if(parseFloat(that.byId("idTC").getText())>0){
+										that.byId("idTC").setState('Success');
+										debugger;
+									}else{
+										that.byId("idTC").setState('Warning');
+									}
+									that.getView().byId("idG").setText(parseFloat(result.GoldTotal.toFixed(3)));
+									that.byId("idG").getText();
+								 parseFloat(that.byId("idG").getText());
+								 if(parseFloat(that.byId("idG").getText())>0){
+									 that.byId("idG").setState('Success');
+									 debugger;
+								 }else{
+									 that.byId("idG").setState('Warning');
+								 }
+									that.getView().byId("idS").setText(parseFloat(result.SilverTotal.toFixed(2)));
+									that.byId("idS").getText();
+									parseFloat(that.byId("idS").getText());
+									parseFloat(that.byId("idS").getText()).toFixed(3);
+								 // parseFloat(that.byId("idS").getText());
+								 // parseFloat(that.byId("idS").getText()).toFixed(3);
+								 // parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+								 if(parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3))>0){
+									 that.byId("idS").setState('Success');
+									 debugger;
+								 }else{
+									 that.byId("idS").setState('Warning');
+								 }
+								});
+
 
 							 }
 							 else {

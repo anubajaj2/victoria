@@ -9,6 +9,7 @@
 					<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 					tooltip="fullscreen"
 					iconFirst="true" press="toggleFullScreen"></m:Button>
+					<m:Button icon="sap-icon://detail-view" iconFirst="true" press="onFindMaterial" tooltip="Stock items"></m:Button>
 					<m:Button icon="sap-icon://user-settings" iconFirst="true" press="onSetting" tooltip="Toggle Column Visibility"></m:Button>
 					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"></m:Button>
 				</m:content>

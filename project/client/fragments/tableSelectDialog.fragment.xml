@@ -1,0 +1,53 @@
+<core:FragmentDefinition
+   xmlns:core="sap.ui.core" xmlns="sap.ui.table" xmlns:m="sap.m">
+   <m:Dialog
+      title="{i18n>material}" contentWidth="400px" contentHeight="500px">
+      <m:content>
+        <Table rows="{orderItems>/itemData}" visibleRowCount="10"
+          class="sapUiContentPadding" updateFinished="onUpdateFinished" threshold="05">
+          <columns>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>material}"></m:Text>
+              </label>
+              <template>
+                <m:Input
+                   showSuggestion="true"
+                   suggestionItemSelected="onMaterialSelect"
+                   submit="ValueChangeMaterial"
+                   value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
+                   suggestionItems="{path: '/Products', templateShareable:false}"
+                   editable="{= ${orderItems>itemNo} === '' ? true : false}">
+                  <m:suggestionItems>
+                    <core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+                    </m:suggestionItems>
+                </m:Input>
+              </template>
+            </Column>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>description}"></m:Text>
+              </label>
+              <template>
+                <!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
+                <m:Text text="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
+              </template>
+            </Column>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>qty}"></m:Text>
+              </label>
+              <template>
+                <m:Input type="Number" value="{orderItems>Qty}"
+                maxLength="3" liveChange="ValueChange" Nullable="false"
+                editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+              </template>
+            </Column>
+          </columns>
+        </Table>
+      </m:content>
+      <m:endButton>
+        <m:Button text="Close" press="onDialogClose"/>
+      </m:endButton>
+   </m:Dialog>
+</core:FragmentDefinition>

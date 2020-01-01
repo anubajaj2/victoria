@@ -682,8 +682,14 @@ sap.ui.define([
 							odata.setProperty("/rows1", false);
 						}
 					},
-			ValueChangeMaterial: function(oEvent,viewId) {
+			ValueChangeMaterial: function(oEvent) {
 				debugger;
+				var id = oEvent.getSource().getId().split('---')[1];
+				if(id !== undefined){
+					if (id.split('--')[0] === 'idsales') {
+						this.byId("Sales--idSaveIcon").setColor('red');
+					}
+				}
 			  $(function() {
 			          $('input:text:first').focus();
 			          var $inp = $('input:text');
@@ -697,42 +703,52 @@ sap.ui.define([
 			              }
 			          });
 			      });
-			    var that =  this;
+			  var that =  this;
 				var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
 				var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
-			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData);
+			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
 			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			   "/Products", "GET", {filters: [oFilter]}, {}, this)
 			    .then(function(oData) {
-							oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
+						  console.log(oData.results[0]);
+							oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
+							if(oData.results[0].HindiName){
+								oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
+							}
+							else{
+								oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].ProductName);
+							}
+							oModelForRow.setProperty(sRowPath + "/MaterialCode", oData.results[0].ProductCode);
+							if (oData.results[0].Making) {
+								oModelForRow.setProperty(sRowPath + "/Making", oData.results[0].Making);
+							}
+							if (oData.results[0].PricePerUnit) {
+								oModelForRow.setProperty(sRowPath + "/MakingD", oData.results[0].PricePerUnit);
+							}
+							if (oData.results[0].Tunch) {
+								oModelForRow.setProperty(sRowPath + "/Tunch", oData.results[0].Tunch);
+							}
+							oModelForRow.setProperty(sRowPath + "/Category", oData.results[0].Category);
+							oModelForRow.setProperty(sRowPath + "/Type", oData.results[0].Type);
+							oModelForRow.setProperty(sRowPath + "/Karat", oData.results[0].Karat);
 			    }).catch(function(oError) {
 			        // MessageToast.show("cannot fetch the data");
 			    });
-				// debugger;
- 				// var oSource = oEvent.getSource();
-				// var oFilter = new sap.ui.model.Filter("ProductCode",
-				// sap.ui.model.FilterOperator.Contains, oEvent.getParameter("value").toLocaleUpperCase());
-				// var oResult = oSource.getBinding("suggestionItems").filter(oFilter);
-				// var getData = JSON.parse(oResult.aLastContextData);
-				//
-				// //var MatCode = oEvent.getParameter("suggestValue").toLocaleUpperCase();
-				// var getMatCode =  this.getView().byId("idMat");
-				//
-				// if(!getMatCode){
-				// 	var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
-				// 	var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
-				// 	oModelForRow.setProperty(sRowPath + "/MaterialCode", getData.ProductCode);
-				// 	oModelForRow.setProperty(sRowPath + "/Description", getData.ProductName);
-				//
-				// }else {
-				//
-				// 	this.getView().byId("idMat").setValue(getData.ProductCode);
-				// 	this.getView().byId("idMatText").setText(getData.ProductName + "-" + getData.Type);
-				//
-				// }
-
 			},
+
+			onFindMaterial: function(){
+						if(!this.searchPopup){
+							this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.tableSelectDialog",this);
+							this.getView().addDependent(this.searchPopup);
+						}
+					 this.searchPopup.open();
+					},
+
+		  onDialogClose: function(oEvent){
+					 this.searchPopup.close()
+					},
+
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;
 						var that = this;
@@ -1378,15 +1394,23 @@ sap.ui.define([
 
 							onMaterialSelect: function(oEvent) {
 								debugger;
-								if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
-									this.byId("Sales--idSaveIcon").setColor('red');
+								var id = oEvent.getSource().getId().split('---')[1];
+						  	if(id !== undefined){
+									if (id.split('--')[0] === 'idsales') {
+										this.byId("Sales--idSaveIcon").setColor('red');
+									}
 								}
 								var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 								// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 								var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
 								var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
 								oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
-								oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+								if(selectedMatData.HindiName){
+										oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
+								}
+								else{
+									oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+								}
 								//Making
 								if (selectedMatData.Making) {
 									oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
@@ -1409,10 +1433,8 @@ sap.ui.define([
 									oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 								}
 
-								if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
-									this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
-								}
 							},
+
 							onTableExpand: function(oEvent) {
 								debugger;
 								var splitApp = this.getView().oParent.oParent;

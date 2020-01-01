@@ -1120,6 +1120,7 @@ that.getView().getModel('local').setProperty('/orderHeader',oHeader);
   }
 },
 onSave:function(oEvent){
+  debugger;
 var that = this;
 //if header check pass
 if(this.onValidation() === true){

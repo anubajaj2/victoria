@@ -484,6 +484,7 @@ function (BaseController,
      );
 		   },
 			 _getEditClear: function() {
+				 debugger;
 				 var check = this.getView().byId("CBID").getSelected();
 		     if (check === true) {
 		        this.getView().byId("DateId").setDateValue( new Date());
@@ -528,6 +529,7 @@ function (BaseController,
 			 },
 
    onClear: function(){
+		 debugger;
      var check = this.getView().byId("CBID").getSelected();
      if (check === true) {
         this.getView().byId("DateId").setDateValue( new Date());
@@ -545,7 +547,7 @@ function (BaseController,
        this.byId("idGold").setValue("0");
        this.byId("idSilver").setValue("0");
        this.byId("idtunch").setValue("0");
-       this.byId("DueDateId").setDateValue( new Date());
+       this.byId("DueDateId").setValue("");
 
      }else if (check === false){
        this.getView().byId("DateId").setDateValue( new Date());
@@ -569,7 +571,7 @@ function (BaseController,
 		 this.byId("idS").setText("");
 		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
 			// 												 "GET", {}, myData, this)
-		 this.byId("DueDateId").setDateValue( new Date());
+		 this.byId("DueDateId").setValue("");
      }
 
    },

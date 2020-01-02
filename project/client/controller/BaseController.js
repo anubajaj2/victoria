@@ -704,8 +704,16 @@ sap.ui.define([
 			          });
 			      });
 			  var that =  this;
-				var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel('local');
-				var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
+				if(!oModel){
+					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+				var oModelForRow= oModel.getModel('local');
+				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
+				if(!sBinding){
+					 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+				var sRowPath =  sBinding.getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
 			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
 			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -738,15 +746,15 @@ sap.ui.define([
 			},
 
 			onFindMaterial: function(){
-						if(!this.searchPopup){
-							this.searchPopup=new sap.ui.xmlfragment("victoria.fragments.tableSelectDialog",this);
-							this.getView().addDependent(this.searchPopup);
+						if(!this.materialPopup){
+							this.materialPopup=new sap.ui.xmlfragment("victoria.fragments.tableSelectDialog",this);
+							this.getView().addDependent(this.materialPopup);
 						}
-					 this.searchPopup.open();
+					 this.materialPopup.open();
 					},
 
 		  onDialogClose: function(oEvent){
-					 this.searchPopup.close()
+					 this.materialPopup.close()
 					},
 
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
@@ -1269,6 +1277,49 @@ sap.ui.define([
 								//set the model
 								this.setModel(oOrderItem, "orderItems");
 							},
+							materialPopupOrderItem: function(oEvent, id) {
+								//create the model to set the getProperty
+								//visible or // NOT
+								this.setVisible(oEvent, id);
+								//create json model
+								var oOrderItem = new sap.ui.model.json.JSONModel();
+								//create array
+								var array = [];
+								//loop the array values
+								for (var i = 1; i <= 20; i++) {
+									//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
+									var oItem = {
+										"OrderNo": "",
+										"itemNo": "",
+										"Material": "",
+										"MaterialCode": "",
+										"Description": "",
+										"Qty": "0",
+										"QtyD": "0",
+										"Weight": "0",
+										"WeightD": "0",
+										"Making": "0",
+										"MakingD": "0",
+										"Tunch": 0,
+										"Remarks": "",
+										"SubTotal": "",
+										"SubTotalS": 0,
+										"SubTotalG": 0,
+										"Category": "",
+										"CreatedBy": "",
+										"CreatedOn": "",
+										"ChangedBy": "",
+										"ChangedOn": ""
+									};
+									array.push(oItem);
+								}
+								//set the Data
+								oOrderItem.setData({
+									"itemData": array
+								});
+								//set the model
+								this.setModel(oOrderItem, "materialPopupOrderItems");
+							},
 							hideDColumns: function(oEvent) {
 								//on setting button click
 								debugger;
@@ -1402,8 +1453,22 @@ sap.ui.define([
 								}
 								var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 								// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-								var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
-								var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+								var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
+
+								if(!oModel){
+									oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+								}
+
+								var oModelForRow =	oModel.getModel();
+
+								var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
+
+								if(!sBinding){
+								 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+								}
+
+								var sRowPath = sBinding.getPath();
+
 								oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
 								if(selectedMatData.HindiName){
 										oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);

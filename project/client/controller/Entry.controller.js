@@ -141,7 +141,7 @@ function (BaseController,
 				$('input').on('input.idCash',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idCash-inner"){
 					debugger;
- 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,0})?/)[0];
+ 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
 				}
  				});
  			});

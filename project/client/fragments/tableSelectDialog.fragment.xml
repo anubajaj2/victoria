@@ -3,7 +3,7 @@
    <m:Dialog
       title="{i18n>material}" contentWidth="400px" contentHeight="500px">
       <m:content>
-        <Table rows="{orderItems>/itemData}" visibleRowCount="10"
+        <Table rows="{materialPopupOrderItems>/itemData}" visibleRowCount="10"
           class="sapUiContentPadding" updateFinished="onUpdateFinished" threshold="05">
           <columns>
             <Column hAlign="Center">
@@ -15,9 +15,9 @@
                    showSuggestion="true"
                    suggestionItemSelected="onMaterialSelect"
                    submit="ValueChangeMaterial"
-                   value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
+                   value="{materialPopupOrderItems>MaterialCode}" maxSuggestionWidth="250px"
                    suggestionItems="{path: '/Products', templateShareable:false}"
-                   editable="{= ${orderItems>itemNo} === '' ? true : false}">
+                   editable="{= ${materialPopupOrderItems>itemNo} === '' ? true : false}">
                   <m:suggestionItems>
                     <core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
                     </m:suggestionItems>
@@ -29,8 +29,7 @@
                 <m:Text text="{i18n>description}"></m:Text>
               </label>
               <template>
-                <!-- <m:Text text="{orderItems>MaterialName}"></m:Text> -->
-                <m:Text text="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
+                <m:Text text="{materialPopupOrderItems>Description}" editable="false" liveChange="ValueChange"/>
               </template>
             </Column>
             <Column hAlign="Center">
@@ -38,9 +37,9 @@
                 <m:Text text="{i18n>qty}"></m:Text>
               </label>
               <template>
-                <m:Input type="Number" value="{orderItems>Qty}"
+                <m:Input type="Number" value="{materialPopupOrderItems>Qty}"
                 maxLength="3" liveChange="ValueChange" Nullable="false"
-                editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+                editable="{= ${materialPopupOrderItems>itemNo} === '' ? true : false}"/>
               </template>
             </Column>
           </columns>

@@ -575,6 +575,7 @@ var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 // that.onClear(oEvent,id);
 //Clear Item table
 this.orderItem(oEvent,id);
+this.materialPopupOrderItem(oEvent,id);
 //return table
 this.orderReturn(oEvent,id);
 //adjust width of order tablePath
@@ -1448,6 +1449,7 @@ postedEntryData.CreatedOn="";
 that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
 this.orderCustomCalculations();
 this.orderItem(oEvent,id);
+this.materialPopupOrderItem(oEvent,id);
 //return table
 this.orderReturn(oEvent,id);
 //adjust width of order tablePath

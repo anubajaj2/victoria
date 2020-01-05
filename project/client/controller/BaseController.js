@@ -1513,8 +1513,13 @@ sap.ui.define([
 								// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 								var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
 
+								var orderId = null;
 								if(!oModel){
 									oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+									orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+									var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
+									orderNoPath = orderNoPath + "/OrderNo";
+									that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
 								}
 
 								var oModelForRow =	oModel.getModel();

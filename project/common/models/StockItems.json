@@ -1,0 +1,65 @@
+{
+  "name": "StockItem",
+  "plural": "StockItems",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "OrderNo": {
+      "type": "string",
+      "required": true
+    },
+    "Material": {
+      "type": "string",
+      "required": true
+    },
+    "Qty": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToOrderHeader":{
+      "type":"belongsTo",
+      "model":"OrderHeader",
+      "foreignKey":"OrderNo"
+    },
+    "ToStock":{
+      "type":"hasMany",
+      "model":"stockMaint",
+      "foreignKey":"Material"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

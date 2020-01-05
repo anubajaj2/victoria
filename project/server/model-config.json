@@ -155,6 +155,9 @@
   "WSTunch":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "StockItem":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
-
 }

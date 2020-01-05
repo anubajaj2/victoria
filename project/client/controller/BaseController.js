@@ -1358,6 +1358,7 @@ sap.ui.define([
 								for (var i = 1; i <= 20; i++) {
 									//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
 									var oItem = {
+										"OrderNo": "",
 										"itemNo": "",
 										"MaterialCode": "",
 										"Description": "",

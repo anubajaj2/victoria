@@ -141,7 +141,7 @@ function (BaseController,
 				$('input').on('input.idCash',function(event) {
 					if(event.currentTarget.id=="__component0---idEntry--idCash-inner"){
 					debugger;
- 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,0})?/)[0];
+ 			    this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
 				}
  				});
  			});
@@ -484,6 +484,7 @@ function (BaseController,
      );
 		   },
 			 _getEditClear: function() {
+				 debugger;
 				 var check = this.getView().byId("CBID").getSelected();
 		     if (check === true) {
 		        this.getView().byId("DateId").setDateValue( new Date());
@@ -528,12 +529,14 @@ function (BaseController,
 			 },
 
    onClear: function(){
+		 debugger;
      var check = this.getView().byId("CBID").getSelected();
      if (check === true) {
-        this.getView().byId("DateId").setDateValue( new Date());
-				jQuery.sap.delayedCall(500, this, function() {
-						this.getView().byId("idCash").focus();
-				});
+			 var myData = this.getView().getModel("local").getProperty("/EntryData");
+       this.getView().byId("DateId").setDateValue(myData.Date);
+			 jQuery.sap.delayedCall(500, this, function() {
+					this.getView().byId("idCash").focus();
+			 });
        this.byId("idCust").getValue();
        this.byId("idCustText").getText();
 			 // this.byId("idMat").setValue("");
@@ -545,10 +548,11 @@ function (BaseController,
        this.byId("idGold").setValue("0");
        this.byId("idSilver").setValue("0");
        this.byId("idtunch").setValue("0");
-       this.byId("DueDateId").setDateValue( new Date());
+       this.byId("DueDateId").setValue("");
 
      }else if (check === false){
-       this.getView().byId("DateId").setDateValue( new Date());
+			 var myData = this.getView().getModel("local").getProperty("/EntryData");
+       this.getView().byId("DateId").setDateValue(myData.Date);
 			 jQuery.sap.delayedCall(500, this, function() {
 					 this.getView().byId("idCust").focus();
 			 });
@@ -569,7 +573,7 @@ function (BaseController,
 		 this.byId("idS").setText("");
 		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
 			// 												 "GET", {}, myData, this)
-		 this.byId("DueDateId").setDateValue( new Date());
+		 this.byId("DueDateId").setValue("");
      }
 
    },

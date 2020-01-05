@@ -575,6 +575,7 @@ var orderDetail = this.getView().getModel('local').getProperty('/orderHeader');
 // that.onClear(oEvent,id);
 //Clear Item table
 this.orderItem(oEvent,id);
+this.materialPopupOrderItem(oEvent,id);
 //return table
 this.orderReturn(oEvent,id);
 //adjust width of order tablePath
@@ -1120,6 +1121,7 @@ that.getView().getModel('local').setProperty('/orderHeader',oHeader);
   }
 },
 onSave:function(oEvent){
+  debugger;
 var that = this;
 //if header check pass
 if(this.onValidation() === true){
@@ -1447,6 +1449,7 @@ postedEntryData.CreatedOn="";
 that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
 this.orderCustomCalculations();
 this.orderItem(oEvent,id);
+this.materialPopupOrderItem(oEvent,id);
 //return table
 this.orderReturn(oEvent,id);
 //adjust width of order tablePath

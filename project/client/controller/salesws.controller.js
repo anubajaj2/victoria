@@ -901,6 +901,7 @@ sap.ui.define(
 					});
 				//Clear Item table
 				this.orderItem(oEvent);
+				this.materialPopupOrderItem(oEvent);
 				this.orderReturn(oEvent);
 			},
 			onClear: function(oEvent) {
@@ -2281,17 +2282,132 @@ sap.ui.define(
 				var deductionSF = this.getIndianCurr(deductionS);
 				this.getView().getModel('local').setProperty('/orderHeaderTemp/DeductionSilver', deductionSF);
 			},
+			ValueChangeMaterial: function(oEvent) {
+				debugger;
+				var id = oEvent.getSource().getId().split('---')[1];
+				if(id !== undefined){
+					if (id.split('--')[0] === 'idsalesws') {
+						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+					}
+				}
+
+				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
+				if(!oModel){
+					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+				var oModelForRow= oModel.getModel('local');
+				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
+				if(!sBinding){
+					 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+				var sRowPath =  sBinding.getPath();
+				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
+			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				"/Products", "GET", {filters: [oFilter]}, {}, this)
+				 .then(function(oData) {
+					 console.log(oData.results[0]);
+					 var selectedMatData = oData.results[0];
+					 oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
+					 if(selectedMatData.HindiName){
+	 					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
+	 				}
+	 				else{
+	 						oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+	 				}
+					 oModelForRow.setProperty(sRowPath + "/MaterialCode", selectedMatData.ProductCode);
+					 //Making
+					 if (selectedMatData.Making) {
+						 oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+					 } else {
+						 oModelForRow.setProperty(sRowPath + "/Making", 0);
+					 }
+
+					if (selectedMatData.PricePerUnit) {
+	 					oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+	 				} else {
+	 					oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+	 				}
+
+	 				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
+	 				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+	 				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
+
+					if(id !== undefined){
+						if (id.split('--')[0] === 'idsalesws') {
+						var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+						var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
+						var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
+						var oFilter = new sap.ui.model.Filter({
+							filters: [oFilter1, oFilter2],
+							and: true
+						})
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
+								"/WSTunchs", "GET", {
+									filters: [oFilter1, oFilter2]
+								}, null, this)
+							.then(function(oData) {
+								debugger;
+								if (oData.results.length > 0) {
+									selectedMatData.Making = oData.results[0].Making;
+									selectedMatData.Tunch = oData.results[0].Tunch;
+								}
+
+								if (selectedMatData.Tunch) {
+									oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+								}
+								if (selectedMatData.Making) {
+									oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+								}
+							})
+							.catch(function(oError) {
+								debugger;
+								if (selectedMatData.Tunch) {
+									oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+								} else {
+									oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+								}
+							});
+
+						}
+					}
+				 }).catch(function(oError) {
+						 // MessageToast.show("cannot fetch the data");
+				 });
+
+			},
 			onMaterialSelect: function(oEvent) {
 				debugger;
-				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsales') {
-					this.byId("Sales--idSaveIcon").setColor('red');
+				var id = oEvent.getSource().getId().split('---')[1];
+				if(id !== undefined){
+					if (id.split('--')[0] === 'idsales') {
+						this.byId("Sales--idSaveIcon").setColor('red');
+					}
 				}
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				var oModelForRow = oEvent.getSource().getParent().getBindingContext("orderItems").getModel();
-				var sRowPath = oEvent.getSource().getParent().getBindingContext("orderItems").getPath();
+				var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
+				if(!oModel){
+					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+				var oModelForRow = oModel.getModel();
+
+				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
+
+				if(!sBinding){
+				 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+
+				var sRowPath = sBinding.getPath();
+
 				oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
-				oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+				if(selectedMatData.HindiName){
+					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
+				}
+				else{
+						oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+				}
 				//Making
 				if (selectedMatData.Making) {
 					oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
@@ -2309,7 +2425,8 @@ sap.ui.define(
 				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
 				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
 				debugger;
-				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
+				if(id !== undefined){
+					if (id.split('--')[0] === 'idsalesws') {
 					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 					var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
 					var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
@@ -2346,6 +2463,7 @@ sap.ui.define(
 						});
 
 				}
+			  }
 
 				// if (selectedMatData.Tunch) {
 				// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
@@ -2353,8 +2471,10 @@ sap.ui.define(
 				// 	oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 				// }
 
-				if (oEvent.getSource().getId().split('---')[1].split('--')[0] === 'idsalesws') {
-					this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+				if(id !== undefined){
+					if (id.split('--')[0] === 'idsalesws') {
+						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
+					}
 				}
 			},
 			previousOrder: function(oEvent) {

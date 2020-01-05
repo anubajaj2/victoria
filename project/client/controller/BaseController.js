@@ -786,6 +786,9 @@ sap.ui.define([
 
 					validateValue: function(oEvent){
 						var dialogSave =	sap.ui.core.Fragment.byId("fr1", "dialogSave");
+						if(!dialogSave){
+							dialogSave =	sap.ui.core.Fragment.byId("fr2", "dialogSave");
+						}
 						if(oEvent.getSource().getValue() <= 0 ){
 							debugger;
 							oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
@@ -806,10 +809,16 @@ sap.ui.define([
 								if(a[i].MaterialCode){
 										if(a[i].Qty > 0){
 											// add post functionality
-									}
+									  }
+										else{
+											oEvent.getSource().setEnabled(false);
+										}
 								}
 							}
 							var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+							if(!fragIndicator){
+								fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+							}
 							if(fragIndicator){
 									fragIndicator.setColor("green");
 							}

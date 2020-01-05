@@ -1867,8 +1867,10 @@ sap.ui.define(
 					data.Making = 0;
 					// making = 0;
 				} else {
-					var making = data.Making.toString();
-					data.Making = oFloatFormat.parse(making);
+					if(data.Making){
+						var making = data.Making.toString();
+						data.Making = oFloatFormat.parse(making);
+				 }
 				}
 
 				//MakindD
@@ -1931,8 +1933,10 @@ sap.ui.define(
 					data.Tunch = 0;
 					// var tunch = 0;
 				} else {
+					if(data.Tunch){
 					var tunch = data.Tunch.toString();
 					data.Tunch = oFloatFormat.parse(tunch);
+				}
 					// tunch = data.Tunch;
 				}
 			},
@@ -2290,7 +2294,10 @@ sap.ui.define(
 						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 					}
 				}
-
+				var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+				if(fragIndicator){
+						fragIndicator.setColor("red");
+				}
 				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
 				if(!oModel){
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
@@ -2377,6 +2384,36 @@ sap.ui.define(
 				 });
 
 			},
+
+			onFindMaterial: function(){
+				debugger;
+				var that = this;
+				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				if(oHeader.OrderNo !== 0 &&
+					 oHeader.OrderNo !== ""){
+							if(!this.materialPopup){
+								this.materialPopup=new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog",this);
+								this.getView().addDependent(this.materialPopup);
+							}
+							this.materialPopup.open();
+							setTimeout(function(){
+								$("input[type='Number']").focus(function () {
+									$(this).select();
+								});}, 2000);
+						}
+						else{
+							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
+							MessageBox.show(
+								oBundle, {
+									icon: MessageBox.Icon.ERROR,
+									title: "Error",
+									actions: [MessageBox.Action.OK],
+									onClose: function(oAction) { }
+								}
+							);
+						}
+				},
+
 			onMaterialSelect: function(oEvent) {
 				debugger;
 				var id = oEvent.getSource().getId().split('---')[1];
@@ -2384,6 +2421,11 @@ sap.ui.define(
 					if (id.split('--')[0] === 'idsales') {
 						this.byId("Sales--idSaveIcon").setColor('red');
 					}
+				}
+
+				var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+				if(fragIndicator){
+						fragIndicator.setColor("red");
 				}
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());

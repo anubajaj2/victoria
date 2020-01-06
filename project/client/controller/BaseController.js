@@ -711,8 +711,13 @@ sap.ui.define([
 			      });
 			  var that =  this;
 				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
+				var orderId = null;
 				if(!oModel){
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+					orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
+					orderNoPath = orderNoPath + "/OrderNo";
+					that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
 				}
 				var oModelForRow= oModel.getModel('local');
 				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
@@ -803,27 +808,44 @@ sap.ui.define([
 
 					onDialogSave: function(oEvent){
 							debugger;
-							var a = this.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+							var a = this.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData/0");
 							console.log(a);
-							for(var i =0;i<a.length; i++){
-								if(a[i].MaterialCode){
-										if(a[i].Qty > 0){
-											// add post functionality
-									  }
+							var oTableDetails = sap.ui.core.Fragment.byId("fr1", "materialPopupTable");
+							if(!oTableDetails){
+								 oTableDetails = sap.ui.core.Fragment.byId("fr2", "materialPopupTable");
+							}
+							var oBinding = oTableDetails.getBinding("rows");
+							for (var i = 0; i < oBinding.getLength(); i++) {
+							  var that = this;
+							  var data = oBinding.oList[i];
+							//posting the data
+								if (data.MaterialCode !== "") {
+										if(data.Qty > 0){
+											that.getView().setBusy(true);
+											data.Qty =  Math.abs(data.Qty) * -1;
+											this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
+					                                      "POST", {}, data, this)
+					            .then(function(oData) {
+					    					that.getView().setBusy(false);
+					    					sap.m.MessageToast.show("Data Saved Successfully");
+												var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+												if(!fragIndicator){
+													fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+												}
+												if(fragIndicator){
+														fragIndicator.setColor("green");
+												}
+					    				}).catch(function(oError) {
+					    					that.getView().setBusy(false);
+					    					var oPopover = that.getErrorMessage(oError);
+					    				});
+										}
 										else{
+											sap.m.MessageBox.error("Can't Save! Quantity should be greater than 0");
 											oEvent.getSource().setEnabled(false);
 										}
 								}
 							}
-							var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
-							if(!fragIndicator){
-								fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-							}
-							if(fragIndicator){
-									fragIndicator.setColor("green");
-							}
-							 this.materialPopup.close();
-
 							},
 
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {

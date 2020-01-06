@@ -12,7 +12,7 @@
       </m:Toolbar>
     </m:customHeader>
       <m:content>
-        <Table rows="{materialPopupOrderItems>/popupItemsData}" visibleRowCount="10"
+        <Table id="materialPopupTable" rows="{materialPopupOrderItems>/popupItemsData}" visibleRowCount="10"
           class="sapUiContentPadding" updateFinished="onUpdateFinished" threshold="05" selectionMode="None">
           <columns>
             <Column hAlign="Center">
@@ -21,6 +21,7 @@
               </label>
               <template>
                 <m:Input
+                   id="idMat"
                    showSuggestion="true"
                    suggestionItemSelected="onMaterialSelect"
                    submit="ValueChangeMaterial"

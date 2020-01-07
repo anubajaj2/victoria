@@ -851,6 +851,7 @@ sap.ui.define([
 												if(fragIndicator){
 														fragIndicator.setColor("green");
 												}
+												that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
 					    				}).catch(function(oError) {
 					    					that.getView().setBusy(false);
 					    					var oPopover = that.getErrorMessage(oError);
@@ -863,7 +864,7 @@ sap.ui.define([
 									}
 								}
 							}
-							that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+
 							console.log(allItems);
 				  },
 

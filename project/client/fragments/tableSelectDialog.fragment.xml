@@ -27,7 +27,7 @@
                    submit="ValueChangeMaterial"
                    value="{materialPopupOrderItems>MaterialCode}" maxSuggestionWidth="250px"
                    suggestionItems="{path: '/Products', templateShareable:false}"
-                   editable="{= ${materialPopupOrderItems>itemNo} === '' ? true : false}">
+                   editable="{= ${materialPopupOrderItems>id} === '' ? true : false}">
                   <m:suggestionItems>
                     <core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
                     </m:suggestionItems>
@@ -49,7 +49,7 @@
               <template>
                 <m:Input type="Number" value="{materialPopupOrderItems>Qty}" id="idQty"
                 maxLength="3" Nullable="false"  liveChange="validateValue"
-                editable="{= ${materialPopupOrderItems>itemNo} === '' ? true : false}"/>
+                editable="{= ${materialPopupOrderItems>id} === '' ? true : false}"/>
               </template>
             </Column>
           </columns>

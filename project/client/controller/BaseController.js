@@ -726,11 +726,24 @@ sap.ui.define([
 				}
 				var sRowPath =  sBinding.getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
+				var currentBoxId = oEvent.getSource().getId();
 			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
 			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			   "/Products", "GET", {filters: [oFilter]}, {}, this)
 			    .then(function(oData) {
 						  console.log(oData.results[0]);
+							if(oData.results[0]){
+								setTimeout(function(){
+									var textboxes = $("input[id*='fr1--id']");
+									var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
+									var currentBoxNumber = textboxes.index(findCurrentBox[0]);
+									if (textboxes[currentBoxNumber + 1] != null) {
+											var nextBox = textboxes[currentBoxNumber + 1]
+											nextBox.focus();
+											nextBox.select();
+									}
+								}, 100);
+							}
 							oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
 							if(oData.results[0].HindiName){
 								oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
@@ -799,34 +812,37 @@ sap.ui.define([
 							oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
 							dialogSave.setEnabled(false);
 						}
-
 						else{
 							oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
 							dialogSave.setEnabled(true);
 						}
 					},
 
-					onDialogSave: function(oEvent){
+				 onDialogSave: function(oEvent){
 							debugger;
-							var a = this.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData/0");
-							console.log(a);
+							var that = this;
 							var oTableDetails = sap.ui.core.Fragment.byId("fr1", "materialPopupTable");
 							if(!oTableDetails){
 								 oTableDetails = sap.ui.core.Fragment.byId("fr2", "materialPopupTable");
 							}
 							var oBinding = oTableDetails.getBinding("rows");
-							for (var i = 0; i < oBinding.getLength(); i++) {
-							  var that = this;
-							  var data = oBinding.oList[i];
-							//posting the data
+							var arr = [];
+							var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+							for (let i = 0; i < oBinding.getLength(); i++) {
+							 var that = this;
+							 var data = oBinding.oList[i];
+							if (data.id === "") {
 								if (data.MaterialCode !== "") {
 										if(data.Qty > 0){
 											that.getView().setBusy(true);
-											data.Qty =  Math.abs(data.Qty) * -1;
+											var payload = {...data};
+											payload.Qty =  Math.abs(payload.Qty) * -1;
 											this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
-					                                      "POST", {}, data, this)
+					                                      "POST", {}, payload, this)
 					            .then(function(oData) {
 					    					that.getView().setBusy(false);
+												debugger;
+												allItems[i].id = oData.id;
 					    					sap.m.MessageToast.show("Data Saved Successfully");
 												var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
 												if(!fragIndicator){
@@ -844,9 +860,12 @@ sap.ui.define([
 											sap.m.MessageBox.error("Can't Save! Quantity should be greater than 0");
 											oEvent.getSource().setEnabled(false);
 										}
+									}
 								}
 							}
-							},
+							that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+							console.log(allItems);
+				  },
 
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;
@@ -1380,6 +1399,7 @@ sap.ui.define([
 								for (var i = 1; i <= 20; i++) {
 									//var baseItem = this.getView().getModel("local").getProperty("/orderItemBase");
 									var oItem = {
+										"id":"",
 										"OrderNo": "",
 										"itemNo": "",
 										"MaterialCode": "",
@@ -1582,6 +1602,18 @@ sap.ui.define([
 								} else {
 									oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 								}
+
+								var currentBoxId = oEvent.getSource().getId();
+								setTimeout(function(){
+									var textboxes = $("input[id*='fr1--id']");
+									var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
+									var currentBoxNumber = textboxes.index(findCurrentBox[0]);
+									if (textboxes[currentBoxNumber + 1] != null) {
+											var nextBox = textboxes[currentBoxNumber + 1]
+											nextBox.focus();
+											nextBox.select();
+									}
+								}, 100);
 
 							},
 

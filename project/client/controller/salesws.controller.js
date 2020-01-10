@@ -2421,6 +2421,7 @@ sap.ui.define(
 
 			onMaterialSelect: function(oEvent) {
 				debugger;
+				var that = this;
 				var id = oEvent.getSource().getId().split('---')[1];
 				if(id !== undefined){
 					if (id.split('--')[0] === 'idsales') {
@@ -2438,7 +2439,7 @@ sap.ui.define(
 				var orderId = null;
 				if(!oModel){
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-					orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+					orderId = this.getView().getModel('local').getProperty('/WSOrderHeader/id');
 					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
 					orderNoPath = orderNoPath + "/OrderNo";
 					that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);

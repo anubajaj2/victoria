@@ -17,6 +17,7 @@ function (BaseController,
   "use strict";
   return BaseController.extend("victoria.controller.Entry",{
     // formatter:formatter,
+		clearOnSend : false,
     onInit: function () {
 			var that=this;
 			that.getView().setBusy(true);
@@ -314,7 +315,11 @@ function (BaseController,
 		 debugger;
 		 if(this.getView().byId("idMat").getValue()==="" && this.getView().byId("RB-4").getSelected()){
 			 sap.m.MessageBox.show("Please enter the Material");
-		 }else{
+		 }
+		 if(this.getView().byId("idCust").getValue()===""){
+			 sap.m.MessageBox.show("Please enter the Customer");
+		 }
+		 else{
      debugger;
      var that=this;
      that.getView().setBusy(true);
@@ -333,6 +338,7 @@ function (BaseController,
      .then(function(oData) {
        that.getView().setBusy(false);
        sap.m.MessageToast.show("Data Saved Successfully");
+			 that.clearOnSend =  true;
        that.onClear();
 
      }).catch(function(oError) {
@@ -532,10 +538,17 @@ function (BaseController,
 		 debugger;
      var check = this.getView().byId("CBID").getSelected();
      if (check === true) {
-        this.getView().byId("DateId").setDateValue( new Date());
-				jQuery.sap.delayedCall(500, this, function() {
-						this.getView().byId("idCash").focus();
-				});
+			 if(this.clearOnSend){
+				 this.clearOnSend = false;
+				 var myData = this.getView().getModel("local").getProperty("/EntryData");
+	       this.getView().byId("DateId").setDateValue(myData.Date);
+		 	 }
+			 else{
+				 this.getView().byId("DateId").setDateValue( new Date());
+			 }
+			 jQuery.sap.delayedCall(500, this, function() {
+					this.getView().byId("idCash").focus();
+			 });
        this.byId("idCust").getValue();
        this.byId("idCustText").getText();
 			 // this.byId("idMat").setValue("");
@@ -547,10 +560,16 @@ function (BaseController,
        this.byId("idGold").setValue("0");
        this.byId("idSilver").setValue("0");
        this.byId("idtunch").setValue("0");
-       this.byId("DueDateId").setValue("");
-
+       this.byId("DueDateId").setDateValue( new Date());
      }else if (check === false){
-       this.getView().byId("DateId").setDateValue( new Date());
+			 if(this.clearOnSend){
+				 this.clearOnSend = false;
+				 var myData = this.getView().getModel("local").getProperty("/EntryData");
+	       this.getView().byId("DateId").setDateValue(myData.Date);
+		 	 }
+			 else{
+				 this.getView().byId("DateId").setDateValue( new Date());
+			 }
 			 jQuery.sap.delayedCall(500, this, function() {
 					 this.getView().byId("idCust").focus();
 			 });
@@ -560,18 +579,18 @@ function (BaseController,
 			 // this.byId("idMat").setValue("");
        this.byId("idMatText").setText("");
 			 this.byId("idMatType").setText("");
-     this.byId("idweight").setValue("0");
-     this.byId("idRemarks").setValue("");
-     this.byId("idCash").setValue("0");
-     this.byId("idGold").setValue("0");
-     this.byId("idSilver").setValue("0");
-     this.byId("idtunch").setValue("0");
-		 this.byId("idTC").setText("");
-		 this.byId("idG").setText("");
-		 this.byId("idS").setText("");
-		 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
-			// 												 "GET", {}, myData, this)
-		 this.byId("DueDateId").setValue("");
+	     this.byId("idweight").setValue("0");
+	     this.byId("idRemarks").setValue("");
+	     this.byId("idCash").setValue("0");
+	     this.byId("idGold").setValue("0");
+	     this.byId("idSilver").setValue("0");
+	     this.byId("idtunch").setValue("0");
+			 this.byId("idTC").setText("");
+			 this.byId("idG").setText("");
+			 this.byId("idS").setText("");
+			 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+				// 												 "GET", {}, myData, this)
+			 this.byId("DueDateId").setDateValue( new Date());
      }
 
    },

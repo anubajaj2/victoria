@@ -2284,6 +2284,7 @@ sap.ui.define(
 			},
 			ValueChangeMaterial: function(oEvent) {
 				debugger;
+				var that = this;
 				var id = oEvent.getSource().getId().split('---')[1];
 				if(id !== undefined){
 					if (id.split('--')[0] === 'idsalesws') {
@@ -2303,10 +2304,14 @@ sap.ui.define(
 				var sRowPath =  sBinding.getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
 			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
+				var currentBoxId = oEvent.getSource().getId();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				"/Products", "GET", {filters: [oFilter]}, {}, this)
 				 .then(function(oData) {
 					 console.log(oData.results[0]);
+					 if(oData.results[0]){
+						 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+						}
 					 var selectedMatData = oData.results[0];
 					 oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
 					 if(selectedMatData.HindiName){
@@ -2379,6 +2384,7 @@ sap.ui.define(
 			},
 			onMaterialSelect: function(oEvent) {
 				debugger;
+				var that = this;
 				var id = oEvent.getSource().getId().split('---')[1];
 				if(id !== undefined){
 					if (id.split('--')[0] === 'idsales') {
@@ -2476,6 +2482,9 @@ sap.ui.define(
 						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 					}
 				}
+
+				var currentBoxId = oEvent.getSource().getId();
+				that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
 			},
 			previousOrder: function(oEvent) {
 				debugger;

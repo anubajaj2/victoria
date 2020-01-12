@@ -682,6 +682,21 @@ sap.ui.define([
 							odata.setProperty("/rows1", false);
 						}
 					},
+
+			focusAndSelectNextInput: function(currentBoxId, id){
+				debugger;
+				setTimeout(function(){
+					var textboxes = $(id);
+					var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
+					var currentBoxNumber = textboxes.index(findCurrentBox[0]);
+					if (textboxes[currentBoxNumber + 1] != null) {
+							var nextBox = textboxes[currentBoxNumber + 1]
+							nextBox.focus();
+							nextBox.select();
+					}
+				}, 30);
+			},
+
 			ValueChangeMaterial: function(oEvent) {
 				debugger;
 				var id = oEvent.getSource().getId().split('---')[1];
@@ -716,10 +731,15 @@ sap.ui.define([
 				var sRowPath =  sBinding.getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
 			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
+				var currentBoxId = oEvent.getSource().getId();
 			  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			   "/Products", "GET", {filters: [oFilter]}, {}, this)
 			    .then(function(oData) {
 						  console.log(oData.results[0]);
+							if(oData.results[0]){
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
+							}
+							debugger;
 							oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
 							if(oData.results[0].HindiName){
 								oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
@@ -1445,6 +1465,7 @@ sap.ui.define([
 
 							onMaterialSelect: function(oEvent) {
 								debugger;
+								var that = this;
 								var id = oEvent.getSource().getId().split('---')[1];
 						  	if(id !== undefined){
 									if (id.split('--')[0] === 'idsales') {
@@ -1498,6 +1519,8 @@ sap.ui.define([
 									oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 								}
 
+								var currentBoxId = oEvent.getSource().getId();
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
 							},
 
 							onTableExpand: function(oEvent) {

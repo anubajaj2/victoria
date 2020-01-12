@@ -2401,6 +2401,9 @@ sap.ui.define(
 				 });
 
 			},
+			onDialogClose: function(oEvent){
+				this.wsMaterialPopup.close();
+			 },
 
 			onFindMaterial: function(){
 				debugger;
@@ -2408,11 +2411,11 @@ sap.ui.define(
 				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				if(oHeader.OrderNo !== 0 &&
 					 oHeader.OrderNo !== ""){
-							if(!this.materialPopup){
-								this.materialPopup=new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog",this);
-								this.getView().addDependent(this.materialPopup);
+							if(!this.wsMaterialPopup){
+								this.wsMaterialPopup=new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog",this);
+								this.getView().addDependent(this.wsMaterialPopup);
 							}
-							this.materialPopup.open();
+							this.wsMaterialPopup.open();
 							setTimeout(function(){
 								$("input[type='Number']").focus(function () {
 									$(this).select();

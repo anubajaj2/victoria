@@ -689,13 +689,13 @@ sap.ui.define([
 					var textboxes = $(id);
 					var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
 					var currentBoxNumber = textboxes.index(findCurrentBox[0]);
-					if(findCurrentBox.length !== 0){
+				//	if(findCurrentBox.length !== 0){
 						if (textboxes[currentBoxNumber + 1] != null) {
 								var nextBox = textboxes[currentBoxNumber + 1]
 								nextBox.focus();
 								nextBox.select();
 						}
-					}
+					//}
 					}, 30);
 			},
 

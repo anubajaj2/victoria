@@ -682,6 +682,21 @@ sap.ui.define([
 							odata.setProperty("/rows1", false);
 						}
 					},
+
+			focusAndSelectNextInput: function(currentBoxId, id){
+				debugger;
+				setTimeout(function(){
+					var textboxes = $(id);
+					var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
+					var currentBoxNumber = textboxes.index(findCurrentBox[0]);
+					if (textboxes[currentBoxNumber + 1] != null) {
+							var nextBox = textboxes[currentBoxNumber + 1]
+							nextBox.focus();
+							nextBox.select();
+					}
+				}, 30);
+			},
+
 			ValueChangeMaterial: function(oEvent) {
 				debugger;
 				var id = oEvent.getSource().getId().split('---')[1];
@@ -733,17 +748,9 @@ sap.ui.define([
 			    .then(function(oData) {
 						  console.log(oData.results[0]);
 							if(oData.results[0]){
-								setTimeout(function(){
-									var textboxes = $("input[id*='fr1--id']");
-									var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
-									var currentBoxNumber = textboxes.index(findCurrentBox[0]);
-									if (textboxes[currentBoxNumber + 1] != null) {
-											var nextBox = textboxes[currentBoxNumber + 1]
-											nextBox.focus();
-											nextBox.select();
-									}
-								}, 100);
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
 							}
+							debugger;
 							oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
 							if(oData.results[0].HindiName){
 								oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
@@ -1605,17 +1612,7 @@ sap.ui.define([
 								}
 
 								var currentBoxId = oEvent.getSource().getId();
-								setTimeout(function(){
-									var textboxes = $("input[id*='fr1--id']");
-									var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
-									var currentBoxNumber = textboxes.index(findCurrentBox[0]);
-									if (textboxes[currentBoxNumber + 1] != null) {
-											var nextBox = textboxes[currentBoxNumber + 1]
-											nextBox.focus();
-											nextBox.select();
-									}
-								}, 100);
-
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
 							},
 
 							onTableExpand: function(oEvent) {

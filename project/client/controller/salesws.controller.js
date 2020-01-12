@@ -2288,6 +2288,7 @@ sap.ui.define(
 			},
 			ValueChangeMaterial: function(oEvent) {
 				debugger;
+				var that = this;
 				var id = oEvent.getSource().getId().split('---')[1];
 				if(id !== undefined){
 					if (id.split('--')[0] === 'idsalesws') {

@@ -689,12 +689,14 @@ sap.ui.define([
 					var textboxes = $(id);
 					var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
 					var currentBoxNumber = textboxes.index(findCurrentBox[0]);
-					if (textboxes[currentBoxNumber + 1] != null) {
-							var nextBox = textboxes[currentBoxNumber + 1]
-							nextBox.focus();
-							nextBox.select();
+					if(findCurrentBox.length !== 0){
+						if (textboxes[currentBoxNumber + 1] != null) {
+								var nextBox = textboxes[currentBoxNumber + 1]
+								nextBox.focus();
+								nextBox.select();
+						}
 					}
-				}, 30);
+					}, 30);
 			},
 
 			ValueChangeMaterial: function(oEvent) {
@@ -748,8 +750,13 @@ sap.ui.define([
 			    .then(function(oData) {
 						  console.log(oData.results[0]);
 							if(oData.results[0]){
-								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
-							}
+										if(currentBoxId.includes("fr1")){
+											that.focusAndSelectNextInput(currentBoxId, "input[id*='fr1--id']");
+										}
+										else{
+							     			that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
+										}
+								}
 							debugger;
 							oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
 							if(oData.results[0].HindiName){
@@ -1612,7 +1619,12 @@ sap.ui.define([
 								}
 
 								var currentBoxId = oEvent.getSource().getId();
-								that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
+									if(currentBoxId.includes("fr1")){
+										that.focusAndSelectNextInput(currentBoxId, "input[id*='fr1--id']");
+									}
+									else{
+										that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
+									}
 							},
 
 							onTableExpand: function(oEvent) {

@@ -2303,7 +2303,7 @@ sap.ui.define(
 				var orderId = null;
 				if(!oModel){
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-					orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
+					orderId = this.getView().getModel('local').getProperty('/WSOrderHeader/id');
 					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
 					orderNoPath = orderNoPath + "/OrderNo";
 					that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
@@ -2316,13 +2316,21 @@ sap.ui.define(
 				var sRowPath =  sBinding.getPath();
 				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
 			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
+				var currentBoxId = oEvent.getSource().getId();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				"/Products", "GET", {filters: [oFilter]}, {}, this)
 				 .then(function(oData) {
 					 console.log(oData.results[0]);
 					 if(oData.results[0]){
-						 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
-						}
+						 debugger;
+						 	if(currentBoxId.includes("fr2")){
+								 that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
+						 }
+						 else{
+							 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+						 }
+					 }
+
 					 var selectedMatData = oData.results[0];
 					 oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
 					 if(selectedMatData.HindiName){
@@ -2442,6 +2450,7 @@ sap.ui.define(
 				var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
 				var orderId = null;
 				if(!oModel){
+					debugger;
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
 					orderId = this.getView().getModel('local').getProperty('/WSOrderHeader/id');
 					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
@@ -2535,7 +2544,12 @@ sap.ui.define(
 				}
 
 				var currentBoxId = oEvent.getSource().getId();
-				that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+				if(currentBoxId.includes("fr2")){
+						that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
+				}
+				else{
+					that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+				}
 			},
 			previousOrder: function(oEvent) {
 				debugger;

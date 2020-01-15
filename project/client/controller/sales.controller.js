@@ -75,6 +75,7 @@ getPrintCustHeaderData: function(){
   });
 },
 getIndianCurr:function(value){
+  debugger;
 if(value){
   var x=value;
   x=x.toString();
@@ -85,7 +86,7 @@ if(value){
   if(otherNumbers != '')
       lastThree = ',' + lastThree;
       if (decimal[1]) {
-  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1];
+  var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + '.' + decimal[1].match(/\d{0,2}/);
 }else {
   var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
 }

@@ -563,6 +563,7 @@ retailPrint:function(oData){
 },
 onConfirm:function(oEvent){
   var that = this;
+  debugger;
 //order popup
 // if (oEvent.getParameter('id') === 'orderNo'){
 if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo'){
@@ -1648,14 +1649,41 @@ previousOrder:function(oEvent){
   });
 },
 nextOrder:function(oEvent){
+  debugger;
   var that = this;
   this.setWidths(false);
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
+  if(!myData.OrderNo){
+  //  var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,myData.Customer);
+
+    //var oFilter = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.EQ, new Date());
+    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                    "/OrderHeaders",
+                    "GET", {}, {}, that)
+                    .then(function(oData) {
+                      debugger;
+                      var allFirstOrders = oData.results.filter(obj => {
+                          return obj.OrderNo === 1
+                      })
+                      var todayFirstOrder = allFirstOrders[allFirstOrders.length - 1];
+                      var orderId = todayFirstOrder.id;
+                      if (todayFirstOrder.Customer){
+                      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,todayFirstOrder.Customer);
+                      }else {
+                      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+                      }
+                      oEvent.sId = "orderReload";
+                      that.getOrderDetails(oEvent,orderId,oFilter);
+              })
+
+  }
+  else{
   $.post("/nextOrder",{OrderDetails: myData})
   .then(function(result){
     console.log(result);
   that.byId("idRetailTransfer").setEnabled(true);
     if (result) {
+      debugger;
       var id = 'sales';
       delete that.orderAmount;
       delete that.deduction;
@@ -1681,6 +1709,7 @@ nextOrder:function(oEvent){
     }
 
   });
+}
 },
 getTotals:function(oEvent){
   var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');

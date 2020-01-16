@@ -651,11 +651,13 @@ getOrderDetails:function(oEvent,orderId ,oFilter,orderNo){
     var date = oData.Date;
     var custId = oData.Customer;
     // that.getEntryData(oEvent,custId,orderNo,date)
+
     var customerData = that.allMasterData.customers[custId];
+    var customerCity =  customerData.City;
     that.getView().getModel("local").setProperty("/orderHeader", oData);
     that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
-    that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
-    that.getView().byId("Sales--custName").setText(customerData.Name + " - " + customerData.City);
+    that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
+    that.getView().byId("Sales--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
     var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
     that.getEntryData(oEvent,custId,orderNo,date,postedEntryData)
      // assign the item Details

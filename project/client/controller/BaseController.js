@@ -794,6 +794,15 @@ sap.ui.define([
 								this.getView().addDependent(this.materialPopup);
 							}
 							this.materialPopup.open();
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+															"/StockItems",
+															"GET", {}, {}, that)
+															.then(function(oData) {
+																debugger;
+																var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
+																var orders = oData.results.filter(obj => obj.OrderNo=== orderId)
+																console.log(orders);
+															})
 							setTimeout(function(){
 						    $("input[type='Number']").focus(function () {
 						      $(this).select();

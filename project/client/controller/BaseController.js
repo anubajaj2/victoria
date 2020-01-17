@@ -842,45 +842,93 @@ sap.ui.define([
 							var oBinding = oTableDetails.getBinding("rows");
 							var arr = [];
 							var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+
+							var flag =  false;
+							var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+							if(!fragIndicator){
+								fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+							}
+
 							for (let i = 0; i < oBinding.getLength(); i++) {
 							 var that = this;
 							 var data = oBinding.oList[i];
-							if (data.id === "") {
-								if (data.MaterialCode !== "") {
+							 if (data.id === "") {
+									if (data.MaterialCode !== "") {
 										if(data.Qty > 0){
-											that.getView().setBusy(true);
-											var payload = {...data};
-											payload.Qty =  Math.abs(payload.Qty) * -1;
-											this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
-					                                      "POST", {}, payload, this)
-					            .then(function(oData) {
-					    					that.getView().setBusy(false);
-												debugger;
-												allItems[i].id = oData.id;
-					    					sap.m.MessageToast.show("Data Saved Successfully");
-												var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
-												if(!fragIndicator){
-													fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-												}
+												that.getView().setBusy(true);
+											}
+											else{
 												if(fragIndicator){
-														fragIndicator.setColor("green");
+														fragIndicator.setColor("red");
 												}
-												that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
-					    				}).catch(function(oError) {
-					    					that.getView().setBusy(false);
-					    					var oPopover = that.getErrorMessage(oError);
-					    				});
-										}
-										else{
-											sap.m.MessageBox.error("Can't Save! Quantity should be greater than 0");
-											oEvent.getSource().setEnabled(false);
+												flag = true;
+												break;
+											}
 										}
 									}
-								}
 							}
 
+							if(flag === true){
+								sap.m.MessageBox.error("Can't Save! Quantity should be greater than 0");
+								oEvent.getSource().setEnabled(false);
+							}
+							else{
+								for (let i = 0; i < oBinding.getLength(); i++) {
+								 var that = this;
+								 var data = oBinding.oList[i];
+										if (data.id === "") {
+											if (data.MaterialCode !== "") {
+													if(data.Qty > 0){
+														var payload = {...data};
+														payload.Qty =  Math.abs(payload.Qty) * -1;
+														this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
+														                          "POST", {}, payload, this)
+														.then(function(oData) {
+															that.getView().setBusy(false);
+															debugger;
+															allItems[i].id = oData.id;
+															sap.m.MessageToast.show("Data Saved Successfully");
+															if(fragIndicator){
+																	fragIndicator.setColor("green");
+															}
+															that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+														}).catch(function(oError) {
+															that.getView().setBusy(false);
+															var oPopover = that.getErrorMessage(oError);
+														});
+													}
+											}
+										}
+									}
+								//alert("lets post the data");
+							}
 							console.log(allItems);
 				  },
+
+
+					postTheData : function(){
+						// var payload = {...data};
+						// payload.Qty =  Math.abs(payload.Qty) * -1;
+						// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
+						//                           "POST", {}, payload, this)
+						// .then(function(oData) {
+						// 	that.getView().setBusy(false);
+						// 	debugger;
+						// 	allItems[i].id = oData.id;
+						// 	sap.m.MessageToast.show("Data Saved Successfully");
+						// 	var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+						// 	if(!fragIndicator){
+						// 		fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+						// 	}
+						// 	if(fragIndicator){
+						// 			fragIndicator.setColor("green");
+						// 	}
+						// 	that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+						// }).catch(function(oError) {
+						// 	that.getView().setBusy(false);
+						// 	var oPopover = that.getErrorMessage(oError);
+						// });
+					},
 
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;

@@ -794,22 +794,23 @@ sap.ui.define([
 								this.getView().addDependent(this.materialPopup);
 							}
 							that.clearPopupScreen();
+							var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
+							orderId = "'" + orderId + "'";
+							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 											"/StockItems",
-											"GET", {}, {}, that)
+											"GET", {filters: [oFilter]}, {}, that)
 							.then(function(oData) {
 									debugger;
-									var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
-									var orders = oData.results.filter(obj => obj.OrderNo === orderId);
-									if (orders.length > 0) {
+									if (oData.results.length > 0) {
 											var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
-					        		for (var i = 0; i < orders.length; i++) {
-												var MaterialData = that.allMasterData.materials[orders[i].Material];
+					        		for (var i = 0; i < oData.results.length; i++) {
+												var MaterialData = that.allMasterData.materials[oData.results[i].Material];
 						            allItems[i].MaterialCode = MaterialData.ProductCode;
-												allItems[i].Qty = Math.abs(orders[i].Qty);
-												allItems[i].id = orders[i].id;
+												allItems[i].Qty = Math.abs(oData.results[i].Qty);
+												allItems[i].id = oData.results[i].id;
 												allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
-												allItems[i].OrderNo = orders[i].OrderNo;
+												allItems[i].OrderNo = oData.results[i].OrderNo;
 											}
 											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
 									}
@@ -817,7 +818,7 @@ sap.ui.define([
 							setTimeout(function(){
 						    $("input[type='Number']").focus(function () {
 						      $(this).select();
-						    });}, 500);
+						    });}, 300);
 							that.materialPopup.open();
 						}
 						else{

@@ -754,7 +754,7 @@ sap.ui.define([
 											that.focusAndSelectNextInput(currentBoxId, "input[id*='fr1--id']");
 										}
 										else{
-							     			that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
+							     		that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
 										}
 								}
 							debugger;
@@ -793,20 +793,32 @@ sap.ui.define([
 								this.materialPopup=new sap.ui.xmlfragment("fr1", "victoria.fragments.tableSelectDialog",this);
 								this.getView().addDependent(this.materialPopup);
 							}
-							this.materialPopup.open();
+							that.clearPopupScreen();
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-															"/StockItems",
-															"GET", {}, {}, that)
-															.then(function(oData) {
-																debugger;
-																var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
-																var orders = oData.results.filter(obj => obj.OrderNo=== orderId)
-																console.log(orders);
-															})
+											"/StockItems",
+											"GET", {}, {}, that)
+							.then(function(oData) {
+									debugger;
+									var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
+									var orders = oData.results.filter(obj => obj.OrderNo === orderId);
+									if (orders.length > 0) {
+											var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+					        		for (var i = 0; i < orders.length; i++) {
+												var MaterialData = that.allMasterData.materials[orders[i].Material];
+						            allItems[i].MaterialCode = MaterialData.ProductCode;
+												allItems[i].Qty = Math.abs(orders[i].Qty);
+												allItems[i].id = orders[i].id;
+												allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
+												allItems[i].OrderNo = orders[i].OrderNo;
+											}
+											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+									}
+							})
 							setTimeout(function(){
 						    $("input[type='Number']").focus(function () {
 						      $(this).select();
-						    });}, 2000);
+						    });}, 500);
+							that.materialPopup.open();
 						}
 						else{
 							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
@@ -819,6 +831,20 @@ sap.ui.define([
 				        }
 							);
 						}
+				},
+
+
+				clearPopupScreen:function(){
+				  var allItems = this.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+				  for (var i = 0; i < allItems.length; i++) {
+				    allItems[i].MaterialCode = "";
+				    allItems[i].Qty = "0";
+				    allItems[i].id = "";
+				    allItems[i].Description = "";
+				    allItems[i].OrderNo = "";
+				  }
+				  this.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+
 				},
 
 		     onDialogClose: function(oEvent){
@@ -909,35 +935,9 @@ sap.ui.define([
 											}
 										}
 									}
-								//alert("lets post the data");
 							}
-							console.log(allItems);
 				  },
 
-
-					postTheData : function(){
-						// var payload = {...data};
-						// payload.Qty =  Math.abs(payload.Qty) * -1;
-						// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
-						//                           "POST", {}, payload, this)
-						// .then(function(oData) {
-						// 	that.getView().setBusy(false);
-						// 	debugger;
-						// 	allItems[i].id = oData.id;
-						// 	sap.m.MessageToast.show("Data Saved Successfully");
-						// 	var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
-						// 	if(!fragIndicator){
-						// 		fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-						// 	}
-						// 	if(fragIndicator){
-						// 			fragIndicator.setColor("green");
-						// 	}
-						// 	that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
-						// }).catch(function(oError) {
-						// 	that.getView().setBusy(false);
-						// 	var oPopover = that.getErrorMessage(oError);
-						// });
-					},
 
 					deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
 						debugger;

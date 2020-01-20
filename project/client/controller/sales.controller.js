@@ -1655,27 +1655,28 @@ nextOrder:function(oEvent){
   var that = this;
   this.setWidths(false);
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
+  var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "1");
   if(!myData.OrderNo){
-  //  var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,myData.Customer);
-
-    //var oFilter = new sap.ui.model.Filter("Date",sap.ui.model.FilterOperator.EQ, new Date());
     that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                     "/OrderHeaders",
-                    "GET", {}, {}, that)
+                    "GET", {filters: [oFilter]}, {}, that)
                     .then(function(oData) {
                       debugger;
-                      var allFirstOrders = oData.results.filter(obj => {
-                          return obj.OrderNo === 1
-                      })
-                      var todayFirstOrder = allFirstOrders[allFirstOrders.length - 1];
-                      var orderId = todayFirstOrder.id;
-                      if (todayFirstOrder.Customer){
-                      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,todayFirstOrder.Customer);
-                      }else {
-                      var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
-                      }
+                      var n = oData.results.length;
+                      var lastRecord = oData.results[n-1];
+                      var lastRecordDate = lastRecord.Date;
+                      var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
+
+                      var currentDate = new Date();
+                      var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
+                      var orderId = lastRecord.id;
                       oEvent.sId = "orderReload";
-                      that.getOrderDetails(oEvent,orderId,oFilter);
+                      if(formattedDate === formattedLastRecordDate){
+                        that.getOrderDetails(oEvent,orderId,oFilter);
+                      }
+                      else{
+                        sap.m.MessageToast.show("No orders generated today yet");
+                      }
               })
 
   }
@@ -1700,6 +1701,7 @@ nextOrder:function(oEvent){
       //return table
       that.orderReturn(oEvent,id);
       var orderId = result.id;
+      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
       that.byId("Sales--idSaveIcon").setColor('green');
       if (result.Customer){
       var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
@@ -1709,10 +1711,10 @@ nextOrder:function(oEvent){
       oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
-
   });
-}
+  }
 },
+
 getTotals:function(oEvent){
   var oHeaderT = this.getView().getModel('local').getProperty('/orderHeaderTemp');
   var oLocale = new sap.ui.core.Locale("en-US");
@@ -1775,17 +1777,18 @@ setNewValue:function(data,fieldId,newValue){
 },
 
 getFloatValue:function(data,oFloatFormat,quantityOfStone){
+  debugger;
   if (data.Making) {
-  if (data.Making === "") {
-    data.Making = 0;
-  // data.Making = 0;
-  }else if (data.Making ===0) {
-  data.Making = 0;
-  // making = 0;
+    if (data.Making === "") {
+      data.Making = 0;
+    }
+    else if (data.Making ===0) {
+      data.Making = 0;
   }else {
-  var making = data.Making.toString();
-  data.Making = oFloatFormat.parse(making);
-}}else {
+    var making = data.Making.toString();
+    data.Making = oFloatFormat.parse(making);
+    }
+  }else {
   data.Making = 0;
 }
 
@@ -2098,7 +2101,10 @@ Calculation:function(oEvent,tablePath,i){
                      {}, {}, that)
       .then(function(oData) {
         category.Category = oData.Category;
-        category.Making = oData.Making;
+        debugger;
+        if(!category.Making || category.Making === 0){
+          category.Making = oData.Making;
+        }
         category.Tunch = oData.Tunch;
         category.Type = oData.Type;
         category.Karat = oData.Karat;

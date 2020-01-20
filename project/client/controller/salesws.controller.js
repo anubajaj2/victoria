@@ -2327,7 +2327,7 @@ sap.ui.define(
 								 that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
 						 }
 						 else{
-							 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+							  that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
 						 }
 					 }
 
@@ -2551,7 +2551,7 @@ sap.ui.define(
 						that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
 				}
 				else{
-					that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+						that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
 				}
 			},
 			previousOrder: function(oEvent) {

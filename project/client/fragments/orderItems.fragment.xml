@@ -87,7 +87,7 @@
 					<m:Text text="{i18n>making}"></m:Text>
 				</label>
 				<template>
-					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}" liveChange="ValueChange" maxLength="5" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
+					<m:Input id="IdMaking" type="Number" value="{orderItems>Making}" liveChange="ValueChange" maxLength="6" editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
 			<Column width="75px" visible="{VisibleSet>/set}" hAlign="Center">

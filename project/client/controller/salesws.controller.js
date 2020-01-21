@@ -203,10 +203,11 @@ sap.ui.define(
 						} else if (oData.SummaryMode == "S") {
 							that.getView().byId("WSHeaderFragment--RB-3").setSelected(true);
 						}
+						var customerCity =  customerData.City;
 						that.getView().getModel("local").setProperty("/WSOrderHeader", oData);
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
-						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + customerData.City);
-						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + customerData.City);
+						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
+						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
 						var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 						that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
 						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
@@ -1972,8 +1973,12 @@ sap.ui.define(
 							.then(function(oData) {
 
 								category.Category = oData.Category;
-								category.Making = oData.Making;
-								category.Tunch = oData.Tunch;
+								if(!category.Making || category.Making === 0){
+				          category.Making = oData.Making;
+				        }
+								if(!category.Tunch || category.Tunch === 0){
+									category.Tunch = oData.Tunch;
+							  }
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
@@ -2327,7 +2332,7 @@ sap.ui.define(
 								 that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
 						 }
 						 else{
-							  that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+							 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
 						 }
 					 }
 
@@ -2415,11 +2420,33 @@ sap.ui.define(
 								this.wsMaterialPopup=new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog",this);
 								this.getView().addDependent(this.wsMaterialPopup);
 							}
+							that.clearPopupScreen();
+							var orderId = oHeader.id;
+							orderId = "'" + orderId + "'";
+							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+											"/StockItems",
+											"GET", {filters: [oFilter]}, {}, that)
+							.then(function(oData) {
+									debugger;
+									if (oData.results.length > 0) {
+											var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+											for (var i = 0; i < oData.results.length; i++) {
+												var MaterialData = that.allMasterData.materials[oData.results[i].Material];
+												allItems[i].MaterialCode = MaterialData.ProductCode;
+												allItems[i].Qty = Math.abs(oData.results[i].Qty);
+												allItems[i].id = oData.results[i].id;
+												allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
+												allItems[i].OrderNo = oData.results[i].OrderNo;
+											}
+											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+									}
+							})
 							this.wsMaterialPopup.open();
 							setTimeout(function(){
 								$("input[type='Number']").focus(function () {
 									$(this).select();
-								});}, 2000);
+								});}, 300);
 						}
 						else{
 							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");

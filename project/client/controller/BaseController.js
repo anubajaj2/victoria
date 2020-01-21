@@ -786,7 +786,8 @@ sap.ui.define([
 			onFindMaterial: function(){
 				debugger;
 				var that = this;
-				var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+
+				var oHeader = this.getView().getModel('local').getProperty('/orderHeaderTemp');
 			  if(oHeader.OrderNo !== 0 &&
 			     oHeader.OrderNo !== ""){
 							if(!this.materialPopup){
@@ -794,7 +795,7 @@ sap.ui.define([
 								this.getView().addDependent(this.materialPopup);
 							}
 							that.clearPopupScreen();
-							var orderId =that.getView().getModel('local').getProperty('/orderHeader').id;
+							var orderId = orderId = oHeader.OrderId;
 							orderId = "'" + orderId + "'";
 							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -923,6 +924,7 @@ sap.ui.define([
 															that.getView().setBusy(false);
 															debugger;
 															allItems[i].id = oData.id;
+															that.getView().getModel('local').setProperty('/orderHeader');
 															sap.m.MessageToast.show("Data Saved Successfully");
 															if(fragIndicator){
 																	fragIndicator.setColor("green");

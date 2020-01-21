@@ -25,6 +25,7 @@
                    showSuggestion="true"
                    suggestionItemSelected="onMaterialSelect"
                    submit="ValueChangeMaterial"
+                   liveChange="changeInMaterial"
                    value="{materialPopupOrderItems>MaterialCode}" maxSuggestionWidth="250px"
                    suggestionItems="{path: '/Products', templateShareable:false}"
                    editable="{= ${materialPopupOrderItems>id} === '' ? true : false}">

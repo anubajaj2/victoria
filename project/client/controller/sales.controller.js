@@ -1650,6 +1650,18 @@ previousOrder:function(oEvent){
     }
   });
 },
+changeInMaterial: function(oEvent){
+  var value = oEvent.getParameters("value").value;
+  var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+    if(fragIndicator){
+        if(value === ''){
+          fragIndicator.setColor("green");
+        }
+        else{
+          fragIndicator.setColor("red");
+        }
+    }
+},
 nextOrder:function(oEvent){
   debugger;
   var that = this;
@@ -1666,10 +1678,10 @@ nextOrder:function(oEvent){
                       var lastRecord = oData.results[n-1];
                       var lastRecordDate = lastRecord.Date;
                       var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
-
                       var currentDate = new Date();
                       var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
                       var orderId = lastRecord.id;
+                      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
                       oEvent.sId = "orderReload";
                       if(formattedDate === formattedLastRecordDate){
                         that.getOrderDetails(oEvent,orderId,oFilter);

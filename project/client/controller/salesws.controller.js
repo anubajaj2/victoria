@@ -194,6 +194,9 @@ sap.ui.define(
 						var custId = oData.Customer;
 						var customerData = that.allMasterData.customers[custId];
 						debugger;
+						that.TotalOrderValueCash = 0;
+						that.TotalOrderValueGold = 0;
+						that.TotalOrderValueSilver = 0;
 						if (oData.SummaryMode == "O") {
 							that.getView().byId("WSHeaderFragment--RB-4").setSelected(true);
 						} else if (oData.SummaryMode == "C") {
@@ -2640,6 +2643,31 @@ sap.ui.define(
 				debugger;
 				var that = this;
 				var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
+				var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "251");
+			  if(!myData.OrderNo){
+			    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                    "/WSOrderHeaders",
+                    "GET", {filters: [oFilter]}, {}, that)
+                    .then(function(oData) {
+                      debugger;
+                      var n = oData.results.length;
+                      var lastRecord = oData.results[n-1];
+                      var lastRecordDate = lastRecord.Date;
+                      var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
+                      var currentDate = new Date();
+                      var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
+                      var orderId = lastRecord.id;
+                      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
+                      oEvent.sId = "orderReload";
+                      if(formattedDate === formattedLastRecordDate){
+                        that.getOrderDetails(oEvent,orderId,oFilter);
+                      }
+                      else{
+                        sap.m.MessageToast.show("No orders generated today yet");
+                      }
+              })
+			  }
+			  else{
 				$.post("/nextWSOrder", {
 						OrderDetails: myData
 					})
@@ -2689,6 +2717,7 @@ sap.ui.define(
 						}
 						debugger;
 					});
+				}
 			},
 			onRadioButtonSelect: function() {
 				var that = this;

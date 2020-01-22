@@ -1976,9 +1976,12 @@ sap.ui.define(
 								if(!category.Making || category.Making === 0){
 				          category.Making = oData.Making;
 				        }
-								if(!category.Tunch || category.Tunch === 0){
+								if(oData.Tunch){
 									category.Tunch = oData.Tunch;
-							  }
+								}
+								else{
+									category.Tunch = 0;
+								}
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);

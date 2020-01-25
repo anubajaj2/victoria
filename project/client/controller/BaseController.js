@@ -783,11 +783,12 @@ sap.ui.define([
 			    });
 			},
 
+			materialPopup :  null,
 			onFindMaterial: function(){
 				debugger;
 				var that = this;
 
-				var oHeader = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 			  if(oHeader.OrderNo !== 0 &&
 			     oHeader.OrderNo !== ""){
 							if(!this.materialPopup){
@@ -795,7 +796,8 @@ sap.ui.define([
 								this.getView().addDependent(this.materialPopup);
 							}
 							that.clearPopupScreen();
-							var orderId = orderId = oHeader.OrderId;
+							var headerTemp = this.getView().getModel('local').getProperty('/orderHeaderTemp')
+							var orderId =  headerTemp.OrderId;
 							orderId = "'" + orderId + "'";
 							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -814,6 +816,11 @@ sap.ui.define([
 												allItems[i].OrderNo = oData.results[i].OrderNo;
 											}
 											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+									}
+
+									var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+									if(fragIndicator){
+											fragIndicator.setColor("green");
 									}
 							})
 							setTimeout(function(){
@@ -891,18 +898,18 @@ sap.ui.define([
 							 var data = oBinding.oList[i];
 							 if (data.id === "") {
 									if (data.MaterialCode !== "") {
+										if(fragIndicator){
+												fragIndicator.setColor("red");
+										}
 										if(data.Qty > 0){
-												that.getView().setBusy(true);
-											}
-											else{
-												if(fragIndicator){
-														fragIndicator.setColor("red");
-												}
-												flag = true;
-												break;
-											}
+
+										}
+										else{
+											flag = true;
+											break;
 										}
 									}
+								}
 							}
 
 							if(flag === true){
@@ -924,7 +931,6 @@ sap.ui.define([
 															that.getView().setBusy(false);
 															debugger;
 															allItems[i].id = oData.id;
-															that.getView().getModel('local').setProperty('/orderHeader');
 															sap.m.MessageToast.show("Data Saved Successfully");
 															if(fragIndicator){
 																	fragIndicator.setColor("green");

@@ -1651,16 +1651,13 @@ previousOrder:function(oEvent){
   });
 },
 changeInMaterial: function(oEvent){
-  var value = oEvent.getParameters("value").value;
-  var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
-    if(fragIndicator){
-        if(value === ''){
-          fragIndicator.setColor("green");
-        }
-        else{
-          fragIndicator.setColor("red");
-        }
-    }
+  // var value = oEvent.getParameters("value").value;
+  // var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+  //   if(fragIndicator){
+  //       if(value !== ''){
+  //         fragIndicator.setColor("red");
+  //       }
+  //   }
 },
 nextOrder:function(oEvent){
   debugger;

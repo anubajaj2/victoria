@@ -1979,12 +1979,9 @@ sap.ui.define(
 								if(!category.Making || category.Making === 0){
 				          category.Making = oData.Making;
 				        }
-								if(oData.Tunch){
-									category.Tunch = oData.Tunch;
-								}
-								else{
-									category.Tunch = 0;
-								}
+								if(!category.Tunch || category.Tunch === 0){
+				          category.Tunch = oData.Tunch;
+				        }
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
@@ -2370,18 +2367,18 @@ sap.ui.define(
 
 					if(id !== undefined){
 						if (id.split('--')[0] === 'idsalesws') {
-						var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+						var Customer = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 						var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
 						var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
 						var oFilter = new sap.ui.model.Filter({
 							filters: [oFilter1, oFilter2],
 							and: true
 						})
-						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 								// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
 								"/WSTunchs", "GET", {
 									filters: [oFilter1, oFilter2]
-								}, null, this)
+								}, null, that)
 							.then(function(oData) {
 								debugger;
 								if (oData.results.length > 0) {
@@ -2416,6 +2413,7 @@ sap.ui.define(
 				this.wsMaterialPopup.close();
 			 },
 
+			wsMaterialPopup :  null,
 			onFindMaterial: function(){
 				debugger;
 				var that = this;
@@ -2446,6 +2444,11 @@ sap.ui.define(
 												allItems[i].OrderNo = oData.results[i].OrderNo;
 											}
 											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+									}
+
+									var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+									if(fragIndicator){
+											fragIndicator.setColor("green");
 									}
 							})
 							this.wsMaterialPopup.open();
@@ -2488,7 +2491,7 @@ sap.ui.define(
 				if(!oModel){
 					debugger;
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-					orderId = this.getView().getModel('local').getProperty('/WSOrderHeader/id');
+					orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
 					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
 					orderNoPath = orderNoPath + "/OrderNo";
 					that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);

@@ -728,10 +728,12 @@ sap.ui.define([
 			      });
 			  var that =  this;
 				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
+				var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
 				var orderId = null;
 				if(!oModel){
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-					orderId = this.getView().getModel('local').getProperty('/orderHeader').id;
+					orderId = oHeader.id;
+					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
 					if(!orderId){
 						var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -740,12 +742,16 @@ sap.ui.define([
 										.then(function(oData) {
 												debugger;
 												orderId =  oData.results[oData.results.length - 1].id;
+												orderNoPath = orderNoPath + "/OrderNo";
+												that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
 										})
-					}
-					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
-					orderNoPath = orderNoPath + "/OrderNo";
-					that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+									}
+					else{
+						orderNoPath = orderNoPath + "/OrderNo";
+						that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+				 		}
 				}
+
 				var oModelForRow= oModel.getModel('local');
 				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
 				if(!sBinding){
@@ -806,21 +812,26 @@ sap.ui.define([
 								this.getView().addDependent(this.materialPopup);
 							}
 							that.clearPopupScreen();
-						  var	orderId = oHeader.id;
+						  var	orderId = orderId = oHeader.id;
+							var oFilter =  null;
 							if(!orderId){
-
-							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
- 							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
- 											 "/OrderHeaders",
- 											 "GET", {filters: [oFilter]}, {}, that)
- 											 .then(function(oData) {
- 													 debugger;
- 													 orderId =  oData.results[oData.results.length - 1].id;
- 											 })
+									var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
+		 							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+		 											 "/OrderHeaders",
+		 											 "GET", {filters: [oFilter]}, {}, that)
+		 											 .then(function(oData) {
+		 													 debugger;
+		 													 orderId =  oData.results[oData.results.length - 1].id;
+															 orderId = "'" + orderId + "'";
+															 oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
+		 									})
 							}
-							orderId = "'" + orderId + "'";
-							var oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
-							setTimeout(function(){
+							else{
+								orderId = "'" + orderId + "'";
+								oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
+							}
+							setTimeout(
+								function(){
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 												"/StockItems",
 												"GET", {filters: [oFilter]}, {}, that)
@@ -844,7 +855,7 @@ sap.ui.define([
 												fragIndicator.setColor("green");
 										}
 								})
-							})
+							},300)
 							setTimeout(function(){
 						    $("input[type='Number']").focus(function () {
 						      $(this).select();
@@ -1659,9 +1670,12 @@ sap.ui.define([
 								var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
 
 								var orderId = null;
+								var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
+
 								if(!oModel){
 									oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-									orderId = this.getView().getModel('local').getProperty('/orderHeader').id;
+									orderId = oHeader.id;
+									var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
 									if(!orderId){
 										var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -1670,23 +1684,23 @@ sap.ui.define([
 														.then(function(oData) {
 																debugger;
 																orderId =  oData.results[oData.results.length - 1].id;
+																orderNoPath = orderNoPath + "/OrderNo";
+																that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
 														})
-									}
-									var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
-									orderNoPath = orderNoPath + "/OrderNo";
-									that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+													}
+									else{
+										orderNoPath = orderNoPath + "/OrderNo";
+										that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+								 		}
 								}
 
 								var oModelForRow =	oModel.getModel();
-
 								var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
-
 								if(!sBinding){
 								 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
 								}
 
 								var sRowPath = sBinding.getPath();
-
 								oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
 								if(selectedMatData.HindiName){
 										oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);

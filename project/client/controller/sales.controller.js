@@ -1684,7 +1684,7 @@ nextOrder:function(oEvent){
                         that.getOrderDetails(oEvent,orderId,oFilter);
                       }
                       else{
-                        sap.m.MessageToast.show("No orders generated today yet");
+                        sap.m.MessageToast.show("No orders generated for today yet");
                       }
               })
 

@@ -816,7 +816,7 @@ sap.ui.define([
 							var oFilter =  null;
 							if(!orderId){
 									var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
-		 							 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+		 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 		 											 "/OrderHeaders",
 		 											 "GET", {filters: [oFilter]}, {}, that)
 		 											 .then(function(oData) {
@@ -824,14 +824,41 @@ sap.ui.define([
 		 													 orderId =  oData.results[oData.results.length - 1].id;
 															 orderId = "'" + orderId + "'";
 															 oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
+
+															 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							 												"/StockItems",
+							 												"GET", {filters: [oFilter]}, {}, that)
+							 								.then(function(oData) {
+							 										debugger;
+							 										if (oData.results.length > 0) {
+							 												var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+							 												for (var i = 0; i < oData.results.length; i++) {
+							 													var MaterialData = that.allMasterData.materials[oData.results[i].Material];
+							 													allItems[i].MaterialCode = MaterialData.ProductCode;
+							 													allItems[i].Qty = Math.abs(oData.results[i].Qty);
+							 													allItems[i].id = oData.results[i].id;
+							 													allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
+							 													allItems[i].OrderNo = oData.results[i].OrderNo;
+							 												}
+							 												that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+							 										}
+
+							 										var fragIndicator =	sap.ui.core.Fragment.byId("fr1", "idSaveIndicator");
+							 										if(fragIndicator){
+							 												fragIndicator.setColor("green");
+							 										}
+							 								})
+							 								setTimeout(function(){
+							 							    $("input[type='Number']").focus(function () {
+							 							      $(this).select();
+							 							    });}, 300);
+							 									that.materialPopup.open();
+
 		 									})
 							}
 							else{
 								orderId = "'" + orderId + "'";
 								oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
-							}
-							setTimeout(
-								function(){
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 												"/StockItems",
 												"GET", {filters: [oFilter]}, {}, that)
@@ -855,12 +882,12 @@ sap.ui.define([
 												fragIndicator.setColor("green");
 										}
 								})
-							},300)
-							setTimeout(function(){
-						    $("input[type='Number']").focus(function () {
-						      $(this).select();
-						    });}, 300);
-							that.materialPopup.open();
+								setTimeout(function(){
+							    $("input[type='Number']").focus(function () {
+							      $(this).select();
+							    });}, 300);
+									that.materialPopup.open();
+							}
 						}
 						else{
 							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");

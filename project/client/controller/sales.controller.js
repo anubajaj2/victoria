@@ -1665,6 +1665,7 @@ nextOrder:function(oEvent){
   this.setWidths(false);
   var myData = this.getView().getModel("local").getProperty("/orderHeader");
   var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "1");
+  var flag = false;
   if(!myData.OrderNo){
     that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                     "/OrderHeaders",
@@ -1672,22 +1673,36 @@ nextOrder:function(oEvent){
                     .then(function(oData) {
                       debugger;
                       var n = oData.results.length;
-                      var lastRecord = oData.results[n-1];
-                      var lastRecordDate = lastRecord.Date;
-                      var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
-                      var currentDate = new Date();
-                      var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
-                      var orderId = lastRecord.id;
-                      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
-                      oEvent.sId = "orderReload";
-                      if(formattedDate === formattedLastRecordDate){
-                        that.getOrderDetails(oEvent,orderId,oFilter);
-                      }
-                      else{
-                        sap.m.MessageToast.show("No orders generated for today yet");
-                      }
-              })
+                      var selectedDate = that.getView().getModel('local').getProperty('/orderHeader').Date;
+                      // var lastRecord = oData.results[n-1];
+                      // var lastRecordDate = lastRecord.Date;
+                      for(var i = 0 ; i< n; i++){
+                        var date = oData.results[i].Date;
+                        var year = date.getFullYear();
+                        var month = date.getMonth()+1;
+                        var dt = date.getDate();
 
+                        if (dt < 10) {
+                          dt = '0' + dt;
+                        }
+                        if (month < 10) {
+                          month = '0' + month;
+                        }
+                        var formattedDate = year +'-' + month + '-'+ dt;
+                        var orderId = oData.results[i].id;
+                        that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
+                        oEvent.sId = "orderReload";
+                        if(formattedDate ===  selectedDate){
+                          that.getOrderDetails(oEvent,orderId,oFilter);
+                          flag = true;
+                          break;
+                        }
+                      }
+
+                      if(flag === false){
+                        sap.m.MessageToast.show("No orders for selected Date");
+                      }
+      })
   }
   else{
   $.post("/nextOrder",{OrderDetails: myData})

@@ -4185,6 +4185,26 @@ app.post('/groupWiseEntryDownload', function(req, res) {
 
 
 			});
+
+			app.post('/getTotalStockItems', function(req, res) {
+				var matId = req.body.MaterialId;
+				var StockItems = app.models.StockItems;
+				StockItems.find({
+					where : {
+						"Material": matId
+					}
+				}).then(function(records){
+					var tQuantity = 0, tWeight = 0;
+					for (var i = 0; i < records.length; i++) {
+						tQuantity = tQuantity + records[i].Qty;
+						tWeight = tWeight + records[i].Weight;
+									}
+					res.send({
+						"QuantityTotal": tQuantity,
+						"WeightTotal": tWeight
+					});
+				});
+			});
 		app.post('/getTotalEntryCustomer', function(req, res) {
 			debugger;
 			var customerId = req.body.Customer;

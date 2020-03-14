@@ -984,6 +984,7 @@ sap.ui.define([
 											if (data.MaterialCode !== "") {
 													if(data.Qty > 0){
 														var payload = {...data};
+														payload.Date = this.getView().getModel('local').getProperty('/orderHeader/Date');
 														payload.Qty =  Math.abs(payload.Qty) * -1;
 														this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
 														                          "POST", {}, payload, this)
@@ -1545,7 +1546,8 @@ sap.ui.define([
 										"itemNo": "",
 										"MaterialCode": "",
 										"Description": "",
-										"Qty": "0"
+										"Qty": "0",
+										"Date": ""
 									};
 									array.push(oItem);
 								}

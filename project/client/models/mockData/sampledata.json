@@ -176,6 +176,16 @@
 		"OrderType":"",
 		"OrderNo":""
 	},
+	"StockItemsData": {
+		"MaterialName": "",
+		"Date": "",
+		"Material": "",
+		"Qty": "0",
+		"Weight": "0",
+		"Remarks": "",
+		"OrderNo":"",
+		"Order":""
+	},
 	"stockMaint": {
 		"Date": "",
 		"Product": "",

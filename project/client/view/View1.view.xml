@@ -26,6 +26,7 @@
 					<StandardListItem id="customerOrders" icon="sap-icon://customer-order-entry" title="Customer Orders" description=""></StandardListItem>
 					<StandardListItem id="demo" icon="sap-icon://bar-chart" title="anubhav" description=""></StandardListItem>
 					<StandardListItem id="Print" icon="sap-icon://print" title="Print Customizing" description=""></StandardListItem>
+					<StandardListItem id="Stock" icon="sap-icon://detail-view" title="Stock Items" description=""></StandardListItem>
 					<StandardListItem id="adminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="Data Maintenance" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="CollaborationCenter" icon="sap-icon://collaborate" title="Collaboration Center" description=""></StandardListItem>

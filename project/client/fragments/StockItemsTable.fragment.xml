@@ -1,0 +1,64 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
+  <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+		<content> -->
+	<Table id="idTable1"
+    items="{
+           path: '/StockItems',
+             sorter: {
+             path: 'Date',
+             descending: 'true'
+             }
+           }"
+    mode="MultiSelect" growing="true"
+	  growingThreshold="20" updateFinished="onUpdateFinished">
+    <headerToolbar>
+      <Toolbar>
+        <Title id="idTitle" text="{i18n>allEntries}"></Title>
+        <ToolbarSpacer/>
+        <Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
+      </Toolbar>
+    </headerToolbar>
+		<columns>
+			<Column>
+				<Label text="Date"></Label>
+      </Column>
+      <Column>
+        <Label text="Material" />
+      </Column>
+      <Column>
+        <Label text="Quantity"></Label>
+
+      </Column>
+      <Column>
+        <Label text="Weight"></Label>
+      </Column>
+        <Column>
+          <Label text="Created By"></Label>
+        </Column>
+        <Column>
+          <Label text="Remarks"></Label>
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+          <Text text= "{
+                path: 'Date',
+                type: 'sap.ui.model.type.Date',
+                formatOptions: {
+                      style: 'medium',
+                      pattern: 'dd.MM.yyyy'}}"></Text>
+
+            <Text text="{Material}"/>
+            <Text text="{Qty}" />
+
+            <Text text="{Weight}" />
+					<Text text="{CreatedBy}"></Text>
+					<Text text="{Remarks}" />
+        </cells>
+      </ColumnListItem>
+    </items>
+	</Table>
+	<!-- </content>
+	</Page> -->
+</core:FragmentDefinition>

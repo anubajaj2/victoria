@@ -207,9 +207,12 @@
 								"pattern": "demo",
 								"name": "demo",
 								"target":["donald","demo"]
+							},
+							{
+								"pattern": "Stock",
+								"name": "Stock",
+								"target":["donald","StockItems"]
 							}
-
-
 						]
 					}
 
@@ -397,6 +400,15 @@
 					"clearAggregation": true,
 					"viewName": "demo",
 					"viewId":"idDemo",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"StockItems": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "StockItems",
+					"viewId":"idStockItems",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

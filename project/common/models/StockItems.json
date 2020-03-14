@@ -7,9 +7,13 @@
     "validateUpsert": true
   },
   "properties": {
+    "Date": {
+      "type": "date",
+      "required": true
+    },
     "OrderNo": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Material": {
       "type": "string",
@@ -17,8 +21,17 @@
     },
     "Qty": {
       "type": "number",
-      "required": false,
+      "required": true,
       "default":0
+    },
+    "Weight": {
+      "type": "number",
+      "required": true,
+      "default":0
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
     },
     "CreatedOn": {
 			"type": "date",

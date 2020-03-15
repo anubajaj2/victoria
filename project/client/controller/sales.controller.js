@@ -617,7 +617,8 @@ onPayDateChange:function(oEvent){
   if (oEvent.getParameter('newValue')) {
     this.getView().getModel('local').setProperty('/orderHeader/Date' ,
                   oEvent.getParameter('newValue'));
-                }
+
+      }
   },
 getEntryData:function(oEvent,custId,orderNo,date,postedEntryData){
   debugger;
@@ -647,6 +648,7 @@ getOrderDetails:function(oEvent,orderId ,oFilter,orderNo){
                    "/OrderHeaders('" + orderId + "')", "GET",
                    {filters: [oFilter]}, {}, this)
     .then(function(oData) {
+      debugger;
     that.getView().setBusy(false);
     var date = oData.Date;
     var custId = oData.Customer;
@@ -1659,35 +1661,58 @@ changeInMaterial: function(oEvent){
   //       }
   //   }
 },
-nextOrder:function(oEvent){
-  debugger;
-  var that = this;
-  this.setWidths(false);
-  var myData = this.getView().getModel("local").getProperty("/orderHeader");
-  var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "1");
-  if(!myData.OrderNo){
-    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                    "/OrderHeaders",
-                    "GET", {filters: [oFilter]}, {}, that)
-                    .then(function(oData) {
-                      debugger;
-                      var n = oData.results.length;
-                      var lastRecord = oData.results[n-1];
-                      var lastRecordDate = lastRecord.Date;
-                      var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
-                      var currentDate = new Date();
-                      var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
-                      var orderId = lastRecord.id;
-                      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
-                      oEvent.sId = "orderReload";
-                      if(formattedDate === formattedLastRecordDate){
-                        that.getOrderDetails(oEvent,orderId,oFilter);
-                      }
-                      else{
-                        sap.m.MessageToast.show("No orders generated for today yet");
-                      }
-              })
 
+nextOrder:function(oEvent){
+    debugger;
+
+    var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
+    var dateFrom = new Date(selectedDate);
+    dateFrom.setDate(selectedDate.getDate() - 1);
+    dateFrom.setHours(0, 0, 0, 1)
+    var dateTo = new Date(selectedDate);
+    dateTo.setDate(selectedDate.getDate() - 1);
+    dateTo.setHours(23, 59, 59, 59)
+    var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+    var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+    var orFilter = new sap.ui.model.Filter({
+      filters: [oFilter1, oFilter2],
+      and: true
+    });
+
+    var that = this;
+    this.setWidths(false);
+    var myData = this.getView().getModel("local").getProperty("/orderHeader");
+  if(!myData.OrderNo){
+    this.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+           "/OrderHeaders",
+           "GET", {filters: [orFilter]}, {}, that)
+           .then(function(oData) {
+             debugger;
+             // ordersForSelectedDate = oData;
+             var n = oData.results.length;
+       if(n==0){
+         sap.m.MessageToast.show("No orders for selected date");
+       }
+       else{
+           var firstRecord = oData.results[0];
+           debugger;
+           var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,"");
+           that.getOrderDetails(oEvent,firstRecord.id,orFilter);
+           that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
+   				that.getView().addDependent(that.orderSearchPopup);
+           that.orderSearchPopup.bindAggregation("items", {
+               path: '/OrderHeaders',
+               filters: orFilter,
+               template: new sap.m.DisplayListItem({
+               label: "{OrderNo}",
+               value: {
+                 path: 'Customer',
+                 formatter: that.getCustomerName.bind(that)
+                 }
+               })
+             });
+         }
+       })
   }
   else{
   $.post("/nextOrder",{OrderDetails: myData})
@@ -1695,7 +1720,6 @@ nextOrder:function(oEvent){
     console.log(result);
   that.byId("idRetailTransfer").setEnabled(true);
     if (result) {
-      debugger;
       var id = 'sales';
       delete that.orderAmount;
       delete that.deduction;
@@ -1710,7 +1734,6 @@ nextOrder:function(oEvent){
       //return table
       that.orderReturn(oEvent,id);
       var orderId = result.id;
-      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
       that.byId("Sales--idSaveIcon").setColor('green');
       if (result.Customer){
       var oFilter = new sap.ui.model.Filter("Customer",sap.ui.model.FilterOperator.EQ,result.Customer);
@@ -1720,8 +1743,10 @@ nextOrder:function(oEvent){
       oEvent.sId = "orderReload";
       that.getOrderDetails(oEvent,orderId,oFilter);
     }
+
   });
-  }
+  // }
+}
 },
 
 getTotals:function(oEvent){

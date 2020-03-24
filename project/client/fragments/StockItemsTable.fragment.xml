@@ -22,6 +22,9 @@
 			<Column>
 				<Label text="Date"></Label>
       </Column>
+			<Column>
+        <Label text="Order Number" />
+      </Column>
       <Column>
         <Label text="Material" />
       </Column>
@@ -49,10 +52,11 @@
                       style: 'medium',
                       pattern: 'dd.MM.yyyy'}}"></Text>
 
-            <Text text="{Material}"/>
-            <Text text="{Qty}" />
+					<Text text="{OrderNo}"/>
+          <Text text="{Material}"/>
+          <Text text="{Qty}" />
 
-            <Text text="{Weight}" />
+          <Text text="{Weight}" />
 					<Text text="{CreatedBy}"></Text>
 					<Text text="{Remarks}" />
         </cells>

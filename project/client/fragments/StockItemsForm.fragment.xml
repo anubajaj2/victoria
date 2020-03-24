@@ -30,31 +30,38 @@
               <f:FormElement label="Order Number">
                 <f:fields>
                   <Input id="idOrderNo"
-                  value="{local>/StockItemsData/Order}" showValueHelp="true"
+                  value="{path: 'local>/StockItemsData/Order'}" showValueHelp="true"
                   valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Material}">
                 <f:fields>
-                  <Input id="idMatCode" submit="productCodeEnter"
-                  	suggestionItems="{/Products}" showSuggestion="true" suggestionItemSelected="productCodeCheck"
+                  <Input id="idMatCode"
+                  	suggestionItems="{/Products}" showSuggestion="true"
                     value="{path: 'local>/StockItemsData/MaterialName'}" liveChange="refreshModel"
+                    suggestionItemSelected="onMaterialSelect"
                   	>
                   	<suggestionItems>
                   		<core:ListItem text="{ProductCode}"
                   									 additionalText="{ProductName} {Type}"/>
                   	</suggestionItems>
+
+                    <layoutData>
+                      <l:GridData span="XL3 L3"/>
+                    </layoutData>
                   </Input>
+
+                  <Text id ="matName" editable="false"/>
                 </f:fields>
               </f:FormElement>
-              <f:FormElement label="{i18n>Quantity}">
+            <f:FormElement label="{i18n>Quantity}">
                 <f:fields>
-                  <Input  id="idQuantity" width="50%" submit="onSubmit" value="{path: 'local>/StockItemsData/Qty'}"/>
+                  <Input  id="idQuantity" width="50%"  type="Number" submit="onSubmit"  liveChange="validateValue" value="{path: 'local>/StockItemsData/Qty'}"/>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Weight}">
                 <f:fields>
-                  <Input id="idWeight" width="50%"  submit="onSubmit" value="{path: 'local>/StockItemsData/Weight'}"/>
+                  <Input id="idWeight" width="50%"  type="Number" liveChange="decimalvalidator" submit="onSubmit" value="{path: 'local>/StockItemsData/Weight', formatter: 'formatter.validateDecimal'}"/>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>Remarks}">

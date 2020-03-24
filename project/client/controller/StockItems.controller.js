@@ -115,6 +115,7 @@ sap.ui.define(
               table.setModel(currentModel);
               this.getView().byId("idQ").setText("");
               this.getView().byId("idW").setText("");
+              this.getView().byId("matName").setText("");
             }
 
           },
@@ -205,6 +206,8 @@ sap.ui.define(
                   that.getView().byId("idQ").setText("");
                   that.getView().byId("idW").setText("");
                   that.getView().byId("matName").setText("");
+                  that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
+                  that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
   							}).catch(function(oError) {
   								that.getView().setBusy(false);
   							});
@@ -224,6 +227,7 @@ sap.ui.define(
               that.getView().byId("idRemarks").setValue("");
               that.getView().byId("idQ").setText("");
               that.getView().byId("idW").setText("");
+              that.getView().byId("matName").setText("");
               var table = that.getView().byId("idTable1");
               var currentModel = that.getView().getModel();
               table.setModel(currentModel);

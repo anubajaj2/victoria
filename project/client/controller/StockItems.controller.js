@@ -44,15 +44,15 @@ sap.ui.define(
             debugger;
             var selectItem = oEvent.getParameter("selectedItem");
             if(selectItem){
-             orderNo = selectItem.getLabel();
+               var orderNo = selectItem.getLabel();
+               this.getView().getModel("local").setProperty("/StockItemsData/Order", orderNo);
+               var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split('/')[2];
+               var index = null;
+               if(orderId){
+                 index = parseInt(orderId);
+               }
+               this.getView().getModel("local").setProperty("/StockItemsData/OrderNo",that.getView().getModel("temp").oData.items[index].id);
             }
-            var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split('/')[2];
-            var index = null;
-            if(orderId){
-              index = parseInt(orderId);
-            }
-            this.getView().getModel("local").setProperty("/StockItemsData/Order", orderNo);
-            this.getView().getModel("local").setProperty("/StockItemsData/OrderNo",that.getView().getModel("temp").oData.items[index].id);
           },
 
           onMaterialSelect: function(oEvent) {

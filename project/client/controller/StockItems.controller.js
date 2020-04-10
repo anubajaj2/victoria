@@ -14,7 +14,36 @@ sap.ui.define(
           valueHelpOrder:function(oEvent){
             this.orderPopup(oEvent);
           },
+        onPayDateChange:function(oEvent){
+     debugger;
+     var dDateStart = oEvent.getSource().getProperty('dateValue');
+     var dDateEnd = new Date(dDateStart + 1);
+     // var isValidDate = oEvent.getParameter("valid");
+     var oFilter = [];
+     var oFilter1 = null;
+     var oFilter2 = null;
 
+     // if( isValidDate ) {
+     dDateStart.setMilliseconds(0);
+     dDateStart.setSeconds(0);
+     dDateStart.setMinutes(0);
+     dDateStart.setHours(0);
+
+     dDateEnd.setMilliseconds(0);
+     dDateEnd.setSeconds(59);
+     dDateEnd.setMinutes(59);
+     dDateEnd.setHours(23);
+     oFilter1 = new Filter([
+        new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
+      ], true);
+
+      oFilter = new sap.ui.model.Filter({
+        filters: [oFilter1],
+        and: true
+      });
+      this.getView().byId("idTable1").getBinding("items").filter(oFilter,true);
+
+        },
           decimalvalidator: function (oEvent) {
                   debugger;
                   if(oEvent.getSource().getValue() <= 0 ){
@@ -40,6 +69,10 @@ sap.ui.define(
           },
 
           onConfirm:function(oEvent){
+
+            var oFilter = [];
+            var oFilter1 = null;
+            var oFilter2 = null;
             var that = this;
             debugger;
             var selectItem = oEvent.getParameter("selectedItem");
@@ -52,6 +85,32 @@ sap.ui.define(
                  index = parseInt(orderId);
                }
                this.getView().getModel("local").setProperty("/StockItemsData/OrderNo",that.getView().getModel("temp").oData.items[index].id);
+               var oDNum = that.getView().getModel("temp").oData.items[index].id;
+               var dDateStart=  this.getView().byId("idDate").getDateValue();
+               var dDateEnd = new Date(dDateStart + 1);
+
+               dDateStart.setMilliseconds(0);
+               dDateStart.setSeconds(0);
+               dDateStart.setMinutes(0);
+               dDateStart.setHours(0);
+
+               dDateEnd.setMilliseconds(0);
+               dDateEnd.setSeconds(59);
+               dDateEnd.setMinutes(59);
+               dDateEnd.setHours(23);
+               oFilter1 = new Filter([
+                  new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
+                ], true);
+
+                oFilter2 = new Filter([
+                       new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, oDNum)
+               ], true);
+
+                oFilter = new sap.ui.model.Filter({
+                filters: [oFilter1, oFilter2],
+                and: true
+                 });
+                that.getView().byId("idTable1").getBinding("items").filter(oFilter,true);
             }
           },
 
@@ -95,19 +154,28 @@ sap.ui.define(
           },
 
           validateValue: function(oEvent){
-            if(oEvent.getSource().getValue() <= 0 ){
-              debugger;
-              oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
-              dialogSave.setEnabled(false);
-            }
-            else{
-              oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
-              dialogSave.setEnabled(true);
-            }
+            // if(oEvent.getSource().getValue() <= 0 ){
+            //   debugger;
+            //   oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
+            //   dialogSave.setEnabled(false);
+            // }
+            // else{
+            //   oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
+            //   dialogSave.setEnabled(true);
+            // }
           },
+refreshModel1:function(oEvent){
+  debugger;
 
+
+},
 
           refreshModel: function(oEvent){
+            var oFilter = [];
+            var oFilter1 = null;
+            var oFilter2 = null;
+            var that = this;
+            debugger;
             var table = this.getView().byId("idTable1");
             var value = oEvent.getParameter("value");
             if(value == ""){
@@ -116,7 +184,32 @@ sap.ui.define(
               this.getView().byId("idQ").setText("");
               this.getView().byId("idW").setText("");
               this.getView().byId("matName").setText("");
-            }
+}
+                 var dDateStart=  this.getView().byId("idDate").getDateValue();
+                 var dDateEnd = new Date(dDateStart + 1);
+
+                 dDateStart.setMilliseconds(0);
+                 dDateStart.setSeconds(0);
+                 dDateStart.setMinutes(0);
+                 dDateStart.setHours(0);
+
+                 dDateEnd.setMilliseconds(0);
+                 dDateEnd.setSeconds(59);
+                 dDateEnd.setMinutes(59);
+                 dDateEnd.setHours(23);
+                 oFilter1 = new Filter([
+                    new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
+                  ], true);
+
+                  oFilter2 = new Filter([
+                         new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.EQ, value)
+                 ], true);
+
+                  oFilter = new sap.ui.model.Filter({
+                  filters: [oFilter1, oFilter2],
+                  and: true
+                   });
+                  that.getView().byId("idTable1").getBinding("items").filter(oFilter,true);
 
           },
           orderPopup: function(oEvent) {
@@ -178,20 +271,27 @@ sap.ui.define(
           onSend: function(oEvent){
  							debugger;
  							var that = this;
+              var qty = this.getView().byId("idQuantity").getValue();
+              var wgt = this.getView().byId("idWeight").getValue();
+              var qty1= qty-(qty*2);
+              var wgt1= wgt-(wgt*2);
+              this.getView().getModel("local").setProperty("/StockItemsData/Qty", qty1);
+              this.getView().getModel("local").setProperty("/StockItemsData/Weight", wgt1);
               var data = this.getView().getModel("local").getProperty("/StockItemsData");
               console.log(data)
 
               if(this.getView().byId("idMatCode").getValue() === "" ){
                 sap.m.MessageBox.show("Please enter the Material");
               }
-              else if(this.getView().byId("idQuantity").getValue() <= 0){
-                sap.m.MessageBox.show("Please enter the valid Quantity");
-              }
-              else if(
-              this.getView().byId("idWeight").getValue() <= 0 ){
-                sap.m.MessageBox.show("Please enter the valid Weight");
-              }
+              // else if(this.getView().byId("idQuantity").getValue() <= 0){
+              //   sap.m.MessageBox.show("Please enter the valid Quantity");
+              // }
+              // else if(
+              // this.getView().byId("idWeight").getValue() <= 0 ){
+              //   sap.m.MessageBox.show("Please enter the valid Weight");
+              // }
               else{
+
                 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
   							                          "POST", {}, data, this)
   							.then(function(oData) {
@@ -267,19 +367,29 @@ sap.ui.define(
 
           onUpdateFinished: function (oEvent) {
          		  debugger;
-              var oTable = oEvent.getSource();
+                  var oTable = oEvent.getSource();
               var itemList = oTable.getItems();
               var noOfItems = itemList.length;
+
          			var title = this.getView().getModel("i18n").getProperty("allEntries");
          			this.getView().byId("idTitle").setText(title + " " + "(" + noOfItems + ")");
+
                for (var i=0; i < noOfItems; i++) {
                  debugger;
                  var materialId = oTable.getItems()[i].getCells()[2].getText();
                  var orderId = oTable.getItems()[i].getCells()[1].getText();
-                 var material = this.allMasterData.materials[materialId];
-                 if(material){
-                   oTable.getItems()[i].getCells()[2].setText(material.ProductCode);
-                 }
+                 var custId= oTable.getItems()[i].getCells()[5].getText();
+                //var orderNum = this.allMasterData.stockItems[orderId];
+                    // this.getView().getModel("local").setProperty("/StockItemsData", orderNum);
+                    // var ooId=this.getView().getModel("local").getProperty("/StockItemsData/id");
+               var ohId=this.allMasterData.orderHeader[orderId];
+                var material = this.allMasterData.materials[materialId];
+                  var cName=this.allMasterData.users[custId];
+                if(material){
+                 oTable.getItems()[i].getCells()[2].setText(material.ProductCode);
+                }
+            oTable.getItems()[i].getCells()[1].setText(this.allMasterData.orderHeader[orderId].OrderNo);
+            oTable.getItems()[i].getCells()[5].setText(cName.UserName);
                }
             }
         });

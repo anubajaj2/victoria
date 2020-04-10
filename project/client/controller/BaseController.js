@@ -49,7 +49,9 @@ sap.ui.define([
 						"materials": [],
 						"orderHeader": [],
 						"customCalculations": [],
-						"cities":[]
+						"cities":[],
+						"users":[],
+						"stockItems":[]
 					},
 
 					/**
@@ -65,8 +67,33 @@ sap.ui.define([
 						// 	}).catch(function(oError) {
 						// 		var oPopover = that.getErrorMessage(oError);
 						// 	});
-						var that = this;
 						debugger;
+						var that=this;
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems", "GET", null, null, this)
+							.then(function(oData) {
+								for (var i = 0; i < oData.results.length; i++) {
+									that.allMasterData.stockItems[oData.results[i].OrderNo] = oData.results[i];
+								}
+							}).catch(function(oError) {
+								var oPopover = that.getErrorMessage(oError);
+							});
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/AppUsers", "GET", null, null, this)
+							.then(function(oData) {
+								for (var i = 0; i < oData.results.length; i++) {
+									that.allMasterData.users[oData.results[i].TechnicalId] = oData.results[i];
+								}
+							}).catch(function(oError) {
+								var oPopover = that.getErrorMessage(oError);
+							});
+
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
+							.then(function(oData) {
+								for (var i = 0; i < oData.results.length; i++) {
+									that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
+								}
+							}).catch(function(oError) {
+								var oPopover = that.getErrorMessage(oError);
+							});
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 							.then(function(oData) {
 								for (var i = 0; i < oData.results.length; i++) {

@@ -14,29 +14,18 @@ sap.ui.define(
           valueHelpOrder:function(oEvent){
             this.orderPopup(oEvent);
           },
-        onPayDateChange:function(oEvent){
+          onPayDateChange:function(oEvent){
      debugger;
      var dDateStart = oEvent.getSource().getProperty('dateValue');
-     var dDateEnd = new Date(dDateStart + 1);
-     // var isValidDate = oEvent.getParameter("valid");
+     dDateStart.setHours(0, 0, 0, 1);
+     var dDateEnd = new Date(dDateStart);
+     dDateEnd.setHours(23, 59, 59, 59);
      var oFilter = [];
      var oFilter1 = null;
      var oFilter2 = null;
-
-     // if( isValidDate ) {
-     dDateStart.setMilliseconds(0);
-     dDateStart.setSeconds(0);
-     dDateStart.setMinutes(0);
-     dDateStart.setHours(0);
-
-     dDateEnd.setMilliseconds(0);
-     dDateEnd.setSeconds(59);
-     dDateEnd.setMinutes(59);
-     dDateEnd.setHours(23);
      oFilter1 = new Filter([
         new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
       ], true);
-
       oFilter = new sap.ui.model.Filter({
         filters: [oFilter1],
         and: true
@@ -67,17 +56,17 @@ sap.ui.define(
                 });
                 }
           },
-
           onConfirm:function(oEvent){
-
+            debugger;
+            var oFiltern = null;
             var oFilter = [];
             var oFilter1 = null;
             var oFilter2 = null;
             var that = this;
-            debugger;
             var selectItem = oEvent.getParameter("selectedItem");
             if(selectItem){
                var orderNo = selectItem.getLabel();
+               var orderNoI = parseInt(orderNo);
                this.getView().getModel("local").setProperty("/StockItemsData/Order", orderNo);
                var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split('/')[2];
                var index = null;
@@ -85,40 +74,53 @@ sap.ui.define(
                  index = parseInt(orderId);
                }
                this.getView().getModel("local").setProperty("/StockItemsData/OrderNo",that.getView().getModel("temp").oData.items[index].id);
-               var oDNum = that.getView().getModel("temp").oData.items[index].id;
-               var dDateStart=  this.getView().byId("idDate").getDateValue();
-               var dDateEnd = new Date(dDateStart + 1);
-
-               dDateStart.setMilliseconds(0);
-               dDateStart.setSeconds(0);
-               dDateStart.setMinutes(0);
-               dDateStart.setHours(0);
-
-               dDateEnd.setMilliseconds(0);
-               dDateEnd.setSeconds(59);
-               dDateEnd.setMinutes(59);
-               dDateEnd.setHours(23);
-               oFilter1 = new Filter([
-                  new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
-                ], true);
-
-                oFilter2 = new Filter([
-                       new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, oDNum)
-               ], true);
-
-                oFilter = new sap.ui.model.Filter({
-                filters: [oFilter1, oFilter2],
-                and: true
-                 });
-                that.getView().byId("idTable1").getBinding("items").filter(oFilter,true);
             }
-          },
+            var oDNum = this.getView().getModel("temp").oData.items[index].id;
+            //var oStr= "" + oDNum + "";
+              var oStr=oDNum.toString();
+          var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, 'oStr');
+            //this.getView().byId("idTable1").getBinding("items").filter(oFiltern,true);
+              var orderDate = this.byId("idDate").getValue();
+            var dateFrom = new Date(orderDate);
+            dateFrom.setHours(0, 0, 0, 1)
+            var dateTo = new Date(orderDate);
+            dateTo.setHours(23, 59, 59, 59)
+            var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+            var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
 
+            var oFilter = new sap.ui.model.Filter({
+              filters: [oFilter1, oFilter2, oFiltern],
+              and: true
+            });
+          // //  var oFilter = new sap.ui.model.Filter({
+          //     filters: [oFiltern],
+          //     and: true
+          //   });
+             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+               "/StockItems", "GET", {filters: [oFilter]}, {}, this)
+               .then(function(oData) {
+               debugger;
+                 var items = oData.results;
+                 var json = new sap.ui.model.json.JSONModel();
+                 json.setData({
+                   "StockItems": items
+                 });
+                 var table = that.getView().byId("idTable1");
+                 table.setModel(json);
+                // this.refreshModel();
+
+               }).catch(function(oError) {
+               });
+          },
           onMaterialSelect: function(oEvent) {
             debugger;
             var that = this;
+            var oFiltern = null;
+            var oFilter = [];
+            var oFilter1 = null;
+            var oFilter2 = null;
+            var oFilter3 = null;
             var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-
             this.getView().getModel("local").setProperty("/StockItemsData/Material",selectedMatData.id);
             if(selectedMatData.HindiName){
               this.getView().byId("matName").setText(selectedMatData.HindiName);
@@ -126,8 +128,26 @@ sap.ui.define(
             else{
               this.getView().byId("matName").setText(selectedMatData.ProductName);
             }
+            var selectItem = this.getView().byId("idOrderNo").getValue();
+            var index = null;
+            index = parseInt(selectItem);
+            var oDNum = this.getView().getModel("temp").oData.items[index].id;
+            var oStr=oDNum.toString();
+           var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, 'oStr');
+// this.getView().byId("idTable1").getBinding("items").filter(oFiltern,true);
+          var orderDate = this.byId("idDate").getValue();
+            var dateFrom = new Date(orderDate);
+            dateFrom.setHours(0, 0, 0, 1)
+            var dateTo = new Date(orderDate);
+              dateTo.setHours(23, 59, 59, 59)
+              var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+                   var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+var oFilter3 = new sap.ui.model.Filter('Material', sap.ui.model.FilterOperator.Contains, selectedMatData.id);
+var oFilter = new sap.ui.model.Filter({
+  filters: [oFilter1, oFilter2, oFiltern, oFilter3],
+  and: true
+});
 
-            var oFilter = new sap.ui.model.Filter('Material', sap.ui.model.FilterOperator.Contains, selectedMatData.id);
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/StockItems", "GET", {filters: [oFilter]}, {}, this)
               .then(function(oData) {
@@ -148,11 +168,11 @@ sap.ui.define(
               });
               var table = that.getView().byId("idTable1");
               table.setModel(json);
+              //this.refreshModel();
 
               }).catch(function(oError) {
               });
           },
-
           validateValue: function(oEvent){
             // if(oEvent.getSource().getValue() <= 0 ){
             //   debugger;
@@ -164,12 +184,77 @@ sap.ui.define(
             //   dialogSave.setEnabled(true);
             // }
           },
-refreshModel1:function(oEvent){
+          refreshModel1:function(oEvent){
+                     debugger;
+                     var that = this;
+                     var oFiltern = null;
+                     var oFilter = [];
+                     var oFilter1 = null;
+                     var oFilter2 = null;
+                     var oFilter3 = null;
+                     var oSource = oEvent.getSource();
+                     if(oEvent.getParameter("value")){
+                       var searchValue = oEvent.getParameter("value").toLocaleUpperCase();
+                       var items = oSource.getBinding("suggestionItems").aLastContextData;
+                       var filteredObj = items.find((item)=> {
+                         if(JSON.parse(item).ProductCode === searchValue){
+                             return items;
+                           }
+                         });
+                       var selectedMatData = JSON.parse(filteredObj);
+                       this.getView().getModel("local").setProperty("/StockItemsData/Material",selectedMatData.id);
+                       if(selectedMatData.HindiName){
+                         this.getView().byId("matName").setText(selectedMatData.HindiName);
+                       }
+                       else{
+                         this.getView().byId("matName").setText(selectedMatData.ProductName);
+                       }
+                     }
+var selectItem = this.getView().byId("idOrderNo").getValue();
+var index = null;
+index = parseInt(selectItem);
+var oDNum = this.getView().getModel("temp").oData.items[index].id;
+var oStr=oDNum.toString();
+var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, 'oStr');
+// this.getView().byId("idTable1").getBinding("items").filter(oFiltern,true);
+var orderDate = this.byId("idDate").getValue();
+var dateFrom = new Date(orderDate);
+dateFrom.setHours(0, 0, 0, 1)
+var dateTo = new Date(orderDate);
+  dateTo.setHours(23, 59, 59, 59)
+  var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+       var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+var oFilter3 = new sap.ui.model.Filter('Material', sap.ui.model.FilterOperator.Contains, selectedMatData.id);
+var oFilter = new sap.ui.model.Filter({
+filters: [oFilter1, oFilter2, oFiltern, oFilter3],
+and: true
+});
+
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+  "/StockItems", "GET", {filters: [oFilter]}, {}, this)
+  .then(function(oData) {
   debugger;
+  var items = oData.results;
+  var aQuantity = items.map((i)=> {return i.Qty});
+  var iQuantity =  aQuantity.reduce((a, b) => a + b, 0);
+  var aWeight = items.map((i)=> {return i.Weight});
+  var iWeight =  aWeight.reduce((a, b) => a + b, 0);
+  var MaterialData = that.allMasterData;
+  console.log(MaterialData)
+  that.getView().byId("idQ").setText(parseFloat(iQuantity.toFixed(0)));
+  that.getView().byId("idW").setText(parseFloat(iWeight.toFixed(3)));
+  var updatedItems = items.map((i) => { i.MaterialName = selectedMatData.ProductCode; return i;})
+  var json = new sap.ui.model.json.JSONModel();
+  json.setData({
+    "StockItems": items
+  });
+  var table = that.getView().byId("idTable1");
+  table.setModel(json);
+  //this.refreshModel();
 
-
-},
-
+  }).catch(function(oError) {
+  });
+                   },
           refreshModel: function(oEvent){
             var oFilter = [];
             var oFilter1 = null;
@@ -184,33 +269,7 @@ refreshModel1:function(oEvent){
               this.getView().byId("idQ").setText("");
               this.getView().byId("idW").setText("");
               this.getView().byId("matName").setText("");
-}
-                 var dDateStart=  this.getView().byId("idDate").getDateValue();
-                 var dDateEnd = new Date(dDateStart + 1);
-
-                 dDateStart.setMilliseconds(0);
-                 dDateStart.setSeconds(0);
-                 dDateStart.setMinutes(0);
-                 dDateStart.setHours(0);
-
-                 dDateEnd.setMilliseconds(0);
-                 dDateEnd.setSeconds(59);
-                 dDateEnd.setMinutes(59);
-                 dDateEnd.setHours(23);
-                 oFilter1 = new Filter([
-                    new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, dDateStart, dDateEnd)
-                  ], true);
-
-                  oFilter2 = new Filter([
-                         new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.EQ, value)
-                 ], true);
-
-                  oFilter = new sap.ui.model.Filter({
-                  filters: [oFilter1, oFilter2],
-                  and: true
-                   });
-                  that.getView().byId("idTable1").getBinding("items").filter(oFilter,true);
-
+            }
           },
           orderPopup: function(oEvent) {
             var that = this;
@@ -253,7 +312,6 @@ refreshModel1:function(oEvent){
             .catch(function(oError) {
               console.log(oError);
             })
-
               this.orderNoPopup.bindAggregation("items", {
                   path: 'temp>/items',
                   filters: orFilter,
@@ -267,7 +325,6 @@ refreshModel1:function(oEvent){
                 });
             this.orderNoPopup.open();
           },
-
           onSend: function(oEvent){
  							debugger;
  							var that = this;
@@ -282,6 +339,9 @@ refreshModel1:function(oEvent){
 
               if(this.getView().byId("idMatCode").getValue() === "" ){
                 sap.m.MessageBox.show("Please enter the Material");
+              }
+              else if(this.getView().byId("idOrderNo").getValue() === "" ){
+                sap.m.MessageBox.show("Please select the Order");
               }
               // else if(this.getView().byId("idQuantity").getValue() <= 0){
               //   sap.m.MessageBox.show("Please enter the valid Quantity");
@@ -379,16 +439,13 @@ refreshModel1:function(oEvent){
                  var materialId = oTable.getItems()[i].getCells()[2].getText();
                  var orderId = oTable.getItems()[i].getCells()[1].getText();
                  var custId= oTable.getItems()[i].getCells()[5].getText();
-                //var orderNum = this.allMasterData.stockItems[orderId];
-                    // this.getView().getModel("local").setProperty("/StockItemsData", orderNum);
-                    // var ooId=this.getView().getModel("local").getProperty("/StockItemsData/id");
                var ohId=this.allMasterData.orderHeader[orderId];
                 var material = this.allMasterData.materials[materialId];
                   var cName=this.allMasterData.users[custId];
                 if(material){
                  oTable.getItems()[i].getCells()[2].setText(material.ProductCode);
                 }
-            oTable.getItems()[i].getCells()[1].setText(this.allMasterData.orderHeader[orderId].OrderNo);
+            oTable.getItems()[i].getCells()[1].setText(ohId.OrderNo);
             oTable.getItems()[i].getCells()[5].setText(cName.UserName);
                }
             }

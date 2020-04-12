@@ -48,6 +48,7 @@ sap.ui.define([
 						"customers": [],
 						"materials": [],
 						"orderHeader": [],
+						"wholeSaleHeader": [],
 						"customCalculations": [],
 						"cities":[],
 						"users":[],
@@ -86,14 +87,22 @@ sap.ui.define([
 								var oPopover = that.getErrorMessage(oError);
 							});
 
-						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders", "GET", null, null, this)
 							.then(function(oData) {
 								for (var i = 0; i < oData.results.length; i++) {
-									that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
+									that.allMasterData.wholeSaleHeader[oData.results[i].id] = oData.results[i];
 								}
 							}).catch(function(oError) {
 								var oPopover = that.getErrorMessage(oError);
 							});
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders", "GET", null, null, this)
+								.then(function(oData) {
+									for (var i = 0; i < oData.results.length; i++) {
+										that.allMasterData.orderHeader[oData.results[i].id] = oData.results[i];
+									}
+								}).catch(function(oError) {
+									var oPopover = that.getErrorMessage(oError);
+								});
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 							.then(function(oData) {
 								for (var i = 0; i < oData.results.length; i++) {

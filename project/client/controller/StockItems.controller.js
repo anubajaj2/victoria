@@ -133,7 +133,8 @@ sap.ui.define(
             index = parseInt(selectItem);
             var oDNum = this.getView().getModel("temp").oData.items[index].id;
             var oStr=oDNum.toString();
-           var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, 'oStr');
+            debugger;
+           var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, "'" + oStr + "'");
 // this.getView().byId("idTable1").getBinding("items").filter(oFiltern,true);
           var orderDate = this.byId("idDate").getValue();
             var dateFrom = new Date(orderDate);
@@ -439,14 +440,32 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                  var materialId = oTable.getItems()[i].getCells()[2].getText();
                  var orderId = oTable.getItems()[i].getCells()[1].getText();
                  var custId= oTable.getItems()[i].getCells()[5].getText();
-               var ohId=this.allMasterData.orderHeader[orderId];
-                var material = this.allMasterData.materials[materialId];
+                  var ohId=this.allMasterData.orderHeader[orderId];
+                  var ohIdW=this.allMasterData.wholeSaleHeader[orderId];
+                  var material = this.allMasterData.materials[materialId];
                   var cName=this.allMasterData.users[custId];
-                if(material){
-                 oTable.getItems()[i].getCells()[2].setText(material.ProductCode);
-                }
-            oTable.getItems()[i].getCells()[1].setText(ohId.OrderNo);
-            oTable.getItems()[i].getCells()[5].setText(cName.UserName);
+                  try {
+                    if(material){
+                     oTable.getItems()[i].getCells()[2].setText(material.ProductCode);
+                    }
+                  } catch (e) {
+
+                  }
+                  try {
+                    oTable.getItems()[i].getCells()[1].setText(ohId.OrderNo);
+                  } catch (e) {
+
+                  }
+                  try {
+                    oTable.getItems()[i].getCells()[1].setText(ohIdW.OrderNo);
+                  } catch (e) {
+
+                  }
+                  try {
+                    oTable.getItems()[i].getCells()[5].setText(cName.UserName);
+                  } catch (e) {
+
+                  }
                }
             }
         });

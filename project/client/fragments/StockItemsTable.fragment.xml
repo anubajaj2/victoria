@@ -16,6 +16,7 @@
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
         <Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
+				<Button id="idDownlaod" icon="sap-icon://download" press="onExportPdf"></Button>
       </Toolbar>
     </headerToolbar>
 		<columns>

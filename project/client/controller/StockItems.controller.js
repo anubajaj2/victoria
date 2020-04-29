@@ -1,12 +1,15 @@
 /*global location*/
 sap.ui.define(
-    ["victoria/controller/BaseController", "sap/ui/model/Filter","victoria/models/formatter"],
-    function (BaseController, Filter, formatter) {
+    ["victoria/controller/BaseController", "sap/ui/model/Filter","victoria/models/formatter",
+    "sap/ui/core/util/Export","sap/ui/core/util/ExportTypeCSV"],
+
+    function (BaseController, Filter, formatter, Export, ExportTypeCSV)
+    {
         "use strict";
 
         return BaseController.extend("victoria.controller.StockItems", {
           formatter:formatter,
-
+          "ZFilterr" :[],
           onAfterRendering: function(){
            debugger;
            this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -54,9 +57,6 @@ this.getView().byId("idTable1").getBinding("items").refresh(true);
 
           valueHelpOrder:function(oEvent){
             this.orderPopup(oEvent);
-          },
-          onExportPdf:function(oEvent){
-
           },
           onPayDateChange:function(oEvent){
      debugger;
@@ -187,6 +187,10 @@ var oFilter = new sap.ui.model.Filter({
   filters: [oFilter1, oFilter2, oFiltern, oFilter3],
   and: true
 });
+this.ZFilterr = new sap.ui.model.Filter({
+  filters: [oFilter1, oFilter2, oFiltern, oFilter3],
+  and: true
+});
 
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/StockItems", "GET", {filters: [oFilter]}, {}, this)
@@ -224,6 +228,106 @@ var oFilter = new sap.ui.model.Filter({
             //   dialogSave.setEnabled(true);
             // }
           },
+
+          onExportPdf:function(oEvent){
+               var oTab = this.getView().byId("idTable1");
+           var oBinding = oTab.getBinding("items");
+                var oExport = new Export({
+                  exportType : new ExportTypeCSV({
+                  separatorChar: "\t",
+                mimeType: "application/vnd.ms-excel",
+                  charset: "utf-8",
+                  fileExtension: "xls"
+                 }),
+                models : this.getView().getModel(),
+                rows : {
+                  path : "/StockItems",
+                  filters: this.ZFilterr
+               },
+              columns : [
+              {
+
+             name : "Date",
+
+               template : {
+
+             content : "{Date}"
+
+            }
+
+            }, {
+
+             name : "Order Number",
+
+             template : {
+
+             content : "{OrderNo}"
+
+             }
+
+            }, {
+
+           name : "Material",
+
+           template : {
+
+           content : "{Material}"
+
+           }
+
+           }, {
+
+          name : "Quantity",
+
+          template: {
+
+          content: "{Qty}"
+
+          }
+
+          }, {
+
+          name: "Weight",
+
+          template: {
+
+          content: "{Weight}"
+
+          }
+
+          }, {
+
+          name: "Created By",
+
+          template: {
+
+          content: "{CreatedBy}"
+
+          }
+
+          },
+          {
+
+          name: "Remarks",
+
+          template: {
+
+          content: "{Remarks}"
+
+          }
+
+          },
+
+          ]
+          });
+          oExport.saveFile().always(function() {
+
+          this.destroy();
+
+          });
+
+
+                    },
           refreshModel1:function(oEvent){
                      debugger;
                      var that = this;

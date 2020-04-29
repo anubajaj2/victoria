@@ -35,7 +35,6 @@
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>material}">
-
                 <f:fields>
                   <Input id="idMatCode"
                   	suggestionItems="{/Products}" showSuggestion="true"
@@ -51,10 +50,19 @@
                       <l:GridData span="XL3 L3"/>
                     </layoutData>
                   </Input>
-
                   <Text id ="matName" editable="false"/>
                 </f:fields>
               </f:FormElement>
+              <f:FormElement>
+                <f:fields>
+              <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="true">
+                <!-- <layoutData> -->
+                  <!-- <l:GridData span="XL5 L5"/> -->
+                <!-- </layoutData> -->
+              </CheckBox>
+            </f:fields>
+          </f:FormElement>
+
             <f:FormElement label="{i18n>quantity}">
 
                 <f:fields>

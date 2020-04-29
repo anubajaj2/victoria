@@ -10,6 +10,7 @@ sap.ui.define(
         return BaseController.extend("victoria.controller.StockItems", {
           formatter:formatter,
           "ZFilterr" :[],
+          "mItems":[],
           onAfterRendering: function(){
            debugger;
            this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -481,10 +482,73 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 
               if(this.getView().byId("idMatCode").getValue() === "" ){
                 sap.m.MessageBox.show("Please enter the Material");
+                this.getView().getModel("local").setProperty("/StockItemsData/Qty", qty);
+                this.getView().getModel("local").setProperty("/StockItemsData/Weight", wgt);
               }
               else if(this.getView().byId("idOrderNo").getValue() === "" ){
                 sap.m.MessageBox.show("Please select the Order");
               }
+              else if(this.getView().byId("idMatCode").getValue()){
+                debugger;
+                  var matVal = this.getView().byId("idMatCode").getValue();
+                 var oFilterM = new sap.ui.model.Filter("ProductCode", sap.ui.model.FilterOperator.EQ, matVal);
+                  this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                  "/Products", "GET", {filters: [oFilterM]}, {}, this)
+                  .then(function(oData) {
+                    debugger;
+                  that.mItems = oData.results;
+                  if(that.mItems.length==0){
+                      sap.m.MessageBox.show("Please select the valid Material");
+                      that.getView().getModel("local").setProperty("/StockItemsData/Qty", qty);
+                      that.getView().getModel("local").setProperty("/StockItemsData/Weight", wgt);
+                    }
+                    else {
+
+                      that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/StockItems",
+                                                "POST", {}, data, that)
+                      .then(function(oData) {
+                        that.getView().setBusy(false);
+                        debugger;
+                        sap.m.MessageToast.show("Data Saved Successfully");
+                        if(that.getView().byId("CBID").getSelected()){
+                        // that.getView().byId("idOrderNo").setValue("");
+                        that.getView().byId("idMatCode").setValue("");
+                        that.getView().byId("idQuantity").setValue("");
+                        that.getView().byId("idWeight").setValue("");
+                        that.getView().byId("idRemarks").setValue("");
+                        that.getView().byId("idQ").setText("");
+                        that.getView().byId("idW").setText("");
+                        that.getView().byId("matName").setText("");
+                        jQuery.sap.delayedCall(0, this, function() {
+                          that.getView().byId("idMatCode").focus();
+
+                        });
+                        // that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
+                        // that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
+                      }
+                      else{
+                        that.getView().byId("idOrderNo").setValue("");
+                        that.getView().byId("idMatCode").setValue("");
+                        that.getView().byId("idQuantity").setValue("");
+                        that.getView().byId("idWeight").setValue("");
+                        that.getView().byId("idRemarks").setValue("");
+                        that.getView().byId("idQ").setText("");
+                        that.getView().byId("idW").setText("");
+                        that.getView().byId("matName").setText("");
+                        that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
+                        that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
+                      }
+                      }).catch(function(oError) {
+                        that.getView().setBusy(false);
+                      });
+                    }
+                  }).catch(function(oError) {
+                    var oPopover = that.getErrorMessage(oError);
+                  });
+
+              }
+
+
               // else if(this.getView().byId("idQuantity").getValue() <= 0){
               //   sap.m.MessageBox.show("Please enter the valid Quantity");
               // }
@@ -492,28 +556,46 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               // this.getView().byId("idWeight").getValue() <= 0 ){
               //   sap.m.MessageBox.show("Please enter the valid Weight");
               // }
-              else{
-
-                this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
-  							                          "POST", {}, data, this)
-  							.then(function(oData) {
-  								that.getView().setBusy(false);
-  								debugger;
-  								sap.m.MessageToast.show("Data Saved Successfully");
-                  that.getView().byId("idOrderNo").setValue("");
-                  that.getView().byId("idMatCode").setValue("");
-                  that.getView().byId("idQuantity").setValue("");
-                  that.getView().byId("idWeight").setValue("");
-                  that.getView().byId("idRemarks").setValue("");
-                  that.getView().byId("idQ").setText("");
-                  that.getView().byId("idW").setText("");
-                  that.getView().byId("matName").setText("");
-                  that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
-                  that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
-  							}).catch(function(oError) {
-  								that.getView().setBusy(false);
-  							});
-              }
+              // else {
+              //
+              //   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
+  						// 	                          "POST", {}, data, this)
+  						// 	.then(function(oData) {
+  						// 		that.getView().setBusy(false);
+  						// 		debugger;
+  						// 		sap.m.MessageToast.show("Data Saved Successfully");
+              //     if(that.getView().byId("CBID").getSelected()){
+              //     // that.getView().byId("idOrderNo").setValue("");
+              //     that.getView().byId("idMatCode").setValue("");
+              //     that.getView().byId("idQuantity").setValue("");
+              //     that.getView().byId("idWeight").setValue("");
+              //     that.getView().byId("idRemarks").setValue("");
+              //     that.getView().byId("idQ").setText("");
+              //     that.getView().byId("idW").setText("");
+              //     that.getView().byId("matName").setText("");
+              //     jQuery.sap.delayedCall(0, this, function() {
+              //       that.getView().byId("idMatCode").focus();
+              //
+            	// 		});
+              //     // that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
+              //     // that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
+              //   }
+              //   else{
+              //     that.getView().byId("idOrderNo").setValue("");
+              //     that.getView().byId("idMatCode").setValue("");
+              //     that.getView().byId("idQuantity").setValue("");
+              //     that.getView().byId("idWeight").setValue("");
+              //     that.getView().byId("idRemarks").setValue("");
+              //     that.getView().byId("idQ").setText("");
+              //     that.getView().byId("idW").setText("");
+              //     that.getView().byId("matName").setText("");
+              //     that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
+              //     that.getView().getModel("local").setProperty("/StockItemsData/OrderNo","");
+              //   }
+  						// 	}).catch(function(oError) {
+  						// 		that.getView().setBusy(false);
+  						// 	});
+              // }
               // this.herculis();
               var table = this.getView().byId("idTable1");
               var currentModel = that.getView().getModel();
@@ -533,7 +615,12 @@ this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             table.getBinding("items").filter(oFilter,true);
               that.getView().byId("idDelete").setEnabled(true);
 						},
+            onSelect: function (oEvent){
+        			// jQuery.sap.delayedCall(500, this, function() {
+        					// this.getView().byId("idCust").focus();
+        			// });
 
+        		},
           onClear: function(){
               var that = this;
               that.getView().byId("idOrderNo").setValue("");

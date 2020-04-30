@@ -11,6 +11,8 @@ sap.ui.define(
           formatter:formatter,
           "ZFilterr" :[],
           "mItems":[],
+          "cid" : "",
+          Qtty:0,
           onAfterRendering: function(){
            debugger;
            this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -105,8 +107,10 @@ this.getView().byId("idTable1").getBinding("items").refresh(true);
             debugger;
             var oFiltern = null;
             var oFilter = [];
+            var oFilterr = [];
             var oFilter1 = null;
             var oFilter2 = null;
+            var oFilter3 = null;
             var that = this;
             var selectItem = oEvent.getParameter("selectedItem");
             if(selectItem){
@@ -156,6 +160,25 @@ this.getView().byId("idTable1").getBinding("items").refresh(true);
 
                }).catch(function(oError) {
                });
+
+               var oFilter3 = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, orderNo);
+               var oFilterr = new sap.ui.model.Filter({
+                 filters: [oFilter1, oFilter2, oFilter3],
+                 and: true
+               });
+
+              this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+              "/OrderHeaders",
+              "GET", {filters: [oFilterr]}, {}, this)
+              .then(function(oData) {
+              debugger;
+              var results  =  oData.results.slice();
+               that.cid=oData.results[0].id;
+              })
+              .catch(function(oError) {
+              console.log(oError);
+              });
+
           },
           onMaterialSelect: function(oEvent) {
             debugger;
@@ -219,6 +242,59 @@ this.ZFilterr = new sap.ui.model.Filter({
               });
           },
           validateValue: function(oEvent){
+               debugger;
+               var that=this;
+               var oFilter = [];
+               var oFilter1 = null;
+               var oFilter2 = null;
+               var oFilter3 = null;
+               var oFilter4 = null;
+               // var cid=null;
+            var orderDate = this.byId("idDate").getValue();
+
+              var dateFrom = new Date(orderDate);
+
+              dateFrom.setHours(0, 0, 0, 1)
+
+              var dateTo = new Date(orderDate);
+
+                dateTo.setHours(23, 59, 59, 59)
+
+                var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+
+                     var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+
+
+            var oFilter4 = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, "'" + that.cid + "'");
+var oFilter = new sap.ui.model.Filter({
+  filters: [oFilter4],
+  and: true
+});
+
+this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+"/OrderItems",
+"GET", {filters: [oFilter]}, {}, this)
+.then(function(oData) {
+debugger;
+var results  =  oData.results;
+var f=that.byId("idQuantity").getValue();
+
+for(var i=0;i< oData.results.length;i++){
+    that.Qtty = that.Qtty + oData.results[i].Qty;
+
+}
+
+var k =parseInt(that.Qtty);
+if(f > k ){
+  sap.m.MessageBox.show("Quantity should not exceed" + " "+ k +"");
+}
+
+})
+.catch(function(oError) {
+console.log(oError);
+});
+
+
             // if(oEvent.getSource().getValue() <= 0 ){
             //   debugger;
             //   oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
@@ -228,6 +304,7 @@ this.ZFilterr = new sap.ui.model.Filter({
             //   oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
             //   dialogSave.setEnabled(true);
             // }
+            that.Qtty = 0;
           },
 
           onExportPdf:function(oEvent){

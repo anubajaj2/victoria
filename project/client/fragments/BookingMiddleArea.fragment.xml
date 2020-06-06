@@ -52,6 +52,9 @@
 	      <Column>
 	        <Label text="{i18n>advance}"></Label>
 	      </Column>
+				<Column>
+	        <Label text="{i18n>type}"></Label>
+	      </Column>
 	      </columns>
 
 	      <items>
@@ -68,6 +71,7 @@
 	          	<Text text="{Quantity}"/>
 	            <Text text="{Bhav}"/>
 	            <Text text="{Advance}"/>
+							<Text text="{Type}"/>
 	        </cells>
 	      </ColumnListItem>
 	    </items>

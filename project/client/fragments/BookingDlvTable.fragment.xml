@@ -43,6 +43,9 @@
 			<Column width="2rem">
 				<Label text="{i18n>advance}"></Label>
 			</Column>
+			<Column width="2rem">
+				<Label text="{i18n>type}"></Label>
+			</Column>
 			</columns>
 
 			<dragDropConfig>
@@ -75,6 +78,7 @@
 						<Text text="{Quantity}"/>
 						<Text text="{Bhav}"/>
 						<Text text="{Advance}"/>
+						<Text text="{Type}"/>
 				</cells>
 			</ColumnListItem>
 		</items>

@@ -23,7 +23,17 @@
 		<f:formContainers>
 			<!-- //Order detail -->
 			<f:FormContainer>
+
 				<f:formElements>
+					<f:FormElement label="Type">
+						<m:RadioButtonGroup id="idRb" columns="2"
+							selectedIndex="0" select="onRadioButtonSelect">
+							<m:buttons>
+								<m:RadioButton id="idRb1" text="{i18n>Silver}" selected="true" enabled="true" editable="true"/>
+								<m:RadioButton id="idRb2" text="{i18n>Gold}"/>
+							</m:buttons>
+						</m:RadioButtonGroup>
+						</f:FormElement>
 					<f:FormElement label="{i18n>Customer}">
 						<f:fields>
 							<!-- <m:Label text="{i18n>Customer}" /> -->

@@ -16,6 +16,8 @@
           <Input id="idDialogBhav" value=""></Input>
           <Label text="{i18n>advance}"></Label>
           <Input id="idDialogAdv" value=""></Input>
+					<Label text="{i18n>type}"></Label>
+					<Input id="idDialogTyp" value=""></Input>
 				</f:content>
 			</f:SimpleForm>
 		</content>

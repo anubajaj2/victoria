@@ -141,7 +141,8 @@ debugger;
 	 			  sap.ui.getCore().byId("BookingDialog--idDialogBhav").setValue(cell4);
 	 			 var cell5 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[4].mProperties.text;
 	 			  sap.ui.getCore().byId("BookingDialog--idDialogAdv").setValue(cell5);
-
+					var cell6 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[5].mProperties.text;
+					sap.ui.getCore().byId("BookingDialog--idDialogTyp").setValue(cell6);
 	 	 },
 		//  _getDialogDlv: function (oEvent) {
 		// 		 if(!this.oEditDlvDialog){
@@ -195,6 +196,8 @@ debugger;
 				sap.ui.getCore().byId("BookingDialogMove--idDialogBhav").setValue(cell4).setVisible(false);
 			 var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
 				sap.ui.getCore().byId("BookingDialogMove--idDialogAdv").setValue(cell5).setVisible(false);
+				var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+ 				sap.ui.getCore().byId("BookingDialogMove--idDialogTyp").setValue(cell6).setVisible(false);
 
 	 },
 	 _getDialogLeftMove: function (oEvent) {
@@ -226,6 +229,8 @@ debugger;
 			 sap.ui.getCore().byId("BookingDialogMove--idDialogBhav").setValue(cell4).setVisible(false);
 			var cell5 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
 			 sap.ui.getCore().byId("BookingDialogMove--idDialogAdv").setValue(cell5).setVisible(false);
+			 var cell6 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+ 			 sap.ui.getCore().byId("BookingDialogMove--idDialogTyp").setValue(cell6).setVisible(false);
 
 	},
 	  onPressHandleDlvConfirmPopup: function(oEvent){
@@ -302,8 +307,6 @@ debugger;
 										 							  	 				 var oPopover = that.getErrorMessage(oError);
 										 							  	 			 });
 
-
-
 													 }
 							  	 			 }).catch(function(oError) {
 							  	 				 that.getView().setBusy(false);
@@ -322,6 +325,7 @@ debugger;
 			myData1.Quantity = parseInt(oData.results[0].Quantity) + parseInt(dlvQnty);
 			myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 			myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			myData1.Type = oSelected.mAggregations.cells[5].mProperties.text;
 			if(oSelected.getBindingContext().getObject().Recid != "null"){
 					myData1.Recid = oSelected.getBindingContext().getObject().Recid;
 			}else{
@@ -343,6 +347,7 @@ debugger;
 				myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
 				myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 				myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+				myData1.Type = oSelected.mAggregations.cells[5].mProperties.text;
 				// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
 				myData2.Customer = oSelected.getBindingContext().getObject().Customer;
 				that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
@@ -381,6 +386,7 @@ debugger;
 			myData1.Quantity = dlvQnty;
 			myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 			myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			myData1.Type = oSelected.mAggregations.cells[5].mProperties.text;
 			if(oSelected.getBindingContext().getObject().Recid != "null"){
 					myData1.Recid = oSelected.getBindingContext().getObject().Recid;
 			}else{
@@ -402,6 +408,7 @@ debugger;
 			 myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
 			 myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 			 myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 myData2.Type = oSelected.mAggregations.cells[5].mProperties.text;
 			 myData2.Recid = oSelected.getBindingContext().getObject().Recid;
 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
 			 myData2.Customer = oSelected.getBindingContext().getObject().Customer;
@@ -503,16 +510,12 @@ debugger;
 							 							  	 				 that.getView().setBusy(false);
 							 							  	 				 var oPopover = that.getErrorMessage(oError);
 							 							  	 			});
-
-
-
 						 					 }
 					  	 			 }).catch(function(oError) {
 							  	 				 that.getView().setBusy(false);
 							  	 				 var oPopover = that.getErrorMessage(oError);
 							  	 			 });
 											 }
-										 // }
 		},
 
 		 insertDetails:function(oSelected,dlvQnty,qnty,oData){
@@ -524,6 +527,7 @@ debugger;
 			 myData1.Quantity = parseInt(oData.results[0].Quantity) + parseInt(dlvQnty);
 			 myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 			 myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 myData1.Type = oSelected.mAggregations.cells[5].mProperties.text;
 			 myData1.Recid = oSelected.getBindingContext().getObject().Recid;
 			 var oId = oData.results[0].id;
 			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails('" + oId + "')",
@@ -541,6 +545,7 @@ debugger;
 					myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
 					myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 					myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					myData2.Type = oSelected.mAggregations.cells[5].mProperties.text;
 					// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
 					myData2.Customer = oSelected.getBindingContext().getObject().Customer;
 					myData2.Recid = oSelected.getBindingContext().getObject().Recid;
@@ -581,6 +586,7 @@ debugger;
 			 myData1.Quantity = dlvQnty;
 			 myData1.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 			 myData1.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+			 myData1.Type = oSelected.mAggregations.cells[5].mProperties.text;
 			 myData1.Recid = oSelected.getBindingContext().getObject().Recid;
 			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
 																 "POST", {}, myData1, this)
@@ -597,6 +603,7 @@ debugger;
 					myData2.Quantity = parseInt(qnty) - parseInt(dlvQnty);
 					myData2.Bhav = oSelected.mAggregations.cells[3].mProperties.text;
 					myData2.Advance = oSelected.mAggregations.cells[4].mProperties.text;
+					myData2.Type = oSelected.mAggregations.cells[5].mProperties.text;
 					// myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
 					myData2.Customer = oSelected.getBindingContext().getObject().Customer;
 					myData2.Recid = oSelected.getBindingContext().getObject().Recid;
@@ -639,6 +646,7 @@ debugger;
 			 myData.Quantity = sap.ui.getCore().byId("BookingDialog--idDialogQnty").getValue();
 			 myData.Bhav = sap.ui.getCore().byId("BookingDialog--idDialogBhav").getValue();
 			 myData.Advance = sap.ui.getCore().byId("BookingDialog--idDialogAdv").getValue();
+			 myData.Type = sap.ui.getCore().byId("BookingDialog--idDialogTyp").getValue();
 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
        myData.Customer = this.getView().byId("idTable").getSelectedItems()[0].getBindingContext().getObject().Customer;
        myData.Recid = this.getView().byId("idTable").getSelectedItems()[0].getBindingContext().getObject().Recid;
@@ -666,6 +674,8 @@ debugger;
 			 myData.Quantity = sap.ui.getCore().byId("BookingDialog--idDialogQnty").getValue();
 			 myData.Bhav = sap.ui.getCore().byId("BookingDialog--idDialogBhav").getValue();
 			 myData.Advance = sap.ui.getCore().byId("BookingDialog--idDialogAdv").getValue();
+			 myData.Type = sap.ui.getCore().byId("BookingDialog--idDialogTyp").getValue();
+
 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
        myData.Customer = this.getView().byId("idBookingDlvTable").getSelectedItems()[0].getBindingContext().getObject().Customer;
 			 myData.Recid = this.getView().byId("idBookingDlvTable").getSelectedItems()[0].getBindingContext().getObject().Recid;
@@ -771,13 +781,19 @@ debugger;
 		      delete myData.ToCustomers;
 		    }
 
+				debugger;
+				if (this.getView().byId("idRb1").getSelected()) {
+					myData.Type = "Silver";
+				} else if (this.getView().byId("idRb2").getSelected()) {
+					myData.Type = "Gold";
+				}
 				myData.BookingDate =  this.getView().byId("DateId").getDateValue();
 				myData.Quantity =  this.getView().byId("idQnty").getValue();
 				myData.Bhav =  this.getView().byId("idBhav").getValue();
-				myData.Advance =  this.getView().byId("idAdvance").getValue();
+				myData.Advance =  this.getView().byId("idAdvance").getValue();			
 
 				if(myData.Customer === "" || myData.BookingDate === "" || myData.Quantity === "" ||
-			     myData.Bhav === "" || myData.Advance ===""){
+			     myData.Bhav === "" || myData.Advance ==="" || myData.Type === ""){
 						sap.m.MessageToast.show("Please fill all fields");
 						that.getView().setBusy(false);
 					}else{
@@ -1053,6 +1069,7 @@ debugger;
 													 parseInt( oData.results[0].Quantity);
 				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Type = oDraggedItem.mAggregations.cells[5].mProperties.text;
 				if(oDraggedItem.getBindingContext().getObject().Recid != "null"){
 					myData1.Recid = oDraggedItem.getBindingContext().getObject().Recid;
 				}else{
@@ -1090,6 +1107,7 @@ debugger;
 				myData1.Quantity = oDraggedItem.mAggregations.cells[2].mProperties.text;
 				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Type = oDraggedItem.mAggregations.cells[5].mProperties.text;
 				if(oDraggedItem.getBindingContext().getObject().Recid != "null"){
 						myData1.Recid = oDraggedItem.getBindingContext().getObject().Recid;
 				}else{
@@ -1174,6 +1192,7 @@ debugger;
 				myData1.Quantity = oDraggedItem.mAggregations.cells[2].mProperties.text;
 				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Type = oDraggedItem.mAggregations.cells[5].mProperties.text;
 				myData1.Recid = oDraggedItem.getBindingContext().getObject().Recid;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
 																	"POST", {}, myData1, this)
@@ -1207,6 +1226,7 @@ debugger;
 													 parseInt( oData.results[0].Quantity);
 				myData1.Bhav = oDraggedItem.mAggregations.cells[3].mProperties.text;
 				myData1.Advance = oDraggedItem.mAggregations.cells[4].mProperties.text;
+				myData1.Type = oDraggedItem.mAggregations.cells[5].mProperties.text;
 				myData1.Recid = oDraggedItem.getBindingContext().getObject().Recid;
 				var oId = oData.results[0].id;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails('" + oId + "')",

@@ -4,7 +4,6 @@
 			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
 				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
 				<f:content>
-
           <Label text="{i18n>Date}"></Label>
           <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change="onPayDateChange"
             displayFormat="dd.MM.yyyy" value=""></DatePicker>
@@ -16,6 +15,8 @@
           <Input id="idDialogBhav" value=""></Input>
           <Label text="{i18n>advance}"></Label>
           <Input id="idDialogAdv" value=""></Input>
+					<Label text="{i18n>type}"></Label>
+					<Input id="idDialogTyp" value=""></Input>
 				</f:content>
 			</f:SimpleForm>
 		</content>

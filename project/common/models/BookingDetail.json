@@ -33,6 +33,11 @@
       "required": false,
       "default":0.00
     },
+    "Type":{
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
     "Recid": {
       "type": "string",
       "required": true,

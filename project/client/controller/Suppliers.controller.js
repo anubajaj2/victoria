@@ -34,7 +34,10 @@ sap.ui.define([
 						busy : true,
 						delay : 0
 					});
-
+					var oViewModel1 = new JSONModel({
+						"items":[{"text": "Silver"},{"text": "Gold"}]
+					});
+					this.setModel(oViewModel1, "fixed");
 					debugger;
 					BaseController.prototype.onInit.apply(this);
 
@@ -56,7 +59,45 @@ sap.ui.define([
       that.getView().getModel("local").setProperty("/BookingDetail/BookingDate", new Date());
       this.getView().byId("DateId").setDateValue(new Date());
 
+
+			var myData = this.getView().getModel("local").getProperty("/BookingDetail");
+			if (this.getView().byId("idRb1").getSelected()){
+				myData.Type = "Silver";
+			}else{
+				myData.Type = "Gold";
+			}
+			var oFilter2 = new sap.ui.model.Filter("Type","EQ", myData.Type);
+
+			this.getView().byId("idTable").getBinding("items").filter(oFilter2);
+			this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter2);
+
       },
+			onRadioButtonSelect:function(oEvent){
+				debugger;
+				var custid = this.getView().byId("idCustomerCode");
+				custid.setSelectedKey("");
+				custid.setValue("");
+				this.getView().byId("idCustName").setText("");
+				this.getView().byId("idQnty").setValue("");
+				this.getView().byId("idBhav").setValue("");
+				this.getView().byId("idAdvance").setValue("");
+				this.getView().byId("idBTQ").setText("");
+				this.getView().byId("idBAP").setText("");
+        this.getView().byId("idDTQ").setText("");
+				this.getView().byId("idDAP").setText("");
+
+				var myData = this.getView().getModel("local").getProperty("/BookingDetail");
+				if (this.getView().byId("idRb1").getSelected()){
+					myData.Type = "Silver";
+				}else{
+					myData.Type = "Gold";
+				}
+				var oFilter2 = new sap.ui.model.Filter("Type","EQ", myData.Type);
+
+				this.getView().byId("idTable").getBinding("items").filter(oFilter2);
+				this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter2);
+
+			},
       customerCodeCheck:function(oEvent){
 				$(function() {
 								$('input:text:first').focus();
@@ -71,7 +112,7 @@ sap.ui.define([
 										}
 								});
 						});
-debugger;
+
             var selectedItem = oEvent.getParameter("selectedItem");
 						if(!selectedItem){
 							return;
@@ -82,15 +123,85 @@ debugger;
 
 						var myData = this.getView().getModel("local").getProperty("/BookingDetail");
 						myData.Customer = oEvent.getParameter("selectedItem").getBindingContext().sPath.split("'")[1];
+            if (this.getView().byId("idRb1").getSelected()){
+							myData.Type = "Silver";
+						}else{
+							myData.Type = "Gold";
+						}
+						var oFilter1 = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+						var oFilter2 = new sap.ui.model.Filter("Type","EQ", myData.Type);
 
-						var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-						this.getView().byId("idTable").getBinding("items").filter(oFilter);
-						this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter);
+						var oFilter = new sap.ui.model.Filter(
+							{
+								filters: [oFilter1, oFilter2],
+								and : true
+							});
+						this.getView().byId("idTable").getBinding("items").filter([oFilter]);
+						this.getView().byId("idBookingDlvTable").getBinding("items").filter([oFilter]);
 
 						debugger;
 						jQuery.sap.delayedCall(500, this, function() {
 				        this.getView().byId("idQnty").focus();
 				    });
+						var that = this;
+						//Booked item
+				$.post("/getTotalBookingCustomer",{myData}).then(function(result){
+	 			 console.log(result);
+	 			 debugger;
+				 if (myData.Type = "Silver"){
+	 			 that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(3)));
+			 		}else{
+				 that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(2)));
+			 		}
+	 			 that.byId("idBTQ").getText();
+	 			 parseFloat(that.byId("idBTQ").getText());
+	 			 if(parseFloat(that.byId("idBTQ").getText())>0){
+	 				 that.byId("idBTQ").setState('Success');
+	 				 debugger;
+	 			 }else{
+	 				 that.byId("idBTQ").setState('Warning');
+	 			 }
+
+				 that.byId("idBAP").setText(parseFloat(result.BookedAvgPriceTotal.toFixed(0)));
+				// that.byId("idBAP").setText(parseFloat(result.BookedAvgPriceTotal));
+	 			 that.byId("idBAP").getText();
+	 		 		parseFloat(that.byId("idBAP").getText());
+	 			 if(parseFloat(that.byId("idBAP").getText())>0){
+	 				 that.byId("idBAP").setState('Success');
+	 				 debugger;
+	 			 }else{
+	 				 that.byId("idBAP").setState('Warning');
+				 }
+	 			 });
+				 //Delivered item
+        var that2 = that;
+				$.post("/getTotalDeliveredCustomer",{myData}).then(function(result){
+					console.log(result);
+					debugger;
+					if (myData.Type = "Silver"){
+				  that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(3)));
+				}else{
+					that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(2)));
+				}
+					that2.byId("idDTQ").getText();
+					//parseFloat(that.byId("idBTQ").getText());
+					if(parseFloat(that.byId("idDTQ").getText())>0){
+						that2.byId("idDTQ").setState('Success');
+						debugger;
+					}else{
+						that2.byId("idDTQ").setState('Warning');
+					}
+
+					that.byId("idDAP").setText(parseFloat(result.DeliveredAvgPriceTotal.toFixed(0)));
+					//that2.byId("idDAP").setText(parseFloat(result.DeliveredAvgPriceTotal));
+					that2.byId("idDAP").getText();
+					if(parseFloat(that.byId("idDAP").getText())>0){
+						that2.byId("idDAP").setState('Success');
+						debugger;
+					}else{
+						that2.byId("idDAP").setState('Warning');
+					}
+					});
 
 			},
 
@@ -103,9 +214,19 @@ debugger;
 				this.getView().byId("idQnty").setValue("");
 				this.getView().byId("idBhav").setValue("");
 				this.getView().byId("idAdvance").setValue("");
+				this.getView().byId("idRb1").setSelected(true);
+				this.getView().byId("idBTQ").setText("");
+				this.getView().byId("idBAP").setText("");
+        this.getView().byId("idDTQ").setText("");
+				this.getView().byId("idDAP").setText("");
+
 				this.getView().byId("DateId").setDateValue(new Date());
 
-				var oFilter = new sap.ui.model.Filter("Customer","NE", "null");
+				//var oFilter = new sap.ui.model.Filter("Customer","NE", "null");
+				//this.getView().byId("idTable").getBinding("items").filter(oFilter);
+				//this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter);
+
+				var oFilter = new sap.ui.model.Filter("Type","EQ", "Silver");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
 				this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter);
 
@@ -134,15 +255,15 @@ debugger;
 	 			 var cell0 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[0].mProperties.text;
 	 			 sap.ui.getCore().byId("BookingDialog--idDialogDate").setValue(cell0);
 	 			 var cell2 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[1].mProperties.text;
-	 			sap.ui.getCore().byId("BookingDialog--idDialogCust").setValue(cell2);
+	 		  	sap.ui.getCore().byId("BookingDialog--idDialogCust").setValue(cell2);
 	 			 var cell3 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[2].mProperties.text;
 	 			  sap.ui.getCore().byId("BookingDialog--idDialogQnty").setValue(cell3);
 	 			 var cell4 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[3].mProperties.text;
 	 			  sap.ui.getCore().byId("BookingDialog--idDialogBhav").setValue(cell4);
 	 			 var cell5 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[4].mProperties.text;
 	 			  sap.ui.getCore().byId("BookingDialog--idDialogAdv").setValue(cell5);
-					var cell6 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[5].mProperties.text;
-					sap.ui.getCore().byId("BookingDialog--idDialogTyp").setValue(cell6);
+				//	var cell6 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[5].mProperties.text;
+					//sap.ui.getCore().byId("BookingDialog--idDialogTyp").setSelectedKey(cell6);
 	 	 },
 		//  _getDialogDlv: function (oEvent) {
 		// 		 if(!this.oEditDlvDialog){
@@ -172,7 +293,6 @@ debugger;
 			 }
 
 			 debugger;
-
 
 				 var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
 				 var oSelectedItem = aSelectedItems[0];
@@ -646,9 +766,10 @@ debugger;
 			 myData.Quantity = sap.ui.getCore().byId("BookingDialog--idDialogQnty").getValue();
 			 myData.Bhav = sap.ui.getCore().byId("BookingDialog--idDialogBhav").getValue();
 			 myData.Advance = sap.ui.getCore().byId("BookingDialog--idDialogAdv").getValue();
-			 myData.Type = sap.ui.getCore().byId("BookingDialog--idDialogTyp").getValue();
+			// myData.Type = sap.ui.getCore().byId("BookingDialog--idDialogTyp").getSelectedKey();
 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
        myData.Customer = this.getView().byId("idTable").getSelectedItems()[0].getBindingContext().getObject().Customer;
+
        myData.Recid = this.getView().byId("idTable").getSelectedItems()[0].getBindingContext().getObject().Recid;
 			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails('" + id + "')",
 																 "PUT", {}, myData, this)
@@ -674,7 +795,6 @@ debugger;
 			 myData.Quantity = sap.ui.getCore().byId("BookingDialog--idDialogQnty").getValue();
 			 myData.Bhav = sap.ui.getCore().byId("BookingDialog--idDialogBhav").getValue();
 			 myData.Advance = sap.ui.getCore().byId("BookingDialog--idDialogAdv").getValue();
-			 myData.Type = sap.ui.getCore().byId("BookingDialog--idDialogTyp").getValue();
 
 			 // myData.Customer = sap.ui.getCore().byId("BookingDialog--idDialogCust").getValue();
        myData.Customer = this.getView().byId("idBookingDlvTable").getSelectedItems()[0].getBindingContext().getObject().Customer;
@@ -790,13 +910,21 @@ debugger;
 				myData.BookingDate =  this.getView().byId("DateId").getDateValue();
 				myData.Quantity =  this.getView().byId("idQnty").getValue();
 				myData.Bhav =  this.getView().byId("idBhav").getValue();
-				myData.Advance =  this.getView().byId("idAdvance").getValue();			
+				myData.Advance =  this.getView().byId("idAdvance").getValue();
 
 				if(myData.Customer === "" || myData.BookingDate === "" || myData.Quantity === "" ||
 			     myData.Bhav === "" || myData.Advance ==="" || myData.Type === ""){
 						sap.m.MessageToast.show("Please fill all fields");
 						that.getView().setBusy(false);
 					}else{
+						if (myData.Type === "Silver" && (myData.Bhav < "25000" || myData.Bhav > "90000"))
+						{ sap.m.MessageToast.show("Please enter Silver price between 25000 to 90000");
+						that.getView().setBusy(false);
+						}else if (myData.Type === "Gold" && (myData.Bhav < "25000" || myData.Bhav > "70000"))
+						{ sap.m.MessageToast.show("Please enter Gold price between 25000 to 70000");
+						that.getView().setBusy(false);
+					}else{
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/BookingDetails",
 																	"POST", {}, myData, this)
 				.then(function(oData) {
@@ -807,8 +935,7 @@ debugger;
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});
-			 }
-			},
+			}}},
 			onUpdateFinished: function(oEvent){
 				debugger;
 				var oTable = oEvent.getSource();
@@ -1250,9 +1377,43 @@ debugger;
 					var oPopover = that.getErrorMessage(oError);
 				});
 
+			},
+			onSubmit: function (evt) {
+					$(function() {
+									$('input:text:first').focus();
+									var $inp = $('input:text');
+									$inp.bind('keypress', function(e) {
+											//var key = (e.keyCode ? e.keyCode : e.charCode);
+											var key = e.which;
+											if (key == 13) {
+													e.preventDefault();
+													var nxtIdx = $inp.index(this) + 1;
+													$(":input:text:eq(" + nxtIdx + ")").focus();
+											}
+									});
+							});
+			},
+
+      decimalvalidator:function (oEvent) {
+				if (this.getView().byId("idRb1").getSelected()) {
+					this.decimalvalidator2(oEvent);
+				} else if (this.getView().byId("idRb2").getSelected()) {
+					this.decimalvalidator3(oEvent);
+				}
+			},
+			decimalvalidator3: function (oEvent) {
+							debugger;
+					var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
+	 				this.getView().byId("idQnty").setValue(dQty);
+			},
+			decimalvalidator2: function (oEvent) {
+							debugger;
+	 			  var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
+					this.getView().byId("idQnty").setValue(dQty);
+			},
+			customerCodeCheck1: function (oEvent) {
+
 			}
-
-
 		});
 
 	}

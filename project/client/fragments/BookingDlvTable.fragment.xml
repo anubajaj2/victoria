@@ -16,7 +16,7 @@
 						 descending: 'true'
 						 }
 					 }"
-		mode="SingleSelectMaster" growing="true"
+		mode="MultiSelect" growing="true"
 		growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
 		<headerToolbar>
 			<Toolbar>

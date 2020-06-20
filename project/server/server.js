@@ -4205,6 +4205,64 @@ app.post('/groupWiseEntryDownload', function(req, res) {
 					});
 				});
 			});
+
+			app.post('/getTotalBookingCustomer', function(req, res) {
+						debugger;
+						var customerId = req.body.myData.Customer;
+						var typeId = req.body.myData.Type;
+						var Booking = app.models.BookingDetail;
+						Booking.find({
+							where : {
+								"Customer": customerId,
+								"Type": typeId
+							}
+						}).then(function(records){
+							var tBQty = 0, tBPrice = 0, tBAvgPrice = 0, n = 0;
+							for (var i = 0; i < records.length; i++) {
+			                                tBQty = tBQty + records[i].Quantity;
+
+			                                tBPrice = tBPrice + ( records[i].Quantity * records[i].Bhav );
+
+							}
+							  tBAvgPrice = tBPrice/tBQty;
+
+							res.send({
+
+			                                "BookedQtyTotal": tBQty,
+			                                "BookedAvgPriceTotal": tBAvgPrice
+
+							});
+						});
+
+					});
+					app.post('/getTotalDeliveredCustomer', function(req, res) {
+						debugger;
+						var customerId = req.body.myData.Customer;
+						var typeId = req.body.myData.Type;
+						var Delivered = app.models.BookingDlvDetail;
+						Delivered.find({
+							where : {
+								"Customer": customerId,
+								"Type": typeId
+							}
+						}).then(function(records){
+							var tDQty = 0, tDPrice = 0, tDAvgPrice = 0, n = 0;
+							for (var i = 0; i < records.length; i++) {
+			                                tDQty = tDQty + records[i].Quantity;
+
+			                                tDPrice = tDPrice + ( records[i].Quantity * records[i].Bhav );
+							}
+                                      tDAvgPrice = tDPrice/tDQty;
+							res.send({
+
+			                                "DeliveredQtyTotal": tDQty,
+			                                "DeliveredAvgPriceTotal": tDAvgPrice
+
+							});
+						});
+
+					});
+
 		app.post('/getTotalEntryCustomer', function(req, res) {
 			debugger;
 			var customerId = req.body.Customer;

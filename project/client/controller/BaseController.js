@@ -1640,8 +1640,9 @@ sap.ui.define([
 							 var name = selectedCustomer.Name;
 							 var salesId = this.getView().byId("Sales--customerId");
 							 var entryId = this.getView().byId("idCust");
+							 var bookingId = this.getView().byId("idCustomerCode");
 							 var wsId =  this.getView().byId("WSHeaderFragment--customerId");
-							 if (!salesId & !entryId){
+							 if (!salesId & !entryId & !bookingId){
 								 this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
 								 this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 								 this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
@@ -1650,72 +1651,150 @@ sap.ui.define([
 										customerCode);
 								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
 										 name);
-							 }
-							 else if (!salesId & !wsId){
-								 this.getView().byId("idCust").setValue(customerCode);
-								 this.getView().byId("idCustText").setText(name);
-								 this.getView().getModel("local").setProperty("/EntryData/Customer",
-								 selectedCustomer.id);
-								this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
-							  customerCode);
-								var myData = this.getView().getModel("local").getProperty("/EntryData");
+							 }else if (!salesId & !entryId & !wsId){//booking
+								 this.getView().byId("idCustomerCode").setValue(customerCode);
+								 this.getView().byId("idCustName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+								 this.getView().getModel("local").setProperty("/BookingDetail/Customer",
+									 selectedCustomer.id);
+								 this.getView().getModel("local").setProperty("/BookingDetail/CustomerId",
+										customerCode);
+								 this.getView().getModel("local").setProperty("/BookingDetail/CustomerName",
+										 name);
+							 var myData = this.getView().getModel("local").getProperty("/BookingDetail");
 
-								this.getView().getModel("local").getProperty("/EntryData",myData);
-								var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-								this.getView().byId("idTable").getBinding("items").filter(oFilter);
-								this.customerId = selectedCustomer.id;
-								$.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
-									console.log(result);
-									debugger;
-									if(result.CashTotal === null){
-										that.byId("idTC").setText('0');
-								  }
-									else{
-											that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
+ 							 if (this.getView().byId("idRb1").getSelected()){
+ 										myData.Type = "Silver";
+ 							 }else{
+ 										myData.Type = "Gold";
+ 										}
+							 if ( myData.Customer === "" ) {
+
+  						var oFilter2 = new sap.ui.model.Filter("Type","EQ", myData.Type);
+ 									this.getView().byId("idTable").getBinding("items").filter(oFilter2);
+ 									this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter2);
+
+ 						   }else{
+ 						   var oFilter1 = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer.split("'") + "'");
+ 						   var oFilter2 = new sap.ui.model.Filter("Type","EQ", myData.Type);
+
+ 						   var oFilter = new sap.ui.model.Filter(
+ 									{	filters: [oFilter1, oFilter2],
+ 										and : true }
+ 									);
+ 						      this.getView().byId("idTable").getBinding("items").filter([oFilter]);
+ 						      this.getView().byId("idBookingDlvTable").getBinding("items").filter([oFilter]);
 									}
-									that.byId("idTC").getText();
-									parseFloat(that.byId("idTC").getText());
-									if(parseFloat(that.byId("idTC").getText())>0){
-										that.byId("idTC").setState('Success');
-										debugger;
-									}else{
-										that.byId("idTC").setState('Warning');
-									}
-									that.getView().byId("idG").setText(parseFloat(result.GoldTotal.toFixed(3)));
-									that.byId("idG").getText();
-								 parseFloat(that.byId("idG").getText());
-								 if(parseFloat(that.byId("idG").getText())>0){
-									 that.byId("idG").setState('Success');
-									 debugger;
-								 }else{
-									 that.byId("idG").setState('Warning');
-								 }
-									that.getView().byId("idS").setText(parseFloat(result.SilverTotal.toFixed(2)));
-									that.byId("idS").getText();
-									parseFloat(that.byId("idS").getText());
-									parseFloat(that.byId("idS").getText()).toFixed(3);
-								 // parseFloat(that.byId("idS").getText());
-								 // parseFloat(that.byId("idS").getText()).toFixed(3);
-								 // parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
-								 if(parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3))>0){
-									 that.byId("idS").setState('Success');
-									 debugger;
-								 }else{
-									 that.byId("idS").setState('Warning');
-								 }
-								});
+						   var that = this;
+						   					$.post("/getTotalBookingCustomer",{myData}).then(function(result){
+ 							 					console.log(result);
+ 												debugger;
+ 												if (myData.Type = "Silver"){
+ 												that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(3)));
+ 												}else{
+ 												that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(2)));
+ 												}
+ 												that.byId("idBTQ").getText();
+ 												parseFloat(that.byId("idBTQ").getText());
+ 												if(parseFloat(that.byId("idBTQ").getText())>0){
+ 												that.byId("idBTQ").setState('Success');
+ 												debugger;
+ 												}else{
+ 												that.byId("idBTQ").setState('Warning');
+ 												}
 
+ 												that.byId("idBAP").setText(parseFloat(result.BookedAvgPriceTotal.toFixed(0)));
+ 												that.byId("idBAP").getText();
+ 												parseFloat(that.byId("idBAP").getText());
+ 												if(parseFloat(that.byId("idBAP").getText())>0){
+ 												that.byId("idBAP").setState('Success');
+ 												debugger;
+ 												}else{
+ 												that.byId("idBAP").setState('Warning');
+ 												}
+ 												});
+							var that2 = that;
+						 						$.post("/getTotalDeliveredCustomer",{myData}).then(function(result){
+						 						console.log(result);
+						 						debugger;
+						 						if (myData.Type = "Silver"){
+						 						that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(3)));
+						 						}else{
+						 						that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(2)));
+						 						}
+						 						that2.byId("idDTQ").getText();
+						 						if(parseFloat(that.byId("idDTQ").getText())>0){
+						 						that2.byId("idDTQ").setState('Success');
+						 						debugger;
+						 						}else{
+						 						that2.byId("idDTQ").setState('Warning');
+						 						}
 
+						 						that2.byId("idDAP").setText(parseFloat(result.DeliveredAvgPriceTotal.toFixed(0)));
+						 						that2.byId("idDAP").getText();
+						 						if(parseFloat(that.byId("idDAP").getText())>0){
+						 						that2.byId("idDAP").setState('Success');
+						 						debugger;
+						 						}else{
+						 						that2.byId("idDAP").setState('Warning');
+						 						}
+						 						});
 							 }
-							 else {
+							else if (!salesId & !wsId & !bookingId){
+							this.getView().byId("idCust").setValue(customerCode);
+							this.getView().byId("idCustText").setText(name);
+							this.getView().getModel("local").setProperty("/EntryData/Customer",selectedCustomer.id);
+							this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",customerCode);
+							var myData = this.getView().getModel("local").getProperty("/EntryData");
+  						this.getView().getModel("local").getProperty("/EntryData",myData);
+							var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+							this.getView().byId("idTable").getBinding("items").filter(oFilter);
+							this.customerId = selectedCustomer.id;
+												$.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
+												console.log(result);
+												debugger;
+												if(result.CashTotal === null){
+												that.byId("idTC").setText('0');
+								  			}else{
+												that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
+												}
+												that.byId("idTC").getText();
+												parseFloat(that.byId("idTC").getText());
+												if(parseFloat(that.byId("idTC").getText())>0){
+													that.byId("idTC").setState('Success');
+													debugger;
+												}else{
+													that.byId("idTC").setState('Warning');
+												}
+												that.getView().byId("idG").setText(parseFloat(result.GoldTotal.toFixed(3)));
+												that.byId("idG").getText();
+								 				parseFloat(that.byId("idG").getText());
+								 			if(parseFloat(that.byId("idG").getText())>0){
+									 		that.byId("idG").setState('Success');
+									 		debugger;
+								 			}else{
+									 		that.byId("idG").setState('Warning');
+								 			}
+											that.getView().byId("idS").setText(parseFloat(result.SilverTotal.toFixed(2)));
+											that.byId("idS").getText();
+											parseFloat(that.byId("idS").getText());
+											parseFloat(that.byId("idS").getText()).toFixed(3);
+								 			// parseFloat(that.byId("idS").getText());
+								 			// parseFloat(that.byId("idS").getText()).toFixed(3);
+								 			// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+								 			if(parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3))>0){
+									 		that.byId("idS").setState('Success');
+									 		debugger;
+								 			}else{
+									 		that.byId("idS").setState('Warning');
+								 			}
+									});
+							 }else{
 								 this.getView().byId("Sales--customerId").setValue(customerCode);
 								 this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
-								 this.getView().getModel("local").setProperty("/orderHeader/Customer",
-									 selectedCustomer.id);
-								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
-										customerCode);
-							 }
-						 },
+								 this.getView().getModel("local").setProperty("/orderHeader/Customer",selectedCustomer.id);
+								 this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",customerCode);
+							   }
+						   },
 
 							onMaterialSelect: function(oEvent) {
 								debugger;

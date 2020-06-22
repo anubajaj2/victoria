@@ -43,7 +43,7 @@
 
 							<m:Input id="idCustomerCode" submit="customerCodeCheck1" suggest="ValueChangeCustomer"
 								suggestionItems="{/Customers}" showSuggestion="true"
-								enabled="{viewModel>/codeEnabled}"
+								enabled="{viewModel>/codeEnabled}" 
 								suggestionItemSelected="customerCodeCheck">
 								<m:suggestionItems>
 									<core:ListItem text="{CustomerCode}"/>

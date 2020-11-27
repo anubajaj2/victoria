@@ -64,6 +64,11 @@
       "type":"hasMany",
       "model":"stockMaint",
       "foreignKey":"Material"
+    },
+    "ToMaterial":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Material"
     }
   },
   "acls": [

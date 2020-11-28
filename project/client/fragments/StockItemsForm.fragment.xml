@@ -31,7 +31,7 @@
                 <f:fields>
                   <Input id="idOrderNo"
                   value="{path: 'local>/StockItemsData/Order'}" showValueHelp="true"
-                  valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+                  valueHelpRequest="valueHelpOrder" valueHelpOnly="false"/>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>material}">

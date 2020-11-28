@@ -5,7 +5,7 @@
     items="{
            path: '/StockItems',
              sorter: {
-             path: 'Date',
+             path: 'ChangedOn',
              descending: 'true'
              }
            }"
@@ -15,8 +15,11 @@
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
-        <Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
-				<Button id="idDownlaod" icon="sap-icon://download" press="onExportPdf"></Button>
+				<Button id="idDailyReport" text = "Daily Report" icon="sap-icon://download" press="onDailyReport"></Button>
+				<Button id="idItemsReport" text = "Items Report" icon="sap-icon://download" press="onItemsReport"></Button>
+				<Button id="idStockReport" text = "Stock Report" icon="sap-icon://download" press="onStockReport"></Button>
+				<!-- <Button id="idDownload" text = "Stock Report" icon="sap-icon://download" press="onExportPdf"></Button> -->
+				<Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>
     </headerToolbar>
 		<columns>

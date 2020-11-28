@@ -232,7 +232,30 @@ function (BaseController,
 			});
 
 		},
-
+		onPressEntryDownload: function() {
+			// var test = this.getView().getModel("customerModel");
+			var reportType = "Entry";
+			var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
+			var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
+			var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+			$.post("/entryDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+		{
+			debugger;
+			MessageToast.show("Data downloaded successfully");
+		},function(oError){debugger;
+			MessageToast.show("Data could not be downloaded");
+		});
+		},
+		// onSort : function(oEvent){
+		// 	var aSorter = [];
+		// 	aSorter.push(new sap.ui.model.Sorter("Date", true, false, function(value1, value2) {
+	  //   if (new Date(value1) < new Date(value2)) return -1;
+	  //   if (new Date(value1) == new Date(value2)) return 0;
+	  //   if (new Date(value1) > new Date(value2)) return 1;
+		// }));
+		// 	var oBinding = this.getView().byId("idTable").getBinding("items");
+		// 	oBinding.sort(aSorter);
+		// },
     onRadioButtonSelect: function (oEvent) {
       debugger;
 
@@ -275,7 +298,7 @@ function (BaseController,
 		 $.post("/getTotalEntryCustomer",{Customer: myData.Customer}).then(function(result){
 			 console.log(result);
 			 debugger;
-			 that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
+			 that.byId("idTC").setText(parseFloat(result.CashTotal).toFixed(2));
 			 that.byId("idTC").getText();
 			 parseFloat(that.byId("idTC").getText());
 			 if(parseFloat(that.byId("idTC").getText())>0){
@@ -352,13 +375,13 @@ function (BaseController,
 			 var y=this.getView().byId("idCash").getValue();
 			 var y1=parseFloat(this.byId("idCash").getValue());
 			 var z = x1+y1;
-			 z.toFixed(0);
- 			parseFloat(z.toFixed(0));
-			 this.byId("idTC").setText(parseFloat(z.toFixed(0)));
+			 z.toFixed(2);
+ 			parseFloat(z.toFixed(2));
+			 this.byId("idTC").setText(parseFloat(z.toFixed(2)));
 			 var z1 = this.byId("idTC").getText();
-			 parseFloat(this.byId("idTC").getText()).toFixed(0);
+			 parseFloat(this.byId("idTC").getText()).toFixed(2);
 			debugger;
-			if(parseFloat(parseFloat(this.byId("idTC").getText()).toFixed(0))>0){
+			if(parseFloat(parseFloat(this.byId("idTC").getText()).toFixed(2))>0){
 				that.byId("idTC").setState('Success');
 				debugger;
 			}else{
@@ -437,9 +460,9 @@ function (BaseController,
 							var CA = that.byId("idTC").getText();
 							var CA1 = parseFloat(CA);
 							var TCA = CA1 - nCash;
-							TCA.toFixed(0);
-							parseFloat(TCA.toFixed(0));
-							that.byId("idTC").setText(parseFloat(TCA.toFixed(0)));
+							TCA.toFixed(2);
+							parseFloat(TCA.toFixed(2));
+							that.byId("idTC").setText(parseFloat(TCA.toFixed(2)));
 							// that.byId("idTC").setText(TCA);
 							that.byId("idTC").getText();
 							parseFloat(that.byId("idTC").getText());
@@ -679,9 +702,9 @@ function (BaseController,
 	 	 var cash11 = nCash-parseFloat(this.getView().byId("idTable").getSelectedItem().getCells()[4].getText())
 	 	 var cash12 = cash11 + TGC1;
 	 	var z = cash12;
-		z.toFixed(0);
-		parseFloat(z.toFixed(0));
-		this.byId("idTC").setText(parseFloat(z.toFixed(0)));
+		z.toFixed(2);
+		parseFloat(z.toFixed(2));
+		this.byId("idTC").setText(parseFloat(z.toFixed(2)));
 		 // this.byId("idTC").setText(z);
 		 var z1 = this.byId("idTC").getText();
 		 parseFloat(z1);

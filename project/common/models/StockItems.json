@@ -53,20 +53,14 @@
   "scope":{
 
   },
+  "mixins": {
+    "Aggregate": true
+  },
   "validations": [],
   "relations": {
-    "ToOrderHeader":{
-      "type":"belongsTo",
-      "model":"OrderHeader",
-      "foreignKey":"OrderNo"
-    },
-    "ToStock":{
-      "type":"hasMany",
-      "model":"stockMaint",
-      "foreignKey":"Material"
-    },
     "ToMaterial":{
-      "type":"belongsTo",
+      "type"
+      :"belongsTo",
       "model":"Product",
       "foreignKey":"Material"
     }

@@ -1,11 +1,11 @@
 <core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
   <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
-	<Table id="idTable" 
+	<Table id="idTable"
     items="{
            path: '/Entrys',
              sorter: {
-             path: 'Date',
+             path: 'ChangedOn',
              descending: 'true'
              }
            }"
@@ -15,6 +15,7 @@
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
+				<Button id = "idEntryDownload" icon="sap-icon://download" press = "onPressEntryDownload" enabled="false"/>
         <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
         <Button icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>

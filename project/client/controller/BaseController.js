@@ -1616,7 +1616,6 @@ sap.ui.define([
 							},
 
 							getCustomer:function(oEvent){
-								debugger;
 								var that = this;
 								var oSource = oEvent.getSource();
 								if(oEvent.getParameter("value")){
@@ -1643,6 +1642,7 @@ sap.ui.define([
 							 var bookingId = this.getView().byId("idCustomerCode");
 							 var wsId =  this.getView().byId("WSHeaderFragment--customerId");
 							 if (!salesId & !entryId & !bookingId){
+								 this.getView().byId()
 								 this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
 								 this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 								 this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
@@ -1742,10 +1742,13 @@ sap.ui.define([
 							else if (!salesId & !wsId & !bookingId){
 							this.getView().byId("idCust").setValue(customerCode);
 							this.getView().byId("idCustText").setText(name);
+							this.getView().byId("idEntryDownload").setEnabled(true);
 							this.getView().getModel("local").setProperty("/EntryData/Customer",selectedCustomer.id);
+							this.getView().getModel("local").setProperty("/EntryData/CustomerCity",cityId);
 							this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",customerCode);
+							this.getView().getModel("local").setProperty("/EntryData/customerName",name);
 							var myData = this.getView().getModel("local").getProperty("/EntryData");
-  						this.getView().getModel("local").getProperty("/EntryData",myData);
+  						// this.getView().getModel("local").getProperty("/EntryData",myData);
 							var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
 							this.getView().byId("idTable").getBinding("items").filter(oFilter);
 							this.customerId = selectedCustomer.id;
@@ -1755,7 +1758,7 @@ sap.ui.define([
 												if(result.CashTotal === null){
 												that.byId("idTC").setText('0');
 								  			}else{
-												that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(0)));
+												that.byId("idTC").setText(parseFloat(result.CashTotal.toFixed(2)));
 												}
 												that.byId("idTC").getText();
 												parseFloat(that.byId("idTC").getText());

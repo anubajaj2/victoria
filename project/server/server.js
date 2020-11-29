@@ -2394,6 +2394,7 @@ app.start = function() {
 								console.log(JSON.stringify(items2));
 								//to do - call products by merging item and item 2
 								//to do - prepare excel response
+								//to do - substract the total 
 								//to do - send to frontend
 
 								console.log("dono ke baad");

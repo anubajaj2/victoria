@@ -315,7 +315,14 @@ sap.ui.define(
 				that.Qtty = 0;
 			},
 			onItemsReport : function(){
-				window.open("/ItemsReport");
+				//window.open("/ItemsReport");
+				$.get('/ItemsReport')
+			    .done(function(data, status){
+								sap.m.MessageBox.error("Done");
+					})
+			    .fail(function(xhr, status, error) {
+								sap.m.MessageBox.error("Error in upload");
+			    });
 			},
 			onDailyReport : function(){
 				window.open("/DailyReport");

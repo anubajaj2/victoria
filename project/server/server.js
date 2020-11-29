@@ -2353,70 +2353,123 @@ app.start = function() {
 			);
 		})
 		// code added by Yogendra
-		app.get('/ItemsReport', function(req, res) {
+		var async = require('async');
+		app.get('/ItemsReport', async function(req, res) {
 			var stockItemsMap = new Map();
 			// var Products = app.models.Product;
-			app.models.StockItem.find({
-				where: {
-					Date: {
-						lt: new Date()
-					}
-				}
-			}).then(function(stockItems, err) {
-				// calculating  quantity
-				for (item of stockItems) {
-					if (stockItemsMap.has(item.Material.toString())) {
-						stockItemsMap.get(item.Material.toString()).Quantity = parseInt(stockItemsMap.get(item.Material.toString()).Quantity) + parseInt(item.Qty);
-					} else {
-						stockItemsMap.set(item.Material.toString(), {
-							Quantity: parseInt(item.Qty)
+			var StockItem = app.models.StockItem;
+			var collection = StockItem.getDataSource().connector.collection(StockItem.modelName);
+
+			  //var author = StockItem.getDataSource().ObjectID(authorId);
+				var items = [];
+				var items2 = [];
+				var d = new Date();
+				d.setUTCHours(0,0,0,0);
+			  await collection.aggregate([
+					{ $match: { Date: {$gte: d} } },
+			    { $group: {
+			      _id: '$Material',
+			     total: { $sum: "$Qty" }
+			    }}
+			  ], function(err, data) {
+			    if (err) return callback(err);
+					data.on('data', function(data) {
+						items.push( data );
+					});
+
+					data.on('end', function() {
+						console.log(JSON.stringify(items));
+						collection.aggregate([
+							{ $group: {
+								_id: '$Material',
+							 total: { $sum: "$Qty" }
+							}}
+						], function(err, data) {
+							if (err) return callback(err);
+							var items = [];
+							data.on('data', function(data) {
+								items2.push( data );
+							});
+							data.on('end', function() {
+								console.log(JSON.stringify(items2));
+								//to do - call products by merging item and item 2
+								//to do - prepare excel response
+								//to do - send to frontend
+
+								console.log("dono ke baad");
+							});
 						});
-					}
-				}
-				debugger;
-				app.models.Product.find({
-					where: {
-						id: {
-							inq: Array.from(stockItemsMap.keys())
-						}
-					}
-				}).then(function(products, err) {
-					// combining data product,stockItems
-					for (item of products) {
-						var qty = stockItemsMap.get(item.id.toString()).Quantity;
-						stockItemsMap.set(item.id.toString(), {
-							Quantity: qty,
-							Name: item.ProductCode,
-							Code: item.ProductName,
-							Karat: item.Karat
-						})
-					}
-					// collection of json obj total quantity item wise,
-					var stockItemReport = Array.from(stockItemsMap.values());
-					debugger;
-					// collecion for whole stock table report
-					var stockReportCollection = [
-						["Date", "OrderNo", "Material Code", "Material Name", "Quantity", "Weight", "Remarks"]
-					];
-					for (item of stockItems) {
-						stockReportCollection.push([
-							item.Date,
-							item.OrderNo,
-							stockItemsMap.get(item.Material.toString()).Code,
-							stockItemsMap.get(item.Material.toString()).Name,
-							item.Quantity,
-							item.Weight,
-							item.Remarks
-						]);
-						// excel for stock table
-						// var buffer = xlsx.build([{
-						// 	name: "victoria",
-						// 	data: stockReportCollection
-						// }]);
-						// return res.status(200).type("application/vnd.ms-excel").send(buffer);
-					}
-				});
-			});
+					});
+			  });
+
+
+
+
+			//anubhav start comment
+			// app.models.StockItem.find({
+			// 	where: {
+			// 		Date: {
+			// 			lt: new Date()
+			// 		}
+			// 	}
+			// }).then(function(stockItems, err) {
+			// 	// calculating  quantity
+			// 	for (item of stockItems) {
+			// 		if (stockItemsMap.has(item.Material.toString())) {
+			// 			stockItemsMap.get(item.Material.toString()).Quantity = parseInt(stockItemsMap.get(item.Material.toString()).Quantity) + parseInt(item.Qty);
+			// 		} else {
+			// 			stockItemsMap.set(item.Material.toString(), {
+			// 				Quantity: parseInt(item.Qty)
+			// 			});
+			// 		}
+			// 	}
+			// 	debugger;
+			// 	app.models.Product.find({
+			// 		where: {
+			// 			id: {
+			// 				inq: Array.from(stockItemsMap.keys())
+			// 			}
+			// 		}
+			// 	}).then(function(products, err) {
+			// 		// combining data product,stockItems
+			// 		for (item of products) {
+			// 			var qty = stockItemsMap.get(item.id.toString()).Quantity;
+			// 			stockItemsMap.set(item.id.toString(), {
+			// 				Quantity: qty,
+			// 				Name: item.ProductCode,
+			// 				Code: item.ProductName,
+			// 				Karat: item.Karat
+			// 			})
+			// 		}
+			// 		// collection of json obj total quantity item wise,
+			// 		var stockItemReport = Array.from(stockItemsMap.values());
+			// 		debugger;
+			// 		// collecion for whole stock table report
+			// 		var stockReportCollection = [
+			// 			["Date", "OrderNo", "Material Code", "Material Name", "Quantity", "Weight", "Remarks"]
+			// 		];
+			// 		for (item of stockItems) {
+			// 			stockReportCollection.push([
+			// 				item.Date,
+			// 				item.OrderNo,
+			// 				stockItemsMap.get(item.Material.toString()).Code,
+			// 				stockItemsMap.get(item.Material.toString()).Name,
+			// 				item.Quantity,
+			// 				item.Weight,
+			// 				item.Remarks
+			// 			]);
+			// 			// excel for stock table
+			// 			// var buffer = xlsx.build([{
+			// 			// 	name: "victoria",
+			// 			// 	data: stockReportCollection
+			// 			// }]);
+			// 			// return res.status(200).type("application/vnd.ms-excel").send(buffer);
+			// 		}
+			// 	});
+			// });
+			//anubhav end comment
+
+
 			// app.models.StockItem.aggregate({
 			// 	aggregate: [{
 			// 		$group: {

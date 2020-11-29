@@ -6,7 +6,7 @@ var fileUpload = require('express-fileupload');
 var fs = require('fs');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
-var xlsx = require('node-xlsx');
+// var xlsx = require('node-xlsx');
 var express = require('express');
 var fs = require('fs');
 var app = express();
@@ -2409,11 +2409,11 @@ app.start = function() {
 							item.Remarks
 						]);
 						// excel for stock table
-						var buffer = xlsx.build([{
-							name: "victoria",
-							data: stockReportCollection
-						}]);
-						return res.status(200).type("application/vnd.ms-excel").send(buffer);
+						// var buffer = xlsx.build([{
+						// 	name: "victoria",
+						// 	data: stockReportCollection
+						// }]);
+						// return res.status(200).type("application/vnd.ms-excel").send(buffer);
 					}
 				});
 			});

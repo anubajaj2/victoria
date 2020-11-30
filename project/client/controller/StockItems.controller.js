@@ -236,6 +236,7 @@ sap.ui.define(
 						console.log(MaterialData)
 						that.getView().byId("idQ").setText(parseFloat(iQuantity.toFixed(0)));
 						that.getView().byId("idW").setText(parseFloat(iWeight.toFixed(3)));
+						that.getView().byId("idQuantity").focus();
 						var updatedItems = items.map((i) => {
 							i.MaterialName = selectedMatData.ProductCode;
 							return i;
@@ -498,6 +499,7 @@ sap.ui.define(
 						//this.refreshModel();
 
 					}).catch(function(oError) {});
+					this.getView().byId("idQuantity").focus();
 			},
 			refreshModel: function(oEvent) {
 				var oFilter = [];
@@ -643,6 +645,7 @@ sap.ui.define(
 											that.getView().byId("matName").setText("");
 											that.getView().getModel("local").setProperty("/StockItemsData/Order", "");
 											that.getView().getModel("local").setProperty("/StockItemsData/OrderNo", "");
+											that.getView().byId("idOrderNo").focus();
 										}
 									}).catch(function(oError) {
 										that.getView().setBusy(false);
@@ -821,6 +824,18 @@ sap.ui.define(
 
 					}
 				}
+			},
+			onSubmitQuantity : function(oEvent){
+				this.getView().byId("idWeight").focus();
+			},
+			onSubmitWeight : function(oEvent){
+				this.getView().byId("idRemarks").focus();
+			},
+			onSubmitRemarks : function(oEvent){
+				this.getView().byId("idSend").focus();
+			},
+			onSubmitOrderNo : function(oEvent){
+				this.getView().byId("idMatCode").focus();
 			}
 		});
 	});

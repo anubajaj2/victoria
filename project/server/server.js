@@ -2411,7 +2411,6 @@ app.start = function() {
 										// console.log(JSON.stringify(aItemsToday));
 										// console.log(productIds);
 										// debugger;
-										var itemsReportCollection = []
 										app.models.Product.find({
 											where: {
 												id: {
@@ -2420,24 +2419,54 @@ app.start = function() {
 											}
 										}).then(function(products, err) {
 											// combining data product,stockItems
-											itemsReportCollection.push(["Item Code" , "Name" , "Stock Till Yday" , "Today (+-)" , "Balance", "Karat"])
+											var itemsReportCollection22 = [];
+											itemsReportCollection22.push(["Item Code" , "Name" , "Stock Till Yday" , "Today (+-)" , "Balance"]);
+											var itemsReportCollection20 = [];
+											itemsReportCollection20.push(["Item Code" , "Name" , "Stock Till Yday" , "Today (+-)" , "Balance"]);
+											var itemsReportCollection = [];
+											itemsReportCollection.push(["Item Code" , "Name" , "Stock Till Yday" , "Today (+-)" , "Balance"]);
 											for (item of products) {
 												var qty1 = items2[item.id.toString()] ? items2[item.id.toString()] : 0;
 												var qty2 = aItemsToday[item.id.toString()] ? aItemsToday[item.id.toString()] : 0;
-												itemsReportCollection.push([
-													item.ProductCode,
-													item.HindiName,
-													qty1,
-													qty2,
-													qty1 + qty2,
-													item.Karat
-												]);
+												if(item.Karat==="22/22"){
+													itemsReportCollection22.push([
+														item.ProductCode,
+														item.HindiName,
+														qty1,
+														qty2,
+														qty1 + qty2
+													]);
+												}else if(item.Karat==="22/20"){
+													itemsReportCollection20.push([
+														item.ProductCode,
+														item.HindiName,
+														qty1,
+														qty2,
+														qty1 + qty2
+													]);
+												}
+												else{
+													itemsReportCollection.push([
+														item.ProductCode,
+														item.HindiName,
+														qty1,
+														qty2,
+														qty1 + qty2
+													]);
+												}
 											}
 											// console.log(itemsReportCollection);
+											const options = {'!cols': [{ wch: 12 }, { wch: 22 } ]};
  											var buffer = xlsx.build([{
- 												name: "victoria",
+ 												name: "22-20",
+ 												data: itemsReportCollection20
+ 											},{
+ 												name: "22-22",
+ 												data: itemsReportCollection22
+ 											},{
+ 												name: "##-##",
  												data: itemsReportCollection
- 											}]);
+ 											}],options);
  											return res.status(200).type("application/vnd.ms-excel").send(buffer);
 										});
 											//items - total for today items2 - total till today
@@ -2541,10 +2570,11 @@ app.start = function() {
 										]);
 										// excel for stock table
 									}
+									const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 }]};
 									var buffer = xlsx.build([{
-										name: "victoria",
+										name: "StockReport",
 										data: stockReportCollection
-									}]);
+									}],options);
 									return res.status(200).type("application/vnd.ms-excel").send(buffer);
 								});
 							});
@@ -2599,10 +2629,11 @@ app.start = function() {
 										]);
 										// excel for stock table
 									}
+									const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 }]};
 									var buffer = xlsx.build([{
-										name: "victoria",
+										name: "StockReport",
 										data: stockReportCollection
-									}]);
+									}],options);
 									return res.status(200).type("application/vnd.ms-excel").send(buffer);
 								});
 							});

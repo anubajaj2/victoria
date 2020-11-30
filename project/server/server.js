@@ -2361,47 +2361,53 @@ app.start = function() {
 			var collection = StockItem.getDataSource().connector.collection(StockItem.modelName);
 
 			  //Anubhav code Start
-				// var items = [];
-				// var items2 = [];
-				// var d = new Date();
-				// d.setUTCHours(0,0,0,0);
-			  // await collection.aggregate([
-				// 	{ $match: { Date: {$gte: d} } },
-			  //   { $group: {
-			  //     _id: '$Material',
-			  //    total: { $sum: "$Qty" }
-			  //   }}
-			  // ], function(err, data) {
-			  //   if (err) return callback(err);
-				// 	data.on('data', function(data) {
-				// 		items.push( data );
-				// 	});
-				//
-				// 	data.on('end', function() {
-				// 		console.log(JSON.stringify(items));
-				// 		collection.aggregate([
-				// 			{ $group: {
-				// 				_id: '$Material',
-				// 			 total: { $sum: "$Qty" }
-				// 			}}
-				// 		], function(err, data) {
-				// 			if (err) return callback(err);
-				// 			var items = [];
-				// 			data.on('data', function(data) {
-				// 				items2.push( data );
-				// 			});
-				// 			data.on('end', function() {
-				// 				console.log(JSON.stringify(items2));
-				// 				//to do - call products by merging item and item 2
-				// 				//to do - prepare excel response
-				// 				//to do - substract the total
-				// 				//to do - send to frontend
-				//
-				// 				console.log("dono ke baad");
-				// 			});
-				// 		});
-				// 	});
-			  // });
+				var items = [];
+				var items2 = [];
+				var d = new Date();
+				d.setUTCHours(0,0,0,0);
+        //TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
+			  await collection.aggregate([
+					{ $match: { Date: {$gte: d} } },
+			    { $group: {
+			      _id: '$Material',
+			     total: { $sum: "$Qty" }
+			    }}
+			  ], function(err, data) {
+			    if (err) return callback(err);
+					data.on('data', function(data) {
+						items.push( data );
+					});
+
+					data.on('end', function() {
+						console.log(JSON.stringify(items));
+            var aItemsToday = items;
+            //TILL TODAY TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
+						collection.aggregate([
+							{ $group: {
+								_id: '$Material',
+							 total: { $sum: "$Qty" }
+							}}
+						], function(err, data) {
+							if (err) return callback(err);
+							var items = [];
+							data.on('data', function(data) {
+								items2.push( data );
+							});
+							data.on('end', function() {
+								console.log(JSON.stringify(items2));
+                console.log(JSON.stringify(aItemsToday));
+
+                //items - total for today items2 - total till today
+								//to do - call products by merging item and item 2
+								//to do - prepare excel response
+								//to do - substract the total
+								//to do - send to frontend
+
+								console.log("dono ke baad");
+							});
+						});
+					});
+			  });
 				//End of Anubhav Code
 
 

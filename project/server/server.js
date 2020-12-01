@@ -2478,48 +2478,6 @@ app.start = function() {
 									});
 								});
 							});
-							//End of Anubhav Code
-
-
-
-							//anubhav start comment
-
-							//anubhav end comment
-
-
-							// app.models.StockItem.aggregate({
-							// 	aggregate: [{
-							// 		$group: {
-							// 			_id: '$Material',
-							// 			total: {
-							// 				$sum: "$Qty"
-							// 			},
-							// 		},
-							// 	}],
-							// }, {
-							// 	build: false
-							// }, (err, groups) => {
-							// 	debugger;
-							// 	if (err) return done(err);
-							// 	// Each group should be a plain object with just 'id' and 'total' attributes
-							// });
-							// StockItems.aggregate([{
-							// 		$match: {
-							// 			Date: {lt:dateObj}
-							// 		}
-							// 	},
-							// 	{
-							// 		$group: {
-							// 			_id: "$Material",
-							// 			total: {
-							// 				$sum: "$price"
-							// 			}
-							// 		}
-							// 	}
-							// ], function(err, data) {
-							// 	// if (err) return callback(err);
-							// 	// return callback(null, data);
-							// });
 						});
 						app.get('/StockReport', function(req, res){
 							var stockItemsSet = new Set();
@@ -2558,21 +2516,58 @@ app.start = function() {
 									// debugger;
 									// collecion for whole stock table report
 									var stockReportCollection = [
-										["Date" , "Item Code" , "Name" , "Order No" , "Quantity" ]
+										["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn"  ]
+									];
+									var stockReportCollection22 = [
+										["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn"  ]
+									];
+									var stockReportCollection20 = [
+										["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn"  ]
 									];
 									for (item of stockItems) {
-										stockReportCollection.push([
-											item.Date.toDateString().slice(4),
-											productsMap.get(item.Material.toString()).Code,
-											productsMap.get(item.Material.toString()).HindiName,
-											item.OrderNo,
-											item.Qty
-										]);
-										// excel for stock table
+										var date = (item.Date.getDate()<9 ? "0"+item.Date.getDate():item.Date.getDate())+"."+(item.Date.getMonth()+1)+"."+item.Date.getFullYear();
+										var createdOn = (item.CreatedOn.getDate()<9 ? "0"+item.CreatedOn.getDate():item.CreatedOn.getDate())+"."+(item.CreatedOn.getMonth()+1)+"."+item.CreatedOn.getFullYear();
+										if(productsMap.get(item.Material.toString()).Karat==="22/22"){
+											stockReportCollection22.push([
+												date,
+												productsMap.get(item.Material.toString()).Code,
+												productsMap.get(item.Material.toString()).HindiName,
+												item.OrderNo,
+												item.Qty,
+												item.CreatedBy,
+												createdOn
+											]);
+										}else if(productsMap.get(item.Material.toString()).Karat==="22/20"){
+											stockReportCollection20.push([
+												date,
+												productsMap.get(item.Material.toString()).Code,
+												productsMap.get(item.Material.toString()).HindiName,
+												item.OrderNo,
+												item.Qty,
+												item.CreatedBy,
+												createdOn
+											]);
+										}else{
+											stockReportCollection.push([
+												date,
+												productsMap.get(item.Material.toString()).Code,
+												productsMap.get(item.Material.toString()).HindiName,
+												item.OrderNo,
+												item.Qty,
+												item.CreatedBy,
+												createdOn
+											]);
+										}
 									}
-									const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 }]};
+									const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 },{},{}, { wch: 22 }, { wch: 12 }]};
 									var buffer = xlsx.build([{
-										name: "StockReport",
+										name: "22-22",
+										data: stockReportCollection22
+									},{
+										name: "22-20",
+										data: stockReportCollection20
+									},{
+										name: "##-##",
 										data: stockReportCollection
 									}],options);
 									return res.status(200).type("application/vnd.ms-excel").send(buffer);
@@ -2580,62 +2575,117 @@ app.start = function() {
 							});
 						});
 						app.get('/DailyReport', function(req, res){
+							var dDateStart = new Date(req.query.date);
+							dDateStart.setHours(0, 0, 0, 1);
+							var dDateEnd = new Date(dDateStart);
+							dDateEnd.setHours(23, 59, 59, 59);
 							var stockItemsSet = new Set();
+							var usersSet = new Set();
 							var productsMap = new Map();
 							var dateObj = new Date()
 							app.models.StockItem.find({
 								where: {
 									Date: {
-										gt : dateObj.setDate(dateObj.getDate()-1)
+										between : [dDateStart,dDateEnd]
 									}
 								}
 							}).then(function(stockItems, err) {
 								// calculating  quantity
 								for (item of stockItems) {
 									stockItemsSet.add(item.Material.toString());
+									usersSet.add(item.CreatedBy.toString());
 								}
-								// debugger;
-								app.models.Product.find({
-									where: {
-										id: {
-											inq: Array.from(stockItemsSet)
+								app.models.AppUser.find({
+									where : {
+										TechnicalId : {
+											inq : Array.from(usersSet)
 										}
 									}
-								}).then(function(products, err) {
-									// combining data product,stockItems
-									for (item of products) {
-										// var qty = stockItemsMap.get(item.id.toString()).Quantity;
-										productsMap.set(item.id.toString(), {
-											// Quantity: qty,
-											Code: item.ProductCode,
-											HindiName: item.HindiName,
-											Karat: item.Karat
-										})
+								}).then(function(appusers,err){
+									var users = []
+									for(user of appusers){
+										users[user.id.toString()] = user.UserName;
 									}
-									// collection of json obj total quantity item wise,
-									// var stockItemReport = Array.from(stockItemsMap.values());
-									// debugger;
-									// collecion for whole stock table report
-									var stockReportCollection = [
-										["Date" , "Item Code" , "Name" , "Order No" , "Quantity" ]
-									];
-									for (item of stockItems) {
-										stockReportCollection.push([
-											item.Date.toDateString().slice(4),
-											productsMap.get(item.Material.toString()).Code,
-											productsMap.get(item.Material.toString()).HindiName,
-											item.OrderNo,
-											item.Qty
-										]);
-										// excel for stock table
-									}
-									const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 }]};
-									var buffer = xlsx.build([{
-										name: "StockReport",
-										data: stockReportCollection
-									}],options);
-									return res.status(200).type("application/vnd.ms-excel").send(buffer);
+									app.models.Product.find({
+										where: {
+											id: {
+												inq: Array.from(stockItemsSet)
+											}
+										}
+									}).then(function(products, err) {
+										// combining data product,stockItems
+										for (item of products) {
+											// var qty = stockItemsMap.get(item.id.toString()).Quantity;
+											productsMap.set(item.id.toString(), {
+												// Quantity: qty,
+												Code: item.ProductCode,
+												HindiName: item.HindiName,
+												Karat: item.Karat
+											})
+										}
+										// collection of json obj total quantity item wise,
+										// var stockItemReport = Array.from(stockItemsMap.values());
+										// debugger;
+										// collecion for whole stock table report
+										var stockReportCollection = [
+											["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+										];
+										var stockReportCollection20 = [
+											["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+										];
+										var stockReportCollection22 = [
+											["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+										];
+										for (item of stockItems) {
+											var date = (item.Date.getDate()<9 ? "0"+item.Date.getDate():item.Date.getDate())+"."+(item.Date.getMonth()+1)+"."+item.Date.getFullYear();
+											var createdOn = (item.CreatedOn.getDate()<9 ? "0"+item.CreatedOn.getDate():item.CreatedOn.getDate())+"."+(item.CreatedOn.getMonth()+1)+"."+item.CreatedOn.getFullYear();
+											if(productsMap.get(item.Material.toString()).Karat==="22/22"){
+												stockReportCollection22.push([
+													date,
+													productsMap.get(item.Material.toString()).Code,
+													productsMap.get(item.Material.toString()).HindiName,
+													item.OrderNo,
+													item.Qty,
+													users[item.CreatedBy],
+													createdOn
+												]);
+											}else if(productsMap.get(item.Material.toString()).Karat==="22/20"){
+												stockReportCollection20.push([
+													date,
+													productsMap.get(item.Material.toString()).Code,
+													productsMap.get(item.Material.toString()).HindiName,
+													item.OrderNo,
+													item.Qty,
+													users[item.CreatedBy],
+													createdOn
+												]);
+											}else{
+												stockReportCollection.push([
+													date,
+													productsMap.get(item.Material.toString()).Code,
+													productsMap.get(item.Material.toString()).HindiName,
+													item.OrderNo,
+													item.Qty,
+													users[item.CreatedBy],
+													createdOn
+												]);
+											}
+										}
+										const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 },{},{}, { wch: 22 }, { wch: 12 }]};
+										var buffer = xlsx.build([{
+											name: "22-22",
+											data: stockReportCollection22
+										},{
+											name: "22-20",
+											data: stockReportCollection20
+										},{
+											name: "##-##",
+											data: stockReportCollection
+										}],options);
+										return res.status(200).type("application/vnd.ms-excel").send(buffer);
+									});
 								});
+								// debugger;
 							});
 						});
 						///// code added by Surya - start

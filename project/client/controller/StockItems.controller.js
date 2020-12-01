@@ -320,7 +320,8 @@ sap.ui.define(
 
 			},
 			onDailyReport : function(){
-				window.open("/DailyReport");
+				var dDateStart = this.getView().byId("idDate").getDateValue();
+				window.open("/DailyReport?date="+dDateStart);
 			},
 			onStockReport : function(){
 				window.open("/StockReport");
@@ -582,10 +583,12 @@ sap.ui.define(
 				var that = this;
 				var qty = this.getView().byId("idQuantity").getValue();
 				var wgt = this.getView().byId("idWeight").getValue();
+				var orderNo = this.getView().byId("idOrderNo").getValue();
 				var qty1 = qty - (qty * 2);
 				var wgt1 = wgt - (wgt * 2);
 				this.getView().getModel("local").setProperty("/StockItemsData/Qty", qty1);
 				this.getView().getModel("local").setProperty("/StockItemsData/Weight", wgt1);
+				this.getView().getModel("local").setProperty("/StockItemsData/OrderNo", orderNo);
 				var data = this.getView().getModel("local").getProperty("/StockItemsData");
 				console.log(data)
 
@@ -785,12 +788,15 @@ sap.ui.define(
 
 				var title = this.getView().getModel("i18n").getProperty("allEntries");
 				this.getView().byId("idTitle").setText(title + " " + "(" + noOfItems + ")");
-
+				var totalWeight = 0;
+				var totalQuantity = 0;
 				for (var i = 0; i < noOfItems; i++) {
 					debugger;
 					var materialId = oTable.getItems()[i].getCells()[2].getText();
 					var orderId = oTable.getItems()[i].getCells()[1].getText();
 					var custId = oTable.getItems()[i].getCells()[5].getText();
+					totalWeight+= parseFloat(oTable.getItems()[i].getCells()[4].getText());
+					totalQuantity+= parseInt(oTable.getItems()[i].getCells()[3].getText());
 					var ohId = this.allMasterData.orderHeader[orderId];
 					var ohIdW = this.allMasterData.wholeSaleHeader[orderId];
 					var material = this.allMasterData.materials[materialId];
@@ -824,6 +830,9 @@ sap.ui.define(
 
 					}
 				}
+				this.getView().byId("idQ").setText(totalQuantity);
+				this.getView().byId("idQ").setState(totalQuantity<0?"Error":"Success");
+				this.getView().byId("idW").setText(totalWeight);
 			},
 			onSubmitQuantity : function(oEvent){
 				this.getView().byId("idWeight").focus();

@@ -320,7 +320,7 @@ sap.ui.define(
 
 			},
 			onDailyReport : function(){
-				var dDateStart = this.getView().byId("idDate").getDateValue();
+				var dDateStart = this.getView().byId("idDate").getValue();
 				window.open("/DailyReport?date="+dDateStart);
 			},
 			onStockReport : function(){

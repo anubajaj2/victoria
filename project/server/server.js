@@ -2580,7 +2580,7 @@ app.start = function() {
 							var dDateEnd = new Date(dDateStart);
 							dDateEnd.setHours(23, 59, 59, 59);
 							var stockItemsSet = new Set();
-							var usersSet = new Set();
+							var usersMap = new Map();
 							var productsMap = new Map();
 							var dateObj = new Date()
 							app.models.StockItem.find({
@@ -2593,24 +2593,33 @@ app.start = function() {
 								// calculating  quantity
 								for (item of stockItems) {
 									stockItemsSet.add(item.Material.toString());
-									usersSet.add(item.CreatedBy.toString());
+									usersMap.set(item.CreatedBy.toString(),"");
 								}
 								app.models.AppUser.find({
-									where : {
-										TechnicalId : {
-											inq : Array.from(usersSet)
-										}
+									// where: {
+									// 	TechnicalId: {
+									// 		inq: Array.from(usersMap.keys())
+									// 	}
+									// },
+									fields : {
+										TechnicalId : true,
+										UserName : true
 									}
 								}).then(function(appusers,err){
-									var users = []
 									for(user of appusers){
-										users[user.id.toString()] = user.UserName;
+										usersMap.set(user.TechnicalId.toString(),user.UserName);
 									}
 									app.models.Product.find({
 										where: {
 											id: {
 												inq: Array.from(stockItemsSet)
 											}
+										},
+										fields : {
+											id : true,
+											ProductCode : true,
+											HindiName : true,
+											Karat : true
 										}
 									}).then(function(products, err) {
 										// combining data product,stockItems
@@ -2646,7 +2655,7 @@ app.start = function() {
 													productsMap.get(item.Material.toString()).HindiName,
 													item.OrderNo,
 													item.Qty,
-													users[item.CreatedBy],
+													usersMap.get(item.CreatedBy.toString()),
 													createdOn
 												]);
 											}else if(productsMap.get(item.Material.toString()).Karat==="22/20"){
@@ -2656,7 +2665,7 @@ app.start = function() {
 													productsMap.get(item.Material.toString()).HindiName,
 													item.OrderNo,
 													item.Qty,
-													users[item.CreatedBy],
+													usersMap.get(item.CreatedBy.toString()),
 													createdOn
 												]);
 											}else{
@@ -2666,7 +2675,7 @@ app.start = function() {
 													productsMap.get(item.Material.toString()).HindiName,
 													item.OrderNo,
 													item.Qty,
-													users[item.CreatedBy],
+													usersMap.get(item.CreatedBy.toString()),
 													createdOn
 												]);
 											}

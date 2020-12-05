@@ -2585,7 +2585,13 @@ app.start = function() {
 							var dateObj = new Date();
 							console.log(dDateStart);
 							console.log(dDateEnd);
-							app.models.StockItem.find({where: {and: [{Date: {gt:req.query.date}}, {Date: {lt:dDateEnd}}]}}).then(function(stockItems, err) {
+							app.models.StockItem.find({
+								where: {
+									Date: {
+										between : [dDateStart, dDateEnd]
+									}
+								}
+							}).then(function(stockItems, err) {
 								// calculating  quantity
 								console.log("Stock items " + JSON.stringify(stockItems) );
 								for (item of stockItems) {

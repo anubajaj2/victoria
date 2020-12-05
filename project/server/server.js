@@ -2582,11 +2582,13 @@ app.start = function() {
 							var stockItemsSet = new Set();
 							var usersMap = new Map();
 							var productsMap = new Map();
-							var dateObj = new Date()
+							var dateObj = new Date();
+							console.log(dDateStart);
+							console.log(dDateEnd);
 							app.models.StockItem.find({
 								where: {
 									Date: {
-										between : [dDateStart,dDateEnd]
+										between : [dDateStart, dDateEnd]
 									}
 								}
 							}).then(function(stockItems, err) {

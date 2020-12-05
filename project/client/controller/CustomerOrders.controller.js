@@ -169,7 +169,7 @@ sap.ui.define([
     },
 
     onSelectPhoto: function(oEvent){
-      var that = this
+      var that = this;
       // move selected row data to global variable
        this.selRow = oEvent.getSource().getBindingContext().getObject();
        var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
@@ -187,7 +187,7 @@ sap.ui.define([
               that.photoPopup.open();
      		}).catch(function(oError) {
           that.getView().setBusy(false);
-          var oPopover = that.getErrorMessage(oError);
+          // var oPopover = that.getErrorMessage(oError);
      		});
      },
 

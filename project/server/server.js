@@ -2593,6 +2593,7 @@ app.start = function() {
 								}
 							}).then(function(stockItems, err) {
 								// calculating  quantity
+								console.log("Stock items " + JSON.stringify(stockItems) );
 								for (item of stockItems) {
 									stockItemsSet.add(item.Material.toString());
 									usersMap.set(item.CreatedBy.toString(),"");
@@ -2625,6 +2626,7 @@ app.start = function() {
 										}
 									}).then(function(products, err) {
 										// combining data product,stockItems
+										console.log("Products " + JSON.stringify(products) );
 										for (item of products) {
 											// var qty = stockItemsMap.get(item.id.toString()).Quantity;
 											productsMap.set(item.id.toString(), {

@@ -68,6 +68,130 @@ app.start = function() {
 				return res.send("done");
 			});
 		});
+
+		//folder name must be uploads in server directory where you should place ur file
+		app.post('/upload',
+			function(req, res) {
+				debugger;
+				if (!req.files.myFileUpload) {
+					res.send('No files were uploaded.');
+					return;
+				}
+
+				var sampleFile;
+				var exceltojson;
+
+				sampleFile = req.files.myFileUpload;
+			
+				sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
+					if (err) {
+						console.log("eror saving");
+					} else {
+						console.log("saved");
+						if (req.files.myFileUpload.name.split('.')[req.files.myFileUpload.name.split('.').length - 1] === 'xlsx') {
+							exceltojson = xlsxtojson;
+							console.log("xlxs");
+						} else {
+							exceltojson = xlstojson;
+							console.log("xls");
+						}
+						try {
+							exceltojson({
+								input: './uploads/' + req.files.myFileUpload.name,
+								output: null, //since we don't need output.json
+								lowerCaseHeaders: true
+							}, function(err, result) {
+								if (err) {
+									return res.json({
+										error_code: 1,
+										err_desc: err,
+										data: null
+									});
+								}
+								res.json({
+									error_code: 0,
+									err_desc: null,
+									data: result
+								});
+
+								var getMyDate = function(strDate) {
+									var qdat = new Date();
+									var x = strDate;
+									qdat.setYear(parseInt(x.substr(0, 4)));
+									qdat.setMonth(parseInt(x.substr(4, 2)) - 1);
+									qdat.setDate(parseInt(x.substr(6, 2)));
+									return qdat;
+								};
+								var Inquiry = app.models.Inquiry;
+								var Student = app.models.Student;
+								var Batch = app.models.Course;
+								var Account = app.models.Account;
+								var Subs = app.models.Sub;
+								var uploadType = "Inquiry";
+								///*****Code to update the batchs
+								this.allResult = [];
+								///Process the result json and send to mongo for creating all inquiries
+								for (var j = 0; j < result.length; j++) {
+									var singleRec = result[j];
+
+									switch (uploadType) {
+										case "Check":
+											break;
+										case "Server":
+											break;
+										case "Email":
+											break;
+										case "Account":
+											var newRec = {};
+											newRec.accountName = singleRec.accountname;
+											newRec.ifsc = singleRec.ifsc;
+											newRec.accountNo = singleRec.accountno;
+											newRec.limit = singleRec.limit;
+											newRec.white = singleRec.white;
+											newRec.userId = singleRec.userid;
+											newRec.registeredNo = singleRec.mobile;
+											newRec.email = "null";
+											newRec.counter = 0;
+											newRec.current = false;
+											Account.findOrCreate({
+													where: {
+														accountNo: newRec.accountNo
+													}
+												}, newRec)
+												.then(function(inq) {
+													debugger;
+													console.log("created successfully");
+												})
+												.catch(function(err) {
+													console.log(err);
+												});
+											///*****End of code to update batches
+											break;
+										case "Batch":
+											break;
+										case "Inquiry":
+											break;
+										case "Students":
+											break;
+										case "Subscription":
+											break;
+
+									}
+								}
+
+							});
+						} catch (e) {
+							console.log("error");
+							res.json({
+								error_code: 1,
+								err_desc: "Corupted excel file"
+							});
+						}
+
+					}
+				})
+			}
+		);
 		app.post('/updateRetailOrderHdr', function(req, res) {
 
 			var OrderHeader = app.models.OrderHeader;

@@ -1,5 +1,5 @@
 <mvc:View controllerName="victoria.controller.customCalculation" xmlns.c="sap.ui.commons"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="Customzing"
@@ -7,6 +7,14 @@
 
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
+				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete">
+					<u:parameters>
+						<u:FileUploaderParameter name="createdBy"/>
+					</u:parameters>
+				</u:FileUploader>
+
+				<Button text="Upload File" press="handleUploadPress"/>
+
 				<f:Form id="idCalculation" editable="true" validateFieldGroup="onValidateFieldGroup"
 					title="Retail Calculation Customizing">
 					<f:toolbar>

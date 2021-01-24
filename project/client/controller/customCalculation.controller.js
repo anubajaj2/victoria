@@ -26,6 +26,30 @@ function(BaseController, JSONModel, History, MessageToast, MessageBox, formatter
                 });
             });
   },
+  handleUploadPress: function() {
+    var oFileUploader = this.byId("fileUploader");
+    if (!oFileUploader.getValue()) {
+      MessageToast.show("Choose a file first");
+      return;
+    }
+    oFileUploader.getAggregation("parameters")[0].setValue(
+                                      this.getModel("local").getData().CurrentUser)
+    oFileUploader.upload();
+  },
+  handleUploadComplete: function(oEvent) {
+    var sResponse = oEvent.getParameter("response");
+    var oFiler = oEvent.getSource();
+    if (sResponse) {
+      var sMsg = "";
+      debugger;
+      if(JSON.parse(sResponse.split("\">")[1].replace("</pre>","")).error_code !== 0){
+        sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>","")).err_desc;
+      }else{
+        sMsg = "Uploaded Successfully";
+      }
+      MessageToast.show(sMsg);
+    }
+  },
 	onInit : function () {
     var oViewModel1 = new JSONModel({
          "First": "",

@@ -82,8 +82,10 @@ sap.ui.define([
     onSearch: function(oEvent){
         var sValue = oEvent.getParameter("query");
         if(!sValue){
-        sValue = oEvent.getParameter("value");
+          sValue = oEvent.getParameter("value");
         }
+
+        var oFilter;
         if(oEvent.getSource().getTitle() === "Material Search"){
           var oFilter1 = new sap.ui.model.Filter(
                         "ProductCode",
@@ -93,7 +95,7 @@ sap.ui.define([
                         "ProductName",
                         sap.ui.model.FilterOperator.Contains,
                         sValue );
-          var oFilter = new sap.ui.model.Filter(
+          oFilter = new sap.ui.model.Filter(
                         {
                         filters: [oFilter1, oFilter2],
                         and: false
@@ -108,14 +110,14 @@ sap.ui.define([
                         "Name",
                         sap.ui.model.FilterOperator.Contains,
                         sValue );
-          var oFilter3 = new sap.ui.model.Filter(
-                        "City",
-                        sap.ui.model.FilterOperator.Contains,
-                        sValue );
+          // var oFilter3 = new sap.ui.model.Filter(
+          //               "City",
+          //               sap.ui.model.FilterOperator.Contains,
+          //               sValue );
 
-          var oFilter = new sap.ui.model.Filter(
+          oFilter = new sap.ui.model.Filter(
                         {
-                        filters: [oFilter1, oFilter2, oFilter3],
+                        filters: [oFilter1, oFilter2],
                         and: false
                         });
         }

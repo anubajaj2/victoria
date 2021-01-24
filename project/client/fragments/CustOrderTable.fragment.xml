@@ -3,7 +3,7 @@
       id="idCoTable"
       items="{
              path: '/CustomerOrders',
-             sorter: {path: 'DelDate'}
+             sorter: {path: 'DelDate', descending: 'true'}
              }"
       growing="true"
       growingThreshold="20"

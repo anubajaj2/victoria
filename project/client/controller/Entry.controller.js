@@ -614,6 +614,7 @@ function (BaseController,
 			 // this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
 				// 												 "GET", {}, myData, this)
 			 this.byId("DueDateId").setDateValue( new Date());
+			 this.getView().byId("idTable").getBinding("items").filter([]);
      }
 
    },

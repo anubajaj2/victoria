@@ -192,7 +192,9 @@ sap.ui.define(
 				var oFilter3 = null;
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				this.getView().getModel("local").setProperty("/StockItemsData/Material", selectedMatData.id);
+				console.log(selectedMatData);
 				var OrderIdd = that.getView().getModel("local").getProperty("/StockItemsData/OrderNo");
+				console.log(OrderIdd);
 				if (selectedMatData.HindiName) {
 					this.getView().byId("matName").setText(selectedMatData.HindiName);
 				} else {
@@ -224,6 +226,7 @@ sap.ui.define(
 					.then(function(oData) {
 						debugger;
 						var items = oData.results;
+						console.log(items);
 						var aQuantity = items.map((i) => {
 							return i.Qty
 						});
@@ -233,7 +236,8 @@ sap.ui.define(
 						});
 						var iWeight = aWeight.reduce((a, b) => a + b, 0);
 						var MaterialData = that.allMasterData;
-						console.log(MaterialData)
+						console.log(iQuantity);
+						console.log(iWeight);
 						that.getView().byId("idQ").setText(parseFloat(iQuantity.toFixed(0)));
 						that.getView().byId("idW").setText(parseFloat(iWeight.toFixed(3)));
 						that.getView().byId("idQuantity").focus();
@@ -297,9 +301,9 @@ sap.ui.define(
 						}
 
 						var k = parseInt(that.Qtty);
-						if (f > k) {
-							sap.m.MessageBox.show("Quantity should not exceed" + " " + k + "");
-						}
+						// if (f > k) {
+						// 	sap.m.MessageBox.show("Quantity should not exceed" + " " + k + "");
+						// }
 					})
 					.catch(function(oError) {
 						console.log(oError);
@@ -317,7 +321,6 @@ sap.ui.define(
 			},
 			onItemsReport : function(){
 				window.open("/ItemsReport");
-
 			},
 			onDailyReport : function(){
 				var dDateStart = this.getView().byId("idDate").getValue();

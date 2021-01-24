@@ -99,7 +99,14 @@ xmlns:core ="sap.ui.core" width="160px">
   <Input type="Number" editable="true" id="GoldbhavId" placeholder="{i18n>Gold}"
         tooltip="{i18n>Gold}"
         liveChange="ValueChangeHeader"
-        value="{local>/orderHeader/GoldBhav}"/>
+        value="{
+          path : 'local>/orderHeader/GoldBhav',
+          type : 'sap.ui.model.type.Integer',
+          constraints : {
+            minimum: 30000,
+            maximum: 80000
+          }
+        }"/>
   </f:fields>
   </f:FormElement>
   <f:FormElement label="{i18n>Silver}">
@@ -107,7 +114,14 @@ xmlns:core ="sap.ui.core" width="160px">
   <Input type="Number" editable="true" id="sbhavid" placeholder="{i18n>sbhav}"
     liveChange="ValueChangeHeader"
         tooltip="{i18n>Sbhav}"
-        value="{local>/orderHeader/SilverBhav}"/>
+        value="{
+          path : 'local>/orderHeader/SilverBhav',
+          type : 'sap.ui.model.type.Integer',
+          constraints : {
+            minimum: 30000,
+            maximum: 110000
+          }
+        }"/>
   </f:fields>
   </f:FormElement>
   </f:formElements>

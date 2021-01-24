@@ -817,7 +817,6 @@ sap.ui.define(
 			gSBhav: 0,
 			gSBhavK: 0,
 			ValueChangeHeader: function(oEvent) {
-
 				this.setStatus('red');
 			},
 			// onTableExpand: function(oEvent) {

@@ -2553,147 +2553,133 @@ app.start = function() {
 				});
 			});
 		});
-		app.get('/DailyReport', function(req, res) {
-			var dDateStart = new Date(req.query.date);
-			dDateStart.setHours(0, 0, 0, 1);
-			var dDateEnd = new Date(dDateStart);
-			dDateEnd.setHours(23, 59, 59, 59);
-			var stockItemsSet = new Set();
-			var usersMap = new Map();
-			var productsMap = new Map();
-			var dateObj = new Date();
-			console.log(dDateStart);
-			console.log(dDateEnd);
-			app.models.StockItem.find({
-				where: {
-					Date: {
-						between: [dDateStart, dDateEnd]
-					}
-				}
-			}).then(function(stockItems, err) {
-				// calculating  quantity
-				console.log("Stock items " + JSON.stringify(stockItems));
-				for (item of stockItems) {
-					stockItemsSet.add(item.Material.toString());
-					usersMap.set(item.CreatedBy.toString(), "");
-				}
-				app.models.AppUser.find({
-					// where: {
-					// 	TechnicalId: {
-					// 		inq: Array.from(usersMap.keys())
-					// 	}
-					// },
-					fields: {
-						TechnicalId: true,
-						UserName: true
-					}
-				}).then(function(appusers, err) {
-					for (user of appusers) {
-						usersMap.set(user.TechnicalId.toString(), user.UserName);
-					}
-					app.models.Product.find({
-						where: {
-							id: {
-								inq: Array.from(stockItemsSet)
-							}
-						},
-						fields: {
-							id: true,
-							ProductCode: true,
-							HindiName: true,
-							Karat: true
-						}
-					}).then(function(products, err) {
-						// combining data product,stockItems
-						console.log("Products " + JSON.stringify(products));
-						for (item of products) {
-							// var qty = stockItemsMap.get(item.id.toString()).Quantity;
-							productsMap.set(item.id.toString(), {
-								// Quantity: qty,
-								Code: item.ProductCode,
-								HindiName: item.HindiName,
-								Karat: item.Karat
-							})
-						}
-						// collection of json obj total quantity item wise,
-						// var stockItemReport = Array.from(stockItemsMap.values());
-						// debugger;
-						// collecion for whole stock table report
-						var stockReportCollection = [
-							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
-						];
-						var stockReportCollection20 = [
-							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
-						];
-						var stockReportCollection22 = [
-							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
-						];
-						for (item of stockItems) {
-							var date = (item.Date.getDate() < 9 ? "0" + item.Date.getDate() : item.Date.getDate()) + "." + (item.Date.getMonth() + 1) +
-								"." + item.Date.getFullYear();
-							var createdOn = (item.CreatedOn.getDate() < 9 ? "0" + item.CreatedOn.getDate() : item.CreatedOn.getDate()) + "." + (item.CreatedOn
-								.getMonth() + 1) + "." + item.CreatedOn.getFullYear();
-							if (productsMap.get(item.Material.toString()).Karat === "22/22") {
-								stockReportCollection22.push([
-									date,
-									productsMap.get(item.Material.toString()).Code,
-									productsMap.get(item.Material.toString()).HindiName,
-									item.OrderNo,
-									item.Qty,
-									usersMap.get(item.CreatedBy.toString()),
-									createdOn
-								]);
-							} else if (productsMap.get(item.Material.toString()).Karat === "22/20") {
-								stockReportCollection20.push([
-									date,
-									productsMap.get(item.Material.toString()).Code,
-									productsMap.get(item.Material.toString()).HindiName,
-									item.OrderNo,
-									item.Qty,
-									usersMap.get(item.CreatedBy.toString()),
-									createdOn
-								]);
-							} else {
-								stockReportCollection.push([
-									date,
-									productsMap.get(item.Material.toString()).Code,
-									productsMap.get(item.Material.toString()).HindiName,
-									item.OrderNo,
-									item.Qty,
-									usersMap.get(item.CreatedBy.toString()),
-									createdOn
-								]);
-							}
-						}
-						const options = {
-							'!cols': [{
-								wch: 22
-							}, {
-								wch: 22
-							}, {
-								wch: 22
-							}, {wch: 22}, {wch: 22}, {
-								wch: 22
-							}, {
-								wch: 22
-							}]
-						};
-						var buffer = xlsx.build([{
-							name: "22-22",
-							data: stockReportCollection22
-						}, {
-							name: "22-20",
-							data: stockReportCollection20
-						}, {
-							name: "##-##",
-							data: stockReportCollection
-						}], options);
-						return res.status(200).type("application/vnd.ms-excel").send(buffer);
-					});
-				});
-				// debugger;
-			});
-		});
+		app.get('/DailyReport', function(req, res){
+								var dDateStart = new Date(req.query.date);
+								dDateStart.setHours(0, 0, 0, 1);
+								var dDateEnd = new Date(dDateStart);
+								dDateEnd.setHours(23, 59, 59, 59);
+								var stockItemsSet = new Set();
+								var usersMap = new Map();
+								var productsMap = new Map();
+								var dateObj = new Date();
+								console.log(dDateStart);
+								console.log(dDateEnd);
+								app.models.StockItem.find({
+									where: {
+										Date: {
+											between : [dDateStart, dDateEnd]
+										}
+									}
+								}).then(function(stockItems, err) {
+									// calculating  quantity
+									console.log("Stock items " + JSON.stringify(stockItems) );
+									for (item of stockItems) {
+										stockItemsSet.add(item.Material.toString());
+										usersMap.set(item.CreatedBy.toString(),"");
+									}
+									app.models.AppUser.find({
+										// where: {
+										// 	TechnicalId: {
+										// 		inq: Array.from(usersMap.keys())
+										// 	}
+										// },
+										fields : {
+											TechnicalId : true,
+											UserName : true
+										}
+									}).then(function(appusers,err){
+										for(user of appusers){
+											usersMap.set(user.TechnicalId.toString(),user.UserName);
+										}
+										app.models.Product.find({
+											where: {
+												id: {
+													inq: Array.from(stockItemsSet)
+												}
+											},
+											fields : {
+												id : true,
+												ProductCode : true,
+												HindiName : true,
+												Karat : true
+											}
+										}).then(function(products, err) {
+											// combining data product,stockItems
+											console.log("Products " + JSON.stringify(products) );
+											for (item of products) {
+												// var qty = stockItemsMap.get(item.id.toString()).Quantity;
+												productsMap.set(item.id.toString(), {
+													// Quantity: qty,
+													Code: item.ProductCode,
+													HindiName: item.HindiName,
+													Karat: item.Karat
+												})
+											}
+											// collection of json obj total quantity item wise,
+											// var stockItemReport = Array.from(stockItemsMap.values());
+											// debugger;
+											// collecion for whole stock table report
+											var stockReportCollection = [
+												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+											];
+											var stockReportCollection20 = [
+												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+											];
+											var stockReportCollection22 = [
+												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
+											];
+											for (item of stockItems) {
+												var date = (item.Date.getDate()<9 ? "0"+item.Date.getDate():item.Date.getDate())+"."+(item.Date.getMonth()+1)+"."+item.Date.getFullYear();
+												var createdOn = (item.CreatedOn.getDate()<9 ? "0"+item.CreatedOn.getDate():item.CreatedOn.getDate())+"."+(item.CreatedOn.getMonth()+1)+"."+item.CreatedOn.getFullYear();
+												if(productsMap.get(item.Material.toString()).Karat==="22/22"){
+													stockReportCollection22.push([
+														date,
+														productsMap.get(item.Material.toString()).Code,
+														productsMap.get(item.Material.toString()).HindiName,
+														item.OrderNo,
+														item.Qty,
+														usersMap.get(item.CreatedBy.toString()),
+														createdOn
+													]);
+												}else if(productsMap.get(item.Material.toString()).Karat==="22/20"){
+													stockReportCollection20.push([
+														date,
+														productsMap.get(item.Material.toString()).Code,
+														productsMap.get(item.Material.toString()).HindiName,
+														item.OrderNo,
+														item.Qty,
+														usersMap.get(item.CreatedBy.toString()),
+														createdOn
+													]);
+												}else{
+													stockReportCollection.push([
+														date,
+														productsMap.get(item.Material.toString()).Code,
+														productsMap.get(item.Material.toString()).HindiName,
+														item.OrderNo,
+														item.Qty,
+														usersMap.get(item.CreatedBy.toString()),
+														createdOn
+													]);
+												}
+											}
+											const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 },{wch: 22},{wch: 22}, { wch: 22 }, { wch: 12 }]};
+											var buffer = xlsx.build([{
+												name: "22-22",
+												data: stockReportCollection22
+											},{
+												name: "22-20",
+												data: stockReportCollection20
+											},{
+												name: "##-##",
+												data: stockReportCollection
+											}],options);
+											return res.status(200).type("application/vnd.ms-excel").send(buffer);
+										});
+									});
+									// debugger;
+								});
+							});
 		///// code added by Surya - start
 		app.post('/custCodeDownload', function(req, res) {
 			debugger;

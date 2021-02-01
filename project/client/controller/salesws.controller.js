@@ -56,6 +56,31 @@ sap.ui.define(
 				var currStatus = this.byId("WSHeaderFragment--idSaveIcon").getColor();
 				return currStatus;
 			},
+			moveNext: function(oEvent){
+				//getsource
+				//getParent
+				//currentcellindex +1
+				//if lastcell
+
+			},
+			onSubmitQuantity: function(){
+				this.getView().byId("IdQtyD").focus();
+			},
+			onSubmitQuantityD: function(){
+				this.getView().byId("IdWeight").focus();
+			},
+			onSubmitWeight: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[4].focus();
+				//this.getView().byId("IdWeightD").focus();
+			},
+			onSubmitWeightD: function(){
+				this.getView().byId("IdMaking").focus();
+			},
+			onSubmitMaking: function(){
+				this.getView().byId("IdMakingD").focus();
+			},
 			onConfirm: function(oEvent) {
 
 				// if (oEvent.getParameter('id') === 'orderNo') {

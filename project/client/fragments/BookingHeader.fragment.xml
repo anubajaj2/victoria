@@ -43,7 +43,9 @@
 
 							<m:Input id="idCustomerCode" submit="customerCodeCheck1" suggest="ValueChangeCustomer"
 								suggestionItems="{/Customers}" showSuggestion="true"
-								enabled="{viewModel>/codeEnabled}" 
+								enabled="{viewModel>/codeEnabled}" value="{local>/orderHeaderTemp/CustomerId}"
+							        showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+							        valueLiveUpdate="true"
 								suggestionItemSelected="customerCodeCheck">
 								<m:suggestionItems>
 									<core:ListItem text="{CustomerCode}"/>
@@ -73,12 +75,12 @@
 									<l:GridData span="XL1 L1 M1 S2"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idBhav" placeholder="{i18n>bhav}" >
+							<m:Input type="Number" editable="true" id="idBhav" submit="onBhavSubmit" placeholder="{i18n>bhav}" >
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M2 S3"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Input type="Number" editable="true" id="idAdvance" placeholder="{i18n>advance}">
+							<m:Input type="Number" editable="true" id="idAdvance" submit="onAdvSubmit" placeholder="{i18n>advance}">
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M2 S3"/>
 								</m:layoutData>
@@ -88,7 +90,7 @@
 
 					<f:FormElement label =" ">
 						<f:fields>
-							<m:Button text="Send" press="onSend">
+							<m:Button text="Send" press="onSend" id="sendButton">
 							<m:layoutData>
 								<l:GridData span="XL5 L5 M5 S8"/>
 							</m:layoutData>

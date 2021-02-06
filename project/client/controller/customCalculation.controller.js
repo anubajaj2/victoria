@@ -94,7 +94,7 @@ that._onRouteMatched();
     if(oText.includes("Gold") || oText.includes("22")){
       var valid = that.handleGoldValidation(oValue);
       if(valid === false){
-        oIdErr.setValueState("Error").setValueStateText("Gold value should be between 25000 and 40000");
+        oIdErr.setValueState("Error").setValueStateText("Gold value should be between 30000 and 80000");
         return valid;
       }
       else{
@@ -105,7 +105,7 @@ that._onRouteMatched();
     else{
       var valid = that.handleSilverValidation(oValue);
       if(valid === false){
-        oIdErr.setValueState("Error").setValueStateText("Silver value should be between 32000 and 65000");
+        oIdErr.setValueState("Error").setValueStateText("Silver value should be between 30000 and 110000");
         return valid;
       }
       else{

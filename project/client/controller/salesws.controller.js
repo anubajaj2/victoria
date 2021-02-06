@@ -63,23 +63,41 @@ sap.ui.define(
 				//if lastcell
 
 			},
-			onSubmitQuantity: function(){
-				this.getView().byId("IdQtyD").focus();
+			onSubmitQuantity: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[3].focus();
 			},
-			onSubmitQuantityD: function(){
-				this.getView().byId("IdWeight").focus();
+			onSubmitQuantityD: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[4].focus(oEvent);
 			},
 			onSubmitWeight: function(oEvent){
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
-				oRow.getCells()[4].focus();
+				oRow.getCells()[5].focus();
 				//this.getView().byId("IdWeightD").focus();
 			},
-			onSubmitWeightD: function(){
-				this.getView().byId("IdMaking").focus();
+			onSubmitWeightD: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[6].focus(oEvent);
 			},
-			onSubmitMaking: function(){
-				this.getView().byId("IdMakingD").focus();
+			onSubmitMaking: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[7].focus();
+			},
+			onSubmitMakingD: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[8].focus();
+			},
+			onSubmitTunch: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[9].focus();
 			},
 			onConfirm: function(oEvent) {
 
@@ -3702,7 +3720,8 @@ sap.ui.define(
 					'</tr>' +
 					'</tbody></table>';
 				debugger;
-				var myWindow = window.open("", "PrintWindow", "width=200,height=100");
+				var random = Math.floor(Math.random()*10000);
+				var myWindow = window.open("", "PrintWindow" + random, "width=1200,height=800");
 				myWindow.document.write(header + table + footer);
 				for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
 					var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
@@ -3710,7 +3729,12 @@ sap.ui.define(
 						coll[j].style.display = "none";
 					}
 				}
-				myWindow.print();
+				myWindow.document.close();
+				myWindow.focus();
+				setTimeout(function() {
+					myWindow.print();
+				}, 3000);
+
 				myWindow.stop();
 
 			}

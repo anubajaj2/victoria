@@ -248,13 +248,29 @@ sap.ui.define([
 			var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
 			var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
 			if (orderDetails.Date) {
+				// var orderLocDate = orderDetails.Date
+				// var orderDate = orderLocDate.replace(/\-/g, '.');
+				// // formatter.getDateDDMMYYYYFormat(orderLocDate);
+
 				var orderLocDate = orderDetails.Date
-				var orderDate = orderLocDate.replace(/\-/g, '.');
-				// formatter.getDateDDMMYYYYFormat(orderLocDate);
+
+				var dd = orderLocDate.getDate();
+				var mm = orderLocDate.getMonth() + 1;
+				var yyyy = orderLocDate.getFullYear();
+				if (dd < 10) {
+					dd = '0' + dd;
+				}
+				if (mm < 10) {
+					mm = '0' + mm;
+				}
+				var orderDate = dd + '.' + mm + '.' + yyyy;
 			}
 			if (orderDetails.Customer) {
 				var custId = orderDetails.Customer;
 				var cusData = this.allMasterData.customers[custId];
+				// console.log(cusData);
+				// cusData.City = this.allMasterData.cities[custId].cityName;
+				// console.log(cusData);
 			}
 			var printDate = formatter.getFormattedDate(0);
 			var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
@@ -549,16 +565,38 @@ sap.ui.define([
 				'</tr>' +
 				'</tbody></table>';
 			debugger;
-			var myWindow = window.open("", "PrintWindow", "width=200,height=100");
-			myWindow.document.write(header + table + footer);
+			var random = Math.floor(Math.random()*10000);
+			var myWindows = window.open("", "PrintWindow" + random, "width=1200,height=800");
+			myWindows.document.write(header + table + footer);
 			for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
-				var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
+				var coll = myWindows.document.getElementsByClassName(arrayRemoveFromPrint[i]);
 				for (var j = 0; j < coll.length; j++) {
 					coll[j].style.display = "none";
 				}
 			}
-			myWindow.print();
-			myWindow.stop();
+			myWindows.document.close();
+			myWindows.focus();
+			setTimeout(function() {
+				myWindows.print();
+			}, 3000);
+			myWindows.stop();
+
+			// var random = Math.floor(Math.random()*10000);
+			// var myWindows = window.open("", "PrintWindow" + random, "width=1200,height=800");
+			// myWindows.document.write(header + table + footer);
+			// for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
+			// 	var coll = myWindows.document.getElementsByClassName(arrayRemoveFromPrint[i]);
+			// 	for (var j = 0; j < coll.length; j++) {
+			// 		coll[j].style.display = "none";
+			// 	}
+			// }
+			// myWindows.document.close();
+			// myWindows.focus();
+			// setTimeout(function() {
+			// 	myWindows.print();
+			// }, 3000);
+			//
+			// myWindows.stop();
 
 		},
 		onConfirm: function(oEvent) {

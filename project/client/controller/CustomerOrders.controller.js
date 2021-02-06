@@ -4,13 +4,15 @@ sap.ui.define([
   "victoria/models/formatter",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
-  "sap/m/Dialog"
-],function (BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog) {
+  "sap/m/Dialog",
+  "sap/ui/core/Fragment"
+],function (BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog, Fragment) {
       "use strict";
         var coId;
         var selRow;
   return BaseController.extend("victoria.controller.CustomerOrders", {
     formatter: formatter,
+    buttonState: "12",
     onInit: function () {
       BaseController.prototype.onInit.apply(this);
 
@@ -18,15 +20,56 @@ sap.ui.define([
     oRouter.getRoute("customerOrders").attachMatched(this._onRouteMatched, this);
   },
 
-  _onRouteMatched : function(){
-  	var that = this;
-    that.getView().byId("idCoDate").setDateValue(new Date());
-    var date = new  Date();
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1;
-    var yyyy = date.getFullYear();
-    that.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
-  },
+    _onRouteMatched : function(){
+    	var that = this;
+      that.getView().byId("idCoDate").setDateValue(new Date());
+      var date = new  Date();
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1;
+      var yyyy = date.getFullYear();
+      that.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
+    },
+
+    handlePopoverPress: function (oEvent) {
+      var that = this;
+      var oCurrentControl = oEvent.getSource();
+      var oRow = oCurrentControl.getParent();
+      this.buttonState = oRow.getCells()[10];
+
+      var oButton = oEvent.getSource(),
+  				oView = this.getView();
+
+      if(oButton.getText() === "Ready"){
+        oButton.setEnabled(false);
+        oButton.setText("Delivered");
+        oButton.setType("Accept");
+        // that._oPopover.close();
+      }
+      else{
+        if (!this._pPopover) {
+          this._oPopover = sap.ui.xmlfragment("victoria.fragments.Popover", that);
+          this.getView().addDependent(this._oPopover);
+        }
+        this._oPopover.openBy(oEvent.getSource());
+      }
+    },
+    onReady: function(oEvent){
+      this.buttonState.setText("Ready");
+      this.buttonState.setType("Critical");
+      this._oPopover.close();
+    },
+    onCancel: function(oEvent){
+      this.buttonState.setEnabled(false);
+      this.buttonState.setText("Cancelled");
+      this.buttonState.setType("Reject");
+      this._oPopover.close();
+    },
+    onBlocked: function(oEvent){
+      this.buttonState.setEnabled(false);
+      this.buttonState.setText("Blocked");
+      this.buttonState.setType("Reject");
+      this._oPopover.close();
+    },
 
     onValueHelp: function(oEvent){
       this.getCustomerPopup(oEvent);

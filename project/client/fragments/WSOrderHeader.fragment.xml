@@ -89,12 +89,26 @@
 										</f:FormElement>
 										<f:FormElement label="{i18n>WSGBhavK}">
 											<f:fields>
-												<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{local>/WSOrderHeader/GoldbhavK}"/>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{
+														path : 'local>/WSOrderHeader/GoldbhavK',
+														type : 'sap.ui.model.type.Integer',
+														constraints : {
+															minimum: 30000,
+															maximum: 80000
+														}
+													}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement label="{i18n>WSSBhavK}">
 											<f:fields>
-												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{local>/WSOrderHeader/SilverBhavK}"/>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{
+														path : 'local>/WSOrderHeader/SilverBhavK',
+														type : 'sap.ui.model.type.Integer',
+														constraints : {
+															minimum: 30000,
+															maximum: 110000
+														}
+													}"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>

@@ -40,21 +40,25 @@
 									<core:Item key="{id}" text="{CustomerCode}"/>
 								</m:items>
 							</m:ComboBox> -->
-
-							<m:Input id="idCustomerCode" submit="customerCodeCheck1" suggest="ValueChangeCustomer"
+							<!-- suggest="ValueChangeCustomer"
 								suggestionItems="{/Customers}" showSuggestion="true"
-								enabled="{viewModel>/codeEnabled}" value="{local>/orderHeaderTemp/CustomerId}"
-							        showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-							        valueLiveUpdate="true"
-								suggestionItemSelected="customerCodeCheck">
+								enabled="{viewModel>/codeEnabled}"
+							suggestionItemSelected="customerCodeCheck" -->
+
+							<m:Input id="idCustomerCode" value="{local>/BookingCustomer/CustomerId}"
+								showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+								valueLiveUpdate="true" required="true" editable="true"
+								suggestionItemSelected="onBookingCustomerSelect"
+								submit="customerCodeCheck1" showSuggestion="true" suggestionItems="{/Customers}"
+								>
 								<m:suggestionItems>
-									<core:ListItem text="{CustomerCode}"/>
+									<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
 								</m:suggestionItems>
 								<m:layoutData>
 									<l:GridData span="XL2 L2 M2 S5"/>
 								</m:layoutData>
 							</m:Input>
-							<m:Text id="idCustName" enableSelection="false"/>
+							<m:Text id="idCustName" value="{local>/BookingCustomer/CustomerName}" editable="false"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>bookingDate}">

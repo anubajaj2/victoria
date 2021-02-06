@@ -85,24 +85,24 @@ sap.ui.define([
 				this.getOrderDetails(oEvent, orderId, oFilter, orderNo);
 				this.orderSearchPopup.destroyItems();
 			} else {
-				this.setStatus('red');
+				// this.setStatus('red');
 				var oId = oEvent.getParameter('selectedItem').getId();
-				var oCustDetail = this.getView().getModel('local').getProperty('/orderHeaderTemp');
+				var oCustDetail = this.getView().getModel('local').getProperty('/BookingCustomer');
 				var oSource = oId.split("-" [0])
 
 				var selCust = oEvent.getParameter("selectedItem").getLabel();
 				var selCustName = oEvent.getParameter("selectedItem").getValue();
 				// oCustDetail.customerId = selCust;
 				// oCustDetail.CustomerName = selCustName;
-				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
+				this.getView().getModel("local").setProperty("/BookingDetail/Customer",
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
+				this.getView().getModel("local").setProperty("/BookingCustomer/CustomerId",
 					selCust);
-				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
+				this.getView().getModel("local").setProperty("/BookingCustomer/CustomerName",
 					selCustName);
-				this.getView().byId("WSHeaderFragment--custName").setText(selCustName);
+				this.getView().byId("idCustomerCode-SuggDescr").setText(selCustName);
 				// Removing error notif. if value is entered
-				this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
+				this.getView().byId("idCustomerCode").setValueState("None");
 			}
 		},
 		_onRouteMatched: function() {
@@ -1531,19 +1531,19 @@ sap.ui.define([
 
 		},
 		onSubmit: function(evt) {
-			$(function() {
-				$('input:text:first').focus();
-				var $inp = $('input:text');
-				$inp.bind('keypress', function(e) {
-					//var key = (e.keyCode ? e.keyCode : e.charCode);
-					var key = e.which;
-					if (key == 13) {
-						e.preventDefault();
-						var nxtIdx = $inp.index(this) + 1;
-						$(":input:text:eq(" + nxtIdx + ")").focus();
-					}
-				});
-			});
+			// $(function() {
+			// 	$('input:text:first').focus();
+			// 	var $inp = $('input:text');
+			// 	$inp.bind('keypress', function(e) {
+			// 		//var key = (e.keyCode ? e.keyCode : e.charCode);
+			// 		var key = e.which;
+			// 		if (key == 13) {
+			// 			e.preventDefault();
+			// 			var nxtIdx = $inp.index(this) + 1;
+			// 			$(":input:text:eq(" + nxtIdx + ")").focus();
+			// 		}
+			// 	});
+			// });
 			this.getView().byId("idBhav").focus();
 		},
 
@@ -1576,7 +1576,11 @@ sap.ui.define([
 		customerCodeCheck1: function(oEvent) {
 			this.getCustomer(oEvent);
 			this.getView().byId("idQnty").focus();
-		}
+		},
+		onLiveSearch: function(oEvent) {
+
+			this.onSearch(oEvent);
+		},
 	});
 
 });

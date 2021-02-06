@@ -68,12 +68,12 @@
 			<f:FormElement label="Silver">
 				<f:fields>
 					<Input id="idSilver" liveChange="onliveChange" value="{
-						path : 'local>/CustomCalculation/Silver',
-						type : 'sap.ui.model.type.Integer',
-						constraints : {
-							minimum: 30000,
-							maximum: 110000
-						}
+							path : 'local>/CustomCalculation/Silver',
+							type : 'sap.ui.model.type.Integer',
+							constraints : {
+								minimum: 30000,
+								maximum: 110000
+							}
 						}">
 					</Input>
 			</f:fields>
@@ -167,13 +167,27 @@
 </f:FormElement>
 <f:FormElement label="Kaccha Gold">
 	<f:fields>
-		<Input id="idKacchaGold" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGold}">
+		<Input id="idKacchaGold" liveChange="onliveChange" value="{
+				path : 'local>/CustomCalculation/KacchaGold',
+				type : 'sap.ui.model.type.Integer',
+				constraints : {
+					minimum: 30000,
+					maximum: 80000
+				}
+			}">
 		</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver">
 <f:fields>
-	<Input id="idKacchaSilver" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilver}">
+	<Input id="idKacchaSilver" liveChange="onliveChange" value="{
+			path : 'local>/CustomCalculation/KacchaSilver',
+			type : 'sap.ui.model.type.Integer',
+			constraints : {
+				minimum: 30000,
+				maximum: 110000
+			}
+		}">
 	</Input>
 </f:fields>
 </f:FormElement>
@@ -191,7 +205,7 @@
 		type : 'sap.ui.model.type.Integer',
 		constraints : {
 			minimum: 30000,
-			maximum: 110000
+			maximum: 80000
 		}
 	}">
 </Input>
@@ -212,13 +226,27 @@
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input id="idKacchaGoldR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGoldR}">
+<Input id="idKacchaGoldR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaGoldR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 80000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver R">
 <f:fields>
-<Input id="idKacchaSilverR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilverR}">
+<Input id="idKacchaSilverR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaSilverR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 110000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>

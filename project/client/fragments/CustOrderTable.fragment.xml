@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
-	<t:Table rows="{/CustomerOrders}" sort="descending">
+	<!-- <t:Table rows="{/CustomerOrders}" sort="descending">
 		<t:columns>
 			<t:Column label="{i18n>coDate}">
 				<t:template>
@@ -44,7 +44,6 @@
       <t:Column label="Status">
         <t:template>
           <Text text="{Remarks}"/>
-          <!-- <Button id="changeStatus" type="Accept" text="{Status}" press="handlePopoverPress"/> -->
         </t:template>
       </t:Column>
       <t:Column label="{i18n>coKarigar}">
@@ -55,11 +54,10 @@
 			<t:Column label="{i18n>coPhoto}">
 				<t:template>
           <Text text="{Remarks}"/>
-					<!-- <Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto"/> -->
 				</t:template>
 			</t:Column>
 		</t:columns>
-	</t:Table>
+	</t:Table> -->
 	<Table id="idCoTable" items="{ path: '/CustomerOrders', sorter: {path: 'DelDate', descending: 'true'} }" growing="true"
 		growingThreshold="20" mode="MultiSelect" updateFinished="onUpdateFinished">
 		<headerToolbar>

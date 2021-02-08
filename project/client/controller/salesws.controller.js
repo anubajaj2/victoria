@@ -99,6 +99,36 @@ sap.ui.define(
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[9].focus();
 			},
+			onReturnSubmitWeight: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[2].focus();
+			},
+			onReturnSubmitKWeight: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[3].focus();
+			},
+			onReturnSubmitTunch: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[4].focus();
+			},
+			onReturnSubmitQty: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[5].focus();
+			},
+			onReturnSubmitBhav: function(oEvent){
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[6].focus();
+			},
+			onReturnSubmitDropdown: function (oEvent) {
+				var oCurrentControl = oEvent.getSource();
+				var oRow = oCurrentControl.getParent();
+				oRow.getCells()[1].focus();
+			},
 			onConfirm: function(oEvent) {
 
 				// if (oEvent.getParameter('id') === 'orderNo') {
@@ -3733,7 +3763,7 @@ sap.ui.define(
 				myWindow.focus();
 				setTimeout(function() {
 					myWindow.print();
-				}, 3000);
+				}, 1000);
 
 				myWindow.stop();
 

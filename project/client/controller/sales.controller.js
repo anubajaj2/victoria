@@ -578,7 +578,7 @@ sap.ui.define([
 			myWindows.focus();
 			setTimeout(function() {
 				myWindows.print();
-			}, 3000);
+			}, 1000);
 			myWindows.stop();
 
 			// var random = Math.floor(Math.random()*10000);
@@ -598,6 +598,72 @@ sap.ui.define([
 			//
 			// myWindows.stop();
 
+		},
+		onSubmitQuantity: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[3].focus();
+		},
+		onSubmitQuantityD: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[4].focus(oEvent);
+		},
+		onSubmitWeight: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[5].focus();
+			//this.getView().byId("IdWeightD").focus();
+		},
+		onSubmitWeightD: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[6].focus(oEvent);
+		},
+		onSubmitMaking: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[7].focus();
+		},
+		onSubmitMakingD: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[8].focus();
+		},
+		onSubmitTunch: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[9].focus();
+		},
+		onReturnSubmitWeight: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[2].focus();
+		},
+		onReturnSubmitKWeight: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[3].focus();
+		},
+		onReturnSubmitTunch: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[4].focus();
+		},
+		onReturnSubmitQty: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[5].focus();
+		},
+		onReturnSubmitBhav: function(oEvent){
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[6].focus();
+		},
+		onReturnSubmitDropdown: function (oEvent) {
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getCells()[1].focus();
 		},
 		onConfirm: function(oEvent) {
 			var that = this;

@@ -20,6 +20,7 @@
 					<!-- <m:Input value="{returnModel>type}" showValueHelp="true" valueHelpRequest="onTypeHelp"/> -->
 					<m:ComboBox showSecondaryValues="true" selectionChange="onReturnValue"
 						id ="IdType" value="{returnModel>Type}"
+						change="onReturnSubmitDropdown"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"
 						items="{path: 'local>/returnType', templateShareable:false}">
 						<core:Item key="{local>key}" text="{local>value}" additionalText="{local>key}"/>
@@ -32,7 +33,7 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>Weight}" liveChange="onReturnChange"
-						 type="Number" id ="IdWeightR"
+						 type="Number" id ="IdWeightR" submit="onReturnSubmitWeight"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
@@ -42,7 +43,7 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>KWeight}" liveChange="onReturnChange"
-						 type="Number" id ="IdKWeightR"
+						 type="Number" id ="IdKWeightR" submit="onReturnSubmitKWeight"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
@@ -52,7 +53,7 @@
 				</label>
 				<template>
 					<m:Input id="IdTunchR" value="{returnModel>Tunch}" type="Number"
-						 liveChange="onReturnChange" maxLength="3"
+						 liveChange="onReturnChange" maxLength="3"  submit="onReturnSubmitTunch"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
@@ -62,7 +63,7 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>Qty}" type="Number" liveChange="onReturnChange"
-						 id ="IdQtyR" maxLength="3"
+						 id ="IdQtyR" maxLength="3" submit="onReturnSubmitQty"
 						 editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>
@@ -72,7 +73,7 @@
 				</label>
 				<template>
 					<m:Input value="{returnModel>Bhav}" type="Number"
-						liveChange="onReturnChange" id ="IdBhavR" maxLength="5"
+						liveChange="onReturnChange" id ="IdBhavR" maxLength="5" submit="onReturnSubmitBhav"
 						editable="{= ${returnModel>ReturnId} === '' ? true : false}"/>
 				</template>
 			</Column>

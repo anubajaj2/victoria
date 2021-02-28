@@ -28,23 +28,33 @@
       "required": false
     },
     "Tunch": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
       "required": false
     },
     "Wastage": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
       "required": false
     },
     "CustomerTunch": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
       "required": false
     },
     "AlertQuantity": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
       "required": false
     },
     "Making": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
+      "required": false
+    },
+    "CustomerMaking": {
+      "type": "number",
+      "default": 0,
       "required": false
     },
     "Category": {
@@ -52,13 +62,9 @@
       "required": false
     },
     "PricePerUnit": {
-      "type": "string",
+      "type": "number",
+      "default": 0,
       "required": false
-    },
-    "WSTunch":{
-      "type":"hasMany",
-      "model":"WSTunch",
-      "foreignKey": "Product"
     }
   },
   "scope":{

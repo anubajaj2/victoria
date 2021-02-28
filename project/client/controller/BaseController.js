@@ -526,8 +526,8 @@ sap.ui.define([
 
 		handleGoldValidation: function(oValue) {
 			var oGold1 = parseFloat(oValue, 10);
-			if ((oGold1 < 25000 ||
-					oGold1 > 40000) && oGold1 > 0) {
+			if ((oGold1 < 30000 ||
+					oGold1 > 80000) && oGold1 > 0) {
 				var valid = false;
 				return valid;
 			} else {
@@ -539,8 +539,8 @@ sap.ui.define([
 
 		handleSilverValidation: function(oValue) {
 			var oSilver1 = parseFloat(oValue, 10);
-			if ((oSilver1 < 32000 ||
-					oSilver1 > 65000) && oSilver1 > 0) {
+			if ((oSilver1 < 30000 ||
+					oSilver1 > 110000) && oSilver1 > 0) {
 				var valid = false;
 				return valid;
 			} else {
@@ -1616,6 +1616,15 @@ sap.ui.define([
 		},
 
 		onCustomerSelect: function(oEvent, custName, custId) {
+			debugger;
+			var that = this;
+			if (oEvent.getParameter("selectedItem")) {
+				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+				this.setCustomerIdAndCustomerName(selectedData);
+			}
+		},
+
+		onBookingCustomerSelect: function(oEvent, custName, custId) {
 			debugger;
 			var that = this;
 			if (oEvent.getParameter("selectedItem")) {

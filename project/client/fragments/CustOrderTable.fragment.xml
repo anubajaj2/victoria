@@ -1,98 +1,136 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-<Table
-      id="idCoTable"
-      items="{
-             path: '/CustomerOrders',
-             sorter: {path: 'DelDate', descending: 'true'}
-             }"
-      growing="true"
-      growingThreshold="20"
-      mode="MultiSelect"
-      updateFinished="onUpdateFinished">
-  <headerToolbar>
-      <Toolbar>
-        <Title id="idCoTitle"/>
-      <ToolbarSpacer/>
-      <Button
-        icon="sap-icon://refresh"
-        press="onRefresh"/>
-      <Button
-        icon="sap-icon://delete"
-        press="onDelete"/>
-      </Toolbar>
-  </headerToolbar>
-<columns>
-    <Column>
-      <Label text="{i18n>coDate}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coDelivDate}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coCustName}" />
-    </Column>
-    <Column visible="false">
-      <Label text="{i18n>coCustId}"/>
-    </Column>
-    <Column>
-      <Label text="{i18n>coItemName}" />
-    </Column>
-    <Column visible="false">
-      <Label text="{i18n>coMatId}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coQty}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coWeight}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coMaking}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coRemarks}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coKarigar}" />
-    </Column>
-    <Column visible="false">
-      <Label text="{i18n>coKarigarId}" />
-    </Column>
-    <Column>
-      <Label text="{i18n>coPhoto}" />
-    </Column>
-  </columns>
-  <items>
-    <ColumnListItem>
-      <cells>
-        <Text text="{
-            path: 'Date',
-            type: 'sap.ui.model.type.Date',
-            formatOptions: {
-                    style: 'medium',
-                  pattern: 'dd.MM.yyyy'}}"/>
-        <Text text="{
-        path: 'DelDate',
-        type: 'sap.ui.model.type.Date',
-        formatOptions: {
-              style: 'medium',
-              pattern: 'dd.MM.yyyy'}}"/>
-        <Text text="" />
-        <Text text="{Customer}" />
-        <Text text="" />
-        <Text text="{Material}" />
-        <Text text="{Qty}" />
-        <Text text="{Weight}" />
-        <Text text="{Making}" />
-        <Text text="{Remarks}" />
-        <Text text="" />
-        <Text text="{Karigar}" />
-        <Button icon="sap-icon://picture" type="{
-            path: 'Picture',
-            formatter: '.formatter.checkPhotoStat'
-          }" press="onSelectPhoto" />
-      </cells>
-    </ColumnListItem>
-  </items>
-  </Table>
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<!-- <t:Table rows="{/CustomerOrders}" sort="descending">
+		<t:columns>
+			<t:Column label="{i18n>coDate}">
+				<t:template>
+					<Text text="{ path: 'Date', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+				</t:template>
+			</t:Column>
+			<t:Column label="{i18n>coDelivDate}">
+				<t:template>
+          <Text text="{ path: 'DelDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+				</t:template>
+			</t:Column>
+			<t:Column label="{i18n>coCustName}">
+				<t:template>
+					<Text text=""/>
+				</t:template>
+			</t:Column>
+			<t:Column label="{i18n>coItemName}">
+				<t:template>
+					<Text text=""/>
+				</t:template>
+			</t:Column>
+      <t:Column label="{i18n>coQty}">
+				<t:template>
+          <Text text="{Qty}"/>
+				</t:template>
+			</t:Column>
+      <t:Column label="{i18n>coWeight}">
+        <t:template>
+          <Text text="{Weight}"/>
+        </t:template>
+      </t:Column>
+      <t:Column label="{i18n>coMaking}">
+        <t:template>
+          <Text text="{Making}"/>
+        </t:template>
+      </t:Column>
+      <t:Column label="{i18n>coRemarks}">
+        <t:template>
+          <Text text="{Remarks}"/>
+        </t:template>
+      </t:Column>
+      <t:Column label="Status">
+        <t:template>
+          <Text text="{Remarks}"/>
+        </t:template>
+      </t:Column>
+      <t:Column label="{i18n>coKarigar}">
+        <t:template>
+          <Text text=""/>
+        </t:template>
+      </t:Column>
+			<t:Column label="{i18n>coPhoto}">
+				<t:template>
+          <Text text="{Remarks}"/>
+				</t:template>
+			</t:Column>
+		</t:columns>
+	</t:Table> -->
+	<Table id="idCoTable" items="{ path: '/CustomerOrders', sorter: {path: 'DelDate', descending: 'true'} }" growing="true"
+		growingThreshold="20" mode="MultiSelect" updateFinished="onUpdateFinished">
+		<headerToolbar>
+			<Toolbar>
+				<Title id="idCoTitle"/>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://refresh" press="onRefresh"/>
+				<Button icon="sap-icon://delete" press="onDelete"/>
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column>
+				<Label text="{i18n>coDate}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coDelivDate}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coCustName}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coCustId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coItemName}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coMatId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coQty}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coWeight}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coMaking}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coRemarks}"/>
+			</Column>
+			<Column>
+				<Label text="Status"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coKarigar}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coKarigarId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coPhoto}"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{ path: 'Date', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+					<Text text="{ path: 'DelDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+					<Text text=""/>
+					<Text text="{Customer}"/>
+					<Text text=""/>
+					<Text text="{Material}"/>
+					<Text text="{Qty}"/>
+					<Text text="{Weight}"/>
+					<Text text="{Making}"/>
+					<Text text="{Remarks}"/>
+					<Button id="changeStatus" type="Accept" text="{Status}" press="handlePopoverPress"/>
+					<Text text=""/>
+					<Text text="{Karigar}"/>
+					<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
 </core:FragmentDefinition>

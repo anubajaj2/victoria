@@ -71,6 +71,10 @@
       "type": "string",
       "default": "null"
     },
+    "Status": {
+      "type": "string",
+      "default": "In Progress"
+    },
     "CreatedOn": {
       "type": "date",
       "default": "null"

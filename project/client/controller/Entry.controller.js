@@ -56,6 +56,19 @@ function (BaseController,
     },
 		onEnter:function(oEvent){
 		  this.getCustomer(oEvent);
+			$(function() {
+							$('input:text:first').focus();
+							var $inp = $('input:text');
+							$inp.bind('keypress', function(e) {
+									//var key = (e.keyCode ? e.keyCode : e.charCode);
+									var key = e.which;
+									if (key == 13) {
+											e.preventDefault();
+											var nxtIdx = $inp.index(this) + 1;
+											$(":input:text:eq(" + nxtIdx + ")").focus();
+									}
+							});
+					});
 		},
     onCalculate: function (evt) {
       debugger;
@@ -211,6 +224,10 @@ function (BaseController,
 			this.getView().byId("idMatText").setText(selMatName + " - " + selType);
 
 		},
+		onRemarksSubmit: function(oEvent){
+			this.getView().byId("sendButton").focus();
+		},
+
 	    onSubmit: function (evt) {
           $(function() {
                   $('input:text:first').focus();

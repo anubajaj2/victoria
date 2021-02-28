@@ -34,7 +34,7 @@
       </f:FormElement>
       <f:FormElement label="{i18n>Customer}">
         <f:fields>
-          <Input  id="idCust" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
+          <Input id="idCust" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
             suggestionItemSelected="onCustomerSelect"
             submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
             <suggestionItems>
@@ -64,14 +64,14 @@
       </f:FormElement>
       <f:FormElement label="{i18n>Remarks}">
         <f:fields>
-          <Input id="idRemarks" type="Text" submit="onSubmit" value="{local>/EntryData/Remarks}"></Input>
+          <Input id="idRemarks" type="Text" submit="onRemarksSubmit" value="{local>/EntryData/Remarks}"></Input>
         </f:fields>
       </f:FormElement>
           <f:FormElement label="{i18n>DueDate}">
           <f:fields>
             <DatePicker id="DueDateId" valueFormat="yyyy.MM.dd"
               displayFormat="dd.MM.yyyy" value="{local>/EntryData/DueDate}" ></DatePicker>
-            <Button text="{i18n>Send}" press="onSend"></Button>
+            <Button text="{i18n>Send}" id="sendButton" press="onSend"></Button>
             <Button text="{i18n>Clear}" press="onClear"></Button>
             <!-- <Button text="{i18n>master}" press="onMasterClear"></Button> -->
           </f:fields>

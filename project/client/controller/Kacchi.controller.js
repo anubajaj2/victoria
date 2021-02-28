@@ -146,6 +146,49 @@ _onRouteMatched: function(oEvent){
 
    this.getTotals();
   },
+  onliveChangeWeight: function(oEvent){
+    debugger;
+    var fine = 0.00;
+    this.byId("idSaveIcon").setColor('red');
+    var oCurrentRow = oEvent.getSource().getParent();
+    var cells = oCurrentRow.getCells();
+    var paggaNo  = cells[0].getValue;
+    var aWeight  = cells[1].getValue;
+    var aTunch   = cells[2].getValue;
+
+    if(aWeight !== 0 || aWeight !== ""){
+      cells[1].setValueState(sap.ui.core.ValueState.None);
+      // console.log(cells[1])
+
+      if (this.getView().byId("idRb1").getSelected()) {
+        var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
+        cells[1].setValue(dQty);
+			} else if (this.getView().byId("idRb2").getSelected()) {
+        var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
+        cells[1].setValue(dQty);
+			}
+    }
+    if(aTunch !== 0 || aTunch !== ""){
+      cells[2].setValueState(sap.ui.core.ValueState.None);
+    }
+    if(paggaNo){
+      fine = (cells[1].getValue() * cells[2].getValue() / 100);
+      if(fine != 0){
+      fine = fine.toFixed(3);
+      cells[3].setValue(fine);
+    }else {
+      cells[3].setValue(fine);
+    }
+    var tunch = cells[2].getValue();
+    if(tunch > 100) {
+      cells[2].setValueState("Error").setValueStateText("Tunch can not be greater then 100");
+    }else {
+      cells[2].setValueState(sap.ui.core.ValueState.None);
+    }
+    }
+
+   this.getTotals();
+  },
   onTransfer: function(){
     debugger;
     var that=this;

@@ -62,13 +62,27 @@
 				</f:FormElement>
 				<f:FormElement label="Gold">
 					<f:fields>
-						<Input id="idGold" liveChange="onliveChange" value="{local>/CustomCalculation/Gold}">
+						<Input id="idGold" liveChange="onliveChange" value="{
+							path : 'local>/CustomCalculation/Gold',
+							type : 'sap.ui.model.type.Integer',
+							constraints : {
+								minimum: 30000,
+								maximum: 80000
+							}
+						}">
 						</Input>
 				</f:fields>
 			</f:FormElement>
 			<f:FormElement label="Silver">
 				<f:fields>
-					<Input id="idSilver" liveChange="onliveChange" value="{local>/CustomCalculation/Silver}">
+					<Input id="idSilver" liveChange="onliveChange" value="{
+							path : 'local>/CustomCalculation/Silver',
+							type : 'sap.ui.model.type.Integer',
+							constraints : {
+								minimum: 30000,
+								maximum: 110000
+							}
+						}">
 					</Input>
 			</f:fields>
 		</f:FormElement>
@@ -81,13 +95,26 @@
 		<f:formElements>
 		<f:FormElement label="Gold Returns">
 			<f:fields>
-				<Input id="idGoldR" liveChange="onliveChange" value="{local>/CustomCalculation/GoldReturns}">
+				<Input id="idGoldR" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/GoldReturns',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 80000
+					}
+				}">
 				</Input>
 			</f:fields>
 		</f:FormElement>
 		<f:FormElement label="Silver Returns">
 			<f:fields>
-				<Input id="idSilverR" liveChange="onliveChange" value="{local>/CustomCalculation/SilverReturns}">
+				<Input id="idSilverR" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/SilverReturns',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 110000
+					}}">
 				</Input>
 		</f:fields>
 	</f:FormElement>
@@ -122,25 +149,53 @@
 	<f:formElements>
 	<f:FormElement label="Gold">
 		<f:fields>
-			<Input id="idGold1" liveChange="onliveChange" value="{local>/CustomCalculation/Gold1}" >
+			<Input id="idGold1" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/Gold1',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 80000
+					}
+				}" >
 			</Input>
 		</f:fields>
 	</f:FormElement>
 	<f:FormElement label="Silver">
 		<f:fields>
-			<Input id="idSilver1" liveChange="onliveChange" value="{local>/CustomCalculation/Silver1}">
+			<Input id="idSilver1" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/Silver1',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 110000
+					}
+				}">
 			</Input>
 	</f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold">
 	<f:fields>
-		<Input id="idKacchaGold" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGold}">
+		<Input id="idKacchaGold" liveChange="onliveChange" value="{
+				path : 'local>/CustomCalculation/KacchaGold',
+				type : 'sap.ui.model.type.Integer',
+				constraints : {
+					minimum: 30000,
+					maximum: 80000
+				}
+			}">
 		</Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver">
 <f:fields>
-	<Input id="idKacchaSilver" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilver}">
+	<Input id="idKacchaSilver" liveChange="onliveChange" value="{
+			path : 'local>/CustomCalculation/KacchaSilver',
+			type : 'sap.ui.model.type.Integer',
+			constraints : {
+				minimum: 30000,
+				maximum: 110000
+			}
+		}">
 	</Input>
 </f:fields>
 </f:FormElement>
@@ -153,25 +208,53 @@
 <f:formElements>
 <f:FormElement label="Gold Returns">
 <f:fields>
-<Input id="idGoldR1" liveChange="onliveChange" value="{local>/CustomCalculation/GoldReturns1}">
+<Input id="idGoldR1" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/GoldReturns1',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 80000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Silver Returns">
 <f:fields>
-<Input id="idSilverR1" liveChange="onliveChange" value="{local>/CustomCalculation/SilverReturns1}">
+<Input id="idSilverR1" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/SilverReturns1',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 110000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Gold R">
 <f:fields>
-<Input id="idKacchaGoldR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaGoldR}">
+<Input id="idKacchaGoldR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaGoldR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 80000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>
 <f:FormElement label="Kaccha Silver R">
 <f:fields>
-<Input id="idKacchaSilverR" liveChange="onliveChange" value="{local>/CustomCalculation/KacchaSilverR}">
+<Input id="idKacchaSilverR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaSilverR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 110000
+		}
+	}">
 </Input>
 </f:fields>
 </f:FormElement>

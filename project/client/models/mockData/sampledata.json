@@ -423,6 +423,25 @@
 		"ChangedBy": "",
 		"ChangedOn": ""
 	},
+	"BookingCustomer": {
+		"OrderId":"",
+		"CustomerId": "",
+		"CustomerName": "",
+		"FinalBalance": "",
+		"Deduction": "",
+		"TotalOrderValue": "",
+		"FinalBalanceCash": "",
+		"FinalBalanceGold": "",
+		"FinalBalanceSilver": "",
+		"DeductionCash": "",
+		"DeductionGold": "",
+		"DeductionSilver": "",
+		"TotalOrderValueCash": "",
+		"TotalOrderValueGold": "",
+		"TotalOrderValueSilver": "",
+		"CombinedBalance": "",
+		"BalanceSuffix" : ""
+	},
 	"BookingDlvDetail": {
 		"BookingDate": "",
 		"Customer": "",

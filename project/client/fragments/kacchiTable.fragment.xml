@@ -34,7 +34,7 @@
     <Column hAlign="Center">
       <m:Label design="Bold" text="{i18n>weight}" />
       <template>
-        <m:Input textAlign="Center" id="idWeight" liveChange="onliveChange" valueLiveUpdate="true"
+        <m:Input textAlign="Center" id="idWeight" liveChange="onliveChangeWeight" valueLiveUpdate="true"
           required="true" value="{kachhiLocalModel>Weight}"
           enabled="{kachhiLocalModel>/status}"
           editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>

@@ -652,6 +652,7 @@ orderCheck:function(){
   this.getView().byId("Sales--customerId").setValueState("None");
   //call the odata promise method to post the data
   orderData.Date = this.getView().byId("Sales--DateId").getValue();
+  orderData.Date.setHours(0,0,0,0);
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
                             "POST", {}, orderData, this)
                .then(function(oData) {

@@ -324,7 +324,7 @@ sap.ui.define(
 			},
 			onDailyReport : function(){
 				var dDateStart = this.getView().byId("idDate").getValue();
-				dDateStart.setHours(0,0,0,0);
+				//dDateStart.setHours(0,0,0,0);
 				window.open("/DailyReport?date="+dDateStart);
 			},
 			onStockReport : function(){

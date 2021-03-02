@@ -1,9 +1,12 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
-  xmlns:f="sap.ui.layout.form">
-  <VBox>
-  <f:Form id="idcust1" editable="true">
-    <f:layout>
-      <f:ResponsiveGridLayout
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+    <VBox>
+        <f:Form id="idcust1" editable="true">
+            <f:layout>
+                <f:ResponsiveGridLayout
         labelSpanXL="2"
          labelSpanL="2"
          labelSpanM="2"
@@ -17,186 +20,153 @@
          columnsL="2"
          columnsM="2"
         singleContainerFullSize="false"/>
-    </f:layout>
-    <f:formContainers>
-      <f:FormContainer>
-    <f:formElements>
-      <f:FormElement label="{i18n>Date}">
-        <f:fields>
-          <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
-            displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
-          <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="false">
-          <layoutData>
-            <l:GridData span="XL5 L5"/>
-          </layoutData>
-        </CheckBox>
-        </f:fields>
-      </f:FormElement>
-      <f:FormElement label="{i18n>Customer}">
-        <f:fields>
-          <Input id="idCust" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
-            suggestionItemSelected="onCustomerSelect"
-            submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
-            <suggestionItems>
-              <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
-              </suggestionItems>
-              <layoutData>
-                <l:GridData span="XL3 L3"/>
-              </layoutData>
-          </Input>
-          <Text id="idCustText" enableSelection="false"/>
-        </f:fields>
-      </f:FormElement>
-      <f:FormElement label="{i18n>Cash}">
-        <f:fields>
-          <Input id="idCash" width="50%" liveChange="decimalvalidator1" submit="onSubmit" value="{path:'local>/EntryData/Cash'}"/>
-        </f:fields>
-      </f:FormElement>
-      <f:FormElement label="{i18n>Gold}">
-        <f:fields>
-          <Input id="idGold" width="50%" liveChange="decimalvalidator2" submit="onSubmit" value="{path:'local>/EntryData/Gold'}"/>
-        </f:fields>
-      </f:FormElement>
-      <f:FormElement label="{i18n>Silver}">
-        <f:fields>
-          <Input id="idSilver" width="50%" liveChange="decimalvalidator3" submit="onSubmit" value="{path:'local>/EntryData/Silver'}"/>
-        </f:fields>
-      </f:FormElement>
-      <f:FormElement label="{i18n>Remarks}">
-        <f:fields>
-          <Input id="idRemarks" type="Text" submit="onRemarksSubmit" value="{local>/EntryData/Remarks}"></Input>
-        </f:fields>
-      </f:FormElement>
-          <f:FormElement label="{i18n>DueDate}">
-          <f:fields>
-            <DatePicker id="DueDateId" valueFormat="yyyy.MM.dd"
-              displayFormat="dd.MM.yyyy" value="{local>/EntryData/DueDate}" ></DatePicker>
-            <Button text="{i18n>Send}" id="sendButton" press="onSend"></Button>
-            <Button text="{i18n>Clear}" press="onClear"></Button>
-            <!-- <Button text="{i18n>master}" press="onMasterClear"></Button> -->
-          </f:fields>
-        </f:FormElement>
-      </f:formElements>
-      <f:layoutData>
-        <f:GridContainerData halfGrid="true">
-        </f:GridContainerData>
-      </f:layoutData>
-      </f:FormContainer>
-      <f:FormContainer>
-              <f:formElements>
-                <f:FormElement>
-           				<f:fields>
-                    <Label text="{i18n>tCash}" class="sapUiSmallMarginTop" textAlign="End"/>
-                     <ObjectStatus id="idTC" text="" state="None" />
-             			</f:fields>
-           			</f:FormElement>
-           		<f:FormElement>
-           			<f:fields>
-                  <Label text="{i18n>tGold}" class="sapUiSmallMarginTop" textAlign="End"/>
-                 <ObjectStatus id="idG" text="" state="None" />
-           			</f:fields>
-           		</f:FormElement>
-           		<f:FormElement>
-           			<f:fields>
-                  <Label text="{i18n>tSilver}" class="sapUiSmallMarginTop" textAlign="End"/>
-               <ObjectStatus id="idS" text="" state="None" />
-           			</f:fields>
-           		</f:FormElement>
-              <f:FormElement>
-                <f:fields>
-                  <RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
-                    <buttons>
-                      <RadioButton id="RB-1" text="{i18n>Chandi}" selected="true" enabled="true" editable="true"/>
-                      <RadioButton id="RB-4" text="{i18n>material}" />
-                      <RadioButton id="RB-2" text="{i18n>Sona}" />
-                      <RadioButton id="RB-3" text="{i18n>Kacchi}" />
-                    </buttons>
-                    </RadioButtonGroup>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
-                <f:fields>
-                  <Input id="idMat"  editable="true" type="Text" submit="ValueChangeMaterial"
-                    placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
-                    showSuggestion="true" suggestionItems="{/Products}" visible="true">
-                    <suggestionItems>
-                      <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
-                    </suggestionItems>
-                    <layoutData>
-                      <l:GridData span="XL3 L3"/>
-                    </layoutData>
-                  </Input>
-                  <Text id="idMatText" enableSelection="false"/>
-                  <Text id="idMatType" enableSelection="false"/>
-                </f:fields>
-              </f:FormElement>
-              <!-- <f:FormElement label="{i18n>type}">
-                <f:fields>
-                  <Input id="idMatType" width="50%" value=""> -->
-                    <!-- <layoutData>
-                      <l:GridData span="L3"></l:GridData>
-                    </layoutData> -->
-                  <!-- </Input>
-                </f:fields>
-              </f:FormElement> -->
-              <f:FormElement label="{i18n>weitun}">
-                <f:fields>
-                  <Input id="idweight" submit="onSubmit" liveChange="decimalvalidator4" value="{path:'local>/EntryData/Weight'}">
-                    <layoutData>
-      								<l:GridData span="L3"></l:GridData>
-      							</layoutData>
-                  </Input>
-                  <Label text="{i18n>multiply}" design="Bold" class="sapUiSmallMarginTop sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd  ">
-                  <layoutData>
-                  <l:GridData span="L1"/>
-                  </layoutData>
-                  </Label>
-                  <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}" enabled="true">
-                  <layoutData>
-                 <l:GridData span="L3"/>
-                 </layoutData>
-                 </Input>
-                 <Button text="{i18n>Calculate}" press="onCalculate"></Button>
-                </f:fields>
-              </f:FormElement>
-              <!-- <f:FormElement label="{i18n>multiply}">
-                <f:fields> -->
-                  <!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
-                    </Label> -->
-                  <!-- <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}"> -->
-                    <!-- <layoutData>
-                      <l:GridData span="L8"></l:GridData>
-                    </layoutData> -->
-                  <!-- </Input>
-
-                  </f:fields>
-                  </f:FormElement> -->
-        </f:formElements>
-      </f:FormContainer>
-      <!-- <f:FormContainer> -->
-        <!-- <f:formElements>
-
-        </f:formElements> -->
-        <!-- <f:layoutData>
-          <f:GridContainerData halfGrid="true"></f:GridContainerData>
-        </f:layoutData> -->
-      <!-- </f:FormContainer>
-      <f:FormContainer>
-        <f:formElements>
-
-
-            </f:formElements>
-            <f:layoutData>
-              <f:GridContainerData halfGrid="true"></f:GridContainerData>
-            </f:layoutData>
-          </f:FormContainer>
-          <f:FormContainer>
-            <f:formElements>
-
-          </f:formElements>
-
-      </f:FormContainer> -->
-        </f:formContainers>
-  </f:Form>
-</VBox>
+            </f:layout>
+            <f:formContainers>
+                <f:FormContainer>
+                    <f:formElements>
+                        <f:FormElement label="{i18n>Date}">
+                            <f:fields>
+                                <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
+                                 displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
+                                <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="false">
+                                    <layoutData>
+                                        <l:GridData span="XL5 L5"/>
+                                    </layoutData>
+                                </CheckBox>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>Customer}">
+                            <f:fields>
+                                <Input id="idCust" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
+                                  suggestionItemSelected="onCustomerSelect"
+                                  submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+                                    <suggestionItems>
+                                        <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+                                    </suggestionItems>
+                                    <layoutData>
+                                        <l:GridData span="XL3 L3"/>
+                                    </layoutData>
+                                </Input>
+                                <Text id="idCustText" enableSelection="false"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>Cash}">
+                            <f:fields>
+                                <Input id="idCash" width="50%" liveChange="decimalvalidator1" submit="onCashSubmit" value="{path:'local>/EntryData/Cash'}"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>Gold}">
+                            <f:fields>
+                                <Input id="idGold" width="50%" liveChange="decimalvalidator2" submit="onGoldSubmit" value="{path:'local>/EntryData/Gold'}"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>Silver}">
+                            <f:fields>
+                                <Input id="idSilver" width="50%" liveChange="decimalvalidator3" submit="onSilverSubmit" value="{path:'local>/EntryData/Silver'}"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>Remarks}">
+                            <f:fields>
+                                <Input id="idRemarks" type="Text" submit="onRemarksSubmit" value="{local>/EntryData/Remarks}"></Input>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="{i18n>DueDate}">
+                            <f:fields>
+                                <DatePicker id="DueDateId" valueFormat="yyyy.MM.dd"
+                                displayFormat="dd.MM.yyyy" value="{local>/EntryData/DueDate}" ></DatePicker>
+                                <Button text="{i18n>Send}" id="sendButton" press="onSend"></Button>
+                                <Button text="{i18n>Clear}" press="onClear"></Button>
+                                <!-- <Button text="{i18n>master}" press="onMasterClear"></Button> -->
+                            </f:fields>
+                        </f:FormElement>
+                    </f:formElements>
+                    <f:layoutData>
+                        <f:GridContainerData halfGrid="true"></f:GridContainerData>
+                    </f:layoutData>
+                </f:FormContainer>
+                <f:FormContainer>
+                    <f:formElements>
+                        <f:FormElement>
+                            <f:fields>
+                                <Label text="{i18n>tCash}" class="sapUiSmallMarginTop" textAlign="End"/>
+                                <ObjectStatus id="idTC" text="" state="None" />
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement>
+                            <f:fields>
+                                <Label text="{i18n>tGold}" class="sapUiSmallMarginTop" textAlign="End"/>
+                                <ObjectStatus id="idG" text="" state="None" />
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement>
+                            <f:fields>
+                                <Label text="{i18n>tSilver}" class="sapUiSmallMarginTop" textAlign="End"/>
+                                <ObjectStatus id="idS" text="" state="None" />
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement>
+                            <f:fields>
+                                <RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiMediumMarginBottom" select="onRadioButtonSelect">
+                                    <buttons>
+                                        <RadioButton id="RB-1" text="{i18n>Chandi}" selected="true" enabled="true" editable="true"/>
+                                        <RadioButton id="RB-4" text="{i18n>material}" />
+                                        <RadioButton id="RB-2" text="{i18n>Sona}" />
+                                        <RadioButton id="RB-3" text="{i18n>Kacchi}" />
+                                    </buttons>
+                                </RadioButtonGroup>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
+                            <f:fields>
+                                <Input id="idMat"  editable="true" type="Text" submit="valueChangeMaterial"
+                                placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
+                                showSuggestion="true" suggestionItems="{/Products}" visible="true">
+                                    <suggestionItems>
+                                        <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
+                                    </suggestionItems>
+                                    <layoutData>
+                                        <l:GridData span="XL3 L3"/>
+                                    </layoutData>
+                                </Input>
+                                <Text id="idMatText" enableSelection="false"/>
+                                <Text id="idMatType" enableSelection="false"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <!-- <f:FormElement label="{i18n>type}"><f:fields><Input id="idMatType" width="50%" value=""> -->
+                        <!-- <layoutData><l:GridData span="L3"></l:GridData></layoutData> -->
+                        <!-- </Input></f:fields></f:FormElement> -->
+                        <f:FormElement label="{i18n>weitun}">
+                            <f:fields>
+                                <Input id="idweight" submit="onSubmitSideWeight" liveChange="decimalvalidator4" value="{path:'local>/EntryData/Weight'}">
+                                    <layoutData>
+                                        <l:GridData span="L3"></l:GridData>
+                                    </layoutData>
+                                </Input>
+                                <Label text="{i18n>multiply}" design="Bold" class="sapUiSmallMarginTop sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd  ">
+                                    <layoutData>
+                                        <l:GridData span="L1"/>
+                                    </layoutData>
+                                </Label>
+                                <Input id="idtunch" submit="onSubmitSideTunch" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}" enabled="true">
+                                    <layoutData>
+                                        <l:GridData span="L3"/>
+                                    </layoutData>
+                                </Input>
+                                <Button text="{i18n>Calculate}" id="calculateButton" press="onCalculate"></Button>
+                            </f:fields>
+                        </f:FormElement>
+                        <!-- <f:FormElement label="{i18n>multiply}"><f:fields> -->
+                        <!-- <Label text="{i18n>tunch}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%"></Label> -->
+                        <!-- <Input id="idtunch" submit="onSubmit" liveChange="decimalvalidator5" value="{path:'local>/EntryData/Tunch'}"> -->
+                        <!-- <layoutData><l:GridData span="L8"></l:GridData></layoutData> -->
+                        <!-- </Input></f:fields></f:FormElement> -->
+                    </f:formElements>
+                </f:FormContainer>
+                <!-- <f:FormContainer> -->
+                <!-- <f:formElements></f:formElements> -->
+                <!-- <f:layoutData><f:GridContainerData halfGrid="true"></f:GridContainerData></f:layoutData> -->
+                <!-- </f:FormContainer><f:FormContainer><f:formElements></f:formElements><f:layoutData><f:GridContainerData halfGrid="true"></f:GridContainerData></f:layoutData></f:FormContainer><f:FormContainer><f:formElements></f:formElements></f:FormContainer> -->
+            </f:formContainers>
+        </f:Form>
+    </VBox>
 </core:FragmentDefinition>

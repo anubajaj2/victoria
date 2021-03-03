@@ -400,7 +400,7 @@ sap.ui.define([
 						if (oData.results[i].Value === "false") {
 							arrayRemoveFromPrint.push('idRReturnSubTotal');
 						}
-					default:
+						default:
 				}
 			}
 			var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
@@ -432,7 +432,7 @@ sap.ui.define([
 				'</tr>' +
 				'<tr>' +
 				'<td style="width: 150px;"><strong>City</strong></td>' +
-				'<td style="width: 350px;">' + cusData.City + '</td>' +
+				'<td style="width: 350px;">' + this.allMasterData.cities[cusData.City].cityName + '</td>' +
 				'</tr>' +
 				'<tr>' +
 				'<td style="width: 150px;"><strong>Customer Contact</strong></td>' +
@@ -494,7 +494,7 @@ sap.ui.define([
 						'<td class="idRWeightD" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].WeightD + '</td>' +
 						'<td class="idRMakingCharge" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Making + '</td>' +
 						'<td class="idRMakingChargeD" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].MakingD + '</td>' +
-						'<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Remarks + '</td>' +
+						'<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Remarks ? oBinding.oList[i].Remarks : '' + '</td>' +
 						'<td class="idRSubTotal" style="width: 80px;border: 1px solid black;s">&nbsp;' + oBinding.oList[i].SubTotal + '</td></tr>';
 				}
 			}
@@ -537,7 +537,7 @@ sap.ui.define([
 							'<td  class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].KWeight + '</td>' +
 							'<td  class="idRReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Tunch + '</td>' +
 							'<td  class="idRReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Bhav + '</td>' +
-							'<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Remarks + '</td>' +
+							'<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Remarks ? oReturns[i].Remarks : '' + '</td>' +
 							'<td  class="idRReturnSubTotal" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].SubTotal + '</td></tr>';
 					}
 				}
@@ -565,7 +565,7 @@ sap.ui.define([
 				'</tr>' +
 				'</tbody></table>';
 			debugger;
-			var random = Math.floor(Math.random()*10000);
+			var random = Math.floor(Math.random() * 10000);
 			var myWindows = window.open("", "PrintWindow" + random, "width=1200,height=800");
 			myWindows.document.write(header + table + footer);
 			for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
@@ -578,8 +578,8 @@ sap.ui.define([
 			myWindows.focus();
 			setTimeout(function() {
 				myWindows.print();
-			}, 1000);
-			myWindows.stop();
+				myWindows.stop();
+			}, 1500);
 
 			// var random = Math.floor(Math.random()*10000);
 			// var myWindows = window.open("", "PrintWindow" + random, "width=1200,height=800");
@@ -599,68 +599,68 @@ sap.ui.define([
 			// myWindows.stop();
 
 		},
-		onSubmitQuantity: function(oEvent){
+		onSubmitQuantity: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[3].focus();
 		},
-		onSubmitQuantityD: function(oEvent){
+		onSubmitQuantityD: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[4].focus(oEvent);
 		},
-		onSubmitWeight: function(oEvent){
+		onSubmitWeight: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[5].focus();
 			//this.getView().byId("IdWeightD").focus();
 		},
-		onSubmitWeightD: function(oEvent){
+		onSubmitWeightD: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[6].focus(oEvent);
 		},
-		onSubmitMaking: function(oEvent){
+		onSubmitMaking: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[7].focus();
 		},
-		onSubmitMakingD: function(oEvent){
+		onSubmitMakingD: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[8].focus();
 		},
-		onSubmitTunch: function(oEvent){
+		onSubmitTunch: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[9].focus();
 		},
-		onReturnSubmitWeight: function(oEvent){
+		onReturnSubmitWeight: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[2].focus();
 		},
-		onReturnSubmitKWeight: function(oEvent){
+		onReturnSubmitKWeight: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[3].focus();
 		},
-		onReturnSubmitTunch: function(oEvent){
+		onReturnSubmitTunch: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[4].focus();
 		},
-		onReturnSubmitQty: function(oEvent){
+		onReturnSubmitQty: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[5].focus();
 		},
-		onReturnSubmitBhav: function(oEvent){
+		onReturnSubmitBhav: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[6].focus();
 		},
-		onReturnSubmitDropdown: function (oEvent) {
+		onReturnSubmitDropdown: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[1].focus();
@@ -751,6 +751,7 @@ sap.ui.define([
 		getOrderDetails: function(oEvent, orderId, oFilter, orderNo) {
 			var that = this;
 			debugger;
+			that.getView().setBusy(true);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/OrderHeaders('" + orderId + "')", "GET", {
 						filters: [oFilter]
@@ -771,7 +772,7 @@ sap.ui.define([
 					that.getView().byId("Sales--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
 					var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 					that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
-						// assign the item Details
+					// assign the item Details
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 							"/OrderHeaders('" + orderId + "')/ToOrderItems",
 							"GET", {}, {}, that)
@@ -862,28 +863,28 @@ sap.ui.define([
 					initialFocus: null, // default
 					textDirection: sap.ui.core.TextDirection.Inherit, // default
 					onClose: function(sButton) {
-							if (sButton === MessageBox.Action.OK) {
-								var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
-								var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
-								var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
-								var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
-								var order = that.getView().getModel('local').getProperty('/orderHeader')
-								that.onClear(oEvent, id);
-								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
-								that.getView().byId("Sales--custName").setText(customerName);
-								that.getView().getModel('local').setProperty('/orderHeader/Customer', customerNo);
-								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-										"/CustomCalculations", "GET", {}, {}, that)
-									.then(function(oData) {
-										that.orderCheck();
-									}).catch(function(oError) {
-										that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
-										that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
-										that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
-										that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
-									});
-							} //Sbutton if condition
-						} //onClose
+						if (sButton === MessageBox.Action.OK) {
+							var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
+							var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
+							var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
+							var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
+							var order = that.getView().getModel('local').getProperty('/orderHeader')
+							that.onClear(oEvent, id);
+							that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
+							that.getView().byId("Sales--custName").setText(customerName);
+							that.getView().getModel('local').setProperty('/orderHeader/Customer', customerNo);
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/CustomCalculations", "GET", {}, {}, that)
+								.then(function(oData) {
+									that.orderCheck();
+								}).catch(function(oError) {
+									that.getView().getModel("local").setProperty("/orderHeader/GoldBhav22", 0);
+									that.getView().getModel("local").setProperty("/orderHeader/GoldBhav20", 0);
+									that.getView().getModel("local").setProperty("/orderHeader/GoldBhav", 0);
+									that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
+								});
+						} //Sbutton if condition
+					} //onClose
 				});
 			} else {
 				that.orderCheck();
@@ -1727,11 +1728,13 @@ sap.ui.define([
 			var that = this;
 			this.setWidths(false);
 			var myData = this.getView().getModel("local").getProperty("/orderHeader");
+			this.getView().setBusy(true);
 			$.post("/previousOrder", {
 					OrderDetails: myData
 				})
 				.then(function(result) {
 					that.byId("idRetailTransfer").setEnabled(true);
+					that.getView().setBusy(false);
 					console.log(result);
 					if (result) {
 						delete that.orderAmount;
@@ -1771,7 +1774,6 @@ sap.ui.define([
 
 		nextOrder: function(oEvent) {
 			debugger;
-
 			var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
 			var dateFrom = new Date(selectedDate);
 			dateFrom.setDate(selectedDate.getDate() - 1);
@@ -1785,11 +1787,11 @@ sap.ui.define([
 				filters: [oFilter1, oFilter2],
 				and: true
 			});
-
 			var that = this;
 			this.setWidths(false);
 			var myData = this.getView().getModel("local").getProperty("/orderHeader");
-			if (!myData.OrderNo) {
+			if (!myData.OrderNo && false) {
+				this.orderPopup(oEvent);
 				this.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 						"/OrderHeaders",
 						"GET", {
@@ -1797,6 +1799,7 @@ sap.ui.define([
 						}, {}, that)
 					.then(function(oData) {
 						debugger;
+						that.getView().setBusy(false);
 						// ordersForSelectedDate = oData;
 						var n = oData.results.length;
 						if (n == 0) {
@@ -1822,10 +1825,12 @@ sap.ui.define([
 						}
 					})
 			} else {
+				this.getView().setBusy(true);
 				$.post("/nextOrder", {
 						OrderDetails: myData
 					})
 					.then(function(result) {
+						that.getView().setBusy(false);
 						console.log(result);
 						that.byId("idRetailTransfer").setEnabled(true);
 						if (result) {
@@ -1851,6 +1856,24 @@ sap.ui.define([
 							}
 							oEvent.sId = "orderReload";
 							that.getOrderDetails(oEvent, orderId, oFilter);
+							if (!that.navigation) {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+								that.getOrderDetails(oEvent, result.id, orFilter);
+								that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
+								that.getView().addDependent(that.orderSearchPopup);
+								that.orderSearchPopup.bindAggregation("items", {
+									path: '/OrderHeaders',
+									filters: orFilter,
+									template: new sap.m.DisplayListItem({
+										label: "{OrderNo}",
+										value: {
+											path: 'Customer',
+											formatter: that.getCustomerName.bind(that)
+										}
+									})
+								});
+								that.navigation = true;
+							}
 						}
 
 					});

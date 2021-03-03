@@ -82,7 +82,7 @@ app.start = function() {
 				var exceltojson;
 
 				sampleFile = req.files.myFileUpload;
-			
+
 				sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
 					if (err) {
 						console.log("eror saving");
@@ -1932,513 +1932,513 @@ app.start = function() {
 			});
 		})
 		app.post('/entryDownload', function(req, res) {
-				var reportType = req.body.type;
-				var custId = req.body.id;
-				var name = req.body.name;
-				var city = req.body.city;
-				var Ggroup = "";
-				//read customer name by id, group by group id, city by
-				//read kacchi and print report with all coloring, formatting, totaling
-				var responseData = [];
-				var oSubCounter = {};
-				var Customer = app.models.Customer;
+			var reportType = req.body.type;
+			var custId = req.body.id;
+			var name = req.body.name;
+			var city = req.body.city;
+			var Ggroup = "";
+			//read customer name by id, group by group id, city by
+			//read kacchi and print report with all coloring, formatting, totaling
+			var responseData = [];
+			var oSubCounter = {};
+			var Customer = app.models.Customer;
 
-				var async = require('async');;
-				async.waterfall([
-						function(callback) {
-							Customer.findById(custId, {
-								fields: {
-									"CustomerCode": true,
-									"Name": true,
-									"Group": true,
-									"City": true
+			var async = require('async');;
+			async.waterfall([
+					function(callback) {
+						Customer.findById(custId, {
+							fields: {
+								"CustomerCode": true,
+								"Name": true,
+								"Group": true,
+								"City": true
+							}
+						}).then(function(customerRecord, err) {
+							callback(err, customerRecord);
+						});
+					}
+				], function(err, customerRecord) {
+					// result now equals 'done'
+					//set all values to local variables which we need inside next promise
+					name = customerRecord.Name;
+					try {
+						//read the kacchi Records
+						var Entry = app.models.Entry;
+						Entry.find({
+								where: {
+									"Customer": custId
 								}
-							}).then(function(customerRecord, err) {
-								callback(err, customerRecord);
-							});
-						}
-					], function(err, customerRecord) {
-						// result now equals 'done'
-						//set all values to local variables which we need inside next promise
-						name = customerRecord.Name;
-						try {
-							//read the kacchi Records
-							var Entry = app.models.Entry;
-							Entry.find({
-									where: {
-										"Customer": custId
-									}
-								})
-								.then(function(Records, err) {
-										if (Records) {
-											var excel = require('exceljs');
-											var workbook = new excel.Workbook(); //creating workbook
-											var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+							})
+							.then(function(Records, err) {
+									if (Records) {
+										var excel = require('exceljs');
+										var workbook = new excel.Workbook(); //creating workbook
+										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
-											//Heading for excel
-											var heading = {
-												heading: "Fast Report"
-											};
-											sheet.mergeCells('A1:E1');
-											sheet.getCell('E1').value = 'Fast Report';
-											sheet.getCell('A1').alignment = {
-												vertical: 'middle',
-												horizontal: 'center'
-											};
-											sheet.getCell('A1').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: '808080'
-												}
-											};
-
-											//Merging second Row
-											sheet.mergeCells('A2:E2');
-
-											//Code for getting current datetime
-											var currentdate = new Date();
-											var datetime = currentdate.getDate() + "." +
-												(currentdate.getMonth() + 1) + "." +
-												currentdate.getFullYear() + " / " +
-												currentdate.getHours() + ":" +
-												currentdate.getMinutes() + ":" +
-												currentdate.getSeconds();
-											sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime;
-											sheet.getCell('A2').alignment = {
-												vertical: 'middle',
-												horizontal: 'center'
-											};
-											sheet.getRow(2).font === {
-												bold: true
-											};
-
-											var header = ["Date", "Silver", "Cash", "Gold", "Remarks"];
-
-											sheet.addRow().values = header;
-
-											//Coding for cell color and bold character
-											sheet.getCell('A3').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: 'A9A9A9'
-												}
-											};
-											sheet.getCell('B3').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: 'A9A9A9'
-												}
-											};
-											sheet.getCell('C3').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: 'A9A9A9'
-												}
-											};
-											sheet.getCell('D3').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: 'A9A9A9'
-												}
-											};
-											sheet.getCell('E3').fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: 'A9A9A9'
-												}
-											};
-
-											var totCash = 0;
-											var totalB = 0;
-											var totalC = 0;
-											var totalD = 0;
-											//code added by surya 10 nov - start
-
-											// define function to change date format to dd.mm.yyyy using date Object
-											function formatDateForEntry(date) {
-												var d = new Date(date),
-													month = '' + (d.getMonth() + 1),
-													day = '' + d.getDate(),
-													year = d.getFullYear();
-
-												if (month.length < 2)
-													month = '0' + month;
-												if (day.length < 2)
-													day = '0' + day;
-
-												return [day, month, year].join('.');
+										//Heading for excel
+										var heading = {
+											heading: "Fast Report"
+										};
+										sheet.mergeCells('A1:E1');
+										sheet.getCell('E1').value = 'Fast Report';
+										sheet.getCell('A1').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+										sheet.getCell('A1').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '808080'
 											}
-											var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
-											//code added by surya 10 nov - end
-											//Coding to remove unwanted items or Rows
-											for (var i = 0; i < Records["length"]; i++) {
-												var items = Records[i].__data;
-												items["Date"] = formatDateForEntry(items["Date"]);
-												var item = [items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
-												totalB = totalB + items["Silver"];
-												totalC = totalC + items["Cash"];
-												totalD = totalD + items["Gold"];
-												sheet.addRow().values = item;
+										};
+
+										//Merging second Row
+										sheet.mergeCells('A2:E2');
+
+										//Code for getting current datetime
+										var currentdate = new Date();
+										var datetime = currentdate.getDate() + "." +
+											(currentdate.getMonth() + 1) + "." +
+											currentdate.getFullYear() + " / " +
+											currentdate.getHours() + ":" +
+											currentdate.getMinutes() + ":" +
+											currentdate.getSeconds();
+										sheet.getCell('A2').value = 'Customer Name : ' + name + '\r' + '\n' + datetime;
+										sheet.getCell('A2').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+										sheet.getRow(2).font === {
+											bold: true
+										};
+
+										var header = ["Date", "Silver", "Cash", "Gold", "Remarks"];
+
+										sheet.addRow().values = header;
+
+										//Coding for cell color and bold character
+										sheet.getCell('A3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('B3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('C3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('D3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('E3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+
+										var totCash = 0;
+										var totalB = 0;
+										var totalC = 0;
+										var totalD = 0;
+										//code added by surya 10 nov - start
+
+										// define function to change date format to dd.mm.yyyy using date Object
+										function formatDateForEntry(date) {
+											var d = new Date(date),
+												month = '' + (d.getMonth() + 1),
+												day = '' + d.getDate(),
+												year = d.getFullYear();
+
+											if (month.length < 2)
+												month = '0' + month;
+											if (day.length < 2)
+												day = '0' + day;
+
+											return [day, month, year].join('.');
+										}
+										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
+										//code added by surya 10 nov - end
+										//Coding to remove unwanted items or Rows
+										for (var i = 0; i < Records["length"]; i++) {
+											var items = Records[i].__data;
+											items["Date"] = formatDateForEntry(items["Date"]);
+											var item = [items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
+											totalB = totalB + items["Silver"];
+											totalC = totalC + items["Cash"];
+											totalD = totalD + items["Gold"];
+											sheet.addRow().values = item;
+										}
+
+										//Coding for formula and concatenation in the last line
+										var totText = Records["length"] + 4;
+										var totCol = totText - 1;
+										sheet.getCell('A' + totText).value = "TOTAL";
+
+										sheet.getCell('B' + totText).value = totalB;
+										sheet.getCell('C' + totText).value = totalC;
+										sheet.getCell('D' + totText).value = totalD;
+
+										sheet.getCell('A' + totText).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '00FFFF'
+											},
+											bgColor: {
+												argb: '00FFFF'
+											}
+										};
+										sheet.getCell('A' + totText).font = {
+											color: {
+												argb: '0000FF'
+											},
+											bold: true
+										};
+
+										//Coding for rows and column border
+										for (var j = 1; j <= totText; j++) {
+											////
+											if (sheet.getCell('B' + (j)).value == '') {
+												sheet.getCell('B' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('B' + (j)).value < 0) {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
 											}
 
-											//Coding for formula and concatenation in the last line
-											var totText = Records["length"] + 4;
-											var totCol = totText - 1;
-											sheet.getCell('A' + totText).value = "TOTAL";
+											if (sheet.getCell('C' + (j)).value == '') {
+												sheet.getCell('C' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
 
-											sheet.getCell('B' + totText).value = totalB;
-											sheet.getCell('C' + totText).value = totalC;
-											sheet.getCell('D' + totText).value = totalD;
+											} else if (sheet.getCell('C' + (j)).value < 0) {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
 
-											sheet.getCell('A' + totText).fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												fgColor: {
-													argb: '00FFFF'
+											} else {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											}
+
+											if (sheet.getCell('D' + (j)).value == '') {
+												sheet.getCell('D' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('D' + (j)).value < 0) {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											////
+											sheet.getCell('A' + (j)).border = {
+												top: {
+													style: 'thin'
 												},
-												bgColor: {
-													argb: '00FFFF'
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
 												}
 											};
-											sheet.getCell('A' + totText).font = {
-												color: {
-													argb: '0000FF'
+											sheet.getCell('B' + (j)).border = {
+												top: {
+													style: 'thin'
 												},
-												bold: true
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('C' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('D' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('E' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
 											};
 
-											//Coding for rows and column border
-											for (var j = 1; j <= totText; j++) {
-												////
-												if (sheet.getCell('B' + (j)).value == '') {
-													sheet.getCell('B' + (j)).fill = {
-														type: 'pattern',
-														pattern: 'solid',
-														bgColor: {
-															argb: '00FFFF'
-														},
-														fgColor: {
-															argb: '00FFFF'
-														}
-													};
-
-												} else if (sheet.getCell('B' + (j)).value < 0) {
-													sheet.getCell('B' + (j)).font = {
-														color: {
-															argb: 'FF0000'
-														},
-														bold: true
-													};
-												} else {
-													sheet.getCell('B' + (j)).font = {
-														color: {
-															argb: '000000'
-														},
-														bold: true
-													};
-												}
-
-												if (sheet.getCell('C' + (j)).value == '') {
-													sheet.getCell('C' + (j)).fill = {
-														type: 'pattern',
-														pattern: 'solid',
-														bgColor: {
-															argb: '00FFFF'
-														},
-														fgColor: {
-															argb: '00FFFF'
-														}
-													};
-													if (j > 3 && j <= (totText - 2)) {
-														var valC = sheet.getCell('C' + (j)).value;
-														sheet.getCell('C' + (j)).value = valC + '/-';
-														sheet.getCell('C' + (j)).alignment = {
-															vertical: 'bottom',
-															horizontal: 'right'
-														};
-													}
-
-												} else if (sheet.getCell('C' + (j)).value < 0) {
-													sheet.getCell('C' + (j)).font = {
-														color: {
-															argb: 'FF0000'
-														},
-														bold: true
-													};
-													if (j > 3 && j <= (totText - 2)) {
-														var valC = sheet.getCell('C' + (j)).value;
-														sheet.getCell('C' + (j)).value = valC + '/-';
-														sheet.getCell('C' + (j)).alignment = {
-															vertical: 'bottom',
-															horizontal: 'right'
-														};
-													}
-
-												} else {
-													sheet.getCell('C' + (j)).font = {
-														color: {
-															argb: '000000'
-														},
-														bold: true
-													};
-													if (j > 3 && j <= (totText - 2)) {
-														var valC = sheet.getCell('C' + (j)).value;
-														sheet.getCell('C' + (j)).value = valC + '/-';
-														sheet.getCell('C' + (j)).alignment = {
-															vertical: 'bottom',
-															horizontal: 'right'
-														};
-													}
-
-												}
-
-												if (sheet.getCell('D' + (j)).value == '') {
-													sheet.getCell('D' + (j)).fill = {
-														type: 'pattern',
-														pattern: 'solid',
-														bgColor: {
-															argb: '00FFFF'
-														},
-														fgColor: {
-															argb: '00FFFF'
-														}
-													};
-
-												} else if (sheet.getCell('D' + (j)).value < 0) {
-													sheet.getCell('D' + (j)).font = {
-														color: {
-															argb: 'FF0000'
-														},
-														bold: true
-													};
-												} else {
-													sheet.getCell('D' + (j)).font = {
-														color: {
-															argb: '000000'
-														},
-														bold: true
-													};
-												}
-
-												////
-												sheet.getCell('A' + (j)).border = {
-													top: {
-														style: 'thin'
-													},
-													left: {
-														style: 'thin'
-													},
-													bottom: {
-														style: 'thin'
-													},
-													right: {
-														style: 'thin'
-													}
-												};
-												sheet.getCell('B' + (j)).border = {
-													top: {
-														style: 'thin'
-													},
-													left: {
-														style: 'thin'
-													},
-													bottom: {
-														style: 'thin'
-													},
-													right: {
-														style: 'thin'
-													}
-												};
-												sheet.getCell('C' + (j)).border = {
-													top: {
-														style: 'thin'
-													},
-													left: {
-														style: 'thin'
-													},
-													bottom: {
-														style: 'thin'
-													},
-													right: {
-														style: 'thin'
-													}
-												};
-												sheet.getCell('D' + (j)).border = {
-													top: {
-														style: 'thin'
-													},
-													left: {
-														style: 'thin'
-													},
-													bottom: {
-														style: 'thin'
-													},
-													right: {
-														style: 'thin'
-													}
-												};
-												sheet.getCell('E' + (j)).border = {
-													top: {
-														style: 'thin'
-													},
-													left: {
-														style: 'thin'
-													},
-													bottom: {
-														style: 'thin'
-													},
-													right: {
-														style: 'thin'
-													}
-												};
-
-												// code added by surya for autocolumn width - started
-												//setting absolute length for column A
-												if (j > "2") {
-													if (sheet.getCell('A' + (j)).value !== null) {
-														if (j == "3") {
+											// code added by surya for autocolumn width - started
+											//setting absolute length for column A
+											if (j > "2") {
+												if (sheet.getCell('A' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+													} else {
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
 															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-														} else {
-															if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
-																colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-															}
 														}
 													}
-													if (j == totText) {
-														sheet.getColumn('A').width = colMaxLengthA + 2;
-													}
-													//setting absolute length for column B
-													if (sheet.getCell('B' + (j)).value !== null) {
-														if (j == "3") {
+												}
+												if (j == totText) {
+													sheet.getColumn('A').width = colMaxLengthA + 2;
+												}
+												//setting absolute length for column B
+												if (sheet.getCell('B' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+													} else {
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
 															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-														} else {
-															if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
-																colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-															}
 														}
 													}
-													if (j == totText) {
-														sheet.getColumn('B').width = colMaxLengthB + 2;
-													}
-													//setting absolute length for column C
-													if (sheet.getCell('C' + (j)).value !== null) {
-														if (j == "3") {
+												}
+												if (j == totText) {
+													sheet.getColumn('B').width = colMaxLengthB + 2;
+												}
+												//setting absolute length for column C
+												if (sheet.getCell('C' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+													} else {
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
 															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-														} else {
-															if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
-																colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-															}
 														}
 													}
-													if (j == totText) {
-														sheet.getColumn('C').width = colMaxLengthC + 2;
-													}
-													//setting absolute length for column D
-													if (sheet.getCell('D' + (j)).value !== null) {
-														if (j == "3") {
+												}
+												if (j == totText) {
+													sheet.getColumn('C').width = colMaxLengthC + 2;
+												}
+												//setting absolute length for column D
+												if (sheet.getCell('D' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+													} else {
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
 															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-														} else {
-															if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
-																colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-															}
 														}
 													}
-													if (j == totText) {
-														sheet.getColumn('D').width = colMaxLengthD + 2;
-													}
-													//setting absolute length for column E
-													if (sheet.getCell('E' + (j)).value !== null) {
-														if (j == "3") {
+												}
+												if (j == totText) {
+													sheet.getColumn('D').width = colMaxLengthD + 2;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('E' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+													} else {
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
 															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-														} else {
-															if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
-																colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-															}
 														}
 													}
-													if (j == totText) {
-														sheet.getColumn('E').width = colMaxLengthE + 2;
-													}
 												}
-												// code added by surya for autocolumn width - ended
-
-											}
-
-											if (totalB == 0) {
-												sheet.getCell('B' + totText).value = totalB + '.00 gm';
-											} else {
-												sheet.getCell('B' + totText).value = totalB + 'gm';
-											}
-
-											if (totalD == 0) {
-												sheet.getCell('D' + totText).value = totalD + '.00 gm';
-											} else {
-												sheet.getCell('D' + totText).value = totalD + 'gm';
-											}
-
-											sheet.getCell('B' + totText).alignment = {
-												vertical: 'bottom',
-												horizontal: 'right'
-											};
-											sheet.getCell('C' + totText).value = totalC + '/-';
-											sheet.getCell('C' + totText).alignment = {
-												vertical: 'bottom',
-												horizontal: 'right'
-											};
-											sheet.getCell('D' + totText).alignment = {
-												vertical: 'bottom',
-												horizontal: 'right'
-											};
-
-											sheet.getCell('B' + totText).font = {
-												color: {
-													argb: '800000'
+												if (j == totText) {
+													sheet.getColumn('E').width = colMaxLengthE + 2;
 												}
-											};
-											sheet.getCell('D' + totText).font = {
-												color: {
-													argb: '800000'
-												}
-											};
-
-											//Coding to download in a folder
-											var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
-												currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
-												currentdate.getSeconds() + '.xlsx';
-											console.log("tempFilePath : ", tempFilePath);
-											workbook.xlsx.writeFile(tempFilePath).then(function() {
-												res.sendFile(tempFilePath, function(err) {
-													if (err) {
-														console.log('---------- error downloading file: ', err);
-													}
-												});
-												console.log('file is written @ ' + tempFilePath);
-											});
+											}
+											// code added by surya for autocolumn width - ended
 
 										}
+
+										if (totalB == 0) {
+											sheet.getCell('B' + totText).value = totalB + '.00 gm';
+										} else {
+											sheet.getCell('B' + totText).value = totalB + 'gm';
+										}
+
+										if (totalD == 0) {
+											sheet.getCell('D' + totText).value = totalD + '.00 gm';
+										} else {
+											sheet.getCell('D' + totText).value = totalD + 'gm';
+										}
+
+										sheet.getCell('B' + totText).alignment = {
+											vertical: 'bottom',
+											horizontal: 'right'
+										};
+										sheet.getCell('C' + totText).value = totalC + '/-';
+										sheet.getCell('C' + totText).alignment = {
+											vertical: 'bottom',
+											horizontal: 'right'
+										};
+										sheet.getCell('D' + totText).alignment = {
+											vertical: 'bottom',
+											horizontal: 'right'
+										};
+
+										sheet.getCell('B' + totText).font = {
+											color: {
+												argb: '800000'
+											}
+										};
+										sheet.getCell('D' + totText).font = {
+											color: {
+												argb: '800000'
+											}
+										};
+
+										//Coding to download in a folder
+										var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+											currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
+											currentdate.getSeconds() + '.xlsx';
+										console.log("tempFilePath : ", tempFilePath);
+										workbook.xlsx.writeFile(tempFilePath).then(function() {
+											res.sendFile(tempFilePath, function(err) {
+												if (err) {
+													console.log('---------- error downloading file: ', err);
+												}
+											});
+											console.log('file is written @ ' + tempFilePath);
+										});
+
 									}
+								}
 
-								).catch(function(oError) {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								});
-						} catch (e) {
+							).catch(function(oError) {
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
+							});
+					} catch (e) {
 
-						} finally {
+					} finally {
 
-						}
 					}
-					//res.send(responseData);
+				}
+				//res.send(responseData);
 
-				);
-			})
-			// code added by Yogendra
+			);
+		})
+		// code added by Yogendra
 		var async = require('async');
 		app.get('/ItemsReport', async function(req, res) {
 			// var Products = app.models.Product;
@@ -2657,7 +2657,11 @@ app.start = function() {
 							wch: 12
 						}, {
 							wch: 22
-						}, {wch: 22}, {wch: 22}, {
+						}, {
+							wch: 22
+						}, {
+							wch: 22
+						}, {
 							wch: 22
 						}, {
 							wch: 12
@@ -2677,133 +2681,149 @@ app.start = function() {
 				});
 			});
 		});
-		app.get('/DailyReport', function(req, res){
-								var dDateStart = new Date(req.query.date);
-								dDateStart.setHours(0, 0, 0, 1);
-								var dDateEnd = new Date(dDateStart);
-								dDateEnd.setHours(23, 59, 59, 59);
-								var stockItemsSet = new Set();
-								var usersMap = new Map();
-								var productsMap = new Map();
-								var dateObj = new Date();
-								console.log(dDateStart);
-								console.log(dDateEnd);
-								app.models.StockItem.find({
-									where: {
-										Date: {
-											between : [dDateStart, dDateEnd]
-										}
-									}
-								}).then(function(stockItems, err) {
-									// calculating  quantity
-									console.log("Stock items " + JSON.stringify(stockItems) );
-									for (item of stockItems) {
-										stockItemsSet.add(item.Material.toString());
-										usersMap.set(item.CreatedBy.toString(),"");
-									}
-									app.models.AppUser.find({
-										// where: {
-										// 	TechnicalId: {
-										// 		inq: Array.from(usersMap.keys())
-										// 	}
-										// },
-										fields : {
-											TechnicalId : true,
-											UserName : true
-										}
-									}).then(function(appusers,err){
-										for(user of appusers){
-											usersMap.set(user.TechnicalId.toString(),user.UserName);
-										}
-										app.models.Product.find({
-											where: {
-												id: {
-													inq: Array.from(stockItemsSet)
-												}
-											},
-											fields : {
-												id : true,
-												ProductCode : true,
-												HindiName : true,
-												Karat : true
-											}
-										}).then(function(products, err) {
-											// combining data product,stockItems
-											console.log("Products " + JSON.stringify(products) );
-											for (item of products) {
-												// var qty = stockItemsMap.get(item.id.toString()).Quantity;
-												productsMap.set(item.id.toString(), {
-													// Quantity: qty,
-													Code: item.ProductCode,
-													HindiName: item.HindiName,
-													Karat: item.Karat
-												})
-											}
-											// collection of json obj total quantity item wise,
-											// var stockItemReport = Array.from(stockItemsMap.values());
-											// debugger;
-											// collecion for whole stock table report
-											var stockReportCollection = [
-												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
-											];
-											var stockReportCollection20 = [
-												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
-											];
-											var stockReportCollection22 = [
-												["Date" , "Item Code" , "Name" , "Order No" , "Quantity", "CreatedBy", "CreatedOn" ]
-											];
-											for (item of stockItems) {
-												var date = (item.Date.getDate()<9 ? "0"+item.Date.getDate():item.Date.getDate())+"."+(item.Date.getMonth()+1)+"."+item.Date.getFullYear();
-												var createdOn = (item.CreatedOn.getDate()<9 ? "0"+item.CreatedOn.getDate():item.CreatedOn.getDate())+"."+(item.CreatedOn.getMonth()+1)+"."+item.CreatedOn.getFullYear();
-												if(productsMap.get(item.Material.toString()).Karat==="22/22"){
-													stockReportCollection22.push([
-														date,
-														productsMap.get(item.Material.toString()).Code,
-														productsMap.get(item.Material.toString()).HindiName,
-														item.OrderNo,
-														item.Qty,
-														usersMap.get(item.CreatedBy.toString()),
-														createdOn
-													]);
-												}else if(productsMap.get(item.Material.toString()).Karat==="22/20"){
-													stockReportCollection20.push([
-														date,
-														productsMap.get(item.Material.toString()).Code,
-														productsMap.get(item.Material.toString()).HindiName,
-														item.OrderNo,
-														item.Qty,
-														usersMap.get(item.CreatedBy.toString()),
-														createdOn
-													]);
-												}else{
-													stockReportCollection.push([
-														date,
-														productsMap.get(item.Material.toString()).Code,
-														productsMap.get(item.Material.toString()).HindiName,
-														item.OrderNo,
-														item.Qty,
-														usersMap.get(item.CreatedBy.toString()),
-														createdOn
-													]);
-												}
-											}
-											const options = {'!cols': [{ wch: 12 }, { wch: 12 }, { wch: 22 },{wch: 22},{wch: 22}, { wch: 22 }, { wch: 12 }]};
-											var buffer = xlsx.build([{
-												name: "22-22",
-												data: stockReportCollection22
-											},{
-												name: "22-20",
-												data: stockReportCollection20
-											},{
-												name: "##-##",
-												data: stockReportCollection
-											}],options);
-											return res.status(200).type("application/vnd.ms-excel").send(buffer);
-										});
-									});
-									// debugger;
-								});
-							});
+		app.get('/DailyReport', function(req, res) {
+			var dDateStart = new Date(req.query.date);
+			dDateStart.setHours(0, 0, 0, 1);
+			var dDateEnd = new Date(dDateStart);
+			dDateEnd.setHours(23, 59, 59, 59);
+			var stockItemsSet = new Set();
+			var usersMap = new Map();
+			var productsMap = new Map();
+			var dateObj = new Date();
+			console.log(dDateStart);
+			console.log(dDateEnd);
+			app.models.StockItem.find({
+				where: {
+					Date: {
+						between: [dDateStart, dDateEnd]
+					}
+				}
+			}).then(function(stockItems, err) {
+				// calculating  quantity
+				console.log("Stock items " + JSON.stringify(stockItems));
+				for (item of stockItems) {
+					stockItemsSet.add(item.Material.toString());
+					usersMap.set(item.CreatedBy.toString(), "");
+				}
+				app.models.AppUser.find({
+					// where: {
+					// 	TechnicalId: {
+					// 		inq: Array.from(usersMap.keys())
+					// 	}
+					// },
+					fields: {
+						TechnicalId: true,
+						UserName: true
+					}
+				}).then(function(appusers, err) {
+					for (user of appusers) {
+						usersMap.set(user.TechnicalId.toString(), user.UserName);
+					}
+					app.models.Product.find({
+						where: {
+							id: {
+								inq: Array.from(stockItemsSet)
+							}
+						},
+						fields: {
+							id: true,
+							ProductCode: true,
+							HindiName: true,
+							Karat: true
+						}
+					}).then(function(products, err) {
+						// combining data product,stockItems
+						console.log("Products " + JSON.stringify(products));
+						for (item of products) {
+							// var qty = stockItemsMap.get(item.id.toString()).Quantity;
+							productsMap.set(item.id.toString(), {
+								// Quantity: qty,
+								Code: item.ProductCode,
+								HindiName: item.HindiName,
+								Karat: item.Karat
+							})
+						}
+						// collection of json obj total quantity item wise,
+						// var stockItemReport = Array.from(stockItemsMap.values());
+						// debugger;
+						// collecion for whole stock table report
+						var stockReportCollection = [
+							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
+						];
+						var stockReportCollection20 = [
+							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
+						];
+						var stockReportCollection22 = [
+							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
+						];
+						for (item of stockItems) {
+							var date = (item.Date.getDate() < 9 ? "0" + item.Date.getDate() : item.Date.getDate()) + "." + (item.Date.getMonth() + 1) + "." + item.Date.getFullYear();
+							var createdOn = (item.CreatedOn.getDate() < 9 ? "0" + item.CreatedOn.getDate() : item.CreatedOn.getDate()) + "." + (item.CreatedOn.getMonth() + 1) + "." + item.CreatedOn.getFullYear();
+							if (productsMap.get(item.Material.toString()).Karat === "22/22") {
+								stockReportCollection22.push([
+									date,
+									productsMap.get(item.Material.toString()).Code,
+									productsMap.get(item.Material.toString()).HindiName,
+									item.OrderNo,
+									item.Qty,
+									usersMap.get(item.CreatedBy.toString()),
+									createdOn
+								]);
+							} else if (productsMap.get(item.Material.toString()).Karat === "22/20") {
+								stockReportCollection20.push([
+									date,
+									productsMap.get(item.Material.toString()).Code,
+									productsMap.get(item.Material.toString()).HindiName,
+									item.OrderNo,
+									item.Qty,
+									usersMap.get(item.CreatedBy.toString()),
+									createdOn
+								]);
+							} else {
+								stockReportCollection.push([
+									date,
+									productsMap.get(item.Material.toString()).Code,
+									productsMap.get(item.Material.toString()).HindiName,
+									item.OrderNo,
+									item.Qty,
+									usersMap.get(item.CreatedBy.toString()),
+									createdOn
+								]);
+							}
+						}
+						const options = {
+							'!cols': [{
+								wch: 12
+							}, {
+								wch: 12
+							}, {
+								wch: 22
+							}, {
+								wch: 22
+							}, {
+								wch: 22
+							}, {
+								wch: 22
+							}, {
+								wch: 12
+							}]
+						};
+						var buffer = xlsx.build([{
+							name: "22-22",
+							data: stockReportCollection22
+						}, {
+							name: "22-20",
+							data: stockReportCollection20
+						}, {
+							name: "##-##",
+							data: stockReportCollection
+						}], options);
+						return res.status(200).type("application/vnd.ms-excel").send(buffer);
+					});
+				});
+				// debugger;
+			});
+		});
 		///// code added by Surya - start
 		app.post('/custCodeDownload', function(req, res) {
 			debugger;
@@ -5022,7 +5042,8 @@ app.start = function() {
 
 				);
 		});
-		app.post('/deleteRecords', function(req, res) {;
+		app.post('/deleteRecords', function(req, res) {
+			;
 			var customerId = req.body.customerId;
 			var entityName = req.body.entityName;
 			switch (entityName) {
@@ -5034,7 +5055,8 @@ app.start = function() {
 						res.send({
 							"msg": "All the records has been deleted successfully for the customer"
 						});
-					}).catch(function(err, ns) {;
+					}).catch(function(err, ns) {
+						;
 					});
 					break;
 				case "Kacchi":
@@ -5054,7 +5076,8 @@ app.start = function() {
 						res.send({
 							"msg": "All the records has been deleted successfully"
 						});
-					}).catch(function(err, ns) {;
+					}).catch(function(err, ns) {
+						;
 					});
 					break;
 				case "EntryD":
@@ -5065,7 +5088,8 @@ app.start = function() {
 						res.send({
 							"msg": "All the records has been deleted successfully from Entry Table"
 						});
-					}).catch(function(err, ns) {;
+					}).catch(function(err, ns) {
+						;
 					});
 					break;
 				case "DelAll":
@@ -5100,35 +5124,48 @@ app.start = function() {
 																		res.send({
 																			"msg": msg
 																		});
-																	}).catch(function(err, ns) {;
+																	}).catch(function(err, ns) {
+																		;
 																	});
-																}).catch(function(err, ns) {;
+																}).catch(function(err, ns) {
+																	;
 																});
-															}).catch(function(err, ns) {;
+															}).catch(function(err, ns) {
+																;
 															});
-														}).catch(function(err, ns) {;
+														}).catch(function(err, ns) {
+															;
 														});
-													}).catch(function(err, ns) {;
+													}).catch(function(err, ns) {
+														;
 													});
-												}).catch(function(err, ns) {;
+												}).catch(function(err, ns) {
+													;
 												});
-											}).catch(function(err, ns) {;
+											}).catch(function(err, ns) {
+												;
 											});
-										}).catch(function(err, ns) {;
+										}).catch(function(err, ns) {
+											;
 										});
-									}).catch(function(err, ns) {;
+									}).catch(function(err, ns) {
+										;
 									});
-								}).catch(function(err, ns) {;
+								}).catch(function(err, ns) {
+									;
 								});
-							}).catch(function(err, ns) {;
+							}).catch(function(err, ns) {
+								;
 							});
-						}).catch(function(err, ns) {;
+						}).catch(function(err, ns) {
+							;
 						});
 
 						// res.send({
 						// 	"msg": "All the records has been deleted successfully from Entry Table"
 						// });
-					}).catch(function(err, ns) {;
+					}).catch(function(err, ns) {
+						;
 					});
 					res.send({
 						"msg": msg
@@ -5345,6 +5382,8 @@ app.start = function() {
 								"Customer": orders[0].Customer.toString(),
 								"id": orders[0].id.toString()
 							});
+						} else {
+							res.send();
 						}
 					});
 
@@ -5388,6 +5427,8 @@ app.start = function() {
 								"Customer": orders[0].Customer,
 								"id": orders[0].id.toString()
 							});
+						} else {
+							res.send();
 						}
 					});
 			}
@@ -5430,6 +5471,8 @@ app.start = function() {
 								"Customer": orders[0].Customer.toString(),
 								"id": orders[0].id.toString()
 							});
+						} else {
+							res.send();
 						}
 					});
 
@@ -5468,7 +5511,11 @@ app.start = function() {
 								"Customer": orders[0].Customer.toString(),
 								"id": orders[0].id.toString()
 							});
+						} else {
+							res.send();
 						}
+					}).catch(function() {
+						res.send();
 					});
 			}
 		}); //next order

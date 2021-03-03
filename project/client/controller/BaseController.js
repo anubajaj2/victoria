@@ -278,7 +278,7 @@ sap.ui.define([
 
 			// if (!this.orderSearchPopup) {
 			this.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
-			this.getView().addDependent(this.orderSearchPopup);
+			// this.getView().addDependent(this.orderSearchPopup);
 			var title = this.getView().getModel("i18n").getProperty("orderSearch");
 			this.orderSearchPopup.setTitle(title);
 			// this.orderSearchPopup.sId = 'orderNo';
@@ -291,9 +291,9 @@ sap.ui.define([
 			dateFrom.setHours(0, 0, 0, 1)
 			var dateTo = new Date(orderDate);
 			dateTo.setHours(23, 59, 59, 59)
-				//Now you have to have 2 date Object
-				//firstDate object set the time to 000000 second object 240000
-				//now create 2 filter one ge low and two le High
+			//Now you have to have 2 date Object
+			//firstDate object set the time to 000000 second object 240000
+			//now create 2 filter one ge low and two le High
 			var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 			var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
 			if (customer) {
@@ -330,6 +330,7 @@ sap.ui.define([
 				})
 			});
 			// }//order popup
+			this.getView().addDependent(this.orderSearchPopup);
 			this.orderSearchPopup.open();
 		},
 		getCustomerName: function(custId) {
@@ -830,7 +831,7 @@ sap.ui.define([
 					}
 					oModelForRow.setProperty(sRowPath + "/MaterialCode", oData.results[0].ProductCode);
 					if (oData.results[0].Making) {
-						oModelForRow.setProperty(sRowPath + "/Making", oData.results[0].Making);
+						oModelForRow.setProperty(sRowPath + "/Making", oData.results[0].CustomerMaking ? oData.results[0].CustomerMaking : oData.results[0].Making);
 					}
 					if (oData.results[0].PricePerUnit) {
 						oModelForRow.setProperty(sRowPath + "/MakingD", oData.results[0].PricePerUnit);
@@ -1032,7 +1033,8 @@ sap.ui.define([
 					if (data.id === "") {
 						if (data.MaterialCode !== "") {
 							if (data.Qty > 0) {
-								var payload = {...data
+								var payload = {
+									...data
 								};
 								payload.Date = this.getView().getModel('local').getProperty('/orderHeader/Date');
 								payload.Qty = Math.abs(payload.Qty) * -1;

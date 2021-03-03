@@ -5,8 +5,16 @@
 	<semantic:FullscreenPage id="Customzing"
 		navButtonPress="onNavBack" showNavButton="true" title="Customizing">
 
+<!-- value="Data Upload Type" -->
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
+				<ComboBox id="uploadTypeSelect">
+					<core:Item key="Group" text="Group" />
+					<core:Item key="City" text="City" />
+					<core:Item key="Customer" text="Customer" />
+					<core:Item key="Product" text="Product" />
+				</ComboBox>
+
 				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete">
 					<u:parameters>
 						<u:FileUploaderParameter name="createdBy"/>

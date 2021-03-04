@@ -112,7 +112,7 @@
 					<m:Text text="{i18n>remarks}"></m:Text>
 				</label>
 				<template>
-					<m:Input value="{orderItems>Remarks}" maxLength="80" editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
+					<m:Input value="{orderItems>Remarks}" maxLength="80" submit="onSubmitRemarks"  editable="{= ${orderItems>itemNo} === '' ? true : false}"></m:Input>
 				</template>
 			</Column>
 			<Column visible="{visModel>/rows1}" hAlign="Center">

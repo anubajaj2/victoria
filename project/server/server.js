@@ -5674,6 +5674,8 @@ app.start = function() {
 								"Customer": orders[0].Customer.toString(),
 								"id": orders[0].id.toString()
 							});
+						}else{
+							res.send();
 						}
 					});
 
@@ -5712,6 +5714,8 @@ app.start = function() {
 								"Customer": orders[0].Customer.toString(),
 								"id": orders[0].id.toString()
 							});
+						}{
+							res.send();
 						}
 					});
 			}

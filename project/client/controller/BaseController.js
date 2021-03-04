@@ -837,7 +837,7 @@ sap.ui.define([
 						oModelForRow.setProperty(sRowPath + "/MakingD", oData.results[0].PricePerUnit);
 					}
 					if (oData.results[0].Tunch) {
-						oModelForRow.setProperty(sRowPath + "/Tunch", oData.results[0].Tunch);
+						oModelForRow.setProperty(sRowPath + "/Tunch", oData.results[0].CustomerTunch ? oData.results[0].CustomerTunch : oData.results[0].Tunch);
 					}
 					oModelForRow.setProperty(sRowPath + "/Category", oData.results[0].Category);
 					oModelForRow.setProperty(sRowPath + "/Type", oData.results[0].Type);
@@ -1883,7 +1883,7 @@ sap.ui.define([
 			}
 			//Making
 			if (selectedMatData.Making) {
-				oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+				oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.CustomerMaking ? selectedMatData.CustomerMaking : selectedMatData.Making);
 			} else {
 				oModelForRow.setProperty(sRowPath + "/Making", 0);
 			}
@@ -1898,7 +1898,7 @@ sap.ui.define([
 			oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
 			oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
 			if (selectedMatData.Tunch) {
-				oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+				oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.CustomerTunch ? selectedMatData.CustomerTunch : selectedMatData.Tunch);
 			} else {
 				oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 			}

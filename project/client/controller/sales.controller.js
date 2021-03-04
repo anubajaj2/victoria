@@ -635,6 +635,11 @@ sap.ui.define([
 			var oRow = oCurrentControl.getParent();
 			oRow.getCells()[9].focus();
 		},
+		onSubmitRemarks: function(oEvent) {
+			var oCurrentControl = oEvent.getSource();
+			var oRow = oCurrentControl.getParent();
+			oRow.getParent().getRows()[oRow.getIndex() + 1].getCells()[0].focus()
+		},
 		onReturnSubmitWeight: function(oEvent) {
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
@@ -1401,6 +1406,7 @@ sap.ui.define([
 							//       });
 							// }
 						} else {
+							debugger;
 							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 									"/OrderItems", "POST", {}, oOrderDetailsClone, this)
 								.then(function(oData) {
@@ -1422,6 +1428,16 @@ sap.ui.define([
 									var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("dataSucess");
 									sap.m.MessageToast.show(oBundle);
 								})
+								.catch(function(oError) {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								});
+							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+									"/Products('" + oOrderDetailsClone.Material + "')",
+									"PUT", {}, {
+										"CustomerMaking": oOrderDetailsClone.Making
+									}, that)
+								.then(function(oData) {})
 								.catch(function(oError) {
 									that.getView().setBusy(false);
 									var oPopover = that.getErrorMessage(oError);

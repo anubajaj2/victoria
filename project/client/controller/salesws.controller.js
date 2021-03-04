@@ -1645,6 +1645,16 @@ sap.ui.define(
 										that.getView().setBusy(false);
 										var oPopover = that.getErrorMessage(oError);
 									});
+									that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+											"/Products('" + oOrderDetailsClone.Material + "')",
+											"PUT", {}, {
+												"CustomerTunch": oOrderDetailsClone.Tunch
+											}, that)
+										.then(function(oData) {})
+										.catch(function(oError) {
+											that.getView().setBusy(false);
+											var oPopover = that.getErrorMessage(oError);
+										});
 							}
 						}
 					}
@@ -2828,11 +2838,24 @@ sap.ui.define(
 					});
 			},
 			nextOrder: function(oEvent) {
+				var selectedDate = this.getView().byId("__component0---idsalesws--WSHeaderFragment--DateId").getDateValue();
 				debugger;
+				var dateFrom = new Date(selectedDate);
+				dateFrom.setDate(selectedDate.getDate() - 1);
+				dateFrom.setHours(0, 0, 0, 1)
+				var dateTo = new Date(selectedDate);
+				dateTo.setDate(selectedDate.getDate() - 1);
+				dateTo.setHours(23, 59, 59, 59)
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+				var orFilter = new sap.ui.model.Filter({
+					filters: [oFilter1, oFilter2],
+					and: true
+				});
 				var that = this;
 				var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
 				var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "251");
-			  if(!myData.OrderNo){
+			  if(!myData.OrderNo&&false){
 			    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
                     "/WSOrderHeaders",
                     "GET", {filters: [oFilter]}, {}, that)
@@ -2856,11 +2879,13 @@ sap.ui.define(
               })
 			  }
 			  else{
+					this.getView().setBusy(true);
 				$.post("/nextWSOrder", {
 						OrderDetails: myData
 					})
 					.then(function(result) {
 						console.log(result);
+						that.getView().setBusy(false);
 						// that.byId("idRetailTransfer").setEnabled(true);
 						debugger;
 						if (result) {
@@ -2903,7 +2928,25 @@ sap.ui.define(
 							oEvent.sId = "orderReload";
 							that.getOrderDetails(oEvent, orderId, oFilter);
 						}
-						debugger;
+						if(!myData.OrderNo){
+							var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+							that.getOrderDetails(oEvent, result.id, orFilter);
+							that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
+							that.getView().addDependent(that.orderSearchPopup);
+							that.orderSearchPopup.bindAggregation("items", {
+								path: '/OrderHeaders',
+								filters: orFilter,
+								template: new sap.m.DisplayListItem({
+									label: "{OrderNo}",
+									value: {
+										path: 'Customer',
+										formatter: that.getCustomerName.bind(that)
+									}
+								})
+							});
+						}
+					}).catch(function(){
+						that.getView().setBusy(false);
 					});
 				}
 			},
@@ -3598,7 +3641,7 @@ sap.ui.define(
 					'</tr>' +
 					'<tr>' +
 					'<td style="width: 150px;"><strong>City</strong></td>' +
-					'<td style="width: 350px;">' + cusData.City + '</td>' +
+					'<td style="width: 350px;">' + this.allMasterData.cities[cusData.City].cityName + '</td>' +
 					'</tr>' +
 					'<tr>' +
 					'<td style="width: 150px;"><strong>Customer Contact</strong></td>' +

@@ -17,7 +17,7 @@
     },
     "state": {
       "type": "string",
-      "required": true
+      "required": false
     }
   },
   "scope":{

@@ -80,7 +80,10 @@ app.start = function() {
 
 				var sampleFile;
 				var exceltojson;
-
+				// console.log(this.getView().byId("uploadTypeSelect").mProperties["value"]);
+				// console.log(req.type);
+				console.log(req.body["myFileUpload-data"]);
+				const valueUploadType = req.body["myFileUpload-data"];
 				sampleFile = req.files.myFileUpload;
 
 				sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
@@ -122,12 +125,18 @@ app.start = function() {
 									qdat.setDate(parseInt(x.substr(6, 2)));
 									return qdat;
 								};
-								var Inquiry = app.models.Inquiry;
+
 								var Student = app.models.Student;
 								var Batch = app.models.Course;
 								var Account = app.models.Account;
 								var Subs = app.models.Sub;
-								var uploadType = "Inquiry";
+
+								var Group = app.models.Group;
+								var City = app.models.City;
+								var Customer = app.models.Customer;
+								var Product = app.models.Product;
+
+								var uploadType = valueUploadType;
 								///*****Code to update the batchs
 								this.allResult = [];
 								///Process the result json and send to mongo for creating all inquiries
@@ -169,7 +178,144 @@ app.start = function() {
 											break;
 										case "Batch":
 											break;
-										case "Inquiry":
+										case "Group":
+											var newRec = {};
+											newRec.groupCode = singleRec["groupcode"];
+											newRec.groupName = singleRec["groupname"];
+											newRec.description = singleRec["description"];
+											Group.findOrCreate({
+													where: {
+														groupCode: newRec.groupCode,
+														groupName: newRec.groupName,
+														description: newRec.description
+													}
+												}, newRec)
+												.then(function(inq) {
+													debugger;
+													console.log("created successfully");
+												})
+												.catch(function(err) {
+													console.log(err);
+												});
+											///*****End of code to update batches
+											break;
+										case "City":
+											var newRec = {};
+											newRec.cityCode = singleRec["citycode"];
+											newRec.cityName = singleRec["cityname"];
+											if(!singleRec["state"]){
+												newRec.state = ""
+											}
+											else{
+												newRec.state = singleRec["state"];
+											}
+
+											console.log(newRec);
+											City.findOrCreate({
+													where: {
+														cityCode: newRec.cityCode,
+														cityName: newRec.cityName,
+														state: newRec.state
+													}
+												}, newRec)
+												.then(function(inq) {
+													debugger;
+													console.log("created successfully");
+												})
+												.catch(function(err) {
+													console.log(err);
+												});
+											///*****End of code to update batches
+											break;
+										case "Customer":
+											var newRec = {};
+											newRec.CustomerCode = singleRec["customercode"];
+											newRec.Name = singleRec["name"];
+											// newRec.description = singleRec["address"];
+											newRec.City = singleRec["city"];
+											newRec.Type = singleRec["type"];
+											newRec.Group = singleRec["group"];
+											newRec.MobilePhone = singleRec["mobilephone"];
+											City.findOrCreate({
+													where: {
+														cityCode: newRec.City
+													}
+												}, newRec)
+												.then(function(inq) {
+													debugger;
+													newRec.City = inq[0].__data.id;
+													Group.findOrCreate({
+														where: {
+															groupCode: newRec.Group
+														}
+													}, newRec).then(function (inq) {
+														newRec.Group = inq[0].__data.id;
+														console.log(newRec.Group);
+														Customer.findOrCreate({
+															where: {
+																CustomerCode: newRec.CustomerCode,
+																Name: newRec.Name,
+																City: newRec.City,
+																Type: newRec.Type,
+																Group: newRec.Group,
+																MobilePhone: newRec.MobilePhone,
+																SecondaryPhone: 0
+															}
+														}, newRec).then(function (inq) {
+															// console.log(inq[0].__data.id);
+															console.log("Created Successfully");
+														}).catch(function(err) {
+															console.log(err);
+														});
+													}).catch(function(err) {
+														console.log(err);
+													});
+												})
+												.catch(function(err) {
+													console.log(err);
+												});
+											///*****End of code to update batches
+											break;
+										case "Product":
+											var newRec = {};
+											newRec.ProductCode = singleRec["productcode"];
+											newRec.ProductName = singleRec["productname"];
+											newRec.Type = singleRec["type"];
+											newRec.Karat = singleRec["karat"];
+											newRec.HindiName = singleRec["hindiname"];
+											newRec.Tunch = singleRec["tunch"];
+											newRec.Wastage = singleRec["wastage"];
+											newRec.CustomerTunch = singleRec["customertunch"];
+											newRec.AlertQuantity = singleRec["alertquantity"];
+											newRec.Making = singleRec["making"];
+											newRec.CustomerMaking = singleRec["customermaking"];
+											newRec.Category = singleRec["category"];
+											newRec.PricePerUnit = singleRec["priceperunit"];
+											Product.findOrCreate({
+													where: {
+														ProductCode: newRec.ProductCode,
+														ProductName: newRec.ProductName,
+														Type: newRec.Type,
+														Karat: newRec.Karat,
+														HindiName: newRec.HindiName,
+														Tunch: newRec.Tunch,
+														Wastage: newRec.Wastage,
+														CustomerTunch: newRec.CustomerTunch,
+														AlertQuantity: newRec.AlertQuantity,
+														Making: newRec.Making,
+														CustomerMaking: newRec.CustomerMaking,
+														Category: newRec.Category,
+														PricePerUnit: newRec.PricePerUnit
+													}
+												}, newRec)
+												.then(function(inq) {
+													debugger;
+													console.log("created successfully");
+												})
+												.catch(function(err) {
+													console.log(err);
+												});
+											///*****End of code to update batches
 											break;
 										case "Students":
 											break;

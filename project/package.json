@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
     "express-session": "^1.15.6",
+    "file-saver": "^2.0.5",
     "googleapis": "latest",
     "log4js": "^0.6.38",
     "loopback": "^2.22.0",

@@ -558,7 +558,7 @@ sap.ui.define([
 				var oGroup = this.getView().byId("idGroup");
 				oGroup.setSelectedKey("");
 				var oCity = this.getView().byId("idCity");
-				oCity.setSelectedKey("");
+				//oCity.setSelectedKey("");
 				dataModel.setProperty("/CityState", "None");
 				dataModel.setProperty("/GroupState", "None");
 				dataModel.setProperty("/NameState", "None");

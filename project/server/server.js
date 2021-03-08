@@ -349,6 +349,7 @@ app.start = function() {
 
 													var [date, month, year] = singleRec["date"].split("-");
 													var [dueDate, dueMonth, dueYear] = singleRec["duedate"].split("-");
+													// console.log(productData[singleRec["product"]], newRec.Product);
 
 													if(month == "Jan"){
 														month = 1;

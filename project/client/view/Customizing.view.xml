@@ -13,6 +13,7 @@
 					<core:Item key="City" text="City" />
 					<core:Item key="Customer" text="Customer" />
 					<core:Item key="Product" text="Product" />
+					<core:Item key="Entry" text="Entry" />
 				</ComboBox>
 
 				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete">

@@ -6,7 +6,7 @@
 		title="Change Status"
 		class="sapUiPopupWithPadding"
 		placement="Bottom" > -->
-    <Popover title="Change Status" showHeader="false" contentWidth="320px" placement="Bottom">
+    <Popover title="Change Status" showHeader="false" contentWidth="320px" placement="Top">
   		<!-- <NavContainer >
   			<Page title="Order Information"> -->
   				<List >

@@ -37,7 +37,7 @@
                         </f:FormElement>
                         <f:FormElement label="{i18n>Customer}">
                             <f:fields>
-                                <Input id="idCust" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
+                                <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
                                   suggestionItemSelected="onCustomerSelect"
                                   submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
                                     <suggestionItems>
@@ -118,7 +118,7 @@
                         </f:FormElement>
                         <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
                             <f:fields>
-                                <Input id="idMat"  editable="true" type="Text" submit="valueChangeMaterial"
+                                <Input id="idMat" showValueHelp="true" editable="true" type="Text" submit="valuesChangeMaterial"
                                 placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
                                 showSuggestion="true" suggestionItems="{/Products}" visible="true">
                                     <suggestionItems>

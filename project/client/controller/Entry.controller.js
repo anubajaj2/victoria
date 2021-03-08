@@ -71,9 +71,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 		});
 				this.getView().byId("idCash").focus();
 			},
-			valueChangeMaterial: function(oEvent) {
-				// console.log("Hello");
-				this.getCustomer(oEvent);
+			valuesChangeMaterial: function(oEvent) {
 				this.getView().byId("idweight").focus();
 			},
 			onCalculate: function (evt) {

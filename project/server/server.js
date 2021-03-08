@@ -137,6 +137,7 @@ app.start = function() {
 								var City = app.models.City;
 								var Customer = app.models.Customer;
 								var Product = app.models.Product;
+								var Entry = app.models.Entry;
 
 								var uploadType = valueUploadType;
 								///*****Code to update the batchs
@@ -145,6 +146,8 @@ app.start = function() {
 
 								var cityData = [];
 								var groupData = [];
+								var customerData = [];
+								var productData = [];
 								if(uploadType == "Customer"){
 									Group.find({}, function(err, groups) {
 											groups.map((data) => {
@@ -155,6 +158,20 @@ app.start = function() {
 									City.find({}, function(err, city) {
 											city.map((data) => {
 												cityData[data.__data.cityCode] = data.__data.id;
+											});
+										});
+								}
+
+								if(uploadType == "Entry"){
+									Customer.find({}, function(err, customer) {
+											customer.map((data) => {
+												customerData[data.__data.CustomerCode] = data.__data.id;
+											});
+										});
+
+									Product.find({}, function(err, product) {
+											product.map((data) => {
+												productData[data.__data.ProductCode] = data.__data.id;
 											});
 										});
 								}
@@ -272,7 +289,7 @@ app.start = function() {
 													}).catch(function(err) {
 														console.log(err);
 													});
-													
+
 													break;
 												case "Product":
 													var newRec = {};
@@ -315,13 +332,106 @@ app.start = function() {
 														});
 													///*****End of code to update batches
 													break;
+												case "Entry":
+
+
+													var newRec = {};
+													newRec.Date = singleRec["date"];
+													newRec.Cash = singleRec["cash"];
+													newRec.Gold = singleRec["gold"];
+													newRec.Silver = singleRec["silver"];
+													newRec.Weight = singleRec["weight"];
+													newRec.Tunch = singleRec["tunch"];
+													newRec.DueDate = singleRec["duedate"];
+													newRec.Remarks = singleRec["remarks"];
+													newRec.Product = productData[singleRec["product"]];
+													newRec.Customer = customerData[singleRec["customer"]];
+
+													var [date, month, year] = singleRec["date"].split("-");
+													var [dueDate, dueMonth, dueYear] = singleRec["duedate"].split("-");
+
+													if(month == "Jan"){
+														month = 1;
+													}else if(month == "Feb"){
+														month = 2;
+													}else if(month == "Mar"){
+														month = 3;
+													}else if(month == "Apr"){
+														month = 4;
+													}else if(month == "May"){
+														month = 5;
+													}else if(month == "Jun"){
+														month = 6;
+													}else if(month == "Jul"){
+														month = 7;
+													}else if(month == "Aug"){
+														month = 8;
+													}else if(month == "Sep"){
+														month = 9;
+													}else if(month == "Oct"){
+														month = 10;
+													}else if(month == "Nov"){
+														month = 11;
+													}else if(month == "Dec"){
+														month = 12;
+													}
+
+													if(dueMonth == "Jan"){
+														dueMonth = 1;
+													}else if(dueMonth == "Feb"){
+														dueMonth = 2;
+													}else if(dueMonth == "Mar"){
+														dueMonth = 3;
+													}else if(dueMonth == "Apr"){
+														dueMonth = 4;
+													}else if(dueMonth == "May"){
+														dueMonth = 5;
+													}else if(dueMonth == "Jun"){
+														dueMonth = 6;
+													}else if(dueMonth == "Jul"){
+														dueMonth = 7;
+													}else if(dueMonth == "Aug"){
+														dueMonth = 8;
+													}else if(dueMonth == "Sep"){
+														dueMonth = 9;
+													}else if(dueMonth == "Oct"){
+														dueMonth = 10;
+													}else if(dueMonth == "Nov"){
+														dueMonth = 11;
+													}else if(dueMonth == "Dec"){
+														dueMonth = 12;
+													}
+
+													newRec.Date = new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(date) + 1);
+													newRec.DueDate = new Date(2000 + parseInt(dueYear), parseInt(dueMonth) - 1, parseInt(dueDate) + 1);
+
+													Entry.findOrCreate({
+														where: {
+															Date: newRec.Date,
+															Customer: newRec.Customer,
+															Cash: newRec.Cash,
+															Gold: newRec.Gold,
+															Silver: newRec.Silver,
+															Weight: newRec.Weight,
+															Tunch: newRec.Tunch,
+															DueDate: newRec.DueDate,
+															Remarks: newRec.Remarks,
+															Product: newRec.Product,
+														}
+													}, newRec).then(function (inq) {
+														console.log("Created Successfully");
+													}).catch(function(err) {
+														console.log(err);
+													});
+
+													break;
 												case "Students":
 													break;
 												case "Subscription":
 													break;
 											}
 										}
-									}, 1000);
+									}, 5000);
 								}
 
 								this.mongoDataUpdate();

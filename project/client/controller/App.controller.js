@@ -41,9 +41,10 @@ sap.ui.define([
 			 this.logOutApp();
 		 },
 			onInit: function() {
-				this.getOwnerComponent().getModel("local").setSizeLimit(600);
+				this.getOwnerComponent().getModel("local").setSizeLimit(1500);
+				this.getOwnerComponent().getModel().setSizeLimit(1500);
 				this.idleLogout();
-				
+
 			}
 
 		/**

@@ -89,21 +89,25 @@ sap.ui.define([
 
 
 			},
-
+			onSuggestionItemSelected: function(oEvent){
+				//debugger;
+				var sId = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath()).id;
+				this.getView().getModel("customerModel").setProperty("/City", sId);
+			},
 			onSelectChange: function(oEvent){
 				debugger;
 				var oValue = oEvent.getSource().getId();
 				// var oSelect = oEvent.getParameter("selectedItem").getText();
 				var oSelect = oEvent.getParameter("selectedItem").mProperties.key;
-				if(oValue === "__component0---idCustomers--idCity"){
-					this.getView().getModel("customerModel").setProperty("/City", oSelect);
-				}
+				// if(oValue === "__component0---idCustomers--idCity"){
+				// 	this.getView().getModel("customerModel").setProperty("/City", oSelect);
+				// }
 				if(oValue === "__component0---idCustomers--idType"){
-				this.getView().getModel("customerModel").setProperty("/Type", oSelect);
-			}
-			if(oValue === "__component0---idCustomers--idGroup"){
-			this.getView().getModel("customerModel").setProperty("/Group", oSelect);
-		}
+					this.getView().getModel("customerModel").setProperty("/Type", oSelect);
+				}
+				if(oValue === "__component0---idCustomers--idGroup"){
+					this.getView().getModel("customerModel").setProperty("/Group", oSelect);
+				}
 			},
 			onSelectChangeGroup: function(oEvent){
 				var oSelect = oEvent.getParameter("selectedItem").getText();
@@ -495,8 +499,8 @@ sap.ui.define([
 						var oGroup = this.getView().byId("idGroup");
 						oGroup.setSelectedKey(selectedCustData.Group);
 						customerModel.setProperty("/Group", selectedCustData.Group);
-							var oCity = this.getView().byId("idCity");
-						oCity.setSelectedKey(selectedCustData.City);
+						var oCity = this.getView().byId("idCity");
+						//oCity.setSelectedKey(selectedCustData.City);
 						customerModel.setProperty("/Id", selectedCustData.id);
 						var oType = this.getView().byId("idType");
 						oType.setSelectedKey(selectedCustData.Type);

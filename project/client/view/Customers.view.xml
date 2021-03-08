@@ -123,7 +123,7 @@
 					<core:Item key="{Id}" text="{Name}" />
 				</ComboBox> -->
 				<Label text="City"/>
-				<Select
+				<!-- <Select
 					id="idCity"
 					change="onSelectChange"
 					selectedKey= "{cityModelInfo/0/results}"
@@ -131,7 +131,17 @@
 						path: 'cityModelInfo>/results'
 					}">
 					<core:Item key="{cityModelInfo>id}" text="{cityModelInfo>cityName}" />
-				</Select>
+				</Select> -->
+
+				<Input
+					id="idCityField"
+					placeholder="Enter City"
+					showSuggestion="true"
+					suggestionItems="{/Cities}" suggestionItemSelected="onSuggestionItemSelected">
+					<suggestionItems>
+						<core:ListItem text="{cityCode}" additionalText="{cityName}" />
+					</suggestionItems>
+				</Input>
 				<!-- <Label text="City"/>
 				<ComboBox
 					items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"

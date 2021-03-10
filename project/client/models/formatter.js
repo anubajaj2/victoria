@@ -15,6 +15,22 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			}
 			return dd + '.' + mm + '.' + yyyy;
 		},
+		convertPDFToUrl: function(vContent) {
+			// var decodedPdfContent=vContent;
+			// var decodedPdfContent = atob(vContent.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""));
+			var decodedPdfContent = vContent;
+			var byteArray = new Uint8Array(decodedPdfContent.length);
+			for (var i = 0; i < decodedPdfContent.length; i++) {
+				byteArray[i] = decodedPdfContent.charCodeAt(i);
+			}
+			debugger;
+			var blob = new Blob([byteArray.buffer], {
+				// type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+				type:'application/octet-stream' 
+			});
+			jQuery.sap.addUrlWhitelist("blob");
+			return URL.createObjectURL(blob);
+		},
 		getDateDDMMYYYYFormat: function(date){
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 											  pattern: "dd.mm.yyyy"});

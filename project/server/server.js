@@ -2689,16 +2689,16 @@ app.start = function() {
 									    //   .catch(err => {
 									    //     console.log(err);
 									    //   });
-											// const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-											// var tempfile = require('tempfile');
-											// var tmp = tempfile(".xlsx");
-											// workbook.xlsx.writeFile("./entryDownloads/" + tempFileName).then(function() {
-											//     console.log("xlsx file is written.");
-											// 		// res.status(200).type("application/vnd.ms-excel").end();
-											// 		res.download(tmp, function(err){
-											//         console.log('---------- error downloading file: ' + err);
-											//     });
-											// });
+											const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+											var tempfile = require('tempfile');
+											var tmp = tempfile(".xlsx");
+											workbook.xlsx.writeFile("D:/" + tempFileName).then(function() {
+											    console.log("xlsx file is written.");
+													res.status(200).type("application/vnd.ms-excel").end();
+													res.download(tmp, function(err){
+											        console.log('---------- error downloading file: ' + err);
+											    });
+											});
 
 											// res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 											//

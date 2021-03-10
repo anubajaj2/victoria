@@ -68,9 +68,20 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 				});
 				// 		});
 				this.getView().byId("idCash").focus();
+				this.getView().byId("idCash").$().find("input").select();
 			},
 			valuesChangeMaterial: function(oEvent) {
 				this.getView().byId("idweight").focus();
+				this.getView().byId("idweight").$().find("input").select();
+				const value = oEvent.getSource().mProperties.value;
+				const data = this.allMasterData.materialsId[value];
+				if(data == undefined){
+					this.getView().byId("idMatText").setText();
+				}
+				else{
+				    this.getView().byId("idMat").setValue(data.ProductCode);
+				    this.getView().byId("idMatText").setText(data.ProductName + " - " + data.Type);
+				}
 			},
 			onCalculate: function (evt) {
 				debugger;
@@ -235,9 +246,11 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onCashSubmit: function (evt) {
 				this.getView().byId("idGold").focus();
+				this.getView().byId("idGold").$().find("input").select();
 			},
 			onGoldSubmit: function (evt) {
 				this.getView().byId("idSilver").focus();
+				this.getView().byId("idSilver").$().find("input").select();
 			},
 			onSilverSubmit: function (evt) {
 				this.getView().byId("idRemarks").focus();
@@ -247,9 +260,14 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onSubmitSideWeight: function (evt) {
 				this.getView().byId("idtunch").focus();
+				this.getView().byId("idtunch").$().find("input").select();
 			},
 			onSubmitSideTunch: function (evt) {
 				this.getView().byId("calculateButton").focus();
+			},
+			onKeyPress: function (oEvent) {
+				var input = oEvent.getSource();
+				input.setValue(input.getValue().toUpperCase());
 			},
 			onSelect: function (oEvent) {
 				jQuery.sap.delayedCall(500, this, function () {
@@ -603,7 +621,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					});
 					this.byId("idCust").getValue();
 					this.byId("idCustText").getText();
-					// this.byId("idMat").setValue("");
+					this.byId("idMat").setValue("");
 					this.byId("idMatText").setText("");
 					this.byId("idMatType").setText("");
 					this.byId("idweight").setValue("0");
@@ -627,7 +645,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 					this.byId("idCust").setValue("");
 					this.byId("idCustText").setText("");
-					// this.byId("idMat").setValue("");
+					this.byId("idMat").setValue("");
 					this.byId("idMatText").setText("");
 					this.byId("idMatType").setText("");
 					this.byId("idweight").setValue("0");

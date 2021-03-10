@@ -119,7 +119,7 @@
                         <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
                             <f:fields>
                                 <Input id="idMat" showValueHelp="true" editable="true" type="Text" submit="valuesChangeMaterial"
-                                placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect"
+                                placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect" liveChange="onKeyPress"
                                 showSuggestion="true" suggestionItems="{/Products}" visible="true">
                                     <suggestionItems>
                                         <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>

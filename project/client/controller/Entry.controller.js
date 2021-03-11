@@ -277,22 +277,41 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onPressEntryDownload: function () {
 				// var test = this.getView().getModel("customerModel");
+				var that = this;
 				var reportType = "Entry";
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 				var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
 				var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
-				$.post("/entryDownload", {
-					id: custId,
-					name: name,
-					city: city,
-					type: reportType
-				}).then(function (oData) {
-					debugger;
-					MessageToast.show("Data downloaded successfully");
-				}, function (oError) {
-					debugger;
-					MessageToast.show("Data could not be downloaded");
-				});
+				// $.post("/entryDownload", {
+				// 	id: custId,
+				// 	name: name,
+				// 	city: city,
+				// 	type: reportType
+				// }).then(function (oData) {
+				// 	debugger;
+				// 	MessageToast.show("Data downloaded successfully");
+				// 	console.log(that.getImageUrlFromContent(oData));
+				// }, function (oError) {
+				// 	debugger;
+				// 	MessageToast.show("Data could not be downloaded");
+				// });
+				window.open("/entryDownload");
+			},
+			getImageUrlFromContent: function(base64Stream){
+				if(base64Stream){
+					var b64toBlob = function(dataURI) {
+					    var byteString = atob(dataURI.split(',')[1]);
+					    var ab = new ArrayBuffer(byteString.length);
+					    var ia = new Uint8Array(ab);
+					    for (var i = 0; i < byteString.length; i++) {
+					        ia[i] = byteString.charCodeAt(i);
+					    }
+					    return new Blob([ab], { type: 'image/jpeg' });
+					};
+					var x = b64toBlob(base64Stream);
+					return URL.createObjectURL(x);
+				}
+
 			},
 			// onSort : function(oEvent){
 			// 	var aSorter = [];

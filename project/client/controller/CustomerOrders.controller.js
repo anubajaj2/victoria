@@ -197,20 +197,43 @@ sap.ui.define([
     },
 
     onSubmit: function (evt) {
-      $(function() {
-              $('input:text:first').focus();
-                  debugger;
-              var $inp = $('input:text');
-              $inp.bind('keypress', function(e) {
-                  //var key = (e.keyCode ? e.keyCode : e.charCode);
-                  var key = e.which;
-                  if (key == 13) {
-                      e.preventDefault();
-                      var nxtIdx = $inp.index(this) + 1;
-                      $(":input:text:eq(" + nxtIdx + ")").focus();
-                  }
-              });
-          });
+
+      // $(function() {
+      //         $('input:text:first').focus();
+      //             debugger;
+      //         var $inp = $('input:text');
+      //         $inp.bind('keypress', function(e) {
+      //             //var key = (e.keyCode ? e.keyCode : e.charCode);
+      //             var key = e.which;
+      //             if (key == 13) {
+      //                 e.preventDefault();
+      //                 var nxtIdx = $inp.index(this) + 1;
+      //                 $(":input:text:eq(" + nxtIdx + ")").focus();
+      //             }
+      //         });
+      //     });
+
+          this.getView().byId("idCoWeight").focus();
+    			this.getView().byId("idCoWeight").$().find("input").select();
+    },
+    onSubmitWeight: function (evt) {
+        this.getView().byId("idCoMaking").focus();
+  			this.getView().byId("idCoMaking").$().find("input").select();
+    },
+    onSubmitMaking: function (evt) {
+        this.getView().byId("idCoKarigar").focus();
+			  this.getView().byId("idCoKarigar").$().find("input").select();
+    },
+    onCoCashSubmit: function (evt) {
+        this.getView().byId("idCoGold").focus();
+			  this.getView().byId("idCoGold").$().find("input").select();
+    },
+    onCoGoldSubmit: function (evt) {
+        this.getView().byId("idCoSilver").focus();
+			  this.getView().byId("idCoSilver").$().find("input").select();
+    },
+    onCoSilverSubmit: function (evt) {
+        this.getView().byId("acceptButton").focus();
     },
 
     onSelectPhoto: function(oEvent){

@@ -98,47 +98,51 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     onPressCustCodeDownload: function() {
-      var reportType = "Customer_Codes";
-      $.post("/custCodeDownload",{type: reportType}).then(function(oData)
-    {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
+    //   var reportType = "Customer_Codes";
+    //   $.post("/custCodeDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/custCodeDownload?type=Customer_Codes");
     },
-    
+
     onPressMaterialDownload: function() {
       var reportType = "Materials";
-      $.post("/materialDownload",{type: reportType}).then(function(oData)
-    {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
+    //   $.post("/materialDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/materialDownload?type=Materials");
     },
 
     onPressCityDownload: function() {
       var reportType = "City";
-      $.post("/cityDownload",{type: reportType}).then(function(oData)
-    {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
+    //   $.post("/cityDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/cityDownload?type=City");
     },
 
     onPressGroupDownload: function() {
-      var reportType = "Groups";
-      $.post("/groupsDownload",{type: reportType}).then(function(oData)
-    {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
+    //   var reportType = "Groups";
+    //   $.post("/groupsDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/groupsDownload?type=Groups");
     },
 // code added by surya end
 

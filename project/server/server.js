@@ -3112,9 +3112,9 @@ app.start = function() {
 								});
 							});
 		///// code added by Surya - start
-		app.post('/custCodeDownload', function(req, res) {
+		app.get('/custCodeDownload', function(req, res) {
 			debugger;
-			var reportType = req.body.type;
+			var reportType = req.query.type;
 
 			var responseData = [];
 
@@ -3134,14 +3134,23 @@ app.start = function() {
 
 						var arrCities = [];
 						var arrGroups = [];
-
+						// nishan
+						debugger;
 						for (var i = 0; i < customerRecord["length"]; i++) {
+							// try {
 							if (!(arrCities.includes(customerRecord[i].City.toString()))) {
 								arrCities.push(customerRecord[i].City.toString());
 							}
 							if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
 								arrGroups.push(customerRecord[i].Group.toString());
 							}
+							// if(typeof(customerRecord[0].Group)!=="object"){
+							// 	debugger;
+							// }
+// 							catch(err) {
+//   // Block of code to handle errors
+// 	debugger;
+// }
 						}
 						//Fetch city data on the basis of city codes array
 						var City = app.models.City;
@@ -3545,16 +3554,31 @@ app.start = function() {
 								}
 
 								//Coding to download in a folder
-								var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								// var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								// 	currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+								// console.log("tempFilePath : ", tempFilePath);
+								// workbook.xlsx.writeFile(tempFilePath).then(function() {
+								// 	res.sendFile(tempFilePath, function(err) {
+								// 		if (err) {
+								// 			console.log('---------- error downloading file: ', err);
+								// 		}
+								// 	});
+								// 	console.log('file is written @ ' + tempFilePath);
+								// });
+								debugger;
+								var tempFilePath =reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-								console.log("tempFilePath : ", tempFilePath);
-								workbook.xlsx.writeFile(tempFilePath).then(function() {
-									res.sendFile(tempFilePath, function(err) {
-										if (err) {
-											console.log('---------- error downloading file: ', err);
-										}
-									});
-									console.log('file is written @ ' + tempFilePath);
+								res.setHeader(
+									"Content-Type",
+									"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+								);
+								res.setHeader(
+									"Content-Disposition",
+									"attachment; filename=" + tempFilePath
+								);
+									return workbook.xlsx.write(res).then(function (data) {
+																				console.log(data);
+									res.status(200).end();
 								});
 							}
 						}).catch(function(oError) {
@@ -3571,8 +3595,8 @@ app.start = function() {
 			);
 		});
 
-		app.post('/materialDownload', function(req, res) {
-			var reportType = req.body.type;
+		app.get('/materialDownload', function(req, res) {
+			var reportType = req.query.type;
 			//read products
 			var responseData = [];
 			var Product = app.models.Product;
@@ -4192,16 +4216,32 @@ app.start = function() {
 										}
 
 										//Coding to download in a folder
-										var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// 	currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// console.log("tempFilePath : ", tempFilePath);
+										// // nishan
+										// workbook.xlsx.writeFile(tempFilePath).then(function() {
+										// 	res.sendFile(tempFilePath, function(err) {
+										// 		if (err) {
+										// 			console.log('---------- error downloading file: ', err);
+										// 		}
+										// 	});
+										// 	console.log('file is written @ ' + tempFilePath);
+										// });
+										debugger;
+										var tempFilePath =reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-										console.log("tempFilePath : ", tempFilePath);
-										workbook.xlsx.writeFile(tempFilePath).then(function() {
-											res.sendFile(tempFilePath, function(err) {
-												if (err) {
-													console.log('---------- error downloading file: ', err);
-												}
-											});
-											console.log('file is written @ ' + tempFilePath);
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFilePath
+										);
+											return workbook.xlsx.write(res).then(function (data) {
+																						console.log(data);
+											res.status(200).end();
 										});
 									}
 								}).catch(function(oError) {
@@ -4220,8 +4260,8 @@ app.start = function() {
 			);
 		});
 
-		app.post('/cityDownload', function(req, res) {
-			var reportType = req.body.type;
+		app.get('/cityDownload', function(req, res) {
+			var reportType = req.query.type;
 			//read cities
 			var responseData = [];
 			//var oSubCounter = {};
@@ -4425,16 +4465,31 @@ app.start = function() {
 										}
 
 										//Coding to download in a folder
-										var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// 	currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// console.log("tempFilePath : ", tempFilePath);
+										// workbook.xlsx.writeFile(tempFilePath).then(function() {
+										// 	res.sendFile(tempFilePath, function(err) {
+										// 		if (err) {
+										// 			console.log('---------- error downloading file: ', err);
+										// 		}
+										// 	});
+										// 	console.log('file is written @ ' + tempFilePath);
+										// });
+										debugger;
+										var tempFilePath =reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-										console.log("tempFilePath : ", tempFilePath);
-										workbook.xlsx.writeFile(tempFilePath).then(function() {
-											res.sendFile(tempFilePath, function(err) {
-												if (err) {
-													console.log('---------- error downloading file: ', err);
-												}
-											});
-											console.log('file is written @ ' + tempFilePath);
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFilePath
+										);
+											return workbook.xlsx.write(res).then(function (data) {
+																						console.log(data);
+											res.status(200).end();
 										});
 									}
 								}).catch(function(oError) {
@@ -4453,8 +4508,8 @@ app.start = function() {
 			);
 		});
 
-		app.post('/groupsDownload', function(req, res) {
-			var reportType = req.body.type;
+		app.get('/groupsDownload', function(req, res) {
+			var reportType = req.query.type;
 			//read Groups
 			var responseData = [];
 			var Group = app.models.Group;
@@ -4656,16 +4711,31 @@ app.start = function() {
 										}
 
 										//Coding to download in a folder
-										var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										// 	currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// console.log("tempFilePath : ", tempFilePath);
+										// workbook.xlsx.writeFile(tempFilePath).then(function() {
+										// 	res.sendFile(tempFilePath, function(err) {
+										// 		if (err) {
+										// 			console.log('---------- error downloading file: ', err);
+										// 		}
+										// 	});
+										// 	console.log('file is written @ ' + tempFilePath);
+										// });
+										debugger;
+										var tempFilePath =reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-										console.log("tempFilePath : ", tempFilePath);
-										workbook.xlsx.writeFile(tempFilePath).then(function() {
-											res.sendFile(tempFilePath, function(err) {
-												if (err) {
-													console.log('---------- error downloading file: ', err);
-												}
-											});
-											console.log('file is written @ ' + tempFilePath);
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFilePath
+										);
+											return workbook.xlsx.write(res).then(function (data) {
+																						console.log(data);
+											res.status(200).end();
 										});
 									}
 								}).catch(function(oError) {

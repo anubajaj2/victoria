@@ -295,7 +295,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	debugger;
 				// 	MessageToast.show("Data could not be downloaded");
 				// });
-				window.open("/entryDownload");
+				window.open("/entryDownload?id="+custId+"&type=Entry&name="+name+"&city="+city);
 			},
 			getImageUrlFromContent: function(base64Stream){
 				if(base64Stream){

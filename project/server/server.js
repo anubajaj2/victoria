@@ -2189,11 +2189,12 @@ app.start = function() {
 			});
 		})
 		app.get('/entryDownload', function(req, res) {
-				var reportType = req.body.type;
-				var custId = req.body.id;
-				var name = req.body.name;
-				var city = req.body.city;
-				custId = "6043ad0632a5213cb0ec551a";
+			debugger;
+				var reportType = req.query.type;
+				var custId = req.query.id;
+				var name = req.query.name;
+				var city = req.query.city;
+				// custId = "6043ad0632a5213cb0ec551a";
 				var Ggroup = "";
 				//read customer name by id, group by group id, city by
 				//read kacchi and print report with all coloring, formatting, totaling
@@ -2348,6 +2349,9 @@ app.start = function() {
 											//Coding for formula and concatenation in the last line
 											var totText = Records["length"] + 4;
 											var totCol = totText - 1;
+											totalB=totalB.toFixed(3);
+											totalC=Math.round(totalC);
+											totalD=totalD.toFixed(2);
 											sheet.getCell('A' + totText).value = "TOTAL";
 
 											sheet.getCell('B' + totText).value = totalB;
@@ -2679,7 +2683,7 @@ app.start = function() {
 											// 	console.log('file is written @ ' + tempFilePath);
 											// });
 
-											// const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+											const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 											// workbook.xlsx
 									    //   .writeFile(tempFileName)
 									    //   .then(response => {
@@ -2702,21 +2706,21 @@ app.start = function() {
 											// });
 											// res is a Stream object
 											//anurag
-res.setHeader(
-  "Content-Type",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-);
-res.setHeader(
-  "Content-Disposition",
-  "attachment; filename=" + "tutorials.xlsx"
-);
-console.log("came");
-return workbook.xlsx.write(res).then(function (data) {
-	console.log(data);
-	//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
-	//res.end(new Buffer(data, 'base64'));
-  res.status(200).end();
-});
+											res.setHeader(
+											  "Content-Type",
+											  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+											);
+											res.setHeader(
+											  "Content-Disposition",
+											  "attachment; filename=" + tempFileName
+											);
+											// console.log("came");
+											return workbook.xlsx.write(res).then(function (data) {
+												console.log(data);
+												//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+												//res.end(new Buffer(data, 'base64'));
+											  res.status(200).end();
+											});
 											// res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 											//
 											// res.setHeader("Content-Disposition", "attachment; filename=Rep1ort.xlsx");

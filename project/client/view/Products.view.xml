@@ -72,70 +72,6 @@
 						<l:GridData span="XL1 L1 M1 S5"/>
 					</layoutData>
 				</Switch> -->
-<<<<<<< HEAD
-
-				<Label text="Tunch"/>
-				<Input
-					id="idStandardCost"
-					type="Text"
-					change="onChange"
-					value="{productModel>/Tunch}">
-				</Input>
-				<Label text="Customer Tunch"/>
-				<Input
-					id="idCustomerTunch"
-					type="Text"
-					change="onChange"
-					value="{productModel>/CustomerTunch}">
-				</Input>
-				<Label text="Wastage"/>
-				<Input
-					id="idReorderLevel"
-					change="onChange"
-					type="Text"
-					value="{productModel>/Wastage}">
-				</Input>
-
-				<Label text="Customer Tunch"/>
-				<Input
-					id="idListPrice"
-					type="Decimal"
-					value="{productModel>/CustomerTunch}">
-				</Input>
-
-				<Label text="Alert Quantity"/>
-				<Input
-					id="idTargetLevel"
-					type="Text"
-					value="{productModel>/AlertQuantity}">
-				</Input>
-
-				<Label text="Making"/>
-				<Input
-					id="idMinimumReorderQuantity"
-					type="Text"
-					value="{productModel>/Making}">
-				</Input>
-				<Label text="Customer Making"/>
-				<Input
-					id="idCustomerMaking"
-					type="Text"
-					value="{productModel>/CustomerMaking}">
-				</Input>
-				<Label text="Category"/>
-				<Select
-					id="idCategory"
-					change="onCatChange"
-					selectedKey="{/per/0/items}"
-					items="{
-						path: 'per>/items'
-					}">
-					<core:Item key="{per>text}" text="{per>text}" />
-				</Select>
-
-				<Label text="MakingD"/>
-				<!-- <Select
-=======
 					<Label text="Tunch"/>
 					<Input id="idStandardCost" submit="onSubmitStandardCost" type="Text" change="onChange" value="{productModel>/Tunch}"></Input>
 					<Label text="Wastage"/>
@@ -152,7 +88,6 @@
 					</Select>
 					<Label text="MakingD"/>
 					<!-- <Select
->>>>>>> 68c71c4c175b4ed471ba04717771230e3f2280f6
 					id="idQuantityPerUnit"
 					selectedKey="{productModel>/QuantityPerUnit}"
 					items="{

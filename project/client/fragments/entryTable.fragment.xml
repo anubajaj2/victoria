@@ -15,7 +15,7 @@
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
-				<Button id = "idEntryDownload" icon="sap-icon://download" press = "onPressEntryDownload" enabled="false"/>
+				<Button id = "idEntryDownload" icon="sap-icon://download" press = "onPressEntryDownload" enabled="true"/>
         <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
         <Button icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>

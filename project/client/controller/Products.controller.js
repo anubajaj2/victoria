@@ -291,8 +291,10 @@ sap.ui.define([
 				this.getView().getModel("productModel").setProperty("/Category", oSelectCat);
 			},
 
+
 			onTypeChange: function(oEvent){
 				// var oSelectType = oEvent.getParameter("selectedItem").get;
+				this.getView().byId("idHindi").focus();
 				var oSelectType = oEvent.getParameter("selectedItem").getText();
 				var viewModel = this.getView().getModel("viewModel");
 				var productModel = this.getView().getModel("productModel");
@@ -367,19 +369,20 @@ this.clearProduct();
 
 			productCodeEnter : function(oEvent){
 				debugger;
-				$(function() {
-								$('input:text:first').focus();
-								var $inp = $('input:text');
-								$inp.bind('keypress', function(e) {
-										//var key = (e.keyCode ? e.keyCode : e.charCode);
-										var key = e.which;
-										if (key == 13) {
-												e.preventDefault();
-												var nxtIdx = $inp.index(this) + 1;
-												$(":input:text:eq(" + nxtIdx + ")").focus();
-										}
-								});
-						});
+				this.getView().byId("idProductName").focus();
+				// $(function() {
+				// 				$('input:text:first').focus();
+				// 				var $inp = $('input:text');
+				// 				$inp.bind('keypress', function(e) {
+				// 						//var key = (e.keyCode ? e.keyCode : e.charCode);
+				// 						var key = e.which;
+				// 						if (key == 13) {
+				// 								e.preventDefault();
+				// 								var nxtIdx = $inp.index(this) + 1;
+				// 								$(":input:text:eq(" + nxtIdx + ")").focus();
+				// 						}
+				// 				});
+				// 		});
 					var that =  this;
 				// var productModel = this.getView().getModel("Products");
 				var productModel = this.getView().getModel("productModel");
@@ -532,6 +535,39 @@ this.clearProduct();
 				var oWaste = this.getView().byId("idReorderLevel").getValue();
 				var oCustTunch =  this.getView().byId("idListPrice");
 				oCustTunch.setValue(+oTunch+ +oWaste);
+			},
+			onProductNameSubmit: function() {
+				this.getView().byId("idType").focus();
+			},
+			onSubmitHindiName: function() {
+				this.getView().byId("idStandardCost").focus();
+				this.getView().byId("idStandardCost").$().find("input").select();
+			},
+			onSubmitStandardCost: function() {
+				this.getView().byId("idReorderLevel").focus();
+				this.getView().byId("idReorderLevel").$().find("input").select();
+			},
+			onSubmitReorderLevel: function() {
+				this.getView().byId("idListPrice").focus();
+				this.getView().byId("idListPrice").$().find("input").select();
+			},
+			onSubmitListPrice: function() {
+				this.getView().byId("idTargetLevel").focus();
+				this.getView().byId("idTargetLevel").$().find("input").select();
+			},
+			onSubmitTargetLevel: function() {
+				this.getView().byId("idMinimumReorderQuantity").focus();
+				this.getView().byId("idMinimumReorderQuantity").$().find("input").select();
+			},
+			onSubmitMinimumReorderQuantity: function() {
+				this.getView().byId("idCategory").focus();
+			},
+			onSubmitCategory: function() {
+				this.getView().byId("idPricePerUnit").focus();
+				this.getView().byId("idPricePerUnit").$().find("input").select();
+			},
+			onSubmitPricePerUnit: function() {
+				this.getView().byId("acceptButton").focus();
 			},
 
 			clearProduct : function(){

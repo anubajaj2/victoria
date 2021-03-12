@@ -1,50 +1,21 @@
-<mvc:View
-	controllerName="victoria.controller.Products"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.m.semantic"
-	xmlns:f="sap.ui.layout.form"
-	xmlns:smartField="sap.ui.comp.smartfield"
-	xmlns:footerbar="sap.ushell.ui.footerbar"
-	xmlns:l = "sap.ui.layout"
+<mvc:View controllerName="victoria.controller.Products" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-
-	<semantic:FullscreenPage
-		id="products"
-		navButtonPress="onNavBack"
-		showNavButton="true"
-		title="Manage Products"
-		busy="{objectView>/busy}"
+	<semantic:FullscreenPage id="products" navButtonPress="onNavBack" showNavButton="true" title="Manage Products" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
-
 		<semantic:customHeaderContent>
-			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
-			tooltip="fullscreen"
-			iconFirst="true" press="toggleFullScreen"/>
-    </semantic:customHeaderContent>
-
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/>
+		</semantic:customHeaderContent>
 		<semantic:content id="Header">
-			<f:Form id="ProductHeader" editable="true">
-			</f:Form>
+			<f:Form id="ProductHeader" editable="true"></f:Form>
 		</semantic:content>
-
 		<semantic:content>
-		<f:SimpleForm
-			minWidth="1024"
-			maxContainerCols="2"
-			editable="true"
-			layout="ResponsiveGridLayout"
-			labelSpanL="3"
-			labelSpanM="3"
-			emptySpanL="4"
-			emptySpanM="4"
-			columnsL="1"
-			columnsM="1"
-			class="editableForm">
-			<f:content>
- 			    <Label text="Product Code" labelFor="productInput" required="true"/>
-				<!-- <Input
+			<f:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
+				emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+				<f:content>
+					<Label text="Product Code" labelFor="productInput" required="true"/>
+					<!-- <Input
 					id="productInput"
 					type="Text"
 					showSuggestion="true"
@@ -55,32 +26,21 @@
 						<core:Item text="{ProductCode}" key="{Id}"/>
 					</suggestionItems>
 				</Input> -->
-				<!-- <ComboBox value="{/Products/ProductCode}" change="productCodeCheck"
+					<!-- <ComboBox value="{/Products/ProductCode}" change="productCodeCheck"
 	items="{productModelInfo>/results}" valueState="{dataModel>/ProductCodeState}" valueStateText="Product Code cannot be blank"
 											enabled="{viewModel>/codeEnabled}">
 	<core:Item key="{productModelInfo>ProductCode}" text="{productModelInfo>ProductCode}" />
 </ComboBox> -->
-<Input id="idProductCode" submit="productCodeEnter" suggest="ValueChangeMaterial"
-	suggestionItems="{/Products}" showSuggestion="true"
-		enabled="{viewModel>/codeEnabled}"
-	suggestionItemSelected="productCodeCheck" liveChange="onKeyPress"
-	change="productCodeEnter">
-	<suggestionItems>
-		<core:ListItem text="{ProductCode}"
-									 additionalText="{ProductName} {Type}"/>
-	</suggestionItems>
-</Input>
-
-<Label text="Product Name"/>
-<Input
-	id="idProductName"
-	type="Text"
-	value="{productModel>/ProductName}">
-</Input>
-
-
-				<Label text="Type"/>
-				<!-- <Select
+					<Input id="idProductCode" submit="productCodeEnter" suggest="ValueChangeMaterial" suggestionItems="{/Products}" showSuggestion="true"
+						enabled="{viewModel>/codeEnabled}" suggestionItemSelected="productCodeCheck" liveChange="onKeyPress" change="productCodeEnter">
+						<suggestionItems>
+							<core:ListItem text="{ProductCode}" additionalText="{ProductName} {Type}"/>
+						</suggestionItems>
+					</Input>
+					<Label text="Product Name"/>
+					<Input id="idProductName" submit="onProductNameSubmit" type="Text" value="{productModel>/ProductName}"></Input>
+					<Label text="Type"/>
+					<!-- <Select
 					id="idDescription"
 					selectedKey="{productModel>/Description}"
 					items="{
@@ -88,53 +48,31 @@
 					}">
 					<core:Item key="{fixed>text}" text="{fixed>text}" />
 				</Select> -->
-
-				<Select
-					id="idType"
-					change="onTypeChange"
-					selectedKey="{/fixed/0/items}"
-					items="{
-						path: 'fixed>/items'
-					}">
-					<core:Item key="{fixed>text}" text="{fixed>text}" />
-				</Select>
-
-				<Label text = "Karat" required="false"/>
-				<Select
-					id="idKarat"
-					change="onSelectChange"
-					 enabled="{viewModel>/typeEnabled}"
-					 	 selectedKey= "{/Karat/0/items}"
-					items="{
-						path: 'Karat>/items'
-					}">
-					<core:Item key="{Karat>text}" text="{Karat>text}" />
-				</Select>
-
-
-				<Label text="Hindi Name"/>
-				<Input
-					id="idHindi"
-					type="Text"
-					value="{productModel>/HindiName}"
-					class = "hinditext">
-					<layoutData>
-						<FlexItemData growFactor="1" />
-						<l:GridData span="XL4 L4 M4 S6"/>
-					</layoutData>
-				</Input>
-				<!-- <div id='translControl'></div> -->
-				<core:HTML content='&lt;div id=&quot;translControl&quot;width=&quot;28px&quot;&gt;&lt;/div&gt;'>
-
-				</core:HTML>
-
-				<!-- <Switch id="idHindiName" state="true" change="onSubmit" name="switch"
+					<Select id="idType" change="onTypeChange" selectedKey="{/fixed/0/items}" items="{ path: 'fixed>/items' }">
+						<core:Item key="{fixed>text}" text="{fixed>text}"/>
+					</Select>
+					<Label text="Karat" required="false"/>
+					<Select id="idKarat" change="onSelectChange" enabled="{viewModel>/typeEnabled}" selectedKey="{/Karat/0/items}"
+						items="{ path: 'Karat>/items' }">
+						<core:Item key="{Karat>text}" text="{Karat>text}"/>
+					</Select>
+					<Label text="Hindi Name"/>
+					<Input id="idHindi" submit="onSubmitHindiName" type="Text" value="{productModel>/HindiName}" class="hinditext">
+						<layoutData>
+							<FlexItemData growFactor="1"/>
+							<l:GridData span="XL4 L4 M4 S6"/>
+						</layoutData>
+					</Input>
+					<!-- <div id='translControl'></div> -->
+					<core:HTML content='&lt;div id=&quot;translControl&quot;width=&quot;28px&quot;&gt;&lt;/div&gt;'></core:HTML>
+					<!-- <Switch id="idHindiName" state="true" change="onSubmit" name="switch"
 					 customTextOn="HINDI" customTextOff="ENG">
 					<layoutData>
 						<FlexItemData growFactor="1" />
 						<l:GridData span="XL1 L1 M1 S5"/>
 					</layoutData>
 				</Switch> -->
+<<<<<<< HEAD
 
 				<Label text="Tunch"/>
 				<Input
@@ -197,6 +135,24 @@
 
 				<Label text="MakingD"/>
 				<!-- <Select
+=======
+					<Label text="Tunch"/>
+					<Input id="idStandardCost" submit="onSubmitStandardCost" type="Text" change="onChange" value="{productModel>/Tunch}"></Input>
+					<Label text="Wastage"/>
+					<Input id="idReorderLevel" submit="onSubmitReorderLevel" change="onChange" type="Text" value="{productModel>/Wastage}"></Input>
+					<Label text="Customer Tunch"/>
+					<Input id="idListPrice" submit="onSubmitListPrice" type="Decimal" value="{productModel>/CustomerTunch}"></Input>
+					<Label text="Alert Quantity"/>
+					<Input id="idTargetLevel" submit="onSubmitTargetLevel" type="Text" value="{productModel>/AlertQuantity}"></Input>
+					<Label text="Making"/>
+					<Input id="idMinimumReorderQuantity" submit="onSubmitMinimumReorderQuantity" type="Text" value="{productModel>/Making}"></Input>
+					<Label text="Category"/>
+					<Select id="idCategory" submit="onSubmitCategory" change="onCatChange" selectedKey="{/per/0/items}" items="{ path: 'per>/items' }">
+						<core:Item key="{per>text}" text="{per>text}"/>
+					</Select>
+					<Label text="MakingD"/>
+					<!-- <Select
+>>>>>>> 68c71c4c175b4ed471ba04717771230e3f2280f6
 					id="idQuantityPerUnit"
 					selectedKey="{productModel>/QuantityPerUnit}"
 					items="{
@@ -204,25 +160,14 @@
 					}">
 					<core:Item key="{per>text}" text="{per>text}" />
 				</Select> -->
-				<Input
-					id="idPricePerUnit"
-					type="Text"
-					value="{productModel>/PricePerUnit}">
-				</Input>
-
-
-
-
-
-			</f:content>
-		</f:SimpleForm>
-
- 		</semantic:content>
+					<Input id="idPricePerUnit" submit="onSubmitPricePerUnit" type="Text" value="{productModel>/PricePerUnit}"></Input>
+				</f:content>
+			</f:SimpleForm>
+		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveProduct"/>
-				<Button text="Delete" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
-				<Button text="Clear" type="Ghost" press="clearProduct"/>
+			<Button text="{viewModel>/buttonText}" id="acceptButton" type="Accept" press="SaveProduct"/>
+			<Button text="Delete" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Clear" type="Ghost" press="clearProduct"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
-
 </mvc:View>

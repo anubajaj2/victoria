@@ -117,6 +117,8 @@ app.start = function() {
 									data: result
 								});
 
+								var demoSparshSihotiya = 0;
+
 								var getMyDate = function(strDate) {
 									var qdat = new Date();
 									var x = strDate;
@@ -135,196 +137,305 @@ app.start = function() {
 								var City = app.models.City;
 								var Customer = app.models.Customer;
 								var Product = app.models.Product;
+								var Entry = app.models.Entry;
 
 								var uploadType = valueUploadType;
 								///*****Code to update the batchs
 								this.allResult = [];
 								///Process the result json and send to mongo for creating all inquiries
-								for (var j = 0; j < result.length; j++) {
-									var singleRec = result[j];
 
-									switch (uploadType) {
-										case "Check":
-											break;
-										case "Server":
-											break;
-										case "Email":
-											break;
-										case "Account":
-											var newRec = {};
-											newRec.accountName = singleRec.accountname;
-											newRec.ifsc = singleRec.ifsc;
-											newRec.accountNo = singleRec.accountno;
-											newRec.limit = singleRec.limit;
-											newRec.white = singleRec.white;
-											newRec.userId = singleRec.userid;
-											newRec.registeredNo = singleRec.mobile;
-											newRec.email = "null";
-											newRec.counter = 0;
-											newRec.current = false;
-											Account.findOrCreate({
-													where: {
-														accountNo: newRec.accountNo
-													}
-												}, newRec)
-												.then(function(inq) {
-													debugger;
-													console.log("created successfully");
-												})
-												.catch(function(err) {
-													console.log(err);
-												});
-											///*****End of code to update batches
-											break;
-										case "Batch":
-											break;
-										case "Group":
-											var newRec = {};
-											newRec.groupCode = singleRec["groupcode"];
-											newRec.groupName = singleRec["groupname"];
-											newRec.description = singleRec["description"];
-											Group.findOrCreate({
-													where: {
-														groupCode: newRec.groupCode,
-														groupName: newRec.groupName,
-														description: newRec.description
-													}
-												}, newRec)
-												.then(function(inq) {
-													debugger;
-													console.log("created successfully");
-												})
-												.catch(function(err) {
-													console.log(err);
-												});
-											///*****End of code to update batches
-											break;
-										case "City":
-											var newRec = {};
-											newRec.cityCode = singleRec["citycode"];
-											newRec.cityName = singleRec["cityname"];
-											if(!singleRec["state"]){
-												newRec.state = ""
-											}
-											else{
-												newRec.state = singleRec["state"];
-											}
+								var cityData = [];
+								var groupData = [];
+								var customerData = [];
+								var productData = [];
+								if(uploadType == "Customer"){
+									Group.find({}, function(err, groups) {
+											groups.map((data) => {
+												groupData[data.__data.groupCode] = data.__data.id;
+											});
+										});
 
-											console.log(newRec);
-											City.findOrCreate({
-													where: {
-														cityCode: newRec.cityCode,
-														cityName: newRec.cityName,
-														state: newRec.state
-													}
-												}, newRec)
-												.then(function(inq) {
-													debugger;
-													console.log("created successfully");
-												})
-												.catch(function(err) {
-													console.log(err);
-												});
-											///*****End of code to update batches
-											break;
-										case "Customer":
-											var newRec = {};
-											newRec.CustomerCode = singleRec["customercode"];
-											newRec.Name = singleRec["name"];
-											// newRec.description = singleRec["address"];
-											newRec.City = singleRec["city"];
-											newRec.Type = singleRec["type"];
-											newRec.Group = singleRec["group"];
-											newRec.MobilePhone = singleRec["mobilephone"];
-											City.findOrCreate({
-													where: {
-														cityCode: newRec.City
-													}
-												}, newRec)
-												.then(function(inq) {
-													debugger;
-													newRec.City = inq[0].__data.id;
-													Group.findOrCreate({
-														where: {
-															groupCode: newRec.Group
-														}
-													}, newRec).then(function (inq) {
-														newRec.Group = inq[0].__data.id;
-														console.log(newRec.Group);
-														Customer.findOrCreate({
+									City.find({}, function(err, city) {
+											city.map((data) => {
+												cityData[data.__data.cityCode] = data.__data.id;
+											});
+										});
+								}
+
+								if(uploadType == "Entry"){
+									Customer.find({}, function(err, customer) {
+											customer.map((data) => {
+												customerData[data.__data.CustomerCode] = data.__data.id;
+											});
+										});
+
+									Product.find({}, function(err, product) {
+											product.map((data) => {
+												productData[data.__data.ProductCode] = data.__data.id;
+											});
+										});
+								}
+
+								this.mongoDataUpdate = () => {
+									setTimeout(function(){
+										for (var j = 0; j < result.length; j++) {
+											var singleRec = result[j];
+
+											switch (uploadType) {
+												case "Check":
+													break;
+												case "Server":
+													break;
+												case "Email":
+													break;
+												case "Account":
+													var newRec = {};
+													newRec.accountName = singleRec.accountname;
+													newRec.ifsc = singleRec.ifsc;
+													newRec.accountNo = singleRec.accountno;
+													newRec.limit = singleRec.limit;
+													newRec.white = singleRec.white;
+													newRec.userId = singleRec.userid;
+													newRec.registeredNo = singleRec.mobile;
+													newRec.email = "null";
+													newRec.counter = 0;
+													newRec.current = false;
+													Account.findOrCreate({
 															where: {
-																CustomerCode: newRec.CustomerCode,
-																Name: newRec.Name,
-																City: newRec.City,
-																Type: newRec.Type,
-																Group: newRec.Group,
-																MobilePhone: newRec.MobilePhone,
-																SecondaryPhone: 0
+																accountNo: newRec.accountNo
 															}
-														}, newRec).then(function (inq) {
-															// console.log(inq[0].__data.id);
-															console.log("Created Successfully");
-														}).catch(function(err) {
+														}, newRec)
+														.then(function(inq) {
+															debugger;
+															console.log("created successfully");
+														})
+														.catch(function(err) {
 															console.log(err);
 														});
+													///*****End of code to update batches
+													break;
+												case "Batch":
+													break;
+												case "Group":
+													var newRec = {};
+													newRec.groupCode = singleRec["groupcode"];
+													newRec.groupName = singleRec["groupname"];
+													newRec.description = singleRec["description"];
+													Group.findOrCreate({
+															where: {
+																groupCode: newRec.groupCode,
+																groupName: newRec.groupName,
+																description: newRec.description
+															}
+														}, newRec)
+														.then(function(inq) {
+															debugger;
+															console.log("created successfully");
+														})
+														.catch(function(err) {
+															console.log(err);
+														});
+													///*****End of code to update batches
+													break;
+												case "City":
+													var newRec = {};
+													newRec.cityCode = singleRec["citycode"];
+													newRec.cityName = singleRec["cityname"];
+													if(!singleRec["state"]){
+														newRec.state = ""
+													}
+													else{
+														newRec.state = singleRec["state"];
+													}
+
+													console.log(newRec);
+													City.findOrCreate({
+															where: {
+																cityCode: newRec.cityCode,
+																cityName: newRec.cityName,
+																state: newRec.state
+															}
+														}, newRec)
+														.then(function(inq) {
+															debugger;
+															console.log("created successfully");
+														})
+														.catch(function(err) {
+															console.log(err);
+														});
+													///*****End of code to update batches
+													break;
+												case "Customer":
+													var newRec = {};
+													newRec.CustomerCode = singleRec["customercode"];
+													newRec.Name = singleRec["name"];
+													newRec.City = cityData[singleRec["city"]];
+													newRec.Type = singleRec["type"];
+													newRec.Group = groupData[singleRec["group"]];
+													newRec.MobilePhone = singleRec["mobilephone"];
+
+													Customer.findOrCreate({
+														where: {
+															CustomerCode: newRec.CustomerCode,
+															Name: newRec.Name,
+															City: newRec.City,
+															Type: newRec.Type,
+															Group: newRec.Group,
+															MobilePhone: newRec.MobilePhone,
+															SecondaryPhone: 0
+														}
+													}, newRec).then(function (inq) {
+														console.log("Created Successfully");
 													}).catch(function(err) {
 														console.log(err);
 													});
-												})
-												.catch(function(err) {
-													console.log(err);
-												});
-											///*****End of code to update batches
-											break;
-										case "Product":
-											var newRec = {};
-											newRec.ProductCode = singleRec["productcode"];
-											newRec.ProductName = singleRec["productname"];
-											newRec.Type = singleRec["type"];
-											newRec.Karat = singleRec["karat"];
-											newRec.HindiName = singleRec["hindiname"];
-											newRec.Tunch = singleRec["tunch"];
-											newRec.Wastage = singleRec["wastage"];
-											newRec.CustomerTunch = singleRec["customertunch"];
-											newRec.AlertQuantity = singleRec["alertquantity"];
-											newRec.Making = singleRec["making"];
-											newRec.CustomerMaking = singleRec["customermaking"];
-											newRec.Category = singleRec["category"];
-											newRec.PricePerUnit = singleRec["priceperunit"];
-											Product.findOrCreate({
-													where: {
-														ProductCode: newRec.ProductCode,
-														ProductName: newRec.ProductName,
-														Type: newRec.Type,
-														Karat: newRec.Karat,
-														HindiName: newRec.HindiName,
-														Tunch: newRec.Tunch,
-														Wastage: newRec.Wastage,
-														CustomerTunch: newRec.CustomerTunch,
-														AlertQuantity: newRec.AlertQuantity,
-														Making: newRec.Making,
-														CustomerMaking: newRec.CustomerMaking,
-														Category: newRec.Category,
-														PricePerUnit: newRec.PricePerUnit
-													}
-												}, newRec)
-												.then(function(inq) {
-													debugger;
-													console.log("created successfully");
-												})
-												.catch(function(err) {
-													console.log(err);
-												});
-											///*****End of code to update batches
-											break;
-										case "Students":
-											break;
-										case "Subscription":
-											break;
 
-									}
+													break;
+												case "Product":
+													var newRec = {};
+													newRec.ProductCode = singleRec["productcode"];
+													newRec.ProductName = singleRec["productname"];
+													newRec.Type = singleRec["type"];
+													newRec.Karat = singleRec["karat"];
+													newRec.HindiName = singleRec["hindiname"];
+													newRec.Tunch = singleRec["tunch"];
+													newRec.Wastage = singleRec["wastage"];
+													newRec.CustomerTunch = singleRec["customertunch"];
+													newRec.AlertQuantity = singleRec["alertquantity"];
+													newRec.Making = singleRec["making"];
+													newRec.CustomerMaking = singleRec["customermaking"];
+													newRec.Category = singleRec["category"];
+													newRec.PricePerUnit = singleRec["priceperunit"];
+													Product.findOrCreate({
+															where: {
+																ProductCode: newRec.ProductCode,
+																ProductName: newRec.ProductName,
+																Type: newRec.Type,
+																Karat: newRec.Karat,
+																HindiName: newRec.HindiName,
+																Tunch: newRec.Tunch,
+																Wastage: newRec.Wastage,
+																CustomerTunch: newRec.CustomerTunch,
+																AlertQuantity: newRec.AlertQuantity,
+																Making: newRec.Making,
+																CustomerMaking: newRec.CustomerMaking,
+																Category: newRec.Category,
+																PricePerUnit: newRec.PricePerUnit
+															}
+														}, newRec)
+														.then(function(inq) {
+															debugger;
+															console.log("created successfully");
+														})
+														.catch(function(err) {
+															console.log(err);
+														});
+													///*****End of code to update batches
+													break;
+												case "Entry":
+
+
+													var newRec = {};
+													newRec.Date = singleRec["date"];
+													newRec.Cash = singleRec["cash"];
+													newRec.Gold = singleRec["gold"];
+													newRec.Silver = singleRec["silver"];
+													newRec.Weight = singleRec["weight"];
+													newRec.Tunch = singleRec["tunch"];
+													newRec.DueDate = singleRec["duedate"];
+													newRec.Remarks = singleRec["remarks"];
+													newRec.Product = productData[singleRec["product"]];
+													newRec.Customer = customerData[singleRec["customer"]];
+
+													var [date, month, year] = singleRec["date"].split("-");
+													var [dueDate, dueMonth, dueYear] = singleRec["duedate"].split("-");
+													// console.log(productData[singleRec["product"]], newRec.Product);
+
+													if(month == "Jan"){
+														month = 1;
+													}else if(month == "Feb"){
+														month = 2;
+													}else if(month == "Mar"){
+														month = 3;
+													}else if(month == "Apr"){
+														month = 4;
+													}else if(month == "May"){
+														month = 5;
+													}else if(month == "Jun"){
+														month = 6;
+													}else if(month == "Jul"){
+														month = 7;
+													}else if(month == "Aug"){
+														month = 8;
+													}else if(month == "Sep"){
+														month = 9;
+													}else if(month == "Oct"){
+														month = 10;
+													}else if(month == "Nov"){
+														month = 11;
+													}else if(month == "Dec"){
+														month = 12;
+													}
+
+													if(dueMonth == "Jan"){
+														dueMonth = 1;
+													}else if(dueMonth == "Feb"){
+														dueMonth = 2;
+													}else if(dueMonth == "Mar"){
+														dueMonth = 3;
+													}else if(dueMonth == "Apr"){
+														dueMonth = 4;
+													}else if(dueMonth == "May"){
+														dueMonth = 5;
+													}else if(dueMonth == "Jun"){
+														dueMonth = 6;
+													}else if(dueMonth == "Jul"){
+														dueMonth = 7;
+													}else if(dueMonth == "Aug"){
+														dueMonth = 8;
+													}else if(dueMonth == "Sep"){
+														dueMonth = 9;
+													}else if(dueMonth == "Oct"){
+														dueMonth = 10;
+													}else if(dueMonth == "Nov"){
+														dueMonth = 11;
+													}else if(dueMonth == "Dec"){
+														dueMonth = 12;
+													}
+
+													newRec.Date = new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(date) + 1);
+													newRec.DueDate = new Date(2000 + parseInt(dueYear), parseInt(dueMonth) - 1, parseInt(dueDate) + 1);
+
+													Entry.findOrCreate({
+														where: {
+															Date: newRec.Date,
+															Customer: newRec.Customer,
+															Cash: newRec.Cash,
+															Gold: newRec.Gold,
+															Silver: newRec.Silver,
+															Weight: newRec.Weight,
+															Tunch: newRec.Tunch,
+															DueDate: newRec.DueDate,
+															Remarks: newRec.Remarks,
+															Product: newRec.Product,
+														}
+													}, newRec).then(function (inq) {
+														console.log("Created Successfully");
+													}).catch(function(err) {
+														console.log(err);
+													});
+
+													break;
+												case "Students":
+													break;
+												case "Subscription":
+													break;
+											}
+										}
+									}, 5000);
 								}
 
+								this.mongoDataUpdate();
 							});
 						} catch (e) {
 							console.log("error");
@@ -2077,6 +2188,7 @@ app.start = function() {
 				}
 			});
 		})
+<<<<<<< HEAD
 		app.post('/entryDownload', function(req, res) {
 			var reportType = req.body.type;
 			var custId = req.body.id;
@@ -2113,6 +2225,31 @@ app.start = function() {
 						Entry.find({
 								where: {
 									"Customer": custId
+=======
+		app.get('/entryDownload', function(req, res) {
+			debugger;
+				var reportType = req.query.type;
+				var custId = req.query.id;
+				var name = req.query.name;
+				var city = req.query.city;
+				// custId = "6043ad0632a5213cb0ec551a";
+				var Ggroup = "";
+				//read customer name by id, group by group id, city by
+				//read kacchi and print report with all coloring, formatting, totaling
+				var responseData = [];
+				var oSubCounter = {};
+				var Customer = app.models.Customer;
+
+				var async = require('async');;
+				async.waterfall([
+						function(callback) {
+							Customer.findById(custId, {
+								fields: {
+									"CustomerCode": true,
+									"Name": true,
+									"Group": true,
+									"City": true
+>>>>>>> 68c71c4c175b4ed471ba04717771230e3f2280f6
 								}
 							})
 							.then(function(Records, err) {
@@ -2200,6 +2337,7 @@ app.start = function() {
 											}
 										};
 
+<<<<<<< HEAD
 										var totCash = 0;
 										var totalB = 0;
 										var totalC = 0;
@@ -2232,6 +2370,19 @@ app.start = function() {
 											totalD = totalD + items["Gold"];
 											sheet.addRow().values = item;
 										}
+=======
+											//Coding for formula and concatenation in the last line
+											var totText = Records["length"] + 4;
+											var totCol = totText - 1;
+											totalB=totalB.toFixed(3);
+											totalC=Math.round(totalC);
+											totalD=totalD.toFixed(2);
+											sheet.getCell('A' + totText).value = "TOTAL";
+
+											sheet.getCell('B' + totText).value = totalB;
+											sheet.getCell('C' + totText).value = totalC;
+											sheet.getCell('D' + totText).value = totalD;
+>>>>>>> 68c71c4c175b4ed471ba04717771230e3f2280f6
 
 										//Coding for formula and concatenation in the last line
 										var totText = Records["length"] + 4;
@@ -2542,6 +2693,7 @@ app.start = function() {
 											horizontal: 'right'
 										};
 
+<<<<<<< HEAD
 										sheet.getCell('B' + totText).font = {
 											color: {
 												argb: '800000'
@@ -2567,6 +2719,68 @@ app.start = function() {
 											console.log('file is written @ ' + tempFilePath);
 										});
 
+=======
+											//Coding to download in a folder
+											// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+											// 	currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
+											// 	currentdate.getSeconds() + '.xlsx';
+											// console.log("tempFilePath : ", tempFilePath);
+											// workbook.xlsx.writeFile(tempFilePath).then(function() {
+											// 	res.sendFile(tempFilePath, function(err) {
+											// 		if (err) {
+											// 			console.log('---------- error downloading file: ', err);
+											// 		}
+											// 	});
+											// 	console.log('file is written @ ' + tempFilePath);
+											// });
+
+											const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+											// workbook.xlsx
+									    //   .writeFile(tempFileName)
+									    //   .then(response => {
+									    //     console.log("file is written");
+									    //     console.log(path.join(__dirname, "../newSaveeee.xlsx"));
+									    //     res.sendFile(path.join(__dirname, "../" + tempFileName));
+									    //   })
+									    //   .catch(err => {
+									    //     console.log(err);
+									    //   });
+											// const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+											// var tempfile = require('tempfile');
+											// var tmp = tempfile(".xlsx");
+											// workbook.xlsx.writeFile("D:/" + tempFileName).then(function() {
+											//     console.log("xlsx file is written.");
+											// 		res.status(200).type("application/vnd.ms-excel").end();
+											// 		res.download(tmp, function(err){
+											//         console.log('---------- error downloading file: ' + err);
+											//     });
+											// });
+											// res is a Stream object
+											//anurag
+											res.setHeader(
+											  "Content-Type",
+											  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+											);
+											res.setHeader(
+											  "Content-Disposition",
+											  "attachment; filename=" + tempFileName
+											);
+											// console.log("came");
+											return workbook.xlsx.write(res).then(function (data) {
+												console.log(data);
+												//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+												//res.end(new Buffer(data, 'base64'));
+											  res.status(200).end();
+											});
+											// res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+											//
+											// res.setHeader("Content-Disposition", "attachment; filename=Rep1ort.xlsx");
+											//
+											// workbook.xlsx.write(res).then(function () {
+											//     res.status(200).end();
+											// });
+										}
+>>>>>>> 68c71c4c175b4ed471ba04717771230e3f2280f6
 									}
 								}
 

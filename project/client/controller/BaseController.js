@@ -47,6 +47,7 @@ sap.ui.define([
 		allMasterData: {
 			"customers": [],
 			"materials": [],
+			"materialsId": [],
 			"orderHeader": [],
 			"wholeSaleHeader": [],
 			"customCalculations": [],
@@ -115,6 +116,7 @@ sap.ui.define([
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
 						that.allMasterData.materials[oData.results[i].id] = oData.results[i];
+						that.allMasterData.materialsId[oData.results[i].ProductCode] = oData.results[i];
 					}
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);

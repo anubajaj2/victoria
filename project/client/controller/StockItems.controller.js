@@ -505,6 +505,7 @@ sap.ui.define(
 
 					}).catch(function(oError) {});
 					this.getView().byId("idQuantity").focus();
+					this.getView().byId("idQuantity").$().find("input").select();
 			},
 			refreshModel: function(oEvent) {
 				var oFilter = [];
@@ -514,6 +515,8 @@ sap.ui.define(
 				debugger;
 				var table = this.getView().byId("idTable1");
 				var value = oEvent.getParameter("value");
+				var input = oEvent.getSource();
+				input.setValue(input.getValue().toUpperCase());
 				if (value == "") {
 					var currentModel = this.getView().getModel();
 					table.setModel(currentModel);
@@ -840,15 +843,18 @@ sap.ui.define(
 			},
 			onSubmitQuantity : function(oEvent){
 				this.getView().byId("idWeight").focus();
+				this.getView().byId("idWeight").$().find("input").select();
 			},
 			onSubmitWeight : function(oEvent){
 				this.getView().byId("idRemarks").focus();
+				this.getView().byId("idRemarks").$().find("input").select();
 			},
 			onSubmitRemarks : function(oEvent){
 				this.getView().byId("idSend").focus();
 			},
 			onSubmitOrderNo : function(oEvent){
 				this.getView().byId("idMatCode").focus();
+				this.getView().byId("idMatCode").$().find("input").select();
 			}
 		});
 	});

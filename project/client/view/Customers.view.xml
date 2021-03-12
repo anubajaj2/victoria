@@ -1,48 +1,17 @@
-<mvc:View
-	controllerName="victoria.controller.Customers"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.m.semantic"
-	xmlns:f="sap.ui.layout.form"
-	xmlns:smartField="sap.ui.comp.smartfield"
-	xmlns:footerbar="sap.ushell.ui.footerbar"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-
-	<semantic:FullscreenPage
-		id="customers"
-		navButtonPress="onNavBack"
-		showNavButton="true"
-		title="Manage Customers"
-		busy="{objectView>/busy}"
-		busyIndicatorDelay="{objectView>/delay}">
-		<semantic:customHeaderContent>
-			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
-			tooltip="fullscreen"
-			iconFirst="true" press="toggleFullScreen"/>
-    </semantic:customHeaderContent>
-
-		<semantic:content id="Header">
-			<f:Form id="CustomerHeader" editable="true">
-			</f:Form>
-		</semantic:content>
-
-		<semantic:content>
-		<f:SimpleForm
-			minWidth="1024"
-			maxContainerCols="2"
-			editable="true"
-			layout="ResponsiveGridLayout"
-			labelSpanL="3"
-			labelSpanM="3"
-			emptySpanL="4"
-			emptySpanM="4"
-			columnsL="1"
-			columnsM="1"
-			class="editableForm">
-			<f:content>
- 			    <Label text="Customer Code" labelFor="customerCode" required="true" />
-				<!-- <Input
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:semantic="sap.m.semantic" xmlns:smartField="sap.ui.comp.smartfield" controllerName="victoria.controller.Customers">
+   <semantic:FullscreenPage id="customers" navButtonPress="onNavBack" showNavButton="true" title="Manage Customers" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+      <semantic:customHeaderContent>
+         <Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen" />
+      </semantic:customHeaderContent>
+      <semantic:content id="Header">
+         <f:Form id="CustomerHeader" editable="true" />
+      </semantic:content>
+      <semantic:content>
+         <f:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+            <f:content>
+               <Label text="Customer Code" labelFor="customerCode" required="true" />
+               <!-- <Input
 					id="customerCode"
 					type="Text"
 					showSuggestion="true"
@@ -53,67 +22,36 @@
 						<core:Item text="{Company}" key="{Id}"/>
 					</suggestionItems>
 				</Input> -->
-				<Input id="idCustomerCode" submit="customerCodeEnter" suggest="ValueChangeCustomer"
-					suggestionItems="{/Customers}" showSuggestion="true"
-						enabled="{viewModel>/codeEnabled}"
-					suggestionItemSelected="customerCodeCheck" liveChange="onKeyPress"
-					change="customerCodeEnter">
-					<suggestionItems>
-						<core:ListItem text="{CustomerCode}"
-													additionalText="{Name}"/>
-					</suggestionItems>
-				</Input>
-				<!-- <ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"
+               <Input id="idCustomerCode" submit="customerCodeEnter" suggest="ValueChangeCustomer" suggestionItems="{/Customers}" showSuggestion="true" enabled="{viewModel>/codeEnabled}" suggestionItemSelected="customerCodeCheck" liveChange="onKeyPress" change="customerCodeEnter">
+                  <suggestionItems>
+                     <core:ListItem text="{CustomerCode}" additionalText="{Name}" />
+                  </suggestionItems>
+               </Input>
+               <!-- <ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"
 	items="{customerModelInfo>/results}" enabled="{viewModel>/codeEnabled}" valueState="{dataModel>/CustomerCodeState}" valueStateText="Customer Code cannot be blank"
 												>
 	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
 </ComboBox> -->
-
-				<Label text="Name" required="true"/>
-				<Input
-					id="idName"
-					type="Text"
-					value="{customerModel>/Name}" valueState="{dataModel>/NameState}" valueStateText="Name cannot be blank"
-																change="additionalInfoValidation">
-				</Input>
-
-				<Label text="Address"/>
-				<Input
-					id="idAddress"
-					type="Text"
-					value="{customerModel>/Address}">
-				</Input>
-
-				<Label text="Group"/>
-				<Select
-					id="idGroup"
-					change="onSelectChange"
-					selectedKey= "{groupModelInfo/0/results}"
-					items="{
-						path: 'groupModelInfo>/results'
-					}">
-					<core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupName}" />
-				</Select>
-				<!-- <ComboBox
+               <Label text="Name" required="true" />
+               <Input id="idName" submit="customerNameSubmit" type="Text" value="{customerModel>/Name}" valueState="{dataModel>/NameState}" valueStateText="Name cannot be blank" change="additionalInfoValidation" />
+               <Label text="Address" />
+               <Input id="idAddress" submit="customerAddressSubmit" type="Text" value="{customerModel>/Address}" />
+               <Label text="Group" />
+               <Select id="idGroup" change="onSelectChange" selectedKey="{groupModelInfo/0/results}" items="{       path: 'groupModelInfo>/results'      }">
+                  <core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupName}" />
+               </Select>
+               <!-- <ComboBox
 					id="idGroup"
 					value="{customerModel>/Group}"
 					items="{groupModelInfo>/results}" valueState="{dataModel>/GroupState}" valueStateText="Group cannot be blank"
 																change="additionalInfoValidation">
 					<core:Item key="{groupModelInfo>groupName}" text="{groupModelInfo>groupName}" />
 				</ComboBox> -->
-
-				<Label text = "Type"/>
-				<Select
-					id="idType"
-					change="onSelectChange"
-					selectedKey= "{/typec/0/items}"
-					items="{
-						path: 'typec>/items'
-					}">
-					<core:Item key="{typec>text}" text="{typec>text}" />
-				</Select>
-
-				<!-- <Label text="Custom Group"/>
+               <Label text="Type" />
+               <Select id="idType" change="onSelectChange" selectedKey="{/typec/0/items}" items="{       path: 'typec>/items'      }">
+                  <core:Item key="{typec>text}" text="{typec>text}" />
+               </Select>
+               <!-- <Label text="Custom Group"/>
 				<ComboBox
 					id="idCustomGrp"
 					selectedKey="{customerModel>/Customgroup}"
@@ -122,8 +60,8 @@
 					}">
 					<core:Item key="{Id}" text="{Name}" />
 				</ComboBox> -->
-				<Label text="City"/>
-				<Select
+               <Label text="City" />
+               <!-- <Select
 					id="idCity"
 					change="onSelectChange"
 					selectedKey= "{cityModelInfo/0/results}"
@@ -131,8 +69,14 @@
 						path: 'cityModelInfo>/results'
 					}">
 					<core:Item key="{cityModelInfo>id}" text="{cityModelInfo>cityName}" />
-				</Select>
-				<!-- <Label text="City"/>
+				</Select> -->
+				<!-- focusthis.allMasterData.cities[oData.results[0].City].cityCode -->
+               <Input id="idCityField" submit="customerCitySubmit" placeholder="Enter City" showSuggestion="true" suggestionItems="{/Cities}" suggestionItemSelected="onSuggestionItemSelected">
+                  <suggestionItems>
+                     <core:ListItem text="{cityCode}" additionalText="{cityName}" />
+                  </suggestionItems>
+               </Input>
+               <!-- <Label text="City"/>
 				<ComboBox
 					items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"
 					id="idCity"
@@ -140,39 +84,22 @@
 															change="additionalInfoValidation">
 					<core:Item key="{cityModelInfo>cityName}" text="{cityModelInfo>cityName}" />
 				</ComboBox> -->
-
-
-				<Label text="Mobile Phone"/>
-				<Input
-					id="idMobilePhone"
-					type="Text"
-					value="{customerModel>/MobilePhone}">
-				</Input>
-
-				<Label text="Secondary Phone"/>
-				<Input
-					id="idSecondaryPhone"
-					type="Text"
-					value="{customerModel>/SecondaryPhone}">
-				</Input>
-
-
-				<!-- <Label text="Send SMS"/>
+               <Label text="Mobile Phone" />
+               <Input id="idMobilePhone" submit="customerMobilePhoneSubmit" type="Text" value="{customerModel>/MobilePhone}" />
+               <Label text="Secondary Phone" />
+               <Input id="idSecondaryPhone" submit="customerSecondaryPhoneSubmit" type="Text" value="{customerModel>/SecondaryPhone}" />
+               <!-- <Label text="Send SMS"/>
 				<Switch
 					id="idSendSMS"
 					state="{customerModel>/HasInterest}">
 				</Switch > -->
-
-
-			</f:content>
-		</f:SimpleForm>
-
- 		</semantic:content>
-		<semantic:customFooterContent>
-				<Button text="{viewModel>/buttonText}" type="Accept" press="SaveCustomer"/>
-				<Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>
-				<Button text="Clear" type="Ghost" press="clearCustomer"/>
-		</semantic:customFooterContent>
-	</semantic:FullscreenPage>
-
+            </f:content>
+         </f:SimpleForm>
+      </semantic:content>
+      <semantic:customFooterContent>
+         <Button text="{viewModel>/buttonText}" id="customerAccept" type="Accept" press="SaveCustomer" />
+         <Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}" />
+         <Button text="Clear" type="Ghost" press="clearCustomer" />
+      </semantic:customFooterContent>
+   </semantic:FullscreenPage>
 </mvc:View>

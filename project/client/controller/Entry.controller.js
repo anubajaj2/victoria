@@ -47,8 +47,6 @@ sap.ui.define(["victoria/controller/BaseController",
 				var that = this;
 				that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
 				this.getView().byId("DateId").setDateValue(new Date());
-
-
 			},
 
 			onValueHelpRequest: function (oEvent) {
@@ -70,11 +68,20 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 				});
 				// 		});
 				this.getView().byId("idCash").focus();
+				this.getView().byId("idCash").$().find("input").select();
 			},
-			valueChangeMaterial: function(oEvent) {
-				// console.log("Hello");
-				this.getCustomer(oEvent);
+			valuesChangeMaterial: function(oEvent) {
 				this.getView().byId("idweight").focus();
+				this.getView().byId("idweight").$().find("input").select();
+				const value = oEvent.getSource().mProperties.value;
+				const data = this.allMasterData.materialsId[value];
+				if(data == undefined){
+					this.getView().byId("idMatText").setText();
+				}
+				else{
+				    this.getView().byId("idMat").setValue(data.ProductCode);
+				    this.getView().byId("idMatText").setText(data.ProductName + " - " + data.Type);
+				}
 			},
 			onCalculate: function (evt) {
 				debugger;
@@ -239,9 +246,11 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onCashSubmit: function (evt) {
 				this.getView().byId("idGold").focus();
+				this.getView().byId("idGold").$().find("input").select();
 			},
 			onGoldSubmit: function (evt) {
 				this.getView().byId("idSilver").focus();
+				this.getView().byId("idSilver").$().find("input").select();
 			},
 			onSilverSubmit: function (evt) {
 				this.getView().byId("idRemarks").focus();
@@ -251,9 +260,14 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onSubmitSideWeight: function (evt) {
 				this.getView().byId("idtunch").focus();
+				this.getView().byId("idtunch").$().find("input").select();
 			},
 			onSubmitSideTunch: function (evt) {
 				this.getView().byId("calculateButton").focus();
+			},
+			onKeyPress: function (oEvent) {
+				var input = oEvent.getSource();
+				input.setValue(input.getValue().toUpperCase());
 			},
 			onSelect: function (oEvent) {
 				jQuery.sap.delayedCall(500, this, function () {
@@ -263,22 +277,41 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onPressEntryDownload: function () {
 				// var test = this.getView().getModel("customerModel");
+				var that = this;
 				var reportType = "Entry";
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 				var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
 				var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
-				$.post("/entryDownload", {
-					id: custId,
-					name: name,
-					city: city,
-					type: reportType
-				}).then(function (oData) {
-					debugger;
-					MessageToast.show("Data downloaded successfully");
-				}, function (oError) {
-					debugger;
-					MessageToast.show("Data could not be downloaded");
-				});
+				// $.post("/entryDownload", {
+				// 	id: custId,
+				// 	name: name,
+				// 	city: city,
+				// 	type: reportType
+				// }).then(function (oData) {
+				// 	debugger;
+				// 	MessageToast.show("Data downloaded successfully");
+				// 	console.log(that.getImageUrlFromContent(oData));
+				// }, function (oError) {
+				// 	debugger;
+				// 	MessageToast.show("Data could not be downloaded");
+				// });
+				window.open("/entryDownload?id="+custId+"&type=Entry&name="+name+"&city="+city);
+			},
+			getImageUrlFromContent: function(base64Stream){
+				if(base64Stream){
+					var b64toBlob = function(dataURI) {
+					    var byteString = atob(dataURI.split(',')[1]);
+					    var ab = new ArrayBuffer(byteString.length);
+					    var ia = new Uint8Array(ab);
+					    for (var i = 0; i < byteString.length; i++) {
+					        ia[i] = byteString.charCodeAt(i);
+					    }
+					    return new Blob([ab], { type: 'image/jpeg' });
+					};
+					var x = b64toBlob(base64Stream);
+					return URL.createObjectURL(x);
+				}
+
 			},
 			// onSort : function(oEvent){
 			// 	var aSorter = [];
@@ -607,7 +640,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					});
 					this.byId("idCust").getValue();
 					this.byId("idCustText").getText();
-					// this.byId("idMat").setValue("");
+					this.byId("idMat").setValue("");
 					this.byId("idMatText").setText("");
 					this.byId("idMatType").setText("");
 					this.byId("idweight").setValue("0");
@@ -631,7 +664,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 					this.byId("idCust").setValue("");
 					this.byId("idCustText").setText("");
-					// this.byId("idMat").setValue("");
+					this.byId("idMat").setValue("");
 					this.byId("idMatText").setText("");
 					this.byId("idMatType").setText("");
 					this.byId("idweight").setValue("0");
@@ -911,15 +944,19 @@ sap.ui.define(["victoria/controller/BaseController",
 				var oTable = oEvent.getSource();
 				var itemList = oTable.getItems();
 				var noOfItems = itemList.length;
-				var value1;
+				var value1 = noOfItems == 20 ? 0 : noOfItems - 20;
 				var id;
 				var cell;
+				console.log(noOfItems);
 				var title = this.getView().getModel("i18n").getProperty("allEntries");
 				this.getView().byId("idTitle").setText(title + " " + "(" + noOfItems + ")");
-				for (var i = 0; i < noOfItems; i++) {
+				for (var i = value1; i < noOfItems; i++) {
 					var customerId = oTable.getItems()[i].getCells()[2].getText();
+					var productId = oTable.getItems()[i].getCells()[3].getText();
 					var customerData = this.allMasterData.customers[customerId];
+					var productData = this.allMasterData.materials[productId];
 					oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
+					oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
 				}
 			}
 		});

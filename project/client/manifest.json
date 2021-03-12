@@ -212,6 +212,11 @@
 								"pattern": "Stock",
 								"name": "Stock",
 								"target":["donald","StockItems"]
+							},
+							{
+								"pattern": "dayBook",
+								"name": "dayBook",
+								"target":["donald","dayBook"]
 							}
 						]
 					}
@@ -409,6 +414,16 @@
 					"clearAggregation": true,
 					"viewName": "StockItems",
 					"viewId":"idStockItems",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+
+				"dayBook": {
+					"transition": "slide",
+					"controlId":"__xmlview0--idSplitApp",
+					"clearAggregation": true,
+					"viewName": "dayBook",
+					"viewId": "idDayBook",
 					"viewLevel": 2,
 					"controlAggregation": "detailPages"
 				}

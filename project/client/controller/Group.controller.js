@@ -82,7 +82,17 @@ sap.ui.define([
 		 * If not, it will replace the current entry of the browser history with the worklist route.
 		 * @public
 		 */
-
+		 onPressGroupDownload: function() {
+     //   var reportType = "Groups";
+     //   $.post("/groupsDownload",{type: reportType}).then(function(oData)
+     // {
+     //   debugger;
+     //   MessageToast.show("Data downloaded successfully");
+     // },function(oError){debugger;
+     //   MessageToast.show("Data could not be downloaded");
+     // });
+     window.open("/groupsDownload?type=Groups");
+     },
 		_onRouteMatched: function() {
 			var that = this;
 			var viewModel = this.getView().getModel("viewModel");

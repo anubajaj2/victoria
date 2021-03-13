@@ -34,6 +34,7 @@
 			<!-- <Button text="Edit" type="Edit" press="editCity"/> -->
 			<Button text="{viewModel>/buttonText}" id="acceptButton" type="Accept" press="saveCity"/>
 			<Button text="Delete" type="Reject" press="deleteCity" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="City" press="onPressCityDownload" type="Ghost" />
 			<Button text="Clear" type="Ghost" press="clearCity"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>

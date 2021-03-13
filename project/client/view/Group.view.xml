@@ -33,6 +33,7 @@
 		<semantic:customFooterContent>
 			<Button text="{viewModel>/buttonText}" id="acceptButton" type="Accept" press="saveGroup"/>
 			<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Group" type="Ghost" press="onPressGroupDownload" />
 			<Button text="Clear" type="Ghost" press="clearGroup"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>

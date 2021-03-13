@@ -133,6 +133,17 @@ sap.ui.define([
 
 
 			},
+			onPressMaterialDownload: function() {
+				var reportType = "Materials";
+			//   $.post("/materialDownload",{type: reportType}).then(function(oData)
+			// {
+			//   debugger;
+			//   MessageToast.show("Data downloaded successfully");
+			// },function(oError){debugger;
+			//   MessageToast.show("Data could not be downloaded");
+			// });
+			window.open("/materialDownload?type=Materials");
+			},
 
 			onKeyPress:function(oEvent){
 

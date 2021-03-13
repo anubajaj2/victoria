@@ -6,55 +6,7 @@
 		<pages>
 			<Page title="Daybook">
 				<content>
-					<!-- <VBox>-->
-					<!-- <core:Fragment fragmentName="victoria.fragments.entry1" type="XML"></core:Fragment> -->
-					     <!-- <VBox> -->
-        <!-- <f:Form id="idcust1" editable="true"> -->
-            <!-- <f:layout> -->
-                <!-- <f:ResponsiveGridLayout -->
-        <!-- labelSpanXL="2" -->
-         <!-- labelSpanL="2" -->
-         <!-- labelSpanM="2" -->
-         <!-- labelSpanS="12" -->
-         <!-- adjustLabelSpan="false" -->
-         <!-- emptySpanXL="0" -->
-         <!-- emptySpanL="0" -->
-         <!-- emptySpanM="0" -->
-         <!-- emptySpanS="0" -->
-         <!-- columnsXL="2" -->
-         <!-- columnsL="2" -->
-         <!-- columnsM="2" -->
-        <!-- singleContainerFullSize="false"/> -->
-            <!-- </f:layout> -->
-            <!-- <f:formContainers> -->
-					<!-- <f:FormContainer> -->
-                    <!-- <f:formElements> -->
-                        <!-- <f:FormElement> -->
-                            <!-- <f:fields> -->
-                                <!-- <Label text="{i18n>tCash}" class="sapUiSmallMarginTop" textAlign="End"/>
-                                <ObjectStatus id="idTC" text="" state="None" /> -->
-                            <!-- </f:fields> -->
-                        <!-- </f:FormElement> -->
-                        <!-- <f:FormElement> -->
-                            <!-- <f:fields> -->
-                                <!-- <Label text="{i18n>tGold}" class="sapUiSmallMarginTop" textAlign="End"/> -->
-                                <!-- <ObjectStatus id="idG" text="" state="None" /> -->
-                            <!-- </f:fields> -->
-                        <!-- </f:FormElement> -->
-                        <!-- <f:FormElement> -->
-                            <!-- <f:fields> -->
-                                <!-- <Label text="{i18n>tSilver}" class="sapUiSmallMarginTop" textAlign="End"/> -->
-                                <!-- <ObjectStatus id="idS" text="" state="None" /> -->
-                            <!-- </f:fields> -->
-                        <!-- </f:FormElement> -->
 
-
-
-                    <!-- </f:formElements> -->
-                <!-- </f:FormContainer> -->
-          <!-- </f:formContainers> -->
-        <!-- </f:Form> -->
-    <!-- </VBox> -->
 					<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="Entrys" search="onFilterSearch">
 						<smartFilterBar:controlConfiguration>
 						<smartFilterBar:ControlConfiguration key="Date" index="2" label="Start Date" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
@@ -94,28 +46,19 @@
 							<FlexItemData shrinkFactor="0"/>
 						</smartFilterBar:layoutData>
 					</smartFilterBar:SmartFilterBar>
-					<!-- <smartTable:SmartTable entitySet="DSAYTY" smartFilterId="smartFilterBar" useExportToExcel="true" beforeExport="onBeforeExport"
-						useVariantManagement="true" useTablePersonalisation="true" header="{i18n>allEntries}" showRowCount="false" persistencyKey="SmartTableRefApp_Explored"
-						enableAutoBinding="true" class="sapUiResponsiveContentPadding" tableType="ResponsiveTable" tableBindingPath="/Entrys"> -->
-							<!-- <smartTable:SmartTable id="idSmartTable" entitySet="LineItemsSet" smartFilterId="smartFilterBar" tableType="ResponsiveTable"
-		 header="{i18n>allEntries}" showRowCount="false" persistencyKey="SmartTableAnalytical_Explored"
-		enableAutoBinding="false" class="sapUiResponsiveContentPadding" showDetailsButton="false"> -->
-			<smartTable:SmartTable entitySet="/oijhg" smartFilterId="smartFilterBar" useExportToExcel="false" beforeExport="onBeforeExport"
+<!-- smartFilterId="smartFilterBar" -->
+<!-- beforeExport="onBeforeExport" -->
+			<smartTable:SmartTable entitySet="/"  useExportToExcel="false"
 						useVariantManagement="false" useTablePersonalisation="true" showRowCount="true" persistencyKey="SmartTableRefApp_Explored"
 						enableAutoBinding="false" class="sapUiResponsiveContentPadding" tableType="ResponsiveTable" tableBindingPath="local>/EntryData">
-						<!--	<smartTable:customToolbar>-->
-						<!--<smartTable:SmartTable entitySet="local>/data" smartFilterId="smartFilterBar" useExportToExcel="false" beforeExport="onBeforeExport"-->
-						<!--	useVariantManagement="true" useTablePersonalisation="true" header="Data" showRowCount="true" persistencyKey="SmartTableRefApp_Explored"-->
-						<!--	enableAutoBinding="false" class="sapUiResponsiveContentPadding" tableType="ResponsiveTable">-->
+
 						<smartTable:customToolbar>
 							<OverflowToolbar design="Transparent">
 							  <Title id="idTitle" text="{i18n>allEntries}"></Title>
 								<ToolbarSpacer/>
  <!-- enabled="true" -->
 								<Button id = "idEntryDownload1" icon="sap-icon://download" press = "onPressEntryDownload"/>
-								<!-- <Button icon="sap-icon://locate-me" press="onNavigation" text="Nav to"></Button>
-								<Button icon="sap-icon://add" press="onAdd" text="New Entry"></Button>
-								<Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button> -->
+
 							</OverflowToolbar>
 						</smartTable:customToolbar>
 						<Table id="idTable1"

@@ -1,45 +1,45 @@
 <mvc:View controllerName="victoria.controller.adminPanel" xmlns:core="sap.ui.core" xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic">
-	<semantic:FullscreenPage busyIndicatorDelay="0" title="Admin Panel" >
+	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>AdminPanel}" >
 		<semantic:customHeaderContent>
-			<Text id="idDB"> </Text>			
+			<Text id="idDB"> </Text>
 			<Text id="idUser"> </Text>
-			<Button icon="sap-icon://log" text="Logout" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 		<semantic:content>
 			<Table id="viewSecureTable" items="{/AppUsers}" busyIndicatorDelay="0" class="sapUiContentPadding" mode="MultiSelect">
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<OverflowToolbarButton id="viewSecureTableAddBtn" icon="sap-icon://add" tooltip="Add" press="onPressOpenAddSecureDialog"/>
-						<OverflowToolbarButton id="viewSecureTPTableDeleteBtn" icon="sap-icon://delete" tooltip="Delete"
+						<OverflowToolbarButton id="viewSecureTableAddBtn" icon="sap-icon://add" tooltip="{i18n>Add}" press="onPressOpenAddSecureDialog"/>
+						<OverflowToolbarButton id="viewSecureTPTableDeleteBtn" icon="sap-icon://delete" tooltip="{i18n>Delete}"
 							press="onPressDeleteSecureRow"/>
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="auto">
 						<header>
-							<Text text="Technical Id"/>
+							<Text text="{i18n>TechnicalId}"/>
 						</header>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="auto">
 						<header>
-							<Text text="Email Id"/>
+							<Text text="{i18n>EmailId}"/>
 						</header>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="auto">
 						<header>
-							<Text text="User Name"/>
+							<Text text="{i18n>UserName}"/>
 						</header>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="auto">
 						<header>
-							<Text text="Role"/>
+							<Text text="{i18n>Role}"/>
 						</header>
-					</Column>					
+					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" width="auto">
 						<header>
-							<Text text="Edit"/>
+							<Text text="{i18n>Edit}"/>
 						</header>
 					</Column>
 				</columns>
@@ -50,7 +50,7 @@
 							<Label text="{EmailId}"/>
 							<Label text="{UserName}"/>
 							<Label text="{Role}"/>
-							<Button icon="sap-icon://edit" press="editSecureField"/>
+							<Button icon="sap-icon://edit" tooltip="{i18n>Edit}" press="editSecureField"/>
 						</cells>
 					</ColumnListItem>
 				</items>

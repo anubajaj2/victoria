@@ -1,106 +1,88 @@
-<core:FragmentDefinition xmlns:m="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.m.semantic"
-	xmlns:footerbar="sap.ushell.ui.footerbar"
-	xmlns:core="sap.ui.core"
-	xmlns:f="sap.ui.layout.form"
-	xmlns:l="sap.ui.layout" width="160px">
-<m:HBox>
-<m:VBox>
-
-	<f:Form id="BookingHeader" editable="true">
-
-		<f:layout>
-			<f:GridLayout
-				labelSpanXl="0" labelSpanL="0"
-				emptySpanXL="0" emptySpanL="0"
-				columnsXL="10" columnsL="10"
-				singleContainerFullSize="false" >
-			</f:GridLayout>
-		</f:layout>
-
-		<f:formContainers>
-			<!-- //Order detail -->
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement label="Type">
-						<m:RadioButtonGroup id="idRb" columns="2"
-							selectedIndex="0" select="onRadioButtonSelect">
-							<m:buttons>
-								<m:RadioButton id="idRb1" text="{i18n>Silver}" selected="true" enabled="true" editable="true"/>
-								<m:RadioButton id="idRb2" text="{i18n>Gold}"/>
-							</m:buttons>
-						</m:RadioButtonGroup>
-						</f:FormElement>
-					<f:FormElement label="{i18n>Customer}">
-						<f:fields>
-							<!-- <m:Label text="{i18n>Customer}" /> -->
-							<!-- <m:ComboBox id="idCustomerName" items="{/Customers}" change="onNameChange">
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" width="160px">
+	<m:HBox>
+		<m:VBox>
+			<f:Form id="BookingHeader" editable="true">
+				<f:layout>
+					<f:GridLayout labelSpanXl="0" labelSpanL="0" emptySpanXL="0" emptySpanL="0" columnsXL="10" columnsL="10" singleContainerFullSize="false"></f:GridLayout>
+				</f:layout>
+				<f:formContainers>
+					<!-- //Order detail -->
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Type">
+								<m:HBox>
+									<m:RadioButtonGroup id="idRb" columns="2" selectedIndex="0" select="onRadioButtonSelect">
+										<m:buttons>
+											<m:RadioButton id="idRb1" text="{i18n>Silver}" selected="true" enabled="true" editable="true"/>
+											<m:RadioButton id="idRb2" text="{i18n>Gold}" class="sapUiLargeMarginEnd"/>
+										</m:buttons>
+									</m:RadioButtonGroup>
+									<m:CheckBox id="idBCkBx" text="{i18n>contEntry}" wrapping="true" selected="false" select="onSelect"/>
+								</m:HBox>
+							</f:FormElement>
+							<f:FormElement label="{i18n>Customer}">
+								<f:fields>
+									<!-- <m:Label text="{i18n>Customer}" /> -->
+									<!-- <m:ComboBox id="idCustomerName" items="{/Customers}" change="onNameChange">
 								<m:items>
 									<core:Item key="{id}" text="{CustomerCode}"/>
 								</m:items>
 							</m:ComboBox> -->
-							<!-- suggest="ValueChangeCustomer"
+									<!-- suggest="ValueChangeCustomer"
 								suggestionItems="{/Customers}" showSuggestion="true"
 								enabled="{viewModel>/codeEnabled}"
 							suggestionItemSelected="customerCodeCheck" -->
-
-							<m:Input id="idCustomerCode" value="{local>/BookingCustomer/CustomerId}"
-								showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-								valueLiveUpdate="true" required="true" editable="true"
-								suggestionItemSelected="onBookingCustomerSelect"
-								submit="customerCodeCheck1" showSuggestion="true" suggestionItems="{/Customers}"
-								>
-								<m:suggestionItems>
-									<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
-								</m:suggestionItems>
-								<m:layoutData>
-									<l:GridData span="XL2 L2 M2 S5"/>
-								</m:layoutData>
-							</m:Input>
-							<m:Text id="idCustName" value="{local>/BookingCustomer/CustomerName}" editable="false"/>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="{i18n>bookingDate}">
-						<f:fields>
-							<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange"
-								displayFormat="dd.MM.yyyy"  >
-								<m:layoutData>
-									<l:GridData span="XL2 L2 M2 S5"/>
-								</m:layoutData>
-							</m:DatePicker>
-						</f:fields>
-
-					</f:FormElement>
-					<f:FormElement label="{i18n>bookingDetails}">
-						<f:fields>
-							<m:Input type="Number" liveChange="decimalvalidator" submit="onSubmit" liveditable="true" id="idQnty" placeholder="{i18n>qty}"  >
-								<m:layoutData>
-									<l:GridData span="XL1 L1 M1 S2"/>
-								</m:layoutData>
-							</m:Input>
-							<m:Input type="Number" editable="true" id="idBhav" submit="onBhavSubmit" placeholder="{i18n>bhav}" >
-								<m:layoutData>
-									<l:GridData span="XL2 L2 M2 S3"/>
-								</m:layoutData>
-							</m:Input>
-							<m:Input type="Number" editable="true" id="idAdvance" submit="onAdvSubmit" placeholder="{i18n>advance}">
-								<m:layoutData>
-									<l:GridData span="XL2 L2 M2 S3"/>
-								</m:layoutData>
-							</m:Input>
-						</f:fields>
-					</f:FormElement>
-
-					<f:FormElement label =" ">
-						<f:fields>
-							<m:Button text="Send" press="onSend" id="sendButton">
-							<m:layoutData>
-								<l:GridData span="XL5 L5 M5 S8"/>
-							</m:layoutData>
-						</m:Button>
-						</f:fields>
-						<!-- <f:fields>
+									<m:Input id="idCustomerCode" value="{local>/BookingCustomer/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+										valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="onBookingCustomerSelect" submit="customerCodeCheck1"
+										showSuggestion="true" suggestionItems="{/Customers}">
+										<m:suggestionItems>
+											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+										</m:suggestionItems>
+										<m:layoutData>
+											<l:GridData span="XL2 L2 M2 S5"/>
+										</m:layoutData>
+									</m:Input>
+									<m:Text id="idCustName" text="{local>/BookingCustomer/CustomerName}" editable="false"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>bookingDate}">
+								<f:fields>
+									<m:DatePicker id="DateId" valueFormat="yyyy-MM-dd" change="onPayDateChange" displayFormat="dd.MM.yyyy">
+										<m:layoutData>
+											<l:GridData span="XL2 L2 M2 S5"/>
+										</m:layoutData>
+									</m:DatePicker>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>bookingDetails}">
+								<f:fields>
+									<m:Input type="Number" liveChange="decimalvalidator" submit="onSubmit" liveditable="true" id="idQnty" placeholder="{i18n>qty}">
+										<m:layoutData>
+											<l:GridData span="XL1 L1 M1 S2"/>
+										</m:layoutData>
+									</m:Input>
+									<m:Input type="Number" editable="true" id="idBhav" submit="onBhavSubmit" placeholder="{i18n>bhav}">
+										<m:layoutData>
+											<l:GridData span="XL2 L2 M2 S3"/>
+										</m:layoutData>
+									</m:Input>
+									<m:Input type="Number" editable="true" id="idAdvance" submit="onAdvSubmit" placeholder="{i18n>advance}">
+										<m:layoutData>
+											<l:GridData span="XL2 L2 M2 S3"/>
+										</m:layoutData>
+									</m:Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label=" ">
+								<f:fields>
+									<m:Button text="Send" press="onSend" id="sendButton">
+										<m:layoutData>
+											<l:GridData span="XL5 L5 M5 S8"/>
+										</m:layoutData>
+									</m:Button>
+								</f:fields>
+								<!-- <f:fields>
 						<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 						tooltip="fullscreen"
 						iconFirst="true" press="toggleFullScreen">
@@ -109,45 +91,45 @@
 						</m:layoutData>
 						</m:Button>
 					  </f:fields> -->
-					</f:FormElement>
-				</f:formElements>
-				<f:layoutData>
-					<f:GridContainerData halfGrid="true"></f:GridContainerData>
-				</f:layoutData>
-			</f:FormContainer>
-			<f:FormContainer>
-				<f:formElements>
-					<f:FormElement>
-							<f:fields>
-								<m:Label text="Booked Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
-								<m:ObjectStatus id="idBTQ" text="" state="None" />
-							</f:fields>
-						</f:FormElement>
-		  			<f:FormElement>
-		  				<f:fields>
-		  					<m:Label text="Booked Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
-								<m:ObjectStatus id="idBAP" text="" state="None" />
-		  				</f:fields>
-	  				</f:FormElement>
-	    			<f:FormElement>
-							<f:fields>
-								<m:Label text="Delivered Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
-								<m:ObjectStatus id="idDTQ" text="" state="None" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement>
-							<f:fields>
-								<m:Label text="Delivered Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
-								<m:ObjectStatus id="idDAP" text="" state="None" textAlign="End" />
-							</f:fields>
-						</f:FormElement>
-				</f:formElements>
-				<f:layoutData>
-					<f:GridContainerData halfGrid="true"></f:GridContainerData>
-				</f:layoutData>
-			</f:FormContainer>
-		</f:formContainers>
-	</f:Form>
-</m:VBox>
-</m:HBox>
+							</f:FormElement>
+						</f:formElements>
+						<f:layoutData>
+							<f:GridContainerData halfGrid="true"></f:GridContainerData>
+						</f:layoutData>
+					</f:FormContainer>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<m:Label text="Booked Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:ObjectStatus id="idBTQ" text="" state="None"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement>
+								<f:fields>
+									<m:Label text="Booked Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:ObjectStatus id="idBAP" text="" state="None"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement>
+								<f:fields>
+									<m:Label text="Delivered Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:ObjectStatus id="idDTQ" text="" state="None"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement>
+								<f:fields>
+									<m:Label text="Delivered Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:ObjectStatus id="idDAP" text="" state="None" textAlign="End"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:layoutData>
+							<f:GridContainerData halfGrid="true"></f:GridContainerData>
+						</f:layoutData>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</m:VBox>
+	</m:HBox>
 </core:FragmentDefinition>

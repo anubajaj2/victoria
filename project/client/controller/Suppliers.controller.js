@@ -342,8 +342,8 @@ sap.ui.define([
 			});
 
 		},
-		onValueHelpRequest: function (oEvent) {
-					this.getCustomerPopup(oEvent);
+		onValueHelpRequest: function(oEvent) {
+			this.getCustomerPopup(oEvent);
 		},
 		onClear: function() {
 			debugger;
@@ -354,7 +354,7 @@ sap.ui.define([
 			this.getView().byId("idQnty").setValue("");
 			this.getView().byId("idBhav").setValue("");
 			this.getView().byId("idAdvance").setValue("");
-			this.getView().byId("idRb1").setSelected(true);
+			// this.getView().byId("idRb1").setSelected(true);
 			this.getView().byId("idBTQ").setText("");
 			this.getView().byId("idBAP").setText("");
 			this.getView().byId("idDTQ").setText("");
@@ -1077,7 +1077,14 @@ sap.ui.define([
 						.then(function(oData) {
 							that.getView().setBusy(false);
 							sap.m.MessageToast.show("Data Saved Successfully");
-							that.onClear();
+							if (!that.getView().byId("idBCkBx").getSelected()) {
+								that.onClear();
+							} else {
+								that.getView().byId("idQnty").setValue("");
+								that.getView().byId("idBhav").setValue("");
+								that.getView().byId("idAdvance").setValue("");
+							}
+
 						}).catch(function(oError) {
 							that.getView().setBusy(false);
 							var oPopover = that.getErrorMessage(oError);

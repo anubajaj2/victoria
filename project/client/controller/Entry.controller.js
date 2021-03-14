@@ -944,7 +944,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				var oTable = oEvent.getSource();
 				var itemList = oTable.getItems();
 				var noOfItems = itemList.length;
-				var value1 = noOfItems <= 20 ? 0 : noOfItems - 21;
+				var value1 = noOfItems <= 20 ? 0 : noOfItems - 20;
 				var id;
 				var cell;
 				console.log(noOfItems);

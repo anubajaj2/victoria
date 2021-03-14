@@ -118,11 +118,11 @@
                         </f:FormElement>
                         <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
                             <f:fields>
-                                <Input id="idMat" showValueHelp="true" editable="true" type="Text" submit="valuesChangeMaterial"
+                                <Input id="idMat" showValueHelp="false" editable="true" type="Text" submit="valuesChangeMaterial"
                                 placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect" liveChange="onKeyPress"
                                 showSuggestion="true" suggestionItems="{/Products}" visible="true">
                                     <suggestionItems>
-                                        <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
+                                        <core:ListItem text="{ProductCode}" key="{id}" additionalText="{ProductName}"/>
                                     </suggestionItems>
                                     <layoutData>
                                         <l:GridData span="XL3 L3"/>

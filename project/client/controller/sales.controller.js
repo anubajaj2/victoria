@@ -2274,7 +2274,7 @@ sap.ui.define([
 			var gold22pergm = orderHeader.GoldBhav22 / 10;
 			var gold20pergm = orderHeader.GoldBhav20 / 10;
 			var silverpergm = orderHeader.SilverBhav / 1000;
-			var quantityOfStone = 0;
+			var quantityOfStone = data.QtyD;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 

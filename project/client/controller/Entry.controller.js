@@ -415,7 +415,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					that.getView().setBusy(true);
 					var myData = this.getView().getModel("local").getProperty("/EntryData");
 					myData.Date = this.getView().byId("DateId").getDateValue();
-					myData.Product = this.getView().byId("idMat").getValue();
+					myData.Product = this.getView().byId("idMat").getSelectedKey();
 					myData.Gold = this.getView().byId("idGold").getValue();
 					myData.Cash = this.getView().byId("idCash").getValue();
 					myData.Silver = this.getView().byId("idSilver").getValue();
@@ -944,7 +944,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				var oTable = oEvent.getSource();
 				var itemList = oTable.getItems();
 				var noOfItems = itemList.length;
-				var value1 = noOfItems == 20 ? 0 : noOfItems - 20;
+				var value1 = noOfItems <= 20 ? 0 : noOfItems - 21;
 				var id;
 				var cell;
 				console.log(noOfItems);
@@ -956,7 +956,10 @@ sap.ui.define(["victoria/controller/BaseController",
 					var customerData = this.allMasterData.customers[customerId];
 					var productData = this.allMasterData.materials[productId];
 					oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
-					oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+					if(productId !== ""){
+						oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+					}
+
 				}
 			}
 		});

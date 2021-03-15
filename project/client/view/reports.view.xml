@@ -63,10 +63,10 @@
                 alignItems="Start"
                 alignContent="Center">
                 <items>
-                  <Button text="Material" width="200px" press="onPressMaterialDownload" class="sapUiSmallMarginEnd" />
-                  <Button text="City" press="onPressCityDownload" class="sapUiSmallMarginEnd" />
-                  <Button text="Group" press="onPressGroupDownload" class="sapUiSmallMarginEnd" />
-                  <Button text="Customer Code Details" press="onPressCustCodeDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="Material" width="200px" enabled="false" press="onPressMaterialDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="City" press="onPressCityDownload" enabled="false" class="sapUiSmallMarginEnd" />
+                  <Button text="Group" press="onPressGroupDownload" enabled="false" class="sapUiSmallMarginEnd" />
+                  <Button text="Customer Code Details" press="onPressCustCodeDownload" enabled="false" class="sapUiSmallMarginEnd" />
                 </items>
               </HBox>
       </VBox>

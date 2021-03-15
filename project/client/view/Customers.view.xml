@@ -100,6 +100,7 @@
         <!-- "{viewModel>/buttonText}" -->
          <Button text="{i18n>Save}" id="customerAccept" type="Accept" press="SaveCustomer" />
          <Button text="{i18n>Delete}" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}" />
+         <Button text="Customer Code Details" press="onPressCustCodeDownload" type="Ghost" />
          <Button text="{i18n>Clear}" type="Ghost" press="clearCustomer" />
       </semantic:customFooterContent>
    </semantic:FullscreenPage>

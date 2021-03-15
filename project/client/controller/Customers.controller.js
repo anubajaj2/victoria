@@ -117,6 +117,17 @@ sap.ui.define([
 				.id;
 			this.getView().getModel("customerModel").setProperty("/City", sId);
 		},
+		onPressCustCodeDownload: function() {
+    //   var reportType = "Customer_Codes";
+    //   $.post("/custCodeDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/custCodeDownload?type=Customer_Codes");
+    },
 		onSelectChange: function(oEvent) {
 			debugger;
 			var oValue = oEvent.getSource().getId();

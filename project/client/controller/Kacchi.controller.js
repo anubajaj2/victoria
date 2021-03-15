@@ -332,9 +332,21 @@ _onRouteMatched: function(oEvent){
 //  Get the F4 help for Customers
   onCustValueHelp: function(oEvent){
          debugger;
-         this.getKachhiCustPopup(oEvent)
-      // this.getCustomerPopup(oEvent);
+         // this.getKachhiCustPopup(oEvent)
+      this.getCustomerPopup(oEvent);
   },
+  onPressKacchiDownload: function() {
+    debugger;
+    var test = this.getView().getModel("local");
+    debugger;
+    var reportType = "Kacchi";
+    var custId = test.oData.kacchiData.Customer;
+    var name = test.oData.kachhiHeaderTemp.CustomerName;
+    // var city = test.oData.City;
+    // window.open("/kaachiDownload?type=Kacchi&id="+custId+"&name="+name+"&city="+city);
+    window.open("/kaachiDownload?type=Kacchi&id="+custId+"&name="+name);
+
+},
   validateCustomer: function(){
     var that = this;
     var retResult = true;

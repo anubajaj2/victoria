@@ -20,24 +20,25 @@ function (BaseController, JSONModel, MessageToast) {
       var custId = test.oData.id;
       var name = test.oData.Name;
       var city = test.oData.City;
-      $.post("/kaachiDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
-    {
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
-    },
-
-    onPressStockDownload: function(){
-      var reportType = "Stock_Report";
-      $.post("/stockDownload",{type: reportType}).then(function()
-      {
-        debugger;
-        MessageToast.show("Data downloaded successfully");
-      },function(oError){
-        debugger;
-        MessageToast.show("Data could not be downloaded");
-      });
+      window.open("/kaachiDownload?type=Kacchi&id="+custId+"&name="+name+"&city="+city);
+    //   $.post("/kaachiDownload",{id: custId, name: name, city: city, type: reportType}).then(function(oData)
+    // {
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    // },
+    //
+    // onPressStockDownload: function(){
+    //   var reportType = "Stock_Report";
+    //   $.post("/stockDownload",{type: reportType}).then(function()
+    //   {
+    //     debugger;
+    //     MessageToast.show("Data downloaded successfully");
+    //   },function(oError){
+    //     debugger;
+    //     MessageToast.show("Data could not be downloaded");
+    //   });
     },
 
     onPressEntryDownload: function() {

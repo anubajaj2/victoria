@@ -15,7 +15,7 @@ sap.ui.define([
     buttonState: "12",
     onInit: function () {
       BaseController.prototype.onInit.apply(this);
-
+this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
       var oRouter = this.getRouter();
     oRouter.getRoute("customerOrders").attachMatched(this._onRouteMatched, this);
   },
@@ -348,7 +348,7 @@ sap.ui.define([
                          "jpeg",
                          document.getElementById(snapId).toDataURL())
       }else{
-        sap.m.MessageToast.show("Upload or capture Picture");
+        sap.m.MessageToast.show(that.resourceBundle.getText("Pic1"));
         return;
       }
     },
@@ -446,14 +446,14 @@ sap.ui.define([
           };
           $.post('/updatePhoto', payload)
             .done(function(data, status) {
-              sap.m.MessageToast.show("Photo updated");
+              sap.m.MessageToast.show(that.resourceBundle.getText("Pic2"));
               debugger;
               var oModelPhoto = new JSONModel();
               oModelPhoto.setData(payload);
               that.getView().setModel(oModelPhoto, "photo");
             })
             .fail(function(xhr, status, error) {
-              sap.m.MessageBox.error("Failed to update photo");
+              sap.m.MessageBox.error(that.resourceBundle.getText("Pic3"));
             });
         } else{
         // if picture doesn't exist then create new record
@@ -467,7 +467,7 @@ sap.ui.define([
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Photos",
                               "POST", {}, payload, this)
               .then(function(oData) {
-                  sap.m.MessageToast.show("Photo uploaded Successfully");
+                  sap.m.MessageToast.show(that.resourceBundle.getText("Pic4"));
                   // update picture flag in customer orders
                   debugger;
             //show uploaded picture
@@ -482,10 +482,10 @@ sap.ui.define([
                   };
                   $.post('/updatePhotoFlag', payload)
                     .done(function(data, status) {
-                      sap.m.MessageToast.show("Data updated");
+                      sap.m.MessageToast.show(that.resourceBundle.getText("Data12"));
                     })
                     .fail(function(xhr, status, error) {
-                      sap.m.MessageBox.error("Failed to update");
+                      sap.m.MessageBox.error(that.resourceBundle.getText("Update12"));
                     });
             // call clear to update the color of the image
                     that.onClear();
@@ -526,7 +526,7 @@ sap.ui.define([
       myData.Date = this.getView().byId("idCoDate").getDateValue();
       myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
       if (myData.Date > myData.DelDate ) {
-        sap.m.MessageBox.error("Delivery date should be greater than Date");
+        sap.m.MessageBox.error(that.resourceBundle.getText("DeliveryDate"));
         that.getView().setBusy(false);
         return;
       }
@@ -536,7 +536,7 @@ sap.ui.define([
                                 "POST", {}, myData, this)
       .then(function(oData) {
         that.getView().setBusy(false);
-        sap.m.MessageToast.show("Data Saved Successfully");
+        sap.m.MessageToast.show(that.resourceBundle.getText("dataSucess"));
         that.onClear();
 
       }).catch(function(oError) {
@@ -548,7 +548,7 @@ sap.ui.define([
 
     onDelete: function(){
       var that = this;
-      sap.m.MessageBox.confirm("Do you want to delete the selected entries",{
+      sap.m.MessageBox.confirm(that.resourceBundle.getText("Do1"),{
           title: "Confirm",                                    // default
           styleClass: "",                                      // default
           initialFocus: null,                                  // default
@@ -563,13 +563,14 @@ sap.ui.define([
                                             "DELETE", {}, {}, that);
                 } //end for
               } //end if aSelectedLines
-              sap.m.MessageToast.show("Selected lines are deleted");
+              sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
             } //end if sButton
           }
       });
     },
     onClear: function(){
       debugger;
+      var that = this;
       this.getView().byId("idCoDate").setDateValue(new Date());
       var date = new  Date();
       var dd = date.getDate();

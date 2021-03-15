@@ -37,6 +37,7 @@ controllerName="victoria.controller.MainApp"
 								<form:fields>
 									<Input id="userid" placeholder="User Name / Email Id" type="Text" width="auto"/>
 								</form:fields>
+
 							</form:FormElement>
 							<form:FormElement visible="true">
 								<form:label>
@@ -47,6 +48,19 @@ controllerName="victoria.controller.MainApp"
 										maxLength="0"/>
 								</form:fields>
 							</form:FormElement>
+							<!-- <form:FormElement visible="true">
+								<form:label>
+									<Label text="Language"  width="100%" required="false" visible="true"/>
+								</form:label>
+								<form:fields>
+									<Select id="languageSelect" change="onDropDownSelect">
+
+												<core:Item key="En" text="{i18n>English}"/>
+												<core:Item key="Hi" text="{i18n>Hindi}"/>
+									</Select>
+								</form:fields>
+
+							</form:FormElement> -->
 							<form:FormElement visible="true">
 								<form:label>
 									<Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>

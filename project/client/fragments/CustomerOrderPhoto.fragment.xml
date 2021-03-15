@@ -26,7 +26,7 @@
 </f:fields>
 </f:FormElement>
 <f:FormElement label="">
-<Button text="Upload Picture" id="idCoUpload" press="handleUploadPress" type="Emphasized" icon="sap-icon://upload" iconFirst="true" width="auto" enabled="true" visible="true"
+<Button text="{i18n>UploadPicture}" id="idCoUpload" press="handleUploadPress" type="Emphasized" icon="sap-icon://upload" iconFirst="true" width="auto" enabled="true" visible="true"
   iconDensityAware="false">
   <layoutData>
   <l:GridData span="XL3 L3 "/>

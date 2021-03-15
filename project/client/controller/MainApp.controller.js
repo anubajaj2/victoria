@@ -57,7 +57,7 @@ sap.ui.define([
       console.log("Test")
 		},
 
-		Login: function(){
+		Login: function(oEvent){debugger;
 
 			var loginPayload = {
 				"email": this.getView().byId("userid").getValue(),
@@ -69,7 +69,9 @@ sap.ui.define([
 				sap.m.MessageBox.error("User/password cannot be empty");
 				return; //--- Added - Swaroop
 			}
+// debugger;
 
+debugger;
 			$.post('/api/Users/login', loginPayload)
 		    .done(function(data, status){
 						 debugger;
@@ -121,10 +123,62 @@ sap.ui.define([
 		    .fail(function(xhr, status, error) {
 							sap.m.MessageBox.error("Login Failed, Please enter correct credentials");
 		    });
+				// var selectedItem = this.getView().byId("languageSelect").getSelectedKey()
+				//
+				// var language=sap.ui.getCore().getConfiguration().getLanguage()
+				// if(selectedItem==='Hindi'){
+				// 	sap.ui.getCore().getConfiguration().setLanguage('hi');
+				// 	// this.getView().byId("languageSelect").setSelectedKey("Hindi");
+				// 	location.replace("http://localhost:3000?sap-ui-language=hi/#/Customers")
+				// 	that.oRouter.navTo("Customers");
+				// }
+				// else {
+				// 	sap.ui.getCore().getConfiguration().setLanguage('en');
+				//
+				// 	location.replace("http://localhost:3000/#/Customers")
+				// // this.getView().byId("languageSelect").setSelectedKey("English")
+				// that.oRouter.navTo("Customers");
+				// }
+		},
+// 		onAfterRendering: function(){debugger;
+// 	this.UserInfoService = sap.ushell.Container.getService("UserInfo");
+// 	var that = this;
+// 	this.UserInfoService.getLanguageList().then(function(langJSON){
+// 		var oModel = new sap.ui.model.json.JSONModel();
+// 		oModel.setData(langJSON);
+// 		that.getView().setModel(oModel, "AvailableLanguages");
+//
+// 		var user = that.UserInfoService.getUser();
+// 		var userLanguage = user.getLanguage();
+//
+// 		var languageSelect = that.getView().byId("languageSelect");
+// 		languageSelect.setSelectedKey(userLanguage);
+// 	});
+// },
 
-		}
+onDropDownSelect: function(oEvent){debugger;
 
+	var selectedItem = oEvent.getParameter("selectedItem");
+	var selectedlaunguage = selectedItem.getKey();
+// 	// var user = window.location.search;
+// 	var language=sap.ui.getCore().getConfiguration().getLanguage()
+	if(selectedlaunguage==='Hi'){
+		// this.getView().byId("languageSelect").setSelectedKey()
+		// sap.ui.getCore().getConfiguration().setLanguage('hi');
 
+		window.location.replace("http://localhost:3000?sap-ui-language=hi")
+
+	}
+	else {
+		// sap.ui.getCore().getConfiguration().setLanguage('en');
+
+		window.location.replace("http://localhost:3000")
+// this.getView().byId("languageSelect").setSelectedKey("English")
+	}
+	// this.language.updateUserPreferences(language);
+
+	// location.reload();
+}
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).

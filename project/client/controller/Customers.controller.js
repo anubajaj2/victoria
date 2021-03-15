@@ -37,6 +37,7 @@ sap.ui.define([
 			//Alarm Below : TargetLevel
 			//Price per pc/gm : QuantityPerUnit
 			//Making : Address
+			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iOriginalBusyDelay,
 				oViewModel = new JSONModel({
 					"Id": "",
@@ -165,7 +166,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -176,7 +177,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCity, "cityModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -187,7 +188,7 @@ sap.ui.define([
 					that.getView().setModel(oModelGroup, "groupModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 			this.clearCustomer();
 
@@ -633,7 +634,7 @@ sap.ui.define([
 			var oret = true;
 			if (customerModel.getData().Name === "" || customerModel.getData().CustomerCode === "") {
 				that.additionalInfoValidation();
-				MessageToast.show("Please fill the required fields");
+				MessageToast.show(that.resourceBundle.getText("Fields"));
 				oret = false;
 			}
 			debugger;
@@ -644,11 +645,11 @@ sap.ui.define([
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers('" + custId + "')", "PUT", {}, customerModel.getData(), this)
 						.then(function(oData) {
-							MessageToast.show("Data saved successfully");
+							MessageToast.show(that.resourceBundle.getText("Data"));
 							// that._onRouteMatched();
 							that.clearCustomer();
 						}).catch(function(oError) {
-							MessageToast.show("Data could not be saved");
+							MessageToast.show(that.resourceBundle.getText("Data1"));
 						});
 
 				} else {
@@ -661,17 +662,17 @@ sap.ui.define([
 						.then(function(oData) {
 							debugger;
 							if (oData.results.length > 0) {
-								MessageToast.show("Customer Code Exist. Data not saved");
+								MessageToast.show(that.resourceBundle.getText("Data2"));
 							} else {
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 										"/Customer", "POST", {}, customerModel.getData(), that)
 									.then(function(oData) {
-										MessageToast.show("Data saved successfully");
+										MessageToast.show(that.resourceBundle.getText("Data"));
 										// that.clearCustomer();
 										// that._onRouteMatched();
 										that.clearCustomer();
 									}).catch(function(oError) {
-										MessageToast.show("Data could not be saved");
+										MessageToast.show(that.resourceBundle.getText("Data1"));
 									});
 							}
 
@@ -693,7 +694,7 @@ sap.ui.define([
 			var customerJson = this.getView().getModel("customerModelInfo").getData().results;
 			if (customerModel.getData().CustomerCode === "" || customerModel.getData().Name === "" || customerModel.getData().City === "" ||
 				customerModel.getData().Group === "") {
-				MessageToast.show("Please fill the required fields");
+				MessageToast.show(that.resourceBundle.getText("Fields"));
 				that.getView().setBusy(false);
 				return;
 			}
@@ -785,7 +786,7 @@ sap.ui.define([
 		// },
 
 		Errmsg: function() {
-			MessageToast.show("Customer Used, Can not delete");
+			MessageToast.show(that.resourceBundle.getText("Customer1"));
 			this.getView().setBusy(false);
 		},
 		deleteCnfCustomer: function(customerCode, customerModel) {
@@ -804,7 +805,7 @@ sap.ui.define([
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Customers('" + customerCode + "')", "DELETE", {}, {}, that)
 								.then(function(oData) {
-									MessageToast.show("Deleted successfully");
+									MessageToast.show(that.resourceBundle.getText("Delete1"));
 									customerModel.getData().City = "";
 									customerModel.getData().MobilePhone = "0";
 									customerModel.getData().Address = "";
@@ -818,7 +819,7 @@ sap.ui.define([
 									// // that._onRouteMatched();
 									that.clearCustomer();
 								}).catch(function(oError) {
-									MessageToast.show("Could not delete the entry");
+									MessageToast.show(that.resourceBundle.getText("Delete2"));
 								});
 
 							// sap.m.MessageToast.show("Selected records are deleted");
@@ -905,7 +906,7 @@ sap.ui.define([
 			};
 			this.getModel().create("/Customers", updatedData, {
 				success: function() {
-					MessageToast.show("Created successfully");
+					MessageToast.show(that.resourceBundle.getText("create1"));
 					// that.clearCustomer();
 				}
 			});
@@ -953,7 +954,7 @@ sap.ui.define([
 			};
 			this.getModel().update("/Customers(" + that.getModel("customerModel").getProperty("/Id") + ")", updatedData, {
 				success: function() {
-					MessageToast.show("Updated successfully");
+					MessageToast.show(that.resourceBundle.getText("Update1"));
 				}
 			});
 		},
@@ -971,7 +972,7 @@ sap.ui.define([
 			var that = this;
 			this.getModel().remove("/Customers(" + that.getModel("customerModel").getProperty("/Id") + ")", {
 				success: function() {
-					MessageToast.show("Deleted successfully");
+					MessageToast.show(that.resourceBundle.getText("Delete1"));
 					that.clearValues();
 				}
 			});

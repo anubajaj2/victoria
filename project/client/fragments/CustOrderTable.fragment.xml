@@ -64,8 +64,8 @@
 			<Toolbar>
 				<Title id="idCoTitle"/>
 				<ToolbarSpacer/>
-				<Button icon="sap-icon://refresh" press="onRefresh"/>
-				<Button icon="sap-icon://delete" press="onDelete"/>
+				<Button icon="sap-icon://refresh" tooltip="{i18n>refresh}" press="onRefresh"/>
+				<Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"/>
 			</Toolbar>
 		</headerToolbar>
 		<columns>
@@ -100,7 +100,7 @@
 				<Label text="{i18n>coRemarks}"/>
 			</Column>
 			<Column>
-				<Label text="Status"/>
+				<Label text="{i18n>Status}"/>
 			</Column>
 			<Column>
 				<Label text="{i18n>coKarigar}"/>
@@ -125,10 +125,10 @@
 					<Text text="{Weight}"/>
 					<Text text="{Making}"/>
 					<Text text="{Remarks}"/>
-					<Button id="changeStatus" type="Accept" text="{Status}" press="handlePopoverPress"/>
+					<Button id="changeStatus" type="Accept" text="{Status}" tooltip="{i18n>Status}" press="handlePopoverPress"/>
 					<Text text=""/>
 					<Text text="{Karigar}"/>
-					<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto"/>
+					<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>
 				</cells>
 			</ColumnListItem>
 		</items>

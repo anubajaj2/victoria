@@ -5,7 +5,7 @@
     id="customerOrders"
     navButtonPress=""
     showNavButton="true"
-    title="Customer Orders"
+    title="{i18n>CustomerOrders}"
     busy="{objectView>/busy}"
     busyIndicatorDelay="{objectView>/delay}">
     <semantic:content>
@@ -21,7 +21,7 @@
       </core:Fragment>
     </semantic:content>
     <semantic:customFooterContent>
-        <Button text="{i18n>coSave}" id="acceptButton" type="Accept" press="onSave"/>
+        <Button text="{i18n>Save}" id="acceptButton" type="Accept" press="onSave"/>
         <Button text="{i18n>coClear}" type="Reject" press="onClear"/>
     </semantic:customFooterContent>
   </semantic:FullscreenPage>

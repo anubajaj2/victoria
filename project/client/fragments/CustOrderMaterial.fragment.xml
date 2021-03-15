@@ -34,13 +34,13 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
-								<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
-								<Input id="idCoKarigarName" value="" editable="false"/>
+								<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
+								<Input id="idCoKarigarName" placeholder="{i18n>coKarigarName}" value="" editable="false"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>coRemarks}">
 							<f:fields>
-								<Input id="idCoRemarks" value="{local>/customerOrder/Remarks}"/>
+								<Input id="idCoRemarks" placeholder="{i18n>coRemarks}" value="{local>/customerOrder/Remarks}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>

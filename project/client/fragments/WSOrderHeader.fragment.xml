@@ -5,12 +5,12 @@
 				<headerToolbar>
 					<Toolbar id="TB1">
 						<ToolbarSpacer/>
-						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="Save Status"/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="{i18n>SaveStatus}"/>
 					</Toolbar>
 				</headerToolbar>
 				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
 					<VBox width='40%'>
-						<f:Form  editable="true">
+						<f:Form editable="true">
 							<f:layout>
 								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
 							</f:layout>
@@ -41,9 +41,9 @@
 										<f:FormElement label="{i18n>OrderNo}">
 											<f:fields>
 												<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
-												<Button text="{i18n>C}" press="orderCreate"/>
-												<Button icon="sap-icon://nav-back" press="previousOrder"/>
-												<Button icon="sap-icon://feeder-arrow" press="nextOrder"/>
+												<Button text="{i18n>C}" press="orderCreate" tooltip="{i18n>CreateData}"/>
+												<Button icon="sap-icon://nav-back" tooltip="{i18n>back}" press="previousOrder"/>
+												<Button icon="sap-icon://feeder-arrow" tooltip="{i18n>Next}" press="nextOrder"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>

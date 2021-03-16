@@ -1,10 +1,10 @@
 <mvc:View controllerName="victoria.controller.City" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-	<semantic:FullscreenPage id="City" navButtonPress="onNavBack" showNavButton="true" title="Manage City" busy="{objectView>/busy}"
-		busyIndicatorDelay="{objectView>/delay}">
+	<semantic:FullscreenPage id="City" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageCity}" busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}" tooltip="{i18n>back}">
 		<semantic:customHeaderContent>
-			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"  iconFirst="true" press="toggleFullScreen" tooltip="{i18n>fullscreen}"/>
 		</semantic:customHeaderContent>
 		<semantic:content id="Header">
 			<f:Form id="CityHeader" editable="true"></f:Form>
@@ -13,7 +13,7 @@
 			<f:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
 				emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
 				<f:content>
-					<Label text="City Code" labelFor="cityCode" required="true"/>
+					<Label text="{i18n>CityCode}" labelFor="cityCode" required="true"/>
 					<!-- <Input
 					id="cityCode"
 					type="Text"
@@ -23,19 +23,20 @@
 						valueStateText="City Code cannot be blank" enabled="{viewModel>/codeEnabled}">
 						<core:Item key="{cityModelInfo>cityCode}" text="{cityModelInfo>cityCode}"/>
 					</ComboBox>
-					<Label text="City Name"/>
+					<Label text="{i18n>CityName}"/>
 					<Input id="cityName" submit="onSubmitCityName" type="Text" value="{cityModel>/cityName}"></Input>
-					<Label text="State"/>
+					<Label text="{i18n>State}"/>
 					<Input id="cityState" submit="onSumitCityState" type="Text" value="{cityModel>/state}"></Input>
 				</f:content>
 			</f:SimpleForm>
 		</semantic:content>
 		<semantic:customFooterContent>
 			<!-- <Button text="Edit" type="Edit" press="editCity"/> -->
-			<Button text="{viewModel>/buttonText}" id="acceptButton" type="Accept" press="saveCity"/>
-			<Button text="Delete" type="Reject" press="deleteCity" enabled="{viewModel>/deleteEnabled}"/>
-			<Button text="City" press="onPressCityDownload" type="Ghost" />
-			<Button text="Clear" type="Ghost" press="clearCity"/>
+			<!-- viewModel>/buttonText -->
+			<Button text="{i18n>Save}" id="acceptButton" type="Accept" press="saveCity"/>
+			<Button text="{i18n>Delete}" type="Reject" press="deleteCity" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="{i18n>City}" press="onPressCityDownload" type="Ghost" />
+			<Button text="{i18n>Clear}" type="Ghost" press="clearCity"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 </mvc:View>

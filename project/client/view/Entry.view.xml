@@ -4,10 +4,10 @@
     id="Entry"
     navButtonPress="onNavBack"
     showNavButton="true"
-    title="Entry">
+    title="{i18n>Entry}">
     <semantic:customHeaderContent>
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
-			tooltip="fullscreen"
+			tooltip="{i18n>fullscreen}"
 			iconFirst="true" press="toggleFullScreen"/>
     </semantic:customHeaderContent>
     <semantic:content>

@@ -37,6 +37,7 @@ sap.ui.define([
 			//Alarm Below : TargetLevel
 			//Price per pc/gm : QuantityPerUnit
 			//Making : Address
+			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iOriginalBusyDelay,
 				oViewModel = new JSONModel({
 					"groupCode": "",
@@ -113,7 +114,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -124,7 +125,7 @@ sap.ui.define([
 					that.getView().setModel(oModelGroup, "groupModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 			this.clearGroup();
 		},
@@ -226,21 +227,21 @@ sap.ui.define([
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Groups('" + found[0].id + "')", "DELETE", {}, {}, this)
 						.then(function(oData) {
-							MessageToast.show("Deleted successfully");
+							MessageToast.show(that.resourceBundle.getText("Delete1"));
 							groupModel.getData().groupCode = "";
 							groupModel.getData().groupName = "";
 							groupModel.getData().description = "";
 							groupModel.refresh();
 							that._onRouteMatched();
 						}).catch(function(oError) {
-							MessageToast.show("Could not delete the entry");
+							MessageToast.show(that.resourceBundle.getText("Delete2"));
 						});
 				} else {
-					MessageToast.show("Group already in use.Cannot be deleted");
+					MessageToast.show(that.resourceBundle.getText("Groups1"));
 				}
 
 			} else {
-				MessageToast.show("Data not available");
+				MessageToast.show(that.resourceBundle.getText("available11"));
 			}
 
 		},
@@ -272,7 +273,7 @@ sap.ui.define([
 			var groupJson = this.getView().getModel("groupModelInfo").getData().results;
 			if (groupCode === "") {
 				this.additionalInfoValidation();
-				MessageToast.show("Please fill the required fields");
+				MessageToast.show(that.resourceBundle.getText("Fields"));
 				return;
 			}
 
@@ -290,20 +291,20 @@ sap.ui.define([
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Groups('" + found[0].id + "')", "PUT", {}, groupModel.getData(), this)
 					.then(function(oData) {
-						MessageToast.show("Data saved successfully");
+						MessageToast.show(that.resourceBundle.getText("Data"));
 						that._onRouteMatched();
 					}).catch(function(oError) {
-						MessageToast.show("Data could not be saved");
+						MessageToast.show(that.resourceBundle.getText("Data1"));
 					});
 
 			} else {
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Group", "POST", {}, groupModel.getData(), this)
 					.then(function(oData) {
-						MessageToast.show("Data saved successfully");
+						MessageToast.show(that.resourceBundle.getText("Data"));
 						that._onRouteMatched();
 					}).catch(function(oError) {
-						MessageToast.show("Data could not be saved");
+						MessageToast.show(that.resourceBundle.getText("Data1"));
 					});
 			}
 

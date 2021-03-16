@@ -43,6 +43,7 @@ sap.ui.define([
 				//Alarm Below : TargetLevel
 				//Price per pc/gm : QuantityPerUnit
 				//Making : MinimumReorderQuantity
+				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				var iOriginalBusyDelay,
 					oViewModel = new JSONModel({
 						"Id": "",
@@ -350,7 +351,7 @@ sap.ui.define([
 				that.getView().setModel(oModelProduct, "productModelInfo");
 
 					}).catch(function(oError) {
-							MessageToast.show("cannot fetch the data");
+							MessageToast.show(that.resourceBundle.getText("ReqField"));
 					});
 this.clearProduct();
 			},
@@ -645,7 +646,7 @@ this.clearProduct();
 				that.additionalInfoValidation();
 				if(productCode === ""){
 					this.additionalInfoValidation();
-				 MessageToast.show("Please fill the required fields");
+				 MessageToast.show(that.resourceBundle.getText("Fields"));
 				 return;
 			 }
 				// var aFilters = [];
@@ -660,11 +661,11 @@ debugger;
 							this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							 "/Products('"+prodId+"')", "PUT", {}, productModel.getData() , this)
 								.then(function(oData) {
-								MessageToast.show("Data saved successfully");
+								MessageToast.show(that.resourceBundle.getText("Data"));
 								// that._onRouteMatched();
 								that.clearProduct();
 								}).catch(function(oError) {
-										MessageToast.show("Data could not be saved");
+										MessageToast.show(that.resourceBundle.getText("Data1"));
 								});
 
 						}
@@ -675,21 +676,21 @@ debugger;
 							 "/Products", "GET", {filters: [oFilter]}, {}, this)
 								.then(function(oData) {
 									if (oData.results.length > 0 ){
-										MessageToast.show("Product Code Exist. Data not saved");
+										MessageToast.show(that.resourceBundle.getText("Product11"));
 									}	else{
 
 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 										 "/Product", "POST", {},productModel.getData() , that)
 											.then(function(oData) {
-											MessageToast.show("Data saved successfully");
+											MessageToast.show(that.resourceBundle.getText("Data"));
 											// that._onRouteMatched();
 												that.clearProduct();
 											}).catch(function(oError) {
-													MessageToast.show("Data could not be saved");
+													MessageToast.show(that.resourceBundle.getText("Data1"));
 											});
 									}
 								}).catch(function(oError) {
-										MessageToast.show("Data could not be saved");
+										MessageToast.show(that.resourceBundle.getText("Data1"));
 								});
 
 
@@ -808,7 +809,7 @@ debugger;
 			},
 
 			Errmsgprd:function(){
-				MessageToast.show("Product Used, Can not delete");
+				MessageToast.show(that.resourceBundle.getText("Product12"));
 				this.getView().setBusy(false);
 			},
 			deleteCnfProduct:function(productCode,productModel){
@@ -828,7 +829,7 @@ debugger;
 								 that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Products('" + productCode + "')", "DELETE", {},{}, that)
 									.then(function(oData) {
-													MessageToast.show("Deleted successfully");
+													MessageToast.show(that.resourceBundle.getText("Delete1"));
 													productModel.getData().Category = "";
 													productModel.getData().Type = "";
 													productModel.getData().Karat = "";
@@ -844,7 +845,7 @@ debugger;
 													productModel.refresh();
 													that.clearProduct();
 									}).catch(function(oError) {
-											MessageToast.show("Could not delete the entry");
+											MessageToast.show(that.resourceBundle.getText("Delete2"));
 									});
 
 
@@ -916,7 +917,7 @@ debugger;
 
 				this.getModel().create("/Products",updatedData,{
 					success: function(){
-						MessageToast.show("Created successfully");
+						MessageToast.show(that.resourceBundle.getText("create1"));
 					}
 				});
 			},
@@ -944,7 +945,7 @@ debugger;
 					};
 				this.getModel().update("/Products("+ that.getModel("productModel").getProperty("/Id")+ ")",updatedData,{
 					success: function(){
-						MessageToast.show("Updated successfully");
+						MessageToast.show(that.resourceBundle.getText("Update1"));
 					}
 				});
 			},

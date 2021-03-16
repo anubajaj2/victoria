@@ -29,6 +29,7 @@ sap.ui.define(
 				var oRouter = this.getRouter();
 				oRouter.getRoute("salesws").attachMatched(this._onRouteMatched, this);
 				this.getPrintCustHeaderData();
+				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			},
 			_onRouteMatched: function(oEvent) {
 				var that = this;
@@ -315,7 +316,7 @@ sap.ui.define(
 											allItems[i].Description = MaterialData.ProductName;
 											allItems[i].MaterialCode = MaterialData.ProductCode;
 										} else {
-											MessageToast.show("One or more Materials in Order has been deleted in Master! Order Cannot be reloaded!");
+											MessageToast.show(that.resourceBundle.getText("Master11"));
 										}
 
 										// allItems[i].Category = MaterialData.ProductCode;
@@ -986,20 +987,20 @@ sap.ui.define(
 
 				var saveStatus = this.getStatus();
 				if (saveStatus == "red") {
-					MessageBox.error("Are you sure you want to clear all entries? All unsaved changes will be lost!", {
+					MessageBox.error(that.resourceBundle.getText("Master22"), {
 						title: "Alert!",
 						actions: ["Save & Clear", "Clear", MessageBox.Action.CANCEL],
 						onClose: function(oAction) {
 							if (oAction === "Clear") {
 								that.clearScreen(oEvent);
 								that.setStatus('green');
-								MessageToast.show("Screen cleared successfully!");
+								MessageToast.show(that.resourceBundle.getText("Screen11"));
 							} else if (oAction === "Save & Clear") {
 
 								var saveStatus = that.onSave(oEvent);
 								if (saveStatus) {
 									that.clearScreen(oEvent);
-									MessageToast.show("Data has been Saved! Screen cleared successfully!");
+									MessageToast.show(that.resourceBundle.getText("Screen22"));
 								}
 
 							}
@@ -1032,7 +1033,7 @@ sap.ui.define(
 				};
 				var selIdxs = that.getView().byId(oSourceCall).getSelectedIndices();
 				if (selIdxs.length && selIdxs.length !== 0) {
-					MessageBox.error("Are you sure you want to delete the selected entries", {
+					MessageBox.error(that.resourceBundle.getText("Select11"), {
 						title: "Alert",
 						actions: ["Delete selected entries", sap.m.MessageBox.Action.CLOSE],
 						onClose: function(sButton) {
@@ -1140,7 +1141,7 @@ sap.ui.define(
 											"ChangedOn": ""
 										});
 										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-										sap.m.MessageToast.show("Selected lines are deleted");
+										sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
 									} //sourcecallCheck
 									else if (oSourceCall === 'OrderReturn') {
 
@@ -1159,7 +1160,7 @@ sap.ui.define(
 				} // if selindx length check
 				else { // if selindx length check
 					MessageBox.show(
-						"Please Select the entry to be deleted", {
+						that.resourceBundle.getText("Select22"), {
 							icon: MessageBox.Icon.ERROR,
 							title: "Error",
 							actions: [MessageBox.Action.OK],
@@ -1173,7 +1174,7 @@ sap.ui.define(
 				var that = this;
 				if (this.getView().getModel('local').getProperty('/WSOrderHeader').OrderNo) {
 					var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
-					MessageBox.confirm("Are you sure you want to create a new Order? All unsaved changes will be lost!", {
+					MessageBox.confirm(that.resourceBundle.getText("Change11"), {
 						title: "Confirm", // default
 						onClose: function(sButton) {
 							if (sButton === MessageBox.Action.OK) {
@@ -1291,7 +1292,7 @@ sap.ui.define(
 					oHeader.OrderNo === "") {
 					retVal = false;
 					MessageBox.show(
-						"Please create Order Number first", {
+						that.resourceBundle.getText("Create11"), {
 							icon: MessageBox.Icon.ERROR,
 							title: "Error",
 							actions: [MessageBox.Action.OK],
@@ -1446,7 +1447,7 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("returnModel").setProperty("/TransData", allItems);
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show("Data Saved Successfully");
+										sap.m.MessageToast.show(that.resourceBundle.getText("dataSave");
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
@@ -1517,12 +1518,12 @@ sap.ui.define(
 					if (returnCheck === true && itemError === false) {
 						this.commitRecords(oEvent);
 						this.setStatus("green");
-						MessageToast.show("Data Saved Successfully");
+						MessageToast.show(that.resourceBundle.getText("dataSave"));
 					}
 
 					//error if no valid entry
 					if (valueCheck === false) {
-						sap.m.MessageBox.error("Please Enter Valid entries before save", {
+						sap.m.MessageBox.error(that.resourceBundle.getText("entries11"), {
 							title: "Error", // default
 							styleClass: "", // default
 							initialFocus: null, // default
@@ -1547,7 +1548,7 @@ sap.ui.define(
 							"/WSOrderHeaders('" + oId + "')", "PUT", {}, oHeader, this)
 						.then(function(oData) {
 
-							message.show("Order Saved");
+							message.show(that.resourceBundle.getText("Order11"));
 							that.getView().setBusy(false);
 						})
 						.catch(function(oError) {
@@ -1639,7 +1640,7 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("orderItems").setProperty("/itemData", allItems);
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show("Data Saved Successfully");
+										sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
@@ -1664,7 +1665,7 @@ sap.ui.define(
 					}
 					that.setStatus('green');
 				} else {
-					sap.m.MessageBox.error("No change in data records", {
+					sap.m.MessageBox.error(that.resourceBundle.getText("NoChange"), {
 						title: "Error",
 						onClose: function(sButton) {}
 					});
@@ -1697,7 +1698,7 @@ sap.ui.define(
 						"POST", {}, stockData, this)
 					.then(function(oData) {
 						that.getView().setBusy(false);
-						sap.m.MessageToast.show("Stock Updated Successfully");
+						sap.m.MessageToast.show(that.resourceBundle.getText("Stock11"));
 					}).catch(function(oError) {
 						that.getView().setBusy(false);
 						var oPopover = that.getErrorMessage(oError);
@@ -2542,7 +2543,7 @@ sap.ui.define(
 						}
 
 						if(flag === true){
-							sap.m.MessageBox.error("Can't Save! Quantity should be greater than 0");
+							sap.m.MessageBox.error(that.resourceBundle.getText("Quantity11"));
 							oEvent.getSource().setEnabled(false);
 						}
 						else{
@@ -2560,7 +2561,7 @@ sap.ui.define(
 														that.getView().setBusy(false);
 														debugger;
 														allItems[i].id = oData.id;
-														sap.m.MessageToast.show("Data Saved Successfully");
+														sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 														if(fragIndicator){
 																fragIndicator.setColor("green");
 														}
@@ -2874,7 +2875,7 @@ sap.ui.define(
                         that.getOrderDetails(oEvent,orderId,oFilter);
                       }
                       else{
-                        sap.m.MessageToast.show("No orders generated for today yet");
+                        sap.m.MessageToast.show(that.resourceBundle.getText("Orderno11"));
                       }
               })
 			  }
@@ -3342,7 +3343,7 @@ sap.ui.define(
 				                                  "POST", {}, entryData, this)
 				  .then(function(oData) {
 				    that.getView().setBusy(false);
-				    sap.m.MessageToast.show("Data Transferred Successfully");
+				    sap.m.MessageToast.show(that.resourceBundle.getText("Transferred"));
 				    }).catch(function(oError) {
 				    that.getView().setBusy(false);
 				    var oPopover = that.getErrorMessage(oError);

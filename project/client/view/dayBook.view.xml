@@ -48,7 +48,7 @@
 					</smartFilterBar:SmartFilterBar>
 <!-- smartFilterId="smartFilterBar" -->
 <!-- beforeExport="onBeforeExport" -->
-			<smartTable:SmartTable entitySet=""  useExportToExcel="false"
+			<smartTable:SmartTable entitySet="/"  useExportToExcel="false"
 						useVariantManagement="false" useTablePersonalisation="true" showRowCount="true" persistencyKey="SmartTableRefApp_Explored"
 						enableAutoBinding="false" class="sapUiResponsiveContentPadding" tableType="ResponsiveTable" tableBindingPath="local>/EntryData">
 

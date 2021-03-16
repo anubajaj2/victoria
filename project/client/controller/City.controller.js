@@ -37,6 +37,7 @@ sap.ui.define([
 			//Alarm Below : TargetLevel
 			//Price per pc/gm : QuantityPerUnit
 			//Making : Address
+			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iOriginalBusyDelay,
 				oViewModel = new JSONModel({
 					"cityCode": "",
@@ -116,7 +117,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCustomer, "customerModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -127,7 +128,7 @@ sap.ui.define([
 					that.getView().setModel(oModelCity, "cityModelInfo");
 
 				}).catch(function(oError) {
-					MessageToast.show("cannot fetch the data");
+					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 			this.clearCity();
 		},
@@ -222,21 +223,21 @@ sap.ui.define([
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Cities('" + found[0].id + "')", "DELETE", {}, {}, this)
 						.then(function(oData) {
-							MessageToast.show("Deleted successfully");
+							MessageToast.show(that.resourceBundle.getText("Delete1"));
 							cityModel.getData().cityCode = "";
 							cityModel.getData().cityName = "";
 							cityModel.getData().state = "";
 							cityModel.refresh();
 							that._onRouteMatched();
 						}).catch(function(oError) {
-							MessageToast.show("Could not delete the entry");
+							MessageToast.show(that.resourceBundle.getText("Delete2"));
 						});
 
 				} else {
-					MessageToast.show("City already in use.Cannot be deleted");
+					MessageToast.show(that.resourceBundle.getText("Delete2"));
 				}
 			} else {
-				MessageToast.show("Data not available");
+				MessageToast.show(that.resourceBundle.getText("available11"));
 			}
 
 		},
@@ -265,7 +266,7 @@ sap.ui.define([
 			debugger;
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idCity--CityHeader";
-			this.toggleUiTable(btnId, headerId)
+			this.toggleUiTable(btnId, headerId);
 		},
 
 		saveCity: function() {
@@ -275,7 +276,7 @@ sap.ui.define([
 			var cityJson = this.getView().getModel("cityModelInfo").getData().results;
 			if (cityModel.getData().cityCode === "") {
 				this.additionalInfoValidation();
-				MessageToast.show("Please fill the required fields");
+				MessageToast.show(that.resourceBundle.getText("Fields"));
 				return;
 			}
 
@@ -293,20 +294,20 @@ sap.ui.define([
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Cities('" + found[0].id + "')", "PUT", {}, cityModel.getData(), this)
 					.then(function(oData) {
-						MessageToast.show("Data saved successfully");
+						MessageToast.show(that.resourceBundle.getText("Data"));
 						that._onRouteMatched();
 					}).catch(function(oError) {
-						MessageToast.show("Data could not be saved");
+						MessageToast.show(that.resourceBundle.getText("Data1"));
 					});
 
 			} else {
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/City", "POST", {}, cityModel.getData(), this)
 					.then(function(oData) {
-						MessageToast.show("Data saved successfully");
+						MessageToast.show(that.resourceBundle.getText("Data"));
 						that._onRouteMatched();
 					}).catch(function(oError) {
-						MessageToast.show("Data could not be saved");
+						MessageToast.show(that.resourceBundle.getText("Data1"));
 					});
 			}
 

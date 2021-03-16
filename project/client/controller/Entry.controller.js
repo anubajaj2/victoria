@@ -20,6 +20,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			clearOnSend: false,
 			onInit: function () {
 				var that = this;
+				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				that.getView().setBusy(true);
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
 					.then(function (oData) {
@@ -405,10 +406,10 @@ sap.ui.define(["victoria/controller/BaseController",
 			onSend: function (oEvent) {
 				debugger;
 				if (this.getView().byId("idMat").getValue() === "" && this.getView().byId("RB-4").getSelected()) {
-					sap.m.MessageBox.show("Please enter the Material");
+					sap.m.MessageBox.show(that.resourceBundle.getText("MaterialEnter"));
 				}
 				if (this.getView().byId("idCust").getValue() === "") {
-					sap.m.MessageBox.show("Please enter the Customer");
+					sap.m.MessageBox.show(that.resourceBundle.getText("Customer11"));
 				} else {
 					debugger;
 					var that = this;
@@ -427,7 +428,7 @@ sap.ui.define(["victoria/controller/BaseController",
 							"POST", {}, myData, this)
 						.then(function (oData) {
 							that.getView().setBusy(false);
-							sap.m.MessageToast.show("Data Saved Successfully");
+							sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 							that.clearOnSend = true;
 							that.onClear();
 
@@ -573,7 +574,7 @@ sap.ui.define(["victoria/controller/BaseController",
 									}
 								}
 
-								sap.m.MessageToast.show("Selected records are deleted");
+								sap.m.MessageToast.show(that.resourceBundle.getText("SelectedData1"));
 							}
 						}
 					}
@@ -723,7 +724,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						"PUT", {}, myData, this)
 					.then(function (oData) {
 						that.getView().setBusy(false);
-						sap.m.MessageToast.show("Data updated Successfully");
+						sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
 						that.oDialog.close();
 						that._getEditClear();
 					}).catch(function (oError) {
@@ -873,7 +874,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;
 				if (recCount > 1) {
 					sap.m.MessageBox.alert(
-						"Select one entry only");
+						that.resourceBundle.getText("Selectoneentryonly"));
 				} else {
 					this._getDialog();
 				}
@@ -886,8 +887,9 @@ sap.ui.define(["victoria/controller/BaseController",
 				}
 				var count = this.getView().byId("idTable").getItems().length;
 				var that = this;
-				sap.m.MessageBox.confirm(
-					"Do u want to delete(" + count + ")entries", {
+				// "Do u want to delete(" + count + ")entries",
+				sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" + that.resourceBundle.getText("entries"),
+					 {
 						title: "Confirm",
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: "",

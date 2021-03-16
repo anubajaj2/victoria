@@ -28,7 +28,7 @@ sap.ui.define([
 			 function yourFunction() {
 					 // your function for too long inactivity goes here
 					 // e.g. window.location.href = 'logout.php';
-					 sap.m.MessageBox.alert("Page expired, please login again!");
+					 sap.m.MessageBox.alert(that.resourceBundle.getText("Page11") + "!");
 					 window.top.location.href = "/";
 			 }
 

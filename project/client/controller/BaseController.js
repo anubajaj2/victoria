@@ -576,7 +576,7 @@ sap.ui.define([
 			if (logOut == "X" && Reload != "X") {
 				MessageBox.alert("Logout Successful");
 			} else if (Reload != "X") {
-				MessageBox.alert("Page expired, please login again");
+				MessageBox.alert(that.resourceBundle.getText("Page11"));
 			}
 			window.top.location.href = "/";
 		},

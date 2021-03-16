@@ -15,9 +15,9 @@
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>
         <ToolbarSpacer/>
-				<Button id="idDailyReport" text = "Daily Report" icon="sap-icon://download" press="onDailyReport"></Button>
-				<Button id="idItemsReport" text = "Items Report" icon="sap-icon://download" press="onItemsReport"></Button>
-				<Button id="idStockReport" text = "Stock Report" icon="sap-icon://download" press="onStockReport"></Button>
+				<Button id="idDailyReport" text = "{i18n>DailyItemDetail}" icon="sap-icon://download" press="onDailyReport"></Button>
+				<Button id="idItemsReport" text = "{i18n>DailyFinalItemDetail}" icon="sap-icon://download" press="onItemsReport"></Button>
+				<Button id="idStockReport" text = "{i18n>AllItemDetail}" icon="sap-icon://download" press="onStockReport"></Button>
 				<!-- <Button id="idDownload" text = "Stock Report" icon="sap-icon://download" press="onExportPdf"></Button> -->
 				<Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>

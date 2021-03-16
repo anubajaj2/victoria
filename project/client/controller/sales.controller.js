@@ -456,7 +456,7 @@ sap.ui.define([
 				'</tbody>' +
 				'</table>' +
 				'<hr />';
-
+debugger;
 			// Prepare Order table header
 			var table =
 				"<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
@@ -485,6 +485,9 @@ sap.ui.define([
 					totalQuantity = totalQuantity + oBinding.oList[i].Qty;
 					totalWeight = totalWeight + oBinding.oList[i].Weight;
 					var matDesc = oBinding.oList[i].MaterialCode.concat('-', oBinding.oList[i].Description);
+					if(oBinding.oList[i].Remarks === undefined){
+						oBinding.oList[i].Remarks = "  ";
+					}
 					table += '<tr>';
 					table += '<td style="width: 80px;border: 1px solid black;">&nbsp;' + matDesc + '</td>' +
 						// '<td style="width: 80px;border: 1px solid black;">&nbsp;'+oBinding.oList[i].Description+'</td>'+
@@ -494,7 +497,7 @@ sap.ui.define([
 						'<td class="idRWeightD" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].WeightD + '</td>' +
 						'<td class="idRMakingCharge" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Making + '</td>' +
 						'<td class="idRMakingChargeD" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].MakingD + '</td>' +
-						'<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Remarks ? oBinding.oList[i].Remarks : '' + '</td>' +
+						'<td class="idRRemarks" style="width: 80px;border: 1px solid black;">&nbsp;' + oBinding.oList[i].Remarks + '</td>' +
 						'<td class="idRSubTotal" style="width: 80px;border: 1px solid black;s">&nbsp;' + oBinding.oList[i].SubTotal + '</td></tr>';
 				}
 			}

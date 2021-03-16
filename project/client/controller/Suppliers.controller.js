@@ -1092,6 +1092,13 @@ sap.ui.define([
 				}
 			}
 		},
+		onBookingReportDownload: function(){debugger;
+			var test = this.getOwnerComponent().getModel("local").getProperty("/BookingCustomer");
+      var reportType = "Booking_Summary";
+      var custId = test.CustomerId;
+      var custName = test.CustomerName;
+			window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName);
+		},
 		onUpdateFinished: function(oEvent) {
 			debugger;
 			var oTable = oEvent.getSource();

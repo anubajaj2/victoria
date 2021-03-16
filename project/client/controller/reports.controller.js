@@ -155,6 +155,7 @@ function (BaseController, JSONModel, MessageToast) {
     },
 
     customerCodeCheck : function(oEvent){
+      debugger;
           $(function() {
                   $('input:text:first').focus();
                   var $inp = $('input:text');

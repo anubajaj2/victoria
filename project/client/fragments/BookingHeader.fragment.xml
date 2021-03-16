@@ -34,7 +34,7 @@
 								enabled="{viewModel>/codeEnabled}"
 							suggestionItemSelected="customerCodeCheck" -->
 									<m:Input id="idCustomerCode" value="{local>/BookingCustomer/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer"
-										valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="onBookingCustomerSelect" submit="customerCodeCheck1"
+										valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="customerCodeCheck1" submit="customerCodeCheck1"
 										showSuggestion="true" suggestionItems="{/Customers}">
 										<m:suggestionItems>
 											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
@@ -83,6 +83,7 @@
 											<l:GridData span="XL5 L5 M5 S8"/>
 										</m:layoutData>
 									</m:Button>
+									<m:Button text="Booking Report" icon="sap-icon://download" press="onBookingReportDownload" type="Ghost" visible="false"/>
 								</f:fields>
 								<!-- <f:fields>
 						<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"

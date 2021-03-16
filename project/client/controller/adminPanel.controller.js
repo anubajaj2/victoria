@@ -145,13 +145,13 @@ sap.ui.define([
 						var items = that.getView().byId('viewSecureTable').getSelectedContexts();
 						for (var i = 0; i < items["length"]; i++) {
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(), items[i].sPath, "DELETE", {}, {}, that)
-							.then(function(oData) {
-								sap.m.MessageToast.show("Deleted succesfully");
-							}).catch(function(oError) {
-								that.getView().setBusy(false);
-								that.oPopover = that.getErrorMessage(oError);
-								that.getView().setBusy(false);
-							});
+								.then(function(oData) {
+									sap.m.MessageToast.show("Deleted succesfully");
+								}).catch(function(oError) {
+									that.getView().setBusy(false);
+									that.oPopover = that.getErrorMessage(oError);
+									that.getView().setBusy(false);
+								});
 							// var propertyData = aSelectedRows[iSelectedRow].getObject();
 							// aUserArray.splice(aUserArray.indexOf(propertyData), 1);
 							// that._checkForSecureChangesButton();
@@ -165,44 +165,70 @@ sap.ui.define([
 		},
 		onPressHandleSecureOkPopup: function(oEvent) {
 
-			    var that = this;
-			    var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext();
-			    var Payload = {
-			    "Role":	sap.ui.getCore().byId("Secure_Dialog--idRole").getValue(),
-			    "UserName":	sap.ui.getCore().byId("Secure_Dialog--idUser").getValue(),
-			    "EmailId":	sap.ui.getCore().byId("Secure_Dialog--idEmail").getValue(),
-			    "TechnicalId" :sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
-			    };
+			var that = this;
+			var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext(),
+				password = sap.ui.getCore().byId("Secure_Dialog--idPassword").getValue(),
+				confirmPassword = sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").getValue();
+			if (password !== confirmPassword) {
+				MessageToast.show("Password not matched");
+				return;
+			}
+			var Payload = {
+				"Role": sap.ui.getCore().byId("Secure_Dialog--idRole").getValue(),
+				"UserName": sap.ui.getCore().byId("Secure_Dialog--idUser").getValue(),
+				"EmailId": sap.ui.getCore().byId("Secure_Dialog--idEmail").getValue(),
+				// "TechnicalId": sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
+			};
 
-			    if(bindingPath){
-			    var sPath = oEvent.getSource().getBindingContext().sPath;
+			if (bindingPath) {
+				var sPath = oEvent.getSource().getBindingContext().sPath;
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), sPath, "PUT", {},
-					Payload, this)
-				.then(function(oData) {
-					sap.m.MessageToast.show("Server Updated successfully");
-					that.getView().setBusy(false);
-					that._oDialogSecure.close();
+						Payload, this)
+					.then(function(oData) {
+						sap.m.MessageToast.show("Server Updated successfully");
+						that.getView().setBusy(false);
+						that._oDialogSecure.close();
 
-				}).catch(function(oError) {
-					that.getView().setBusy(false);
-					that.oPopover = that.getErrorMessage(oError);
-					that.getView().setBusy(false);
-				});}else{
-
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
-					Payload, this)
-				.then(function(oData) {
-					sap.m.MessageToast.show("Server Updated successfully");
-					that.getView().setBusy(false);
-					that._oDialogSecure.close();
-
-				}).catch(function(oError) {
-					that.getView().setBusy(false);
-					that.oPopover = that.getErrorMessage(oError);
-					that.getView().setBusy(false);
-				});
-				}
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						that.oPopover = that.getErrorMessage(oError);
+						that.getView().setBusy(false);
+					});
+			} else {
+				var createUserPayload = {
+					name: Payload.UserName,
+					emailId: Payload.EmailId,
+					password: password,
+					role: Payload.Role,
+					Authorization: this.getModel("local").getProperty("/Authorization")
+				};
+				$.post('/createNewUser', createUserPayload)
+					.then(function(data) {
+						debugger;
+						sap.m.MessageToast.show("Server Updated successfully");
+						that.getView().setBusy(false);
+						that._oDialogSecure.close();
+					})
+					.fail(function(error) {
+						sap.m.MessageBox.error("User Creation failed");
+						that.getView().setBusy(false);
+						that.oPopover = that.getErrorMessage(error);
+						that.getView().setBusy(false);
+					});
+				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
+				// 	Payload, this)
+				// .then(function(oData) {
+				// 	sap.m.MessageToast.show("Server Updated successfully");
+				// 	that.getView().setBusy(false);
+				// 	that._oDialogSecure.close();
+				//
+				// }).catch(function(oError) {
+				// 	that.getView().setBusy(false);
+				// 	that.oPopover = that.getErrorMessage(oError);
+				// 	that.getView().setBusy(false);
+				// });
+			}
 			// var oTable = this.getView().getModel();
 			// var secureListInfo = oTable.getData().appUsers;
 			// var secureFormObj = this._oDialogSecure.getModel("secureFormModel").getData();

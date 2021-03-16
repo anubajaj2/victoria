@@ -958,7 +958,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					var customerData = this.allMasterData.customers[customerId];
 					var productData = this.allMasterData.materials[productId];
 					oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
-					if(productId !== ""){
+					if(productId !== "" && productData !== undefined){
 						oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
 					}
 

@@ -190,7 +190,7 @@ sap.ui.define([
 							var oTable = oEvent.getSource();
 							var itemList = oTable.getItems();
 							var noOfItems = itemList.length;
-							var value1 = noOfItems == 20 ? 0 : noOfItems - 20;
+							var value1 = noOfItems <= 20 ? 0 : noOfItems - 20;
 							var id;
 							var cell;
 							console.log(noOfItems);
@@ -204,7 +204,10 @@ sap.ui.define([
 									var customerData = this.allMasterData.customers[customerId];
 									var productData = this.allMasterData.materials[productId];
 									oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
-									oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+									// oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+									if(productId !== "" && productData !== undefined){
+										oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+									}
 							}
 							this.getView().byId("idTable1").setBlocked(false);
 
@@ -326,7 +329,7 @@ sap.ui.define([
 
 
 		onPayDateChange: function(oEvent) {debugger;
-	
+
 
 
 

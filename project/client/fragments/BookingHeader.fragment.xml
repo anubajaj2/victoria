@@ -68,7 +68,7 @@
 											<l:GridData span="XL2 L2 M3 S2"/>
 										</m:layoutData> -->
 									</m:Input>
-									<m:Input type="Number" editable="true" id="idAdvance" width="134px" submit="onAdvSubmit" placeholder="{i18n>advance}" class="sapUiTinyMarginEnd">
+									<m:Input type="Number" editable="true" id="idAdvance" width="130px" submit="onAdvSubmit" placeholder="{i18n>advance}" class="sapUiTinyMarginEnd">
 										<!-- <m:layoutData>
 											<l:GridData span="XL2 L2 M2 S3"/>
 										</m:layoutData> -->

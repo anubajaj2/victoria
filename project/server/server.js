@@ -463,10 +463,10 @@ app.start = function() {
 					res.send('No Role');
 					return;
 				}
-				// if (!req.body.Authorization) {
-				// 	res.send('No Authorization');
-				// 	return;
-				// }
+				if (!req.body.Authorization) {
+					res.send('No Authorization');
+					return;
+				}
 
 				this.Token = app.models.AccessToken;
 				this.User = app.models.User;

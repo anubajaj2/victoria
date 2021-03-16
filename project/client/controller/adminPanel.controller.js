@@ -164,7 +164,6 @@ sap.ui.define([
 
 		},
 		onPressHandleSecureOkPopup: function(oEvent) {
-
 			var that = this;
 			var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext(),
 				password = sap.ui.getCore().byId("Secure_Dialog--idPassword").getValue(),
@@ -179,7 +178,6 @@ sap.ui.define([
 				"EmailId": sap.ui.getCore().byId("Secure_Dialog--idEmail").getValue(),
 				// "TechnicalId": sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
 			};
-
 			if (bindingPath) {
 				var sPath = oEvent.getSource().getBindingContext().sPath;
 
@@ -201,19 +199,19 @@ sap.ui.define([
 					emailId: Payload.EmailId,
 					password: password,
 					role: Payload.Role,
-					Authorization: this.getModel("local").getProperty("/Authorization")
+					Authorization: "kREmIDG9mpGiGuWnfayajMIyIZhNEPfZ2okow0VLRMxyAs2dRZIH1L5eqTLYdEGY" //this.getModel("local").getProperty("/Authorization")
 				};
 				$.post('/createNewUser', createUserPayload)
 					.then(function(data) {
-						debugger;
-						sap.m.MessageToast.show("Server Updated successfully");
+						that.getOwnerComponent().getModel().refresh();
+						sap.m.MessageToast.show(data);
 						that.getView().setBusy(false);
 						that._oDialogSecure.close();
 					})
 					.fail(function(error) {
 						sap.m.MessageBox.error("User Creation failed");
 						that.getView().setBusy(false);
-						that.oPopover = that.getErrorMessage(error);
+						// that.oPopover = that.getErrorMessage(error);
 						that.getView().setBusy(false);
 					});
 				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
@@ -272,8 +270,12 @@ sap.ui.define([
 				this.getView().addDependent(this._oDialogSecure);
 				if (createMode == false) {
 					this._oDialogSecure.bindElement(this.aBindingContext);
+					sap.ui.getCore().byId("Secure_Dialog--idPassword").setVisible(false);
+					sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").setVisible(false);
 				} else {
 					this._oDialogSecure.unbindElement(this.aBindingContext);
+					sap.ui.getCore().byId("Secure_Dialog--idPassword").setVisible(true);
+					sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").setVisible(true);
 				}
 			}
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialogSecure);

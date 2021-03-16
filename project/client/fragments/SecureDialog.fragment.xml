@@ -25,9 +25,9 @@
 					<Label text="Email" required="true"/>
 					<Input id="idEmail" name="Email"  value="{EmailId}" valueLiveUpdate="true"/>
 					<Label text="Password" required="true"/>
-					<Input id="idPassword" name="Password" type="Password" valueLiveUpdate="true"/>
+					<Input id="idPassword" name="Password" type="Password" valueLiveUpdate="true" visible="false"/>
 					<Label text="Confirm Password" required="true"/>
-					<Input id="idConfirmPassword" type="Password" name="Confirm Password" valueLiveUpdate="true"/>
+					<Input id="idConfirmPassword" type="Password" name="Confirm Password" valueLiveUpdate="true" visible="false"/>
 				</f:content>
 			</f:SimpleForm>
 		</content>

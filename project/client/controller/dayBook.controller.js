@@ -61,7 +61,7 @@ sap.ui.define([
 		},
 
 		onPressEntryDownload: function () {debugger;
-			var cust= this.getView().byId("idCust1").getValue();
+			var cust= this.getView().byId("idCustDay").getValue();
 			var minDate=this.getView().byId("dateRangeId").getDateValue();
 			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
 			var myData = this.getView().getModel("local").getProperty("/EntryData");
@@ -177,7 +177,7 @@ sap.ui.define([
 
 		onConfirm: function (oEvent) {
 			var selCust = oEvent.getParameter("selectedItem").getLabel();
-			this.getView().byId("idCust1").setValue(selCust);
+			this.getView().byId("idCustDay").setValue(selCust);
 			this.getView().getModel("local").setProperty("/EntryData/Customer",
 									 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 			// this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
@@ -218,7 +218,7 @@ sap.ui.define([
 		onFilterSearch: function(oEvent) {
 			debugger;
 			var that=this;
-			var cust= this.getView().byId("idCust1").getValue();
+			var cust= this.getView().byId("idCustDay").getValue();
 			var minDate=this.getView().byId("dateRangeId").getDateValue();
 			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
 			var myData = this.getView().getModel("local").getProperty("/EntryData");
@@ -550,7 +550,7 @@ sap.ui.define([
 	},
 	onSelect: function (oEvent) {
 		jQuery.sap.delayedCall(500, this, function () {
-			this.getView().byId("idCust").focus();
+			// this.getView().byId("idCust").focus();
 		});
 
 	},
@@ -561,7 +561,7 @@ sap.ui.define([
 		sap.ui.getCore().byId(this.inpField).setValue(sTitle);
 		var that = this;
 
-			this.getView().byId("idCust1").setValue(sTitle);
+			this.getView().byId("idCustDay").setValue(sTitle);
 
 
 },

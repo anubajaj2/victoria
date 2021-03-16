@@ -57,21 +57,23 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>bookingDetails}">
 								<f:fields>
-									<m:Input type="Number" liveChange="decimalvalidator" submit="onSubmit" liveditable="true" id="idQnty" placeholder="{i18n>qty}">
-										<m:layoutData>
+									<m:HBox>
+									<m:Input type="Number" liveChange="decimalvalidator" width="80px" submit="onSubmit" liveditable="true" id="idQnty" placeholder="{i18n>qty}" class="sapUiTinyMarginEnd">
+										<!-- <m:layoutData>
 											<l:GridData span="XL1 L1 M1 S2"/>
-										</m:layoutData>
+										</m:layoutData> -->
 									</m:Input>
-									<m:Input type="Number" editable="true" id="idBhav" submit="onBhavSubmit" placeholder="{i18n>bhav}">
-										<m:layoutData>
+									<m:Input type="Number" editable="true" id="idBhav" width="130px" submit="onBhavSubmit" placeholder="{i18n>bhav}" class="sapUiTinyMarginEnd">
+										<!-- <m:layoutData>
+											<l:GridData span="XL2 L2 M3 S2"/>
+										</m:layoutData> -->
+									</m:Input>
+									<m:Input type="Number" editable="true" id="idAdvance" width="134px" submit="onAdvSubmit" placeholder="{i18n>advance}" class="sapUiTinyMarginEnd">
+										<!-- <m:layoutData>
 											<l:GridData span="XL2 L2 M2 S3"/>
-										</m:layoutData>
+										</m:layoutData> -->
 									</m:Input>
-									<m:Input type="Number" editable="true" id="idAdvance" submit="onAdvSubmit" placeholder="{i18n>advance}">
-										<m:layoutData>
-											<l:GridData span="XL2 L2 M2 S3"/>
-										</m:layoutData>
-									</m:Input>
+								</m:HBox>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label=" ">

@@ -5,8 +5,8 @@
 
 	<semantic:FullscreenPage id="Kacchi" navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
 			<semantic:customHeaderContent>
-				<Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/>
-			</semantic:customHeaderContent>
+				<!-- <Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/> -->
+		</semantic:customHeaderContent>
 	<semantic:content id="idContent">
     <!-- <VBox class="sapUiSmallMargin"> -->
       <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">

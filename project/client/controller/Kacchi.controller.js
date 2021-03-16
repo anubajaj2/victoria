@@ -625,6 +625,41 @@ onConfirm: function(oEvent){
     var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
     this.getCustDataFromDB(oFilter); // Get the data from DB for selected customer
 
-  }
+
+
+    var selectedCust = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+    var that = this;
+    var myData = this.getView().getModel("local").getProperty("/kacchiData");
+    var selCust = oEvent.getParameter("selectedItem").getLabel();
+    var selCustName = oEvent.getParameter("selectedItem").getValue();
+    this.getView().byId("idCustNo").setValue(selCust);
+    // this.getView().byId("idCustText").setText(selCustName);
+    this.getView().getModel("local").setProperty("/kacchiData/Customer",
+      oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+    this.getView().getModel("local").setProperty("/kachhiHeaderTemp/customerId",
+      selCust);
+    // myData.Customer=;
+    this.getView().getModel("local").getProperty("/kacchiData", myData);
+    var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
+    // this.getView().byId("idTable").getBinding("items").filter(oFilter);
+this.getCustDataFromDB(oFilter);
+  },
+
+
+  onEnter: function (oEvent) {debugger;
+    this.getCustomer(oEvent);
+
+    this.getView().byId("idTotalFine").focus();
+    // this.getView().byId("idTotalFine").$().find("input").select();
+  },
+  //
+  // onConfirm: function (oEvent) {debugger;
+  //   var selCust = oEvent.getParameter("selectedItem").getLabel();
+  //   this.getView().byId("idCustNo").setValue(selCust);
+  //   this.getView().getModel("local").setProperty("/kachhiData/CustomerName",
+  //   oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+  //   // this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+  // },
+
 });
 });

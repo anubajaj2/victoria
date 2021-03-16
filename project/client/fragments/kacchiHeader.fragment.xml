@@ -31,9 +31,24 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>coCustomer}">
 								<f:fields>
-									<Input id="idCustNo" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onCustValueHelp" liveChange="onChange"
-										value="{local>/kachhiHeaderTemp/CustomerId}"></Input>
+									<!-- <Input id="idCustNo" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onCustValueHelp" liveChange="onChange"
+										value="{local>/kachhiHeaderTemp/CustomerId}"></Input> -->
+										<Input id="idCustNo" showValueHelp="true" editable="true" valueHelpRequest="onCustValueHelp" value="{path: '{local>/kachhiHeaderTemp/CustomerId'}"
+											suggestionItemSelected="onCustomerSelect"
+											submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+												<suggestionItems>
+														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+												</suggestionItems>
+												<layoutData>
+														<l:GridData span="XL3 L3"/>
+												</layoutData>
+										</Input>
 									<Input id="idCustName" editable="false" value="{local>/kachhiHeaderTemp/CustomerName}"></Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label=" ">
+								<f:fields>
+									<Button tooltip="Kacchi Download" icon="sap-icon://download" text="Download" type="Ghost" press="onPressKacchiDownload" class="sapUiTinyMarginEnd"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

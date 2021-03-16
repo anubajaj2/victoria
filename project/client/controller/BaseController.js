@@ -1637,7 +1637,7 @@ sap.ui.define([
 			}
 		},
 
-		getCustomer: function(oEvent) {
+		getCustomer: function(oEvent) {debugger;
 			var that = this;
 			var oSource = oEvent.getSource();
 			if (oEvent.getParameter("value")) {

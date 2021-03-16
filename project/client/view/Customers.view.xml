@@ -2,6 +2,7 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:semantic="sap.m.semantic" xmlns:smartField="sap.ui.comp.smartfield" controllerName="victoria.controller.Customers">
    <semantic:FullscreenPage id="customers" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageCustomers}" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
       <semantic:customHeaderContent>
+         <Button tooltip="{i18n>CustomerCodeDetails}" icon="sap-icon://download" press="onPressCustCodeDownload" type="Ghost" />
          <Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="{i18n>fullscreen}" iconFirst="true" press="toggleFullScreen" />
       </semantic:customHeaderContent>
       <semantic:content id="Header">
@@ -100,7 +101,7 @@
         <!-- "{viewModel>/buttonText}" -->
          <Button text="{i18n>Save}" id="customerAccept" type="Accept" press="SaveCustomer" />
          <Button text="{i18n>Delete}" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}" />
-         <Button text="{i18n>CustomerCodeDetails}" press="onPressCustCodeDownload" type="Ghost" />
+         <!-- <Button text="{i18n>CustomerCodeDetails}" press="onPressCustCodeDownload" type="Ghost" /> -->
          <Button text="{i18n>Clear}" type="Ghost" press="clearCustomer" />
       </semantic:customFooterContent>
    </semantic:FullscreenPage>

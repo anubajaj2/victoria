@@ -48,19 +48,19 @@ controllerName="victoria.controller.MainApp"
 										maxLength="0"/>
 								</form:fields>
 							</form:FormElement>
-							<!-- <form:FormElement visible="true">
+							<form:FormElement visible="true">
 								<form:label>
 									<Label text="Language"  width="100%" required="false" visible="true"/>
 								</form:label>
 								<form:fields>
-									<Select id="languageSelect" change="onDropDownSelect">
+									<Select id="languageSelect" selectedItemId="{path: 'local>/selectLang'}">
 
-												<core:Item key="En" text="{i18n>English}"/>
-												<core:Item key="Hi" text="{i18n>Hindi}"/>
+												<core:Item key="En" id="En" text="{i18n>English}"/>
+												<core:Item key="Hi" id="Hi" text="{i18n>Hindi}"/>
 									</Select>
 								</form:fields>
 
-							</form:FormElement> -->
+							</form:FormElement>
 							<form:FormElement visible="true">
 								<form:label>
 									<Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>

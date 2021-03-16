@@ -43,11 +43,12 @@ sap.ui.define([
 		onLogout: function(){
 			this.logOutApp();
 		},
-		onInit: function() {
+		onInit: function() {debugger;
 			//var oModel = Models.createFruitModel();
 			//sap.ui.getCore().setModel(oModel);
 			this.idleLogout();
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
 		},
 		onSubmit: function(){
 			this.Login();
@@ -111,6 +112,7 @@ debugger;
 										if(found === true){
 											that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
 											that2.oRouter.navTo("Customers");
+											that2.onDropDownSelect();
 										}else{
 											sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
 										}
@@ -158,26 +160,20 @@ debugger;
 
 onDropDownSelect: function(oEvent){debugger;
 
-	var selectedItem = oEvent.getParameter("selectedItem");
-	var selectedlaunguage = selectedItem.getKey();
-// 	// var user = window.location.search;
-// 	var language=sap.ui.getCore().getConfiguration().getLanguage()
+	// var selectedItem = oEvent.getParameter("selectedItem");
+	var selectedlaunguage = this.getView().byId("languageSelect").getSelectedKey();
 	if(selectedlaunguage==='Hi'){
-		// this.getView().byId("languageSelect").setSelectedKey()
-		// sap.ui.getCore().getConfiguration().setLanguage('hi');
+		sap.ui.getCore().getConfiguration().setLanguage('Hi');
 
-		window.location.replace("http://localhost:3000?sap-ui-language=hi")
+		window.location.search = "?sap-ui-language=hi";
+		// this.oRouter.navTo("Customers");
 
 	}
-	else {
-		// sap.ui.getCore().getConfiguration().setLanguage('en');
-
-		window.location.replace("http://localhost:3000")
-// this.getView().byId("languageSelect").setSelectedKey("English")
-	}
-	// this.language.updateUserPreferences(language);
-
-	// location.reload();
+	// else {
+	// 	window.location.href = "http://localhost:3000";
+	// 	this.getView().byId("languageSelect").setSelectedKey("En")
+	// 	// oRouter.navTo("Customers");
+	// }
 }
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

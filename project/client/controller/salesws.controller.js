@@ -1445,9 +1445,9 @@ sap.ui.define(
 												break;
 											} //material compare if condition
 										} //for loop
-										that.getView().getModel("returnModel").setProperty("/TransData", allItems);
+										that.getView().getModel("returnModel").setProperty("/TransData", allItems)
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show(that.resourceBundle.getText("dataSave");
+										sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);

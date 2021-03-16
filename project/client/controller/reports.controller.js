@@ -61,14 +61,15 @@ function (BaseController, JSONModel, MessageToast) {
       var reportType = "Booking_Summary";
       var custId = test.oData.id;
       var custName = test.oData.Name;
-      $.post("/bookingDownload",{id: custId, name: custName, type: reportType}).then(function(oData)
-      {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-      },function(oError){
-      debugger;
-      MessageToast.show("Data could not be downloaded");
-      });
+      // $.post("/bookingDownload",{id: custId, name: custName, type: reportType}).then(function(oData)
+      // {
+      // debugger;
+      // MessageToast.show("Data downloaded successfully");
+      // },function(oError){
+      // debugger;
+      // MessageToast.show("Data could not be downloaded");
+      // });
+      window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName);
     },
 
     onPressPOrderDownload:function(){

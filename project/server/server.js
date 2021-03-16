@@ -1118,10 +1118,10 @@ app.start = function() {
 			);
 		})
 
-		app.post('/bookingDownload', function(req, res) {
-			var reportType = req.body.type;
-			var custId = req.body.id;
-			var custName = req.body.name;
+		app.get('/bookingDownload', function(req, res) {
+			var reportType = req.query.type;
+			var custId = req.query.id;
+			var custName = req.query.name;
 
 			var responseData = [];
 			var oSubCounter = {};
@@ -1647,22 +1647,38 @@ app.start = function() {
 						};
 
 						//Coding to download in a folder
-						var tempFilePath = 'C:\\dex\\' + reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+						var tempFilePath = reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 							currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 							currentdate.getSeconds() + '.xlsx';
-						console.log("tempFilePath : ", tempFilePath);
-						workbook.xlsx.writeFile(tempFilePath).then(function() {
-								res.sendFile(tempFilePath, function(err) {
-									if (err) {
-										console.log('---------- error downloading file: ', err);
-									}
-								});
-								console.log('file is written @ ' + tempFilePath);
-							})
-							.catch(function(oError) {
-								that.getView().setBusy(false);
-								var oPopover = that.getErrorMessage(oError);
-							});
+						// console.log("tempFilePath : ", tempFilePath);
+						// workbook.xlsx.writeFile(tempFilePath).then(function() {
+						// 		res.sendFile(tempFilePath, function(err) {
+						// 			if (err) {
+						// 				console.log('---------- error downloading file: ', err);
+						// 			}
+						// 		});
+						// 		console.log('file is written @ ' + tempFilePath);
+						// 	})
+						// 	.catch(function(oError) {
+						// 		that.getView().setBusy(false);
+						// 		var oPopover = that.getErrorMessage(oError);
+						// 	});
+						//nn
+						res.setHeader(
+							"Content-Type",
+							"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+						);
+						res.setHeader(
+							"Content-Disposition",
+							"attachment; filename=" + tempFilePath
+						);
+						// console.log("came");
+						return workbook.xlsx.write(res).then(function(data) {
+							console.log(data);
+							//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+							//res.end(new Buffer(data, 'base64'));
+							res.status(200).end();
+						});
 					} catch (e) {
 
 					} finally {

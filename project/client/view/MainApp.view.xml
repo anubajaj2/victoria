@@ -48,7 +48,7 @@ controllerName="victoria.controller.MainApp"
 										maxLength="0"/>
 								</form:fields>
 							</form:FormElement>
-							<!-- <form:FormElement visible="true">
+							<form:FormElement visible="true">
 								<form:label>
 									<Label text="Language"  width="100%" required="false" visible="true"/>
 								</form:label>
@@ -60,7 +60,7 @@ controllerName="victoria.controller.MainApp"
 									</Select>
 								</form:fields>
 
-							</form:FormElement> -->
+							</form:FormElement>
 							<form:FormElement visible="true">
 								<form:label>
 									<Label text="" design="Standard" width="100%" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>

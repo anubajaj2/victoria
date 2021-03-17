@@ -11,12 +11,12 @@
         class="sapUiContentPadding">
         <extension>
     			<m:Toolbar>
-    				<m:Title id="idTitle" text="Kachhi Entries"></m:Title>
+    				<m:Title id="idTitle" text="{i18n>KachhiEntries}"></m:Title>
     				<m:ToolbarSpacer/>
     				<m:Button icon="sap-icon://delete"
                       press="onDelete">
             </m:Button>
-            <m:Button id="idFullScreenBtn" icon="sap-icon://full-screen" tooltip="fullscreen" press="toggleFullScreen"></m:Button>
+            <m:Button id="idFullScreenBtn" icon="sap-icon://full-screen" tooltip="{i18n>fullscreen}" press="toggleFullScreen"></m:Button>
             <!-- <m:Button id="idExitFullScreenBtn" icon="sap-icon://exit-full-screen" tooltip="Exit fullscreen" press="toggleFullScreen"></m:Button> -->
 
     			</m:Toolbar>

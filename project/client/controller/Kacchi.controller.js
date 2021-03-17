@@ -15,6 +15,7 @@ sap.ui.define(
 
   onInit:function(){
     debugger;
+    this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
     // that = this;
     BaseController.prototype.onInit.apply(this);
     var oRouter = this.getRouter();
@@ -205,7 +206,7 @@ _onRouteMatched: function(oEvent){
                               "POST", {}, myData, this)
     .then(function(oData) {
       that.getView().setBusy(false);
-      sap.m.MessageToast.show("Data Transferred Successfully");
+      sap.m.MessageToast.show(that.resourceBundle.getText("Transferred"));
 
     }).catch(function(oError) {
       that.getView().setBusy(false);
@@ -214,7 +215,7 @@ _onRouteMatched: function(oEvent){
     this.kachhiBackup();
   }else if (color == "red"){
     MessageBox.show(
-      "Please Save the entries before Transfer", {
+      that.resourceBundle.getText("Please12"), {
         icon: MessageBox.Icon.ERROR,
         title: "Error",
         actions: [MessageBox.Action.OK],
@@ -222,7 +223,7 @@ _onRouteMatched: function(oEvent){
         });
   }else if(totalFine == "" || totalFine == 0){
     MessageBox.show(
-      "No data to transfer", {
+      that.resourceBundle.getText("Please13"), {
         icon: MessageBox.Icon.ERROR,
         title: "Error",
         actions: [MessageBox.Action.OK],
@@ -400,7 +401,7 @@ _onRouteMatched: function(oEvent){
     var recCount = that.byId("idItemsCount").getText();
     if(recCount == 0 || recCount == ""){
       MessageBox.show(
-        "There is no record found to Save", {
+        that.resourceBundle.getText("Save11"), {
           icon: MessageBox.Icon.ERROR,
           title: "Error",
           actions: [MessageBox.Action.OK],
@@ -423,7 +424,7 @@ _onRouteMatched: function(oEvent){
 
               .then(function(oData) {
                 that.getView().setBusy(false);
-                sap.m.MessageToast.show("Data Saved Successfully");
+                sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
                 //read the data which is Saved
                 debugger;
                 var id = oData.id;
@@ -458,7 +459,7 @@ _onRouteMatched: function(oEvent){
     var that = this;
     var saveStatusIconColor = this.byId("idSaveIcon").getColor();
     if(saveStatusIconColor == "red"){
-      sap.m.MessageBox.confirm("Are you sure to clear entries",{
+      sap.m.MessageBox.confirm(that.resourceBundle.getText("Are11"),{
       title: "Confirm",
       styleClass: "",
       initialFocus: null,
@@ -469,18 +470,18 @@ _onRouteMatched: function(oEvent){
             that.clearScreen();
             that.createModel();
             that.byId("idSaveIcon").setColor('green');
-            sap.m.MessageToast.show("Screen Cleared Successfully!");
+            sap.m.MessageToast.show(that.resourceBundle.getText("Screen11"));
         }else if(oAction === "Save & Clear"){
           that.onSave();
           that.clearScreen();
           that.createModel();
           that.byId("idSaveIcon").setColor('green');
-          sap.m.MessageToast.show("Data Saved! Screen Cleared Successfully !");
+          sap.m.MessageToast.show(that.resourceBundle.getText("Screen12"));
         }
       }
     });
   }else if(saveStatusIconColor == "green"){
-      sap.m.MessageBox.confirm("Are you sure to clear entries",{
+      sap.m.MessageBox.confirm(that.resourceBundle.getText("Are11"),{
       title: "Confirm",
       styleClass: "",
       initialFocus: null,
@@ -491,7 +492,7 @@ _onRouteMatched: function(oEvent){
             that.clearScreen();
             that.createModel();
             that.byId("idSaveIcon").setColor('green');
-            sap.m.MessageToast.show("Screen Cleared Successfully!");
+            sap.m.MessageToast.show(that.resourceBundle.getText("Screen11"));
           }
         }
       });
@@ -513,14 +514,14 @@ _onRouteMatched: function(oEvent){
     var recCount = that.byId("idItemsCount").getText();
     if(recCount == 0 || recCount == ""){
       MessageBox.show(
-        "There is no record found for deletion", {
+        that.resourceBundle.getText("Screen13"), {
           icon: MessageBox.Icon.ERROR,
           title: "Error",
           actions: [MessageBox.Action.OK],
           onClose: function(oAction) { }
           });
     }else{
-      sap.m.MessageBox.confirm("Are you sure to delete the selected entries",{
+      sap.m.MessageBox.confirm(that.resourceBundle.getText("Screen14"),{
       title: "Confirm",                                    // default
       styleClass: "",                                      // default
       initialFocus: null,                                  // default
@@ -548,10 +549,10 @@ _onRouteMatched: function(oEvent){
           that.onSelDelete();
   // getTotal will recalculate the Totals of Pagga, Fine, Weight and Tunch
           that.getTotals();
-          sap.m.MessageToast.show("Selected lines are deleted");
+          sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
         }else{
           MessageBox.show(
-            "Please Select entry to be deleted", {
+            that.resourceBundle.getText("Screen15"), {
               icon: MessageBox.Icon.ERROR,
               title: "Error",
               actions: [MessageBox.Action.OK],
@@ -598,7 +599,7 @@ getCustDataFromDB: function(oFilter){
         that.clearHeaderTotal();
         that.byId("idSaveIcon").setColor('green');
         that.byId("idTransferButton").setEnabled(false);
-        sap.m.MessageToast.show("No Records for selected Customer");
+        sap.m.MessageToast.show(that.resourceBundle.getText("Screen16"));
       }
     }).catch(function(oError) {
   });

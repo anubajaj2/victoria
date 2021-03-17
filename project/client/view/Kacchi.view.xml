@@ -3,7 +3,7 @@
 	xmlns="sap.m"	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
-	<semantic:FullscreenPage id="Kacchi" navButtonPress="onNavBack" showNavButton="true" title="Kacchi">
+	<semantic:FullscreenPage id="Kacchi" navButtonPress="onNavBack" tooltip="{i18n>back}" showNavButton="true" title="{i18n>Kacchi}">
 			<semantic:customHeaderContent>
 				<!-- <Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/> -->
 		</semantic:customHeaderContent>
@@ -20,11 +20,11 @@
       </semantic:content>
 
       <semantic:customFooterContent>
-				<Button text="Save" liveChange="onChange" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
-        <Button text="Transfer" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press="onTransfer"/>
+				<Button text="{i18n>Save}" liveChange="onChange" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+        <Button text="{i18n>Transfer}" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press="onTransfer"/>
 				  <!-- <Button text="Kacchi Download" width="200px" type="Emphasized" press="onPressKacchiDownload"/> -->
-				<Button text="Print" press="onPrint" id="idPrintButton" type="Emphasized"  icon="sap-icon://print"/>
-        <Button text="Clear Screen" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+				<Button text="{i18n>Print}" press="onPrint" id="idPrintButton" type="Emphasized"  icon="sap-icon://print"/>
+        <Button text="{i18n>ClearScreen}" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
       </semantic:customFooterContent>
 
 	</semantic:FullscreenPage>

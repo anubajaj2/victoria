@@ -108,7 +108,7 @@ decimalvalidator: function (oEvent) {
                             "POST", {}, myData, this)
     .then(function(oData){
       that.getView().setBusy(false);
-      sap.m.MessageToast.show("Data Saved Successfully");
+      sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
        that.onClear();
     }).catch(function(oError) {
       that.getView().setBusy(false);
@@ -176,7 +176,7 @@ decimalvalidator: function (oEvent) {
   onDelete: function(){
     var that=this;
     sap.m.MessageBox.confirm(
-"Deleting Selected Records", {
+that.resourceBundle.getText("DELETE11"), {
         title: "Confirm",
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         styleClass: "",

@@ -10,7 +10,7 @@
       id="pendingOrders"
       navButtonPress="onNavBack"
       showNavButton="true"
-      title="Stock Maintenance">
+      title="{i18n>StockMaintenance}">
     <semantic:content>
     <VBox class="sapUiSmallMargin">
   <f:Form id="idstock"
@@ -45,7 +45,7 @@
             <f:fields>
               <Input id="idMat" editable="true" submit="onSubmit" suggest="ValueChangeMaterial"
                 showSuggestion="true" suggestionItems="{/Products}" suggestionItemSelected="onMaterialSelect"
-                  placeholder="Enter Product.." visible="true" value="{SupplierName}" width="auto">
+                  placeholder="{i18n>EnterProduct}" visible="true" value="{SupplierName}" width="auto">
                   <suggestionItems>
                     <core:ListItem text="{ProductCode}" key="{Type}" additionalText="{ProductName}"/>
                   </suggestionItems>
@@ -134,7 +134,7 @@
         <content>
           <Title id="idTitle" text="{i18n>product}" level="H1"/>
           <ToolbarSpacer/>
-          <Button icon="sap-icon://delete" press="onDelete"></Button>
+          <Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"></Button>
         </content>
       </OverflowToolbar>
     </headerToolbar>

@@ -27,18 +27,19 @@ function (BaseController, JSONModel, MessageToast) {
     // },function(oError){debugger;
     //   MessageToast.show("Data could not be downloaded");
     // });
-    // },
+    },
     //
-    // onPressStockDownload: function(){
-    //   var reportType = "Stock_Report";
-    //   $.post("/stockDownload",{type: reportType}).then(function()
-    //   {
-    //     debugger;
-    //     MessageToast.show("Data downloaded successfully");
-    //   },function(oError){
-    //     debugger;
-    //     MessageToast.show("Data could not be downloaded");
-    //   });
+    onPressStockDownload: function(){
+      var reportType = "Stock_Report";
+      // $.post("/stockDownload",{type: reportType}).then(function()
+      // {
+      //   debugger;
+      //   MessageToast.show("Data downloaded successfully");
+      // },function(oError){
+      //   debugger;
+      //   MessageToast.show("Data could not be downloaded");
+      // });
+        window.open("/stockDownload?type=Stock_Report");
     },
 
     onPressEntryDownload: function() {

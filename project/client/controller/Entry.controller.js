@@ -54,6 +54,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getCustomerPopup(oEvent);
 			},
 			onEnter: function (oEvent) {
+				debugger;
 				this.getCustomer(oEvent);
 				// $(function() {
 				// 				$('input:text:first').focus();

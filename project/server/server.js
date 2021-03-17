@@ -605,8 +605,8 @@ app.start = function() {
 					// result now equals 'done'
 					//set all values to local variables which we need inside next promise
 					name = customerRecord.Name;
-					//city = cityRecord.cityName;
-					city = req.body.city;
+					city = cityRecord.cityName;
+					// city = req.body.city;
 					Ggroup = groupRecord.groupName;
 					try {
 						//read the kacchi Records
@@ -622,6 +622,9 @@ app.start = function() {
 										var excel = require('exceljs');
 										var workbook = new excel.Workbook(); //creating workbook
 										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+										sheet.columns = [
+										    { width: 11 }
+										  ];
 
 										//Heading for excel
 										var heading = {
@@ -640,15 +643,6 @@ app.start = function() {
 												argb: '808080'
 											}
 										};
-
-										//Merging second Row
-										sheet.mergeCells('A2:D2');
-										sheet.getCell('D2').value = name + ' - ' + city + ' - ' + Ggroup;
-										sheet.getCell('A2').alignment = {
-											vertical: 'middle',
-											horizontal: 'center'
-										};
-
 										//Code for getting current datetime
 										var currentdate = new Date();
 										var datetime = currentdate.getDate() + "." +
@@ -657,10 +651,22 @@ app.start = function() {
 											currentdate.getHours() + ":" +
 											currentdate.getMinutes() + ":" +
 											currentdate.getSeconds();
-										sheet.getCell('E2').value = datetime;
-										sheet.getRow(2).font === {
-											bold: true
+										// sheet.getCell('E2').value = datetime;
+										// // sheet.getCell('E1').width=50;
+										// sheet.getRow(2).font === {
+										// 	bold: true
+										// };
+										//Merging second Row
+										sheet.mergeCells('A2:E2');
+										sheet.getCell('E2').value = name + ' - ' + city + ' - ' + Ggroup +' - '+ datetime;
+										sheet.getCell('A2').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
 										};
+										sheet.getCell('A3').alignment = {
+										width:"10"
+										};
+
 
 										//Coding to remove unwanted header
 										var header = Object.keys(Records[0].__data);
@@ -840,7 +846,7 @@ app.start = function() {
 										}
 
 										//Coding to download in a folder
-										var tempFilePath = reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+										var tempFilePath = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 											currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 											currentdate.getSeconds() + '.xlsx';
 										// console.log("tempFilePath : ", tempFilePath);
@@ -887,9 +893,9 @@ app.start = function() {
 			);
 		})
 
-		app.post('/stockDownload', function(req, res) {
+		app.get('/stockDownload', function(req, res) {
 			debugger;
-			var reportType = req.body.type;
+			var reportType = req.query.type;
 			var responseData = [];
 			var oSubCounter = {};
 
@@ -1094,17 +1100,32 @@ app.start = function() {
 						}
 
 						//Coding to download in a folder
-						var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+						var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 							currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 							currentdate.getSeconds() + '.xlsx';
-						console.log("tempFilePath : ", tempFilePath);
-						workbook.xlsx.writeFile(tempFilePath).then(function() {
-							res.sendFile(tempFilePath, function(err) {
-								if (err) {
-									console.log('---------- error downloading file: ', err);
-								}
-							});
-							console.log('file is written @ ' + tempFilePath);
+						// console.log("tempFilePath : ", tempFilePath);
+						// workbook.xlsx.writeFile(tempFilePath).then(function() {
+						// 	res.sendFile(tempFilePath, function(err) {
+						// 		if (err) {
+						// 			console.log('---------- error downloading file: ', err);
+						// 		}
+						// 	});
+						// 	console.log('file is written @ ' + tempFilePath);
+						// });
+						res.setHeader(
+							"Content-Type",
+							"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+						);
+						res.setHeader(
+							"Content-Disposition",
+							"attachment; filename=" + tempFilePath
+						);
+						// console.log("came");
+						return workbook.xlsx.write(res).then(function(data) {
+							console.log(data);
+							//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+							//res.end(new Buffer(data, 'base64'));
+							res.status(200).end();
 						});
 
 					} catch (e) {

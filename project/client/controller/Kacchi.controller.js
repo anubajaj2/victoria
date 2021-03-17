@@ -646,11 +646,12 @@ this.getCustDataFromDB(oFilter);
   },
 
 
-  onEnter: function (oEvent) {debugger;
+  onEnter: function (oEvent) {
+    debugger;
     this.getCustomer(oEvent);
 
     this.getView().byId("idTotalFine").focus();
-    // this.getView().byId("idTotalFine").$().find("input").select();
+    this.getView().byId("idTotalFine").$().find("input").select();
   },
   //
   // onConfirm: function (oEvent) {debugger;

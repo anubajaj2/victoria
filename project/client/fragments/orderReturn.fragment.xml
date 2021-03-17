@@ -7,7 +7,7 @@
 				<m:content>
 					<m:Title text="{i18n>return}"></m:Title>
 					<m:ToolbarSpacer/>
-					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"/>
+					<m:Button icon="sap-icon://delete" tooltip="{i18n>Delete}" iconFirst="true" press="onDelete"/>
 				</m:content>
 			</m:Toolbar>
 		</extension>

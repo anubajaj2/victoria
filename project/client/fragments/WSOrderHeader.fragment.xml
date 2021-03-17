@@ -5,7 +5,7 @@
 				<headerToolbar>
 					<Toolbar id="TB1">
 						<ToolbarSpacer/>
-						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="{i18n>SaveStatus}"/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status"  tooltip="{i18n>SaveStatus}"/>
 					</Toolbar>
 				</headerToolbar>
 				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
@@ -123,7 +123,7 @@
 						<Panel id="totals" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
 							<headerToolbar>
 								<Toolbar height="3rem">
-									<Title text="Total"/>
+									<Title text="{i18n>Total}"/>
 									<RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
 										<buttons>
 											<RadioButton id="RB-4" text="{i18n>Original}" selected="true" enabled="true" editable="true"/>

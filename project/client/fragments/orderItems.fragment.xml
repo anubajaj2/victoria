@@ -7,11 +7,11 @@
 					<m:Title text="{i18n>orderItems}"></m:Title>
 					<m:ToolbarSpacer/>
 					<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
-					tooltip="fullscreen"
+					tooltip="{i18n>fullscreen}"
 					iconFirst="true" press="toggleFullScreen"></m:Button>
-					<m:Button icon="sap-icon://detail-view" iconFirst="true" press="onFindMaterial" tooltip="Stock items"></m:Button>
-					<m:Button icon="sap-icon://user-settings" iconFirst="true" press="onSetting" tooltip="Toggle Column Visibility"></m:Button>
-					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete"></m:Button>
+					<m:Button icon="sap-icon://detail-view" iconFirst="true" press="onFindMaterial" tooltip="{i18n>StockItems}"></m:Button>
+					<m:Button icon="sap-icon://user-settings" iconFirst="true" press="onSetting" tooltip="{i18n>ToggleColumnVisibility}"></m:Button>
+					<m:Button icon="sap-icon://delete" iconFirst="true" press="onDelete" tooltip="{i18n>Delete}"></m:Button>
 				</m:content>
 			</m:Toolbar>
 		</extension>

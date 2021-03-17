@@ -170,7 +170,8 @@ that2.onDropDownSelect();
 				var selectedlaunguage = this.getView().byId("languageSelect").getSelectedKey();
 				if (selectedlaunguage === 'Hi') {
 					sap.ui.getCore().getConfiguration().setLanguage('Hi');
-window.navigator.browserLanguage="?sap-ui-language=hi";
+					// window.location.hash="sap-ui-language=hi";
+					window.navigator.browserLanguage="?sap-ui-language=hi";
 					// window.location.search = "?sap-ui-language=hi";
 					window.navigator.language="?sap-ui-language=hi";
 

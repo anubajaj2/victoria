@@ -4,12 +4,12 @@
     xmlns:f="sap.ui.layout.form">
 	<App>
 		<pages>
-			<Page title="Daybook">
+			<Page title="{ii8n>Daybook}">
 				<content>
 
 					<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="Entrys" search="onFilterSearch">
 						<smartFilterBar:controlConfiguration>
-						<smartFilterBar:ControlConfiguration key="Date" index="2" label="Start Date" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
+						<smartFilterBar:ControlConfiguration key="Date" index="2" label="{i18n>Date}" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
 								<smartFilterBar:customControl>
 									<DateRangeSelection id="dateRangeId"  change="onPayDateChange" />
 									<!-- <DatePicker id="DateId1" valueFormat="yyyy-MM-dd" required="false" change="onPayDateChange"
@@ -27,9 +27,9 @@
 								</smartFilterBar:customControl>
 							</smartFilterBar:ControlConfiguration> -->
 
-							<smartFilterBar:ControlConfiguration key="idCustDay" index="1" label="Customer" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
+							<smartFilterBar:ControlConfiguration key="idCustDay" index="1" label="{i18n>Customer}" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
 								<smartFilterBar:customControl>
-									    <Input id="idCustDay" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" 
+									    <Input id="idCustDay" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest"
                                   suggestionItemSelected="onCustomerSelect"
                                   submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
 										<suggestionItems>
@@ -57,7 +57,7 @@
 							  <Title id="idTitle" text="{i18n>allEntries}"></Title>
 								<ToolbarSpacer/>
  <!-- enabled="true" -->
-								<Button id = "idEntryDownload1" icon="sap-icon://download" press = "onPressEntryDownload"/>
+								<Button id = "idEntryDownload1" icon="sap-icon://download" press = "onPressEntryDownload" tooltip="{i18n>download}"/>
 
 							</OverflowToolbar>
 						</smartTable:customToolbar>
@@ -96,20 +96,20 @@
       <Column>
         <Label id="cash" text="{i18n>amount}" ></Label>
 			<footer>
-			 <ObjectStatus id="idTC1" text="TA:" state="None" />
+			 <ObjectStatus id="idTC1" text="{i18n>TA}:" state="None" />
 			</footer>
 			<!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
       </Column>
       <Column>
         <Label text="{i18n>Gold}"></Label>
 					<footer>
-					<ObjectStatus text="Total Gold:" id="idG1" state="None" />
+					<ObjectStatus text="{i18n>TotalGold}:" id="idG1" state="None" />
 					</footer>
       </Column>
         <Column>
           <Label text="{i18n>Silver}"></Label>
 					<footer>
-						<ObjectStatus text="Total Silver:" id="idS1"  state="None" />
+						<ObjectStatus text="{i18n>TotalSilver}:" id="idS1"  state="None" />
 					</footer>
         </Column>
         <Column>

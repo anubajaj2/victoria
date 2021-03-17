@@ -18,11 +18,11 @@
 					<Button
 						class="sapUiTinyMarginBottom"
 						icon="sap-icon://navigation-right-arrow"
-						tooltip="Move to selected"
+						tooltip="{i18n>Movetoselected}"
 						press="onRightArrowPress"/>
 					<Button
 						icon="sap-icon://navigation-left-arrow"
-						tooltip="Move to available"
+						tooltip="{i18n>Movetoavailable}"
 						press="onLeftArrowPress"/>
 				</VBox>
 				<core:Fragment fragmentName="victoria.fragments.BookingDlvTable" type="XML"></core:Fragment>

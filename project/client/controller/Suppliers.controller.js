@@ -28,7 +28,7 @@ sap.ui.define([
 			// Model used to manipulate control states. The chosen values make sure,
 			// detail page is busy indication immediately so there is no break in
 			// between the busy indication for loading the view's meta data
-
+this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iOriginalBusyDelay,
 				oViewModel = new JSONModel({
 					busy: true,
@@ -437,7 +437,7 @@ sap.ui.define([
 			var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
 			var oSelectedItem = aSelectedItems[0];
 			if (!oSelectedItem) {
-				sap.m.MessageToast.show("Please select a row!");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Please11"));
 				that.getView().setBusy(false);
 				return;
 			}
@@ -468,7 +468,7 @@ sap.ui.define([
 			var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
 			var oSelectedItem = aSelectedItems[0];
 			if (!oSelectedItem) {
-				sap.m.MessageToast.show("Please select a row!");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Please11"));
 				that.getView().setBusy(false);
 				return;
 			}
@@ -536,7 +536,7 @@ sap.ui.define([
 			// }else{
 			debugger;
 			if (parseInt(dlvQnty) > parseInt(qnty)) {
-				sap.m.MessageToast.show("Delivery Quantity Should not be more than Ordered Quantity");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Delivery11"));
 			} else {
 				var oSelected = this.getView().byId("idTable").getSelectedItem();
 
@@ -601,7 +601,7 @@ sap.ui.define([
 					"PUT", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery12"));
 
 					var myData2 = that.getView().getModel("local").getProperty("/BookingDetail");
 					// var id = that.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
@@ -661,7 +661,7 @@ sap.ui.define([
 					"POST", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery12"));
 
 					var myData2 = that.getView().getModel("local").getProperty("/BookingDetail");
 					// var id = that.getView().byId("idTable").getSelectedItem().mAggregations.cells[1].mBindingInfos.text.binding.oContext.sPath.split("'")[1]; //myData.Customer;
@@ -744,7 +744,7 @@ sap.ui.define([
 			// }else{
 			debugger;
 			if (parseInt(dlvQnty) > parseInt(qnty)) {
-				sap.m.MessageToast.show("Returned Delivery Quantity Should not be more than Delivery Quantity");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Delivery13"));
 			} else {
 
 				var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
@@ -803,7 +803,7 @@ sap.ui.define([
 					"PUT", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery14"));
 
 					var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
 
@@ -860,7 +860,7 @@ sap.ui.define([
 					"POST", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Returned Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery14"));
 
 					var myData2 = that.getView().getModel("local").getProperty("/BookingDlvDetail");
 
@@ -924,7 +924,7 @@ sap.ui.define([
 					"PUT", {}, myData, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Data updated Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
 					that.oEditDialog.close();
 
 				}).catch(function(oError) {
@@ -953,7 +953,7 @@ sap.ui.define([
 					"PUT", {}, myData, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Data updated Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
 					that.oEditDialog.close();
 
 				}).catch(function(oError) {
@@ -989,7 +989,7 @@ sap.ui.define([
 								}
 
 							}
-							sap.m.MessageToast.show("Selected records are deleted");
+							sap.m.MessageToast.show(that.resourceBundle.getText("SelectedData1"));
 						}
 					}
 				}
@@ -1001,7 +1001,7 @@ sap.ui.define([
 			var that = this;
 			// debugger;
 			sap.m.MessageBox.confirm(
-				"Deleting Selected Records", {
+				that.resourceBundle.getText("DELETE11"), {
 					title: "Confirm",
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
@@ -1018,7 +1018,7 @@ sap.ui.define([
 								}
 
 							}
-							sap.m.MessageToast.show("Selected records are deleted");
+							sap.m.MessageToast.show(that.resourceBundle.getText("SelectedData1"));
 						}
 					}
 				}
@@ -1063,14 +1063,14 @@ sap.ui.define([
 
 			if (myData.Customer === "" || myData.BookingDate === "" || myData.Quantity === "" ||
 				myData.Bhav === "" || myData.Type === "") {
-				sap.m.MessageToast.show("Please fill all fields");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Fill11"));
 				that.getView().setBusy(false);
 			} else {
 				if (myData.Type === "Silver" && (myData.Bhav < "25000" || myData.Bhav > "90000")) {
-					sap.m.MessageToast.show("Please enter Silver price between 25000 to 90000");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Fill12"));
 					that.getView().setBusy(false);
 				} else if (myData.Type === "Gold" && (myData.Bhav < "25000" || myData.Bhav > "70000")) {
-					sap.m.MessageToast.show("Please enter Gold price between 25000 to 70000");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Fill13"));
 					that.getView().setBusy(false);
 				} else {
 
@@ -1078,7 +1078,7 @@ sap.ui.define([
 							"POST", {}, myData, this)
 						.then(function(oData) {
 							that.getView().setBusy(false);
-							sap.m.MessageToast.show("Data Saved Successfully");
+							sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
 							if (!that.getView().byId("idBCkBx").getSelected()) {
 								that.onClear();
 							} else {
@@ -1130,7 +1130,7 @@ sap.ui.define([
 				var oNum = this.getView().byId("idTable").getSelectedItems().length;
 				if (oNum > 1) {
 					sap.m.MessageBox.alert(
-						"Select one entry only");
+						that.resourceBundle.getText("Selectoneentryonly"));
 				} else {
 					this._getDialog(title);
 				}
@@ -1138,7 +1138,7 @@ sap.ui.define([
 				var oNum = this.getView().byId("idBookingDlvTable").getSelectedItems().length;
 				if (oNum > 1) {
 					sap.m.MessageBox.alert(
-						"Select one entry only");
+						that.resourceBundle.getText("Selectoneentryonly"));
 				} else {
 					this._getDialog(title);
 				}
@@ -1151,7 +1151,7 @@ sap.ui.define([
 			var oNum = this.getView().byId("idBookingDlvTable").getSelectedItems().length;
 			if (oNum > 1) {
 				sap.m.MessageBox.alert(
-					"Select one entry only");
+					that.resourceBundle.getText("Selectoneentryonly"));
 			} else {
 				this._getDialogDlv();
 			}
@@ -1161,7 +1161,7 @@ sap.ui.define([
 			var oEvent = this.getView().byId("idTable").getSelectedItems().length;
 			if (oEvent > 1) {
 				sap.m.MessageBox.alert(
-					"Select one entry only");
+					that.resourceBundle.getText("Selectoneentryonly"));
 			} else {
 				this._getDialogMove();
 			}
@@ -1309,7 +1309,7 @@ sap.ui.define([
 			// var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
 			// var oSelectedItem = aSelectedItems[0];
 			if (!oDraggedItemContext) {
-				sap.m.MessageToast.show("Please select a row!");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Please11"));
 				that.getView().setBusy(false);
 				return;
 			}
@@ -1373,7 +1373,7 @@ sap.ui.define([
 					"PUT", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery12"));
 
 					var x = oDraggedItem;
 					// that.getView().byId("idTable").getSelectedItems();
@@ -1410,7 +1410,7 @@ sap.ui.define([
 					"POST", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity Confirmed Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery12"));
 
 					var x = oDraggedItem;
 					// that.getView().byId("idTable").getSelectedItems();
@@ -1437,7 +1437,7 @@ sap.ui.define([
 			// var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idBookingDlvTable").getSelectedItems();
 			// var oSelectedItem = aSelectedItems[0];
 			if (!oDraggedItemContext) {
-				sap.m.MessageToast.show("Please select a row!");
+				sap.m.MessageToast.show(that.resourceBundle.getText("Please11"));
 				that.getView().setBusy(false);
 				return;
 			}
@@ -1493,7 +1493,7 @@ sap.ui.define([
 					"POST", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity returned Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery14"));
 
 					var x = oDraggedItem;
 					// that.getView().byId("idBookingDlvTable").getSelectedItems();
@@ -1528,7 +1528,7 @@ sap.ui.define([
 					"PUT", {}, myData1, this)
 				.then(function(oData) {
 					that.getView().setBusy(false);
-					sap.m.MessageToast.show("Delivery Quantity returned Successfully");
+					sap.m.MessageToast.show(that.resourceBundle.getText("Delivery14"));
 
 					var x = oDraggedItem;
 					// that.getView().byId("idBookingDlvTable").getSelectedItems();

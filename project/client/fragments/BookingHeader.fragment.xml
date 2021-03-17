@@ -78,12 +78,12 @@
 							</f:FormElement>
 							<f:FormElement label=" ">
 								<f:fields>
-									<m:Button text="Send" press="onSend" id="sendButton">
+									<m:Button text="{i18n>Send}" press="onSend" id="sendButton">
 										<m:layoutData>
 											<l:GridData span="XL5 L5 M5 S8"/>
 										</m:layoutData>
 									</m:Button>
-									<m:Button text="Booking Report" icon="sap-icon://download" press="onBookingReportDownload" type="Ghost"/>
+									<m:Button text="{i18n>BookingReport}" icon="sap-icon://download" press="onBookingReportDownload" type="Ghost"/>
 								</f:fields>
 								<!-- <f:fields>
 						<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
@@ -104,25 +104,25 @@
 						<f:formElements>
 							<f:FormElement>
 								<f:fields>
-									<m:Label text="Booked Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:Label text="{i18n>BookedItemTotalQty}" class="sapUiSmallMarginTop" textAlign="End"/>
 									<m:ObjectStatus id="idBTQ" text="" state="None"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement>
 								<f:fields>
-									<m:Label text="Booked Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:Label text="{i18n>BookedItemAvgPrice}" class="sapUiSmallMarginTop" textAlign="End"/>
 									<m:ObjectStatus id="idBAP" text="" state="None"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement>
 								<f:fields>
-									<m:Label text="Delivered Item Total Qty" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:Label text="{i18n>DeliveredItemTotalQty}" class="sapUiSmallMarginTop" textAlign="End"/>
 									<m:ObjectStatus id="idDTQ" text="" state="None"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement>
 								<f:fields>
-									<m:Label text="Delivered Item Avg Price" class="sapUiSmallMarginTop" textAlign="End"/>
+									<m:Label text="{i18n>DeliveredItemAvgPrice}" class="sapUiSmallMarginTop" textAlign="End"/>
 									<m:ObjectStatus id="idDAP" text="" state="None" textAlign="End"/>
 								</f:fields>
 							</f:FormElement>

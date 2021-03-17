@@ -24,8 +24,8 @@
 	      <Toolbar>
 	        <Title id="idTitle" text="{i18n>bookingDetails}"></Title>
 	        <ToolbarSpacer/>
-	        <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
-	        <Button icon="sap-icon://delete" press="onDelete"></Button>
+	        <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+	        <Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
 			<dragDropConfig>
@@ -142,8 +142,8 @@
 	      <Toolbar>
 	        <Title id="idBookingDlvTitle" text="{i18n>bookingDlvDetails}"></Title>
 	        <ToolbarSpacer/>
-	        <Button id="idDlvtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
-	        <Button icon="sap-icon://delete" press="onBookingDlvDelete"></Button>
+	        <Button id="idDlvtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+	        <Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onBookingDlvDelete"></Button>
 	      </Toolbar>
 	    </headerToolbar>
 

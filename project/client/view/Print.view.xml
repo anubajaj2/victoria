@@ -4,7 +4,7 @@
 	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="Print"
-		navButtonPress="onNavBack" showNavButton="true" title="Print">
+		navButtonPress="onNavBack" showNavButton="true" tooltip="{i18n>back}" title="{i18n>Print}">
 	<semantic:content id="idPrintContent">
 		<core:Fragment fragmentName="victoria.fragments.print" type="XML">
 		</core:Fragment>

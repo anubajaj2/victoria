@@ -34,7 +34,7 @@ sap.ui.define([
 				var oFileUploader = this.byId("fileUploader");
 				this.byId("fileUploader").setAdditionalData(uploadTypeValue);
 				if (!oFileUploader.getValue()) {
-					MessageToast.show("Choose a file first");
+					MessageToast.show(that.resourceBundle.getText("Choose11"));
 					return;
 				}
 
@@ -50,10 +50,10 @@ sap.ui.define([
 					type: uploadTypeValue
 				}).then(function (oData) {
 					debugger;
-					MessageToast.show("Data downloaded successfully");
+					MessageToast.show(that.resourceBundle.getText("downloaded11"));
 				}, function (oError) {
 					debugger;
-					MessageToast.show("Data could not be downloaded");
+					MessageToast.show(that.resourceBundle.getText("downloaded12"));
 				});
 			},
 			handleUploadComplete: function (oEvent) {
@@ -65,12 +65,13 @@ sap.ui.define([
 					if (JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).error_code !== 0) {
 						sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).err_desc;
 					} else {
-						sMsg = "Uploaded Successfully";
+						sMsg = that.resourceBundle.getText("UploadedSuccessfully");
 					}
 					MessageToast.show(sMsg);
 				}
 			},
 			onInit: function () {
+				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				var oViewModel1 = new JSONModel({
 					"First": "",
 					"Second": "",
@@ -111,7 +112,7 @@ sap.ui.define([
 							var myData = that.getView().getModel("local").getProperty("/CustomCalculation");
 						}
 					}).catch(function (oError) {
-						MessageToast.show("cannot fetch the data");
+						MessageToast.show(that.resourceBundle.getText("Fetch11"));
 					});
 			},
 
@@ -208,7 +209,7 @@ sap.ui.define([
 								"/CustomCalculations('" + myData.id + "')", "PUT", {}, myData, this)
 							.then(function (oData) {
 								that.getView().setBusy(false);
-								MessageToast.show("Data saved successfully");
+								MessageToast.show(that.resourceBundle.getText("Data"));
 								that._onRouteMatched();
 								that.byId("idSaveIcon").setColor('green');
 								// that._onRouteMatched();
@@ -221,7 +222,7 @@ sap.ui.define([
 								"/CustomCalculations", "POST", {}, myData, this)
 							.then(function (oData) {
 								that.getView().setBusy(false);
-								MessageToast.show("Data saved successfully");
+								MessageToast.show(that.resourceBundle.getText("dataSave"));
 								that._onRouteMatched();
 								that.byId("idSaveIcon").setColor('green');
 								// that._onRouteMatched();

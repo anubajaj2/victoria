@@ -3,7 +3,7 @@
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="Customzing"
-		navButtonPress="onNavBack" showNavButton="true" title="Customizing">
+		navButtonPress="onNavBack" showNavButton="true" tooltip="{i18n>back}" title="{i18n>Customizing}">
 
 <!-- value="Data Upload Type" -->
 		<semantic:content id="test11">
@@ -16,16 +16,16 @@
 					<core:Item key="Entry" text="Entry" />
 				</ComboBox>
 
-				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete">
+				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="{i18n>Upload11}" uploadComplete="handleUploadComplete">
 					<u:parameters>
 						<u:FileUploaderParameter name="createdBy"/>
 					</u:parameters>
 				</u:FileUploader>
 
-				<Button text="Upload File" press="handleUploadPress"/>
+				<Button text="{i18n>UploadFile}" press="handleUploadPress"/>
 
 				<f:Form id="idCalculation" editable="true" validateFieldGroup="onValidateFieldGroup"
-					title="Retail Calculation Customizing">
+					title="{i18n>Retail11}">
 					<f:toolbar>
 						<Toolbar id="TB1">
 							<ToolbarSpacer />
@@ -34,7 +34,7 @@
 											src="sap-icon://status-completed"
 											class="size1"
 											color="green"
-											size="30px" alt="Save Status" tooltip="Save Status">
+											size="30px" alt="Save Status" tooltip="{i18n>SaveStatus}">
 								</core:Icon>
 							</Toolbar>
 						</f:toolbar>
@@ -69,7 +69,7 @@
 							</Input>
 					</f:fields>
 				</f:FormElement>
-				<f:FormElement label="Gold">
+				<f:FormElement label="{i18n>Gold}">
 					<f:fields>
 						<Input id="idGold" liveChange="onliveChange" value="{
 							path : 'local>/CustomCalculation/Gold',
@@ -82,7 +82,7 @@
 						</Input>
 				</f:fields>
 			</f:FormElement>
-			<f:FormElement label="Silver">
+			<f:FormElement label="{i18n>Silver}">
 				<f:fields>
 					<Input id="idSilver" liveChange="onliveChange" value="{
 							path : 'local>/CustomCalculation/Silver',
@@ -102,7 +102,7 @@
 		</f:FormContainer>
 		<f:FormContainer>
 		<f:formElements>
-		<f:FormElement label="Gold Returns">
+		<f:FormElement label="{i18n>GoldReturns}">
 			<f:fields>
 				<Input id="idGoldR" liveChange="onliveChange" value="{
 					path : 'local>/CustomCalculation/GoldReturns',
@@ -115,7 +115,7 @@
 				</Input>
 			</f:fields>
 		</f:FormElement>
-		<f:FormElement label="Silver Returns">
+		<f:FormElement label="{i18n>SilverReturns}">
 			<f:fields>
 				<Input id="idSilverR" liveChange="onliveChange" value="{
 					path : 'local>/CustomCalculation/SilverReturns',
@@ -136,7 +136,7 @@
 </f:Form>
 
 <f:Form id="idWholesale" editable="true"
-	title="Wholesale Calculation Customizing">
+	title="{i18n>WholesaleCalculationCustomizing}">
 	<f:layout>
 		<f:ResponsiveGridLayout
 			 labelSpanXL="2"
@@ -156,7 +156,7 @@
 	<f:formContainers>
 	<f:FormContainer>
 	<f:formElements>
-	<f:FormElement label="Gold">
+	<f:FormElement label="{i18n>Gold}">
 		<f:fields>
 			<Input id="idGold1" liveChange="onliveChange" value="{
 					path : 'local>/CustomCalculation/Gold1',
@@ -169,7 +169,7 @@
 			</Input>
 		</f:fields>
 	</f:FormElement>
-	<f:FormElement label="Silver">
+	<f:FormElement label="{i18n>Silver}">
 		<f:fields>
 			<Input id="idSilver1" liveChange="onliveChange" value="{
 					path : 'local>/CustomCalculation/Silver1',
@@ -182,7 +182,7 @@
 			</Input>
 	</f:fields>
 </f:FormElement>
-<f:FormElement label="Kaccha Gold">
+<f:FormElement label="{i18n>KacchaGold}">
 	<f:fields>
 		<Input id="idKacchaGold" liveChange="onliveChange" value="{
 				path : 'local>/CustomCalculation/KacchaGold',
@@ -195,7 +195,7 @@
 		</Input>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Kaccha Silver">
+<f:FormElement label="{i18n>KacchaSilver}">
 <f:fields>
 	<Input id="idKacchaSilver" liveChange="onliveChange" value="{
 			path : 'local>/CustomCalculation/KacchaSilver',
@@ -215,7 +215,7 @@
 </f:FormContainer>
 <f:FormContainer>
 <f:formElements>
-<f:FormElement label="Gold Returns">
+<f:FormElement label="{i18n>GoldReturns}">
 <f:fields>
 <Input id="idGoldR1" liveChange="onliveChange" value="{
 		path : 'local>/CustomCalculation/GoldReturns1',
@@ -228,7 +228,7 @@
 </Input>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Silver Returns">
+<f:FormElement label="{i18n>SilverReturns}">
 <f:fields>
 <Input id="idSilverR1" liveChange="onliveChange" value="{
 		path : 'local>/CustomCalculation/SilverReturns1',
@@ -241,7 +241,7 @@
 </Input>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Kaccha Gold R">
+<f:FormElement label="{i18n>KacchaGoldR}">
 <f:fields>
 <Input id="idKacchaGoldR" liveChange="onliveChange" value="{
 		path : 'local>/CustomCalculation/KacchaGoldR',
@@ -254,7 +254,7 @@
 </Input>
 </f:fields>
 </f:FormElement>
-<f:FormElement label="Kaccha Silver R">
+<f:FormElement label="{i18n>KacchaSilverR}">
 <f:fields>
 <Input id="idKacchaSilverR" liveChange="onliveChange" value="{
 		path : 'local>/CustomCalculation/KacchaSilverR',
@@ -278,8 +278,8 @@
 </VBox>
 		</semantic:content>
 		<semantic:customFooterContent>
-				<Button text="Save" type="Accept" press="SaveCalculation"/>
-				<Button text="Cancel" type="Reject" press="ClearCalculation"/>
+				<Button text="{i18n>Save}" type="Accept" press="SaveCalculation"/>
+				<Button text="{i18n>Cancel}" type="Reject" press="ClearCalculation"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 

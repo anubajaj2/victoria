@@ -6,7 +6,7 @@ xmlns:semantic="sap.m.semantic"
 xmlns:core ="sap.ui.core">
 <HBox>
 <VBox class="sapUiSmallMargin">
-<Panel expandable="true" expanded="false" headerText="Retail Print Customizing" class="sapUiResponsiveMargin">
+<Panel expandable="true" expanded="false" headerText="{i18n>RetailPrintCustomizing}" class="sapUiResponsiveMargin">
 <f:Form id=""
 	editable="true">
 <f:layout>
@@ -22,14 +22,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Company Name" width="20%"/>
+						<Text text="{i18n>CompanyName}" width="20%"/>
 						<Switch id="idRCompName" state="true" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Less Quantity" width="20%"/>
+            <Text text="{i18n>LessQuantity}" width="20%"/>
 						<Switch state="true" id="idRLessQuantity" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -37,7 +37,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Footer" width="20%"/>
+						<Text text="{i18n>Footer}" width="20%"/>
 						<Switch state="true" id="idRFooter" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -50,14 +50,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Address" width="20%"/>
+						<Text text="{i18n>Address}" width="20%"/>
 						<Switch state="true" id="idRAddress" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Sub Total" width="20%"/>
+            <Text text="{i18n>SubTotal}" width="20%"/>
 						<Switch state="true" id="idRSubTotal" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -65,7 +65,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Return Bhav" width="20%"/>
+						<Text text="{i18n>ReturnBhav}" width="20%"/>
 						<Switch state="true" id="idRReturnBhav" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -78,14 +78,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Phone Number" width="20%"/>
+						<Text text="{i18n>PhoneNumber}" width="20%"/>
 						<Switch state="true" id="idRPhoneNumber" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Making Charge" width="20%"/>
+            <Text text="{i18n>MakingCharge}" width="20%"/>
 						<Switch state="true" id="idRMakingCharge" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -93,7 +93,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Return Weight" width="20%"/>
+						<Text text="{i18n>ReturnWeight}" width="20%"/>
 						<Switch state="true" id="idRReturnWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -106,14 +106,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Weight" width="20%"/>
+						<Text text="{i18n>Weight}" width="20%"/>
 						<Switch state="true" id="idRWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Bhav" width="20%"/>
+            <Text text="{i18n>Bhav}" width="20%"/>
 						<Switch state="true" id="idRBhav" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -121,7 +121,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Fine Total" width="20%"/>
+						<Text text="{i18n>FineTotal}" width="20%"/>
 						<Switch state="true" id="idRFineTotal" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -134,15 +134,15 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Quantity" width="20%"/>
+						<Text text="{i18n>Quantity}" width="20%"/>
 						<Switch state="true" id="idRQuantity" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Making
-							Type" width="20%"/>
+            <Text text="{i18n>MakingType}"
+							 width="20%"/>
 						<Switch state="true" id="idRMaking" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -150,7 +150,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Less Weight" width="20%"/>
+						<Text text="{i18n>LessWeight}" width="20%"/>
 						<Switch state="true" id="idRLessWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -164,14 +164,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="TnC" width="20%"/>
+						<Text text="{i18n>TnC}" width="20%"/>
 						<Switch state="true" id="idRTnC" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="GSTN" width="20%"/>
+            <Text text="{i18n>GSTN}" width="20%"/>
 						<Switch state="true" id="idRGSTN" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -179,7 +179,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Marking" width="20%"/>
+						<Text text="{i18n>Marking}" width="20%"/>
 						<Switch state="true" id="idRMarking" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -193,14 +193,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="WeightD" width="20%"/>
+						<Text text="{i18n>WeightD}" width="20%"/>
 						<Switch state="true" id="idRWeightD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="QuantityD" width="20%"/>
+						<Text text="{i18n>QuantityD}" width="20%"/>
 						<Switch state="true" id="idRQuantityD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -208,7 +208,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="MakingD" width="20%"/>
+						<Text text="{i18n>MakingD}" width="20%"/>
 						<Switch state="true" id="idRMakingChargeD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -221,21 +221,21 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Remarks" width="20%"/>
+						<Text text="{i18n>Remarks}" width="20%"/>
 						<Switch state="true" id="idRRemarks" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Return Remarks" width="20%"/>
+						<Text text="{i18n>ReturnRemarks}" width="20%"/>
 						<Switch state="true" id="idRReturnRemarks" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Katta Weight" width="20%"/>
+						<Text text="{i18n>KattaWeight}" width="20%"/>
 						<Switch state="true" id="idRReturnKattaWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -247,14 +247,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Return Tunch" width="20%"/>
+						<Text text="{i18n>ReturnTunch}" width="20%"/>
 						<Switch state="true" id="idRReturnTunch" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="RetSubTotal" width="20%"/>
+						<Text text="{i18n>RetSubTotal}" width="20%"/>
 						<Switch state="true" id="idRReturnSubTotal" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -268,7 +268,7 @@ xmlns:core ="sap.ui.core">
 </f:formContainers>
 </f:Form>
 </Panel>
-<Panel expandable="true" expanded="false" headerText="WholeSale Print Customizing" class="sapUiResponsiveMargin">
+<Panel expandable="true" expanded="false" headerText="{i18n>WholeSalePrintCustomizing}" class="sapUiResponsiveMargin">
 <f:Form id="idKacchiHead1"
 	editable="true">
 <f:layout>
@@ -284,14 +284,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Company Name" width="20%"/>
+						<Text text="{i18n>CompanyName}" width="20%"/>
 						<Switch state="true" id="idWCompName" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Less Quantity" width="20%"/>
+            <Text text="{i18n>LessQuantity}" width="20%"/>
 						<Switch state="true" id="idWLessQuantity" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -299,7 +299,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Footer" width="20%"/>
+						<Text text="{i18n>Footer}" width="20%"/>
 						<Switch state="true" id="idWFooter" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -312,14 +312,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Address" width="20%"/>
+						<Text text="{i18n>Address}" width="20%"/>
 						<Switch state="true" id="idWAddress" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Sub Total" width="20%"/>
+            <Text text="{i18n>SubTotal}" width="20%"/>
 						<Switch state="true" id="idWSubTotal" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -327,7 +327,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Return Bhav" width="20%"/>
+						<Text text="{i18n>ReturnBhav}" width="20%"/>
 						<Switch state="true" id="idWReturnBhav" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -340,14 +340,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Phone Number" width="20%"/>
+						<Text text="{i18n>PhoneNumber}" width="20%"/>
 						<Switch state="true" id="idWPhoneNumber" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Making Charge" width="20%"/>
+            <Text text="{i18n>MakingCharge}" width="20%"/>
 						<Switch state="true" id="idWMakingCharge" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -355,7 +355,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Return Weight" width="20%"/>
+						<Text text="{i18n>ReturnWeight}" width="20%"/>
 						<Switch state="true" id="idWReturnWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -368,14 +368,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Weight" width="20%"/>
+						<Text text="{i18n>Weight}" width="20%"/>
 						<Switch state="true" id="idWWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Bhav" width="20%"/>
+            <Text text="{i18n>Bhav}" width="20%"/>
 						<Switch state="true" id="idWBhav" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -383,7 +383,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Fine Total" width="20%"/>
+						<Text text="{i18n>FineTotal}" width="20%"/>
 						<Switch state="true" id="idWFineTotal" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -396,14 +396,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Quantity" width="20%"/>
+						<Text text="{i18n>Quantity}" width="20%"/>
 						<Switch state="true" id="idWQuantity" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Making" width="20%"/>
+            <Text text="{i18n>Making}" width="20%"/>
 						<Switch state="true" id="idWMaking" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -411,7 +411,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Less Weight" width="20%"/>
+						<Text text="{i18n>LessWeight}" width="20%"/>
 						<Switch state="true" id="idWLessWeight" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -426,14 +426,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="WeightD" width="20%"/>
+						<Text text="{i18n>WeightD}" width="20%"/>
 						<Switch state="true" id="idWWeightD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="QuantityD" width="20%"/>
+						<Text text="{i18n>QuantityD}" width="20%"/>
 						<Switch state="true" id="idWQuantityD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -441,7 +441,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="MakingD" width="20%"/>
+						<Text text="{i18n>MakingD}" width="20%"/>
 						<Switch state="true" id="idWMakingChargeD" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -455,14 +455,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Sub Gold Total" width="20%"/>
+						<Text text="{i18n>SubGoldTotal}" width="20%"/>
 						<Switch state="true" id="idWSubTotalG" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="Sub Silver Total" width="20%"/>
+            <Text text="{i18n>SubSilverTotal}" width="20%"/>
 						<Switch state="true" id="idWSubTotalS" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -470,7 +470,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Tunch" width="20%"/>
+						<Text text="{i18n>Tunch}" width="20%"/>
 						<Switch state="true" id="idWTunch" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -484,14 +484,14 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="TnC" width="20%"/>
+						<Text text="{i18n>TnC}" width="20%"/>
 						<Switch state="true" id="idWTnC" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
 							</layoutData>
 						</Switch>
 						<Text/>
-            <Text text="GSTN Number" width="20%"/>
+            <Text text="{i18n>GSTN}" width="20%"/>
 						<Switch state="true" id="idWGSTN" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -499,7 +499,7 @@ xmlns:core ="sap.ui.core">
 							</layoutData>
 						</Switch>
 						<Text/>
-						<Text text="Marking" width="20%"/>
+						<Text text="{i18n>Marking}" width="20%"/>
 						<Switch state="true" id="idWMarking" change="onSubmit" name="switch">
 							<layoutData>
 								<FlexItemData growFactor="1" />
@@ -513,7 +513,7 @@ xmlns:core ="sap.ui.core">
 			<f:formElements>
 				<f:FormElement>
 					<f:fields>
-						<Text text="Estimate"/>
+						<Text text="{i18n>Estimate}"/>
 							<Switch state="true" id="idWEstimate" change="onSubmit" name="switch">
 								<layoutData>
 									<FlexItemData growFactor="1" />

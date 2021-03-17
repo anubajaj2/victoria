@@ -1668,7 +1668,7 @@ app.start = function() {
 						};
 
 						//Coding to download in a folder
-						var tempFilePath = reportType + '_' + custId + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+						var tempFilePath = reportType + '_' + custName + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 							currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 							currentdate.getSeconds() + '.xlsx';
 						// console.log("tempFilePath : ", tempFilePath);
@@ -3453,8 +3453,9 @@ app.start = function() {
 			var productIds = new Set();
 			var items = [];
 			var items2 = [];
-			var d = new Date();
-			d.setUTCHours(0, 0, 0, 0);
+			debugger;
+			var d =new Date(req.query.date);
+			d.setUTCHours(0,0,0,0,0);
 			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
 			await collection.aggregate([{
 				$match: {
@@ -5471,9 +5472,9 @@ app.start = function() {
 			);
 		});
 
-		app.post('/groupWiseEntryDownload', function(req, res) {
+		app.get('/groupWiseEntryDownload', function(req, res) {
 			debugger;
-			var reportType = req.body.type;
+			var reportType = req.query.type;
 
 			var async = require('async');
 			// fetch all the entries
@@ -5724,9 +5725,9 @@ app.start = function() {
 									var totalCash = 0;
 									var totalGold = 0;
 									// Looping through the records
-									for (var l = 0; l < groupRecords["length"]; l++) {
-										var items = groupRecords[l];
-										var item = [items.CustomerCode, items.Customer, items.City, items.Cash, items.Gold, items.Silver, items.Date];
+									for (var j = 0; j < groupRecords["length"]; j++) {
+										var items = groupRecords[j];
+										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, items.Date];
 										totalSilver = totalSilver + items["Silver"];
 										totalCash = totalCash + items["Cash"];
 										totalGold = totalGold + items["Gold"];
@@ -5757,15 +5758,15 @@ app.start = function() {
 										type: 'pattern',
 										pattern: 'solid',
 										fgColor: {
-											argb: '00FFFF'
+											argb: '000000'
 										},
 										bgColor: {
-											argb: '00FFFF'
+											argb: '000000'
 										}
 									};
 									sheet.getCell('A' + totText).font = {
 										color: {
-											argb: '0000FF'
+											argb: '000000'
 										},
 										bold: true
 									};
@@ -5824,6 +5825,122 @@ app.start = function() {
 									var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE,
 										colMaxLengthF, colMaxLengthG;
 									for (var j = 1; j <= totText; j++) {
+
+									//Column color code
+
+										if (sheet.getCell('D' + (j)).value == '') {
+											sheet.getCell('D' + (j)).fill = {
+												type: 'pattern',
+												pattern: 'solid',
+												bgColor: {
+													argb: '00FFFF'
+												},
+												fgColor: {
+													argb: '00FFFF'
+												}
+											};
+
+										} else if (sheet.getCell('D' + (j)).value < 0) {
+											sheet.getCell('D' + (j)).font = {
+												color: {
+													argb: 'FF0000'
+												},
+												bold: true
+											};
+										} else {
+											sheet.getCell('D' + (j)).font = {
+												color: {
+													argb: '000000'
+												},
+												bold: true
+											};
+										}
+
+										if (sheet.getCell('E' + (j)).value == '') {
+											sheet.getCell('E' + (j)).fill = {
+												type: 'pattern',
+												pattern: 'solid',
+												bgColor: {
+													argb: '00FFFF'
+												},
+												fgColor: {
+													argb: '00FFFF'
+												}
+											};
+											// if (j > 3 && j <= (totText - 2)) {
+											// 	var valC = sheet.getCell('E' + (j)).value;
+											// 	sheet.getCell('E' + (j)).value = valC + '/-';
+											// 	sheet.getCell('E' + (j)).alignment = {
+											// 		vertical: 'bottom',
+											// 		horizontal: 'right'
+											// 	};
+											// }
+
+										} else if (sheet.getCell('E' + (j)).value < 0) {
+											sheet.getCell('E' + (j)).font = {
+												color: {
+													argb: 'FF0000'
+												},
+												bold: true
+											};
+											// if (j > 3 && j <= (totText - 2)) {
+											// 	var valC = sheet.getCell('E' + (j)).value;
+											// 	sheet.getCell('E' + (j)).value = valC + '/-';
+											// 	sheet.getCell('E' + (j)).alignment = {
+											// 		vertical: 'bottom',
+											// 		horizontal: 'right'
+											// 	};
+											// }
+
+										} else {
+											sheet.getCell('E' + (j)).font = {
+												color: {
+													argb: '000000'
+												},
+												bold: true
+											};
+											// if (j > 3 && j <= (totText - 2)) {
+											// 	var valC = sheet.getCell('E' + (j)).value;
+											// 	sheet.getCell('E' + (j)).value = valC + '/-';
+											// 	sheet.getCell('E' + (j)).alignment = {
+											// 		vertical: 'bottom',
+											// 		horizontal: 'right'
+											// 	};
+											// }
+
+										}
+
+										if (sheet.getCell('F' + (j)).value == '') {
+											sheet.getCell('F' + (j)).fill = {
+												type: 'pattern',
+												pattern: 'solid',
+												bgColor: {
+													argb: '00FFFF'
+												},
+												fgColor: {
+													argb: '00FFFF'
+												}
+											};
+
+										} else if (sheet.getCell('F' + (j)).value < 0) {
+											sheet.getCell('F' + (j)).font = {
+												color: {
+													argb: 'FF0000'
+												},
+												bold: true
+											};
+										} else {
+											sheet.getCell('F' + (j)).font = {
+												color: {
+													argb: '000000'
+												},
+												bold: true
+											};
+										}
+
+//Column color code end
+
+
 										sheet.getCell('A' + (j)).border = {
 											top: {
 												style: 'thin'
@@ -6054,17 +6171,34 @@ app.start = function() {
 								}
 
 								//Coding to download in a folder
-								var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								var tempFilePath =  reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-								console.log("tempFilePath : ", tempFilePath);
-								workbook.xlsx.writeFile(tempFilePath).then(function() {
-									res.sendFile(tempFilePath, function(err) {
-										if (err) {
-											console.log('---------- error downloading file: ', err);
-										}
-									});
-									console.log('file is written @ ' + tempFilePath);
+								// console.log("tempFilePath : ", tempFilePath);
+								// workbook.xlsx.writeFile(tempFilePath).then(function() {
+								// 	res.sendFile(tempFilePath, function(err) {
+								// 		if (err) {
+								// 			console.log('---------- error downloading file: ', err);
+								// 		}
+								// 	});
+								// 	console.log('file is written @ ' + tempFilePath);
+								// });    nngroup
+								res.setHeader(
+									"Content-Type",
+									"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+								);
+								res.setHeader(
+									"Content-Disposition",
+									"attachment; filename=" + tempFilePath
+								);
+								// console.log("came");
+								return workbook.xlsx.write(res).then(function(data) {
+									console.log(data);
+									//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+									//res.end(new Buffer(data, 'base64'));
+									res.status(200).end();
 								});
+
+
 							}
 						}).catch(function(oError) {
 							that.getView().setBusy(false);

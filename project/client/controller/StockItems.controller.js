@@ -320,7 +320,9 @@ sap.ui.define(
 				that.Qtty = 0;
 			},
 			onItemsReport : function(){
-				window.open("/ItemsReport");
+				debugger;
+				var dDateStart = this.getView().byId("idDate").getValue();
+				window.open("/ItemsReport?date="+dDateStart);
 			},
 			onDailyReport : function(){
 				var dDateStart = this.getView().byId("idDate").getValue();

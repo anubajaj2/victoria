@@ -91,13 +91,14 @@ function (BaseController, JSONModel, MessageToast) {
 // code added by surya -start
     onPressGWiseDownload: function() {
       var reportType = "Group_Wise_Report";
-      $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
-    {
-      debugger;
-      MessageToast.show("Data downloaded successfully");
-    },function(oError){debugger;
-      MessageToast.show("Data could not be downloaded");
-    });
+    //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
+    // {
+    //   debugger;
+    //   MessageToast.show("Data downloaded successfully");
+    // },function(oError){debugger;
+    //   MessageToast.show("Data could not be downloaded");
+    // });
+    window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
     },
 
     onPressCustCodeDownload: function() {

@@ -144,6 +144,17 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().byId("idRemarks").setValue(KT);
 				}
 			},
+			onPressGWiseDownload: function() {
+	      var reportType = "Group_Wise_Report";
+	    //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
+	    // {
+	    //   debugger;
+	    //   MessageToast.show("Data downloaded successfully");
+	    // },function(oError){debugger;
+	    //   MessageToast.show("Data could not be downloaded");
+	    // });
+	    window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+	    },
 
 			toggleFullScreen: function () {
 				debugger;

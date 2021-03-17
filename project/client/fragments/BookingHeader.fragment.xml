@@ -83,7 +83,7 @@
 											<l:GridData span="XL5 L5 M5 S8"/>
 										</m:layoutData>
 									</m:Button>
-									<m:Button text="Booking Report" icon="sap-icon://download" press="onBookingReportDownload" type="Ghost" visible="false"/>
+									<m:Button text="Booking Report" icon="sap-icon://download" press="onBookingReportDownload" type="Ghost"/>
 								</f:fields>
 								<!-- <f:fields>
 						<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"

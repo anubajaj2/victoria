@@ -1655,6 +1655,7 @@ sap.ui.define([
 
 		setCustomerIdAndCustomerName: function(selectedCustomer) {
 			debugger;
+			this.getView().getModel("local").setProperty("/selectedCustomer", selectedCustomer)
 			var that = this;
 			var cityId = selectedCustomer.City;
 			var customerCode = selectedCustomer.CustomerCode;

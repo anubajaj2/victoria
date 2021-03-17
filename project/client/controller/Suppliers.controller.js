@@ -89,7 +89,9 @@ sap.ui.define([
 				var oId = oEvent.getParameter('selectedItem').getId();
 				var oCustDetail = this.getView().getModel('local').getProperty('/BookingCustomer');
 				var oSource = oId.split("-" [0])
-
+				var selectedCustomer = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContextPath());
+				// this.setCustomerIdAndCustomerName(selectedCustomer);
+				this.getView().getModel("local").setProperty("/selectedCustomer", selectedCustomer);
 				var selCust = oEvent.getParameter("selectedItem").getLabel();
 				var selCustName = oEvent.getParameter("selectedItem").getValue();
 				// oCustDetail.customerId = selCust;
@@ -100,7 +102,7 @@ sap.ui.define([
 					selCust);
 				this.getView().getModel("local").setProperty("/BookingCustomer/CustomerName",
 					selCustName);
-				this.getView().byId("idCustomerCode-SuggDescr").setText(selCustName);
+				// this.getView().byId("idCustomerCode-SuggDescr").setText(selCustName);
 				// Removing error notif. if value is entered
 				this.getView().byId("idCustomerCode").setValueState("None");
 			}
@@ -1093,10 +1095,10 @@ sap.ui.define([
 			}
 		},
 		onBookingReportDownload: function(){debugger;
-			var test = this.getOwnerComponent().getModel("local").getProperty("/BookingCustomer");
+			var test = this.getView().getModel("local").getProperty("/selectedCustomer");
       var reportType = "Booking_Summary";
-      var custId = test.CustomerId;
-      var custName = test.CustomerName;
+      var custId = test.id;
+      var custName = test.Name;
 			window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName);
 		},
 		onUpdateFinished: function(oEvent) {
@@ -1587,7 +1589,7 @@ sap.ui.define([
 			var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
 			this.getView().byId("idQnty").setValue(dQty);
 		},
-		customerCodeCheck1: function(oEvent) {
+		customerCodeCheck1: function(oEvent) {debugger;
 			this.getCustomer(oEvent);
 			this.getView().byId("idQnty").focus();
 		},

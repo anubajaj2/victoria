@@ -46,6 +46,11 @@
       "required": false,
       "default": "null"
     },
+    "Size": {
+      "type": "string",
+      "required": false,
+      "default": "null"
+    },
     "Remarks": {
       "type": "string",
       "required": false,

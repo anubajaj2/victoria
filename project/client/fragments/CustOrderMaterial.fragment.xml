@@ -32,6 +32,11 @@
 								<Input value="{local>/customerOrder/Making}" id="idCoMaking" submit="onSubmitMaking" type="Number" placeholder="{i18n>coMaking}"/>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="Size">
+							<f:fields>
+								<Input value="{local>/customerOrder/Size}" submit="onSizeSubmit" id="idSize" type="Number" placeholder="Size"/>
+							</f:fields>
+						</f:FormElement>
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
 								<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>

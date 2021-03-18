@@ -221,8 +221,12 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
   			this.getView().byId("idCoMaking").$().find("input").select();
     },
     onSubmitMaking: function (evt) {
+        this.getView().byId("idSize").focus();
+			  this.getView().byId("idSize").$().find("input").select();
+    },
+    onSizeSubmit: function (evt) {
         this.getView().byId("idCoKarigar").focus();
-			  this.getView().byId("idCoKarigar").$().find("input").select();
+        this.getView().byId("idCoKarigar").$().find("input").select();
     },
     onCoCashSubmit: function (evt) {
         this.getView().byId("idCoGold").focus();

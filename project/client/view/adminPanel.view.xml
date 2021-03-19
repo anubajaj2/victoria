@@ -42,6 +42,11 @@
 							<Text text="{i18n>Edit}"/>
 						</header>
 					</Column>
+					<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="auto">
+						<header>
+							<Text text="{i18n>Password}"/>
+						</header>
+					</Column> -->
 				</columns>
 				<items>
 					<ColumnListItem vAlign="Middle">
@@ -50,7 +55,10 @@
 							<Label text="{EmailId}"/>
 							<Label text="{UserName}"/>
 							<Label text="{Role}"/>
+							<HBox>
 							<Button icon="sap-icon://edit" tooltip="{i18n>Edit}" press="editSecureField"/>
+							<!-- <Button icon="sap-icon://write-new" tooltip="{i18n>Password}" press="editSecureField1"/> -->
+						</HBox>
 						</cells>
 					</ColumnListItem>
 				</items>

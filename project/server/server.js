@@ -2324,6 +2324,7 @@ app.start = function() {
 		app.get('/entryDownload', function(req, res) {
 			debugger;
 			var reportType = req.query.type;
+			debugger;
 			var custId = req.query.id;
 			var name = req.query.name;
 			var city = req.query.city;
@@ -2352,6 +2353,8 @@ app.start = function() {
 				], function(err, customerRecord) {
 					// result now equals 'done'
 					//set all values to local variables which we need inside next promise
+					// name = customerRecord.Name;
+					// city = cityRecord.cityName;
 					name = customerRecord.Name;
 					try {
 						//read the kacchi Records
@@ -2366,7 +2369,9 @@ app.start = function() {
 										var excel = require('exceljs');
 										var workbook = new excel.Workbook(); //creating workbook
 										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
-
+										// sheet.columns = [
+										// 		{ width: 11 }
+										// 	];
 										//Heading for excel
 										var heading = {
 											heading: "Fast Report"
@@ -2377,6 +2382,7 @@ app.start = function() {
 											vertical: 'middle',
 											horizontal: 'center'
 										};
+
 										sheet.getCell('A1').fill = {
 											type: 'pattern',
 											pattern: 'solid',
@@ -2402,9 +2408,11 @@ app.start = function() {
 											vertical: 'middle',
 											horizontal: 'center'
 										};
+									
 										sheet.getRow(2).font === {
 											bold: true
 										};
+
 
 										var header = ["Date", "Silver", "Cash", "Gold", "Remarks"];
 
@@ -2484,7 +2492,8 @@ app.start = function() {
 										var totText = Records["length"] + 4;
 										var totCol = totText - 1;
 										totalB = totalB.toFixed(3);
-										totalC = Math.round(totalC);
+										// totalC = Math.round(totalC);
+										totalC = totalC.toFixed(2);
 										totalD = totalD.toFixed(2);
 										sheet.getCell('A' + totText).value = "TOTAL";
 
@@ -2746,7 +2755,7 @@ app.start = function() {
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('D').width = colMaxLengthD + 2;
+													sheet.getColumn('D').width = colMaxLengthD + 3;
 												}
 												//setting absolute length for column E
 												if (sheet.getCell('E' + (j)).value !== null) {

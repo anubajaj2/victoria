@@ -289,13 +289,17 @@ sap.ui.define(["victoria/controller/BaseController",
 
 			},
 			onPressEntryDownload: function () {
+				debugger;
 				// var test = this.getView().getModel("customerModel");
 				var that = this;
 				var reportType = "Entry";
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
-				var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
-				var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
-				// $.post("/entryDownload", {
+				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
+				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
+				var name=this.getView().byId("idCustText").getProperty("text").split("-")[0]
+				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
+				// $.get("/entryDownload", {
 				// 	id: custId,
 				// 	name: name,
 				// 	city: city,
@@ -308,7 +312,23 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	debugger;
 				// 	MessageToast.show("Data could not be downloaded");
 				// });
-				window.open("/entryDownload?id="+custId+"&type=Entry&name="+name+"&city="+city);
+
+				if(custId === "" || custId=== undefined ){
+					sap.m.MessageBox.error(" Please Select a Customer ID", {
+						title: "Error"});
+					return;
+				}
+				// if(name === "" || name=== undefined ){
+				// 	sap.m.MessageBox.error(" Please Select a Customer Name", {
+				// 		title: "Error"});
+				// 	return;
+				// }
+				// if(city === "" || city=== undefined ){
+				// 	sap.m.MessageBox.error(" Please Select a Customer City", {
+				// 		title: "Error"});
+				// 	return;
+				// }
+				window.open("/entryDownload?id="+custId+ "&type=Entry&name=" +name+ "&city="+city);
 			},
 			getImageUrlFromContent: function(base64Stream){
 				if(base64Stream){

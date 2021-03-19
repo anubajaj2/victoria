@@ -174,7 +174,8 @@
 		"Tunch": "0",
 		"DueDate": "",
 		"OrderType":"",
-		"OrderNo":""
+		"OrderNo":"",
+		"CustomerCity":""
 	},
 	"StockItemsData": {
 		"MaterialName": "",

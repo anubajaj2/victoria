@@ -1,6 +1,7 @@
 sap.ui.define(["victoria/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/m/MessageBox",
+
 		"sap/ui/core/routing/History",
 		"sap/m/MessageToast",
 		"victoria/models/formatter",
@@ -18,7 +19,7 @@ sap.ui.define(["victoria/controller/BaseController",
 		return BaseController.extend("victoria.controller.Entry", {
 			// formatter:formatter,
 			clearOnSend: false,
-			onInit: function () {
+			onInit: function () {debugger
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				that.getView().setBusy(true);
@@ -36,18 +37,90 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idweight").focus();
 					});
 				}
-
+				// var oViewDetailModel = new JSONModel({
+				// 	"buttonText": "Save",
+				// 	"deleteEnabled": false,
+				// 	"codeEnabled": true
+				//
+				// });
+				// this.setModel(oViewDetailModel, "viewModel");
 				BaseController.prototype.onInit.apply(this);
+				// var oViewDetailModel = new JSONModel({
+				// 	// "buttonText": "Save",
+				// 	// "deleteEnabled": false,
+				// 	// "codeEnabled": true
+				//
+				// });
+				// this.setModel(oViewDetailModel, "viewModel");
 				var oRouter = this.getRouter();
 				oRouter.getRoute("Entry").attachMatched(this._onRouteMatched, this);
 			},
 			getRouter: function () {
 				return sap.ui.core.UIComponent.getRouterFor(this);
 			},
-			_onRouteMatched: function () {
+			_onRouteMatched: function () {debugger;
 				var that = this;
 				that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
 				this.getView().byId("DateId").setDateValue(new Date());
+				// var that = this;
+				// var viewModel = this.getView().getModel("viewModel");
+				// viewModel.setProperty("/codeEnabled", true);
+				// viewModel.setProperty("/buttonText", "Save");
+				// viewModel.setProperty("/deleteEnabled", false);
+				// var odataModel = new JSONModel({
+				// 	"CustomerCodeState": "None",
+				// 	"CityState": "None",
+				// 	"GroupState": "None",
+				// 	"NameState": "None",
+				// 	"TypeState": "None"
+				//
+				// });
+				// this.setModel(odataModel, "dataModel");
+				//
+				// // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				// // 		"/Customers", "GET", {}, {}, this)
+				// // 	.then(function(oData) {
+				// // 		var oModelCustomer = new JSONModel();
+				// // 		oModelCustomer.setData(oData);
+				// // 		that.getView().setModel(oModelCustomer, "customerModelInfo");
+				// //
+				// // 	}).catch(function(oError) {
+				// // 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+				// // 	});
+				//
+				//
+				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				// 		"/Groups", "GET", {}, {}, this)
+				// 	.then(function(oData) {
+				// 		var oModelGroup = new JSONModel();
+				// 		oModelGroup.setData(oData);
+				// 		that.getView().setModel(oModelGroup, "groupModelInfo");
+				//
+				// 	}).catch(function(oError) {
+				// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+				// 	});
+				// this.clearCustomer();
+				//
+				// $(document).keydown(function(evt) {
+				//
+				// 	var elm = document.URL.split('/');
+				//
+				// 	if (elm[elm.length - 1] === 'Customers') {
+				// 		if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
+				// 			evt.preventDefault();
+				// 			// alert('Ctr + Alt + D Pressed');
+				// 			that.deleteAllCustomers();
+				// 		} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
+				// 			evt.preventDefault();
+				// 			// alert('Ctr + Alt + E Pressed');
+				// 			that.deleteAllEntrys();
+				// 		} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
+				// 			evt.preventDefault();
+				// 			// alert('Ctr + Alt + A Pressed');
+				// 			that.deleteAllTables();
+				// 		}
+				// 	}
+				// });
 			},
 
 			onValueHelpRequest: function (oEvent) {
@@ -144,17 +217,128 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().byId("idRemarks").setValue(KT);
 				}
 			},
-			onPressGWiseDownload: function() {
+			onPressGWiseDownload: function() {debugger;
 	      var reportType = "Group_Wise_Report";
-	    //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
-	    // {
-	    //   debugger;
-	    //   MessageToast.show("Data downloaded successfully");
-	    // },function(oError){debugger;
-	    //   MessageToast.show("Data could not be downloaded");
-	    // });
-	    window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+			// 	var oViewDetailModel = new JSONModel({
+			// 		"buttonText": "Save",
+			// 		"deleteEnabled": false,
+			// 		"codeEnabled": true
+			//
+			// 	});
+			// 	this.setModel(oViewDetailModel, "viewModel");
+			// 	var that = this;
+			// 	var viewModel = this.getView().getModel("viewModel");
+			// 	// viewModel.setProperty("/codeEnabled", true);
+			// 	// viewModel.setProperty("/buttonText", "Save");
+			// 	// viewModel.setProperty("/deleteEnabled", false);
+			// 	var odataModel = new JSONModel({
+			// 		"CustomerCodeState": "None",
+			// 		"CityState": "None",
+			// 		"GroupState": "None",
+			// 		"NameState": "None",
+			// 		"TypeState": "None"
+			//
+			// 	});
+			// 	this.setModel(odataModel, "dataModel");
+			//
+			// 	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			// 	// 		"/Customers", "GET", {}, {}, this)
+			// 	// 	.then(function(oData) {
+			// 	// 		var oModelCustomer = new JSONModel();
+			// 	// 		oModelCustomer.setData(oData);
+			// 	// 		that.getView().setModel(oModelCustomer, "customerModelInfo");
+			// 	//
+			// 	// 	}).catch(function(oError) {
+			// 	// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+			// 	// 	});
+			//
+			//
+			// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			// 			"/Groups", "GET", {}, {}, this)
+			// 		.then(function(oData) {
+			// 			debugger;
+			// 			var oModelGroup = new JSONModel();
+			// 			oModelGroup.setData(oData);
+			// 			that.getView().setModel(oModelGroup, "groupModelInfo");
+			//
+			// 		}).catch(function(oError) {
+			// 			MessageToast.show(that.resourceBundle.getText("ReqField"));
+			// 		});
+			// 	this.clearCustomer();
+			//
+			// 	$(document).keydown(function(evt) {
+			//
+			// 		var elm = document.URL.split('/');
+			//
+			// 		if (elm[elm.length - 1] === 'Customers') {
+			// 			if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
+			// 				evt.preventDefault();
+			// 				// alert('Ctr + Alt + D Pressed');
+			// 				that.deleteAllCustomers();
+			// 			} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
+			// 				evt.preventDefault();
+			// 				// alert('Ctr + Alt + E Pressed');
+			// 				that.deleteAllEntrys();
+			// 			} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
+			// 				evt.preventDefault();
+			// 				// alert('Ctr + Alt + A Pressed');
+			// 				that.deleteAllTables();
+			// 			}
+			// 		}
+			// 	});
+	    // //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
+	    // // {
+	    // //   debugger;
+	    // //   MessageToast.show("Data downloaded successfully");
+	    // // },function(oError){debugger;
+	    // //   MessageToast.show("Data could not be downloaded");
+	    // // });
+			if (!this.oDialog1) {
+				this.oDialog1 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroup", this);
+				this.getView().addDependent(this.oDialog1);
+			}
+			this.oDialog1.open();
+	    // window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
 	    },
+
+onGroupWiseRadioSelect:function(oEvent){
+debugger;
+var select=this.getView().byId("id1").getSelected();
+if(select){
+	this.getView().byId("idGroup1").setEditable(true);
+}
+
+else {
+	this.getView().byId("idGroup1").setEditable(false);
+}
+},
+
+onPressHandleEntrySavePopup1: function(){
+	debugger;
+	var id11= this.getView().byId("idAll").getText();
+	if(id11){
+		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+	}
+this.oDialog1.close();
+},
+
+			onSelectChange: function(oEvent) {
+				debugger;
+				var oValue = oEvent.getSource().getId();
+				// var oSelect = oEvent.getParameter("selectedItem").getText();
+				var oSelect = oEvent.getParameter("selectedItem").mProperties.key;
+				// if(oValue === "__component0---idCustomers--idCity"){
+				// 	this.getView().getModel("customerModel").setProperty("/City", oSelect);
+				// }
+				if (oValue === "__component0---idCustomers--idType") {
+					this.getView().getModel("customerModel").setProperty("/Type", oSelect);
+					this.getView().byId("idCityField").focus();
+				}
+				if (oValue === "__component0---idCustomers--idGroup") {
+					this.getView().getModel("customerModel").setProperty("/Group", oSelect);
+					this.getView().byId("idType").focus();
+				}
+			},
 
 			toggleFullScreen: function () {
 				debugger;
@@ -901,7 +1085,10 @@ sap.ui.define(["victoria/controller/BaseController",
 			onPressHandleEntryCancelPopup: function () {
 				this.oDialog.close();
 			},
-
+			onPressHandleEntryCancelPopup1: function () {
+					this.getView().byId("idGroup1").setEditable(false);
+				this.oDialog1.close();
+			},
 			onEdit: function (oEvent) {
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;
 				if (recCount > 1) {

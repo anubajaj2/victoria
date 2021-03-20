@@ -1,0 +1,36 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Dialog
+        title="Select">
+  <VBox class="sapUiSmallMargin">
+		<Label text="Default RadioButton use" />
+		<!-- <RadioButton
+			groupName="GroupA"
+			text="Group Wise download"
+			selected="true" /> -->
+		<RadioButton id="idAll" text="All" select="onGroupWiseRadioSelect"/>
+    <HBox>
+		<RadioButton id="id1" text="GroupWise" class="sapUiSmallMarginEnd" select="onGroupWiseRadioSelect"/>
+    <Select id="idGroup1" change="onSelectChange" selectedKey="" items="{/Groups}" forceSelection="false" editable="false">
+       <core:Item key="{id}" text="{groupName}" />
+    </Select>
+</HBox>
+</VBox>
+<beginButton>
+        <Button
+         type="Accept"
+           text="Ok"
+           press="onPressHandleEntrySavePopup1"/>
+     </beginButton>
+     <endButton>
+        <Button
+           type="Reject"
+           text="Cancel"
+           press="onPressHandleEntryCancelPopup1"/>
+     </endButton>
+<!-- <buttons>
+  <Button text="{i18n>Save}" press="onPressHandleEntrySavePopup"/>
+  <Button text="{i18n>Cancel}" press="onPressHandleEntryCancelPopup1"/>
+</buttons> -->
+
+   </Dialog>
+</core:FragmentDefinition>

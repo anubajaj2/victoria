@@ -46,6 +46,7 @@ sap.ui.define([
 		DeductionSilver: 0,
 		allMasterData: {
 			"customers": [],
+			"customersId": [],
 			"materials": [],
 			"materialsId": [],
 			"orderHeader": [],
@@ -108,6 +109,7 @@ sap.ui.define([
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
 						that.allMasterData.customers[oData.results[i].id] = oData.results[i];
+						that.allMasterData.customersId[oData.results[i].CustomerCode] = oData.results[i];
 					}
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
@@ -255,7 +257,6 @@ sap.ui.define([
 				var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ, "Karigar");
 				this.karigarsearchPopup.bindAggregation("items", {
 					path: '/Customers',
-					filters: [oFilter1],
 					template: new sap.m.DisplayListItem({
 						label: "{CustomerCode}",
 						value: {
@@ -1664,6 +1665,21 @@ sap.ui.define([
 			var entryId = this.getView().byId("idCust");
 			var bookingId = this.getView().byId("idCustomerCode");
 			var wsId = this.getView().byId("WSHeaderFragment--customerId");
+			var custOrderId = this.getView().byId("idCoCustomer");
+
+			if(custOrderId){
+				this.getView().byId("idCoCustomer").setValue(customerCode);
+				this.getView().byId("idCoCustomerText").setValue(name);
+
+				this.getView().getModel("local").setProperty("/customerOrder/Customer",
+						this.allMasterData.customersId[customerCode].id);
+				this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
+						customerCode);
+
+				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + this.allMasterData.customersId[customerCode].id + "'");
+				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
+			}
+
 			if (!salesId & !entryId & !bookingId) {
 				this.getView().byId()
 				this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
@@ -1770,6 +1786,7 @@ sap.ui.define([
 				this.getView().byId("idCustText").setText(name);
 				this.getView().byId("idEntryDownload").setEnabled(true);
 				this.getView().getModel("local").setProperty("/EntryData/Customer", selectedCustomer.id);
+
 				this.getView().getModel("local").setProperty("/EntryData/CustomerCity", cityId);
 				this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId", customerCode);
 				this.getView().getModel("local").setProperty("/EntryData/customerName", name);

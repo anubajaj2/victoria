@@ -1711,6 +1711,1244 @@ app.start = function() {
 			);
 		})
 
+
+            app.get('/customerOrderReport', function(req, res) {
+                debugger;
+                var custId = req.query.id;
+                var custCode = req.query.custCode;
+
+                //read customer name by id, group by group id, city by
+                //read kacchi and print report with all coloring, formatting, totaling
+                var responseData = [];
+                var oSubCounter = {};
+                var Customer = app.models.Customer;
+
+    						var productData = [];
+    						var Product = app.models.Product;
+    						Product.find({}, function(err, product) {
+    								product.map((data) => {
+    										productData[data.__data.id] = data.__data;
+    								});
+    						});
+
+                const that = this;
+
+                var async = require('async');
+                async.waterfall([
+                        function(callback) {
+                            Customer.findById(custId, {
+                                fields: {
+                                    "CustomerCode": true,
+                                    "Name": true,
+                                    "Group": true,
+                                    "City": true
+                                }
+                            }).then(function(customerRecord, err) {
+                                callback(err, customerRecord);
+                            });
+                        }
+                    ], function(err, customerRecord) {
+                        // result now equals 'done'
+                        //set all values to local variables which we need inside next promise
+                        name = customerRecord.Name;
+                        try {
+                            //read the kacchi Records
+                            var CustomerOrder = app.models.CustomerOrder;
+                            CustomerOrder.find({
+                                    where: {
+                                        "Customer": custId
+                                    }
+                                })
+                                .then(function(Records, err) {
+                                        if (Records) {
+                                            var excel = require('exceljs');
+                                            var workbook = new excel.Workbook(); //creating workbook
+                                            var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+                                            //Heading for excel
+                                            var heading = {
+                                                heading: "Fast Report"
+                                            };
+                                            sheet.mergeCells('A1:I1');
+                                            sheet.getCell('I1').value = 'Customer Order Report';
+                                            sheet.getCell('I1').alignment = {
+                                                vertical: 'middle',
+                                                horizontal: 'center'
+                                            };
+                                            sheet.getCell('I1').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: '808080'
+                                                }
+                                            };
+
+                                            //Merging second Row
+                                            sheet.mergeCells('A2:I2');
+
+                                            //Code for getting current datetime
+                                            var currentdate = new Date();
+                                            var num = Records.length;
+                                            var datetime = currentdate.getDate() + "." +
+                                                (currentdate.getMonth() + 1) + "." +
+                                                currentdate.getFullYear() + " / " +
+                                                currentdate.getHours() + ":" +
+                                                currentdate.getMinutes() + ":" +
+                                                currentdate.getSeconds();
+                                            sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
+                                            sheet.getCell('A2').alignment = {
+                                                vertical: 'middle',
+                                                horizontal: 'center'
+                                            };
+                                            sheet.getRow(2).font === {
+                                                bold: true
+                                            };
+
+                                            var header = ["Date", "Delivery Date", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
+
+                                            sheet.addRow().values = header;
+
+                                            //Coding for cell color and bold character
+                                            sheet.getCell('A3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('B3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('C3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('D3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('E3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('F3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('G3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('H3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('I3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+
+                                            var totCash = 0;
+                                            var totalB = 0;
+                                            var totalC = 0;
+                                            var totalD = 0;
+                                            //code added by surya 10 nov - start
+
+                                            // define function to change date format to dd.mm.yyyy using date Object
+                                            function formatDateForEntry(date) {
+                                                var d = new Date(date),
+                                                    month = '' + (d.getMonth() + 1),
+                                                    day = '' + d.getDate(),
+                                                    year = d.getFullYear();
+
+                                                if (month.length < 2)
+                                                    month = '0' + month;
+                                                if (day.length < 2)
+                                                    day = '0' + day;
+
+                                                return [day, month, year].join('.');
+                                            }
+
+                                            var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI;
+                                            //code added by surya 10 nov - end
+
+    																				setTimeout(function () {
+    																					//Coding to remove unwanted items or Rows
+    	                                        for (var i = 0; i < Records["length"]; i++) {
+    	                                            var items = Records[i].__data;
+    	                                            items["Date"] = formatDateForEntry(items["Date"]);
+    	                                            items["DelDate"] = formatDateForEntry(items["DelDate"]);
+    	                                            var item = [items["Date"], items["DelDate"], productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
+    	                                            sheet.addRow().values = item;
+    	                                        }
+
+    	                                        //Coding for formula and concatenation in the last line
+    	                                        var totText = Records["length"] + 4;
+    	                                        var totCol = totText - 1;
+
+    	                                        //Coding for rows and column border
+    	                                        for (var j = 1; j <= totText; j++) {
+    	                                            ////
+    	                                            if (sheet.getCell('B' + (j)).value == '') {
+    	                                                sheet.getCell('B' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+
+    	                                            } else if (sheet.getCell('B' + (j)).value < 0) {
+    	                                                sheet.getCell('B' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            } else {
+    	                                                sheet.getCell('B' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            }
+
+    	                                            if (sheet.getCell('C' + (j)).value == '') {
+    	                                                sheet.getCell('C' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            } else if (sheet.getCell('C' + (j)).value < 0) {
+    	                                                sheet.getCell('C' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            } else {
+    	                                                sheet.getCell('C' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            }
+
+    	                                            if (sheet.getCell('D' + (j)).value == '') {
+    	                                                sheet.getCell('D' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+
+    	                                            } else if (sheet.getCell('D' + (j)).value < 0) {
+    	                                                sheet.getCell('D' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            } else {
+    	                                                sheet.getCell('D' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            }
+
+    	                                            ////
+    	                                            sheet.getCell('A' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('B' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('C' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('D' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('E' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('F' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('G' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('H' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('I' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+
+    	                                            // code added by surya for autocolumn width - started
+
+    	                                            if (j > "2") {
+    	                                                //setting absolute length for column A
+    	                                                if (sheet.getCell('A' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+    	                                                            colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('A').width = colMaxLengthA + 2;
+    	                                                }
+    	                                                //setting absolute length for column B
+    	                                                if (sheet.getCell('B' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+    	                                                            colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('B').width = colMaxLengthB + 2;
+    	                                                }
+    	                                                //setting absolute length for column C
+    	                                                if (sheet.getCell('C' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+    	                                                            colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('C').width = colMaxLengthC + 2;
+    	                                                }
+    	                                                //setting absolute length for column D
+    	                                                if (sheet.getCell('D' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+    	                                                            colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('D').width = colMaxLengthD + 2;
+    	                                                }
+    	                                                //setting absolute length for column E
+    	                                                if (sheet.getCell('E' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+    	                                                            colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('E').width = colMaxLengthE + 2;
+    	                                                }
+    	                                                //setting absolute length for column F
+    	                                                if (sheet.getCell('F' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
+    	                                                            colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('F').width = colMaxLengthF + 2;
+    	                                                }
+    	                                                //setting absolute length for column G
+    	                                                if (sheet.getCell('G' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
+    	                                                            colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('G').width = colMaxLengthG + 2;
+    	                                                }
+    	                                                //setting absolute length for column H
+    	                                                if (sheet.getCell('H' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
+    	                                                            colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('H').width = colMaxLengthH + 2;
+    	                                                }
+    	                                                //setting absolute length for column I
+    	                                                if (sheet.getCell('I' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
+    	                                                            colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('I').width = colMaxLengthI + 2;
+    	                                                }
+    	                                            }
+    	                                            // code added by surya for autocolumn width - ended
+
+    	                                        }
+
+    	                                        const tempFileName = name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+
+    	                                        //anurag
+    	                                        res.setHeader(
+    	                                            "Content-Type",
+    	                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    	                                        );
+    	                                        res.setHeader(
+    	                                            "Content-Disposition",
+    	                                            "attachment; filename=" + tempFileName
+    	                                        );
+
+    	                                        return workbook.xlsx.write(res).then(function(data) {
+    	                                            console.log(data);
+    	                                            res.status(200).end();
+    	                                        });
+    																				}, 3000);
+                                        }
+                                    }
+
+                                ).catch(function(oError) {
+    																console.log(oError);
+                                });
+                        } catch (e) {
+
+                        } finally {
+
+                        }
+                    }
+                );
+            })
+
+    				app.get('/allCustomerOrderReport', function(req, res) {
+                debugger;
+                var custId = req.query.id;
+                var custCode = req.query.custCode;
+
+                //read customer name by id, group by group id, city by
+                //read kacchi and print report with all coloring, formatting, totaling
+                var responseData = [];
+                var oSubCounter = {};
+                var Customer = app.models.Customer;
+
+    						var productData = [];
+    						var customerData = [];
+    						var Product = app.models.Product;
+    						Product.find({}, function(err, product) {
+    								product.map((data) => {
+    										productData[data.__data.id] = data.__data;
+    								});
+    						});
+    						Customer.find({}, function(err, customer) {
+    								customer.map((data) => {
+    										customerData[data.__data.id] = data.__data;
+    								});
+    						});
+
+
+                const that = this;
+
+                var async = require('async');
+                async.waterfall([
+                        function(callback) {
+                            Customer.findById(custId, {
+                                fields: {
+                                    "CustomerCode": true,
+                                    "Name": true,
+                                    "Group": true,
+                                    "City": true
+                                }
+                            }).then(function(customerRecord, err) {
+                                callback(err, customerRecord);
+                            });
+                        }
+                    ], function(err, customerRecord) {
+                        // result now equals 'done'
+                        //set all values to local variables which we need inside next promise
+                        name = customerRecord.Name;
+                        try {
+                            //read the kacchi Records
+                            var CustomerOrder = app.models.CustomerOrder;
+                            CustomerOrder.find({
+                                    // where: {
+                                    //     "Customer": custId
+                                    // }
+                                })
+                                .then(function(Records, err) {
+                                        if (Records) {
+                                            var excel = require('exceljs');
+                                            var workbook = new excel.Workbook(); //creating workbook
+                                            var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+                                            //Heading for excel
+                                            var heading = {
+                                                heading: "Fast Report"
+                                            };
+                                            sheet.mergeCells('A1:I1');
+                                            sheet.getCell('I1').value = 'Customer Order Report';
+                                            sheet.getCell('I1').alignment = {
+                                                vertical: 'middle',
+                                                horizontal: 'center'
+                                            };
+                                            sheet.getCell('I1').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: '808080'
+                                                }
+                                            };
+
+                                            //Merging second Row
+                                            sheet.mergeCells('A2:I2');
+
+                                            //Code for getting current datetime
+                                            var currentdate = new Date();
+                                            var num = Records.length;
+                                            var datetime = currentdate.getDate() + "." +
+                                                (currentdate.getMonth() + 1) + "." +
+                                                currentdate.getFullYear() + " / " +
+                                                currentdate.getHours() + ":" +
+                                                currentdate.getMinutes() + ":" +
+                                                currentdate.getSeconds();
+                                            sheet.getCell('A2').value = '(' + num + ')    ' + '\t' + '\n' + datetime;
+                                            sheet.getCell('A2').alignment = {
+                                                vertical: 'middle',
+                                                horizontal: 'center'
+                                            };
+                                            sheet.getRow(2).font === {
+                                                bold: true
+                                            };
+
+                                            var header = ["Date", "Delivery Date", "Customer Name", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
+
+                                            sheet.addRow().values = header;
+
+                                            //Coding for cell color and bold character
+                                            sheet.getCell('A3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('B3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('C3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('D3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('E3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('F3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('G3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('H3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+                                            sheet.getCell('I3').fill = {
+                                                type: 'pattern',
+                                                pattern: 'solid',
+                                                fgColor: {
+                                                    argb: 'A9A9A9'
+                                                }
+                                            };
+    																				sheet.getCell('J3').fill = {
+    																						type: 'pattern',
+    																						pattern: 'solid',
+    																						fgColor: {
+    																								argb: 'A9A9A9'
+    																						}
+    																				};
+
+                                            var totCash = 0;
+                                            var totalB = 0;
+                                            var totalC = 0;
+                                            var totalD = 0;
+                                            //code added by surya 10 nov - start
+
+                                            // define function to change date format to dd.mm.yyyy using date Object
+                                            function formatDateForEntry(date) {
+                                                var d = new Date(date),
+                                                    month = '' + (d.getMonth() + 1),
+                                                    day = '' + d.getDate(),
+                                                    year = d.getFullYear();
+
+                                                if (month.length < 2)
+                                                    month = '0' + month;
+                                                if (day.length < 2)
+                                                    day = '0' + day;
+
+                                                return [day, month, year].join('.');
+                                            }
+
+                                            var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI, colMaxLengthJ;
+                                            //code added by surya 10 nov - end
+
+    																				setTimeout(function () {
+    																					//Coding to remove unwanted items or Rows
+    	                                        for (var i = 0; i < Records["length"]; i++) {
+    	                                            var items = Records[i].__data;
+    	                                            items["Date"] = formatDateForEntry(items["Date"]);
+    	                                            items["DelDate"] = formatDateForEntry(items["DelDate"]);
+    	                                            var item = [items["Date"], items["DelDate"], customerData[items["Customer"]].CustomerCode + " - " + customerData[items["Customer"]].Name, productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
+    	                                            sheet.addRow().values = item;
+    																							// console.log(customerData[items["Customer"]], items["Customer"])
+    	                                        }
+
+    	                                        //Coding for formula and concatenation in the last line
+    	                                        var totText = Records["length"] + 4;
+    	                                        var totCol = totText - 1;
+
+    	                                        //Coding for rows and column border
+    	                                        for (var j = 1; j <= totText; j++) {
+    	                                            ////
+    	                                            if (sheet.getCell('B' + (j)).value == '') {
+    	                                                sheet.getCell('B' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+
+    	                                            } else if (sheet.getCell('B' + (j)).value < 0) {
+    	                                                sheet.getCell('B' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            } else {
+    	                                                sheet.getCell('B' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            }
+
+    	                                            if (sheet.getCell('C' + (j)).value == '') {
+    	                                                sheet.getCell('C' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            } else if (sheet.getCell('C' + (j)).value < 0) {
+    	                                                sheet.getCell('C' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            } else {
+    	                                                sheet.getCell('C' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                                if (j > 3 && j <= (totText - 2)) {
+    	                                                    var valC = sheet.getCell('C' + (j)).value;
+    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
+    	                                                    sheet.getCell('C' + (j)).alignment = {
+    	                                                        vertical: 'bottom',
+    	                                                        horizontal: 'right'
+    	                                                    };
+    	                                                }
+
+    	                                            }
+
+    	                                            if (sheet.getCell('D' + (j)).value == '') {
+    	                                                sheet.getCell('D' + (j)).fill = {
+    	                                                    type: 'pattern',
+    	                                                    pattern: 'solid',
+    	                                                    bgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    },
+    	                                                    fgColor: {
+    	                                                        argb: '00FFFF'
+    	                                                    }
+    	                                                };
+
+    	                                            } else if (sheet.getCell('D' + (j)).value < 0) {
+    	                                                sheet.getCell('D' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: 'FF0000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            } else {
+    	                                                sheet.getCell('D' + (j)).font = {
+    	                                                    color: {
+    	                                                        argb: '000000'
+    	                                                    },
+    	                                                    bold: true
+    	                                                };
+    	                                            }
+
+    	                                            ////
+    	                                            sheet.getCell('A' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('B' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('C' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('D' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('E' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('F' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('G' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('H' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    	                                            sheet.getCell('I' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+    																							sheet.getCell('J' + (j)).border = {
+    	                                                top: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                left: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                bottom: {
+    	                                                    style: 'thin'
+    	                                                },
+    	                                                right: {
+    	                                                    style: 'thin'
+    	                                                }
+    	                                            };
+
+    	                                            // code added by surya for autocolumn width - started
+
+    	                                            if (j > "2") {
+    	                                                //setting absolute length for column A
+    	                                                if (sheet.getCell('A' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+    	                                                            colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('A').width = colMaxLengthA + 2;
+    	                                                }
+    	                                                //setting absolute length for column B
+    	                                                if (sheet.getCell('B' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+    	                                                            colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('B').width = colMaxLengthB + 2;
+    	                                                }
+    	                                                //setting absolute length for column C
+    	                                                if (sheet.getCell('C' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+    	                                                            colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('C').width = colMaxLengthC + 2;
+    	                                                }
+    	                                                //setting absolute length for column D
+    	                                                if (sheet.getCell('D' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+    	                                                            colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('D').width = colMaxLengthD + 2;
+    	                                                }
+    	                                                //setting absolute length for column E
+    	                                                if (sheet.getCell('E' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+    	                                                            colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('E').width = colMaxLengthE + 2;
+    	                                                }
+    	                                                //setting absolute length for column F
+    	                                                if (sheet.getCell('F' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
+    	                                                            colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('F').width = colMaxLengthF + 2;
+    	                                                }
+    	                                                //setting absolute length for column G
+    	                                                if (sheet.getCell('G' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
+    	                                                            colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('G').width = colMaxLengthG + 2;
+    	                                                }
+    	                                                //setting absolute length for column H
+    	                                                if (sheet.getCell('H' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
+    	                                                            colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('H').width = colMaxLengthH + 2;
+    	                                                }
+    	                                                //setting absolute length for column I
+    	                                                if (sheet.getCell('I' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
+    	                                                            colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('I').width = colMaxLengthI + 2;
+    	                                                }
+    																									//setting absolute length for column J
+    	                                                if (sheet.getCell('J' + (j)).value !== null) {
+    	                                                    if (j == "3") {
+    	                                                        colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
+    	                                                    } else {
+    	                                                        if (sheet.getCell('J' + (j)).value.length > colMaxLengthJ) {
+    	                                                            colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
+    	                                                        }
+    	                                                    }
+    	                                                }
+    	                                                if (j == totText) {
+    	                                                    sheet.getColumn('J').width = colMaxLengthJ + 2;
+    	                                                }
+    	                                            }
+    	                                            // code added by surya for autocolumn width - ended
+
+    	                                        }
+
+    	                                        const tempFileName = currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+
+    	                                        //anurag
+    	                                        res.setHeader(
+    	                                            "Content-Type",
+    	                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    	                                        );
+    	                                        res.setHeader(
+    	                                            "Content-Disposition",
+    	                                            "attachment; filename=" + tempFileName
+    	                                        );
+
+    	                                        return workbook.xlsx.write(res).then(function(data) {
+    	                                            console.log(data);
+    	                                            res.status(200).end();
+    	                                        });
+    																				}, 10000);
+                                        }
+    																		// console.log(Records)
+                                    }
+
+                                ).catch(function(oError) {
+    																console.log(oError);
+                                });
+                        } catch (e) {
+
+                        } finally {
+
+                        }
+                    }
+                );
+            })
+
 		///// Coding for Entry Download/////
 		app.get('/pOrderDownload', function(req, res) {
 			//--- Calculate total per batch, prepare json and return
@@ -2408,7 +3646,7 @@ app.start = function() {
 											vertical: 'middle',
 											horizontal: 'center'
 										};
-									
+
 										sheet.getRow(2).font === {
 											bold: true
 										};

@@ -31,10 +31,15 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>coCustomer}">
 							<f:fields>
-								<Input id="idCoCustomer" value="{local>/coTemp/CustomerCode}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelp">
-									<layoutData>
-										<l:GridData span="XL3 L3 "/>
-									</layoutData>
+								<Input id="idCoCustomer" showValueHelp="true" editable="true" valueHelpRequest="onValueHelp" value="{path: 'local>/coTemp/CustomerCode'}"
+									suggestionItemSelected="onCustomerSelect"
+									submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+										<suggestionItems>
+												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+										</suggestionItems>
+										<layoutData>
+												<l:GridData span="XL3 L3"/>
+										</layoutData>
 								</Input>
 								<Input id="idCoCustomerText" value="" editable="false"></Input>
 							</f:fields>

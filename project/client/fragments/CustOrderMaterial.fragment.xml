@@ -14,7 +14,17 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>coMaterial}">
 							<f:fields>
-								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpMat"></Input>
+								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true"
+									suggestionItemSelected="onMaterialSelect" submit="onMaterialEnter"
+									showSuggestion="true" suggestionItems="{/Products}">
+									<suggestionItems>
+										<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+									</suggestionItems>
+									<layoutData>
+										<l:GridData span="XL3 L3"/>
+									</layoutData>
+								</Input>
+								<!-- <Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpMat"></Input> -->
 								<Input id="idCoMatName" value="" editable="false"/>
 							</f:fields>
 						</f:FormElement>
@@ -39,13 +49,23 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
-								<Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/>
+								<Input id="idCoKarigar" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpKarigar" value="{path: 'local>/coTemp/KarigarCode'}"
+									suggestionItemSelected="onKarigarSelect"
+									submit="onKarigarEnter" showSuggestion="true" suggestionItems="{/Customers}">
+										<suggestionItems>
+												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+										</suggestionItems>
+										<layoutData>
+												<l:GridData span="XL3 L3"/>
+										</layoutData>
+								</Input>
+								<!-- <Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/> -->
 								<Input id="idCoKarigarName" placeholder="{i18n>coKarigarName}" value="" editable="false"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>coRemarks}">
 							<f:fields>
-								<Input id="idCoRemarks" placeholder="{i18n>coRemarks}" value="{local>/customerOrder/Remarks}"/>
+								<Input id="idCoRemarks" submit="onRemarksSubmit" placeholder="{i18n>coRemarks}" value="{local>/customerOrder/Remarks}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
@@ -71,7 +91,14 @@
 								<Input id="idCoSilver" submit="onCoSilverSubmit" type="Number" value="{local>/customerOrder/Silver}"/>
 							</f:fields>
 						</f:FormElement>
+						<f:FormElement label="Photo">
+							<f:fields>
+								<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>
+							</f:fields>
+						</f:FormElement>
+						<!-- <Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/> -->
 					</f:formElements>
+
 					<f:layoutData>
 						<f:GridContainerData halfGrid="true"></f:GridContainerData>
 					</f:layoutData>

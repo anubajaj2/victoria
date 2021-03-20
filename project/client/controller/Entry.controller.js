@@ -315,9 +315,22 @@ else {
 
 onPressHandleEntrySavePopup1: function(){
 	debugger;
-	var id11= this.getView().byId("idAll").getText();
-	if(id11){
-		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+	// var id11= this.getView().byId("idAll").getSelected();
+	if(this.getView().byId("idAll").getSelected()){
+		// var id=this.getView().byId("idGroup1").getSelectedKey();
+		debugger;
+		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=00");
+	}
+	else if(this.getView().byId("id1").getSelected()){
+		var id=this.getView().byId("idGroup1").getSelectedKey();
+		var name=this.getView().byId("idGroup1").getSelectedItem().getText();
+		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group="+id+"&name="+name);
+	}else if(this.getView().byId("idNo").getSelected()){
+		window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=01");
+	}
+	else{
+		MessageToast.show("Please Select A Option");
+		return;
 	}
 this.oDialog1.close();
 },
@@ -1087,7 +1100,11 @@ this.oDialog1.close();
 			},
 			onPressHandleEntryCancelPopup1: function () {
 					this.getView().byId("idGroup1").setEditable(false);
+
 				this.oDialog1.close();
+				if(this.getView().byId("id1").getSelected()){
+							 this.getView().byId("idGroup1").setEditable(true);
+						 }
 			},
 			onEdit: function (oEvent) {
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;

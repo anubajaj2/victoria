@@ -7,11 +7,19 @@
 			groupName="GroupA"
 			text="Group Wise download"
 			selected="true" /> -->
-		<RadioButton id="idAll" text="All" select="onGroupWiseRadioSelect"/>
     <HBox>
-		<RadioButton id="id1" text="GroupWise" class="sapUiSmallMarginEnd" select="onGroupWiseRadioSelect"/>
+		<RadioButton id="idAll" valueState="Information" text="All" class="sapUiLargeMarginEnd"  select="onGroupWiseRadioSelect"/>
+    <RadioButton id="idNo" valueState="Information" text="No Group Customers" select="onGroupWiseRadioSelect"/>
+  </HBox>
+      <HBox>
+		<RadioButton id="id1" valueState="Information" text="GroupWise" class="sapUiSmallMarginEnd" select="onGroupWiseRadioSelect"/>
     <Select id="idGroup1" change="onSelectChange" selectedKey="" items="{/Groups}" forceSelection="false" editable="false">
        <core:Item key="{id}" text="{groupName}" />
+       <!-- <core:Item key="01" text="No Group Customers" /> -->
+       <!-- <customData>
+						<core:CustomData key="p13nData"
+										 value='\{"key": "001", "text":"No Group Customers" }' />
+			</customData> -->
     </Select>
 </HBox>
 </VBox>

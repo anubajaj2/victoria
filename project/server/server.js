@@ -6722,6 +6722,9 @@ app.start = function() {
 		app.get('/groupWiseEntryDownload', function(req, res) {
 			debugger;
 			var reportType = req.query.type;
+			var grp=req.query.group;
+			var gname=req.query.name;
+			debugger;
 
 			var async = require('async');
 			// fetch all the entries
@@ -6824,6 +6827,7 @@ app.start = function() {
 						}).then(function(groupRecord, err) {
 							var entryFinals = [];
 							var noGroupEntries = [];
+							var gro=[];
 							for (var a = 0; a < entryRecord.length; a++) {
 								var entryFinal = {};
 								//Get fields from customer table
@@ -6844,7 +6848,8 @@ app.start = function() {
 												break;
 											}
 										}
-
+										debugger;
+										if(customerRecord[i].Group.toString() == grp ){
 										//loop through Group records to get group name
 										for (var k = 0; k < groupRecord.length; k++) {
 											if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
@@ -6852,9 +6857,33 @@ app.start = function() {
 												break;
 											}
 										}
+									}
+									if(grp == "00" || grp =="01" ){
+									//loop through Group records to get group name
+									for (var k = 0; k < groupRecord.length; k++) {
+										if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+											entryFinal.Group = groupRecord[k].groupName;
+											break;
+										}
+									}
+								}
+								// if(grp == "01"){
+								// 	for (var k = 0; k < groupRecord.length; k++) {
+								// 		if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+								// 			gro.Group = groupRecord[k].groupName;
+								// 			break;
+								// 		}
+								// 	}
+								// 	if(gro.Group == null){
+								// 		noGroupEntries.push(entryFinal);
+								// 	}
+								// }
 										if (!(entryFinal.Group == null)) {
+											// if(grp !="01"){
 											entryFinals.push(entryFinal);
+										// }
 										} else {
+											debugger;
 											noGroupEntries.push(entryFinal);
 										}
 										break;
@@ -7392,6 +7421,8 @@ app.start = function() {
 
 								//loop the sorted table & for each group create a new sheet.
 								var sameGroupEntries = [];
+								debugger;
+								if(grp != "01"){
 								for (var n = 0; n < entryFinals.length; n++) {
 
 									if (n !== 0) {
@@ -7412,14 +7443,28 @@ app.start = function() {
 									//call function to create new tab and prepare complete tab data
 									createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
 								}
+							}
 								if (noGroupEntries) {
+									if(grp=="00"||grp=="01"){
 									//call function to create new tab and prepare complete tab data
+									debugger;
 									createTabForGroup("No_Group_Customers", noGroupEntries);
+								}
+								// if(grp=="01"){entryFinal=noGroupEntries;}
 								}
 
 								//Coding to download in a folder
+								if(grp=="00"){
 								var tempFilePath =  reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+								}
+								else if(grp=="01"){
+									var tempFilePath =  'Group-No Group Customers _' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+								}else{
+									var tempFilePath =  'Group-'+ gname +'_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+								}
 								// console.log("tempFilePath : ", tempFilePath);
 								// workbook.xlsx.writeFile(tempFilePath).then(function() {
 								// 	res.sendFile(tempFilePath, function(err) {

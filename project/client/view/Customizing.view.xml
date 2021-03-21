@@ -4,7 +4,11 @@
 
 	<semantic:FullscreenPage id="Customzing"
 		navButtonPress="onNavBack" showNavButton="true" tooltip="{i18n>back}" title="{i18n>Customizing}">
-
+		<semantic:customHeaderContent>
+			<!-- <Text id="idDB"> </Text> -->
+			<Text id="idUser"> </Text>
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
 <!-- value="Data Upload Type" -->
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">

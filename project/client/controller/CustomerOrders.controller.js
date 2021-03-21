@@ -18,6 +18,11 @@ sap.ui.define([
             this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
             var oRouter = this.getRouter();
             oRouter.getRoute("customerOrders").attachMatched(this._onRouteMatched, this);
+            var that = this;
+            var currentUser = this.getModel("local").getProperty("/CurrentUser");
+            var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+            loginUser = "Hey " + loginUser;
+            this.getView().byId("idUser").setText(loginUser);
         },
 
         _onRouteMatched: function() {

@@ -5,6 +5,11 @@
 
 	<semantic:FullscreenPage id="Print"
 		navButtonPress="onNavBack" showNavButton="true" tooltip="{i18n>back}" title="{i18n>Print}">
+		<semantic:customHeaderContent>
+			<!-- <Text id="idDB"> </Text> -->
+			<Text id="idUser"> </Text>
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
 	<semantic:content id="idPrintContent">
 		<core:Fragment fragmentName="victoria.fragments.print" type="XML">
 		</core:Fragment>

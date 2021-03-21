@@ -31,6 +31,11 @@ sap.ui.define([
 			Controller.prototype.onInit.apply(this);
 			var oRouter = this.getRouter();
 			oRouter.getRoute("dayBook").attachMatched(this._onRouteMatched, this);
+			var that = this;
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+			loginUser = "Hey " + loginUser;
+			this.getView().byId("idUser").setText(loginUser);
 		},
 		getRouter: function () {debugger;
 			return sap.ui.core.UIComponent.getRouterFor(this);

@@ -29,6 +29,11 @@ sap.ui.define([
 			var oRouter = this.getRouter();
 			oRouter.getRoute("sales").attachMatched(this._onRouteMatched, this);
 			this.byId("idRetailTransfer").setEnabled(false);
+			var that = this;
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+			loginUser = "Hey " + loginUser;
+			this.getView().byId("idUser").setText(loginUser);
 		},
 		_onRouteMatched: function(oEvent) {
 			var that = this;

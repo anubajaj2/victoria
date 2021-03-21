@@ -29,6 +29,11 @@ sap.ui.define([
 		 * @public
 		 */
 		onInit: function() {
+			var that = this;
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+			loginUser = "Hey " + loginUser;
+			this.getView().byId("idUser").setText(loginUser);
 			// Model used to manipulate control states. The chosen values make sure,
 			// detail page is busy indication immediately so there is no break in
 			// between the busy indication for loading the view's meta data

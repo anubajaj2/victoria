@@ -29,6 +29,11 @@ sap.ui.define(
 				var oRouter = this.getRouter();
 				oRouter.getRoute("salesws").attachMatched(this._onRouteMatched, this);
 				this.getPrintCustHeaderData();
+				var that = this;
+				var currentUser = this.getModel("local").getProperty("/CurrentUser");
+				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+				loginUser = "Hey " + loginUser;
+				this.getView().byId("idUser").setText(loginUser);
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			},
 			_onRouteMatched: function(oEvent) {

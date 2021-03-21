@@ -2,11 +2,13 @@
 	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-	<semantic:FullscreenPage id="products" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageProducts}" busy="{objectView>/busy}"
-		busyIndicatorDelay="{objectView>/delay}" tooltip="{i18>back}">
+	<semantic:FullscreenPage id="products" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageProducts}"
+		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}" tooltip="{i18>back}">
 		<semantic:customHeaderContent>
-			<Button tooltip="{i18n>material}" type="Ghost" icon="sap-icon://download" press="onPressMaterialDownload"  />
+			<Text id="idUser"></Text>
+			<Button tooltip="{i18n>material}" type="Ghost" icon="sap-icon://download" press="onPressMaterialDownload"/>
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="{i18n>fullscreen}" iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 		<semantic:content id="Header">
 			<f:Form id="ProductHeader" editable="true"></f:Form>
@@ -104,7 +106,7 @@
 			<!-- {viewModel>/buttonText} -->
 			<Button text="{i18n>Save}" id="acceptButton" type="Accept" press="SaveProduct"/>
 			<Button text="{i18n>Delete}" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
-			 <!-- <Button text="{i18n>material}" type="Ghost"  press="onPressMaterialDownload"  /> -->
+			<!-- <Button text="{i18n>material}" type="Ghost"  press="onPressMaterialDownload"  /> -->
 			<Button text="{i18n>Clear}" type="Ghost" press="clearProduct"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>

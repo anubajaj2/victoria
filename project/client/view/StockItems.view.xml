@@ -4,9 +4,12 @@
     id="idStockItems"
     title="Stock Items">
     <semantic:customHeaderContent>
+            <Text id="idUser"> </Text>
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 			tooltip="fullscreen"
 			iconFirst="true" press="toggleFullScreen"/>
+
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
     </semantic:customHeaderContent>
     <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.StockItemsForm" type="XML"></core:Fragment>

@@ -15,6 +15,11 @@ sap.ui.define(
     BaseController.prototype.onInit.apply(this);
     var oRouter = this.getRouter();
     oRouter.getRoute("Print").attachMatched(this._onRouteMatched, this);
+    var that = this;
+    var currentUser = this.getModel("local").getProperty("/CurrentUser");
+    var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+    loginUser = "Hey " + loginUser;
+    this.getView().byId("idUser").setText(loginUser);
     // this.createModel();
   },
   createModel: function(){
@@ -68,7 +73,7 @@ sap.ui.define(
     for (var i = 0; i < oData.results.length; i++) {
       var id = oData.results[i].id;
       this.getModel().update("/prints(" +id+ ")",allItems,{
-        success: function(){          
+        success: function(){
         }
       });
     }

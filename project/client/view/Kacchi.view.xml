@@ -7,6 +7,7 @@
 			<semantic:customHeaderContent>
 				<Text id="idUser"> </Text>
 				<!-- <Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/> -->
+							<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 	<semantic:content id="idContent">
     <!-- <VBox class="sapUiSmallMargin"> -->

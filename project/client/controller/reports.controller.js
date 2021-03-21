@@ -5,6 +5,11 @@ function (BaseController, JSONModel, MessageToast) {
   "use strict";
   return BaseController.extend("victoria.controller.reports",{
     onInit: function () {
+      var that = this;
+      var currentUser = this.getModel("local").getProperty("/CurrentUser");
+      var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+      loginUser = "Hey " + loginUser;
+      this.getView().byId("idUser").setText(loginUser);
       var oViewModel = new JSONModel({
                   "id": "",
                   "City": "",

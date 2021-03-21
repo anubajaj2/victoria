@@ -44,7 +44,11 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			this.setModel(oViewModel1, "fixed");
 			debugger;
 			BaseController.prototype.onInit.apply(this);
-
+			var that = this;
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+			loginUser = "Hey " + loginUser;
+			this.getView().byId("idUser").setText(loginUser);
 			var oRouter = this.getRouter();
 			oRouter.getRoute("Suppliers").attachMatched(this._onRouteMatched, this);
 			//				this.getRouter().getRoute("Products").attachPatternMatched(this._onObjectMatched, this);

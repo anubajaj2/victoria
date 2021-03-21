@@ -6,7 +6,11 @@
 	<semantic:FullscreenPage id="sales"
 		navButtonPress="onNavBack" showNavButton="true" title="Sales"
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
-
+		<semantic:customHeaderContent>
+			<!-- <Text id="idDB"> </Text> -->
+			<m:Text id="idUser"> </m:Text>
+			<m:Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
 		<semantic:content id="Header">
 			<!-- <m:VBox class="sapUiSmallMargin" -->
 				<!-- alignContent="sap.m.FlexAlignContent.Start"> -->

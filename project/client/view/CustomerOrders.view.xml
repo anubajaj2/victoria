@@ -8,6 +8,11 @@
     title="{i18n>CustomerOrders}"
     busy="{objectView>/busy}"
     busyIndicatorDelay="{objectView>/delay}">
+    <semantic:customHeaderContent>
+      <!-- <Text id="idDB"> </Text> -->
+      <Text id="idUser"> </Text>
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+    </semantic:customHeaderContent>
     <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.CustOrderHeader" type="XML">
       </core:Fragment>

@@ -4,8 +4,11 @@
 	<semantic:FullscreenPage id="Group" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageGroup}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 		<semantic:customHeaderContent>
+						<Text id="idUser"> </Text>
 			<Button tooltip="{i18n>Group}" type="Ghost" icon="sap-icon://download" press="onPressGroupDownload" />
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="{i18n>fullscreen}" iconFirst="true" press="toggleFullScreen"/>
+
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 		<semantic:content id="Header">
 			<f:Form id="GroupHeader" editable="true"></f:Form>

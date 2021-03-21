@@ -93,6 +93,11 @@ sap.ui.define([
 				BaseController.prototype.onInit.apply(this);
 				var oRouter = this.getRouter();
 				oRouter.getRoute("Customizing").attachMatched(this._onRouteMatched, this);
+				var that = this;
+				var currentUser = this.getModel("local").getProperty("/CurrentUser");
+				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+				loginUser = "Hey " + loginUser;
+				this.getView().byId("idUser").setText(loginUser);
 			},
 
 			getRouter: function () {

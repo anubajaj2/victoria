@@ -1,12 +1,18 @@
 <mvc:View controllerName="victoria.controller.dayBook" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
 	xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout"
-    xmlns:f="sap.ui.layout.form">
-	<App>
+    xmlns:f="sap.ui.layout.form" xmlns:semantic="sap.m.semantic">
+		<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}" >
+			<semantic:customHeaderContent>
+				<!-- <Text id="idDB"> </Text> -->
+				<Text id="idUser"> </Text>
+				<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+			</semantic:customHeaderContent>
+<semantic:content>
+	<!-- <App>
 		<pages>
-			<Page title="{ii8n>Daybook}">
-				<content>
-
+			<Page>
+				<content> -->
 					<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="Entrys" search="onFilterSearch">
 						<smartFilterBar:controlConfiguration>
 						<smartFilterBar:ControlConfiguration key="Date" index="2" label="{i18n>Date}" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
@@ -148,7 +154,9 @@
 						</smartTable:layoutData>
 					</smartTable:SmartTable>
 					<!--</VBox>-->
-				</content>
+
+				</semantic:content>
+				<!-- </content> -->
 				<!-- <footer>
 					<Toolbar>
 						<ToolbarSpacer/>
@@ -156,7 +164,8 @@
 						<Button text="Cancel" press="onCancel"></Button>
 					</Toolbar>
 				</footer> -->
-			</Page>
+			<!-- </Page>
 		</pages>
-	</App>
+	</App> -->
+		</semantic:FullscreenPage>
 </mvc:View>

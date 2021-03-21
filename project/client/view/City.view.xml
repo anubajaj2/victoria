@@ -4,8 +4,11 @@
 	<semantic:FullscreenPage id="City" navButtonPress="onNavBack" showNavButton="true" title="{i18n>ManageCity}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}" tooltip="{i18n>back}">
 		<semantic:customHeaderContent>
+			<Text id="idUser"> </Text>
 			<Button tooltip="{i18n>City}" press="onPressCityDownload" icon="sap-icon://download" type="Ghost" />
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"  iconFirst="true" press="toggleFullScreen" tooltip="{i18n>fullscreen}"/>
+
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 		<semantic:content id="Header">
 			<f:Form id="CityHeader" editable="true"></f:Form>

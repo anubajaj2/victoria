@@ -17,9 +17,12 @@
 		busyIndicatorDelay="{objectView>/delay}" tooltip="{i18n>back}"
 		>
 		<semantic:customHeaderContent>
+				<m:Text id="idUser"> </m:Text>
 			<m:Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 			tooltip="{i18n>fullscreen}"
 			iconFirst="true" press="toggleFullScreen"/>
+
+			<m:Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
     </semantic:customHeaderContent>
 
 	<semantic:content id="Header">

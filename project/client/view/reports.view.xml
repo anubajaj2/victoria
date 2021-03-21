@@ -5,6 +5,11 @@
     navButtonPress="onNavBack"
     showNavButton="true"
     title="Reports">
+    <semantic:customHeaderContent>
+      <Text id="idDB"> </Text>
+      <Text id="idUser"> </Text>
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+    </semantic:customHeaderContent>
     <semantic:content>
       <f:SimpleForm
   			minWidth="1024"

@@ -13,6 +13,21 @@ sap.ui.define(
 			"mItems": [],
 			"cid": "",
 			Qtty: 0,
+
+
+
+			onInit: function() {
+				// this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				// this.oRouter.attachRoutePatternMatched(this.herculis, this);
+				var that = this;
+				var currentUser = this.getModel("local").getProperty("/CurrentUser");
+				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+				loginUser = "Hey " + loginUser;
+				this.getView().byId("idUser").setText(loginUser);
+				debugger;
+
+
+			},
 			onAfterRendering: function() {
 				debugger;
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);

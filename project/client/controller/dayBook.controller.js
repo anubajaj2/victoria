@@ -70,13 +70,13 @@ sap.ui.define([
 			this.getView().getModel("local").getProperty("/EntryData", myData);
 
 			if(minDate===null && maxDate===null){
-				window.open("/entryDownload?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
+				window.open("/entryDownload?id="+myData.Customer+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
 			}
 			else if(cust===""){
-				window.open("/entryDownloadDate?id="+cust+"&type=Entry&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
+				window.open("/entryDownloadDate?id="+cust+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
 			}
 			else{
-				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
+				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
 			}
 
 

@@ -404,7 +404,8 @@ app.start = function() {
 
 													newRec.Date = new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(date) + 1);
 													newRec.DueDate = new Date(2000 + parseInt(dueYear), parseInt(dueMonth) - 1, parseInt(dueDate) + 1);
-
+													newRec.CreatedOn = newRec.Date;
+													newRec.ChangedOn = newRec.Date;
 													Entry.findOrCreate({
 														where: {
 															Date: newRec.Date,
@@ -4821,6 +4822,83 @@ app.start = function() {
 				});
 			});
 		});
+
+		app.get('/justGroups', async function(req, res) {
+			// var Products = app.models.Product;
+			var Entry = app.models.Entry;
+			var collection = Entry.getDataSource().connector.collection(Entry.modelName);
+
+			//Anubhav code Start
+			var productIds = new Set();
+			var items = [];
+			var items2 = [];
+			debugger;
+			var d =new Date(req.query.date);
+			d.setUTCHours(0,0,0,0,0);
+			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
+			await collection.aggregate([{
+				$group: {
+					_id: '$Customer',
+					Cash: {
+						$sum: "$Cash"
+					},
+					Gold: {
+						$sum: "$Gold"
+					},
+					Silver: {
+						$sum: "$Silver"
+					},
+					Date: {
+						$max: "$Date"
+					}
+				}
+			}], function(err, data) {
+				if (err) return callback(err);
+				data.on('data', function(data) {
+					console.log(data);
+					items[data._id] = data;
+					productIds.add(data._id.toString());
+				});
+
+				data.on('end', function() {
+					// console.log(JSON.stringify(items));
+					var aItemsToday = items;
+					//TILL TODAY TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
+					app.models.Customer.find({
+						where: {
+							id: {
+								inq: Array.from(productIds)
+							}
+						}
+					}).then(function(allCustomers, err) {
+						// combining data product,stockItems
+						//console.log(JSON.stringify(aItemsToday));
+						var itemsReportCollection = [];
+						itemsReportCollection.push(["Code","Name","Amount","Silver","Gold","Last Entry Date"
+						]);
+						for (item of allCustomers) {
+							var customerTotal = aItemsToday[item.id.toString()];
+							customerTotal.Code = item.CustomerCode;
+							customerTotal.Name = item.Name;
+							itemsReportCollection.push([item.CustomerCode,
+																					item.Name,
+																					customerTotal.Cash,
+																					customerTotal.Silver,
+																					customerTotal.Gold,
+																					customerTotal.Date
+							]);
+						}
+						var buffer = xlsx.build([{
+							name: "GroupName",
+							data: itemsReportCollection
+						}]);
+						return res.status(200).type("application/vnd.ms-excel").send(buffer);
+						//console.log(JSON.stringify(products));
+					});
+				});
+			});
+		});
+
 		app.get('/StockReport', function(req, res) {
 			var stockItemsSet = new Set();
 			var productsMap = new Map();

@@ -73,10 +73,10 @@ sap.ui.define([
 				window.open("/entryDownload?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
 			}
 			else if(cust===""){
-				window.open("/entryDownloadBetween?id="+cust+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
+				window.open("/entryDownloadDate?id="+cust+"&type=Entry&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
 			}
 			else{
-				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
+				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
 			}
 
 

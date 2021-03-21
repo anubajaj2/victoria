@@ -11,61 +11,25 @@ var InitSecurity = (function () {
     ;
     InitSecurity.prototype.init = function () {
         var _this = this;
-        this.User.findOne({ where: { email: 'anurag\.bajaj02@gmail\.com' } }).then(function (user) {
-            if (!user) {
-                _this.User.create({ username: 'anurag', email: 'anurag\.bajaj02@gmail\.com', password: 'Welcome1!' }).then(function (user) {
-                    if (user) {
-                        //logger.debug("User created: " + JSON.stringify(user.toJSON()));
-                        _this.assignAdminUserToRole(user);
-                    }
-                    else {
-                        //logger.error("user 'anurag' could not be created. Program may not work as expected");
-                    }
-                });
-            }
-            else {
-                _this.assignAdminUserToRole(user);
-            }
-        }).catch(function (err) {
-            //logger.error("error: " + err);
-        });
-        this.User.findOne({ where: { email: 'lohit\.16@gmail\.com' } }).then(function (user) {
-            if (!user) {
-                _this.User.create({ username: 'lohit', email: 'lohit\.16@gmail\.com', password: 'Welcome1!' }).then(function (user) {
-                    if (user) {
-                        //logger.debug("User created: " + JSON.stringify(user.toJSON()));
-                        _this.initClearkRoleForUser(user);
-                    }
-                    else {
-                        //logger.error("user 'lohit' could not be created. Program may not work as expected");
-                    }
-                });
-            }
-            else {
-              _this.initClearkRoleForUser(user);
-            }
-        }).catch(function (err) {
-            //logger.error("error: " + err);
-        });
-        this.User.findOne({ where: { email: 'xmataka@rediffmail\.com' } }).
-        then(function (user) {
-            if (!user) {
-                _this.User.create({ username: 'xmataka', email: 'xmataka@rediffmail\.com', password: 'Shiv@222' }).then(function (user) {
-                    if (user) {
-                        //logger.debug("User created: " + JSON.stringify(user.toJSON()));
-                        _this.initClearkRoleForUser(user);
-                    }
-                    else {
-                        //logger.error("user 'xmataka' could not be created. Program may not work as expected");
-                    }
-                });
-            }
-            else {
-              _this.initClearkRoleForUser(user);
-            }
-        }).catch(function (err) {
-          //  logger.error("error: " + err);
-        });
+        // this.User.findOne({ where: { email: 'admin@demo\.com' } }).then(function (user) {
+        //     if (!user) {
+        //         _this.User.create({ username: 'admin', email: 'admin@demo\.com', password: 'Welcome1!' }).then(function (user) {
+        //             if (user) {
+        //                 //logger.debug("User created: " + JSON.stringify(user.toJSON()));
+        //                 _this.assignAdminUserToRole(user);
+        //             }
+        //             else {
+        //                 //logger.error("user 'anurag' could not be created. Program may not work as expected");
+        //             }
+        //         });
+        //     }
+        //     else {
+        //         _this.assignAdminUserToRole(user);
+        //     }
+        // }).catch(function (err) {
+        //     //logger.error("error: " + err);
+        // });
+
 
     };
 

@@ -8086,7 +8086,7 @@ app.start = function() {
 												}
 											}
 											if (j == totText) {
-												sheet.getColumn('E').width = colMaxLengthE + 2;
+												sheet.getColumn('E').width = colMaxLengthE + 3;
 											}
 											//setting absolute length for column F
 											if (sheet.getCell('F' + (j)).value !== null) {
@@ -8099,7 +8099,7 @@ app.start = function() {
 												}
 											}
 											if (j == totText) {
-												sheet.getColumn('F').width = colMaxLengthG + 2;
+												sheet.getColumn('F').width = colMaxLengthG + 6;
 											}
 											//setting absolute length for column G
 											if (sheet.getCell('G' + (j)).value !== null) {
@@ -8112,7 +8112,7 @@ app.start = function() {
 												}
 											}
 											if (j == totText) {
-												sheet.getColumn('G').width = colMaxLengthG + 2;
+												sheet.getColumn('G').width = colMaxLengthG + 8;
 											}
 										}
 										// code added by surya for autocolumn width - ended

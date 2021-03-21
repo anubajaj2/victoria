@@ -72,6 +72,9 @@ sap.ui.define([
 			if(minDate===null && maxDate===null){
 				window.open("/entryDownload?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
 			}
+			else if(cust===""){
+				window.open("/entryDownloadBetween?id="+cust+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
+			}
 			else{
 				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=Entry&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
 			}
@@ -223,10 +226,10 @@ sap.ui.define([
 			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
 			var myData = this.getView().getModel("local").getProperty("/EntryData");
 			var oFilter=[];
-			if(cust === ""){
-				MessageToast.show("Customer is Mandatory");
-				return;
-			}
+			// if(cust === ""){
+			// 	MessageToast.show("Customer is Mandatory");
+			// 	return;
+			// }
 			if(minDate!==null && maxDate!==null){
 				var oFilter1 = new Filter([
 						new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, minDate,maxDate)

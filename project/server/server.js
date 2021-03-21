@@ -4134,6 +4134,19 @@ app.start = function() {
 			var city = req.query.city;
 			var min = req.query.min;
 			var max = req.query.max;
+			var d={
+				"Customer": custId,
+				"Date": {
+					between: [new Date(min), new Date(max)]
+				}
+			};
+			if(custId===''){
+				d={
+					"Date": {
+						between: [new Date(min), new Date(max)]
+					}
+				};
+			}
 			// custId = "6043ad0632a5213cb0ec551a";
 			var Ggroup = "";
 			//read customer name by id, group by group id, city by
@@ -4164,12 +4177,7 @@ app.start = function() {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
 						Entry.find({
-								where: {
-									"Customer": custId,
-									"Date": {
-										between: [new Date(min), new Date(max)]
-									}
-								}
+								where: d
 							})
 							.then(function(Records, err) {
 									if (Records) {
@@ -7793,6 +7801,7 @@ app.start = function() {
 			var Entry = app.models.Entry;
 			var min = req.body.min;
 			var max = req.body.max;
+			if(customerId !=""){
 			Entry.find({
 				where: {
 					"Customer": customerId,
@@ -7816,7 +7825,33 @@ app.start = function() {
 					"CashTotal": tCash
 				});
 			});
+}
+else{
+	Entry.find({
+		where: {
+			// "Customer": customerId,
+			"Date": {
+				between: [new Date(min), new Date(max)]
+			}
+		}
+	}).then(function(records) {
+		var tSilver = 0,
+			tGold = 0,
+			tCash = 0;
+		for (var i = 0; i < records.length; i++) {
+			tSilver = tSilver + records[i].Silver;
+			tGold = tGold + records[i].Gold;
+			tCash = tCash + records[i].Cash;
+		}
 
+		res.send({
+			"SilverTotal": tSilver,
+			"GoldTotal": tGold,
+			"CashTotal": tCash
+		});
+	});
+
+}
 		});
 
 

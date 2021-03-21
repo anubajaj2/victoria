@@ -4134,19 +4134,7 @@ app.start = function() {
 			var city = req.query.city;
 			var min = req.query.min;
 			var max = req.query.max;
-			var d={
-				"Customer": custId,
-				"Date": {
-					between: [new Date(min), new Date(max)]
-				}
-			};
-			if(custId===''){
-				d={
-					"Date": {
-						between: [new Date(min), new Date(max)]
-					}
-				};
-			}
+
 			// custId = "6043ad0632a5213cb0ec551a";
 			var Ggroup = "";
 			//read customer name by id, group by group id, city by
@@ -4177,7 +4165,12 @@ app.start = function() {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
 						Entry.find({
-								where: d
+								where: {
+									"Customer": custId,
+									"Date": {
+										between: [new Date(min), new Date(max)]
+									}
+								}
 							})
 							.then(function(Records, err) {
 									if (Records) {

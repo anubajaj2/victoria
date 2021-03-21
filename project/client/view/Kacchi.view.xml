@@ -5,6 +5,7 @@
 
 	<semantic:FullscreenPage id="Kacchi" navButtonPress="onNavBack" tooltip="{i18n>back}" showNavButton="true" title="{i18n>Kacchi}">
 			<semantic:customHeaderContent>
+				<Text id="idUser"> </Text>
 				<!-- <Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/> -->
 		</semantic:customHeaderContent>
 	<semantic:content id="idContent">

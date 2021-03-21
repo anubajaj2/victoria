@@ -23,6 +23,11 @@ sap.ui.define(["victoria/controller/BaseController",
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				that.getView().setBusy(true);
+				var that = this;
+				var currentUser = this.getModel("local").getProperty("/CurrentUser");
+				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+				loginUser = "Hey " + loginUser;
+				this.getView().byId("idUser").setText(loginUser);
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
 					.then(function (oData) {
 						that.getView().setBusy(false);

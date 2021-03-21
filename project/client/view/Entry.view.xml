@@ -6,9 +6,12 @@
     showNavButton="true"
     title="{i18n>Entry}">
     <semantic:customHeaderContent>
+<Text id="idUser"> </Text>
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 			tooltip="{i18n>fullscreen}"
 			iconFirst="true" press="toggleFullScreen"/>
+
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
     </semantic:customHeaderContent>
     <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.entry1" type="XML"></core:Fragment>

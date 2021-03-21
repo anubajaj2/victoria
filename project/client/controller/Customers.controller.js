@@ -37,6 +37,11 @@ sap.ui.define([
 			//Alarm Below : TargetLevel
 			//Price per pc/gm : QuantityPerUnit
 			//Making : Address
+			var that = this;
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
+			loginUser = "Hey " + loginUser;
+			this.getView().byId("idUser").setText(loginUser);
 			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iOriginalBusyDelay,
 				oViewModel = new JSONModel({

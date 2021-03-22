@@ -219,13 +219,26 @@ sap.ui.define([
 
 		onSearch: function(oEvent) {
 			var searchStr = oEvent.getParameter("value");
-			var oFilter = new sap.ui.model.Filter({
-				filters: [
-					new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr),
-					new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr)
-				],
-				and: false
-			});
+			oFilter = [];
+			if(!searchStr) {
+				searchStr = oEvent.getParameter("newValue");
+			}
+			if(searchStr){
+				var oFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr),
+						new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr)
+					],
+					and: false
+				});
+			}
+			// var oFilter = new sap.ui.model.Filter({
+			// 	filters: [
+			// 		new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr),
+			// 		new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr)
+			// 	],
+			// 	and: false
+			// });
 			this.searchPopup.getBinding("items").filter(oFilter);
 		},
 		getKachhiCustPopup: function(oEvent) {

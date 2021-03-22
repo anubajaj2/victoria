@@ -596,6 +596,8 @@ this.oDialog1.close();
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
 				this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
+				this.getView().byId("idCash").focus();
+				this.getView().byId("idCash").$().find("input").select();
 				$.post("/getTotalEntryCustomer", {
 					Customer: myData.Customer
 				}).then(function (result) {

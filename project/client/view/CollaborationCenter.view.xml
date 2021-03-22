@@ -5,7 +5,7 @@
   <semantic:FullscreenPage
     id="collaborationCenter"
     navButtonPress="onNavBack"
-    showNavButton="true"
+    showNavButton="false"
     title="Collaboration Center">
       <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.CollaborationCenter" type="XML"></core:Fragment>

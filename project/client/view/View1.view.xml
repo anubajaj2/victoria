@@ -3,7 +3,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page icon="sap-icon://" title="{i18n>SelectOption}">
 		<headerContent>
-			<Button icon="sap-icon://arrow-right" press="onNext" tooltip="{i18n>Next}"></Button>
+			<!-- <Button icon="sap-icon://arrow-right" showNavButton="false" press="onNext" tooltip="{i18n>Next}"></Button> -->
 		</headerContent>
 		<content>
 			<!--<Button text="go to next screen" press="onNext"></Button>-->

@@ -3,7 +3,7 @@
   <semantic:FullscreenPage
     id="Entry"
     navButtonPress="onNavBack"
-    showNavButton="true"
+    showNavButton="false"
     title="{i18n>Entry}">
     <semantic:customHeaderContent>
 <Text id="idUser"> </Text>

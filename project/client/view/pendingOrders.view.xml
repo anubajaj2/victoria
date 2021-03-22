@@ -9,7 +9,7 @@
   	<semantic:FullscreenPage
       id="pendingOrders"
       navButtonPress="onNavBack"
-      showNavButton="true"
+      showNavButton="false"
       title="{i18n>StockMaintenance}">
     <semantic:content>
     <VBox class="sapUiSmallMargin">

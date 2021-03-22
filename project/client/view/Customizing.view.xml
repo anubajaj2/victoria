@@ -3,7 +3,7 @@
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="Customzing"
-		navButtonPress="onNavBack" showNavButton="true" tooltip="{i18n>back}" title="{i18n>Customizing}">
+		navButtonPress="onNavBack" showNavButton="false" tooltip="{i18n>back}" title="{i18n>Customizing}">
 		<semantic:customHeaderContent>
 			<!-- <Text id="idDB"> </Text> -->
 			<Text id="idUser"> </Text>

@@ -4,7 +4,7 @@
   <semantic:FullscreenPage
     id="customerOrders"
     navButtonPress=""
-    showNavButton="true"
+    showNavButton="false"
     title="{i18n>CustomerOrders}"
     busy="{objectView>/busy}"
     busyIndicatorDelay="{objectView>/delay}">

@@ -3,7 +3,7 @@
   <semantic:FullscreenPage
     id="editEntry"
     navButtonPress="onNavBack"
-    showNavButton="true"
+    showNavButton="false"
     title="Reports">
     <semantic:customHeaderContent>
       <Text id="idDB"> </Text>

@@ -11,7 +11,7 @@
 	<semantic:FullscreenPage
 		id="products"
 		navButtonPress="onNavBack"
-		showNavButton="true"
+		showNavButton="false"
 		title="{i18n>bookingTitle}"
 		busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}" tooltip="{i18n>back}"

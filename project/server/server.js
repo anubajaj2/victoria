@@ -6865,7 +6865,7 @@ app.start = function() {
 							});
 						});
 					},
-	
+
 					function (customerRecord,entryRecord,callback) {
 						// var customerRecord=entryRecord;
 						//Loop customer data and put all the city and Group codes in different arrays
@@ -6905,7 +6905,7 @@ app.start = function() {
 
 					try {
 						//Fetch Groups data on the basis of group codes array
-						debugger;
+						// debugger;
 						var Group = app.models.Group;
 						Group.find({
 							where: {
@@ -6919,7 +6919,7 @@ app.start = function() {
 								"groupName": true
 							}
 						}).then(function(groupRecord, err) {
-							debugger;
+							// debugger;
 							var entryFinals = [];
 							var noGroupEntries = [];
 							var gro=[];
@@ -6930,7 +6930,7 @@ app.start = function() {
 								entryFinal.Cash = entryRecord[a].Cash;
 								entryFinal.Gold = entryRecord[a].Gold;
 								entryFinal.Silver = entryRecord[a].Silver;
-								debugger;
+								// debugger;
 
 								//loop through customer records to get customer details
 								for (var i = 0; i < customerRecord.length; i++) {
@@ -6944,7 +6944,7 @@ app.start = function() {
 												break;
 											}
 										}
-										debugger;
+										// debugger;
 										if(customerRecord[i].Group.toString() == grp ){
 										//loop through Group records to get group name
 										for (var k = 0; k < groupRecord.length; k++) {
@@ -6979,7 +6979,7 @@ app.start = function() {
 											entryFinals.push(entryFinal);
 										// }
 										} else {
-											debugger;
+											// debugger;
 											noGroupEntries.push(entryFinal);
 										}
 										break;
@@ -6988,7 +6988,7 @@ app.start = function() {
 
 								//Now push prepared record object to the array of Final Entries
 							}
-debugger;
+// debugger;
 							if (entryFinals) {
 
 								//sort customer arrays on the basis of Group
@@ -7002,7 +7002,7 @@ debugger;
 
 								//declare function for making one complete tab groupwise
 								function createTabForGroup(group, groupRecords) {
-
+										// debugger;
 									//create a tab sheet with the Group name
 									var sheet = workbook.addWorksheet(group); //creating worksheet
 									//Heading for excel
@@ -7092,6 +7092,19 @@ debugger;
 											argb: 'A9A9A9'
 										}
 									};
+									function formatDateForEntry(date) {
+											var d = new Date(date),
+													month = '' + (d.getMonth() + 1),
+													day = '' + d.getDate(),
+													year = d.getFullYear();
+
+											if (month.length < 2)
+													month = '0' + month;
+											if (day.length < 2)
+													day = '0' + day;
+
+											return [day, month, year].join('.');
+									}
 									//variables for total aggregation
 									var totalSilver = 0;
 									var totalCash = 0;
@@ -7099,7 +7112,10 @@ debugger;
 									// Looping through the records
 									for (var j = 0; j < groupRecords["length"]; j++) {
 										var items = groupRecords[j];
-										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, items.Date];
+										// debugger;
+
+										var date1 = formatDateForEntry(items.Date);
+										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, date1];
 										totalSilver = totalSilver + items["Silver"];
 										totalCash = totalCash + items["Cash"];
 										totalGold = totalGold + items["Gold"];

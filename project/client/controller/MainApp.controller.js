@@ -86,7 +86,7 @@ sap.ui.define([
 					that.getView().getModel("local").setProperty("/CurrentUser", data.userId);
 					that.getView().getModel().setUseBatch(false);
 					var that2 = that;
-
+					debugger;
 					//Check the role and set it after that navigate to App
 					//that.oRouter.navTo("newlead");
 
@@ -104,6 +104,7 @@ sap.ui.define([
 								for (var i = 0; i < oData.results.length; i++) {
 									AppUsers[oData.results[i].TechnicalId] = oData.results[i];
 									if (oData.results[i].TechnicalId === data.userId) {
+										var role=oData.results[i].Role;
 										that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
 										that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
 										found = true;
@@ -114,8 +115,22 @@ sap.ui.define([
 								}
 								if (found === true) {
 									that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
-
-									that2.oRouter.navTo("Customers");
+									if(role==="Admin"){
+										that2.oRouter.navTo("Customers");
+									}else if(role==="Content"){
+										that2.oRouter.navTo("dayBook");
+									}else if(role==="Sales"){
+										that2.oRouter.navTo("sales");
+									}else if(role==="Order"){
+										that2.oRouter.navTo("customerOrders");
+									}else if(role==="Kacchi"){
+										that2.oRouter.navTo("Kacchi");
+									}else if(role==="Booking"){
+										that2.oRouter.navTo("Suppliers");
+									}else if(role==="Stock"){
+										that2.oRouter.navTo("Stock");
+									}
+									// that2.oRouter.navTo("Customers");
 that2.onDropDownSelect();
 
 								} else {

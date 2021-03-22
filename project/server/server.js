@@ -3598,9 +3598,12 @@ app.start = function() {
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
+						debugger;
 						Entry.find({
+								order: 'Date',
 								where: {
 									"Customer": custId
+
 								}
 							})
 							.then(function(Records, err) {
@@ -4166,6 +4169,7 @@ app.start = function() {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
 						Entry.find({
+								order: 'Date',
 								where: {
 									"Customer": custId,
 									"Date": {
@@ -7636,6 +7640,7 @@ app.start = function() {
 					function(callback) {
 						//Find all Customers
 						Entry.find({
+								order: 'Date',
 								where: {
 									"Date": {
 										between: [new Date(min), new Date(max)]

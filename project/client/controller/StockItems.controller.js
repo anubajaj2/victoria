@@ -345,7 +345,8 @@ sap.ui.define(
 				window.open("/DailyReport?date="+dDateStart);
 			},
 			onStockReport : function(){
-				window.open("/StockReport");
+					var dDateStart = this.getView().byId("idDate").getValue();
+				window.open("/StockReport?date="+dDateStart);
 			},
 			onExportPdf: function(oEvent) {
 				var oTab = this.getView().byId("idTable1");

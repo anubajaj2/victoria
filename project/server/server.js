@@ -4900,9 +4900,15 @@ app.start = function() {
 		});
 
 		app.get('/StockReport', function(req, res) {
+
+			var d =new Date(req.query.date);
+			d.setUTCHours(0,0,0,0,0);
 			var stockItemsSet = new Set();
 			var productsMap = new Map();
 			app.models.StockItem.find({
+				where: {
+					Date:d
+				}
 				// where: {
 				// 	Date: {
 				// 		lt: new Date()
@@ -6798,7 +6804,7 @@ app.start = function() {
 			);
 		});
 
-		app.get('/groupWiseEntryDownload', function(req, res) {
+		app.get('/groupWiseEntryDownload',async function(req, res) {
 			debugger;
 			var reportType = req.query.type;
 			var grp=req.query.group;
@@ -6807,54 +6813,61 @@ app.start = function() {
 
 			var async = require('async');
 			// fetch all the entries
+			var items = [];
+			var items2 = [];
 			var Entry = app.models.Entry;
+			var collection = Entry.getDataSource().connector.collection(Entry.modelName);
+				var entryRecord = new Set();
+
 			async.waterfall([
-					function(callback) {
-						//Find all Customers
-						Entry.find({
-								fields: {
-									"Date": true,
-									"Customer": true,
-									"Cash": true,
-									"Gold": true,
-									"Silver": true
+					 function(callback) {
+
+						 collection.aggregate([{
+							$group: {
+								_id: '$Customer',
+								Cash: {
+									$sum: "$Cash"
+								},
+								Gold: {
+									$sum: "$Gold"
+								},
+								Silver: {
+									$sum: "$Silver"
+								},
+								Date: {
+									$max: "$Date"
 								}
-							})
-							.then(function(entryRecord, err) {
-								// call second function of the waterfall
-								callback(err, entryRecord);
+							}
+						}], function(err, data) {
+							if (err) return callback(err);
+							data.on('data',async function(data) {
+								items.push(data);
+								entryRecord.add(data._id.toString());
 							});
-					},
-					function(entryRecord, callback) {
-						//Loop customer data and put all the city and Group codes in different arrays
 
-						var arrCustomers = [];
+							data.on('end', function() {
+								// callback(err, entryRecord);
+								console.log(JSON.stringify(items));
+								var aItemsToday = items;
+								//TILL TODAY TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
+								app.models.Customer.find({
+									where: {
+										id: {
+											inq: Array.from(entryRecord)
+										}
+									}
+								},function(err ,customerRecord) {
+									debugger;
+									// return entryRecord;
+									callback(err, customerRecord, items);
 
-						for (var p = 0; p < entryRecord["length"]; p++) {
-							if (!(arrCustomers.includes(entryRecord[p].Customer.toString()))) {
-								arrCustomers.push(entryRecord[p].Customer.toString());
-							}
-						}
-						//Fetch city data on the basis of city codes array
-						var Customer = app.models.Customer;
-						Customer.find({
-							where: {
-								id: {
-									inq: arrCustomers
-								}
-							},
-							fields: {
-								"id": true,
-								"City": true,
-								"CustomerCode": true,
-								"Name": true,
-								"Group": true
-							}
-						}).then(function(customerRecord, err) {
-							callback(err, customerRecord, entryRecord);
+								});
+							});
 						});
 					},
-					function(customerRecord, entryRecord, callback) {
+	
+					function (customerRecord,entryRecord,callback) {
+						// var customerRecord=entryRecord;
 						//Loop customer data and put all the city and Group codes in different arrays
 
 						var arrCities = [];
@@ -6883,14 +6896,16 @@ app.start = function() {
 								"cityName": true
 							}
 						}).then(function(cityRecord, err) {
+							debugger;
 							// call second function of the waterfall
-							callback(err, customerRecord, entryRecord, cityRecord, arrGroups);
+							callback(err,customerRecord, entryRecord, cityRecord, arrGroups);
 						});
 					}
-				], function(err, customerRecord, entryRecord, cityRecord, arrGroups) {
+				], function(err,customerRecord, entryRecord, cityRecord, arrGroups) {
 
 					try {
 						//Fetch Groups data on the basis of group codes array
+						debugger;
 						var Group = app.models.Group;
 						Group.find({
 							where: {
@@ -6904,6 +6919,7 @@ app.start = function() {
 								"groupName": true
 							}
 						}).then(function(groupRecord, err) {
+							debugger;
 							var entryFinals = [];
 							var noGroupEntries = [];
 							var gro=[];
@@ -6914,10 +6930,11 @@ app.start = function() {
 								entryFinal.Cash = entryRecord[a].Cash;
 								entryFinal.Gold = entryRecord[a].Gold;
 								entryFinal.Silver = entryRecord[a].Silver;
+								debugger;
 
 								//loop through customer records to get customer details
 								for (var i = 0; i < customerRecord.length; i++) {
-									if (entryRecord[a].Customer.toString() == customerRecord[i].id.toString()) {
+									if (entryRecord[a]._id.toString() == customerRecord[i].id.toString()) {
 										//loop through city records to get city name
 										for (var m = 0; m < cityRecord.length; m++) {
 											if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
@@ -6971,7 +6988,7 @@ app.start = function() {
 
 								//Now push prepared record object to the array of Final Entries
 							}
-
+debugger;
 							if (entryFinals) {
 
 								//sort customer arrays on the basis of Group
@@ -7572,7 +7589,8 @@ app.start = function() {
 
 							}
 						}).catch(function(oError) {
-							that.getView().setBusy(false);
+							debugger;
+							// that.getView().setBusy(false);
 						});
 					} catch (e) {
 

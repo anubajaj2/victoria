@@ -49,7 +49,7 @@ sap.ui.define([
 		},
 
 		onValueHelpRequest: function (oEvent) {debugger;
-			this.inpField = oEvent.getSource().getId();
+			// this.inpField = oEvent.getSource().getId();
 			this.getCustomerPopup(oEvent);
 		},
 
@@ -57,7 +57,7 @@ sap.ui.define([
 		onEnter: function (oEvent) {
 			this.getCustomer(oEvent);
 
-			this.getView().byId("idCash1").focus();
+			// this.getView().byId("idCash1").focus();
 		},
 		_getSecureDetails: function() {
 			var that = this;

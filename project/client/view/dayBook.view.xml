@@ -35,13 +35,19 @@
 
 							<smartFilterBar:ControlConfiguration key="idCustDay" index="1" label="{i18n>Customer}" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
 								<smartFilterBar:customControl>
-									    <Input id="idCustDay" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest"
-                                  suggestionItemSelected="onCustomerSelect"
+									    <Input id="idCustDay" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value=""
+                                  suggestionItemSelected="onEnter" maxSuggestionWidth="300px"
                                   submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
 										<suggestionItems>
-											<core:Item text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
 										</suggestionItems>
+
 									</Input>
+
+
+
+
+
 								</smartFilterBar:customControl>
 							</smartFilterBar:ControlConfiguration>
 

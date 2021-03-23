@@ -292,8 +292,14 @@ sap.ui.define([
 		                });
 					}
 					else{
+						if(cust===""){
+							var oCust=cust;
+						}
+						else{
+							var oCust=myData.Customer;
+						}
 						$.post("/getTotalEntryCustomerBetween", {
-		                    Customer: myData.Customer,
+		                    Customer: oCust,
 												max:maxDate.toISOString(),
 												min:minDate.toISOString()
 		                }).then(function (result) {

@@ -7728,6 +7728,7 @@ app.start = function() {
 								entryFinal.Cash = entryRecord[a].Cash;
 								entryFinal.Gold = entryRecord[a].Gold;
 								entryFinal.Silver = entryRecord[a].Silver;
+								debugger;
 
 								//loop through customer records to get customer details
 								for (var i = 0; i < customerRecord.length; i++) {
@@ -7756,8 +7757,22 @@ app.start = function() {
 								//declare function for making one complete tab groupwise
 								function createTabForGroup(group, groupRecords) {
 
+
 									//create a tab sheet with the Group name
 									var sheet = workbook.addWorksheet(group); //creating worksheet
+									function formatDateForEntry(date) {
+											var d = new Date(date),
+													month = '' + (d.getMonth() + 1),
+													day = '' + d.getDate(),
+													year = d.getFullYear();
+
+											if (month.length < 2)
+													month = '0' + month;
+											if (day.length < 2)
+													day = '0' + day;
+
+											return [day, month, year].join('.');
+									}
 									//Heading for excel
 
 									sheet.mergeCells('A1:G1');
@@ -7845,6 +7860,7 @@ app.start = function() {
 											argb: 'A9A9A9'
 										}
 									};
+
 									//variables for total aggregation
 									var totalSilver = 0;
 									var totalCash = 0;
@@ -7852,7 +7868,8 @@ app.start = function() {
 									// Looping through the records
 									for (var j = 0; j < groupRecords["length"]; j++) {
 										var items = groupRecords[j];
-										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, items.Date];
+										var datet = formatDateForEntry(items.Date);
+										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, datet];
 										totalSilver = totalSilver + items["Silver"];
 										totalCash = totalCash + items["Cash"];
 										totalGold = totalGold + items["Gold"];
@@ -8240,7 +8257,7 @@ app.start = function() {
 								// Start the excel instance
 								var excel = require('exceljs');
 								var workbook = new excel.Workbook();
-									createTabForGroup("No_Group_Customers", entryFinals);
+									createTabForGroup("DayBook_Customers", entryFinals);
 								var tempFilePath =  reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 

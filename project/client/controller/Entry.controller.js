@@ -28,12 +28,12 @@ sap.ui.define(["victoria/controller/BaseController",
 				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 				loginUser = "Hey " + loginUser;
 				this.getView().byId("idUser").setText(loginUser);
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
-					.then(function (oData) {
-						that.getView().setBusy(false);
-					}).catch(function (oError) {
-						var oPopover = that.getErrorMessage(oError);
-					});
+				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
+				// 	.then(function (oData) {
+				// 		that.getView().setBusy(false);
+				// 	}).catch(function (oError) {
+				// 		var oPopover = that.getErrorMessage(oError);
+				// 	});
 					debugger;
 					this.getOwnerComponent().getModel("local").setProperty("/materialEnable",true);
 

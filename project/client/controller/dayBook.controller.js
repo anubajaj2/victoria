@@ -19,13 +19,13 @@ sap.ui.define([
 
 		onInit: function() {debugger;
 			var that = this;
-			that.getView().setBusy(true);
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
-				.then(function (oData) {
-					that.getView().setBusy(false);
-				}).catch(function (oError) {
-					var oPopover = that.getErrorMessage(oError);
-				});
+			// that.getView().setBusy(true);
+			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
+			// 	.then(function (oData) {
+			// 		that.getView().setBusy(false);
+			// 	}).catch(function (oError) {
+			// 		var oPopover = that.getErrorMessage(oError);
+			// 	});
 
 
 			Controller.prototype.onInit.apply(this);

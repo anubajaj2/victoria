@@ -114,16 +114,16 @@ sap.ui.define([
 			});
 			this.setModel(odataModel, "dataModel");
 
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-					"/Customers", "GET", {}, {}, this)
-				.then(function(oData) {
-					var oModelCustomer = new JSONModel();
-					oModelCustomer.setData(oData);
-					that.getView().setModel(oModelCustomer, "customerModelInfo");
-
-				}).catch(function(oError) {
-					MessageToast.show(that.resourceBundle.getText("ReqField"));
-				});
+			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			// 		"/Customers", "GET", {}, {}, this)
+			// 	.then(function(oData) {
+			// 		var oModelCustomer = new JSONModel();
+			// 		oModelCustomer.setData(oData);
+			// 		that.getView().setModel(oModelCustomer, "customerModelInfo");
+			//
+			// 	}).catch(function(oError) {
+			// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+			// 	});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/Cities", "GET", {}, {}, this)

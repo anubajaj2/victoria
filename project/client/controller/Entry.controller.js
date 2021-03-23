@@ -583,19 +583,22 @@ this.oDialog1.close();
 				var selectedCust = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var that = this;
 				var myData = this.getView().getModel("local").getProperty("/EntryData");
-				var selCust = oEvent.getParameter("selectedItem").getLabel();
-				var selCustName = oEvent.getParameter("selectedItem").getValue();
+				// var selCust = oEvent.getParameter("selectedItem").getLabel();
+				// var selCustName = oEvent.getParameter("selectedItem").getValue();
+				var selCust = selectedCust.CustomerCode;
+				var selCustName = selectedCust.Name;
 				this.getView().byId("idCust").setValue(selCust);
 				this.getView().byId("idCustText").setText(selCustName);
-				this.getView().getModel("local").setProperty("/EntryData/Customer",
-					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+				this.getView().getModel("local").setProperty("/EntryData/Customer", selectedCust.id);
+				debugger;
 				this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId",
 					selCust);
 				// myData.Customer=;
 				this.getView().getModel("local").getProperty("/EntryData", myData);
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
-				this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
+				this.customerId = selectedCust.id
+				// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 				$.post("/getTotalEntryCustomer", {

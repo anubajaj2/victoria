@@ -1801,6 +1801,7 @@ sap.ui.define([
 				this.getView().getModel("local").setProperty("/EntryData/Customer", selectedCustomer.id);
 
 				this.getView().getModel("local").setProperty("/EntryData/CustomerCity", cityId);
+
 				this.getView().getModel("local").setProperty("/entryHeaderTemp/customerId", customerCode);
 				this.getView().getModel("local").setProperty("/EntryData/customerName", name);
 				var myData = this.getView().getModel("local").getProperty("/EntryData");

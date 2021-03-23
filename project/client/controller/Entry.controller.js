@@ -359,6 +359,90 @@ onPressHandleEntrySavePopup1: function(){
 this.oDialog1.close();
 },
 
+
+
+onPressHandleEntrySavePopup11:function(){
+	debugger;
+	var password1=this.getView().byId("pwd1").getValue();
+	if(password1 === "Sarita@123"){
+			this.oDialog2.close();
+
+		var x = this.getView().byId("idCust").getValue();
+				if (!x) {
+					this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
+				}
+				var count = this.getView().byId("idTable").getItems().length;
+				var that = this;
+				var that1=this.getView();
+
+
+
+
+
+sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" + that.resourceBundle.getText("entries"),
+					 {
+						title: "Confirm",
+						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+						styleClass: "",
+						onClose: function (sAction) {
+							var that =this;
+							if (sAction === "OK") {
+								debugger;
+
+								$.post("/deleteRecords", {
+									customerId: that.customerId,
+									entityName: "Entry"
+								}).done(function (response) {
+									sap.m.MessageToast.show(response.msg);
+									sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
+									sap.ui.getCore().byId("__component0---idEntry--idTC").setText("0");
+									var z1 = sap.ui.getCore().byId("__component0---idEntry--idTC").getText();
+									if (parseFloat(z1) > 0) {
+										sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Success');
+										debugger;
+									} else {
+										sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Warning');
+									}
+
+									sap.ui.getCore().byId("__component0---idEntry--idG").setText("0");
+									var z1 = sap.ui.getCore().byId("__component0---idEntry--idG").getText();
+									if (parseFloat(z1) > 0) {
+										sap.ui.getCore().byId("__component0---idEntry--idG").setState('Success');
+										debugger;
+									} else {
+										sap.ui.getCore().byId("__component0---idEntry--idG").setState('Warning');
+									}
+									sap.ui.getCore().byId("__component0---idEntry--idS").setText("0");
+									var z1 = sap.ui.getCore().byId("__component0---idEntry--idS").getText();
+									if (parseFloat(z1) > 0) {
+										sap.ui.getCore().byId("__component0---idEntry--idS").setState('Success');
+										debugger;
+									} else {
+										sap.ui.getCore().byId("__component0---idEntry--idS").setState('Warning');
+									}
+									sap.ui.getCore().byId("__component0---idEntry--idTC").setState("Warning");
+									sap.ui.getCore().byId("__component0---idEntry--idG").setText("Warning");
+									sap.ui.getCore().byId("__component0---idEntry--idS").setText("Warning");
+										// that.getView().byId("idTable").refresh(true);
+								});
+								// this.getView().byId("idTable").refresh(true);
+								// Entrys.refresh(true);
+							} else if (sAction === "CANCEL") {
+								this.getView().setBusy(false);
+							}
+						}
+					});
+	}
+
+
+	else{
+		this.getView().byId("pwd1").setValueState("Error");
+		this.getView().byId("pwd1").setValueStateText("Enter Correct Password");
+		sap.m.MessageToast.show("Enter Correct Password");
+	}
+
+},
+
 			onSelectChange: function(oEvent) {
 				debugger;
 				var oValue = oEvent.getSource().getId();
@@ -1138,6 +1222,17 @@ this.oDialog1.close();
 							 this.getView().byId("idGroup1").setEditable(true);
 						 }
 			},
+
+			onPressHandleEntryCancelPopup11: function () {
+					// this.getView().byId("idGroup1").setEditable(false);
+
+				this.oDialog2.close();
+				// if(this.getView().byId("id1").getSelected()){
+				// 			 this.getView().byId("idGroup1").setEditable(true);
+				// 		 }
+			},
+
+
 			onEdit: function (oEvent) {
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;
 				if (recCount > 1) {
@@ -1149,64 +1244,15 @@ this.oDialog1.close();
 			},
 
 			onMasterClear: function (oEvent) {
-				var x = this.getView().byId("idCust").getValue();
-				if (!x) {
-					this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
-				}
-				var count = this.getView().byId("idTable").getItems().length;
-				var that = this;
-				// "Do u want to delete(" + count + ")entries",
-				sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" + that.resourceBundle.getText("entries"),
-					 {
-						title: "Confirm",
-						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-						styleClass: "",
-						onClose: function (sAction) {
-							if (sAction === "OK") {
-								debugger;
-								$.post("/deleteRecords", {
-									customerId: that.customerId,
-									entityName: "Entry"
-								}).done(function (response) {
-									sap.m.MessageToast.show(response.msg);
-									sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
-									sap.ui.getCore().byId("__component0---idEntry--idTC").setText("0");
-									var z1 = sap.ui.getCore().byId("__component0---idEntry--idTC").getText();
-									if (parseFloat(z1) > 0) {
-										sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Success');
-										debugger;
-									} else {
-										sap.ui.getCore().byId("__component0---idEntry--idTC").setState('Warning');
-									}
 
-									sap.ui.getCore().byId("__component0---idEntry--idG").setText("0");
-									var z1 = sap.ui.getCore().byId("__component0---idEntry--idG").getText();
-									if (parseFloat(z1) > 0) {
-										sap.ui.getCore().byId("__component0---idEntry--idG").setState('Success');
-										debugger;
-									} else {
-										sap.ui.getCore().byId("__component0---idEntry--idG").setState('Warning');
-									}
-									sap.ui.getCore().byId("__component0---idEntry--idS").setText("0");
-									var z1 = sap.ui.getCore().byId("__component0---idEntry--idS").getText();
-									if (parseFloat(z1) > 0) {
-										sap.ui.getCore().byId("__component0---idEntry--idS").setState('Success');
-										debugger;
-									} else {
-										sap.ui.getCore().byId("__component0---idEntry--idS").setState('Warning');
-									}
-									// sap.ui.getCore().byId("__component0---idEntry--idTC").setState("Warning");
-									// sap.ui.getCore().byId("__component0---idEntry--idG").setText("Warning");
-									// sap.ui.getCore().byId("__component0---idEntry--idS").setText("Warning");
-									// 	// that.getView().byId("idTable").refresh(true);
-								});
-								// this.getView().byId("idTable").refresh(true);
-								// Entrys.refresh(true);
-							} else if (sAction === "CANCEL") {
-								this.getView().setBusy(false);
-							}
-						}
-					});
+
+				// "Do u want to delete(" + count + ")entries",
+				if (!this.oDialog2) {
+					this.oDialog2 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroupMaster", this);
+					this.getView().addDependent(this.oDialog1);
+				}
+				this.oDialog2.open();
+
 			},
 
 			onUpdateFinished: function (oEvent) {

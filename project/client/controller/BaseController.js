@@ -226,8 +226,8 @@ sap.ui.define([
 			if(searchStr){
 				var oFilter = new sap.ui.model.Filter({
 					filters: [
-						new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr),
-						new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr)
+						new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase()),
+						new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase())
 					],
 					and: false
 				});

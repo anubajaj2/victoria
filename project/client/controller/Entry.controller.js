@@ -159,6 +159,16 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 			},
+			onCustomerSelect1: function(oEvent, custName, custId) {
+				debugger;
+				this.getView().byId("idCash").focus();
+				this.getView().byId("idCash").$().find("input").select();
+				// var that = this;
+				if (oEvent.getParameter("selectedItem")) {
+					var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+					this.setCustomerIdAndCustomerName(selectedData);
+				}
+			},
 			valuesChangeMaterial: function(oEvent) {
 				this.getView().byId("idweight").focus();
 				this.getView().byId("idweight").$().find("input").select();

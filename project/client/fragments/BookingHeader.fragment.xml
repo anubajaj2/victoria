@@ -35,7 +35,7 @@
 							suggestionItemSelected="customerCodeCheck" -->
 									<m:Input id="idCustomerCode" value="{local>/BookingCustomer/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer"
 										valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="customerCodeCheck1" submit="customerCodeCheck1"
-										showSuggestion="true" suggestionItems="{/Customers}">
+										showSuggestion="true" suggestionItems="{/Customers}" maxSuggestionWidth="300px">
 										<m:suggestionItems>
 											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
 										</m:suggestionItems>

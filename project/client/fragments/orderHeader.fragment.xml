@@ -28,7 +28,7 @@
 											<f:fields>
 												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer"
 													valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="onCustomerSelect" submit="onEnter" showSuggestion="true"
-													suggestionItems="{/Customers}">
+													suggestionItems="{/Customers}" maxSuggestionWidth="300px">
 													<suggestionItems>
 														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
 													</suggestionItems>

@@ -33,7 +33,7 @@
 							<f:fields>
 								<Input id="idCoCustomer" showValueHelp="true" editable="true" valueHelpRequest="onValueHelp" value="{path: 'local>/coTemp/CustomerCode'}"
 									suggestionItemSelected="onCustomerSelect"
-									submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+									submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}" maxSuggestionWidth="300px">
 										<suggestionItems>
 												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
 										</suggestionItems>

@@ -441,13 +441,14 @@ this.oDialog1.close();
 				}
 			},
 			onMaterialSelect: function (oEvent) {
+				debugger;
 				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 				var selMat = oEvent.getParameter("selectedItem").getText();
 				var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
 				var selType = oEvent.getParameter("selectedItem").getKey();
 				// this.getView().byId("idMatType").setText(selType);
 				this.getView().byId("idMat").setValue(selMat);
-				this.getView().byId("idMatText").setText(selMatName + " - " + selType);
+				this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
 			},
 			onRemarksSubmit: function (oEvent) {
 				this.getView().byId("sendButton").focus();

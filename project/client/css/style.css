@@ -13,3 +13,11 @@
 #translControl{
   padding: 10px;
 }
+/* .sapUiAFLayoutItem {
+  flex-basis: 12rem;
+  max-width: 20rem;
+} */
+element.style {
+    flex-basis: 12rem;
+    max-width: 20rem;
+}

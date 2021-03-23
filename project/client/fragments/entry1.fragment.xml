@@ -120,7 +120,7 @@
                             <f:fields>
                                 <Input id="idMat" showValueHelp="false" editable="true" type="Text" submit="valuesChangeMaterial"
                                 placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect" liveChange="onKeyPress"
-                                showSuggestion="true" suggestionItems="{/Products}" visible="true">
+                                showSuggestion="true" suggestionItems="{/Products}" visible="true" maxSuggestionWidth="auto">
                                     <suggestionItems>
                                         <core:ListItem text="{ProductCode}" key="{id}" additionalText="{ProductName}"/>
                                     </suggestionItems>

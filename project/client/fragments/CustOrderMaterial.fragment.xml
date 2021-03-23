@@ -14,7 +14,7 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>coMaterial}">
 							<f:fields>
-								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true"
+								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true" maxSuggestionWidth="auto"
 									suggestionItemSelected="onMaterialSelect" submit="onMaterialEnter"
 									showSuggestion="true" suggestionItems="{/Products}">
 									<suggestionItems>
@@ -50,7 +50,7 @@
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
 								<Input id="idCoKarigar" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpKarigar" value="{path: 'local>/coTemp/KarigarCode'}"
-									suggestionItemSelected="onKarigarSelect"
+									suggestionItemSelected="onKarigarSelect" maxSuggestionWidth="auto"
 									submit="onKarigarEnter" showSuggestion="true" suggestionItems="{/Customers}">
 										<suggestionItems>
 												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>

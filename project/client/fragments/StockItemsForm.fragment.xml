@@ -39,8 +39,7 @@
                   <Input id="idMatCode"
                   	suggestionItems="{/Products}" showSuggestion="true"
                     value="{path: 'local>/StockItemsData/MaterialName'}" liveChange="refreshModel" submit="refreshModel1"
-                    suggestionItemSelected="onMaterialSelect"
-                  	>
+                    suggestionItemSelected="onMaterialSelect" maxSuggestionWidth="auto">
                   	<suggestionItems>
                   		<core:ListItem text="{ProductCode}"
                   									 additionalText="{ProductName} {Type}"/>

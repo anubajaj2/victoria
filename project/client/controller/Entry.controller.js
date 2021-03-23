@@ -34,14 +34,17 @@ sap.ui.define(["victoria/controller/BaseController",
 					}).catch(function (oError) {
 						var oPopover = that.getErrorMessage(oError);
 					});
+					debugger;
+					this.getOwnerComponent().getModel("local").setProperty("/materialEnable",true);
 
-				if (this.getView().byId("RB-1").getSelected()) {
-					this.getView().byId("idformMat").setVisible(false);
-					this.getView().byId("idMat").setVisible(false);
-					jQuery.sap.delayedCall(500, this, function () {
-						this.getView().byId("idweight").focus();
-					});
-				}
+
+				// if (this.getView().byId("RB-1").getSelected()) {
+				// 	this.getView().byId("idformMat").setVisible(false);
+				// 	this.getView().byId("idMat").setVisible(false);
+				// 	jQuery.sap.delayedCall(500, this, function () {
+				// 		this.getView().byId("idweight").focus();
+					// });
+				// }
 				// var oViewDetailModel = new JSONModel({
 				// 	"buttonText": "Save",
 				// 	"deleteEnabled": false,
@@ -66,7 +69,13 @@ sap.ui.define(["victoria/controller/BaseController",
 			_onRouteMatched: function () {debugger;
 				var that = this;
 				that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
+					that.getView().getModel("local").setProperty("/materialEnable",false);
 				this.getView().byId("DateId").setDateValue(new Date());
+				var oJson = new JSONModel();
+				// oJson.setData({
+				// 	materialEnable:false
+				// });
+				// that.getView().setModel(oJson, "material");
 				// var that = this;
 				// var viewModel = this.getView().getModel("viewModel");
 				// viewModel.setProperty("/codeEnabled", true);
@@ -564,14 +573,16 @@ this.oDialog1.close();
 				if (this.getView().byId("RB-1").getSelected() ||
 					this.getView().byId("RB-2").getSelected() ||
 					this.getView().byId("RB-3").getSelected()) {
-					this.getView().byId("idformMat").setVisible(false);
-					this.getView().byId("idMat").setVisible(false);
+					// this.getView().byId("idformMat").setVisible(false);
+					// this.getView().byId("idMat").setVisible(false);
+					this.getView().getModel("local").setProperty("/materialEnable",false);
 					jQuery.sap.delayedCall(500, this, function () {
 						this.getView().byId("idweight").focus();
 					});
 				} else if (this.getView().byId("RB-4").getSelected()) {
-					this.getView().byId("idformMat").setVisible(true);
-					this.getView().byId("idMat").setVisible(true);
+					// this.getView().byId("idformMat").setVisible(true);
+					// this.getView().byId("idMat").setVisible(true);
+					this.getView().getModel("local").setProperty("/materialEnable",true);
 					jQuery.sap.delayedCall(500, this, function () {
 						this.getView().byId("idMat").focus();
 					});

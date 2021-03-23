@@ -38,7 +38,7 @@
                         <f:FormElement label="{i18n>Customer}">
                             <f:fields>
                                 <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
-                                  suggestionItemSelected="onCustomerSelect" maxSuggestionWidth="auto"
+                                   maxSuggestionWidth="auto"
                                   submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
                                     <suggestionItems>
                                         <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
@@ -116,11 +116,11 @@
                                 </RadioButtonGroup>
                             </f:fields>
                         </f:FormElement>
-                        <f:FormElement id="idformMat" label="{i18n>material}" visible="true">
+                        <f:FormElement id="idformMat" label="{i18n>material}"    >
                             <f:fields>
                                 <Input id="idMat" showValueHelp="false" editable="true" type="Text" submit="valuesChangeMaterial"
                                 placeholder="Enter Product.." suggestionItemSelected="onMaterialSelect" liveChange="onKeyPress"
-                                showSuggestion="true" suggestionItems="{/Products}" visible="true">
+                                showSuggestion="true" suggestionItems="{/Products}"  enabled="{local>/materialEnable}">
                                     <suggestionItems>
                                         <core:ListItem text="{ProductCode}" key="{id}" additionalText="{ProductName}"/>
                                     </suggestionItems>

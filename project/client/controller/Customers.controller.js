@@ -185,16 +185,16 @@ sap.ui.define([
 					MessageToast.show(that.resourceBundle.getText("ReqField"));
 				});
 
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-					"/Cities", "GET", {}, {}, this)
-				.then(function(oData) {
-					var oModelCity = new JSONModel();
-					oModelCity.setData(oData);
-					that.getView().setModel(oModelCity, "cityModelInfo");
-
-				}).catch(function(oError) {
-					MessageToast.show(that.resourceBundle.getText("ReqField"));
-				});
+			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			// 		"/Cities", "GET", {}, {}, this)
+			// 	.then(function(oData) {
+			// 		var oModelCity = new JSONModel();
+			// 		oModelCity.setData(oData);
+			// 		that.getView().setModel(oModelCity, "cityModelInfo");
+			//
+			// 	}).catch(function(oError) {
+			// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+			// 	});
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/Groups", "GET", {}, {}, this)

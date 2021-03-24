@@ -4,10 +4,14 @@
 	<Table id="idTable"
     items="{
            path: '/Entrys',
-             sorter: {
-             path: 'ChangedOn',
+             sorter: [{
+             path: 'Date',
+             descending: 'true'},
+						{
+						 path: 'ChangedOn',
              descending: 'true'
-             }
+						 }
+             ]
            }"
     mode="MultiSelect" growing="true"
 	  growingThreshold="20" updateFinished="onUpdateFinished">

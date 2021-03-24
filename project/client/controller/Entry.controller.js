@@ -68,7 +68,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			_onRouteMatched: function () {debugger;
 				var that = this;
 				that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
-					that.getView().getModel("local").setProperty("/materialEnable",false);
+					that.getView().getModel("local").setProperty("/materialEnable",true);
 				this.getView().byId("DateId").setDateValue(new Date());
 				var oJson = new JSONModel();
 				// oJson.setData({

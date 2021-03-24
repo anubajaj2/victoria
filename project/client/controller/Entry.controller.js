@@ -22,7 +22,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			onInit: function () {debugger
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-				that.getView().setBusy(true);
+				// that.getView().setBusy(true);
 				var that = this;
 				var currentUser = this.getModel("local").getProperty("/CurrentUser");
 				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;

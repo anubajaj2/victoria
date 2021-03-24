@@ -160,12 +160,15 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 			onCustomerSelect1: function(oEvent, custName, custId) {
 				debugger;
-				this.getView().byId("idCash").focus();
-				this.getView().byId("idCash").$().find("input").select();
-				// var that = this;
+				// this.getView().byId("idCash").focus();
+				// this.getView().byId("idCash").$().find("input").select();
+				var that = this;
 				if (oEvent.getParameter("selectedItem")) {
 					var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
-					this.setCustomerIdAndCustomerName(selectedData);
+					that.setCustomerIdAndCustomerName(selectedData);
+					that.getView().byId("idCash").focus();
+					that.getView().byId("idCash").$().find("input").select();
+
 				}
 			},
 			valuesChangeMaterial: function(oEvent) {
@@ -975,6 +978,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 			onClear: function () {
 				debugger;
+				var oFilter = [];
 				var check = this.getView().byId("CBID").getSelected();
 				if (check === true) {
 					if (this.clearOnSend) {
@@ -987,9 +991,10 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.getView().byId("DateId").setDateValue(new Date());
 						this.byId("idCust").setValue("");
 						this.byId("idCustText").setText("");
+						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(500, this, function () {
-						this.getView().byId("idCash").focus();
+						this.getView().byId("idCust").focus();
 					});
 
 					this.byId("idMat").setValue("");
@@ -1009,6 +1014,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.getView().byId("DateId").setDateValue(myData.Date);
 					} else {
 						this.getView().byId("DateId").setDateValue(new Date());
+						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(500, this, function () {
 						this.getView().byId("idCust").focus();

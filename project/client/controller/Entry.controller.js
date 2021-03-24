@@ -981,14 +981,17 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.clearOnSend = false;
 						var myData = this.getView().getModel("local").getProperty("/EntryData");
 						this.getView().byId("DateId").setDateValue(myData.Date);
+						this.byId("idCust").getValue();
+						this.byId("idCustText").getText();
 					} else {
 						this.getView().byId("DateId").setDateValue(new Date());
+						this.byId("idCust").setValue("");
+						this.byId("idCustText").setText("");
 					}
 					jQuery.sap.delayedCall(500, this, function () {
 						this.getView().byId("idCash").focus();
 					});
-					this.byId("idCust").getValue();
-					this.byId("idCustText").getText();
+
 					this.byId("idMat").setValue("");
 					this.byId("idMatText").setText("");
 					this.byId("idMatType").setText("");

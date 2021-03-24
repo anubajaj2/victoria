@@ -206,27 +206,27 @@ sap.ui.define(["victoria/controller/BaseController",
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(KR);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "Gold") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "Silver") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "GS") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "Gold") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "Silver") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[1] === "GS") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(negMat);

@@ -1252,7 +1252,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 					return;
 				}
-
+					this.customerId=custId;
 				// "Do u want to delete(" + count + ")entries",
 				if (!this.oDialog2) {
 					this.oDialog2 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroupMaster", this);

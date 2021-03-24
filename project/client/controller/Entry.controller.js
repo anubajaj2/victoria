@@ -1,17 +1,16 @@
 sap.ui.define(["victoria/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/m/MessageBox",
-
 		"sap/ui/core/routing/History",
 		"sap/m/MessageToast",
 		"victoria/models/formatter",
 		"sap/ui/model/Filter"
 	],
 	function (BaseController,
-		MessageBox,
-		MessageToast,
 		JSONModel,
+		MessageBox,
 		History,
+		MessageToast,
 		formatter,
 		Filter
 	) {
@@ -187,6 +186,9 @@ sap.ui.define(["victoria/controller/BaseController",
 				var wtValue = this.byId("idweight").getValue();
 				var thValue = this.byId("idtunch").getValue();
 				var X = wtValue * thValue / 100;
+				if(X===0 || X===""){
+					MessageToast.show("enter the correct Weight value");
+				}
 				var CR = "Silver Received @" + wtValue + 'x' + thValue;
 				var SR = "Gold Received @" + wtValue + 'x' + thValue;
 				var KR = "Kacchi Received @" + wtValue + 'x' + thValue;

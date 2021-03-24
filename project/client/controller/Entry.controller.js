@@ -545,13 +545,19 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 			},
 			onMaterialSelect: function (oEvent) {
 				debugger;
-				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				var selMat = oEvent.getParameter("selectedItem").getText();
-				var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
-				var selType = oEvent.getParameter("selectedItem").getKey();
-				// this.getView().byId("idMatType").setText(selType);
-				this.getView().byId("idMat").setValue(selMat);
-				this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
+				if(oEvent.getParameter("selectedItem")){
+					var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+					var selMat = oEvent.getParameter("selectedItem").getText();
+					var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
+					var selType = oEvent.getParameter("selectedItem").getKey();
+					// this.getView().byId("idMatType").setText(selType);
+					this.getView().byId("idMat").setValue(selMat);
+					this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
+					jQuery.sap.delayedCall(100, this, function () {
+						this.getView().byId("idweight").focus();
+						this.getView().byId("idweight").$().find("input").select();
+					});
+				}
 			},
 			onRemarksSubmit: function (oEvent) {
 				this.getView().byId("sendButton").focus();
@@ -998,7 +1004,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.byId("idCustText").setText("");
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
-					jQuery.sap.delayedCall(500, this, function () {
+					jQuery.sap.delayedCall(100, this, function () {
 						this.getView().byId("idCust").focus();
 					});
 
@@ -1016,12 +1022,12 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					if (this.clearOnSend) {
 						this.clearOnSend = false;
 						var myData = this.getView().getModel("local").getProperty("/EntryData");
-						this.getView().byId("DateId").setDateValue(myData.Date);
+						this.getView().byId("DateId").setDateValue(new Date());
 					} else {
 						this.getView().byId("DateId").setDateValue(new Date());
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
-					jQuery.sap.delayedCall(500, this, function () {
+					jQuery.sap.delayedCall(100, this, function () {
 						this.getView().byId("idCust").focus();
 					});
 

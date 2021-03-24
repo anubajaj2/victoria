@@ -671,6 +671,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					// this.getView().byId("idformMat").setVisible(false);
 					// this.getView().byId("idMat").setVisible(false);
 					this.getView().getModel("local").setProperty("/materialEnable",false);
+					this.getView().byId("idMat").setValue("");
 					jQuery.sap.delayedCall(500, this, function () {
 						this.getView().byId("idweight").focus();
 					});

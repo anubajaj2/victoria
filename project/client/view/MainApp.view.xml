@@ -2,7 +2,11 @@
 controllerName="victoria.controller.MainApp"
 	xmlns:html="http://www.w3.org/1999/xhtml" >
 	<App id="idMainApp">
-		<Page title="Victoria Crown Jewels">
+		<Page title="Victoria Crown Jewels" >
+			<headerContent>
+<Text text="{i18n>Version}" />
+</headerContent>
+
 			<content>
 				<!-- <tnt:ToolHeader>
 					<ToolbarSpacer />

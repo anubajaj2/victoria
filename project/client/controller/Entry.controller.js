@@ -756,14 +756,15 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 			onSend: function (oEvent) {
 				debugger;
+				var that = this;
 				if (this.getView().byId("idMat").getValue() === "" && this.getView().byId("RB-4").getSelected()) {
 					sap.m.MessageBox.show(that.resourceBundle.getText("MaterialEnter"));
 				}
-				if (this.getView().byId("idCust").getValue() === "") {
+				else if (this.getView().byId("idCust").getValue() === "") {
 					sap.m.MessageBox.show(that.resourceBundle.getText("Customer11"));
 				} else {
 					debugger;
-					var that = this;
+
 					that.getView().setBusy(true);
 					var myData = this.getView().getModel("local").getProperty("/EntryData");
 					myData.Date = this.getView().byId("DateId").getDateValue();

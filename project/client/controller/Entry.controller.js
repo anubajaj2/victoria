@@ -1244,7 +1244,14 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 			},
 
 			onMasterClear: function (oEvent) {
+				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 
+				if (custId === "" || custId === undefined) {
+					sap.m.MessageBox.error(" Please Select a Customer ", {
+						title: "Error"
+					});
+					return;
+				}
 
 				// "Do u want to delete(" + count + ")entries",
 				if (!this.oDialog2) {

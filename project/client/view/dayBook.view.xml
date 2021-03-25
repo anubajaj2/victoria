@@ -36,10 +36,11 @@
 							<smartFilterBar:ControlConfiguration key="idCustDay" index="1" label="{i18n>Customer}" groupId="_BASIC" width="300px" visibleInAdvancedArea="true">
 								<smartFilterBar:customControl>
 									    <Input id="idCustDay" showValueHelp="true" editable="true"  valueHelpRequest="onValueHelpRequest" value=""
-                                  suggestionItemSelected="onEnter" maxSuggestionWidth="300px"
+                                  suggestionItemSelected="onEnter" maxSuggestionWidth="auto" autocomplete="false"
                                   submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
 										<suggestionItems>
-											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+											<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
+																																												 formatter: '.formatter.byNameCity'}"/>
 										</suggestionItems>
 
 									</Input>

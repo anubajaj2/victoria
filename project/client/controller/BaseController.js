@@ -212,7 +212,8 @@ sap.ui.define([
 								return Name + "-" + that.allMasterData.cities[City].cityName
 							}
 						}
-					})
+					}),
+					sorter: new sap.ui.model.Sorter("Name")
 				});
 			}
 			// this.fieldId = oEvent.getSource().getId();
@@ -1805,7 +1806,7 @@ sap.ui.define([
 				});
 			} else if (!salesId & !wsId & !bookingId) {
 				this.getView().byId("idCust").setValue(customerCode);
-				this.getView().byId("idCustText").setText(name);
+				// this.getView().byId("idCustText").setText(name);
 				this.getView().byId("idEntryDownload").setEnabled(true);
 				this.getView().getModel("local").setProperty("/EntryData/Customer", selectedCustomer.id);
 

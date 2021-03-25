@@ -54,7 +54,8 @@ sap.ui.define([
 			"customCalculations": [],
 			"cities": [],
 			"users": [],
-			"stockItems": []
+			"stockItems": [],
+			"groups":[]
 		},
 
 		/**
@@ -131,6 +132,15 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Groups", "GET", null, null, this)
+					.then(function(oData) {
+						for (var i = 0; i < oData.results.length; i++) {
+							that.allMasterData.groups[oData.results[i].id] = oData.results[i];
+							// that.allMasterData.groups[oData.results[i].CustomerCode] = oData.results[i];
+						}
+					}).catch(function(oError) {
+						var oPopover = that.getErrorMessage(oError);
+					});
 			this.fetchValuesFromCustomizing();
 
 		},
@@ -199,7 +209,6 @@ sap.ui.define([
 								path: "City"
 							}],
 							formatter: function(Name, City) {
-								debugger;
 								return Name + "-" + that.allMasterData.cities[City].cityName
 							}
 						}
@@ -1852,7 +1861,7 @@ sap.ui.define([
 				});
 			} else {
 				this.getView().byId("Sales--customerId").setValue(customerCode);
-				this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+				// this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/orderHeader/Customer", selectedCustomer.id);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerCode);
 			}

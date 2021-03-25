@@ -26,7 +26,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			debugger;
 			var blob = new Blob([byteArray.buffer], {
 				// type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-				type:'application/octet-stream' 
+				type:'application/octet-stream'
 			});
 			jQuery.sap.addUrlWhitelist("blob");
 			return URL.createObjectURL(blob);
@@ -63,6 +63,19 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 				return "Reject";
 			}
 
+		},
+		byNameCity: function(Name, City){debugger;
+			return Name + "-" + this.allMasterData.cities[City].cityName;
+		},
+		byNameCityGroup: function(customerId){
+			debugger;
+			if (customerId){
+				var customerData = this.allMasterData.customers[customerId]
+				var Name = customerData.Name;
+				var City = this.allMasterData.cities[customerData.City].cityName;
+				var Group = this.allMasterData.groups[customerData.Group].groupName;
+				return Name + "-" + City + "-" + Group;
+			}
 		},
 		sortByProperty: function(array, property) {
 			var lol = function dynamicSort(property) {

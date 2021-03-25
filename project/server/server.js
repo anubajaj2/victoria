@@ -3600,7 +3600,7 @@ app.start = function() {
 						var Entry = app.models.Entry;
 						debugger;
 						Entry.find({
-								order: 'Date',
+								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
 									"Customer": custId
 
@@ -4169,7 +4169,7 @@ app.start = function() {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
 						Entry.find({
-								order: 'Date',
+								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
 									"Customer": custId,
 									"Date": {
@@ -7538,12 +7538,28 @@ app.start = function() {
 								//loop the sorted table & for each group create a new sheet.
 								var sameGroupEntries = [];
 								debugger;
+
+								function GetSortOrder(prop) {
+										    return function(a, b) {
+										        if (a[prop] > b[prop]) {
+										            return 1;
+										        } else if (a[prop] < b[prop]) {
+										            return -1;
+										        }
+										        return 0;
+										    }
+										}
+
+										// entryFinals.sort(GetSortOrder("CustomerName"));
+
+
 								if(grp != "01"){
 								for (var n = 0; n < entryFinals.length; n++) {
 
 									if (n !== 0) {
 										// check if the group is going to change from the next record
 										if (entryFinals[n].Group !== entryFinals[n - "1"].Group) {
+											sameGroupEntries.sort(GetSortOrder("CustomerName"));
 
 											//call function to create new tab and prepare complete tab data
 											createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
@@ -7556,6 +7572,7 @@ app.start = function() {
 									sameGroupEntries.push(entryFinals[n]);
 								}
 								if (sameGroupEntries) {
+									sameGroupEntries.sort(GetSortOrder("CustomerName"));
 									//call function to create new tab and prepare complete tab data
 									createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
 								}
@@ -7564,6 +7581,7 @@ app.start = function() {
 									if(grp=="00"||grp=="01"){
 									//call function to create new tab and prepare complete tab data
 									debugger;
+									noGroupEntries.sort(GetSortOrder("CustomerName"));
 									createTabForGroup("No_Group_Customers", noGroupEntries);
 								}
 								// if(grp=="01"){entryFinal=noGroupEntries;}
@@ -7640,7 +7658,7 @@ app.start = function() {
 					function(callback) {
 						//Find all Customers
 						Entry.find({
-								order: 'Date',
+								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
 									"Date": {
 										between: [new Date(min), new Date(max)]

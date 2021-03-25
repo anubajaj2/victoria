@@ -1099,11 +1099,12 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			}
 		},
 		onBookingReportDownload: function(){debugger;
+			var type=this.getView().byId("idRb").getSelectedButton().getText();
 			var test = this.getView().getModel("local").getProperty("/selectedCustomer");
       var reportType = "Booking_Summary";
       var custId = test.id;
       var custName = test.Name;
-			window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName);
+			window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName+"&type1="+type);
 		},
 		onUpdateFinished: function(oEvent) {
 			debugger;

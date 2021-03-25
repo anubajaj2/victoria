@@ -1144,6 +1144,8 @@ app.start = function() {
 			var reportType = req.query.type;
 			var custId = req.query.id;
 			var custName = req.query.name;
+			var type= req.query.type1;
+
 
 			var responseData = [];
 			var oSubCounter = {};
@@ -1165,13 +1167,15 @@ app.start = function() {
 					function(cRecord, callback) {
 						B_Detail.find({
 							where: {
-								"Customer": custId
+								"Customer": custId,
+								"Type":type
 							},
 							fields: {
 								"BookingDate": true,
 								"Quantity": true,
 								"Bhav": true,
-								"Advance": true
+								"Advance": true,
+								"Type":true
 							}
 						}).then(function(b_Record, err) {
 							callback(err, cRecord, b_Record);
@@ -1180,13 +1184,15 @@ app.start = function() {
 					function(cRecord, b_Record, callback) {
 						B_Dlv_Detail.find({
 							where: {
-								"Customer": custId
+								"Customer": custId,
+								"Type":type
 							},
 							fields: {
 								"BookingDate": true,
 								"Quantity": true,
 								"Bhav": true,
-								"Advance": true
+								"Advance": true,
+								"Type":true
 							}
 						}).then(function(b_d_Record, err) {
 							callback(err, cRecord, b_Record, b_d_Record);
@@ -1197,6 +1203,7 @@ app.start = function() {
 					try {
 						debugger;
 						var excel = require('exceljs');
+							// var type = b_Record[0].Type;
 						var workbook = new excel.Workbook(); //creating workbook
 						var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
@@ -1217,18 +1224,6 @@ app.start = function() {
 								argb: '808080'
 							}
 						};
-
-						//Merging second Row
-						sheet.mergeCells('A2:H2');
-						sheet.getCell('H2').value = 'Customer Name : ' + cRecord.Name;
-						sheet.getCell('A2').alignment = {
-							vertical: 'middle',
-							horizontal: 'center'
-						};
-
-						var nameCol = sheet.getColumn('E');
-						nameCol.width = 1;
-
 						//Code for getting current datetime
 						var currentdate = new Date();
 						var datetime = currentdate.getDate() + "." +
@@ -1237,6 +1232,19 @@ app.start = function() {
 							currentdate.getHours() + ":" +
 							currentdate.getMinutes() + ":" +
 							currentdate.getSeconds();
+
+						//Merging second Row
+						sheet.mergeCells('A2:H2');
+						sheet.getCell('H2').value = 'Customer Name : ' + cRecord.Name + '\t    ' + '\n' + datetime;
+						sheet.getCell('A2').alignment = {
+							vertical: 'middle',
+							horizontal: 'center'
+						};
+
+						var nameCol = sheet.getColumn('E');
+						nameCol.width = 1;
+
+
 
 						var header = ["Date", "Quantity", "Bhav", "Advance", " ", "Date", "Quantity", "Bhav"];
 						sheet.addRow().values = header;
@@ -1669,7 +1677,7 @@ app.start = function() {
 						};
 
 						//Coding to download in a folder
-						var tempFilePath = reportType + '_' + custName + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+						var tempFilePath = type + '_' + custName + '_'+'Booking-' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 							currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 							currentdate.getSeconds() + '.xlsx';
 						// console.log("tempFilePath : ", tempFilePath);

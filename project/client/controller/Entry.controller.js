@@ -4,7 +4,8 @@ sap.ui.define(["victoria/controller/BaseController",
 		"sap/ui/core/routing/History",
 		"sap/m/MessageToast",
 		"victoria/models/formatter",
-		"sap/ui/model/Filter"
+		"sap/ui/model/Filter",
+		"sap/ui/model/FilterOperator",
 	],
 	function (BaseController,
 		JSONModel,
@@ -12,7 +13,8 @@ sap.ui.define(["victoria/controller/BaseController",
 		History,
 		MessageToast,
 		formatter,
-		Filter
+		Filter,
+		FilterOperator
 	) {
 		"use strict";
 		return BaseController.extend("victoria.controller.Entry", {
@@ -158,6 +160,25 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 			},
+
+
+			onSuggest: function (oEvent) {debugger;
+				var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();;
+
+					// var sTerm=oEvent.getSource().getProperty("value");
+					var aFilters = [];
+					if (sTerm) {
+						aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
+						aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
+						// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
+
+					}
+
+					oEvent.getSource().getBinding("suggestionItems").filter(new Filter({filters:aFilters,and:false}));
+				},
+
+
+
 			onCustomerSelect1: function(oEvent, custName, custId) {
 				debugger;
 				// this.getView().byId("idCash").focus();
@@ -767,10 +788,10 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 			onSend: function (oEvent) {
 				debugger;
 				var that = this;
-				if (this.getView().byId("idMat").getValue() === "" && this.getView().byId("RB-4").getSelected()) {
-					sap.m.MessageBox.show(that.resourceBundle.getText("MaterialEnter"));
-				}
-				else if (this.getView().byId("idCust").getValue() === "") {
+				// if (this.getView().byId("idMat").getValue() === "" && this.getView().byId("RB-4").getSelected()) {
+				// 	sap.m.MessageBox.show(that.resourceBundle.getText("MaterialEnter"));
+				// }
+				if (this.getView().byId("idCust").getValue() === "") {
 					sap.m.MessageBox.show(that.resourceBundle.getText("Customer11"));
 				} else {
 					debugger;

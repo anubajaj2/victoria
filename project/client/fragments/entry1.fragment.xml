@@ -37,9 +37,10 @@
                         </f:FormElement>
                         <f:FormElement label="{i18n>Customer}">
                             <f:fields>
+                              <!-- suggest="onSuggest" -->
                                 <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
-                                  suggestionItemSelected="onCustomerSelect1" maxSuggestionWidth="auto" autocomplete="false"
-                                  submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}">
+                                  suggestionItemSelected="onCustomerSelect" maxSuggestionWidth="auto" autocomplete="false"
+                                  submit="onEnter" showSuggestion="true"  suggestionItems="{/Customers}">
                                     <suggestionItems>
                                         <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
                                     </suggestionItems>

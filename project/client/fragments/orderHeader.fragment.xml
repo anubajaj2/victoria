@@ -30,7 +30,7 @@
 													valueLiveUpdate="true" required="true" editable="true" suggestionItemSelected="onCustomerSelect" submit="onEnter" showSuggestion="true"
 													suggestionItems="{/Customers}" maxSuggestionWidth="auto" autocomplete="false">
 													<suggestionItems>
-														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}, {path: 'Group'}],
+														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
 																																															 formatter: '.formatter.byNameCity'}"/>
 													</suggestionItems>
 													<layoutData>
@@ -40,7 +40,7 @@
 												<!--  valueHelpOnly="true"-->
 												<!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
     editable="false"/> -->
-												<Text id="custName" text="{path: 'local>/orderHeader/Customer', formatter: '.formatter.byNameCityGroup'}" editable="false"/>
+												<Text id="custName" text="{path: 'local>/orderHeader/Customer', formatter: '.formatter.byNameCityGroup'}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">

@@ -26,16 +26,17 @@
 										<f:FormElement label="{i18n>Customer}">
 											<f:fields>
 												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" editable="true"
-													showSuggestion="true" suggestionItemSelected="onCustomerSelect" suggestionItems="{/Customers}" submit="onEnter" maxSuggestionWidth="300px">
+													showSuggestion="true" suggestionItemSelected="onCustomerSelect" suggestionItems="{/Customers}" submit="onEnter" maxSuggestionWidth="auto"
+													autocomplete="false">
 
 													<suggestionItems>
-											      <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+											      <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}], formatter:'.formatter.byNameCity'}"/>
 											      </suggestionItems>
 											      <layoutData>
 											        <l:GridData span="XL2 L1 M3 S3"/>
 											      </layoutData>
 											    </Input>
-										<Text id="custName" value="{local>/orderHeaderTemp/CustomerName}" editable="false"/>
+										<Text id="custName" text="{path: 'local>/WSOrderHeader/Customer', formatter:'.formatter.byNameCityGroup'}" editable="false"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">

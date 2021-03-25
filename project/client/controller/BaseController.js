@@ -1691,7 +1691,7 @@ sap.ui.define([
 
 			if(custOrderId){
 				this.getView().byId("idCoCustomer").setValue(customerCode);
-				this.getView().byId("idCoCustomerText").setValue(name);
+				// this.getView().byId("idCoCustomerText").setValue(name);
 
 				this.getView().getModel("local").setProperty("/customerOrder/Customer",
 						this.allMasterData.customersId[customerCode].id);
@@ -1705,7 +1705,7 @@ sap.ui.define([
 			if (!salesId & !entryId & !bookingId) {
 				this.getView().byId()
 				this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
-				this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+				// this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
 					selectedCustomer.id);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
@@ -1714,7 +1714,7 @@ sap.ui.define([
 					name);
 			} else if (!salesId & !entryId & !wsId) { //booking
 				this.getView().byId("idCustomerCode").setValue(customerCode);
-				this.getView().byId("idCustName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
+				// this.getView().byId("idCustName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/BookingDetail/Customer",
 					selectedCustomer.id);
 				this.getView().getModel("local").setProperty("/BookingDetail/CustomerId",

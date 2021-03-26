@@ -69,7 +69,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 		},
 		byNameCityGroup: function(customerId){
 			debugger;
-			if (customerId){
+			if (customerId && customerId !== "null"){
 				var customerData = this.allMasterData.customers[customerId]
 				var Name = customerData.Name;
 				var City = this.allMasterData.cities[customerData.City].cityName;

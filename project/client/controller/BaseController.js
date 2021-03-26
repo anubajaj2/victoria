@@ -1689,6 +1689,7 @@ sap.ui.define([
 			var bookingId = this.getView().byId("idCustomerCode");
 			var wsId = this.getView().byId("WSHeaderFragment--customerId");
 			var custOrderId = this.getView().byId("idCoCustomer");
+			var kachhiId = this.getView().byId("idCustNo");
 
 			if(custOrderId){
 				this.getView().byId("idCoCustomer").setValue(customerCode);
@@ -1702,9 +1703,8 @@ sap.ui.define([
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + this.allMasterData.customersId[customerCode].id + "'");
 				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
 			}
-
-			if (!salesId & !entryId & !bookingId) {
-				this.getView().byId()
+			else if (wsId) {
+				// this.getView().byId()
 				this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
 				// this.getView().byId("WSHeaderFragment--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/WSOrderHeader/Customer",
@@ -1713,7 +1713,7 @@ sap.ui.define([
 					customerCode);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName",
 					name);
-			} else if (!salesId & !entryId & !wsId) { //booking
+			} else if (bookingId) { //booking
 				this.getView().byId("idCustomerCode").setValue(customerCode);
 				// this.getView().byId("idCustName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/BookingDetail/Customer",
@@ -1804,7 +1804,7 @@ sap.ui.define([
 						that2.byId("idDAP").setState('Warning');
 					}
 				});
-			} else if (!salesId & !wsId & !bookingId) {
+			} else if (entryId) {
 				this.getView().byId("idCust").setValue(customerCode);
 				// this.getView().byId("idCustText").setText(name);
 				this.getView().byId("idEntryDownload").setEnabled(true);
@@ -1860,7 +1860,20 @@ sap.ui.define([
 						that.byId("idS").setState('Warning');
 					}
 				});
-			} else {
+			}
+			else if(kachhiId){
+				debugger;
+				var myData = this.getView().getModel("local").getProperty("/kacchiData");
+		    myData.Customer = selectedCustomer.id;
+		    this.customerId = myData.Customer;
+				this.getView().getModel("local").setProperty("/kacchiData", myData);
+				this.getView().byId("idCustNo").setValue(customerCode);
+				this.getView().getModel("local").setProperty("/kacchiData/Customer", selectedCustomer.id);
+				this.getView().getModel("local").setProperty("/kachhiHeaderTemp/customerId", customerCode);
+				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
+				this.getCustDataFromDB(oFilter);
+			}
+			else {
 				this.getView().byId("Sales--customerId").setValue(customerCode);
 				// this.getView().byId("Sales--custName").setText(name + "-" + that.allMasterData.cities[cityId].cityName);
 				this.getView().getModel("local").setProperty("/orderHeader/Customer", selectedCustomer.id);

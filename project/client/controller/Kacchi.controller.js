@@ -506,7 +506,7 @@ _onRouteMatched: function(oEvent){
   clearScreen: function(){
     var that=this;
     that.byId("idCustNo").setValue("");
-    that.byId("idCustName").setValue("");
+    that.byId("idCustName").setText("");
     that.byId("idDate").setDateValue(new Date());
     that.byId("idItemsCount").setText("");
     that.byId("idTotalWeight").setText("");
@@ -645,10 +645,10 @@ onConfirm: function(oEvent){
     this.getView().getModel("local").setProperty("/kachhiHeaderTemp/customerId",
       selCust);
     // myData.Customer=;
-    this.getView().getModel("local").getProperty("/kacchiData", myData);
+    // this.getView().getModel("local").getProperty("/kacchiData", myData);
     var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
     // this.getView().byId("idTable").getBinding("items").filter(oFilter);
-this.getCustDataFromDB(oFilter);
+    this.getCustDataFromDB(oFilter);
   },
 
 

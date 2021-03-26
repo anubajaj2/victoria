@@ -1,7 +1,8 @@
 <core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
   <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
-	<Table id="idTable"
+
+	<Table id="idTable" inset="false" class ="myCustomText"
     items="{
            path: '/Entrys',
              sorter: [{
@@ -27,35 +28,46 @@
       </Toolbar>
     </headerToolbar>
 		<columns>
-			<Column>
-				<Label text="{i18n>Date}"></Label>
+			<Column
+        minScreenWidth="phone"
+        demandPopin="true">
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+				<Label text="{i18n>Date}" design="Bold" ></Label>
       </Column>
       <Column>
-        <Label text="{i18n>coCustName}" />
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>coCustName}" design="Bold" />
       </Column>
       <Column visible="false">
-        <Label text="{i18n>custcode}"></Label>
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
       </Column>
       <Column visible="true">
-        <Label text="{i18n>coMaterial}"></Label>
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
       </Column>
       <Column>
-        <Label text="{i18n>amount}"></Label>
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
 
       </Column>
       <Column>
-        <Label text="{i18n>Gold}"></Label>
+				<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+        <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
       </Column>
         <Column>
-          <Label text="{i18n>Silver}"></Label>
+					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+          <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
         </Column>
         <Column>
-          <Label text="{i18n>Remarks}"></Label>
+					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+          <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
         </Column>
       </columns>
       <items>
         <ColumnListItem>
           <cells>
+
           <Text text= "{
                 path: 'Date',
                 type: 'sap.ui.model.type.Date',

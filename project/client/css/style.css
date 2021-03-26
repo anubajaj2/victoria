@@ -21,3 +21,69 @@ element.style {
     flex-basis: 12rem;
     max-width: 20rem;
 }
+
+
+/*
+.sapUiDemoWT .myCustomButton.sapMBtn {
+   margin-right: 0.125rem;
+}
+.sapUiDemoWT .myCustomText {
+   font-weight: 988;
+} */
+
+.sapUiCompFilterBar1 .sapUiAFLayoutItem{
+  flex-basis: 12rem; max-width: 22rem;
+}
+
+.myCustomText .sapMText {
+  text-align: left;
+    font-weight: bold;
+    color: #32363a;
+}
+
+/* .sapUiCompFilterBar .sapuiVltCell .sapUiAFLayoutItem{
+  max-width: 100%
+}
+
+
+.sapuiVltCell .sapUiAFLayoutItem{
+  max-width: 100%
+}
+
+
+/* .sapUiCompFilterBar .sapUiAFLayoutItem{
+  max-width: 100%
+} */
+
+.sapUiCompFilterBar .sapuiVltCell {
+  max-width: 100%
+}
+
+
+.sapUiCompFilterBar .sapUiAFLayoutItem {
+    flex-basis: 12rem;
+    max-width: 22rem;
+}
+
+.sapUiCompFilterBar1 .sapUiAFLayoutItem{
+  max-width: 100%
+}
+
+
+.sapUiCompFilterBar1 .sapUiAFLayoutItem, .sapUiCompFilterBar1 .sapUiAFLayoutEnd, .sapUiCompFilterBar1 .sapUiAFLayoutSpacer {
+    margin-right: 8;
+}
+
+
+.sapUiCompFilterBar1 .sapUiAFLayoutItem, .sapUiCompFilterBar1 .sapUiAFLayoutEnd {
+    margin-top: 2.5rem;
+}
+
+.sapUiAFLayoutOneLine *.sapUiAFLayoutSpacer:last-child {
+    flex-basis: auto !important;
+    flex-grow: 3;
+}
+
+.sapUiCompFilterBar .sapUiAFLayoutItem * .sapUiCompFilterBar .sapUiAFLayoutEnd, .sapUiCompFilterBar .sapUiAFLayoutSpacer{
+  margin-right: 8em;
+}

@@ -82,9 +82,12 @@
             <!-- <Text text="" />
             <Text text="{Material}" /> -->
 					<!-- <Text text="{Customer}"></Text> -->
-					<Text id="cashid" text="{path:'Cash'}"></Text>
-					<Text text="{Gold}"></Text>
-					<Text text="{Silver}"></Text>
+					<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
+					 <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'Success':'Warning'}" />
+					  <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id44" design="Bold" state="{=${Gold}>0?'Success':'Warning'}" />
+					<!-- <Text text="{Gold}"></Text> -->
+					<ObjectStatus text="{path:'Silver'}" id="id55" design="Bold" state="{=${Silver}>0?'Success':'Warning'}" />
+					<!-- <Text text="{Silver}"></Text> -->
 					<Text text="{Remarks}"></Text>
         </cells>
       </ColumnListItem>

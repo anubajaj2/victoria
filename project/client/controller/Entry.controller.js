@@ -7,7 +7,7 @@ sap.ui.define(["victoria/controller/BaseController",
 		"sap/ui/model/Filter",
 		"sap/ui/model/FilterOperator",
 	],
-	function (BaseController,
+	function(BaseController,
 		JSONModel,
 		MessageBox,
 		History,
@@ -18,9 +18,10 @@ sap.ui.define(["victoria/controller/BaseController",
 	) {
 		"use strict";
 		return BaseController.extend("victoria.controller.Entry", {
-			// formatter:formatter,
+			formatter:formatter,
 			clearOnSend: false,
-			onInit: function () {debugger
+			onInit: function() {
+				debugger
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				// that.getView().setBusy(true);
@@ -35,16 +36,15 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	}).catch(function (oError) {
 				// 		var oPopover = that.getErrorMessage(oError);
 				// 	});
-					debugger;
-					this.getOwnerComponent().getModel("local").setProperty("/materialEnable",false);
-
+				debugger;
+				this.getOwnerComponent().getModel("local").setProperty("/materialEnable", false);
 
 				// if (this.getView().byId("RB-1").getSelected()) {
 				// 	this.getView().byId("idformMat").setVisible(false);
 				// 	this.getView().byId("idMat").setVisible(false);
 				// 	jQuery.sap.delayedCall(500, this, function () {
 				// 		this.getView().byId("idweight").focus();
-					// });
+				// });
 				// }
 				// var oViewDetailModel = new JSONModel({
 				// 	"buttonText": "Save",
@@ -64,13 +64,14 @@ sap.ui.define(["victoria/controller/BaseController",
 				var oRouter = this.getRouter();
 				oRouter.getRoute("Entry").attachMatched(this._onRouteMatched, this);
 			},
-			getRouter: function () {
+			getRouter: function() {
 				return sap.ui.core.UIComponent.getRouterFor(this);
 			},
-			_onRouteMatched: function () {debugger;
+			_onRouteMatched: function() {
+				debugger;
 				var that = this;
 				that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
-					that.getView().getModel("local").setProperty("/materialEnable",true);
+				that.getView().getModel("local").setProperty("/materialEnable", true);
 				this.getView().byId("DateId").setDateValue(new Date());
 				var oJson = new JSONModel();
 				// oJson.setData({
@@ -138,10 +139,11 @@ sap.ui.define(["victoria/controller/BaseController",
 				// });
 			},
 
-			onValueHelpRequest: function (oEvent) {
+			onValueHelpRequest: function(oEvent) {
 				this.getCustomerPopup(oEvent);
 			},
-			onEnter: function (oEvent) {
+
+			onEnter: function(oEvent) {
 				debugger;
 				this.getCustomer(oEvent);
 				// $(function() {
@@ -161,23 +163,98 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("idCash").$().find("input").select();
 			},
 
+			onPayDateChange: function(oEvent) {
+				debugger;
 
-			onSuggest: function (oEvent) {debugger;
+				var that = this;
+				var myData = that.getView().getModel("local").getProperty("/EntryData");
+				// var selCust = oEvent.getParameter("selectedItem").getLabel();
+				// var selCustName = oEvent.getParameter("selectedItem").getValue();
+
+				debugger;
+
+				var minDate = that.getView().byId("DateId").getDateValue();
+				var minDate1=minDate;
+				minDate = minDate.getFullYear()+"-"+(minDate.getMonth()+1)+"-"+minDate.getDate();
+				var yyyy = parseInt(minDate.split("-")[0]);
+				var mm = parseInt(minDate.split("-")[1]);
+				var dd = parseInt(minDate.split("-")[2]);
+				if(dd < 10){
+					dd = '0' + dd;
+				}
+				if(mm < 10){
+					mm = '0' + mm;
+				}
+				minDate = yyyy + '-' + mm + '-' + dd;
+
+				var oFilter = new sap.ui.model.Filter("Date", "EQ", minDate);
+				var oFilter1 = new sap.ui.model.Filter("Date", "EQ", minDate1);
+				// that.getView().byId("idTable").getBinding("items").filter(oFilter);
+
+					// this.Date = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).Date;
+				that.getView().byId("idCash").focus();
+				that.getView().byId("idCash").$().find("input").select();
+				$.post("/getTotalEntryCustomer", {
+					Customer:"",
+					min:minDate1.toISOString()
+				}).then(function(result) {
+					console.log(result);
+					debugger;
+					that.byId("idTC").setText(parseFloat(result.CashTotal).toFixed(2));
+					that.byId("idTC").getText();
+					parseFloat(that.byId("idTC").getText());
+					if (parseFloat(that.byId("idTC").getText()) > 0) {
+						that.byId("idTC").setState('Success');
+						debugger;
+					} else {
+						that.byId("idTC").setState('Warning');
+					}
+					that.getView().byId("idG").setText(parseFloat(result.GoldTotal.toFixed(3)));
+					that.byId("idG").getText();
+					parseFloat(that.byId("idG").getText());
+					if (parseFloat(that.byId("idG").getText()) > 0) {
+						that.byId("idG").setState('Success');
+						debugger;
+					} else {
+						that.byId("idG").setState('Warning');
+					}
+					that.getView().byId("idS").setText(parseFloat(result.SilverTotal.toFixed(2)));
+					that.byId("idS").getText();
+					parseFloat(that.byId("idS").getText());
+					parseFloat(that.byId("idS").getText()).toFixed(3);
+					// parseFloat(that.byId("idS").getText());
+					// parseFloat(that.byId("idS").getText()).toFixed(3);
+					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+					if (parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3)) > 0) {
+						that.byId("idS").setState('Success');
+						debugger;
+					} else {
+						that.byId("idS").setState('Warning');
+					}
+				});
+
+that.getView().byId("idTable").getBinding("items").filter(oFilter);
+// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
+			},
+
+			onSuggest: function(oEvent) {
+				debugger;
 				var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();;
 
-					// var sTerm=oEvent.getSource().getProperty("value");
-					var aFilters = [];
-					if (sTerm) {
-						aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
-						aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
-						// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
+				// var sTerm=oEvent.getSource().getProperty("value");
+				var aFilters = [];
+				if (sTerm) {
+					aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
+					aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
+					// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
 
-					}
+				}
 
-					oEvent.getSource().getBinding("suggestionItems").filter(new Filter({filters:aFilters,and:false}));
-				},
-
-
+				oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+					filters: aFilters,
+					and: false
+				}));
+			},
 
 			onCustomerSelect1: function(oEvent, custName, custId) {
 				debugger;
@@ -189,7 +266,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.setCustomerIdAndCustomerName(selectedData);
 					// that.getView().byId("idCash").focus();
 					// that.getView().byId("idCash").$().find("input").select();
-					jQuery.sap.delayedCall(100, this, function () {
+					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCash").focus();
 						this.getView().byId("idCash").$().find("input").select();
 					});
@@ -201,20 +278,19 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("idweight").$().find("input").select();
 				const value = oEvent.getSource().mProperties.value;
 				const data = this.allMasterData.materialsId[value];
-				if(data == undefined){
+				if (data == undefined) {
 					this.getView().byId("idMatText").setText();
-				}
-				else{
-				    this.getView().byId("idMat").setValue(data.ProductCode);
-				    this.getView().byId("idMatText").setText(data.ProductName + " - " + data.Type);
+				} else {
+					this.getView().byId("idMat").setValue(data.ProductCode);
+					this.getView().byId("idMatText").setText(data.ProductName + " - " + data.Type);
 				}
 			},
-			onCalculate: function (evt) {
+			onCalculate: function(evt) {
 				debugger;
 				var wtValue = this.byId("idweight").getValue();
 				var thValue = this.byId("idtunch").getValue();
 				var X = wtValue * thValue / 100;
-				if(X===0 || X===""){
+				if (X === 0 || X === "") {
 					MessageToast.show("enter the correct Weight value");
 				}
 				var CR = "Silver Received @" + wtValue + 'x' + thValue;
@@ -271,158 +347,148 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().byId("idRemarks").setValue(KT);
 				}
 			},
-			onPressGWiseDownload: function() {debugger;
-	      var reportType = "Group_Wise_Report";
-			// 	var oViewDetailModel = new JSONModel({
-			// 		"buttonText": "Save",
-			// 		"deleteEnabled": false,
-			// 		"codeEnabled": true
-			//
-			// 	});
-			// 	this.setModel(oViewDetailModel, "viewModel");
-			// 	var that = this;
-			// 	var viewModel = this.getView().getModel("viewModel");
-			// 	// viewModel.setProperty("/codeEnabled", true);
-			// 	// viewModel.setProperty("/buttonText", "Save");
-			// 	// viewModel.setProperty("/deleteEnabled", false);
-			// 	var odataModel = new JSONModel({
-			// 		"CustomerCodeState": "None",
-			// 		"CityState": "None",
-			// 		"GroupState": "None",
-			// 		"NameState": "None",
-			// 		"TypeState": "None"
-			//
-			// 	});
-			// 	this.setModel(odataModel, "dataModel");
-			//
-			// 	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			// 	// 		"/Customers", "GET", {}, {}, this)
-			// 	// 	.then(function(oData) {
-			// 	// 		var oModelCustomer = new JSONModel();
-			// 	// 		oModelCustomer.setData(oData);
-			// 	// 		that.getView().setModel(oModelCustomer, "customerModelInfo");
-			// 	//
-			// 	// 	}).catch(function(oError) {
-			// 	// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
-			// 	// 	});
-			//
-			//
-			// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			// 			"/Groups", "GET", {}, {}, this)
-			// 		.then(function(oData) {
-			// 			debugger;
-			// 			var oModelGroup = new JSONModel();
-			// 			oModelGroup.setData(oData);
-			// 			that.getView().setModel(oModelGroup, "groupModelInfo");
-			//
-			// 		}).catch(function(oError) {
-			// 			MessageToast.show(that.resourceBundle.getText("ReqField"));
-			// 		});
-			// 	this.clearCustomer();
-			//
-			// 	$(document).keydown(function(evt) {
-			//
-			// 		var elm = document.URL.split('/');
-			//
-			// 		if (elm[elm.length - 1] === 'Customers') {
-			// 			if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
-			// 				evt.preventDefault();
-			// 				// alert('Ctr + Alt + D Pressed');
-			// 				that.deleteAllCustomers();
-			// 			} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
-			// 				evt.preventDefault();
-			// 				// alert('Ctr + Alt + E Pressed');
-			// 				that.deleteAllEntrys();
-			// 			} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
-			// 				evt.preventDefault();
-			// 				// alert('Ctr + Alt + A Pressed');
-			// 				that.deleteAllTables();
-			// 			}
-			// 		}
-			// 	});
-	    // //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
-	    // // {
-	    // //   debugger;
-	    // //   MessageToast.show("Data downloaded successfully");
-	    // // },function(oError){debugger;
-	    // //   MessageToast.show("Data could not be downloaded");
-	    // // });
-			if (!this.oDialog1) {
-				this.oDialog1 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroup", this);
-				this.getView().addDependent(this.oDialog1);
-			}
-			this.oDialog1.open();
-	    // window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
-	    },
-
-onGroupWiseRadioSelect:function(oEvent){
-debugger;
-var select=this.getView().byId("id1").getSelected();
-if(select){
-	this.getView().byId("idGroup1").setEditable(true);
-}
-
-else {
-	this.getView().byId("idGroup1").setEditable(false);
-}
-},
-
-onPressHandleEntrySavePopup1: function(){
-	debugger;
-	// var id11= this.getView().byId("idAll").getSelected();
-	if(this.getView().byId("idAll").getSelected()){
-		// var id=this.getView().byId("idGroup1").getSelectedKey();
-		debugger;
-		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=00");
-	}
-	else if(this.getView().byId("id1").getSelected()){
-		var id=this.getView().byId("idGroup1").getSelectedKey();
-		var name=this.getView().byId("idGroup1").getSelectedItem().getText();
-		 window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group="+id+"&name="+name);
-	}else if(this.getView().byId("idNo").getSelected()){
-		window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=01");
-	}
-	else{
-		MessageToast.show("Please Select A Option");
-		return;
-	}
-this.oDialog1.close();
-},
-
-
-
-onPressHandleEntrySavePopup11:function(){
-	debugger;
-	var password1=this.getView().byId("pwd1").getValue();
-	if(password1 === "Sarita@123"){
-			this.oDialog2.close();
-
-		var x = this.getView().byId("idCust").getValue();
-				if (!x) {
-					this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
+			onPressGWiseDownload: function() {
+				debugger;
+				var reportType = "Group_Wise_Report";
+				// 	var oViewDetailModel = new JSONModel({
+				// 		"buttonText": "Save",
+				// 		"deleteEnabled": false,
+				// 		"codeEnabled": true
+				//
+				// 	});
+				// 	this.setModel(oViewDetailModel, "viewModel");
+				// 	var that = this;
+				// 	var viewModel = this.getView().getModel("viewModel");
+				// 	// viewModel.setProperty("/codeEnabled", true);
+				// 	// viewModel.setProperty("/buttonText", "Save");
+				// 	// viewModel.setProperty("/deleteEnabled", false);
+				// 	var odataModel = new JSONModel({
+				// 		"CustomerCodeState": "None",
+				// 		"CityState": "None",
+				// 		"GroupState": "None",
+				// 		"NameState": "None",
+				// 		"TypeState": "None"
+				//
+				// 	});
+				// 	this.setModel(odataModel, "dataModel");
+				//
+				// 	// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				// 	// 		"/Customers", "GET", {}, {}, this)
+				// 	// 	.then(function(oData) {
+				// 	// 		var oModelCustomer = new JSONModel();
+				// 	// 		oModelCustomer.setData(oData);
+				// 	// 		that.getView().setModel(oModelCustomer, "customerModelInfo");
+				// 	//
+				// 	// 	}).catch(function(oError) {
+				// 	// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
+				// 	// 	});
+				//
+				//
+				// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				// 			"/Groups", "GET", {}, {}, this)
+				// 		.then(function(oData) {
+				// 			debugger;
+				// 			var oModelGroup = new JSONModel();
+				// 			oModelGroup.setData(oData);
+				// 			that.getView().setModel(oModelGroup, "groupModelInfo");
+				//
+				// 		}).catch(function(oError) {
+				// 			MessageToast.show(that.resourceBundle.getText("ReqField"));
+				// 		});
+				// 	this.clearCustomer();
+				//
+				// 	$(document).keydown(function(evt) {
+				//
+				// 		var elm = document.URL.split('/');
+				//
+				// 		if (elm[elm.length - 1] === 'Customers') {
+				// 			if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
+				// 				evt.preventDefault();
+				// 				// alert('Ctr + Alt + D Pressed');
+				// 				that.deleteAllCustomers();
+				// 			} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
+				// 				evt.preventDefault();
+				// 				// alert('Ctr + Alt + E Pressed');
+				// 				that.deleteAllEntrys();
+				// 			} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
+				// 				evt.preventDefault();
+				// 				// alert('Ctr + Alt + A Pressed');
+				// 				that.deleteAllTables();
+				// 			}
+				// 		}
+				// 	});
+				// //   $.post("/groupWiseEntryDownload",{type: reportType}).then(function(oData)
+				// // {
+				// //   debugger;
+				// //   MessageToast.show("Data downloaded successfully");
+				// // },function(oError){debugger;
+				// //   MessageToast.show("Data could not be downloaded");
+				// // });
+				if (!this.oDialog1) {
+					this.oDialog1 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroup", this);
+					this.getView().addDependent(this.oDialog1);
 				}
-				var count = this.getView().byId("idTable").getItems().length;
-				var that = this;
-				var that1=this.getView();
+				this.oDialog1.open();
+				// window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+			},
 
+			onGroupWiseRadioSelect: function(oEvent) {
+				debugger;
+				var select = this.getView().byId("id1").getSelected();
+				if (select) {
+					this.getView().byId("idGroup1").setEditable(true);
+				} else {
+					this.getView().byId("idGroup1").setEditable(false);
+				}
+			},
 
+			onPressHandleEntrySavePopup1: function() {
+				debugger;
+				// var id11= this.getView().byId("idAll").getSelected();
+				if (this.getView().byId("idAll").getSelected()) {
+					// var id=this.getView().byId("idGroup1").getSelectedKey();
+					debugger;
+					window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=00");
+				} else if (this.getView().byId("id1").getSelected()) {
+					var id = this.getView().byId("idGroup1").getSelectedKey();
+					var name = this.getView().byId("idGroup1").getSelectedItem().getText();
+					window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=" + id + "&name=" + name);
+				} else if (this.getView().byId("idNo").getSelected()) {
+					window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=01");
+				} else {
+					MessageToast.show("Please Select A Option");
+					return;
+				}
+				this.oDialog1.close();
+			},
 
+			onPressHandleEntrySavePopup11: function() {
+				debugger;
+				var password1 = this.getView().byId("pwd1").getValue();
+				if (password1 === "Sarita@123") {
+					this.oDialog2.close();
 
+					var x = this.getView().byId("idCust").getValue();
+					if (!x) {
+						this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
+					}
+					var count = this.getView().byId("idTable").getItems().length;
+					var that = this;
+					var that1 = this.getView();
 
-sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" + that.resourceBundle.getText("entries"),
-					 {
+					sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11") + "(" + count + ")" + that.resourceBundle.getText("entries"), {
 						title: "Confirm",
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: "",
-						onClose: function (sAction) {
-							var that =this;
+						onClose: function(sAction) {
+							var that = this;
 							if (sAction === "OK") {
 								debugger;
 
 								$.post("/deleteRecords", {
 									customerId: that.customerId,
 									entityName: "Entry"
-								}).done(function (response) {
+								}).done(function(response) {
 									sap.m.MessageToast.show(response.msg);
 									sap.ui.getCore().byId("__component0---idEntry--idTable").getModel().refresh(true);
 									sap.ui.getCore().byId("__component0---idEntry--idTC").setText("0");
@@ -453,7 +519,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 									sap.ui.getCore().byId("__component0---idEntry--idTC").setState("Warning");
 									sap.ui.getCore().byId("__component0---idEntry--idG").setText("Warning");
 									sap.ui.getCore().byId("__component0---idEntry--idS").setText("Warning");
-										// that.getView().byId("idTable").refresh(true);
+									// that.getView().byId("idTable").refresh(true);
 								});
 								// this.getView().byId("idTable").refresh(true);
 								// Entrys.refresh(true);
@@ -462,16 +528,13 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 							}
 						}
 					});
-	}
+				} else {
+					this.getView().byId("pwd1").setValueState("Error");
+					this.getView().byId("pwd1").setValueStateText("Enter Correct Password");
+					sap.m.MessageToast.show("Enter Correct Password");
+				}
 
-
-	else{
-		this.getView().byId("pwd1").setValueState("Error");
-		this.getView().byId("pwd1").setValueStateText("Enter Correct Password");
-		sap.m.MessageToast.show("Enter Correct Password");
-	}
-
-},
+			},
 
 			onSelectChange: function(oEvent) {
 				debugger;
@@ -491,18 +554,18 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				}
 			},
 
-			toggleFullScreen: function () {
+			toggleFullScreen: function() {
 				debugger;
 				var btnId = "idFullScreenBtn";
 				var headerId = "__component0---idEntry--idcust1";
 				this.toggleUiTable(btnId, headerId)
 			},
 
-			decimalvalidator1: function (oEvent) {
+			decimalvalidator1: function(oEvent) {
 				debugger;
 				if (oEvent.mParameters.id === "__component0---idEntry--idCash") {
-					$(function () {
-						$('input').on('input.idCash', function (event) {
+					$(function() {
+						$('input').on('input.idCash', function(event) {
 							if (event.currentTarget.id == "__component0---idEntry--idCash-inner") {
 								debugger;
 								this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
@@ -511,12 +574,12 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				}
 			},
-			decimalvalidator2: function (oEvent) {
+			decimalvalidator2: function(oEvent) {
 				debugger;
 				if (oEvent.mParameters.id === "__component0---idEntry--idGold") {
 
-					$(function () {
-						$('input').on('input.idGold', function (event) {
+					$(function() {
+						$('input').on('input.idGold', function(event) {
 							if (event.currentTarget.id == "__component0---idEntry--idGold-inner") {
 								debugger;
 								this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
@@ -525,11 +588,11 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				}
 			},
-			decimalvalidator3: function (oEvent) {
+			decimalvalidator3: function(oEvent) {
 				debugger;
 				if (oEvent.mParameters.id === "__component0---idEntry--idSilver") {
-					$(function () {
-						$('input').on('input.idSilver', function (event) {
+					$(function() {
+						$('input').on('input.idSilver', function(event) {
 							if (event.currentTarget.id == "__component0---idEntry--idSilver-inner") {
 								debugger;
 								this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
@@ -538,11 +601,11 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				}
 			},
-			decimalvalidator4: function (oEvent) {
+			decimalvalidator4: function(oEvent) {
 				debugger;
 				if (oEvent.mParameters.id === "__component0---idEntry--idweight") {
-					$(function () {
-						$('input').on('input.idweight', function (event) {
+					$(function() {
+						$('input').on('input.idweight', function(event) {
 							if (event.currentTarget.id == "__component0---idEntry--idweight-inner") {
 								debugger;
 								this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
@@ -551,11 +614,11 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				}
 			},
-			decimalvalidator5: function (oEvent) {
+			decimalvalidator5: function(oEvent) {
 				debugger;
 				if (oEvent.mParameters.id === "__component0---idEntry--idtunch") {
-					$(function () {
-						$('input').on('input.idtunch', function (event) {
+					$(function() {
+						$('input').on('input.idtunch', function(event) {
 							if (event.currentTarget.id == "__component0---idEntry--idtunch-inner") {
 								debugger;
 								this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
@@ -564,31 +627,32 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				}
 			},
-			onMaterialSelect: function (oEvent) {
+			onMaterialSelect: function(oEvent) {
 				debugger;
-				if(oEvent.getParameter("selectedItem")){
-					var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				if (oEvent.getParameter("selectedItem")) {
+					var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
+						.getPath());
 					var selMat = oEvent.getParameter("selectedItem").getText();
 					var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
 					var selType = oEvent.getParameter("selectedItem").getKey();
 					// this.getView().byId("idMatType").setText(selType);
 					this.getView().byId("idMat").setValue(selMat);
 					this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
-					jQuery.sap.delayedCall(100, this, function () {
+					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idweight").focus();
 						this.getView().byId("idweight").$().find("input").select();
 					});
 				}
 			},
-			onRemarksSubmit: function (oEvent) {
+			onRemarksSubmit: function(oEvent) {
 				this.getView().byId("sendButton").focus();
 			},
 
-			onSubmit: function (evt) {
-				$(function () {
+			onSubmit: function(evt) {
+				$(function() {
 					$('input:text:first').focus();
 					var $inp = $('input:text');
-					$inp.bind('keypress', function (e) {
+					$inp.bind('keypress', function(e) {
 						//var key = (e.keyCode ? e.keyCode : e.charCode);
 						var key = e.which;
 						if (key == 13) {
@@ -599,38 +663,38 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 				});
 			},
-			onCashSubmit: function (evt) {
+			onCashSubmit: function(evt) {
 				this.getView().byId("idGold").focus();
 				this.getView().byId("idGold").$().find("input").select();
 			},
-			onGoldSubmit: function (evt) {
+			onGoldSubmit: function(evt) {
 				this.getView().byId("idSilver").focus();
 				this.getView().byId("idSilver").$().find("input").select();
 			},
-			onSilverSubmit: function (evt) {
+			onSilverSubmit: function(evt) {
 				this.getView().byId("idRemarks").focus();
 			},
-			onRemarksSubmit: function (evt) {
+			onRemarksSubmit: function(evt) {
 				this.getView().byId("sendButton").focus();
 			},
-			onSubmitSideWeight: function (evt) {
+			onSubmitSideWeight: function(evt) {
 				this.getView().byId("idtunch").focus();
 				this.getView().byId("idtunch").$().find("input").select();
 			},
-			onSubmitSideTunch: function (evt) {
+			onSubmitSideTunch: function(evt) {
 				this.getView().byId("calculateButton").focus();
 			},
-			onKeyPress: function (oEvent) {
+			onKeyPress: function(oEvent) {
 				var input = oEvent.getSource();
 				input.setValue(input.getValue().toUpperCase());
 			},
-			onSelect: function (oEvent) {
-				jQuery.sap.delayedCall(500, this, function () {
+			onSelect: function(oEvent) {
+				jQuery.sap.delayedCall(500, this, function() {
 					this.getView().byId("idCust").focus();
 				});
 
 			},
-			onPressEntryDownload: function () {
+			onPressEntryDownload: function() {
 				debugger;
 				// var test = this.getView().getModel("customerModel");
 				var that = this;
@@ -638,26 +702,27 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
 				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
-				var name=this.getView().byId("idCustText").getProperty("text").split("-")[0]
-				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
+					// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
 				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
-				// $.get("/entryDownload", {
-				// 	id: custId,
-				// 	name: name,
-				// 	city: city,
-				// 	type: reportType
-				// }).then(function (oData) {
-				// 	debugger;
-				// 	MessageToast.show("Data downloaded successfully");
-				// 	console.log(that.getImageUrlFromContent(oData));
-				// }, function (oError) {
-				// 	debugger;
-				// 	MessageToast.show("Data could not be downloaded");
-				// });
+					// $.get("/entryDownload", {
+					// 	id: custId,
+					// 	name: name,
+					// 	city: city,
+					// 	type: reportType
+					// }).then(function (oData) {
+					// 	debugger;
+					// 	MessageToast.show("Data downloaded successfully");
+					// 	console.log(that.getImageUrlFromContent(oData));
+					// }, function (oError) {
+					// 	debugger;
+					// 	MessageToast.show("Data could not be downloaded");
+					// });
 
-				if(custId === "" || custId=== undefined ){
+				if (custId === "" || custId === undefined) {
 					sap.m.MessageBox.error(" Please Select a Customer ID", {
-						title: "Error"});
+						title: "Error"
+					});
 					return;
 				}
 				// if(name === "" || name=== undefined ){
@@ -670,18 +735,20 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				// 		title: "Error"});
 				// 	return;
 				// }
-				window.open("/entryDownload?id="+custId+ "&type=Entry&name=" +name+ "&city="+city);
+				window.open("/entryDownload?id=" + custId + "&type=Entry&name=" + name + "&city=" + city);
 			},
-			getImageUrlFromContent: function(base64Stream){
-				if(base64Stream){
+			getImageUrlFromContent: function(base64Stream) {
+				if (base64Stream) {
 					var b64toBlob = function(dataURI) {
-					    var byteString = atob(dataURI.split(',')[1]);
-					    var ab = new ArrayBuffer(byteString.length);
-					    var ia = new Uint8Array(ab);
-					    for (var i = 0; i < byteString.length; i++) {
-					        ia[i] = byteString.charCodeAt(i);
-					    }
-					    return new Blob([ab], { type: 'image/jpeg' });
+						var byteString = atob(dataURI.split(',')[1]);
+						var ab = new ArrayBuffer(byteString.length);
+						var ia = new Uint8Array(ab);
+						for (var i = 0; i < byteString.length; i++) {
+							ia[i] = byteString.charCodeAt(i);
+						}
+						return new Blob([ab], {
+							type: 'image/jpeg'
+						});
 					};
 					var x = b64toBlob(base64Stream);
 					return URL.createObjectURL(x);
@@ -698,7 +765,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 			// 	var oBinding = this.getView().byId("idTable").getBinding("items");
 			// 	oBinding.sort(aSorter);
 			// },
-			onRadioButtonSelect: function (oEvent) {
+			onRadioButtonSelect: function(oEvent) {
 				debugger;
 
 				if (this.getView().byId("RB-1").getSelected() ||
@@ -706,24 +773,25 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					this.getView().byId("RB-3").getSelected()) {
 					// this.getView().byId("idformMat").setVisible(false);
 					// this.getView().byId("idMat").setVisible(false);
-					this.getView().getModel("local").setProperty("/materialEnable",false);
+					this.getView().getModel("local").setProperty("/materialEnable", false);
 					this.getView().byId("idMat").setValue("");
-					jQuery.sap.delayedCall(500, this, function () {
+					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idweight").focus();
 					});
 				} else if (this.getView().byId("RB-4").getSelected()) {
 					// this.getView().byId("idformMat").setVisible(true);
 					// this.getView().byId("idMat").setVisible(true);
-					this.getView().getModel("local").setProperty("/materialEnable",true);
-					jQuery.sap.delayedCall(500, this, function () {
+					this.getView().getModel("local").setProperty("/materialEnable", true);
+					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idMat").focus();
 					});
 				}
 			},
 
-			onConfirm: function (oEvent) {
+			onConfirm: function(oEvent) {
 				debugger;
-				var selectedCust = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				var selectedCust = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
+					.getPath());
 				var that = this;
 				var myData = this.getView().getModel("local").getProperty("/EntryData");
 				// var selCust = oEvent.getParameter("selectedItem").getLabel();
@@ -741,12 +809,12 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
 				this.customerId = selectedCust.id
-				// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
+					// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 				$.post("/getTotalEntryCustomer", {
 					Customer: myData.Customer
-				}).then(function (result) {
+				}).then(function(result) {
 					console.log(result);
 					debugger;
 					that.byId("idTC").setText(parseFloat(result.CashTotal).toFixed(2));
@@ -782,10 +850,9 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					}
 				});
 
-
 			},
 
-			onSend: function (oEvent) {
+			onSend: function(oEvent) {
 				debugger;
 				var that = this;
 				// if (this.getView().byId("idMat").getValue() === "" && this.getView().byId("RB-4").getSelected()) {
@@ -809,13 +876,13 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					myData.DueDate = this.getView().byId("DueDateId").getDateValue();
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
 							"POST", {}, myData, this)
-						.then(function (oData) {
+						.then(function(oData) {
 							that.getView().setBusy(false);
 							sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 							that.clearOnSend = true;
 							that.onClear();
 
-						}).catch(function (oError) {
+						}).catch(function(oError) {
 							that.getView().setBusy(false);
 							var oPopover = that.getErrorMessage(oError);
 						});
@@ -874,14 +941,14 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 			},
 
-			onDelete: function () {
+			onDelete: function() {
 				var that = this;
 				sap.m.MessageBox.confirm(
 					"Deleting Selected Records", {
 						title: "Confirm",
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: "",
-						onClose: function (sAction) {
+						onClose: function(sAction) {
 							debugger;
 							if (sAction === "OK") {
 								debugger;
@@ -963,12 +1030,12 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					}
 				);
 			},
-			_getEditClear: function () {
+			_getEditClear: function() {
 				debugger;
 				var check = this.getView().byId("CBID").getSelected();
 				if (check === true) {
 					this.getView().byId("DateId").setDateValue(new Date());
-					jQuery.sap.delayedCall(500, this, function () {
+					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idCust").focus();
 					});
 					this.byId("idCust").getValue();
@@ -983,7 +1050,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					this.byId("DueDateId").setDateValue(new Date());
 				} else if (check === false) {
 					this.getView().byId("DateId").setDateValue(new Date());
-					jQuery.sap.delayedCall(500, this, function () {
+					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idCust").focus();
 					});
 
@@ -1008,7 +1075,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 			},
 
-			onClear: function () {
+			onClear: function() {
 				debugger;
 				var oFilter = [];
 				var check = this.getView().byId("CBID").getSelected();
@@ -1025,7 +1092,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.byId("idCustText").setText("");
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
-					jQuery.sap.delayedCall(100, this, function () {
+					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCust").focus();
 					});
 
@@ -1048,7 +1115,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 						this.getView().byId("DateId").setDateValue(new Date());
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 					}
-					jQuery.sap.delayedCall(100, this, function () {
+					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCust").focus();
 					});
 
@@ -1073,7 +1140,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				}
 
 			},
-			_getDialog: function (oEvent) {
+			_getDialog: function(oEvent) {
 				if (!this.oDialog) {
 					this.oDialog = sap.ui.xmlfragment("entryDialog", "victoria.fragments.entryDialog", this);
 					this.getView().addDependent(this.oDialog);
@@ -1097,7 +1164,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
 				sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
 			},
-			onPressHandleEntrySavePopup: function (oEvent) {
+			onPressHandleEntrySavePopup: function(oEvent) {
 				var that = this;
 				that.getView().setBusy(true);
 				var myData = this.getView().getModel("local").getProperty("/EntryData");
@@ -1111,12 +1178,12 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('" + id + "')",
 						"PUT", {}, myData, this)
-					.then(function (oData) {
+					.then(function(oData) {
 						that.getView().setBusy(false);
 						sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
 						that.oDialog.close();
 						that._getEditClear();
-					}).catch(function (oError) {
+					}).catch(function(oError) {
 						that.getView().setBusy(false);
 						var oPopover = that.getErrorMessage(oError);
 					});
@@ -1253,22 +1320,21 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					that.byId("idS").setState('Warning');
 				}
 
-
 			},
-			onPressHandleEntryCancelPopup: function () {
+			onPressHandleEntryCancelPopup: function() {
 				this.oDialog.close();
 			},
-			onPressHandleEntryCancelPopup1: function () {
-					this.getView().byId("idGroup1").setEditable(false);
+			onPressHandleEntryCancelPopup1: function() {
+				this.getView().byId("idGroup1").setEditable(false);
 
 				this.oDialog1.close();
-				if(this.getView().byId("id1").getSelected()){
-							 this.getView().byId("idGroup1").setEditable(true);
-						 }
+				if (this.getView().byId("id1").getSelected()) {
+					this.getView().byId("idGroup1").setEditable(true);
+				}
 			},
 
-			onPressHandleEntryCancelPopup11: function () {
-					// this.getView().byId("idGroup1").setEditable(false);
+			onPressHandleEntryCancelPopup11: function() {
+				// this.getView().byId("idGroup1").setEditable(false);
 
 				this.oDialog2.close();
 				// if(this.getView().byId("id1").getSelected()){
@@ -1276,8 +1342,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				// 		 }
 			},
 
-
-			onEdit: function (oEvent) {
+			onEdit: function(oEvent) {
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;
 				if (recCount > 1) {
 					sap.m.MessageBox.alert(
@@ -1287,7 +1352,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				}
 			},
 
-			onMasterClear: function (oEvent) {
+			onMasterClear: function(oEvent) {
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 
 				if (custId === "" || custId === undefined) {
@@ -1296,7 +1361,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					});
 					return;
 				}
-					this.customerId=custId;
+				this.customerId = custId;
 				// "Do u want to delete(" + count + ")entries",
 				if (!this.oDialog2) {
 					this.oDialog2 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroupMaster", this);
@@ -1306,7 +1371,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 
 			},
 
-			onUpdateFinished: function (oEvent) {
+			onUpdateFinished: function(oEvent) {
 				debugger;
 				var oTable = oEvent.getSource();
 				var itemList = oTable.getItems();
@@ -1323,7 +1388,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 					var customerData = this.allMasterData.customers[customerId];
 					var productData = this.allMasterData.materials[productId];
 					oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
-					if(productId !== "" && productData !== undefined){
+					if (productId !== "" && productData !== undefined) {
 						oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
 					}
 

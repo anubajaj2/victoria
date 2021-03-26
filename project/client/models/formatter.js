@@ -15,6 +15,18 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			}
 			return dd + '.' + mm + '.' + yyyy;
 		},
+
+
+				textBold: function(sText) {
+		        if (typeof sText === "string") {
+		            if (sText.indexOf("(Self)") > -1) {
+		                this.setDesign("Bold");
+		            }
+		        }
+		        return sText;
+		     },
+
+
 		convertPDFToUrl: function(vContent) {
 			// var decodedPdfContent=vContent;
 			// var decodedPdfContent = atob(vContent.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""));

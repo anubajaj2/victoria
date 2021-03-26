@@ -8578,10 +8578,15 @@ app.start = function() {
 		app.post('/getTotalEntryCustomer', function(req, res) {
 			debugger;
 			var customerId = req.body.Customer;
+			// var Date = req.body.Date;
+			var min = req.body.min;
+
+if(customerId != ""){
 			var Entry = app.models.Entry;
 			Entry.find({
 				where: {
 					"Customer": customerId
+					// "Date": min
 				}
 			}).then(function(records) {
 				var tSilver = 0,
@@ -8599,8 +8604,36 @@ app.start = function() {
 					"CashTotal": tCash
 				});
 			});
+		}
+		else {
+			var Entry = app.models.Entry;
+			Entry.find({
+				where: {
+					// "Customer": customerId,
+					"Date": new Date(min)
+				}
+			}).then(function(records) {
+				var tSilver = 0,
+					tGold = 0,
+					tCash = 0;
+				for (var i = 0; i < records.length; i++) {
+					tSilver = tSilver + records[i].Silver;
+					tGold = tGold + records[i].Gold;
+					tCash = tCash + records[i].Cash;
+				}
+
+				res.send({
+					"SilverTotal": tSilver,
+					"GoldTotal": tGold,
+					"CashTotal": tCash
+				});
+			});
+		}
 
 		});
+
+
+
 		app.post('/getTotalEntryCustomerBetween', function(req, res) {
 			debugger;
 			var customerId = req.body.Customer;

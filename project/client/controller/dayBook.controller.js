@@ -258,7 +258,7 @@ sap.ui.define([
 												// min:minDate.toISOString()
 		                }).then(function (result) {
 													debugger;
-													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(0));
+													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 													that.byId("idTC1").getText();
 													parseFloat(that.byId("idTC1").getText());
 													if (parseFloat(that.byId("idTC1").getText()) > 0 ) {
@@ -304,7 +304,7 @@ sap.ui.define([
 												min:minDate.toISOString()
 		                }).then(function (result) {
 													debugger;
-													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(0));
+													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 													that.byId("idTC1").getText();
 													parseFloat(that.byId("idTC1").getText());
 													if (parseFloat(that.byId("idTC1").getText()) > 0 ) {

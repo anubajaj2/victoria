@@ -149,10 +149,13 @@
 					<!-- <Text text="{Customer}"></Text> -->
 					<!-- <ObjectStatus text="{path:'Cash'}" design="Bold" id="cashid" state="None" /> -->
 					<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
-					<Text id="cashid" text="{path: 'Cash', formatter: '.sumAmount'}" />
+					<!-- <Text id="cashid" text="{path: 'Cash', formatter: '.sumAmount'}" /> -->
+					 <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'Success':'Warning'}" />
 					<!-- <footer><Text text="{path: '/customers', formatter: '.sumAmount'}" /></footer> -->
-					<Text id="id5" text="{Gold}"></Text>
-					<Text id="id6" text="{Silver}"></Text>
+					 <ObjectStatus text="{path:'Gold'}" id="id5" design="Bold" state="{=${Gold}>0?'Success':'Warning'}" />
+					<!-- <Text id="id5" text="{Gold}"></Text> -->
+					<!-- <Text id="id6" text="{Silver}"></Text> -->
+					<ObjectStatus text="{path:'Silver'}" id="id6" design="Bold" state="{=${Silver}>0?'Success':'Warning'}" />
 					<Text id="id7" text="{Remarks}"></Text>
         </cells>
       </ColumnListItem>

@@ -749,7 +749,7 @@ sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11")+"(" + count + ")" +
 				}).then(function (result) {
 					console.log(result);
 					debugger;
-					that.byId("idTC").setText(parseFloat(result.CashTotal).toFixed(0));
+					that.byId("idTC").setText(parseFloat(result.CashTotal).toFixed(2));
 					that.byId("idTC").getText();
 					parseFloat(that.byId("idTC").getText());
 					if (parseFloat(that.byId("idTC").getText()) > 0) {

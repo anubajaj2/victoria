@@ -282,7 +282,7 @@ _onRouteMatched: function(oEvent){
     var header = 	'<center><h3>Kachhi Report</h3></center><hr>'
                   +
                   "<table width='40%'><tr><td><b>Date:</b></td><td>"+this.byId('idDate').getValue()+"</td></tr>" +
-                  '<tr><td><b>Customer Name:</b></td><td>'+this.byId('idCustName').getValue()+'</td></tr></table><br>';
+                  '<tr><td><b>Customer Name:</b></td><td>'+this.byId('idCustName').getText()+'</td></tr></table><br>';
     var footer = 	"<table width='40%'><tr><td><b>Total Weight:</b></td><td>"+this.byId('idTotalWeight').getText()+"</td></tr>" +
                   '<tr><td><b>Total Fine:</b></td><td>'+this.byId('idTotalFine').getText()+'</td></tr></table><br>';
     var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';><tr><th style=border:1px solid black;>pagga</th><th style=border:1px solid black;>Weight</th><th style=border:1px solid black;>Tunch</th><th style=border:1px solid black;>Fine</th></tr>";

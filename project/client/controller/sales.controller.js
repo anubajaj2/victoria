@@ -258,17 +258,29 @@ sap.ui.define([
 				// // formatter.getDateDDMMYYYYFormat(orderLocDate);
 
 				var orderLocDate = orderDetails.Date
-
-				var dd = orderLocDate.getDate();
-				var mm = orderLocDate.getMonth() + 1;
-				var yyyy = orderLocDate.getFullYear();
-				if (dd < 10) {
-					dd = '0' + dd;
+				if(typeof(orderLocDate) === "string"){
+					var dd = parseInt(orderLocDate.split(".")[0]);
+					var mm = parseInt(orderLocDate.split(".")[1]);
+					var yyyy = parseInt(orderLocDate.split(".")[2]);
+					if (dd < 10) {
+						dd = '0' + dd;
+					}
+					if (mm < 10) {
+						mm = '0' + mm;
+					}
+					var orderDate = dd + '.' + mm + '.' + yyyy;
+				}else{
+					var dd = orderLocDate.getDate();
+					var mm = orderLocDate.getMonth() + 1;
+					var yyyy = orderLocDate.getFullYear();
+					if (dd < 10) {
+						dd = '0' + dd;
+					}
+					if (mm < 10) {
+						mm = '0' + mm;
+					}
+					var orderDate = dd + '.' + mm + '.' + yyyy;
 				}
-				if (mm < 10) {
-					mm = '0' + mm;
-				}
-				var orderDate = dd + '.' + mm + '.' + yyyy;
 			}
 			if (orderDetails.Customer) {
 				var custId = orderDetails.Customer;

@@ -44,7 +44,7 @@
 														<l:GridData span="XL3 L3"/>
 												</layoutData>
 										</Input>
-									<Text id="idCustName" editable="false" value="{local>/kachhiHeaderTemp/CustomerName}"></Text>
+									<Text id="idCustName" editable="false" text="{local>/kachhiHeaderTemp/CustomerName}"></Text>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label=" ">

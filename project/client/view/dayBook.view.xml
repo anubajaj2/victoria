@@ -74,7 +74,7 @@
 
 							</OverflowToolbar>
 						</smartTable:customToolbar>
-						<Table id="idTable1"
+						<Table id="idTable1" class ="myCustomText"
     items="{
            path: '/Entrys',
              sorter: {
@@ -95,38 +95,38 @@
     </headerToolbar> -->
 		<columns>
 			<Column>
-				<Label text="{i18n>Date}" visible="true"></Label>
+				<Label text="{i18n>Date}" design="Bold" visible="true"></Label>
       </Column>
       <Column>
-        <Label text="{i18n>coCustName}" />
+        <Label text="{i18n>coCustName}" design="Bold" />
       </Column>
       <Column visible="false">
-        <Label text="{i18n>custcode}"></Label>
+        <Label text="{i18n>custcode}" design="Bold"></Label>
       </Column>
       <Column visible="true" >
-        <Label text="{i18n>coMaterial}"></Label>
+        <Label text="{i18n>coMaterial}" design="Bold"></Label>
       </Column>
       <Column>
-        <Label id="cash" text="{i18n>amount}" ></Label>
+        <Label id="cash" text="{i18n>amount}" design="Bold"></Label>
 			<footer>
-			 <ObjectStatus id="idTC1" text="{i18n>TA}:" state="None" />
+			 <ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" />
 			</footer>
 			<!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
       </Column>
       <Column>
-        <Label text="{i18n>Gold}"></Label>
+        <Label text="{i18n>Gold}" design="Bold"></Label>
 					<footer>
-					<ObjectStatus text="{i18n>TotalGold}:" id="idG1" state="None" />
+					<ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" />
 					</footer>
       </Column>
         <Column>
-          <Label text="{i18n>Silver}"></Label>
+          <Label text="{i18n>Silver}" design="Bold"></Label>
 					<footer>
-						<ObjectStatus text="{i18n>TotalSilver}:" id="idS1"  state="None" />
+						<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None" />
 					</footer>
         </Column>
         <Column>
-          <Label text="{i18n>Remarks}"></Label>
+          <Label text="{i18n>Remarks}" design="Bold"></Label>
         </Column>
       </columns>
       <items>
@@ -147,7 +147,9 @@
             <!-- <Text text="" />
             <Text text="{Material}" /> -->
 					<!-- <Text text="{Customer}"></Text> -->
-					<Text id="cashid" text="{path:'Cash'}"></Text>
+					<!-- <ObjectStatus text="{path:'Cash'}" design="Bold" id="cashid" state="None" /> -->
+					<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
+					<Text id="cashid" text="{path: 'Cash', formatter: '.sumAmount'}" />
 					<!-- <footer><Text text="{path: '/customers', formatter: '.sumAmount'}" /></footer> -->
 					<Text id="id5" text="{Gold}"></Text>
 					<Text id="id6" text="{Silver}"></Text>

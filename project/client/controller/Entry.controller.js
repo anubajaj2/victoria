@@ -67,6 +67,19 @@ sap.ui.define(["victoria/controller/BaseController",
 			getRouter: function() {
 				return sap.ui.core.UIComponent.getRouterFor(this);
 			},
+
+			onAfterRendering: function()
+				{
+			     var oInput = this.getView().byId("idCust");
+			    oInput.attachBrowserEvent("“focus",
+			          function(event){
+			              var oModel = new sap.ui.model.Filter("Customer", "EQ", oInput);
+			              // this model is for your reference , use the model that you want to use
+			              oInput.setModel(oModel); // set the model that you want to use
+			          });
+
+
+				},
 			_onRouteMatched: function() {
 				debugger;
 				var that = this;
@@ -74,69 +87,69 @@ sap.ui.define(["victoria/controller/BaseController",
 				that.getView().getModel("local").setProperty("/materialEnable", true);
 				this.getView().byId("DateId").setDateValue(new Date());
 				var oJson = new JSONModel();
-				// oJson.setData({
-				// 	materialEnable:false
-				// });
-				// that.getView().setModel(oJson, "material");
-				// var that = this;
-				// var viewModel = this.getView().getModel("viewModel");
-				// viewModel.setProperty("/codeEnabled", true);
-				// viewModel.setProperty("/buttonText", "Save");
-				// viewModel.setProperty("/deleteEnabled", false);
-				// var odataModel = new JSONModel({
-				// 	"CustomerCodeState": "None",
-				// 	"CityState": "None",
-				// 	"GroupState": "None",
-				// 	"NameState": "None",
-				// 	"TypeState": "None"
-				//
-				// });
-				// this.setModel(odataModel, "dataModel");
-				//
-				// // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-				// // 		"/Customers", "GET", {}, {}, this)
-				// // 	.then(function(oData) {
-				// // 		var oModelCustomer = new JSONModel();
-				// // 		oModelCustomer.setData(oData);
-				// // 		that.getView().setModel(oModelCustomer, "customerModelInfo");
-				// //
-				// // 	}).catch(function(oError) {
-				// // 		MessageToast.show(that.resourceBundle.getText("ReqField"));
-				// // 	});
-				//
-				//
-				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-				// 		"/Groups", "GET", {}, {}, this)
-				// 	.then(function(oData) {
-				// 		var oModelGroup = new JSONModel();
-				// 		oModelGroup.setData(oData);
-				// 		that.getView().setModel(oModelGroup, "groupModelInfo");
-				//
-				// 	}).catch(function(oError) {
-				// 		MessageToast.show(that.resourceBundle.getText("ReqField"));
-				// 	});
-				// this.clearCustomer();
-				//
-				// $(document).keydown(function(evt) {
-				//
-				// 	var elm = document.URL.split('/');
-				//
-				// 	if (elm[elm.length - 1] === 'Customers') {
-				// 		if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
-				// 			evt.preventDefault();
-				// 			// alert('Ctr + Alt + D Pressed');
-				// 			that.deleteAllCustomers();
-				// 		} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
-				// 			evt.preventDefault();
-				// 			// alert('Ctr + Alt + E Pressed');
-				// 			that.deleteAllEntrys();
-				// 		} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
-				// 			evt.preventDefault();
-				// 			// alert('Ctr + Alt + A Pressed');
-				// 			that.deleteAllTables();
-				// 		}
-				// 	}
-				// });
+				oJson.setData({
+					materialEnable:false
+				});
+				that.getView().setModel(oJson, "material");
+				var that = this;
+				var viewModel = this.getView().getModel("viewModel");
+				viewModel.setProperty("/codeEnabled", true);
+				viewModel.setProperty("/buttonText", "Save");
+				viewModel.setProperty("/deleteEnabled", false);
+				var odataModel = new JSONModel({
+					"CustomerCodeState": "None",
+					"CityState": "None",
+					"GroupState": "None",
+					"NameState": "None",
+					"TypeState": "None"
+
+				});
+				this.setModel(odataModel, "dataModel");
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/Customers", "GET", {}, {}, this)
+					.then(function(oData) {
+						var oModelCustomer = new JSONModel();
+						oModelCustomer.setData(oData);
+						that.getView().setModel(oModelCustomer, "customerModelInfo");
+
+					}).catch(function(oError) {
+						MessageToast.show(that.resourceBundle.getText("ReqField"));
+					});
+
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/Groups", "GET", {}, {}, this)
+					.then(function(oData) {
+						var oModelGroup = new JSONModel();
+						oModelGroup.setData(oData);
+						that.getView().setModel(oModelGroup, "groupModelInfo");
+
+					}).catch(function(oError) {
+						MessageToast.show(that.resourceBundle.getText("ReqField"));
+					});
+				this.clearCustomer();
+
+				$(document).keydown(function(evt) {
+
+					var elm = document.URL.split('/');
+
+					if (elm[elm.length - 1] === 'Customers') {
+						if (evt.keyCode == 68 && (evt.ctrlKey) && (evt.altKey)) {
+							evt.preventDefault();
+							// alert('Ctr + Alt + D Pressed');
+							that.deleteAllCustomers();
+						} else if (evt.keyCode == 69 && (evt.ctrlKey) && (evt.altKey)) {
+							evt.preventDefault();
+							// alert('Ctr + Alt + E Pressed');
+							that.deleteAllEntrys();
+						} else if (evt.keyCode == 65 && (evt.ctrlKey) && (evt.altKey)) {
+							evt.preventDefault();
+							// alert('Ctr + Alt + A Pressed');
+							that.deleteAllTables();
+						}
+					}
+				});
 			},
 
 			onValueHelpRequest: function(oEvent) {
@@ -173,6 +186,8 @@ sap.ui.define(["victoria/controller/BaseController",
 
 				debugger;
 
+				// myData.Customer=;
+				// this.getView().getModel("local").getProperty("/EntryData", myData);
 				var minDate = that.getView().byId("DateId").getDateValue();
 				var minDate1=minDate;
 				minDate = minDate.getFullYear()+"-"+(minDate.getMonth()+1)+"-"+minDate.getDate();
@@ -250,11 +265,23 @@ that.getView().byId("idTable").getBinding("items").filter(oFilter);
 
 				}
 
-				oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
-					filters: aFilters,
-					and: false
-				}));
+				// oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+				// 	filters: aFilters,
+				// 	and: false
+				// }));
+				// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+				oEvent.getSource().getBinding("suggestionItems").isSuspended();
+ 				oEvent.getSource().getBinding("suggestionItems").resume();
+
 			},
+
+			onSuggest1: function(oEvent) {
+				debugger;
+var oBPListBinding = this.byId("idCust").getBinding("suggestionItems");
+
+if (oBPListBinding.isSuspended()) {
+    oBPListBinding.resume();
+}},
 
 			onCustomerSelect1: function(oEvent, custName, custId) {
 				debugger;

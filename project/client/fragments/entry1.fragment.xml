@@ -26,8 +26,7 @@
                     <f:formElements>
                         <f:FormElement label="{i18n>Date}">
                             <f:fields>
-                              <!-- change="onPayDateChange" -->
-                                <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true"
+                                <DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
                                  displayFormat="dd.MM.yyyy" value="{path: 'local>/EntryData/Date'}"></DatePicker>
                                 <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="false">
                                     <layoutData>
@@ -38,12 +37,14 @@
                         </f:FormElement>
                         <f:FormElement label="{i18n>Customer}">
                             <f:fields>
+                              <!-- suggest="onSuggest" -->
                                 <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
                                   suggestionItemSelected="onCustomerSelect" maxSuggestionWidth="auto" autocomplete="false"
-                                  submit="onEnter" showSuggestion="true" suggest="onSuggest" suggestionItems="{path: '/Customers', sorter: [{path: 'Name', ascending: 'true'}]}">
+                                  submit="onEnter" showSuggestion="true" suggest="onSuggest" change="onCustValChange" suggestionItems="{path: '/Customers', sorter: [{path: 'Name', ascending: 'true'}]}">
                                     <suggestionItems>
                                         <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
             																																															 formatter: '.formatter.byNameCity'}"/>
+
                                     </suggestionItems>
                                     <layoutData>
                                         <l:GridData span="XL3 L3"/>

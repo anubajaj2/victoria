@@ -111,6 +111,14 @@ sap.ui.define([
 					for (var i = 0; i < oData.results.length; i++) {
 						that.allMasterData.customers[oData.results[i].id] = oData.results[i];
 						that.allMasterData.customersId[oData.results[i].CustomerCode] = oData.results[i];
+						that.allMasterData.customersId[oData.results[i].Name] = oData.results[i];
+						that.allMasterData.customersId[oData.results[i].City] = oData.results[i];
+						that.allMasterData.customers[oData.results[i].City] = oData.results[i];
+						that.allMasterData.customersId[oData.results[i].MobilePhone] = oData.results[i];
+						that.allMasterData.customers[oData.results[i].MobilePhone] = oData.results[i];
+						that.allMasterData.customers[oData.results[i].Address] = oData.results[i];
+						that.allMasterData.customers[oData.results[i].SecondaryPhone] = oData.results[i];
+						that.allMasterData.customers[oData.results[i].Group] = oData.results[i];
 					}
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
@@ -141,6 +149,52 @@ sap.ui.define([
 					}).catch(function(oError) {
 						var oPopover = that.getErrorMessage(oError);
 					});
+
+					// this.getOwnerComponent().getModel().read("/Customers", {
+          //      async: false,
+          //      success: function (oEvent) {
+          //      $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.City
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.MobilePhone
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.CustomerCode
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.Name
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.SecondaryPhone
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.Group
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.Type
+          //      );
+          //      });
+					// 		 $.each(oEvent.results, function (i, item) {
+          //      customers.push(
+          //      item.id
+          //      );
+          //      });
+          //     }
+          //   });
 			this.fetchValuesFromCustomizing();
 
 		},

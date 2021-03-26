@@ -698,6 +698,7 @@ sap.ui.define([
 
 				}
 			}
+			customerModel.refresh();
 
 		},
 
@@ -922,7 +923,10 @@ sap.ui.define([
 			};
 			this.getModel().create("/Customers", updatedData, {
 				success: function() {
+
 					MessageToast.show(that.resourceBundle.getText("create1"));
+
+					this.getModel().refresh();
 					// that.clearCustomer();
 				}
 			});
@@ -971,6 +975,7 @@ sap.ui.define([
 			this.getModel().update("/Customers(" + that.getModel("customerModel").getProperty("/Id") + ")", updatedData, {
 				success: function() {
 					MessageToast.show(that.resourceBundle.getText("Update1"));
+					
 				}
 			});
 		},

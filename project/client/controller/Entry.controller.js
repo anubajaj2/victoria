@@ -172,6 +172,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 						}
 				// 				});
 				// 		});
+// oEvent.getSource().getBinding("suggestionItems").refresh(true);
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 			},
@@ -254,7 +255,7 @@ that.getView().byId("idTable").getBinding("items").filter(oFilter);
 
 			onSuggest: function(oEvent) {
 				debugger;
-				var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();;
+				var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();
 
 				// var sTerm=oEvent.getSource().getProperty("value");
 				var aFilters = [];
@@ -262,26 +263,57 @@ that.getView().byId("idTable").getBinding("items").filter(oFilter);
 					aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
 					aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
 					// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
-
-				}
-
-				// oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
-				// 	filters: aFilters,
-				// 	and: false
-				// }));
+				oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+					filters: aFilters,
+					and: false
+				}));
+					// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+				oEvent.getSource().getBinding("suggestionItems").refresh(true);
 				// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 				oEvent.getSource().getBinding("suggestionItems").isSuspended();
  				oEvent.getSource().getBinding("suggestionItems").resume();
 
-			},
+}
 
-			onSuggest1: function(oEvent) {
+
+},
+
+
+
+
+onSuggest1: function(oEvent) {
 				debugger;
 var oBPListBinding = this.byId("idCust").getBinding("suggestionItems");
 
 if (oBPListBinding.isSuspended()) {
+	aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, oBPListBinding));
+	aFilters.push(new Filter("Name", FilterOperator.Contains, oBPListBinding));
+	// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
+oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+	filters: aFilters,
+	and: false
+}));
     oBPListBinding.resume();
 }},
+
+
+
+handleSuggest: function(oEvent) {
+	var oInput = oEvent.getSource();
+	if (!oInput.getSuggestionItems().length) {
+		oInput.bindAggregation("suggestionItems", {
+			path: "/Customers",
+			template: new sap.ui.core.ListItem({
+				text: "{CustomerCode}",
+				additionalText:"{Name}"
+			})
+		});
+		oEvent.getSource().getBinding("suggestionItems").filter(oInput);
+			oEvent.getSource().getBinding("suggestionItems").refresh(true);
+	}
+
+},
+
 
 			onCustomerSelect1: function(oEvent, custName, custId) {
 				debugger;

@@ -41,11 +41,51 @@ sap.ui.define([
 			 this.logOutApp();
 		 },
 			onInit: function() {
+				debugger;
 				this.getOwnerComponent().getModel("local").setSizeLimit(1500);
 				this.getOwnerComponent().getModel().setSizeLimit(1500);
-				this.idleLogout();
 
+				this.getOwnerComponent()._oSplitApp = this.byId("idSplitApp");
+				var oSplitApp=this.getOwnerComponent()._oSplitApp;
+				 // sap.m.SplitApp.hideMaster();
+				// oSplitApp.hideMaster();
+			// 	if (!sap.ui.Device.phone) {
+			// 	/* on phone there is no master-detail pair,
+			// 	 but a single navContainer => so navigate within this navContainer: */
+			// 	var masterPage = this.getView().byId('idSplitApp');
+			// 	oSplitApp.to(masterPage.getId());
+			// } else {
+			// 	oSplitApp.showMaster();
+			// }
+				this.idleLogout();
+				if (!sap.ui.Device.phone) {
+				/* on phone there is no master-detail pair,
+				 but a single navContainer => so navigate within this navContainer: */
+				// var masterPage = this.getView().byId('idSplitApp');
+				// oSplitApp.to(masterPage.getId());
+				oSplitApp.hideMaster();
+			} else {
+				oSplitApp.showMaster();
 			}
+
+
+			},
+
+device:function(oEvent){
+	this.getOwnerComponent()._oSplitApp = this.byId("idSplitApp");
+	var oSplitApp=this.getOwnerComponent()._oSplitApp;
+	 oSplitApp.showMaster();
+	// oSplitApp.hideMaster();
+	if (!sap.ui.Device.phone) {
+	/* on phone there is no master-detail pair,
+	 but a single navContainer => so navigate within this navContainer: */
+	var masterPage = this.getView().byId('idSplitApp');
+	oSplitApp.to(masterPage.getId());
+} else {
+	oSplitApp.showMaster();
+}
+}
+
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

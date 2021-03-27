@@ -1650,6 +1650,7 @@ sap.ui.define([
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
 				this.setCustomerIdAndCustomerName(selectedData);
 			}
+			
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {

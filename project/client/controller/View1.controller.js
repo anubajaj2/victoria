@@ -37,10 +37,21 @@ sap.ui.define([
 			var sPath = oListItem.getBindingContextPath();
 			var viewId = oListItem.getId().split("--")[oListItem.getId().split("--").length - 1];
 			this.oRouter.navTo(viewId);
-			// var oList = oEvent.getSource();
-			// var oSplitApp = oList.getParent().getParent().getParent().getParent();
+			// sap.m.SplitApp.hideMaster();
+			var oList = oEvent.getSource();
+			var oSplitApp = oList.getParent().getParent().getParent().getParent();
+			// var oSplitApp=this.getOwnerComponent()._oSplitApp;
 			// oSplitApp.hideMaster();
-
+			// oSplitApp.showMaster();
+			if (!sap.ui.Device.phone) {
+			/* on phone there is no master-detail pair,
+			 but a single navContainer => so navigate within this navContainer: */
+			// var masterPage = this.getView().byId('idSplitApp');
+			// oSplitApp.to(masterPage.getId());
+			oSplitApp.hideMaster();
+		} else {
+			oSplitApp.showMaster();
+		}
 			// //Step 1: get the selected item from list and its path of element
 			// //select row of the table
 

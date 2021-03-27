@@ -1,7 +1,7 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 	controllerName="victoria.controller.View1"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page icon="sap-icon://" title="{i18n>SelectOption}">
+	<Page icon="sap-icon://" title="{i18n>SelectOption}" class="v-overlay__scrim v-navigation-drawer v-navigation-drawer--fixed v-navigation-drawer--is-mobile v-application--wrap">
 		<headerContent>
 			<!-- <Button icon="sap-icon://arrow-right" showNavButton="false" press="onNext" tooltip="{i18n>Next}"></Button> -->
 		</headerContent>

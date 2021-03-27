@@ -83,10 +83,10 @@
             <Text text="{Material}" /> -->
 					<!-- <Text text="{Customer}"></Text> -->
 					<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
-					 <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'Success':'Warning'}" />
-					  <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id44" design="Bold" state="{=${Gold}>0?'Success':'Warning'}" />
+					 <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'Success': ${Cash}===0?'None':'Warning'}" />
+					  <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id44" design="Bold" state="{=${Gold}>0?'Success': ${Gold}===0?'None':'Warning'}" />
 					<!-- <Text text="{Gold}"></Text> -->
-					<ObjectStatus text="{path:'Silver'}" id="id55" design="Bold" state="{=${Silver}>0?'Success':'Warning'}" />
+					<ObjectStatus text="{path:'Silver'}" id="id55" design="Bold" state="{=${Silver}>0?'Success': ${Silver}===0?'None':'Warning'}" />
 					<!-- <Text text="{Silver}"></Text> -->
 					<Text text="{Remarks}"></Text>
         </cells>

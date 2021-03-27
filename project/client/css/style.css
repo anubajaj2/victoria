@@ -17,10 +17,10 @@
   flex-basis: 12rem;
   max-width: 20rem;
 } */
-element.style {
+/* element.style {
     flex-basis: 12rem;
     max-width: 20rem;
-}
+} */
 
 
 /*
@@ -86,4 +86,7 @@ element.style {
 
 .sapUiCompFilterBar .sapUiAFLayoutItem * .sapUiCompFilterBar .sapUiAFLayoutEnd, .sapUiCompFilterBar .sapUiAFLayoutSpacer{
   margin-right: 8em;
+}
+.myCustomText .sapMObjStatusText {
+  font-size: 18px;
 }

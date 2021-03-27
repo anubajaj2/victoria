@@ -196,7 +196,7 @@ sap.ui.define([
                 var selCust = oEvent.getParameter("selectedItem").getLabel();
                 var selCustName = oEvent.getParameter("selectedItem").getValue();
                 console.log(selCust, selCustName);
-                this.getView().byId("idCoCustomerText").setValue(selCustName);
+                this.getView().byId("idCoCustomerText").setText(selCustName);
                 this.getView().getModel("local").setProperty("/customerOrder/Customer",
                     oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
                 this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
@@ -714,7 +714,7 @@ sap.ui.define([
                 oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName);
 
                 var karigarId = oTable.getItems()[i].getCells()[11].getText();
-                if (karigarId !== "null" && karigarId !== " ") {
+                if (karigarId !== "null" && karigarId !== "") {debugger;
                     var customerData = this.allMasterData.customers[karigarId];
                     oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name);
                 }

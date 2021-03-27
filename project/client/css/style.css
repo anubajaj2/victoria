@@ -17,11 +17,28 @@
   flex-basis: 12rem;
   max-width: 20rem;
 } */
-/* element.style {
+element.style {
     flex-basis: 12rem;
     max-width: 20rem;
-} */
+}
 
+html.overflow-y-hidden {
+    overflow-y: hidden!important;
+}
+
+.v-overlay__scrim {
+    border-radius: inherit;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-transition: inherit;
+    transition: inherit;
+    width: 100%;
+    will-change: opacity;
+}
 
 /*
 .sapUiDemoWT .myCustomButton.sapMBtn {
@@ -45,11 +62,9 @@
   max-width: 100%
 }
 
-
 .sapuiVltCell .sapUiAFLayoutItem{
   max-width: 100%
 }
-
 
 /* .sapUiCompFilterBar .sapUiAFLayoutItem{
   max-width: 100%
@@ -58,7 +73,6 @@
 .sapUiCompFilterBar .sapuiVltCell {
   max-width: 100%
 }
-
 
 .sapUiCompFilterBar .sapUiAFLayoutItem {
     flex-basis: 12rem;
@@ -69,11 +83,9 @@
   max-width: 100%
 }
 
-
 .sapUiCompFilterBar1 .sapUiAFLayoutItem, .sapUiCompFilterBar1 .sapUiAFLayoutEnd, .sapUiCompFilterBar1 .sapUiAFLayoutSpacer {
     margin-right: 8;
 }
-
 
 .sapUiCompFilterBar1 .sapUiAFLayoutItem, .sapUiCompFilterBar1 .sapUiAFLayoutEnd {
     margin-top: 2.5rem;
@@ -86,6 +98,62 @@
 
 .sapUiCompFilterBar .sapUiAFLayoutItem * .sapUiCompFilterBar .sapUiAFLayoutEnd, .sapUiCompFilterBar .sapUiAFLayoutSpacer{
   margin-right: 8em;
+}
+
+.v-navigation-drawer {
+  display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      left: 0;
+      max-width: 100%;
+      overflow: hidden;
+      pointer-events: auto;
+}
+.v-navigation-drawer--clipped
+{
+
+
+
+}
+
+.v-navigation-drawer--fixed
+{
+  position: fixed;
+  z-index: 6;
+}
+
+.v-navigation-drawer--is-mobile
+{
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.v-application--wrap{
+  -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 100%;
+    position: relative;
+}
+
+.v-navigation-drawer--open{
+
+}
+
+.theme--light{
+
 }
 .myCustomText .sapMObjStatusText {
   font-size: 18px;

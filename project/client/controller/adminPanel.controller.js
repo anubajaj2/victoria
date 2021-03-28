@@ -257,95 +257,58 @@ sap.ui.define([
 
 
 		onPressHandleSecureOkPopup1: function(oEvent) {
-			var that = this;
-			var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext(),
-				// password = sap.ui.getCore().byId("Secure_Dialog--idPassword").getValue(),
-				// confirmPassword = sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").getValue();
-				password = sap.ui.getCore().byId("Secure_Password--idPassword").getValue(),
-				confirmPassword = sap.ui.getCore().byId("Secure_Password--idConfirmPassword").getValue();
-			// if (password !== confirmPassword) {
-			// 	MessageToast.show("Password not matched");
-			// 	return;
-			// }
-			if (password !== confirmPassword) {
-				MessageToast.show("Password not matched");
-				return;
-			}
-			var Payload = {
-				// "Role": sap.ui.getCore().byId("Secure_Dialog--idRole").getValue(),
-				// "UserName": sap.ui.getCore().byId("Secure_Dialog--idUser").getValue(),
-				// "EmailId": sap.ui.getCore().byId("Secure_Dialog--idEmail").getValue(),
-				// "TechnicalId": sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
-				password: password
-			};
-			if (bindingPath) {
-				var sPath = oEvent.getSource().getBindingContext().sPath;
-
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), sPath, "PUT", {},
-						Payload, this)
-					.then(function(oData) {
-						sap.m.MessageToast.show("Server Updated successfully");
-						that.getView().setBusy(false);
-						// that._oDialogSecure.close();
-						that._oDialogSecure1.close();
-
-					}).catch(function(oError) {
-						that.getView().setBusy(false);
-						that.oPopover = that.getErrorMessage(oError);
-						that.getView().setBusy(false);
-					});
-			} else {
-				var createUserPayload = {
-					name: Payload.UserName,
-					// emailId: Payload.EmailId,
-					password: password,
-					// role: Payload.Role,
-					Authorization: "kREmIDG9mpGiGuWnfayajMIyIZhNEPfZ2okow0VLRMxyAs2dRZIH1L5eqTLYdEGY" //this.getModel("local").getProperty("/Authorization")
+			// onPressHandleSecureOkPopup:function(oEvent){
+				debugger;
+				var passEmail = sap.ui.getCore().byId("idChangePass--idPassEmail").getValue();
+				var currentPass = sap.ui.getCore().byId("idChangePass--idCurrentPassword").getValue();
+				var newPass = sap.ui.getCore().byId("idChangePass--idPassword").getValue();
+				var confirmNewPass =  sap.ui.getCore().byId("idChangePass--idConfirmPassword").getValue();
+				if(newPass!==confirmNewPass){
+					MessageToast.show("Password not Matched");
+					sap.ui.getCore().byId("idChangePass--idPassword").setValueState("Error");
+					sap.ui.getCore().byId("idChangePass--idConfirmPassword").setValueState("Error");
+					sap.ui.getCore().byId("idChangePass--idConfirmPassword").setValueStateText("Password not matched");
+					sap.ui.getCore().byId("idChangePass--idPassword").setValueStateText("Password not matched");
+					return;
+				}
+				var loginPayload = {
+					"email": passEmail,
+					"password": currentPass
 				};
-				$.put('/createNewUser', createUserPayload)
-					.then(function(data) {
-						that.getOwnerComponent().getModel().refresh();
-						sap.m.MessageToast.show(data);
-						that.getView().setBusy(false);
-						// that._oDialogSecure.close();
-						that._oDialogSecure1.close();
+				var that = this;
+				$.post('/api/Users/login', loginPayload)
+					.done(function(data, status) {
+						var token=data.id;
+						var user=data.userId;
+						var passPayload={
+							"password": newPass
+						};
+						var that2=that;
+						$.ajax('/api/Users/'+user+'?access_token='+token, {
+									type: 'PUT', // http method
+									contentType: "application/json",
+									data: JSON.stringify(passPayload), // data to submit
+									success: function(data, status, xhr) {
+										debugger;
+										MessageToast.show("Password Updated Successfully");
+										that2._oDialogSecure1.close();
+
+									},
+									error: function(jqXhr, textStatus, errorMessage) {
+										debugger;
+										MessageToast.show("Password Update failed,Please contact Server");
+										that2._oDialogSecure1.close();
+									}
+								});
+
+
 					})
-					.fail(function(error) {
-						sap.m.MessageBox.error("User Creation failed");
-						that.getView().setBusy(false);
-						// that.oPopover = that.getErrorMessage(error);
-						that.getView().setBusy(false);
+					.fail(function(xhr, status, error) {
+						debugger;
+						// sap.ui.getCore().byId("idChangePass--idPassEmail").setValueState("Error");
+						sap.ui.getCore().byId("idChangePass--idCurrentPassword").setValueState("Error");
+						sap.m.MessageBox.error("Failed, Please enter correct credentials");
 					});
-				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
-				// 	Payload, this)
-				// .then(function(oData) {
-				// 	sap.m.MessageToast.show("Server Updated successfully");
-				// 	that.getView().setBusy(false);
-				// 	that._oDialogSecure.close();
-				//
-				// }).catch(function(oError) {
-				// 	that.getView().setBusy(false);
-				// 	that.oPopover = that.getErrorMessage(oError);
-				// 	that.getView().setBusy(false);
-				// });
-			}
-			// var oTable = this.getView().getModel();
-			// var secureListInfo = oTable.getData().appUsers;
-			// var secureFormObj = this._oDialogSecure.getModel("secureFormModel").getData();
-			// console.log(this._oDialogSecure.getModel("secureFormModel").getProperty("/CreateMode"));
-			// if (this._oDialogSecure.getModel("secureFormModel").getProperty("/CreateMode")) {
-			// 	secureFormObj.Role = secureFormObj.Role.toUpperCase();
-			// 	secureListInfo[secureListInfo.length] = {
-			// 		"Role": secureFormObj.Role,
-			// 		"User": secureFormObj.User,
-			// 		"Password": secureFormObj.Password
-			// 	};
-			// } else {
-			// 	this.rowSelected = secureFormObj;
-			// }
-			// oTable.updateBindings();
-			// this._checkForSecureChangesButton();
-			// this.onPressHandleSecureCancelPopup();
 		},
 		_removeCreateMode: function(secureListInfo) {
 			for (var i = 0; i < secureListInfo.length; i++) {
@@ -393,24 +356,24 @@ sap.ui.define([
 		},
 
 		onPressOpenAddSecureDialog1: function(createMode) {
-			if (!this._oDialogSecure1) {
-				debugger;
-				this._oDialogSecure1 = sap.ui.xmlfragment("Secure_Password", "victoria.fragments.SecurePassword", this);
-				// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
-				// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);
-				this.getView().addDependent(this._oDialogSecure1);
-				if (createMode == false) {
-					this._oDialogSecure1.bindElement(this.aBindingContext);
-					sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
-					sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
-				} else {
-					this._oDialogSecure1.unbindElement(this.aBindingContext);
-					sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
-					sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
-				}
-			}
-			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialogSecure1);
-			this._oDialogSecure1.open();
+			// if (!this._oDialogSecure1) {
+			// 	debugger;
+			// 	this._oDialogSecure1 = sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.SecurePassword", this);
+			// 	// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
+			// 	// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);
+			// 	this.getView().addDependent(this._oDialogSecure1);
+			// 	if (createMode == false) {
+			// 		this._oDialogSecure1.bindElement(this.aBindingContext);
+			// 		sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
+			// 		sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
+			// 	} else {
+			// 		this._oDialogSecure1.unbindElement(this.aBindingContext);
+			// 		sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
+			// 		sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
+			// 	}
+			// }
+			// jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialogSecure1);
+			// this._oDialogSecure1.open();
 
 		},
 
@@ -444,14 +407,33 @@ sap.ui.define([
 
 		},
 		editSecureField1: function(oEvent) {
+			debugger;
 			this.aBindingContext = oEvent.getSource().getBindingContext().sPath;
-			// this.onPressOpenAddSecureDialog(false);
-			this.onPressOpenAddSecureDialog1(false);
-			// this.edit = 'X';
-			// this._oDialogSecure.getModel("secureFormModel").setData(aBindingContext);
-			// this.rowSelected = aBindingContext;
-			// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", false);
+			// // this.onPressOpenAddSecureDialog(false);
+			// this.onPressOpenAddSecureDialog1(false);
+			// // this.edit = 'X';
+			// // this._oDialogSecure.getModel("secureFormModel").setData(aBindingContext);
+			// // this.rowSelected = aBindingContext;
+			// // this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", false);
 
+			if (!this._oDialogSecure1) {
+				debugger;
+				this._oDialogSecure1 = sap.ui.xmlfragment("idChangePass", "victoria.fragments.SecurePassword", this);
+				// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
+				// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);
+				this.getView().addDependent(this._oDialogSecure1);
+				// if (createMode == false) {
+					this._oDialogSecure1.bindElement(this.aBindingContext);
+					// sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
+					// sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
+				// } else {
+					// this._oDialogSecure1.unbindElement(this.aBindingContext);
+					// sap.ui.getCore().byId("Secure_Password--idPassword").setVisible(true);
+					// sap.ui.getCore().byId("Secure_Password--idConfirmPassword").setVisible(true);
+				// }
+			}
+			// jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialogSecure1);
+			this._oDialogSecure1.open();
 		},
 		_getSecureDetails: function() {
 			var that = this;

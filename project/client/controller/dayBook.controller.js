@@ -6,7 +6,7 @@ sap.ui.define([
 	'sap/ui/export/library',
 	'sap/ui/export/Spreadsheet',
 	"sap/ui/model/FilterOperator"
-], function(Controller, MessageBox, MessageToast, Filter, exportLibrary,Spreadsheet,FilterOperator) {
+], function(Controller, MessageBox, MessageToast, Filter, exportLibrary, Spreadsheet, FilterOperator) {
 	"use strict";
 	var EdmType = exportLibrary.EdmType;
 	return Controller.extend("victoria.controller.dayBook", {
@@ -17,7 +17,8 @@ sap.ui.define([
 		 * @memberOf acc.fin.ar.view.View2
 		 */
 
-		onInit: function() {debugger;
+		onInit: function() {
+			debugger;
 			var that = this;
 			// that.getView().setBusy(true);
 			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
@@ -37,10 +38,12 @@ sap.ui.define([
 			loginUser = "Hey " + loginUser;
 			this.getView().byId("idUser").setText(loginUser);
 		},
-		getRouter: function () {debugger;
+		getRouter: function() {
+			debugger;
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
-		_onRouteMatched: function () {debugger
+		_onRouteMatched: function() {
+			debugger
 			// var that = this;
 			// that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
 			// this.getView().byId("DateId1").setDateValue(new Date());
@@ -48,13 +51,14 @@ sap.ui.define([
 
 		},
 
-		onValueHelpRequest: function (oEvent) {debugger;
+		onValueHelpRequest: function(oEvent) {
+			debugger;
 			// this.inpField = oEvent.getSource().getId();
 			this.getCustomerPopup(oEvent);
 		},
 
 
-		onEnter: function (oEvent) {
+		onEnter: function(oEvent) {
 			debugger;
 			this.getCustomer(oEvent);
 
@@ -66,23 +70,22 @@ sap.ui.define([
 			//TODO: Set data to local model
 		},
 
-		onPressEntryDownload: function () {debugger;
-			var cust= this.getView().byId("idCustDay").getValue();
-			var minDate=this.getView().byId("dateRangeId").getDateValue();
-			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
+		onPressEntryDownload: function() {
+			debugger;
+			var cust = this.getView().byId("idCustDay").getValue();
+			var minDate = this.getView().byId("dateRangeId").getDateValue();
+			var maxDate = this.getView().byId("dateRangeId").getSecondDateValue();
 			var myData = this.getView().getModel("local").getProperty("/EntryData");
-			var city=null;
-			var name=null;
+			var city = null;
+			var name = null;
 			this.getView().getModel("local").getProperty("/EntryData", myData);
 
-			if(minDate===null && maxDate===null){
-				window.open("/entryDownload?id="+myData.Customer+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate+"&max="+maxDate);
-			}
-			else if(cust===""){
-				window.open("/entryDownloadDate?id="+cust+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
-			}
-			else{
-				window.open("/entryDownloadBetween?id="+myData.Customer+"&type=DayBook&name="+name+"&city="+city+"&min="+minDate.toISOString()+"&max="+maxDate.toISOString());
+			if (minDate === null && maxDate === null) {
+				window.open("/entryDownload?id=" + myData.Customer + "&type=DayBook&name=" + name + "&city=" + city + "&min=" + minDate + "&max=" + maxDate);
+			} else if (cust === "") {
+				window.open("/entryDownloadDate?id=" + cust + "&type=DayBook&name=" + name + "&city=" + city + "&min=" + minDate.toISOString() + "&max=" + maxDate.toISOString());
+			} else {
+				window.open("/entryDownloadBetween?id=" + myData.Customer + "&type=DayBook&name=" + name + "&city=" + city + "&min=" + minDate.toISOString() + "&max=" + maxDate.toISOString());
 			}
 
 
@@ -98,9 +101,9 @@ sap.ui.define([
 
 
 		onExportExcel: function() {
-			var that=this;
+			var that = this;
 			debugger;
-			var data= this.getView().getModel().oData;
+			var data = this.getView().getModel().oData;
 			// var data = sap.ui.getCore().getModel("ojsonModel").getData();
 
 			this.JSONToExcelConvertor(data, "Report", true);
@@ -184,42 +187,42 @@ sap.ui.define([
 
 
 
-		onConfirm: function (oEvent) {
+		onConfirm: function(oEvent) {
 			debugger;
 			var selCust = oEvent.getParameter("selectedItem").getLabel();
 			this.getView().byId("idCustDay").setValue(selCust);
 			this.getView().getModel("local").setProperty("/EntryData/Customer",
-									 oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+				oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 			// this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 		},
 
 
 
-		onUpdateFinished: function (oEvent) {
+		onUpdateFinished: function(oEvent) {
 			debugger;
-							var oTable = oEvent.getSource();
-							var itemList = oTable.getItems();
-							var noOfItems = itemList.length;
-							var value1 = noOfItems <= 20 ? 0 : noOfItems - 20;
-							var id;
-							var cell;
-							console.log(noOfItems);
-							var title = this.getView().getModel("i18n").getProperty("allEntries");
-							this.getView().byId("idTitle").setText(title + " " + "(" + noOfItems + ")");
-								this.getView().byId("idTable1").setBlocked(false);
-								this.getView().byId("idTable1").setShowOverlay(false)
-							for (var i = 0; i < noOfItems; i++) {
-									var customerId = oTable.getItems()[i].getCells()[2].getText();
-									var productId = oTable.getItems()[i].getCells()[3].getText();
-									var customerData = this.allMasterData.customers[customerId];
-									var productData = this.allMasterData.materials[productId];
-									oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
-									// oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
-									if(productId !== "" && productData !== undefined){
-										oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
-									}
-							}
-							this.getView().byId("idTable1").setBlocked(false);
+			var oTable = oEvent.getSource();
+			var itemList = oTable.getItems();
+			var noOfItems = itemList.length;
+			var value1 = noOfItems <= 20 ? 0 : noOfItems - 20;
+			var id;
+			var cell;
+			console.log(noOfItems);
+			var title = this.getView().getModel("i18n").getProperty("allEntries");
+			this.getView().byId("idTitle").setText(title + " " + "(" + noOfItems + ")");
+			this.getView().byId("idTable1").setBlocked(false);
+			this.getView().byId("idTable1").setShowOverlay(false)
+			for (var i = 0; i < noOfItems; i++) {
+				var customerId = oTable.getItems()[i].getCells()[2].getText();
+				var productId = oTable.getItems()[i].getCells()[3].getText();
+				var customerData = this.allMasterData.customers[customerId];
+				var productData = this.allMasterData.materials[productId];
+				oTable.getItems()[i].getCells()[1].setText(customerData.CustomerCode + ' - ' + customerData.Name);
+				// oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+				if (productId !== "" && productData !== undefined) {
+					oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
+				}
+			}
+			this.getView().byId("idTable1").setBlocked(false);
 
 		},
 
@@ -227,121 +230,123 @@ sap.ui.define([
 
 		onFilterSearch: function(oEvent) {
 			debugger;
-			var that=this;
-			var cust= this.getView().byId("idCustDay").getValue();
-			var cId=this.allMasterData.customersId[cust].id;
-			var minDate=this.getView().byId("dateRangeId").getDateValue();
-			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
+			var that = this;
+			var cust = this.getView().byId("idCustDay").getValue();
+			if (cust !== "") {
+				var cId = this.allMasterData.customersId[cust].id;
+			}
+			var minDate = this.getView().byId("dateRangeId").getDateValue();
+			var maxDate = this.getView().byId("dateRangeId").getSecondDateValue();
 			// var myData = this.getView().getModel("local").getProperty("/EntryData");
-			var oFilter=[];
+			var oFilter = [];
 			// if(cust === ""){
 			// 	MessageToast.show("Customer is Mandatory");
 			// 	return;
 			// }
-			if(minDate!==null && maxDate!==null){
+			if (minDate !== null && maxDate !== null) {
 				var oFilter1 = new Filter([
-						new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, minDate,maxDate)
-					], true);
+					new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, minDate, maxDate)
+				], true);
 				oFilter.push(oFilter1);
 			}
-			if(cust !== ""){
+			if (cust !== "") {
 				// this.getView().getModel("local").getProperty("/EntryData", myData);
-							 var oFilter2 = new sap.ui.model.Filter("Customer", "EQ", "'" + cId + "'");
+				var oFilter2 = new sap.ui.model.Filter("Customer", "EQ", "'" + cId + "'");
 
 				// var oFilter2=new Filter([
 				// 		new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ,"'"+ this.cusId+"'")
 				// 	], true);
 				oFilter.push(oFilter2);
 			}
-				this.getView().byId("idTable1").getBinding("items").filter(oFilter);
-				if(minDate===null && maxDate===null){
-						$.post("/getTotalEntryCustomer", {
-		                    Customer: cId,
-												// max:maxDate.toISOString(),
-												// min:minDate.toISOString()
-		                }).then(function (result) {
-													debugger;
-													that.getView().getModel("local").setProperty("/Footer", true);
-													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
-													that.byId("idTC1").getText();
-													parseFloat(that.byId("idTC1").getText());
-													if (parseFloat(that.byId("idTC1").getText()) > 0 ) {
-														that.byId("idTC1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idTC1").setState('Warning');
-													}
-													that.getView().byId("idG1").setText(parseFloat(result.GoldTotal.toFixed(3)));
-													that.byId("idG1").getText();
-													parseFloat(that.byId("idG1").getText());
-													if (parseFloat(that.byId("idG1").getText()) > 0) {
-														that.byId("idG1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idG1").setState('Warning');
-													}
-													that.getView().byId("idS1").setText(parseFloat(result.SilverTotal.toFixed(2)));
-													that.byId("idS1").getText();
-													parseFloat(that.byId("idS1").getText());
-													parseFloat(that.byId("idS1").getText()).toFixed(3);
-													// parseFloat(that.byId("idS").getText());
-													// parseFloat(that.byId("idS").getText()).toFixed(3);
-													// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
-													if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
-														that.byId("idS1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idS1").setState('Warning');
-													}debugger;
-		                });
+			this.getView().byId("idTable1").getBinding("items").filter(oFilter);
+			if (minDate === null && maxDate === null) {
+				$.post("/getTotalEntryCustomer", {
+					Customer: cId,
+					// max:maxDate.toISOString(),
+					// min:minDate.toISOString()
+				}).then(function(result) {
+					debugger;
+					that.getView().getModel("local").setProperty("/Footer", true);
+					that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
+					that.byId("idTC1").getText();
+					parseFloat(that.byId("idTC1").getText());
+					if (parseFloat(that.byId("idTC1").getText()) > 0) {
+						that.byId("idTC1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idTC1").setState('Warning');
 					}
-					else{
-						if(cust===""){
-							var oCust=cust;
-						}
-						else{
-							var oCust=cId;
-						}
-						$.post("/getTotalEntryCustomerBetween", {
-		                    Customer: oCust,
-												max:maxDate.toISOString(),
-												min:minDate.toISOString()
-		                }).then(function (result) {
-													debugger;
-													that.getView().getModel("local").setProperty("/Footer", true);
-													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
-													that.byId("idTC1").getText();
-													parseFloat(that.byId("idTC1").getText());
-													if (parseFloat(that.byId("idTC1").getText()) > 0 ) {
-														that.byId("idTC1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idTC1").setState('Warning');
-													}
-													that.getView().byId("idG1").setText(parseFloat(result.GoldTotal.toFixed(3)));
-													that.byId("idG1").getText();
-													parseFloat(that.byId("idG1").getText());
-													if (parseFloat(that.byId("idG1").getText()) > 0) {
-														that.byId("idG1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idG1").setState('Warning');
-													}
-													that.getView().byId("idS1").setText(parseFloat(result.SilverTotal.toFixed(2)));
-													that.byId("idS1").getText();
-													parseFloat(that.byId("idS1").getText());
-													parseFloat(that.byId("idS1").getText()).toFixed(3);
-													// parseFloat(that.byId("idS").getText());
-													// parseFloat(that.byId("idS").getText()).toFixed(3);
-													// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
-													if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
-														that.byId("idS1").setState('Success');
-														debugger;
-													} else {
-														that.byId("idS1").setState('Warning');
-													}debugger;
-		                });
+					that.getView().byId("idG1").setText(parseFloat(result.GoldTotal.toFixed(3)));
+					that.byId("idG1").getText();
+					parseFloat(that.byId("idG1").getText());
+					if (parseFloat(that.byId("idG1").getText()) > 0) {
+						that.byId("idG1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idG1").setState('Warning');
 					}
+					that.getView().byId("idS1").setText(parseFloat(result.SilverTotal.toFixed(2)));
+					that.byId("idS1").getText();
+					parseFloat(that.byId("idS1").getText());
+					parseFloat(that.byId("idS1").getText()).toFixed(3);
+					// parseFloat(that.byId("idS").getText());
+					// parseFloat(that.byId("idS").getText()).toFixed(3);
+					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+					if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
+						that.byId("idS1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idS1").setState('Warning');
+					}
+					debugger;
+				});
+			} else {
+				if (cust === "") {
+					var oCust = cust;
+				} else {
+					var oCust = cId;
+				}
+				$.post("/getTotalEntryCustomerBetween", {
+					Customer: oCust,
+					max: maxDate.toISOString(),
+					min: minDate.toISOString()
+				}).then(function(result) {
+					debugger;
+					that.getView().getModel("local").setProperty("/Footer", true);
+					that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
+					that.byId("idTC1").getText();
+					parseFloat(that.byId("idTC1").getText());
+					if (parseFloat(that.byId("idTC1").getText()) > 0) {
+						that.byId("idTC1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idTC1").setState('Warning');
+					}
+					that.getView().byId("idG1").setText(parseFloat(result.GoldTotal.toFixed(3)));
+					that.byId("idG1").getText();
+					parseFloat(that.byId("idG1").getText());
+					if (parseFloat(that.byId("idG1").getText()) > 0) {
+						that.byId("idG1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idG1").setState('Warning');
+					}
+					that.getView().byId("idS1").setText(parseFloat(result.SilverTotal.toFixed(2)));
+					that.byId("idS1").getText();
+					parseFloat(that.byId("idS1").getText());
+					parseFloat(that.byId("idS1").getText()).toFixed(3);
+					// parseFloat(that.byId("idS").getText());
+					// parseFloat(that.byId("idS").getText()).toFixed(3);
+					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
+					if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
+						that.byId("idS1").setState('Success');
+						debugger;
+					} else {
+						that.byId("idS1").setState('Warning');
+					}
+					debugger;
+				});
+			}
 
 
 		},
@@ -350,13 +355,13 @@ sap.ui.define([
 		onFilterClear: function(oEvent) {
 			debugger;
 			this.getView().getModel("local").setProperty("/Footer", false);
-				this.getView().byId("idTable1").getBinding("items").filter("/");
+			this.getView().byId("idTable1").getBinding("items").filter("/");
 		},
 
 
 		createColumnConfig: function() {
 			var aCols = [];
-			var aRows=[];
+			var aRows = [];
 			aCols.push({
 				label: 'Date',
 				property: ['Date'],
@@ -365,7 +370,7 @@ sap.ui.define([
 			});
 
 			aCols.push({
-				property: ['Name','CustomerCode'],
+				property: ['Name', 'CustomerCode'],
 
 			});
 
@@ -402,8 +407,8 @@ sap.ui.define([
 			});
 
 			aRows.push({
-				property:"TA",
-				type:EdmType.Number
+				property: "TA",
+				type: EdmType.Number
 			});
 
 			return aCols;
@@ -448,141 +453,143 @@ sap.ui.define([
 		},
 
 
-		totalFormatter:function(results) {debugger;
+		totalFormatter: function(results) {
+			debugger;
 			return results.length;
-	},
+		},
 
 
 
-	decimalvalidator1: function (oEvent) {
-		debugger;
-		if (oEvent.mParameters.id === "__component0---idEntry--idCash") {
-			$(function () {
-				$('input').on('input.idCash', function (event) {
-					if (event.currentTarget.id == "__component0---idEntry--idCash-inner") {
-						debugger;
-						this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
+		decimalvalidator1: function(oEvent) {
+			debugger;
+			if (oEvent.mParameters.id === "__component0---idEntry--idCash") {
+				$(function() {
+					$('input').on('input.idCash', function(event) {
+						if (event.currentTarget.id == "__component0---idEntry--idCash-inner") {
+							debugger;
+							this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
+						}
+					});
+				});
+			}
+		},
+		decimalvalidator2: function(oEvent) {
+			debugger;
+			if (oEvent.mParameters.id === "__component0---idEntry--idGold") {
+
+				$(function() {
+					$('input').on('input.idGold', function(event) {
+						if (event.currentTarget.id == "__component0---idEntry--idGold-inner") {
+							debugger;
+							this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
+						}
+					});
+				});
+			}
+		},
+		decimalvalidator3: function(oEvent) {
+			debugger;
+			if (oEvent.mParameters.id === "__component0---idEntry--idSilver") {
+				$(function() {
+					$('input').on('input.idSilver', function(event) {
+						if (event.currentTarget.id == "__component0---idEntry--idSilver-inner") {
+							debugger;
+							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
+						}
+					});
+				});
+			}
+		},
+		decimalvalidator4: function(oEvent) {
+			debugger;
+			if (oEvent.mParameters.id === "__component0---idEntry--idweight") {
+				$(function() {
+					$('input').on('input.idweight', function(event) {
+						if (event.currentTarget.id == "__component0---idEntry--idweight-inner") {
+							debugger;
+							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
+						}
+					});
+				});
+			}
+		},
+		decimalvalidator5: function(oEvent) {
+			debugger;
+			if (oEvent.mParameters.id === "__component0---idEntry--idtunch") {
+				$(function() {
+					$('input').on('input.idtunch', function(event) {
+						if (event.currentTarget.id == "__component0---idEntry--idtunch-inner") {
+							debugger;
+							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
+						}
+					});
+				});
+			}
+		},
+		onMaterialSelect: function(oEvent) {
+			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+			var selMat = oEvent.getParameter("selectedItem").getText();
+			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
+			var selType = oEvent.getParameter("selectedItem").getKey();
+			// this.getView().byId("idMatType").setText(selType);
+			this.getView().byId("idMat").setValue(selMat);
+			this.getView().byId("idMatText").setText(selMatName + " - " + selType);
+		},
+		onRemarksSubmit: function(oEvent) {
+			this.getView().byId("sendButton").focus();
+		},
+
+		onSubmit: function(evt) {
+			$(function() {
+				$('input:text:first').focus();
+				var $inp = $('input:text');
+				$inp.bind('keypress', function(e) {
+					//var key = (e.keyCode ? e.keyCode : e.charCode);
+					var key = e.which;
+					if (key == 13) {
+						e.preventDefault();
+						var nxtIdx = $inp.index(this) + 1;
+						$(":input:text:eq(" + nxtIdx + ")").focus();
 					}
 				});
 			});
-		}
-	},
-	decimalvalidator2: function (oEvent) {
-		debugger;
-		if (oEvent.mParameters.id === "__component0---idEntry--idGold") {
+		},
+		onCashSubmit: function(evt) {
+			this.getView().byId("idGold").focus();
+		},
+		onGoldSubmit: function(evt) {
+			this.getView().byId("idSilver").focus();
+		},
+		onSilverSubmit: function(evt) {
+			this.getView().byId("idRemarks").focus();
+		},
+		onRemarksSubmit: function(evt) {
+			this.getView().byId("sendButton").focus();
+		},
+		onSubmitSideWeight: function(evt) {
+			this.getView().byId("idtunch").focus();
+		},
+		onSubmitSideTunch: function(evt) {
+			this.getView().byId("calculateButton").focus();
+		},
+		onSelect: function(oEvent) {
+			jQuery.sap.delayedCall(500, this, function() {
+				// this.getView().byId("idCust").focus();
+			});
 
-			$(function () {
-				$('input').on('input.idGold', function (event) {
-					if (event.currentTarget.id == "__component0---idEntry--idGold-inner") {
-						debugger;
-						this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
-					}
-				});
-			});
-		}
-	},
-	decimalvalidator3: function (oEvent) {
-		debugger;
-		if (oEvent.mParameters.id === "__component0---idEntry--idSilver") {
-			$(function () {
-				$('input').on('input.idSilver', function (event) {
-					if (event.currentTarget.id == "__component0---idEntry--idSilver-inner") {
-						debugger;
-						this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
-					}
-				});
-			});
-		}
-	},
-	decimalvalidator4: function (oEvent) {
-		debugger;
-		if (oEvent.mParameters.id === "__component0---idEntry--idweight") {
-			$(function () {
-				$('input').on('input.idweight', function (event) {
-					if (event.currentTarget.id == "__component0---idEntry--idweight-inner") {
-						debugger;
-						this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
-					}
-				});
-			});
-		}
-	},
-	decimalvalidator5: function (oEvent) {
-		debugger;
-		if (oEvent.mParameters.id === "__component0---idEntry--idtunch") {
-			$(function () {
-				$('input').on('input.idtunch', function (event) {
-					if (event.currentTarget.id == "__component0---idEntry--idtunch-inner") {
-						debugger;
-						this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
-					}
-				});
-			});
-		}
-	},
-	onMaterialSelect: function (oEvent) {
-		var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-		var selMat = oEvent.getParameter("selectedItem").getText();
-		var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
-		var selType = oEvent.getParameter("selectedItem").getKey();
-		// this.getView().byId("idMatType").setText(selType);
-		this.getView().byId("idMat").setValue(selMat);
-		this.getView().byId("idMatText").setText(selMatName + " - " + selType);
-	},
-	onRemarksSubmit: function (oEvent) {
-		this.getView().byId("sendButton").focus();
-	},
-
-	onSubmit: function (evt) {
-		$(function () {
-			$('input:text:first').focus();
-			var $inp = $('input:text');
-			$inp.bind('keypress', function (e) {
-				//var key = (e.keyCode ? e.keyCode : e.charCode);
-				var key = e.which;
-				if (key == 13) {
-					e.preventDefault();
-					var nxtIdx = $inp.index(this) + 1;
-					$(":input:text:eq(" + nxtIdx + ")").focus();
-				}
-			});
-		});
-	},
-	onCashSubmit: function (evt) {
-		this.getView().byId("idGold").focus();
-	},
-	onGoldSubmit: function (evt) {
-		this.getView().byId("idSilver").focus();
-	},
-	onSilverSubmit: function (evt) {
-		this.getView().byId("idRemarks").focus();
-	},
-	onRemarksSubmit: function (evt) {
-		this.getView().byId("sendButton").focus();
-	},
-	onSubmitSideWeight: function (evt) {
-		this.getView().byId("idtunch").focus();
-	},
-	onSubmitSideTunch: function (evt) {
-		this.getView().byId("calculateButton").focus();
-	},
-	onSelect: function (oEvent) {
-		jQuery.sap.delayedCall(500, this, function () {
-			// this.getView().byId("idCust").focus();
-		});
-
-	},
-	inpField: "",
-	onSelectValue: function(oEvent){debugger;
-		var selectedItem = oEvent.getParameter("selectedItem");
-		var sTitle = selectedItem.getLabel();
-		sap.ui.getCore().byId(this.inpField).setValue(sTitle);
-		var that = this;
+		},
+		inpField: "",
+		onSelectValue: function(oEvent) {
+			debugger;
+			var selectedItem = oEvent.getParameter("selectedItem");
+			var sTitle = selectedItem.getLabel();
+			sap.ui.getCore().byId(this.inpField).setValue(sTitle);
+			var that = this;
 
 			this.getView().byId("idCustDay").setValue(sTitle);
 
 
-},
+		},
 
 
 

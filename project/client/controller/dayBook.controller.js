@@ -55,6 +55,7 @@ sap.ui.define([
 
 
 		onEnter: function (oEvent) {
+			debugger;
 			this.getCustomer(oEvent);
 
 			// this.getView().byId("idCash1").focus();
@@ -184,6 +185,7 @@ sap.ui.define([
 
 
 		onConfirm: function (oEvent) {
+			debugger;
 			var selCust = oEvent.getParameter("selectedItem").getLabel();
 			this.getView().byId("idCustDay").setValue(selCust);
 			this.getView().getModel("local").setProperty("/EntryData/Customer",
@@ -227,9 +229,10 @@ sap.ui.define([
 			debugger;
 			var that=this;
 			var cust= this.getView().byId("idCustDay").getValue();
+			var cId=this.allMasterData.customersId[cust].id;
 			var minDate=this.getView().byId("dateRangeId").getDateValue();
 			var maxDate=this.getView().byId("dateRangeId").getSecondDateValue();
-			var myData = this.getView().getModel("local").getProperty("/EntryData");
+			// var myData = this.getView().getModel("local").getProperty("/EntryData");
 			var oFilter=[];
 			// if(cust === ""){
 			// 	MessageToast.show("Customer is Mandatory");
@@ -242,8 +245,8 @@ sap.ui.define([
 				oFilter.push(oFilter1);
 			}
 			if(cust !== ""){
-				this.getView().getModel("local").getProperty("/EntryData", myData);
-							 var oFilter2 = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
+				// this.getView().getModel("local").getProperty("/EntryData", myData);
+							 var oFilter2 = new sap.ui.model.Filter("Customer", "EQ", "'" + cId + "'");
 
 				// var oFilter2=new Filter([
 				// 		new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ,"'"+ this.cusId+"'")
@@ -253,7 +256,7 @@ sap.ui.define([
 				this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 				if(minDate===null && maxDate===null){
 						$.post("/getTotalEntryCustomer", {
-		                    Customer: myData.Customer,
+		                    Customer: cId,
 												// max:maxDate.toISOString(),
 												// min:minDate.toISOString()
 		                }).then(function (result) {
@@ -296,7 +299,7 @@ sap.ui.define([
 							var oCust=cust;
 						}
 						else{
-							var oCust=myData.Customer;
+							var oCust=cId;
 						}
 						$.post("/getTotalEntryCustomerBetween", {
 		                    Customer: oCust,

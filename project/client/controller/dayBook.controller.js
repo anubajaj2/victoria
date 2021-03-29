@@ -41,10 +41,10 @@ sap.ui.define([
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
 		_onRouteMatched: function () {debugger
-			var that = this;
-			that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
-			this.getView().byId("DateId1").setDateValue(new Date());
-
+			// var that = this;
+			// that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
+			// this.getView().byId("DateId1").setDateValue(new Date());
+			this.getView().getModel("local").setProperty("/Footer", false);
 
 		},
 
@@ -261,6 +261,7 @@ sap.ui.define([
 												// min:minDate.toISOString()
 		                }).then(function (result) {
 													debugger;
+													that.getView().getModel("local").setProperty("/Footer", true);
 													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 													that.byId("idTC1").getText();
 													parseFloat(that.byId("idTC1").getText());
@@ -307,6 +308,7 @@ sap.ui.define([
 												min:minDate.toISOString()
 		                }).then(function (result) {
 													debugger;
+													that.getView().getModel("local").setProperty("/Footer", true);
 													that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 													that.byId("idTC1").getText();
 													parseFloat(that.byId("idTC1").getText());
@@ -345,11 +347,10 @@ sap.ui.define([
 		},
 
 
-		onPayDateChange: function(oEvent) {debugger;
-
-
-
-
+		onFilterClear: function(oEvent) {
+			debugger;
+			this.getView().getModel("local").setProperty("/Footer", false);
+				this.getView().byId("idTable1").getBinding("items").filter("/");
 		},
 
 

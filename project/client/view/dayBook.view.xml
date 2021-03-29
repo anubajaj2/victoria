@@ -70,8 +70,8 @@
 							  <Title id="idTitle" text="{i18n>allEntries}"></Title>
 								<ToolbarSpacer/>
  <!-- enabled="true" -->
-								<Button id = "idEntryDownload1" icon="sap-icon://download" press = "onPressEntryDownload" tooltip="{i18n>download}"/>
-
+							 	<Button id = "idEntryDownload1" icon="sap-icon://download" press = "onPressEntryDownload" tooltip="{i18n>download}"/>
+								<Button icon="sap-icon://clear-filter" press="onFilterClear" tooltip="clear filters"></Button>
 							</OverflowToolbar>
 						</smartTable:customToolbar>
 						<Table id="idTable1" class ="myCustomText"
@@ -84,15 +84,15 @@
            }"
     mode="MultiSelect" growing="true"
 	  growingThreshold="20" updateFinished="onUpdateFinished" blocked="false">
-    <!-- <headerToolbar>
-      <Toolbar>
-        <Title id="idTitle" text="{i18n>allEntries}"></Title>
-        <ToolbarSpacer/> -->
+    <!-- <headerToolbar> -->
+      <!-- <Toolbar> -->
+        <!-- <Title id="idTitle" text="{i18n>allEntries}"></Title> -->
+        <!-- <ToolbarSpacer/> -->
 				<!-- <Button id = "idEntryDownload2" icon="sap-icon://download" press = "onExport" enabled="true"/> -->
-        <!-- <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button>
-        <Button icon="sap-icon://delete" press="onDelete"></Button> -->
-      <!-- </Toolbar>
-    </headerToolbar> -->
+        <!-- <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button> -->
+        <!-- <Button icon="sap-icon://clear-filter" press="onFilterClear"></Button> -->
+      <!-- </Toolbar> -->
+    <!-- </headerToolbar> -->
 		<columns>
 			<Column>
 				<Label text="{i18n>Date}" design="Bold" visible="true"></Label>
@@ -108,21 +108,21 @@
       </Column>
       <Column>
         <Label id="cash" text="{i18n>amount}" design="Bold"></Label>
-			<footer>
-			 <ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" />
+			<footer visible="{local>/Footer}">
+			 <ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" visible="{local>/Footer}" />
 			</footer>
 			<!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
       </Column>
       <Column>
         <Label text="{i18n>Gold}" design="Bold"></Label>
-					<footer>
-					<ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" />
+					<footer visible="{local>/Footer}">
+					<ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" visible="{local>/Footer}" />
 					</footer>
       </Column>
         <Column>
           <Label text="{i18n>Silver}" design="Bold"></Label>
-					<footer>
-						<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None" />
+					<footer visible="{local>/Footer}">
+						<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None" visible="{local>/Footer}"/>
 					</footer>
         </Column>
         <Column>
@@ -179,5 +179,8 @@
 			<!-- </Page>
 		</pages>
 	</App> -->
+	<!-- <semantic:customFooterContent>
+		<Button text="Clear" press="onClear"></Button>
+	</semantic:customFooterContent> -->
 		</semantic:FullscreenPage>
 </mvc:View>

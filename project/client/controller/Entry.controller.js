@@ -18,7 +18,7 @@ sap.ui.define(["victoria/controller/BaseController",
 	) {
 		"use strict";
 		return BaseController.extend("victoria.controller.Entry", {
-			formatter:formatter,
+			formatter: formatter,
 			clearOnSend: false,
 			onInit: function() {
 				debugger
@@ -68,18 +68,17 @@ sap.ui.define(["victoria/controller/BaseController",
 				return sap.ui.core.UIComponent.getRouterFor(this);
 			},
 
-			onAfterRendering: function()
-				{
-			     var oInput = this.getView().byId("idCust");
-			    oInput.attachBrowserEvent("“focus",
-			          function(event){
-			              var oModel = new sap.ui.model.Filter("Customer", "EQ", oInput);
-			              // this model is for your reference , use the model that you want to use
-			              oInput.setModel(oModel); // set the model that you want to use
-			          });
+			onAfterRendering: function() {
+				var oInput = this.getView().byId("idCust");
+				oInput.attachBrowserEvent("“focus",
+					function(event) {
+						var oModel = new sap.ui.model.Filter("Customer", "EQ", oInput);
+						// this model is for your reference , use the model that you want to use
+						oInput.setModel(oModel); // set the model that you want to use
+					});
 
 
-				},
+			},
 			_onRouteMatched: function() {
 				debugger;
 				var that = this;
@@ -88,7 +87,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("DateId").setDateValue(new Date());
 				var oJson = new JSONModel();
 				oJson.setData({
-					materialEnable:false
+					materialEnable: false
 				});
 				that.getView().setModel(oJson, "material");
 				var that = this;
@@ -172,7 +171,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 						}
 				// 				});
 				// 		});
-// oEvent.getSource().getBinding("suggestionItems").refresh(true);
+				// oEvent.getSource().getBinding("suggestionItems").refresh(true);
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 			},
@@ -190,29 +189,49 @@ sap.ui.define(["victoria/controller/BaseController",
 				// myData.Customer=;
 				// this.getView().getModel("local").getProperty("/EntryData", myData);
 				var minDate = that.getView().byId("DateId").getDateValue();
-				var minDate1=minDate;
-				minDate = minDate.getFullYear()+"-"+(minDate.getMonth()+1)+"-"+minDate.getDate();
+				var minDate1 = minDate;
+				minDate = minDate.getFullYear() + "-" + (minDate.getMonth() + 1) + "-" + minDate.getDate();
 				var yyyy = parseInt(minDate.split("-")[0]);
 				var mm = parseInt(minDate.split("-")[1]);
 				var dd = parseInt(minDate.split("-")[2]);
-				if(dd < 10){
+				if (dd < 10) {
 					dd = '0' + dd;
 				}
-				if(mm < 10){
+				if (mm < 10) {
 					mm = '0' + mm;
 				}
 				minDate = yyyy + '-' + mm + '-' + dd;
+				minDate1.setHours(0,0,0,0);
+				if (minDate1.getTimezoneOffset() > 0) {
+				minDate1.setMinutes(minDate1.getMinutes() + minDate1.getTimezoneOffset());
+			} else {
+				minDate1.setMinutes(minDate1.getMinutes() - minDate1.getTimezoneOffset());
+			}
+				var maxDate=new Date(minDate1);
+				maxDate.setHours(23,59,59,59);
+				if (maxDate.getTimezoneOffset() > 0) {
+					maxDate.setMinutes(maxDate.getMinutes() + maxDate.getTimezoneOffset());
+				} else {
+					maxDate.setMinutes(maxDate.getMinutes() - maxDate.getTimezoneOffset());
+				}
+				// var date = '/Date(' + minDate1.getTime() + ')/';
+				var oFilter1 = new Filter([
+					new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, minDate1, maxDate)
+				], true);
 
-				var oFilter = new sap.ui.model.Filter("Date", "EQ", minDate);
-				var oFilter1 = new sap.ui.model.Filter("Date", "EQ", minDate1);
-				// that.getView().byId("idTable").getBinding("items").filter(oFilter);
+				// var oFilter = new sap.ui.model.Filter("Date", "EQ", minDate);
+				// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, minDate1);
+				that.getView().byId("idTable").getBinding("items").filter(oFilter1);
 
-					// this.Date = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).Date;
+				// this.Date = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).Date;
 				that.getView().byId("idCash").focus();
 				that.getView().byId("idCash").$().find("input").select();
-				$.post("/getTotalEntryCustomer", {
-					Customer:"",
-					min:minDate1.toISOString()
+					minDate1.setHours(0,0,0,0);
+					maxDate.setHours(23,59,59,59);
+				$.post("/getTotalEntryCustomerBetween", {
+					Customer: "",
+					max: maxDate.toISOString(),
+					min: minDate1.toISOString()
 				}).then(function(result) {
 					console.log(result);
 					debugger;
@@ -249,8 +268,8 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 				});
 
-that.getView().byId("idTable").getBinding("items").filter(oFilter);
-// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
+				// that.getView().byId("idTable").getBinding("items").filter(oFilter);
+				// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
 			},
 
 
@@ -258,38 +277,39 @@ that.getView().byId("idTable").getBinding("items").filter(oFilter);
 
 
 
-onSuggest1: function(oEvent) {
+			onSuggest1: function(oEvent) {
 				debugger;
-var oBPListBinding = this.byId("idCust").getBinding("suggestionItems");
+				var oBPListBinding = this.byId("idCust").getBinding("suggestionItems");
 
-if (oBPListBinding.isSuspended()) {
-	aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, oBPListBinding));
-	aFilters.push(new Filter("Name", FilterOperator.Contains, oBPListBinding));
-	// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
-oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
-	filters: aFilters,
-	and: false
-}));
-    oBPListBinding.resume();
-}},
+				if (oBPListBinding.isSuspended()) {
+					aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, oBPListBinding));
+					aFilters.push(new Filter("Name", FilterOperator.Contains, oBPListBinding));
+					// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
+					oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+						filters: aFilters,
+						and: false
+					}));
+					oBPListBinding.resume();
+				}
+			},
 
 
 
-handleSuggest: function(oEvent) {
-	var oInput = oEvent.getSource();
-	if (!oInput.getSuggestionItems().length) {
-		oInput.bindAggregation("suggestionItems", {
-			path: "/Customers",
-			template: new sap.ui.core.ListItem({
-				text: "{CustomerCode}",
-				additionalText:"{Name}"
-			})
-		});
-		oEvent.getSource().getBinding("suggestionItems").filter(oInput);
-			oEvent.getSource().getBinding("suggestionItems").refresh(true);
-	}
+			handleSuggest: function(oEvent) {
+				var oInput = oEvent.getSource();
+				if (!oInput.getSuggestionItems().length) {
+					oInput.bindAggregation("suggestionItems", {
+						path: "/Customers",
+						template: new sap.ui.core.ListItem({
+							text: "{CustomerCode}",
+							additionalText: "{Name}"
+						})
+					});
+					oEvent.getSource().getBinding("suggestionItems").filter(oInput);
+					oEvent.getSource().getBinding("suggestionItems").refresh(true);
+				}
 
-},
+			},
 
 
 			onCustomerSelect1: function(oEvent, custName, custId) {
@@ -739,21 +759,21 @@ handleSuggest: function(oEvent) {
 				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
 				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
 				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
-					// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
 				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
-					// $.get("/entryDownload", {
-					// 	id: custId,
-					// 	name: name,
-					// 	city: city,
-					// 	type: reportType
-					// }).then(function (oData) {
-					// 	debugger;
-					// 	MessageToast.show("Data downloaded successfully");
-					// 	console.log(that.getImageUrlFromContent(oData));
-					// }, function (oError) {
-					// 	debugger;
-					// 	MessageToast.show("Data could not be downloaded");
-					// });
+				// $.get("/entryDownload", {
+				// 	id: custId,
+				// 	name: name,
+				// 	city: city,
+				// 	type: reportType
+				// }).then(function (oData) {
+				// 	debugger;
+				// 	MessageToast.show("Data downloaded successfully");
+				// 	console.log(that.getImageUrlFromContent(oData));
+				// }, function (oError) {
+				// 	debugger;
+				// 	MessageToast.show("Data could not be downloaded");
+				// });
 
 				if (custId === "" || custId === undefined) {
 					sap.m.MessageBox.error(" Please Select a Customer ID", {
@@ -845,7 +865,7 @@ handleSuggest: function(oEvent) {
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
 				this.customerId = selectedCust.id
-					// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
+				// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 				$.post("/getTotalEntryCustomer", {

@@ -244,6 +244,16 @@ sap.ui.define([
 			// 	return;
 			// }
 			if (minDate !== null && maxDate !== null) {
+				if (minDate.getTimezoneOffset() > 0) {
+					minDate.setMinutes(minDate.getMinutes() + minDate.getTimezoneOffset());
+				} else {
+					minDate.setMinutes(minDate.getMinutes() - minDate.getTimezoneOffset());
+				}
+				if (maxDate.getTimezoneOffset() > 0) {
+					maxDate.setMinutes(maxDate.getMinutes() + maxDate.getTimezoneOffset());
+				} else {
+					maxDate.setMinutes(maxDate.getMinutes() - maxDate.getTimezoneOffset());
+				}
 				var oFilter1 = new Filter([
 					new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.BT, minDate, maxDate)
 				], true);
@@ -306,10 +316,12 @@ sap.ui.define([
 				} else {
 					var oCust = cId;
 				}
+				minDate.setHours(0, 0, 0, 0);
+				maxDate.setHours(23,59,59,59);
 				$.post("/getTotalEntryCustomerBetween", {
 					Customer: oCust,
-					max: maxDate.toISOString(),
-					min: minDate.toISOString()
+					max: maxDate,
+					min: minDate
 				}).then(function(result) {
 					debugger;
 					that.getView().getModel("local").setProperty("/Footer", true);

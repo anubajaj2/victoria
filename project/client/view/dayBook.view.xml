@@ -40,7 +40,7 @@
 								showValueHelp="true"
 								editable="true"
 								valueHelpRequest="onValueHelpRequest"
-								value=""
+								value=""  suggest="onSuggest"
 								suggestionItemSelected="onEnter"
 								maxSuggestionWidth="auto"
 								autocomplete="false"

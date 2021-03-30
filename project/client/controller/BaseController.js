@@ -9,7 +9,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	'sap/m/MessageItem',
 	"victoria/models/formatter",
-], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageToast, MessageItem, formatter) {
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+], function(jQuery, Controller, History, JSONModel, ODataHelper, MessageBox, MessagePopover, MessageToast, MessageItem, formatter,Filter,FilterOperator) {
 	"use strict";
 	var oTargetField;
 	var oSDCField;
@@ -1650,7 +1652,7 @@ sap.ui.define([
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
 				this.setCustomerIdAndCustomerName(selectedData);
 			}
-			
+
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {
@@ -2005,6 +2007,36 @@ sap.ui.define([
 					that.getView().getModel("local").setProperty("/orderHeader/SilverBhav", 0);
 				});
 		},
+
+
+
+		onSuggest: function(oEvent) {
+			debugger;
+			var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();
+
+			// var sTerm=oEvent.getSource().getProperty("value");
+			var aFilters = [];
+			if (sTerm) {
+				aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
+				aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
+				// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
+			oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
+				filters: aFilters,
+				and: false
+			}));
+				// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+			oEvent.getSource().getBinding("suggestionItems").refresh(true);
+			// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+			oEvent.getSource().getBinding("suggestionItems").isSuspended();
+			oEvent.getSource().getBinding("suggestionItems").resume();
+
+}
+
+
+},
+
+
+
 		orderReturn: function(oEvent, id) {
 			//create the model to set the getProperty
 			//visible or // NOT

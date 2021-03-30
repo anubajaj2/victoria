@@ -34,7 +34,7 @@
 									<!-- <Input id="idCustNo" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onCustValueHelp" liveChange="onChange"
 										value="{local>/kachhiHeaderTemp/CustomerId}"></Input> -->
 										<Input id="idCustNo" showValueHelp="true" editable="true" valueHelpRequest="onCustValueHelp" value="{path: '{local>/kachhiHeaderTemp/CustomerId'}"
-											suggestionItemSelected="onCustomerSelect" autocomplete="false"
+											suggestionItemSelected="onCustomerSelect" autocomplete="false"  suggest="onSuggest"
 											submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}" maxSuggestionWidth="auto">
 												<suggestionItems>
 														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],

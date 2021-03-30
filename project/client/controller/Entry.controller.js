@@ -253,30 +253,7 @@ that.getView().byId("idTable").getBinding("items").filter(oFilter);
 // that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
 			},
 
-			onSuggest: function(oEvent) {
-				debugger;
-				var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();
 
-				// var sTerm=oEvent.getSource().getProperty("value");
-				var aFilters = [];
-				if (sTerm) {
-					aFilters.push(new Filter("CustomerCode", FilterOperator.Contains, sTerm));
-					aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm));
-					// aFilters.push(new Filter("Name", FilterOperator.Contains, sTerm.toUpperCase()));
-				oEvent.getSource().getBinding("suggestionItems").filter(new Filter({
-					filters: aFilters,
-					and: false
-				}));
-					// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
-				oEvent.getSource().getBinding("suggestionItems").refresh(true);
-				// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
-				oEvent.getSource().getBinding("suggestionItems").isSuspended();
- 				oEvent.getSource().getBinding("suggestionItems").resume();
-
-}
-
-
-},
 
 
 

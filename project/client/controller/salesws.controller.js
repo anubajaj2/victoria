@@ -3456,7 +3456,10 @@ sap.ui.define(
 				var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
 				if (orderDetails.Date) {
 					var orderLocDate = orderDetails.Date
-
+				}else{
+					orderLocDate = new Date();
+				}
+				if (typeof(orderLocDate) !== "string"){
 					var dd = orderLocDate.getDate();
 					var mm = orderLocDate.getMonth() + 1;
 					var yyyy = orderLocDate.getFullYear();
@@ -3466,13 +3469,24 @@ sap.ui.define(
 					if (mm < 10) {
 						mm = '0' + mm;
 					}
-					var orderDate = dd + '.' + mm + '.' + yyyy;
+				}else{
+					dd = parseInt(orderLocDate.split("-")[0]);
+					mm = parseInt(orderLocDate.split("-")[1]);
+					yyyy = parseInt(orderLocDate.split("-")[2]);
+					if (dd < 10) {
+						dd = '0' + dd;
+					}
+					if (mm < 10) {
+						mm = '0' + mm;
+					}
+				}
+
+				var orderDate = dd + '.' + mm + '.' + yyyy;
 
 
 
 					// var orderDate = orderLocDate.replace(/\-/g, '.');
 					// formatter.getDateDDMMYYYYFormat(orderLocDate);
-				}
 				if (orderDetails.Customer) {
 					var custId = orderDetails.Customer;
 					var cusData = this.allMasterData.customers[custId];

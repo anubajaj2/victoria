@@ -46,7 +46,7 @@
 					<m:Text text="{orderItems>Description}" editable="false" liveChange="ValueChange"/>
 				</template>
 			</Column>
-			<Column hAlign="Center" autoResizable="true" width="80px">
+			<Column hAlign="Center" autoResizable="false" width="95rem">
 				<label>
 					<m:Text text="{i18n>qty}"></m:Text>
 				</label>
@@ -57,7 +57,7 @@
 					editable="{= ${orderItems>itemNo} === '' ? true : false}"/>
 				</template>
 			</Column>
-			<Column hAlign="Center" width="80px" visible="{VisibleSet>/set}">
+			<Column hAlign="Center" width="95rem" visible="{VisibleSet>/set}">
 				<label>
 					<m:Text text="{i18n>qtyD}"></m:Text>
 				</label>

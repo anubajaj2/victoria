@@ -50,7 +50,7 @@
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
 								<Input id="idCoKarigar" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpKarigar" value="{path: 'local>/coTemp/KarigarCode'}"
-									suggestionItemSelected="onKarigarSelect" maxSuggestionWidth="auto"
+									suggestionItemSelected="onKarigarSelect" suggest="onSuggest1" maxSuggestionWidth="auto"
 									submit="onKarigarEnter" showSuggestion="true" suggestionItems="{/Customers}">
 										<suggestionItems>
 												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>

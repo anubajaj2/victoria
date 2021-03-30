@@ -1543,6 +1543,39 @@ sap.ui.define(
 					return statusGreen;
 				}
 			},
+
+			onSuggest: function(oEvent) {debugger;
+				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
+			const key = oEvent.key
+			var id1 = oEvent.getParameter("id").split("--")[2]
+			// if() alert('backspace');
+				var searchStr = oEvent.getParameter("suggestValue");
+				if(searchStr === "" || key == 8 || key === "Backspace" || key === "Delete"){
+						this.getView().byId("customerId").setValue("");
+					return;
+				}
+				if(!searchStr) {
+					searchStr = oEvent.getParameter("newValue");
+				}
+				if(searchStr){
+					var oFilter = new sap.ui.model.Filter({
+						filters: [
+							new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase()),
+							new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase())
+						],
+						and: false
+					});
+				}
+
+				oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
+				this.getView().byId("customerId").setValue(searchStr);
+
+								// this.getView().byId("idCash").focus();
+								// this.getView().byId("idCash").$().find("input").select();
+			},
+
+
+
 			commitRecords: function(oEvent) {
 				if (this.getStatus() === 'red') {
 					var that = this;

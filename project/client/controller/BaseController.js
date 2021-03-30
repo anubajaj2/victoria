@@ -1652,7 +1652,10 @@ sap.ui.define([
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
 				this.setCustomerIdAndCustomerName(selectedData);
 			}
-
+			jQuery.sap.delayedCall(100, this, function() {
+				this.getView().byId("idCash").focus();
+				this.getView().byId("idCash").$().find("input").select();
+			});
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {

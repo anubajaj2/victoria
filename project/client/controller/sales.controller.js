@@ -253,34 +253,32 @@ sap.ui.define([
 			var orderDetails = this.getView().getModel('local').getProperty("/orderHeader"); //order no/date/Gold/Silver Bhav
 			var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
 			if (orderDetails.Date) {
-				// var orderLocDate = orderDetails.Date
-				// var orderDate = orderLocDate.replace(/\-/g, '.');
-				// // formatter.getDateDDMMYYYYFormat(orderLocDate);
-
 				var orderLocDate = orderDetails.Date
-				if(typeof(orderLocDate) === "string"){
-					var dd = parseInt(orderLocDate.split(".")[0]);
-					var mm = parseInt(orderLocDate.split(".")[1]);
-					var yyyy = parseInt(orderLocDate.split(".")[2]);
-					if (dd < 10) {
-						dd = '0' + dd;
-					}
-					if (mm < 10) {
-						mm = '0' + mm;
-					}
-					var orderDate = dd + '.' + mm + '.' + yyyy;
-				}else{
-					var dd = orderLocDate.getDate();
-					var mm = orderLocDate.getMonth() + 1;
-					var yyyy = orderLocDate.getFullYear();
-					if (dd < 10) {
-						dd = '0' + dd;
-					}
-					if (mm < 10) {
-						mm = '0' + mm;
-					}
-					var orderDate = dd + '.' + mm + '.' + yyyy;
+			}else{
+				orderLocDate = new Date();
+			}
+			if(typeof(orderLocDate) === "string"){
+				var dd = parseInt(orderLocDate.split("-")[2]);
+				var mm = parseInt(orderLocDate.split("-")[1]);
+				var yyyy = parseInt(orderLocDate.split("-")[0]);
+				if (dd < 10) {
+					dd = '0' + dd;
 				}
+				if (mm < 10) {
+					mm = '0' + mm;
+				}
+				var orderDate = dd + '.' + mm + '.' + yyyy;
+			}else{
+				var dd = orderLocDate.getDate();
+				var mm = orderLocDate.getMonth() + 1;
+				var yyyy = orderLocDate.getFullYear();
+				if (dd < 10) {
+					dd = '0' + dd;
+				}
+				if (mm < 10) {
+					mm = '0' + mm;
+				}
+				var orderDate = dd + '.' + mm + '.' + yyyy;
 			}
 			if (orderDetails.Customer) {
 				var custId = orderDetails.Customer;

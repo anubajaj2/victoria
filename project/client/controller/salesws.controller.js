@@ -3470,9 +3470,9 @@ sap.ui.define(
 						mm = '0' + mm;
 					}
 				}else{
-					dd = parseInt(orderLocDate.split("-")[0]);
+					dd = parseInt(orderLocDate.split("-")[2]);
 					mm = parseInt(orderLocDate.split("-")[1]);
-					yyyy = parseInt(orderLocDate.split("-")[2]);
+					yyyy = parseInt(orderLocDate.split("-")[0]);
 					if (dd < 10) {
 						dd = '0' + dd;
 					}

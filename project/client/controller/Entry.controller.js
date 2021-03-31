@@ -190,17 +190,17 @@ sap.ui.define(["victoria/controller/BaseController",
 				// this.getView().getModel("local").getProperty("/EntryData", myData);
 				var minDate = that.getView().byId("DateId").getDateValue();
 				var minDate1 = minDate;
-				minDate = minDate.getFullYear() + "-" + (minDate.getMonth() + 1) + "-" + minDate.getDate();
-				var yyyy = parseInt(minDate.split("-")[0]);
-				var mm = parseInt(minDate.split("-")[1]);
-				var dd = parseInt(minDate.split("-")[2]);
-				if (dd < 10) {
-					dd = '0' + dd;
-				}
-				if (mm < 10) {
-					mm = '0' + mm;
-				}
-				minDate = yyyy + '-' + mm + '-' + dd;
+				// minDate = minDate.getFullYear() + "-" + (minDate.getMonth() + 1) + "-" + minDate.getDate();
+				// var yyyy = parseInt(minDate.split("-")[0]);
+				// var mm = parseInt(minDate.split("-")[1]);
+				// var dd = parseInt(minDate.split("-")[2]);
+				// if (dd < 10) {
+				// 	dd = '0' + dd;
+				// }
+				// if (mm < 10) {
+				// 	mm = '0' + mm;
+				// }
+				// minDate = yyyy + '-' + mm + '-' + dd;
 				minDate1.setHours(0,0,0,0);
 				if (minDate1.getTimezoneOffset() > 0) {
 				minDate1.setMinutes(minDate1.getMinutes() + minDate1.getTimezoneOffset());
@@ -227,6 +227,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				that.getView().byId("idCash").focus();
 				that.getView().byId("idCash").$().find("input").select();
 					minDate1.setHours(0,0,0,0);
+					maxDate=new Date(minDate1);
 					maxDate.setHours(23,59,59,59);
 				$.post("/getTotalEntryCustomerBetween", {
 					Customer: "",

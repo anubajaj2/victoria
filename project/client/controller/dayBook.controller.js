@@ -243,6 +243,7 @@ sap.ui.define([
 			// 	MessageToast.show("Customer is Mandatory");
 			// 	return;
 			// }
+			var maxD=new Date(maxDate);
 			if (minDate !== null && maxDate !== null) {
 				if (minDate.getTimezoneOffset() > 0) {
 					minDate.setMinutes(minDate.getMinutes() + minDate.getTimezoneOffset());
@@ -317,10 +318,11 @@ sap.ui.define([
 					var oCust = cId;
 				}
 				minDate.setHours(0, 0, 0, 0);
-				maxDate.setHours(23,59,59,59);
+
+				// maxDate.setHours(23,59,59,59);
 				$.post("/getTotalEntryCustomerBetween", {
 					Customer: oCust,
-					max: maxDate,
+					max: maxD,
 					min: minDate
 				}).then(function(result) {
 					debugger;

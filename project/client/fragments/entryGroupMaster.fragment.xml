@@ -2,9 +2,11 @@
   <Dialog
         title="Confirm Password">
 <VBox>
+    <Label text="Email"  width="100%" required="false" textAlign="Center" textDirection="Inherit" visible="false"/>
+  <Input value="renhgiuhf@gmail.com" visible="false"/>
             <Label text="Password"  width="100%" required="false" textAlign="Center" textDirection="Inherit" visible="true"/>
 
-            <Input placeholder="Password (Case-Sensitive)" type="Password" id="pwd1" submit="onPressHandleEntrySavePopup11" enabled="true" visible="true" width="300px"
+            <Input placeholder="Password (Case-Sensitive)" autocomplete="false"  type="Password" id="pwd1" submit="onPressHandleEntrySavePopup11" enabled="true" visible="true" width="300px"
               maxLength="0"/>
 </VBox>
 <beginButton>

@@ -550,28 +550,30 @@ sap.ui.define(["victoria/controller/BaseController",
 			onPressHandleEntrySavePopup11: function() {
 				debugger;
 				var password1 = this.getView().byId("pwd1").getValue();
+				this.getView().byId("pwd1").setValue("");
 				if (password1 === "Sarita@123") {
 					this.oDialog2.close();
-
+debugger;
 					var x = this.getView().byId("idCust").getValue();
 					if (!x) {
-						this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
+						// this.getView().byId("idCust").setValueState(sap.ui.core.ValueState.Error);
 					}
 					var count = this.getView().byId("idTable").getItems().length;
 					var that = this;
 					var that1 = this.getView();
+
 
 					sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11") + "(" + count + ")" + that.resourceBundle.getText("entries"), {
 						title: "Confirm",
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: "",
 						onClose: function(sAction) {
-							var that = this;
+							var that2 = that;
 							if (sAction === "OK") {
 								debugger;
 
 								$.post("/deleteRecords", {
-									customerId: that.customerId,
+									customerId: that2.customerId,
 									entityName: "Entry"
 								}).done(function(response) {
 									sap.m.MessageToast.show(response.msg);
@@ -790,6 +792,14 @@ sap.ui.define(["victoria/controller/BaseController",
 				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
 				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
 				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
+				var custId1 = this.getView().byId("idCust").getValue();
+				var custId2 = this.getView().byId("idCustText").getText();
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined) {
+					sap.m.MessageBox.error(" Please Select a Customer ", {
+						title: "Error"
+					});
+					return;
+				}
 				// $.get("/entryDownload", {
 				// 	id: custId,
 				// 	name: name,
@@ -804,12 +814,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	MessageToast.show("Data could not be downloaded");
 				// });
 
-				if (custId === "" || custId === undefined) {
-					sap.m.MessageBox.error(" Please Select a Customer ID", {
-						title: "Error"
-					});
-					return;
-				}
+
 				// if(name === "" || name=== undefined ){
 				// 	sap.m.MessageBox.error(" Please Select a Customer Name", {
 				// 		title: "Error"});
@@ -1438,12 +1443,20 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 
 			onMasterClear: function(oEvent) {
+				// this.getView().byId("pwd1").setValue("");
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
-
-				if (custId === "" || custId === undefined) {
+				var custId1 = this.getView().byId("idCust").getValue();
+			// var password11 = this.getView().byId("pwd1").getValue();
+			// this.getView().byId("pwd1").setValue();
+				var custId2 = this.getView().byId("idCustText").getText();
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined) {
 					sap.m.MessageBox.error(" Please Select a Customer ", {
 						title: "Error"
 					});
+					return;
+				}
+				if(this.getView().byId("idTable").getItems().length===0){
+					MessageBox.error("No Data Found to delete in the Table");
 					return;
 				}
 				this.customerId = custId;
@@ -1451,8 +1464,17 @@ sap.ui.define(["victoria/controller/BaseController",
 				if (!this.oDialog2) {
 					this.oDialog2 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroupMaster", this);
 					this.getView().addDependent(this.oDialog1);
+						$("#pwd1").val('');
 				}
+				$('input[type="password"]').val('');
+				$("#pwd1").val('');
+this.byId("pwd1").setValue("");
 				this.oDialog2.open();
+				this.byId("pwd1").setValue("");
+				$('input[type="password"]').val('');
+				$("#pwd1").val('');
+
+				this.getView().byId("pwd1").setValue("");
 
 			},
 

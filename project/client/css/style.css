@@ -53,22 +53,17 @@ html.overflow-y-hidden {
 }
 
 .myCustomText .sapMText {
-  text-align: left;
+  text-align: center;
     font-weight: bold;
     color: #32363a;
 }
 
-/* .sapUiCompFilterBar .sapuiVltCell .sapUiAFLayoutItem{
-  max-width: 100%
+.myCustomText .sapMObjStatus{
+  text-align: center;
+    font-weight: bold;
+
 }
 
-.sapuiVltCell .sapUiAFLayoutItem{
-  max-width: 100%
-}
-
-/* .sapUiCompFilterBar .sapUiAFLayoutItem{
-  max-width: 100%
-} */
 
 .sapUiCompFilterBar .sapuiVltCell {
   max-width: 100%

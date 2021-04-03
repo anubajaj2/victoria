@@ -1324,18 +1324,19 @@ debugger;
 				var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
 				var oId = that.getView().getModel('local').getProperty('/orderHeaderTemp').OrderId;
 				if (this.headerNoChange === true) {
-					// oHeader.Date = new Date(oHeader.Date);
+					oHeader.Date = new Date(oHeader.Date);
 					debugger;
-					// var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
-					//order header put
-					// $.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
-					// .done(function(data, status) {
-					//   sap.m.MessageToast.show("Order Header updated");
-					//   debugger;
-					// })
-					// .fail(function(xhr, status, error) {
-					//   sap.m.MessageBox.error("Failed to update Header");
-					// });
+					var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
+					// order header put
+					debugger;
+					$.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
+					.done(function(data, status) {
+					  sap.m.MessageToast.show("Order Header updated");
+					  debugger;
+					})
+					.fail(function(xhr, status, error) {
+					  sap.m.MessageBox.error("Failed to update Header");
+					});
 
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/OrderHeaders('" + oId + "')",

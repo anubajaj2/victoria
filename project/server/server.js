@@ -530,17 +530,17 @@ app.start = function() {
 			}
 		);
 		app.post('/updateRetailOrderHdr', function(req, res) {
-
+debugger;
 			var OrderHeader = app.models.OrderHeader;
-			var RecordId = req.body.id;
-			var Customer = req.body.Customer;
-			var GoldBhav22 = req.body.GoldBhav22;
-			var GoldBhav20 = req.body.GoldBhav20;
-			var GoldBhav = app.models.GoldBhav;
-			var SilverBhav = app.models.SilverBhav;
+			var RecordId = req.body.OrderDetails.id;
+			var Customer = req.body.OrderDetails.Customer;
+			var GoldBhav22 = req.body.OrderDetails.GoldBhav22;
+			var GoldBhav20 = req.body.OrderDetails.GoldBhav20;
+			var GoldBhav = req.body.OrderDetails.GoldBhav;
+			var SilverBhav = req.body.OrderDetails.SilverBhav;
 
 			var updateObj = {
-				Customer: Customer,
+				// Customer: Customer,
 				GoldBhav22: GoldBhav22,
 				GoldBhav20: GoldBhav20,
 				GoldBhav: GoldBhav,
@@ -548,7 +548,12 @@ app.start = function() {
 				ChangedOn: new Date()
 			};
 			OrderHeader.findById(RecordId).then(function(instance) {
+				debugger;
 				instance.updateAttributes(updateObj);
+				// instance.updateAttributes(updateObj).then(function(res) {
+				// 	debugger;
+				// 	console.log(res);
+				// 	return res.send("done");}).catch(function{});
 				return res.send("done");
 			});
 		});

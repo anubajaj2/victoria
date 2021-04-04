@@ -81,6 +81,9 @@ module.exports = function(OrderHeader) {
       });
 
     }
+    else{
+      next();
+    }
 
   });
 };

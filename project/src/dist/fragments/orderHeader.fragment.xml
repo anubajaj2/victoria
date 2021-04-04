@@ -1,0 +1,116 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" width="160px">
+	<l:VerticalLayout class="navigationExamples" width="100%">
+		<l:content>
+			<Panel class="sapUiDemoFlexBoxSizeAdjustments">
+				<headerToolbar>
+					<Toolbar id="TB1">
+						<ToolbarSpacer/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="{i18n>SaveStatus}" tooltip="Save Status"/>
+					</Toolbar>
+				</headerToolbar>
+				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
+					<VBox width='70%'>
+						<f:Form id="orderHeader" editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+									adjustLabelSpan="true" columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false"/>
+							</f:layout>
+							<f:formContainers>
+								<!-- //Order detail -->
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="{i18n>Date}" textAlign="Left">
+											<f:fields>
+												<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" displayFormat="dd.MM.yyyy" change="onPayDateChange" width="60%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>Customer}">
+											<f:fields>
+												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer"
+													valueLiveUpdate="true" required="true" editable="true"  suggest="onSuggest" suggestionItemSelected="onCustomerSelect" submit="onEnter" showSuggestion="true"
+													suggestionItems="{/Customers}" maxSuggestionWidth="auto" autocomplete="false">
+													<suggestionItems>
+														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
+																																															 formatter: '.formatter.byNameCity'}"/>
+													</suggestionItems>
+													<layoutData>
+														<l:GridData span="XL3 L3"/>
+													</layoutData>
+												</Input>
+												<!--  valueHelpOnly="true"-->
+												<!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
+    editable="false"/> -->
+												<Text id="custName" text="{path: 'local>/orderHeader/Customer', formatter: '.formatter.byNameCityGroup'}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>OrderNo}">
+											<f:fields>
+												<Input id="idOrderNo" value="{local>/orderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+												<Button text="{i18n>C}" press="orderCreate" tooltip="{i18n>C}"/>
+												<Button icon="sap-icon://nav-back" tooltip="{i18n>back}" press="previousOrder"/>
+												<Button icon="sap-icon://feeder-arrow" tooltip="{i18n>Next}" press="nextOrder"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData halfGrid="true"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+							<f:formContainers>
+								<!-- //tunch detail -->
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="{i18n>gbhav2}">
+											<f:fields>
+												<Input type="Number" id="Gbhav2Id" placeholder="{i18n>gbhav2}" tooltip="{i18n>gbhav2}" liveChange="ValueChangeHeader"
+													value="{local>/orderHeader/GoldBhav22}" editable="true"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>gbhav1}">
+											<f:fields>
+												<Input type="Number" editable="true" id="Gbhav1Id" placeholder="{i18n>gbhav1}" tooltip="{i18n>gbhav1}" liveChange="ValueChangeHeader"
+													value="{local>/orderHeader/GoldBhav20}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>Gold}">
+											<f:fields>
+												<Input type="Number" editable="true" id="GoldbhavId" placeholder="{i18n>Gold}" tooltip="{i18n>Gold}" liveChange="ValueChangeHeader"
+													value="{ path : 'local>/orderHeader/GoldBhav', type : 'sap.ui.model.type.Integer', constraints : { minimum: 30000, maximum: 80000 } }"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>Silver}">
+											<f:fields>
+												<Input type="Number" editable="true" id="sbhavid" placeholder="{i18n>sbhav}" liveChange="ValueChangeHeader" tooltip="{i18n>Sbhav}"
+													value="{ path : 'local>/orderHeader/SilverBhav', type : 'sap.ui.model.type.Integer', constraints : { minimum: 30000, maximum: 110000 } }"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData halfGrid="true"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+					<VBox width='30%'>
+						<Panel id="totals" headerText="{i18n>Total}" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+							<FlexBox justifyContent="SpaceBetween">
+								<Label text="{i18n>tOrderAmount}"/>
+								<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValue}"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween">
+								<Label text="{i18n>deductions}"/>
+								<Text text="{local>/orderHeaderTemp/Deduction}" textAlign="Right" fieldWidth="30%"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween">
+								<Label text="{i18n>fBalance}"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalance}" textAlign="Right" fieldWidth="30%"/>
+							</FlexBox>
+						</Panel>
+					</VBox>
+				</FlexBox>
+			</Panel>
+		</l:content>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

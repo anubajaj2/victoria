@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+  xmlns:x="sap.f"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:dnd="sap.ui.core.dnd" >
+	<!-- <Page
+	showHeader="false"
+	enableScrolling="true"
+	class="sapUiContentPadding">
+	<content> -->
+			<HBox renderType="Bare">
+				<core:Fragment fragmentName="victoria.fragments.BookingTable" type="XML"></core:Fragment>
+				<VBox justifyContent="Center" class="sapUiTinyMarginBeginEnd" width="50px">
+					<Button
+						class="sapUiTinyMarginBottom"
+						icon="sap-icon://navigation-right-arrow"
+						tooltip="{i18n>Movetoselected}"
+						press="onRightArrowPress"/>
+					<Button
+						icon="sap-icon://navigation-left-arrow"
+						tooltip="{i18n>Movetoavailable}"
+						press="onLeftArrowPress"/>
+				</VBox>
+				<core:Fragment fragmentName="victoria.fragments.BookingDlvTable" type="XML"></core:Fragment>
+			</HBox>
+		<!-- </content>
+</Page> -->
+</core:FragmentDefinition>

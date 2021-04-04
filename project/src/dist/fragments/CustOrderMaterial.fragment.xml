@@ -1,0 +1,109 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:unified="sap.ui.unified">
+	<VBox class="sapUISmallMargin">
+		<f:Form id="idCoForm2" editable="true">
+			<f:title>
+				<core:Title text="{i18n>coOrdDtl}"/>
+			</f:title>
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+					emptySpanS="0" adjustLabelSpan="false" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>coOrdItem}">
+					<f:formElements>
+						<f:FormElement label="{i18n>coMaterial}">
+							<f:fields>
+								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true" maxSuggestionWidth="auto"
+									suggestionItemSelected="onMaterialSelect" submit="onMaterialEnter"
+									showSuggestion="true" suggestionItems="{/Products}">
+									<suggestionItems>
+										<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+									</suggestionItems>
+									<layoutData>
+										<l:GridData span="XL3 L3"/>
+									</layoutData>
+								</Input>
+								<!-- <Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpMat"></Input> -->
+								<Input id="idCoMatName" value="" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coMatProperty}">
+							<f:fields>
+								<Input value="" id="idCoMatType" editable="false"/>
+								<Input value="" id="idCoMatKarat" editable="false"/>
+								<Input value="" id="idCoMatMaking" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coComb}">
+							<f:fields>
+								<Input value="{local>/customerOrder/Qty}" submit="onSubmit" id="idCoQty" type="Number" placeholder="{i18n>coQty}"/>
+								<Input value="{local>/customerOrder/Weight}" id="idCoWeight" submit="onSubmitWeight" type="Number" placeholder="{i18n>coWeight}"/>
+								<Input value="{local>/customerOrder/Making}" id="idCoMaking" submit="onSubmitMaking" type="Number" placeholder="{i18n>coMaking}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Size">
+							<f:fields>
+								<Input value="{local>/customerOrder/Size}" submit="onSizeSubmit" id="idSize" type="Number" placeholder="Size"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coKarigar}">
+							<f:fields>
+								<Input id="idCoKarigar" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpKarigar" value="{path: 'local>/coTemp/KarigarCode'}"
+									suggestionItemSelected="onKarigarSelect" suggest="onSuggest1" maxSuggestionWidth="auto"
+									submit="onKarigarEnter" showSuggestion="true" suggestionItems="{/Customers}">
+										<suggestionItems>
+												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+										</suggestionItems>
+										<layoutData>
+												<l:GridData span="XL3 L3"/>
+										</layoutData>
+								</Input>
+								<!-- <Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/> -->
+								<Input id="idCoKarigarName" placeholder="{i18n>coKarigarName}" value="" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coRemarks}">
+							<f:fields>
+								<Input id="idCoRemarks" submit="onRemarksSubmit" placeholder="{i18n>coRemarks}" value="{local>/customerOrder/Remarks}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData>
+				</f:FormContainer>
+				<f:FormContainer title="{i18n>coOrdAdv}">
+					<f:formElements>
+						<f:FormElement label="{i18n>Cash}">
+							<f:fields>
+								<!-- <Input id="idCoCash" type="Number" value="{local>/customerOrder/Cash}"/> -->
+								<Input id="idCoCash" submit="onCoCashSubmit" type="Number" value="{ path:'local>/customerOrder/Cash', formatter:'.formatter.getIndianCurr' }"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Gold}">
+							<f:fields>
+								<Input id="idCoGold" submit="onCoGoldSubmit" type="Number" value="{local>/customerOrder/Gold}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Silver}">
+							<f:fields>
+								<Input id="idCoSilver" submit="onCoSilverSubmit" type="Number" value="{local>/customerOrder/Silver}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Photo">
+							<f:fields>
+								<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>
+							</f:fields>
+						</f:FormElement>
+						<!-- <Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/> -->
+					</f:formElements>
+
+					<f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

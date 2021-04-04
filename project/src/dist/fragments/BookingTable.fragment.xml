@@ -1,0 +1,81 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+  xmlns:x="sap.f"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:dnd="sap.ui.core.dnd" >
+
+	<Table id="idTable" class="sapUiContentPadding"
+		items="{
+					 path: '/BookingDetails',
+						 sorter: {
+						 path: 'BookingDate',
+						 descending: 'true'
+						 }
+					 }"
+		mode="MultiSelect" growing="true"
+		growingThreshold="5" updateFinished="onUpdateFinished" width="100%" >
+
+		<headerToolbar>
+			<Toolbar>
+				<Title id="idTitle" text="{i18n>bookingDetails}"></Title>
+				<ToolbarSpacer/>
+				<Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+				<Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"></Button>
+			</Toolbar>
+		</headerToolbar>
+		<dragDropConfig>
+		<dnd:DragInfo
+			groupName="booking2delivery"
+			sourceAggregation="items" />
+		<dnd:DropInfo
+			groupName="delivery2booking"
+			drop="onDropBookingTable"
+			targetAggregation="items"
+			dropPosition="Between" />
+	</dragDropConfig>
+		<columns>
+			<Column width="3rem">
+				<Label text="{i18n>date}"></Label>
+			</Column>
+			<Column width="4rem">
+				<Label text="{i18n>Customer}"></Label>
+			</Column>
+			<Column width="2rem">
+				<Label text="{i18n>quantity}"></Label>
+			</Column>
+			<Column width="2rem">
+				<Label text="{i18n>bhav}" />
+			</Column>
+			<Column width="2rem">
+				<Label text="{i18n>advance}"></Label>
+			</Column>
+			<Column width="2rem">
+				<Label text="{i18n>type}"></Label>
+			</Column>
+			</columns>
+			<items>
+
+				<ColumnListItem>
+					<cells>
+						<Text text="{
+									path: 'BookingDate',
+									type: 'sap.ui.model.type.Date',
+									formatOptions: {
+												style: 'medium',
+												pattern: 'dd.MM.yyyy'}}"/>
+						<Text text="{Customer}"/>
+						<Text text="{Quantity}"/>
+						<Text text="{Bhav}"/>
+						<Text text="{Advance}"/>
+						<Text text="{Type}"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+		<!-- <layoutData><l:SplitterLayoutData size="47%" /></layoutData> -->
+	</Table>
+
+</core:FragmentDefinition>

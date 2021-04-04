@@ -1,0 +1,536 @@
+<core:FragmentDefinition
+xmlns = "sap.m"
+xmlns:l = "sap.ui.layout"
+xmlns:f="sap.ui.layout.form"
+xmlns:semantic="sap.m.semantic"
+xmlns:core ="sap.ui.core">
+<HBox>
+<VBox class="sapUiSmallMargin">
+<Panel expandable="true" expanded="false" headerText="{i18n>RetailPrintCustomizing}" class="sapUiResponsiveMargin">
+<f:Form id=""
+	editable="true">
+<f:layout>
+	<f:GridLayout
+		labelSpanXl="2" labelSpanL="2"
+		emptySpanXL="0" emptySpanL="0"
+		columnsXL="10" columnsL="10"
+		singleContainerFullSize="false" >
+	</f:GridLayout>
+</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>CompanyName}" width="20%"/>
+						<Switch id="idRCompName" state="true" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>LessQuantity}" width="20%"/>
+						<Switch state="true" id="idRLessQuantity" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>Footer}" width="20%"/>
+						<Switch state="true" id="idRFooter" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Address}" width="20%"/>
+						<Switch state="true" id="idRAddress" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>SubTotal}" width="20%"/>
+						<Switch state="true" id="idRSubTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>ReturnBhav}" width="20%"/>
+						<Switch state="true" id="idRReturnBhav" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>PhoneNumber}" width="20%"/>
+						<Switch state="true" id="idRPhoneNumber" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>MakingCharge}" width="20%"/>
+						<Switch state="true" id="idRMakingCharge" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>ReturnWeight}" width="20%"/>
+						<Switch state="true" id="idRReturnWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Weight}" width="20%"/>
+						<Switch state="true" id="idRWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>Bhav}" width="20%"/>
+						<Switch state="true" id="idRBhav" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>FineTotal}" width="20%"/>
+						<Switch state="true" id="idRFineTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Quantity}" width="20%"/>
+						<Switch state="true" id="idRQuantity" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>MakingType}"
+							 width="20%"/>
+						<Switch state="true" id="idRMaking" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>LessWeight}" width="20%"/>
+						<Switch state="true" id="idRLessWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<!--  -->
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>TnC}" width="20%"/>
+						<Switch state="true" id="idRTnC" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>GSTN}" width="20%"/>
+						<Switch state="true" id="idRGSTN" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>Marking}" width="20%"/>
+						<Switch state="true" id="idRMarking" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<!--  -->
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>WeightD}" width="20%"/>
+						<Switch state="true" id="idRWeightD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>QuantityD}" width="20%"/>
+						<Switch state="true" id="idRQuantityD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>MakingD}" width="20%"/>
+						<Switch state="true" id="idRMakingChargeD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Remarks}" width="20%"/>
+						<Switch state="true" id="idRRemarks" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>ReturnRemarks}" width="20%"/>
+						<Switch state="true" id="idRReturnRemarks" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>KattaWeight}" width="20%"/>
+						<Switch state="true" id="idRReturnKattaWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>ReturnTunch}" width="20%"/>
+						<Switch state="true" id="idRReturnTunch" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>RetSubTotal}" width="20%"/>
+						<Switch state="true" id="idRReturnSubTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</Panel>
+<Panel expandable="true" expanded="false" headerText="{i18n>WholeSalePrintCustomizing}" class="sapUiResponsiveMargin">
+<f:Form id="idKacchiHead1"
+	editable="true">
+<f:layout>
+	<f:GridLayout
+		labelSpanXl="2" labelSpanL="2"
+		emptySpanXL="0" emptySpanL="0"
+		columnsXL="10" columnsL="10"
+		singleContainerFullSize="false" >
+	</f:GridLayout>
+</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>CompanyName}" width="20%"/>
+						<Switch state="true" id="idWCompName" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>LessQuantity}" width="20%"/>
+						<Switch state="true" id="idWLessQuantity" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>Footer}" width="20%"/>
+						<Switch state="true" id="idWFooter" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Address}" width="20%"/>
+						<Switch state="true" id="idWAddress" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>SubTotal}" width="20%"/>
+						<Switch state="true" id="idWSubTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>ReturnBhav}" width="20%"/>
+						<Switch state="true" id="idWReturnBhav" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>PhoneNumber}" width="20%"/>
+						<Switch state="true" id="idWPhoneNumber" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>MakingCharge}" width="20%"/>
+						<Switch state="true" id="idWMakingCharge" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>ReturnWeight}" width="20%"/>
+						<Switch state="true" id="idWReturnWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Weight}" width="20%"/>
+						<Switch state="true" id="idWWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>Bhav}" width="20%"/>
+						<Switch state="true" id="idWBhav" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>FineTotal}" width="20%"/>
+						<Switch state="true" id="idWFineTotal" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Quantity}" width="20%"/>
+						<Switch state="true" id="idWQuantity" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>Making}" width="20%"/>
+						<Switch state="true" id="idWMaking" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>LessWeight}" width="20%"/>
+						<Switch state="true" id="idWLessWeight" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+
+
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>WeightD}" width="20%"/>
+						<Switch state="true" id="idWWeightD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>QuantityD}" width="20%"/>
+						<Switch state="true" id="idWQuantityD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>MakingD}" width="20%"/>
+						<Switch state="true" id="idWMakingChargeD" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>SubGoldTotal}" width="20%"/>
+						<Switch state="true" id="idWSubTotalG" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>SubSilverTotal}" width="20%"/>
+						<Switch state="true" id="idWSubTotalS" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>Tunch}" width="20%"/>
+						<Switch state="true" id="idWTunch" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<!--  -->
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>TnC}" width="20%"/>
+						<Switch state="true" id="idWTnC" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+						<Text/>
+            <Text text="{i18n>GSTN}" width="20%"/>
+						<Switch state="true" id="idWGSTN" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+						<Text/>
+						<Text text="{i18n>Marking}" width="20%"/>
+						<Switch state="true" id="idWMarking" change="onSubmit" name="switch">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+								<l:GridData span="XL4 L4 "/>
+							</layoutData>
+						</Switch>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+			<!--  -->
+			<f:formElements>
+				<f:FormElement>
+					<f:fields>
+						<Text text="{i18n>Estimate}"/>
+							<Switch state="true" id="idWEstimate" change="onSubmit" name="switch">
+								<layoutData>
+									<FlexItemData growFactor="1" />
+									<!-- <l:GridData span="XL4 L4 "/> -->
+								</layoutData>
+							</Switch>
+							<Text/>
+							<Text/>
+							<Text/>
+							<Text/>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</Panel>
+</VBox>
+</HBox>
+</core:FragmentDefinition>

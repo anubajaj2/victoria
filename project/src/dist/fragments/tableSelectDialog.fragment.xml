@@ -1,0 +1,64 @@
+<core:FragmentDefinition
+   xmlns:core="sap.ui.core" xmlns="sap.ui.table" xmlns:m="sap.m">
+   <m:Dialog
+      title="{i18n>material}" contentWidth="400px" contentHeight="500px">
+      <m:customHeader>
+        <m:Toolbar>
+        <m:ToolbarSpacer/>
+        <core:Icon id="idSaveIndicator" src="sap-icon://status-completed"
+        class="size1"	color="green"
+        size="30px" alt="Save Status" tooltip="Save Status">
+       </core:Icon>
+      </m:Toolbar>
+    </m:customHeader>
+      <m:content>
+        <Table id="materialPopupTable" rows="{materialPopupOrderItems>/popupItemsData}" visibleRowCount="10"
+          class="sapUiContentPadding" updateFinished="onUpdateFinished" threshold="05" selectionMode="None">
+          <columns>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>material}"></m:Text>
+              </label>
+              <template>
+                <m:Input
+                   id="idMat"
+                   showSuggestion="true"
+                   suggestionItemSelected="onMaterialSelect"
+                   submit="ValueChangeMaterial"
+                   liveChange="changeInMaterial"
+                   value="{materialPopupOrderItems>MaterialCode}" maxSuggestionWidth="250px"
+                   suggestionItems="{path: '/Products', templateShareable:false}"
+                   editable="{= ${materialPopupOrderItems>id} === '' ? true : false}">
+                  <m:suggestionItems>
+                    <core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
+                    </m:suggestionItems>
+                </m:Input>
+              </template>
+            </Column>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>description}"></m:Text>
+              </label>
+              <template>
+                <m:Text text="{materialPopupOrderItems>Description}" editable="false" liveChange="ValueChange"/>
+              </template>
+            </Column>
+            <Column hAlign="Center">
+              <label>
+                <m:Text text="{i18n>qty}"></m:Text>
+              </label>
+              <template>
+                <m:Input type="Number" value="{materialPopupOrderItems>Qty}" id="idQty"
+                maxLength="3" Nullable="false"  liveChange="validateValue"
+                editable="{= ${materialPopupOrderItems>id} === '' ? true : false}"/>
+              </template>
+            </Column>
+          </columns>
+        </Table>
+      </m:content>
+      <m:buttons>
+        <m:Button text="Save" press="onDialogSave" id="dialogSave"/>
+        <m:Button text="Close" press="onDialogClose"/>
+      </m:buttons>
+   </m:Dialog>
+</core:FragmentDefinition>

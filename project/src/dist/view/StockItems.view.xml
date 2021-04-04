@@ -1,0 +1,20 @@
+<mvc:View controllerName="victoria.controller.StockItems" xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:semantic="sap.m.semantic">
+  <semantic:FullscreenPage
+    id="idStockItems"
+    title="Stock Items">
+    <semantic:customHeaderContent>
+            <Text id="idUser"> </Text>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+			tooltip="fullscreen"
+			iconFirst="true" press="toggleFullScreen"/>
+
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+    </semantic:customHeaderContent>
+    <semantic:content>
+      <core:Fragment fragmentName="victoria.fragments.StockItemsForm" type="XML"></core:Fragment>
+      <core:Fragment fragmentName="victoria.fragments.StockItemsTable" type="XML"></core:Fragment>
+    </semantic:content>
+
+  </semantic:FullscreenPage>
+</mvc:View>

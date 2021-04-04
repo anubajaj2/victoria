@@ -1,0 +1,53 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+<f:Form id="idForm2" editable="true">
+	<f:layout>
+		<f:ResponsiveGridLayout
+		labelSpanXL="2"
+          labelSpanL="2"
+          labelSpanM="2"
+          labelSpanS="12"
+          adjustLabelSpan="false"
+          emptySpanXL="0"
+          emptySpanL="2"
+          emptySpanM="0"
+          emptySpanS="0"
+          columnsXL="2"
+          columnsL="2"
+          columnsM="2"
+          singleContainerFullSize="false"/>
+
+	</f:layout>
+	<f:formContainers>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement label="{i18n>coQty}">
+					<f:fields>
+						<Input id="idQty" value="{local>/collaborationData/Qty}">
+							<layoutData>
+								<l:GridData span="L1"></l:GridData>
+							</layoutData>
+						</Input>
+         <Label text="{i18n>coWeight}" class="sapUiSmallMarginTop sapUiSmallMarginBottom" width="100%">
+         <layoutData>
+         <l:GridData span="L1"/>
+         </layoutData>
+         </Label>
+         <Input id="idWeight" value="{local>/collaborationData/Weight}" enabled="true" width="100%">
+         <layoutData>
+        <l:GridData span="L1"/>
+        </layoutData>
+        </Input>
+       <!-- </l:content>
+       </l:Grid> -->
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement label="{i18n>rem}">
+				<f:fields>
+					<Input id="idrem" value="{local>/collaborationData/Remarks}" width="auto"></Input>
+				</f:fields>
+			</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+	</f:formContainers>
+</f:Form>
+</core:FragmentDefinition>

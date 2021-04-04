@@ -1,0 +1,28 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog id="idDialog" title="{i18n>AddNewUser}" contentHeight="26rem" contentWidth="26rem" busyIndicatorDelay="0">
+		<content>
+			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
+				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
+				<f:content>
+          <Label text="{i18n>Date}"></Label>
+          <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change="onPayDateChange"
+            displayFormat="dd.MM.yyyy" value="{/Date}"></DatePicker>
+						<Label text="{i18n>Customer}" visible="false"></Label>
+						<Input id="idDialogCust" visible="false" value=""></Input>
+          <Label text="{i18n>amount}"></Label>
+          <Input id="idDialogAmt" value="{/Cash}"></Input>
+          <Label text="{i18n>Gold}"></Label>
+          <Input id="idDialogGold" value="{/Gold}"></Input>
+          <Label text="{i18n>Silver}"></Label>
+          <Input id="idDialogSil" value="{/Silver}"></Input>
+          <Label text="{i18n>Remarks}"></Label>
+          <Input id="idDialogRem" value="{/Remarks}"></Input>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+		<buttons>
+			<Button text="{i18n>Save}" press="onPressHandleEntrySavePopup"/>
+			<Button text="{i18n>Cancel}" press="onPressHandleEntryCancelPopup"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,34 @@
+<mvc:View controllerName="victoria.controller.Kacchi"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns="sap.m"	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="Kacchi" navButtonPress="onNavBack" tooltip="{i18n>back}" showNavButton="false" title="{i18n>Kacchi}">
+			<semantic:customHeaderContent>
+				<Text id="idUser"> </Text>
+				<!-- <Button tooltip="Kacchi Download" icon="sap-icon://download" type="Ghost" press="onPressKacchiDownload"/> -->
+							<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
+	<semantic:content id="idContent">
+    <!-- <VBox class="sapUiSmallMargin"> -->
+      <core:Fragment fragmentName="victoria.fragments.kacchiHeader" type="XML">
+      </core:Fragment>
+    <!-- </VBox> -->
+
+			<VBox class="sapUiSmallMargin">
+			     <core:Fragment fragmentName="victoria.fragments.kacchiTable" type="XML">
+			     </core:Fragment>
+		  </VBox>
+      </semantic:content>
+
+      <semantic:customFooterContent>
+				<Button text="{i18n>Save}" liveChange="onChange" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+        <Button text="{i18n>Transfer}" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press="onTransfer"/>
+				  <!-- <Button text="Kacchi Download" width="200px" type="Emphasized" press="onPressKacchiDownload"/> -->
+				<Button text="{i18n>Print}" press="onPrint" id="idPrintButton" type="Emphasized"  icon="sap-icon://print"/>
+        <Button text="{i18n>ClearScreen}" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+      </semantic:customFooterContent>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

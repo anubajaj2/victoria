@@ -1,0 +1,53 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+			<Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+				<content>
+				<Table
+				items="{/CollaborationCenters}"
+				mode="MultiSelect"
+				updateFinished="onUpdateFinished">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="idTitle" text="{i18n>coDisplayTitle}"></Title>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" press="onDelete"></Button>
+					</Toolbar>
+				</headerToolbar>
+      		<columns>
+					<Column>
+						<Label text="{i18n>coDate}" />
+					</Column>
+					<Column>
+						<Label text="{i18n>coMaterial}" />
+					</Column>
+					<Column>
+						<Label text="{i18n>coQty}" />
+					</Column>
+					<Column>
+						<Label text="{i18n>coWeight}" />
+					</Column>
+					<Column>
+						<Label text="{i18n>coRemarks}" />
+					</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{Date}"/>
+					<Text text="{Material}"/>
+					<Text text="{Qty}"/>
+					<Text text="{Weight}"/>
+					<Text text="{Remarks}"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+		</content>
+			<!-- <footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>coSave}" press="onSave" type="Emphasized"/>
+				<Button text="{i18n>coClear}" press="onClear" type="Reject"/>
+				</Toolbar>
+		</footer> -->
+			</Page>
+</core:FragmentDefinition>

@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:Form id="idCoForm1" editable="true">
+			<f:title>
+				<core:Title text="{i18n>coOrdHdr}"/>
+			</f:title>
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXl="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>coDate}">
+							<f:fields>
+								<DatePicker id="idCoDate" valueFormat="yyyy-MM-dd" displayFormat="dd.MM.yyyy" change="onDateChange">
+									<layoutData>
+										<l:GridData span="XL3 L3 "/>
+									</layoutData>
+								</DatePicker>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coDelDate}">
+							<f:fields>
+								<DatePicker id="idCoDelDate" valueFormat="yyyy-MM-dd" displayFormat="dd.MM.yyyy" change="onDateChange">
+									<layoutData>
+										<l:GridData span="XL3 L3 "/>
+									</layoutData>
+								</DatePicker>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>coCustomer}">
+							<f:fields>
+								<Input id="idCoCustomer" showValueHelp="true" editable="true" valueHelpRequest="onValueHelp" value="{path: 'local>/coTemp/CustomerCode'}"
+									suggestionItemSelected="onCustomerSelect" autocomplete="false" valueLiveUpdate="true"
+									submit="onEnter" showSuggestion="true"  suggest="onSuggest" suggestionItems="{/Customers}" maxSuggestionWidth="auto">
+										<suggestionItems>
+												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
+																																													 formatter: '.formatter.byNameCity'}"/>
+										</suggestionItems>
+										<layoutData>
+												<l:GridData span="XL3 L3"/>
+										</layoutData>
+								</Input>
+								<Text id="idCoCustomerText" text="{path: 'local>/customerOrder/Customer', formatter: '.formatter.byNameCityGroup'}" ></Text>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<f:layoutData>
+						<f:GridContainerData halfGrid="true"></f:GridContainerData>
+					</f:layoutData>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

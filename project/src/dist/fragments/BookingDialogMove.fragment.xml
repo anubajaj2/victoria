@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog id="idDialog" title="{i18n>ConfirmQuantity}" contentHeight="15rem" contentWidth="15rem" busyIndicatorDelay="0">
+		<content>
+			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
+				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
+				<f:content>
+          <Label text="{i18n>Date}"></Label>
+          <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change="onPayDateChange"
+            displayFormat="dd.MM.yyyy" value=""></DatePicker>
+					<Label text="{i18n>Customer}"></Label>
+					<Input id="idDialogCust" value=""></Input>
+          <Label text="{i18n>quantity}"></Label>
+          <Input id="idDialogQnty" value=""></Input>
+          <Label text="{i18n>bhav}"></Label>
+          <Input id="idDialogBhav" value=""></Input>
+          <Label text="{i18n>advance}"></Label>
+          <Input id="idDialogAdv" value=""></Input>
+					<Label text="{i18n>type}"></Label>
+					<Input id="idDialogTyp" value=""></Input>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+		<buttons>
+			<Button text="{i18n>ConfirmDelivery}" id="cnf" press="onPressHandleDlvConfirmPopup"/>
+			<Button text="{i18n>ReturnDelivery}" id="ret" press="onPressHandleDlvReturnPopup"/>
+			<Button text="{i18n>Cancel}" press="onPressHandleCancelMovePopup"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

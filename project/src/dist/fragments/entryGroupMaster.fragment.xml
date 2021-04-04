@@ -1,0 +1,30 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Dialog
+        title="Confirm Password">
+<VBox>
+    <Label text="Email"  width="100%" required="false" textAlign="Center" textDirection="Inherit" visible="false"/>
+  <Input value="renhgiuhf@gmail.com" visible="false"/>
+            <Label text="Password"  width="100%" required="false" textAlign="Center" textDirection="Inherit" visible="true"/>
+
+            <Input placeholder="Password (Case-Sensitive)" autocomplete="false"  type="Password" id="pwd1" submit="onPressHandleEntrySavePopup11" enabled="true" visible="true" width="300px"
+              maxLength="0"/>
+</VBox>
+<beginButton>
+        <Button
+         type="Accept"
+           text="Ok"
+           press="onPressHandleEntrySavePopup11"/>
+     </beginButton>
+     <endButton>
+        <Button
+           type="Reject"
+           text="Cancel"
+           press="onPressHandleEntryCancelPopup11"/>
+     </endButton>
+<!-- <buttons>
+  <Button text="{i18n>Save}" press="onPressHandleEntrySavePopup"/>
+  <Button text="{i18n>Cancel}" press="onPressHandleEntryCancelPopup1"/>
+</buttons> -->
+
+   </Dialog>
+</core:FragmentDefinition>

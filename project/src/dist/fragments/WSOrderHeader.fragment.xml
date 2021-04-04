@@ -1,0 +1,179 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" width="160px">
+	<l:VerticalLayout id="WSOrderHeader" class="navigationExamples" width="100%">
+		<l:content>
+			<Panel class="sapUiDemoFlexBoxSizeAdjustments">
+				<headerToolbar>
+					<Toolbar id="TB1">
+						<ToolbarSpacer/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status"  tooltip="{i18n>SaveStatus}"/>
+					</Toolbar>
+				</headerToolbar>
+				<FlexBox class="sapUiDemoFlexBoxSizeAdjustmentsZeroWidthItems" alignItems="Start" justifyContent="SpaceBetween">
+					<VBox width='40%'>
+						<f:Form editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
+							</f:layout>
+							<f:formContainers>
+								<!-- //Order detail -->
+								<f:FormContainer >
+									<f:formElements>
+										<f:FormElement label="{i18n>Date}" textAlign="Left">
+											<f:fields>
+												<DatePicker id="DateId" valueFormat="yyyy-MM-dd" required="true" displayFormat="dd.MM.yyyy" change="onPayDateChange" width="60%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>Customer}">
+											<f:fields>
+												<Input id="customerId" value="{local>/orderHeaderTemp/CustomerId}" showValueHelp="true" valueHelpRequest="valueHelpCustomer" valueLiveUpdate="true" required="true" editable="true"
+													showSuggestion="true"  suggest="onSuggest" suggestionItemSelected="onCustomerSelect" suggestionItems="{/Customers}" submit="onEnter" maxSuggestionWidth="auto"
+													autocomplete="false">
+
+													<suggestionItems>
+											      <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}], formatter:'.formatter.byNameCity'}"/>
+											      </suggestionItems>
+											      <layoutData>
+											        <l:GridData span="XL2 L1 M3 S3"/>
+											      </layoutData>
+											    </Input>
+										<Text id="custName" text="{path: 'local>/WSOrderHeader/Customer', formatter:'.formatter.byNameCityGroup'}" editable="false"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>OrderNo}">
+											<f:fields>
+												<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+												<Button text="{i18n>C}" press="orderCreate" tooltip="{i18n>CreateData}"/>
+												<Button icon="sap-icon://nav-back" tooltip="{i18n>back}" press="previousOrder"/>
+												<Button icon="sap-icon://feeder-arrow" tooltip="{i18n>Next}" press="nextOrder"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData halfGrid="true"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+					<VBox width='25%'>
+						<f:Form id="orderHeaderBhav" editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="6" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
+							</f:layout>
+							<f:formContainers>
+								<!-- //tunch detail -->
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="{i18n>WSGBhav}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" id="idGbhav" placeholder="{i18n>WSGBhav}" tooltip="{i18n>WSGBhav}" liveChange="ValueChangeHeader" value="{
+													path : 'local>/WSOrderHeader/Goldbhav',
+													type : 'sap.ui.model.type.Integer',
+													constraints : {
+														minimum: 30000,
+														maximum: 80000
+													}
+												}" editable="true"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSSBhav}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhav" placeholder="{i18n>WSSBhav}" tooltip="{i18n>WSSBhav}" liveChange="ValueChangeHeader" value="{
+													path : 'local>/WSOrderHeader/SilverBhav',
+													type : 'sap.ui.model.type.Integer',
+													constraints : {
+														minimum: 30000,
+														maximum: 80000
+													}
+												}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSGBhavK}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idGbhavK" placeholder="{i18n>WSGBhavK}" tooltip="{i18n>WSGBhavK}" liveChange="ValueChangeHeader" value="{
+														path : 'local>/WSOrderHeader/GoldbhavK',
+														type : 'sap.ui.model.type.Integer',
+														constraints : {
+															minimum: 30000,
+															maximum: 80000
+														}
+													}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="{i18n>WSSBhavK}">
+											<f:fields>
+												<Input type="Number" fieldWidth="10px" editable="true" id="idSBhavK" placeholder="{i18n>WSSBhavK}" liveChange="ValueChangeHeader" tooltip="{i18n>WSSBhavK}" value="{
+														path : 'local>/WSOrderHeader/SilverBhavK',
+														type : 'sap.ui.model.type.Integer',
+														constraints : {
+															minimum: 30000,
+															maximum: 110000
+														}
+													}"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+									<f:layoutData>
+										<f:GridContainerData span="XL1 L2 M2 S4"></f:GridContainerData>
+									</f:layoutData>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+					<VBox width='35%'>
+						<Panel id="totals" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region" expandable='false'>
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="{i18n>Total}"/>
+									<RadioButtonGroup id="idRBG" columns="4" selectedIndex="0" class="sapUiResponsiveMargin" select="onRadioButtonSelect">
+										<buttons>
+											<RadioButton id="RB-4" text="{i18n>Original}" selected="true" enabled="true" editable="true"/>
+											<RadioButton id="RB-1" text="{i18n>Cash}"/>
+											<RadioButton id="RB-2" text="{i18n>Gold}"/>
+											<RadioButton id="RB-3" text="{i18n>Silver}"/>
+										</buttons>
+									</RadioButtonGroup>
+								</Toolbar>
+							</headerToolbar>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>tOrderAmount}" width="0%"/>
+								<Label text="{i18n>Cash}" fieldWidth="10%"/>
+								<Label text="{i18n>Gold}" fieldWidth="10%"/>
+								<Label text="{i18n>Silver}" fieldWidth="10%"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>tOrderAmount}" width="125px"/>
+								<Text id="text0" text="{local>/orderHeaderTemp/TotalOrderValueCash}" textAlign="Right" width="80px"/>
+								<Text id="text1" text="{local>/orderHeaderTemp/TotalOrderValueGold}" textAlign="Right" width="80px"/>
+								<Text id="text2" text="{local>/orderHeaderTemp/TotalOrderValueSilver}" textAlign="Right" width="80px"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween" alignItems="Center">
+								<Label text="{i18n>deductions}" width="125px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionCash}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionGold}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/DeductionSilver}" textAlign="Right" width="80px"/>
+							</FlexBox>
+							<FlexBox justifyContent="SpaceBetween">
+								<Label text="{i18n>fBalance}" width="125px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceCash}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceGold}" textAlign="Right" width="80px"/>
+								<Text text="{local>/orderHeaderTemp/FinalBalanceSilver}" textAlign="Right" width="80px"/>
+							</FlexBox>
+						</Panel>
+						<Panel id="totalsC" width="auto" accessibleRole="Region" expandable='false'>
+							<headerToolbar>
+								<Toolbar height="2rem">
+									<Title text="{i18n>CombinedBalance}"/>
+								</Toolbar>
+							</headerToolbar>
+							<FlexBox justifyContent="Start">
+								<Text text="{local>/orderHeaderTemp/CombinedBalance}" textAlign="Right" width="192px"/>
+								<Text text="{local>/orderHeaderTemp/BalanceSuffix}" textAlign="Right" width="192px"/>
+							</FlexBox>
+						</Panel>
+					</VBox>
+				</FlexBox>
+			</Panel>
+		</l:content>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

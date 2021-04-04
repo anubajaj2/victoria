@@ -1,0 +1,190 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+  xmlns:x="sap.f"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:dnd="sap.ui.core.dnd" >
+
+	<l:Splitter height="auto" width="100%">
+		<Table id="idTable" class="sapUiContentPadding"
+	    items="{
+	           path: '/BookingDetails',
+	             sorter: {
+	             path: 'BookingDate',
+	             descending: 'true'
+	             }
+	           }"
+	    mode="MultiSelect" growing="true"
+		  growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
+
+	    <headerToolbar>
+	      <Toolbar>
+	        <Title id="idTitle" text="{i18n>bookingDetails}"></Title>
+	        <ToolbarSpacer/>
+	        <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+	        <Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"></Button>
+	      </Toolbar>
+	    </headerToolbar>
+			<dragDropConfig>
+			<dnd:DragInfo
+				groupName="available2selected"
+				sourceAggregation="items" />
+			<dnd:DropInfo
+				groupName="selected2available"
+				drop="onDropAvailableProductsTable" />
+		</dragDropConfig>
+			<columns>
+				<Column>
+					<Label text="{i18n>date}"></Label>
+	      </Column>
+				<Column>
+					<Label text="{i18n>Customer}"></Label>
+	      </Column>
+				<Column>
+					<Label text="{i18n>quantity}"></Label>
+	      </Column>
+	      <Column>
+	        <Label text="{i18n>bhav}" />
+	      </Column>
+	      <Column>
+	        <Label text="{i18n>advance}"></Label>
+	      </Column>
+				<Column>
+	        <Label text="{i18n>type}"></Label>
+	      </Column>
+	      </columns>
+
+	      <items>
+
+	        <ColumnListItem>
+	          <cells>
+							<Text text="{
+		                path: 'BookingDate',
+		                type: 'sap.ui.model.type.Date',
+		                formatOptions: {
+		                      style: 'medium',
+		                      pattern: 'dd.MM.yyyy'}}"/>
+	            <Text text="{Customer}"/>
+	          	<Text text="{Quantity}"/>
+	            <Text text="{Bhav}"/>
+	            <Text text="{Advance}"/>
+							<Text text="{Type}"/>
+	        </cells>
+	      </ColumnListItem>
+	    </items>
+			<layoutData><l:SplitterLayoutData size="47%" /></layoutData>
+		</Table>
+		<!-- <Button width="100%" text="Content 1">
+			<layoutData><l:SplitterLayoutData size="45%" /></layoutData>
+		</Button> -->
+
+
+		<Panel>
+				<FlexBox
+					height="auto"
+					alignItems="Center"
+					justifyContent="Center">
+					<items>
+
+						<x:Avatar
+							src="sap-icon://arrow-right"
+							displaySize="S"
+							press="onRightArrowPress">
+						</x:Avatar>
+
+					</items>
+				</FlexBox>
+				<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
+			</Panel>
+
+			<!-- <VBox justifyContent="Center" class="sapUiTinyMarginBeginEnd">
+					<Button
+						class="sapUiTinyMarginBottom"
+						icon="sap-icon://navigation-right-arrow"
+						tooltip="Move to selected"
+						press="onRightArrowPress"
+						/>
+					<Button
+						icon="sap-icon://navigation-left-arrow"
+						tooltip="Move to available"
+						press="onLeftArrowPress"
+						/>
+				</VBox> -->
+
+		<!-- <FlexBox
+					alignItems="Center"
+					justifyContent="Center">
+					<x:Avatar
+						src="sap-icon://arrow-right"
+						displaySize="M">
+					</x:Avatar>
+
+					<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
+		</FlexBox> -->
+		<!-- <Button width="100%" text="Content 2">
+			<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
+		</Button> -->
+
+		<Table id="idBookingDlvTable" class="sapUiContentPadding"
+	    items="{
+	           path: '/BookingDlvDetails',
+	             sorter: {
+	             path: 'BookingDate',
+	             descending: 'true'
+	             }
+	           }"
+	    mode="MultiSelect" growing="true"
+		  growingThreshold="5" updateFinished="onUpdateFinished" width="100%">
+	    <headerToolbar>
+	      <Toolbar>
+	        <Title id="idBookingDlvTitle" text="{i18n>bookingDlvDetails}"></Title>
+	        <ToolbarSpacer/>
+	        <Button id="idDlvtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+	        <Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onBookingDlvDelete"></Button>
+	      </Toolbar>
+	    </headerToolbar>
+
+			<columns>
+				<Column>
+					<Label text="{i18n>date}"></Label>
+	      </Column>
+				<Column>
+					<Label text="{i18n>Customer}"></Label>
+	      </Column>
+				<Column>
+					<Label text="{i18n>quantity}"></Label>
+	      </Column>
+	      <Column>
+	        <Label text="{i18n>bhav}" />
+	      </Column>
+	      <Column>
+	        <Label text="{i18n>advance}"></Label>
+	      </Column>
+	      </columns>
+	      <items>
+	        <ColumnListItem>
+	          <cells>
+							<Text text="{
+		                path: 'BookingDate',
+		                type: 'sap.ui.model.type.Date',
+		                formatOptions: {
+		                      style: 'medium',
+		                      pattern: 'dd.MM.yyyy'}}"/>
+	            <Text text="{Customer}"/>
+	          	<Text text="{Quantity}"/>
+	            <Text text="{Bhav}"/>
+	            <Text text="{Advance}"/>
+	        </cells>
+	      </ColumnListItem>
+	    </items>
+			<layoutData><l:SplitterLayoutData size="47%" /></layoutData>
+		</Table>
+		<!-- <Button width="100%" text="Content 3">
+			<layoutData><l:SplitterLayoutData size="45%" minSize="200px" /></layoutData>
+		</Button> -->
+
+	</l:Splitter>
+</core:FragmentDefinition>

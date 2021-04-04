@@ -1,0 +1,84 @@
+<mvc:View controllerName="victoria.controller.reports" xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form">
+  <semantic:FullscreenPage
+    id="editEntry"
+    navButtonPress="onNavBack"
+    showNavButton="false"
+    title="Reports">
+    <semantic:customHeaderContent>
+      <Text id="idDB"> </Text>
+      <Text id="idUser"> </Text>
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+    </semantic:customHeaderContent>
+    <semantic:content>
+      <f:SimpleForm
+  			minWidth="1024"
+  			maxContainerCols="2"
+  			editable="true"
+  			layout="ResponsiveGridLayout"
+  			labelSpanL="3"
+  			labelSpanM="3"
+  			emptySpanL="4"
+  			emptySpanM="4"
+  			columnsL="1"
+  			columnsM="1"
+  			class="editableForm">
+        <f:content>
+   			    <Label text="Customer Code" labelFor="customerCode" required="true"/>
+            <Input id="idCustomerCode" submit="customerCodeCheck" suggest="ValueChangeCustomer"
+    					  suggestionItems="{/Customers}" showSuggestion="true"
+    					  suggestionItemSelected="customerCodeCheck">
+                <suggestionItems>
+      						<core:ListItem text="{CustomerCode}"/>
+      					</suggestionItems>
+            </Input>
+            <Label text="Name" labelFor="name" />
+            <Text id="idName" text="{customerModel>/Name}"/>
+            <Label text="City" labelFor="city" />
+            <Text id="idCity" text="{customerModel>/City}"/>
+          </f:content>
+      </f:SimpleForm>
+       <VBox
+        alignItems="Center"
+        alignContent="Start">
+        <HBox
+            height="100px"
+            alignItems="Start"
+            alignContent="Center">
+            <items>
+              <Button text="Kacchi Download" width="200px" press="onPressKacchiDownload" class="sapUiSmallMarginEnd" />
+              <Button text="Entry Download" press="onPressEntryDownload" class="sapUiSmallMarginEnd" />
+              <Button text="Stock Download" press="onPressStockDownload" class="sapUiSmallMarginEnd" />
+              <Button text="Retail Sales Summary" class="sapUiSmallMarginEnd" />
+            </items>
+          </HBox>
+          <HBox
+              height="100px"
+              alignItems="Start"
+              alignContent="Center">
+              <items>
+                <Button text="Wholesale Summary" width="200px"  class="sapUiSmallMarginEnd" />
+                <Button text="Booking Summary"  press="onPressBookingDownload" class="sapUiSmallMarginEnd" />
+                <Button text="Pending Order Summary" press="onPressPOrderDownload" class="sapUiSmallMarginEnd" />
+                <Button text="Group Wise Report" press="onPressGWiseDownload" class="sapUiSmallMarginEnd" />
+              </items>
+            </HBox>
+            <HBox
+                height="100px"
+                alignItems="Start"
+                alignContent="Center">
+                <items>
+                  <Button text="Material" width="200px" enabled="false" press="onPressMaterialDownload" class="sapUiSmallMarginEnd" />
+                  <Button text="City" press="onPressCityDownload" enabled="false" class="sapUiSmallMarginEnd" />
+                  <Button text="Group" press="onPressGroupDownload" enabled="false" class="sapUiSmallMarginEnd" />
+                  <Button text="Customer Code Details" press="onPressCustCodeDownload" enabled="false" class="sapUiSmallMarginEnd" />
+                </items>
+              </HBox>
+      </VBox>
+
+    </semantic:content>
+    <semantic:customFooterContent>
+				<Button text="Clear" type="Ghost" press="onPressClear"/>
+		</semantic:customFooterContent>
+  </semantic:FullscreenPage>
+</mvc:View>

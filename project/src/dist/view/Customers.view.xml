@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:semantic="sap.m.semantic"
+	xmlns:smartField="sap.ui.comp.smartfield" controllerName="victoria.controller.Customers">
+	<semantic:FullscreenPage id="customers" navButtonPress="onNavBack" showNavButton="false" title="{i18n>ManageCustomers}"
+		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+		<semantic:customHeaderContent>
+			<Text id="idUser"></Text>
+			<Button tooltip="{i18n>CustomerCodeDetails}" icon="sap-icon://download" press="onPressCustCodeDownload" type="Ghost"/>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="{i18n>fullscreen}" iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
+		<semantic:content id="Header">
+			<f:Form id="CustomerHeader" editable="true"/>
+		</semantic:content>
+		<semantic:content>
+			<f:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
+				emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+				<f:content>
+					<Label text="{i18n>CustomerCode}" labelFor="customerCode" required="true"/>
+					<!-- <Input
+					id="customerCode"
+					type="Text"
+					showSuggestion="true"
+					value="{customerModel>/Company}"
+					suggestionItems="{/Customers}"
+					suggestionItemSelected="selectedCustomer">
+					<suggestionItems>
+						<core:Item text="{Company}" key="{Id}"/>
+					</suggestionItems>
+				</Input> -->
+					<Input id="idCustomerCode" submit="customerCodeEnter" suggest="ValueChangeCustomer" suggestionItems="{/Customers}" showSuggestion="true"
+						enabled="{viewModel>/codeEnabled}" suggestionItemSelected="customerCodeCheck" liveChange="onKeyPress" change="customerCodeEnter">
+						<suggestionItems>
+							<core:ListItem text="{CustomerCode}" additionalText="{Name}"/>
+						</suggestionItems>
+					</Input>
+					<!-- <ComboBox id="idCombo" value="{customerModel>/CustomerCode}" change="customerCodeCheck"
+	items="{customerModelInfo>/results}" enabled="{viewModel>/codeEnabled}" valueState="{dataModel>/CustomerCodeState}" valueStateText="Customer Code cannot be blank"
+												>
+	<core:Item key="{customerModelInfo>CustomerCode}" text="{customerModelInfo>CustomerCode}" />
+</ComboBox> -->
+					<Label text="{i18n>Name}" required="true"/>
+					<Input id="idName" submit="customerNameSubmit" type="Text" value="{customerModel>/Name}" valueState="{dataModel>/NameState}"
+						valueStateText="{i18n>Name1}" change="additionalInfoValidation"/>
+					<Label text="{i18n>Address}"/>
+					<Input id="idAddress" submit="customerAddressSubmit" type="Text" value="{customerModel>/Address}"/>
+					<Label text="{i18n>Group}"/>
+					<Select id="idGroup" change="onSelectChange" selectedKey="{groupModelInfo/0/results}" items="{ path: 'groupModelInfo>/results' }">
+						<core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupName}"/>
+					</Select>
+					<!-- <ComboBox
+					id="idGroup"
+					value="{customerModel>/Group}"
+					items="{groupModelInfo>/results}" valueState="{dataModel>/GroupState}" valueStateText="Group cannot be blank"
+																change="additionalInfoValidation">
+					<core:Item key="{groupModelInfo>groupName}" text="{groupModelInfo>groupName}" />
+				</ComboBox> -->
+					<Label text="{i18n>Type}"/>
+					<Select id="idType" change="onSelectChange" selectedKey="{/typec/0/items}" items="{ path: 'typec>/items' }">
+						<core:Item key="{typec>text}" text="{typec>text}"/>
+					</Select>
+					<!-- <Label text="Custom Group"/>
+				<ComboBox
+					id="idCustomGrp"
+					selectedKey="{customerModel>/Customgroup}"
+					items="{
+						path: '/Customgroups'
+					}">
+					<core:Item key="{Id}" text="{Name}" />
+				</ComboBox> -->
+					<Label text="{i18n>City}"/>
+					<!-- <Select
+					id="idCity"
+					change="onSelectChange"
+					selectedKey= "{cityModelInfo/0/results}"
+					items="{
+						path: 'cityModelInfo>/results'
+					}">
+					<core:Item key="{cityModelInfo>id}" text="{cityModelInfo>cityName}" />
+				</Select> -->
+					<!-- focusthis.allMasterData.cities[oData.results[0].City].cityCode -->
+					<Input id="idCityField" submit="customerCitySubmit" placeholder="{i18n>EnterCity}" showSuggestion="true" suggestionItems="{/Cities}"
+						suggestionItemSelected="onSuggestionItemSelected">
+						<suggestionItems>
+							<core:ListItem text="{cityCode}" additionalText="{cityName}"/>
+						</suggestionItems>
+					</Input>
+					<!-- <Label text="City"/>
+				<ComboBox
+					items="{cityModelInfo>/results}" valueState="{dataModel>/CityState}" valueStateText="City cannot be blank"
+					id="idCity"
+					value="{customerModel>/City}"
+															change="additionalInfoValidation">
+					<core:Item key="{cityModelInfo>cityName}" text="{cityModelInfo>cityName}" />
+				</ComboBox> -->
+					<Label text="{i18n>MobilePhone}"/>
+					<Input id="idMobilePhone" submit="customerMobilePhoneSubmit" type="Text" value="{customerModel>/MobilePhone}"/>
+					<Label text="{i18n>SecondaryPhone}"/>
+					<Input id="idSecondaryPhone" submit="customerSecondaryPhoneSubmit" type="Text" value="{customerModel>/SecondaryPhone}"/>
+					<!-- <Label text="Send SMS"/>
+				<Switch
+					id="idSendSMS"
+					state="{customerModel>/HasInterest}">
+				</Switch > -->
+				</f:content>
+			</f:SimpleForm>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<!-- "{viewModel>/buttonText}" -->
+			<Button text="{i18n>Save}" id="customerAccept" type="Accept" press="SaveCustomer"/>
+			<Button text="{i18n>Delete}" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>
+			<!-- <Button text="{i18n>CustomerCodeDetails}" press="onPressCustCodeDownload" type="Ghost" /> -->
+			<Button text="{i18n>Clear}" type="Ghost" press="clearCustomer"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+</mvc:View>

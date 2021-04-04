@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:unified="sap.ui.unified">
+   <VBox class="sapUISmallMargin">
+      <f:Form id="idCoForm2" editable="true">
+         <f:title>
+            <core:Title text="{i18n&gt;coOrdDtl}" />
+         </f:title>
+         <f:layout>
+            <f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false" />
+         </f:layout>
+         <f:formContainers>
+            <f:FormContainer title="{i18n&gt;coOrdItem}">
+               <f:FormElement label="{i18n&gt;coPic}">
+                  <f:fields>
+                     <!-- <Input id="idCoPicture"  value="{local>/customerOrder/Picture}"/> -->
+                     <unified:FileUploader id="idCoUploader" buttonText="Browse..." style="Emphasized" icon="sap-icon://search" buttonOnly="false" enabled="true" width="100%" iconFirst="true" uploadOnChange="false" multiple="true" maximumFileSize="10" mimeType="image/jpeg,image/gif,image/png" uploadComplete="_onFileUploaderUploadComplete" change="onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed">
+                        <unified:headerParameters />
+                        <unified:parameters />
+                        <unified:xhrSettings />
+                     </unified:FileUploader>
+                  </f:fields>
+               </f:FormElement>
+               <f:FormElement label="">
+                  <Button text="{i18n&gt;UploadPicture}" id="idCoUpload" press="handleUploadPress" type="Emphasized" icon="sap-icon://upload" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false">
+                     <layoutData>
+                        <l:GridData span="XL3 L3 " />
+                     </layoutData>
+                  </Button>
+               </f:FormElement>
+            </f:FormContainer>
+         </f:formContainers>
+      </f:Form>
+   </VBox>
+</core:FragmentDefinition>

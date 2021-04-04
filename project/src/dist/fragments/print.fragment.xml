@@ -1,0 +1,72 @@
+<core:FragmentDefinition
+xmlns = "sap.m"
+xmlns:l = "sap.ui.layout"
+xmlns:f="sap.ui.layout.form"
+xmlns:semantic="sap.m.semantic"
+xmlns:core ="sap.ui.core">
+<VBox class="sapUiSmallMargin">
+
+<f:Form id="idPrint" editable="true">
+  <f:title>
+		<core:Title text="{i18n>PrintCustomizingHeader}"/>
+	</f:title>
+  <f:layout>
+		<f:GridLayout
+			labelSpanXl="0" labelSpanL="0"
+			emptySpanXL="0" emptySpanL="0"
+			columnsXL="10" columnsL="10"
+			singleContainerFullSize="false" >
+		</f:GridLayout>
+  </f:layout>
+<f:formContainers>
+  <f:FormContainer>
+    <f:formElements>
+      <f:FormElement label="{i18n>companyName}">
+        <f:fields>
+          <Input id="idCompName" submit="onSubmit" value="{local>/printCustomizing/CompName}">
+          </Input>
+        </f:fields>
+      </f:FormElement>
+      <f:FormElement label="{i18n>address}">
+        <f:fields>
+          <Input id="idAdd" submit="onSubmit" value="{local>/printCustomizing/Address}">
+          </Input>
+        </f:fields>
+      </f:FormElement>
+			<f:FormElement label="{i18n>TnC}">
+				<f:fields>
+					<TextArea id="idTnC" value="{local>/printCustomizing/TnC}" valueLiveUpdate="true" liveChange="onSubmit"/>
+				</f:fields>
+			</f:FormElement>
+    </f:formElements>
+    <f:layoutData>
+    <f:GridContainerData halfGrid="true"></f:GridContainerData>
+    </f:layoutData>
+  </f:FormContainer>
+	<f:FormContainer>
+		<f:formElements>
+			<f:FormElement label="{i18n>gstn}">
+				<f:fields>
+					<Input id="idgstn" submit="onSubmit" value="{local>/printCustomizing/GSTNumber}"/>
+				</f:fields>
+			</f:FormElement>
+			<f:FormElement label="{i18n>contactNo}">
+        <f:fields>
+          <Input id="idContNo" submit="onSubmit" value="{local>/printCustomizing/ContNumber}">
+          </Input>
+        </f:fields>
+      </f:FormElement>
+			<f:FormElement label="{i18n>marking}">
+				<f:fields>
+					<TextArea id="idMarking" value="{local>/printCustomizing/Marking}" valueLiveUpdate="true" liveChange="onSubmit"/>
+				</f:fields>
+			</f:FormElement>
+		</f:formElements>
+	<f:layoutData>
+	 <f:GridContainerData halfGrid="true"></f:GridContainerData>
+	</f:layoutData>
+	</f:FormContainer>
+</f:formContainers>
+</f:Form>
+</VBox>
+</core:FragmentDefinition>

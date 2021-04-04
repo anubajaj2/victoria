@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<!-- <ResponsivePopover
+		id="myPopover"
+		title="Change Status"
+		class="sapUiPopupWithPadding"
+		placement="Bottom" > -->
+    <Popover title="Change Status" showHeader="false" contentWidth="320px" placement="Top">
+  		<!-- <NavContainer >
+  			<Page title="Order Information"> -->
+  				<List >
+  					<StandardListItem title="Ready" type="Active" press="onReady" iconDensityAware="false" iconInset="false"/>
+  					<StandardListItem title="Cancel" type="Active" press="onCancel" iconDensityAware="false" iconInset="false"/>
+  					<StandardListItem title="Blocked" type="Active" press="onBlocked" iconDensityAware="false" iconInset="false"/>
+  				</List>
+  			<!-- </Page>
+  		</NavContainer> -->
+  	</Popover>
+	<!-- </ResponsivePopover> -->
+</core:FragmentDefinition>

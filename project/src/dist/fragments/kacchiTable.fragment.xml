@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+  xmlns="sap.ui.table"
+  xmlns:m="sap.m"
+  xmlns:core="sap.ui.core">
+
+  <Table id="idCustTable"
+        selectionMode="MultiToggle"
+				visibleRowCount="20"
+        threshold="20"
+        rows="{kachhiLocalModel>/kachhiData}"
+        class="sapUiContentPadding">
+        <extension>
+    			<m:Toolbar>
+    				<m:Title id="idTitle" text="{i18n>KachhiEntries}"></m:Title>
+    				<m:ToolbarSpacer/>
+    				<m:Button icon="sap-icon://delete"
+                      press="onDelete">
+            </m:Button>
+            <m:Button id="idFullScreenBtn" icon="sap-icon://full-screen" tooltip="{i18n>fullscreen}" press="toggleFullScreen"></m:Button>
+            <!-- <m:Button id="idExitFullScreenBtn" icon="sap-icon://exit-full-screen" tooltip="Exit fullscreen" press="toggleFullScreen"></m:Button> -->
+
+    			</m:Toolbar>
+    		</extension>
+  <columns>
+    <Column hAlign="Center">
+      <m:Label design="Bold" text="{i18n>PaggaNo}" />
+      <template>
+        <m:Input id="idPagga" maxLength="6" value="{kachhiLocalModel>PaggaNo}"
+          textAlign="Center"  valueLiveUpdate="true" liveChange="onliveChange"
+          enabled="{kachhiLocalModel>/status}"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+      </template>
+    </Column>
+    <Column hAlign="Center">
+      <m:Label design="Bold" text="{i18n>weight}" />
+      <template>
+        <m:Input textAlign="Center" id="idWeight" liveChange="onliveChangeWeight" valueLiveUpdate="true"
+          required="true" value="{kachhiLocalModel>Weight}"
+          enabled="{kachhiLocalModel>/status}"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+      </template>
+    </Column>
+    <Column hAlign="Center">
+      <m:Label design="Bold" text="{i18n>tunch}" />
+      <template>
+        <m:Input id="idTunch" value="{kachhiLocalModel>Tunch}"
+          textAlign="Center" liveChange="onliveChange" valueLiveUpdate="true"
+          editable="{= ${kachhiLocalModel>id} === '' ? true : false}"/>
+      </template>
+    </Column>
+    <Column hAlign="Center">
+      <m:Label design="Bold" text="{i18n>fine}" />
+      <template>
+        <m:Input id="idFine" textAlign="Center" type="Number" editable="false" valueLiveUpdate="true" value="{kachhiLocalModel>Fine}"/>
+      </template>
+    </Column>
+  </columns>
+</Table>
+</core:FragmentDefinition>

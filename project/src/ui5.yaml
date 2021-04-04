@@ -1,0 +1,8 @@
+specVersion: '2.3'
+metadata:
+  name: src
+type: application
+builder:
+  componentPreload:
+    paths:
+        - "victoria/**/Component.js"

@@ -1,0 +1,98 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
+  <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+		<content> -->
+
+	<Table id="idTable" inset="false" class ="myCustomText"
+    items="{
+           path: '/Entrys',
+             sorter: [{
+             path: 'Date',
+             descending: 'true'},
+						{
+						 path: 'ChangedOn',
+             descending: 'true'
+						 }
+             ]
+           }"
+    mode="MultiSelect" growing="true"
+	  growingThreshold="20" updateFinished="onUpdateFinished">
+    <headerToolbar>
+      <Toolbar>
+        <Title id="idTitle" text="{i18n>allEntries}"></Title>
+        <ToolbarSpacer/>
+
+				<Button id = "idEntryDownload" icon="sap-icon://download" text="{i18n>EntryDownload}" press = "onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true"/>
+				<Button icon="sap-icon://download" text="{i18n>GroupReport}" press="onPressGWiseDownload" />
+        <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
+        <Button icon="sap-icon://delete" press="onDelete" tooltip="{i18n>Delete}"></Button>
+      </Toolbar>
+    </headerToolbar>
+		<columns>
+			<Column
+        minScreenWidth="phone"
+        demandPopin="true">
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+				<Label text="{i18n>Date}" design="Bold" ></Label>
+      </Column>
+      <Column>
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>coCustName}" design="Bold" />
+      </Column>
+      <Column visible="false">
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
+      </Column>
+      <Column visible="true">
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
+      </Column>
+      <Column>
+				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+        <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
+
+      </Column>
+      <Column>
+				<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+        <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
+      </Column>
+        <Column>
+					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+          <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
+        </Column>
+        <Column>
+					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+          <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+
+          <Text text= "{
+                path: 'Date',
+                type: 'sap.ui.model.type.Date',
+                formatOptions: {
+                      style: 'medium',
+                      pattern: 'dd.MM.yyyy'}}"></Text>
+
+            <Text text=""/>
+            <Text text="{Customer}" />
+
+            <Text text="{Product}" />
+            <!-- <Text text="" />
+            <Text text="{Material}" /> -->
+					<!-- <Text text="{Customer}"></Text> -->
+					<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
+					 <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}" />
+					  <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id44" design="Bold" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
+					<!-- <Text text="{Gold}"></Text> -->
+					<ObjectStatus text="{path:'Silver'}" id="id55" design="Bold" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
+					<!-- <Text text="{Silver}"></Text> -->
+					<Text text="{Remarks}"></Text>
+        </cells>
+      </ColumnListItem>
+    </items>
+	</Table>
+	<!-- </content>
+	</Page> -->
+</core:FragmentDefinition>

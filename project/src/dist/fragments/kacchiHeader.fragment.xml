@@ -1,0 +1,92 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:semantic="sap.m.semantic"
+	xmlns:core="sap.ui.core">
+	<HBox>
+		<VBox class="sapUiSmallMargin">
+			<f:Form id="idKacchiHead" editable="true" title="{i18n>KachhiHeader}">
+				<f:toolbar>
+					<Toolbar id="TB1">
+						<ToolbarSpacer/>
+						<core:Icon id="idSaveIcon" src="sap-icon://status-completed" tooltip="{i18n>Save}" class="size1" color="green" size="30px" alt="Save Status"></core:Icon>
+					</Toolbar>
+				</f:toolbar>
+				<!-- class="printAreaBox" -->
+				<f:layout>
+					<f:GridLayout labelSpanXl="0" labelSpanL="0" emptySpanXL="0" emptySpanL="0" columnsXL="10" columnsL="10" singleContainerFullSize="false"></f:GridLayout>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="{i18n>CustomerInformation}">
+						<f:formElements>
+							<f:FormElement label="Type">
+								<RadioButtonGroup id="idRb" columns="2" selectedIndex="0" select="onRadioButtonSelect">
+									<buttons>
+										<RadioButton id="idRb1" text="{i18n>Silver}" selected="true" enabled="true" editable="true"/>
+										<RadioButton id="idRb2" text="{i18n>Gold}"/>
+									</buttons>
+								</RadioButtonGroup>
+							</f:FormElement>
+							<f:FormElement label="{i18n>coDate}">
+								<f:fields>
+									<DatePicker id="idDate" valueFormat="dd.MM.yyyy" displayFormat="dd.MM.yyyy" value=""></DatePicker>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>coCustomer}">
+								<f:fields>
+									<!-- <Input id="idCustNo" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onCustValueHelp" liveChange="onChange"
+										value="{local>/kachhiHeaderTemp/CustomerId}"></Input> -->
+										<Input id="idCustNo" showValueHelp="true" editable="true" valueHelpRequest="onCustValueHelp" value="{path: '{local>/kachhiHeaderTemp/CustomerId'}"
+											suggestionItemSelected="onCustomerSelect" autocomplete="false"  suggest="onSuggest"
+											submit="onEnter" showSuggestion="true" suggestionItems="{/Customers}" maxSuggestionWidth="auto">
+												<suggestionItems>
+														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
+																																															 formatter: '.formatter.byNameCity'}"/>
+												</suggestionItems>
+												<layoutData>
+														<l:GridData span="XL3 L3"/>
+												</layoutData>
+										</Input>
+									<Text id="idCustName" text="{path: 'local>/kacchiData/Customer', formatter: '.formatter.byNameCityGroup'}"></Text>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label=" ">
+								<f:fields>
+									<Button tooltip="{i18n>KacchiDownload}" icon="sap-icon://download" text="{i18n>download}" type="Ghost" press="onPressKacchiDownload" class="sapUiTinyMarginEnd"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:layoutData>
+							<f:GridContainerData halfGrid="true"></f:GridContainerData>
+						</f:layoutData>
+					</f:FormContainer>
+					<f:FormContainer title="{i18n>Summary}">
+						<f:formElements>
+							<f:FormElement label="{i18n>totalItems}">
+								<f:fields>
+									<Text id="idItemsCount"/>
+									<!-- </Input> -->
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>totalWeight}">
+								<f:fields>
+									<Text id="idTotalWeight"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>totalFine}">
+								<f:fields>
+									<Text id="idTotalFine"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>averageTunch}">
+								<f:fields>
+									<Text id="idTotalTunch"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:layoutData>
+							<f:GridContainerData halfGrid="true"></f:GridContainerData>
+						</f:layoutData>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</VBox>
+	</HBox>
+</core:FragmentDefinition>

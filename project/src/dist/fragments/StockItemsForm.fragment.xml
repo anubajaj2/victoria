@@ -1,0 +1,111 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+  xmlns:f="sap.ui.layout.form">
+  <VBox>
+    <f:Form id="idStockForm" editable="true">
+    <f:layout>
+      <f:ResponsiveGridLayout
+        labelSpanXL="2"
+         labelSpanL="2"
+         labelSpanM="2"
+         labelSpanS="12"
+         adjustLabelSpan="false"
+         emptySpanXL="0"
+         emptySpanL="0"
+         emptySpanM="0"
+         emptySpanS="0"
+         columnsXL="2"
+         columnsL="2"
+         columnsM="2"
+        singleContainerFullSize="false"/>
+    </f:layout>
+      <f:formContainers>
+        <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>Date}">
+                <f:fields>
+                  <DatePicker id="idDate" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
+                    displayFormat="dd.MM.yyyy" value="{path: 'local>/StockItemsData/Date'}"></DatePicker>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="Order Number">
+                <f:fields>
+                  <Input id="idOrderNo"
+                  value="{path: 'local>/StockItemsData/Order'}" showValueHelp="true"
+                  valueHelpRequest="valueHelpOrder" valueHelpOnly="false" submit = "onSubmitOrderNo"/>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>material}">
+                <f:fields>
+                  <Input id="idMatCode"
+                  	suggestionItems="{/Products}" showSuggestion="true"
+                    value="{path: 'local>/StockItemsData/MaterialName'}" liveChange="refreshModel" submit="refreshModel1"
+                    suggestionItemSelected="onMaterialSelect" maxSuggestionWidth="auto">
+                  	<suggestionItems>
+                  		<core:ListItem text="{ProductCode}"
+                  									 additionalText="{ProductName} {Type}"/>
+                  	</suggestionItems>
+
+                    <layoutData>
+                      <l:GridData span="XL3 L3"/>
+                    </layoutData>
+                  </Input>
+                  <Text id ="matName" editable="false"/>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement>
+                <f:fields>
+              <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="true">
+                <!-- <layoutData> -->
+                  <!-- <l:GridData span="XL5 L5"/> -->
+                <!-- </layoutData> -->
+              </CheckBox>
+            </f:fields>
+          </f:FormElement>
+
+            <f:FormElement label="{i18n>quantity}">
+
+                <f:fields>
+                  <Input  id="idQuantity" width="50%"  type="Number" submit="onSubmitQuantity"  liveChange="validateValue" value="{path: 'local>/StockItemsData/Qty'}"/>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>weight}">
+                <f:fields>
+                  <Input id="idWeight" width="50%"  type="Number" liveChange="decimalvalidator" submit="onSubmitWeight"
+                     value="{
+                           path:'local>/StockItemsData/Weight'}"/>
+                           <!-- , formatter: '.formatter.validateDecimal' -->
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>Remarks}">
+                <f:fields>
+                  <Input id="idRemarks" type="Text" submit="onSubmitRemarks" value="{path: 'local>/StockItemsData/Remarks'}"></Input>
+                  <Button id = "idSend" text="{i18n>Send}" press="onSend"></Button>
+                  <Button text="{i18n>Clear}" press="onClear"></Button>
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+            <f:layoutData>
+              <f:GridContainerData halfGrid="true">
+              </f:GridContainerData>
+            </f:layoutData>
+          </f:FormContainer>
+        <f:FormContainer>
+          <f:formElements>
+            <f:FormElement>
+              <f:fields>
+                <Label text="Total Quantity" class="sapUiSmallMarginTop" textAlign="End"/>
+                 <ObjectStatus id="idQ" text="" state="None" />
+              </f:fields>
+            </f:FormElement>
+          <f:FormElement>
+            <f:fields>
+              <Label text="Total Weight" class="sapUiSmallMarginTop" textAlign="End"/>
+             <ObjectStatus id="idW" text="" state="None" />
+            </f:fields>
+          </f:FormElement>
+          </f:formElements>
+        </f:FormContainer>
+      </f:formContainers>
+    </f:Form>
+  </VBox>
+</core:FragmentDefinition>

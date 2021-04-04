@@ -1,0 +1,47 @@
+<mvc:View controllerName="victoria.controller.salesws" xmlns="sap.ui.commons"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns:m="sap.m"	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="salesws"
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>WholesaleSales}"
+		class="sapUiContentPadding" tooltip="{i18n>back}" >
+		<semantic:customHeaderContent>
+			<!-- <Text id="idDB"> </Text> -->
+			<m:Text id="idUser"> </m:Text>
+			<m:Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
+		</semantic:customHeaderContent>
+
+		<semantic:content id="Header">
+			<m:VBox class="sapUiSmallMargin"
+				alignContent="sap.m.FlexAlignContent.Start">
+			<core:Fragment id="WSHeaderFragment" fragmentName="victoria.fragments.WSOrderHeader" type="XML">
+			</core:Fragment>
+		</m:VBox>
+	</semantic:content>
+
+	<semantic:content id="WSTable">
+			<m:VBox class="sapUiSmallMargin">
+		<core:Fragment id="WSItemFragment" fragmentName="victoria.fragments.orderItems" type="XML">
+		</core:Fragment>
+		</m:VBox>
+</semantic:content>
+
+<semantic:content id="Return">
+	<m:VBox class="sapUiSmallMargin">
+		<!-- id="WSReturnFragment" -->
+	<core:Fragment  fragmentName="victoria.fragments.orderReturn" type="XML">
+	</core:Fragment>
+</m:VBox>
+</semantic:content>
+
+<semantic:customFooterContent>
+	<m:Button text="{i18n>Save}" id="idSaveButton" type="Accept" icon="sap-icon://save"  press="onSave"/>
+	<m:Button text="{i18n>Transfer}" id="idTransferButton" type="Accept" icon="sap-icon://shipping-status"  press="onTransfer"/>
+	<m:Button text="{i18n>Print}" id="idPrintButton" type="Emphasized"  icon="sap-icon://print" press="onPrintWs"/>
+	<m:Button text="{i18n>coClear}" id="idClearButton" type="Reject" icon="sap-icon://decline" press="onClear"/>
+</semantic:customFooterContent>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

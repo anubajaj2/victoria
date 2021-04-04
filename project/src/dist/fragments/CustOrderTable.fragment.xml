@@ -1,0 +1,78 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Table id="idCoTable" items="{ path: '/CustomerOrders', sorter: {path: 'DelDate', descending: 'true'} }" growing="true"
+		growingThreshold="20" mode="MultiSelect" updateFinished="onUpdateFinished">
+		<headerToolbar>
+			<Toolbar>
+				<Title id="idCoTitle"/>
+				<ToolbarSpacer/>
+				<Button id="customerOrderReport" text="Report" press="onPressReportDownload"/>
+				<Button icon="sap-icon://refresh" tooltip="{i18n>refresh}" press="onRefresh"/>
+				<Button icon="sap-icon://delete" tooltip="{i18n>Delete}" press="onDelete"/>
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column>
+				<Label text="{i18n>coDate}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coDelivDate}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coCustName}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coCustId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coItemName}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coMatId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coQty}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coWeight}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coMaking}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coRemarks}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>Status}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coKarigar}"/>
+			</Column>
+			<Column visible="false">
+				<Label text="{i18n>coKarigarId}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>coPhoto}"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{ path: 'Date', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+					<Text text="{ path: 'DelDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'dd.MM.yyyy'}}"/>
+					<Text text=""/>
+					<Text text="{Customer}"/>
+					<Text text=""/>
+					<Text text="{Material}"/>
+					<Text text="{Qty}"/>
+					<Text text="{Weight}"/>
+					<Text text="{Making}"/>
+					<Text text="{Remarks}"/>
+					<Button id="changeStatus" type="Accept" text="{Status}" tooltip="{i18n>Status}" press="handlePopoverPress"/>
+					<Text text=""/>
+					<Text text="{Karigar}"/>
+					<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</core:FragmentDefinition>

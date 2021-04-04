@@ -41,7 +41,7 @@
                                 <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
                                   suggestionItemSelected="onCustomerSelect" maxSuggestionWidth="auto" autocomplete="false"
                                   submit="onEnter" showSuggestion="true" enableSuggestionsHighlighting="true" filterSuggests="true" suggest="onSearch1"
-                                  suggestionItems="{path: '/Customers', sorter: [{path: 'Name', ascending: 'true'}]}">
+                                  suggestionItems="{path: '/Customers', sorter: [{path: 'CustomerCode', ascending: 'false'}]}">
                                     <suggestionItems>
                                         <core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
             																																															 formatter: '.formatter.byNameCity'}"/>

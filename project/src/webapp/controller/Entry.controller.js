@@ -280,6 +280,15 @@ sap.ui.define(["victoria/controller/BaseController",
 			const key = oEvent.key
 			var id1 = oEvent.getParameter("id").split("--")[2]
 			// if() alert('backspace');
+			var oSorter = new sap.ui.model.Sorter({
+
+						path: "CustomerCode",
+						descending: false
+
+					});
+
+
+
 				var searchStr = oEvent.getParameter("suggestValue");
 				if(searchStr === "" || key == 8 || key === "Backspace" || key === "Delete"){
 						this.getView().byId("idCust").setValue("");
@@ -300,7 +309,9 @@ sap.ui.define(["victoria/controller/BaseController",
 
 				oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
 				this.getView().byId("idCust").setValue(searchStr);
+				// var oList = this.byId("");
 
+				oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 								// this.getView().byId("idCash").focus();
 								// this.getView().byId("idCash").$().find("input").select();
 			},

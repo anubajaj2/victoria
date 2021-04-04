@@ -143,6 +143,13 @@ _onRouteMatched: function(oEvent){
     }
 
     oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
+    var oSorter = new sap.ui.model.Sorter({
+
+          path: "CustomerCode",
+          descending: false
+
+        });
+oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
     this.getView().byId("idCustNo").setValue(searchStr);
 
             // this.getView().byId("idCash").focus();

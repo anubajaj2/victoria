@@ -215,7 +215,7 @@ sap.ui.define([
 							}
 						}
 					}),
-					sorter: new sap.ui.model.Sorter("Name")
+					sorter: new sap.ui.model.Sorter("CustomerCode")
 				});
 			}
 			// this.fieldId = oEvent.getSource().getId();
@@ -2030,7 +2030,13 @@ sap.ui.define([
 			// oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
 			oEvent.getSource().getBinding("suggestionItems").isSuspended();
 			oEvent.getSource().getBinding("suggestionItems").resume();
+			var oSorter = new sap.ui.model.Sorter({
 
+						path: "CustomerCode",
+						descending: false
+
+					});
+	oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 }
 
 

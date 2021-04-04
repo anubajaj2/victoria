@@ -718,6 +718,13 @@ sap.ui.define([
           }
 
           oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
+          var oSorter = new sap.ui.model.Sorter({
+
+                path: "CustomerCode",
+                descending: false
+
+              });
+      oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
           this.getView().byId("idCoCustomer").setValue(searchStr);
 
                   // this.getView().byId("idCash").focus();
@@ -749,6 +756,13 @@ sap.ui.define([
           }
 
           oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
+          var oSorter = new sap.ui.model.Sorter({
+
+                path: "CustomerCode",
+                descending: false
+
+              });
+      oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
           this.getView().byId("idCoKarigar").setValue(searchStr);
 
                   // this.getView().byId("idCash").focus();

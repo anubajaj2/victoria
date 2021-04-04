@@ -8,7 +8,7 @@ builder:
         - "victoria/**/Component.js"
 framework:
   name: SAPUI5
-  version: "1.76.0"
+  version: "1.86.0"
   libraries:
     - name: sap.m
     - name: sap.ui.core

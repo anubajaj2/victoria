@@ -1,7 +1,68 @@
 {
 	"name": "src",
 	"version": "1.0.0",
-	"buildTimestamp": "202104041320",
+	"buildTimestamp": "202104041340",
 	"scmRevision": "",
-	"libraries": []
+	"libraries": [
+		{
+			"name": "sap.m",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.codeeditor",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.core",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.export",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.fl",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.layout",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.support",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.table",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.testrecorder",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		},
+		{
+			"name": "sap.ui.unified",
+			"version": "1.76.0",
+			"buildTimestamp": "202104041340",
+			"scmRevision": ""
+		}
+	]
 }

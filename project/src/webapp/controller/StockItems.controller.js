@@ -783,7 +783,8 @@ sap.ui.define(
 				var currentModel = that.getView().getModel();
 				table.setModel(currentModel);
 				this.getView().byId("idDelete").setEnabled(true);
-				// this.byId("idDelete").setDateValue(new Date());
+
+				this.byId("idDate").setDateValue(new Date());
 				this.getView().byId("idTable1").getBinding("items").filter([]);
 			},
 

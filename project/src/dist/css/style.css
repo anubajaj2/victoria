@@ -17,6 +17,13 @@
   flex-basis: 12rem;
   max-width: 20rem;
 } */
+
+.sapMSuggestionsPopover .sapMListUl *.sapMLIB {
+    font-weight: bold;
+  
+}
+
+
 element.style {
     flex-basis: 12rem;
     max-width: 20rem;

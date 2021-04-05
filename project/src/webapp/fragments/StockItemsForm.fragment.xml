@@ -35,8 +35,13 @@
               <f:FormElement label="Order Number">
                 <f:fields>
                   <Input id="idOrderNo"
-                  value="" showValueHelp="true" width="240px"
-                  valueHelpRequest="valueHelpOrder" valueHelpOnly="false" submit = "onSubmitOrderNo"/>
+                  value= "" showValueHelp="false" width="240px"
+                  valueHelpRequest="valueHelpOrder" valueHelpOnly="false"  showSuggestion="false" submit = "onSubmitOrderNo"
+                  suggestionItems="{/StockItems}">
+			<suggestionItems>
+				<core:ListItem text="{OrderNo}" />
+			</suggestionItems>
+    </Input>
                 </f:fields>
               </f:FormElement>
 

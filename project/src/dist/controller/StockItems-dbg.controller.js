@@ -25,9 +25,15 @@ sap.ui.define(
 				loginUser = "Hey " + loginUser;
 				this.getView().byId("idUser").setText(loginUser);
 				debugger;
-
+				this.byId("idOrderNo").setFilterFunction(function (sTerm, oItem) {
+							// A case-insensitive "string contains" style filter
+							return oItem.getText().match(new RegExp(sTerm, "i"));
+						});
 
 			},
+
+
+
 			onAfterRendering: function() {
 				debugger;
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -594,14 +600,14 @@ sap.ui.define(
 						console.log(oError);
 					})
 				this.orderNoPopup.bindAggregation("items", {
-					path: 'temp>/items',
-							filters: orFilter,
-							template: new sap.m.DisplayListItem({
-								label: "{temp>OrderNo}",
-								value: {
-									path: 'temp>Customer',
-									formatter: this.getCustomerName.bind(this)
-								}
+					path: '/StockItems',
+					// filters: orFilter,
+					template: new sap.m.DisplayListItem({
+						label: "{OrderNo}",
+						// value: {
+						// 	path: 'Material',
+						// 	formatter: this.getCustomerName.bind(this)
+						// }
 					}),
 					sorter: new sap.ui.model.Sorter("OrderNo")
 				});
@@ -763,6 +769,7 @@ sap.ui.define(
 
 			},
 			onClear: function() {
+				debugger;
 				var that = this;
 				that.getView().byId("idOrderNo").setValue("");
 				that.getView().byId("idMatCode").setValue("");
@@ -776,6 +783,8 @@ sap.ui.define(
 				var currentModel = that.getView().getModel();
 				table.setModel(currentModel);
 				this.getView().byId("idDelete").setEnabled(true);
+				// this.byId("idDelete").setDateValue(new Date());
+				this.getView().byId("idTable1").getBinding("items").filter([]);
 			},
 
 			onDelete: function() {
@@ -876,8 +885,21 @@ sap.ui.define(
 				this.getView().byId("idSend").focus();
 			},
 			onSubmitOrderNo : function(oEvent){
+				debugger;
 				this.getView().byId("idQuantity").focus();
 				this.getView().byId("idQuantity").$().find("input").select();
+				var orderNo = this.getView().byId("idOrderNo").getValue();
+				// var selectItem = oEvent.getParameter("selectedItem").getProperty("label");
+				var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, orderNo);
+				var oFilter = new sap.ui.model.Filter({
+					filters: [oFiltern],
+					and: true
+				});
+
+
+			// oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
+			this.getView().byId("idTable1").getBinding("items").filter(oFilter, true);
+
 			},
 
 			_getDialog: function(oEvent) {

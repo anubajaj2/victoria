@@ -545,9 +545,11 @@ debugger;
 					'</tr>' +
 					'<p><h3>Returns:</h3></p>';
 				for (var i = 0; i < oReturns.length; i++) {
+					debugger;
 					if (oReturns[i].Type) {
 						var retTotQuant = retTotQuant + oReturns[i].Qty;
 						var retTotWeight = retTotWeight + oReturns[i].Weight;
+						var remark=oReturns[i].Remarks ? oReturns[i].Remarks : '';
 						table += '<tr>';
 						table += '<td  style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Type + '</td>' +
 							'<td  class="idRReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Qty + '</td>' +
@@ -555,7 +557,7 @@ debugger;
 							'<td  class="idRReturnKattaWeight"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].KWeight + '</td>' +
 							'<td  class="idRReturnTunch"   style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Tunch + '</td>' +
 							'<td  class="idRReturnBhav"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Bhav + '</td>' +
-							'<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Remarks ? oReturns[i].Remarks : '' + '</td>' +
+							'<td  class="idRReturnRemarks"     style="width: 80px;border:1px solid black">&nbsp;' + remark + '</td>' +
 							'<td  class="idRReturnSubTotal" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].SubTotal + '</td></tr>';
 					}
 				}

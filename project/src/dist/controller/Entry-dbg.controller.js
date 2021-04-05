@@ -1283,7 +1283,7 @@ debugger;
 						that.getView().setBusy(false);
 						sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
 						that.oDialog.close();
-						that._getEditClear();
+						// that._getEditClear();
 					}).catch(function(oError) {
 						that.getView().setBusy(false);
 						var oPopover = that.getErrorMessage(oError);

@@ -5,7 +5,7 @@
 				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
 				<f:content>
           <Label text="{i18n>Date}"></Label>
-          <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change="onPayDateChange"
+          <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change=""
             displayFormat="dd.MM.yyyy" value="{/Date}"></DatePicker>
 						<Label text="{i18n>Customer}" visible="false"></Label>
 						<Input id="idDialogCust" visible="false" value=""></Input>

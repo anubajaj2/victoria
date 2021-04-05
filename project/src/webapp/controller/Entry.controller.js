@@ -273,23 +273,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
 			},
 
-			highlight: function(text) {
-			    var oInput = this.getView().byId("idCust");
-			    var oList = oInput._oList;  //Get Input List popup
-			    var inputText = oList.$().find('.sapMSLITitleOnly');  //Find the title that needs to be highlighted
-			    var oItems = oList.getItems();
-			    $.each(inputText, function(i, value) {
-			       var innerHTML = inputText[i].textContent;   //Get the title content
-			       var oTitle = oItems[i].getTitle();    //Get Items title
-			       var index = innerHTML.indexOf(oTitle);    //Compare and find the title index
-			        if (index >= 0) {
-			          innerHTML = innerHTML.substring(0, index) + "<span class='highlight'>" + "<strong class='Bold'>" + innerHTML.substring(index, index + text.length) + "</span>" + innerHTML.substring(index + text.length);
-			          inputText[i].innerHTML = innerHTML;
-			    }
-			});
-			}
-,
-
+			
 			onSearch1: function(oEvent) {debugger;
 				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key

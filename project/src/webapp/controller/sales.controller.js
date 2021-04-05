@@ -2129,7 +2129,7 @@ debugger;
 				var stonevalue = quantityOfStone * data.MakingD;
 				if ((priceF || makingCharges || stonevalue) ||
 					(priceF === 0 || makingCharges === 0 || stonevalue === 0)) {
-					var subTot = (priceF + makingCharges + stonevalue);
+					var subTot = data.Qty*(priceF + makingCharges + stonevalue);
 
 					if ((data.SubTotal) && (data.SubTotal != "")) {
 						var currentSubTot = oFloatFormat.parse(data.SubTotal);

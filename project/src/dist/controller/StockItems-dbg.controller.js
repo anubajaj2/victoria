@@ -100,10 +100,10 @@ sap.ui.define(
 				if (oEvent.getSource().getValue() <= 0) {
 					debugger;
 					oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
-					dialogSave.setEnabled(false);
+					// dialogSave.setEnabled(false);
 				} else {
 					oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
-					dialogSave.setEnabled(true);
+					// dialogSave.setEnabled(true);
 				}
 				if (oEvent.mParameters.id === "__component0---idStockItems--idWeight") {
 
@@ -126,22 +126,23 @@ sap.ui.define(
 				var oFilter2 = null;
 				var oFilter3 = null;
 				var that = this;
-				var selectItem = oEvent.getParameter("selectedItem");
+				var selectItem = oEvent.getParameter("selectedItem").getProperty("label");
+				this.getView().byId("idOrderNo").setValue(selectItem);
 				if (selectItem) {
-					var orderNo = selectItem.getLabel();
-					var orderNoI = parseInt(orderNo);
-					this.getView().getModel("local").setProperty("/StockItemsData/Order", orderNo);
+					// var orderNo = selectItem.getLabel();
+					// var orderNoI = parseInt(orderNo);
+					// this.getView().getModel("local").setProperty("/StockItemsData/Order", orderNo);
 					var orderId = oEvent.getParameter("selectedItem").getBindingContextPath().split('/')[2];
 					var index = null;
 					if (orderId) {
 						index = parseInt(orderId);
 					}
-					this.getView().getModel("local").setProperty("/StockItemsData/OrderNo", that.getView().getModel("temp").oData.items[index].id);
+					// this.getView().getModel("local").setProperty("/StockItemsData/OrderNo", that.getView().getModel("temp").oData.items[index].id);
 				}
-				var oDNum = this.getView().getModel("temp").oData.items[index].id;
-				//var oStr= "" + oDNum + "";
-				var oStr = oDNum.toString();
-				var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, "'" + oStr + "'");
+				// var oDNum = this.getView().getModel("temp").oData.items[index].id;
+				// //var oStr= "" + oDNum + "";
+				// var oStr = oDNum.toString();
+				var oFiltern = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, selectItem);
 				//this.getView().byId("idTable1").getBinding("items").filter(oFiltern,true);
 				var orderDate = this.byId("idDate").getValue();
 				var dateFrom = new Date(orderDate);
@@ -152,7 +153,7 @@ sap.ui.define(
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
 
 				var oFilter = new sap.ui.model.Filter({
-					filters: [oFilter1, oFilter2, oFiltern],
+					filters: [oFiltern],
 					and: true
 				});
 				// //  var oFilter = new sap.ui.model.Filter({
@@ -176,7 +177,7 @@ sap.ui.define(
 
 					}).catch(function(oError) {});
 
-				var oFilter3 = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, orderNo);
+				var oFilter3 = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, selectItem);
 				var oFilterr = new sap.ui.model.Filter({
 					filters: [oFilter1, oFilter2, oFilter3],
 					and: true
@@ -195,7 +196,8 @@ sap.ui.define(
 					.catch(function(oError) {
 						console.log(oError);
 					});
-
+					this.getView().byId("idQuantity").focus();
+					this.getView().byId("idQuantity").$().find("input").select();
 			},
 			onMaterialSelect: function(oEvent) {
 				debugger;
@@ -544,6 +546,7 @@ sap.ui.define(
 				}
 			},
 			orderPopup: function(oEvent) {
+				debugger;
 				var that = this;
 				this.orderNoPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.orderNoPopup);
@@ -565,14 +568,14 @@ sap.ui.define(
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/OrderHeaders",
 						"GET", {
-							filters: [orFilter]
+							// filters: [orFilter]
 						}, {}, this)
 					.then(function(oData) {
 						debugger;
 						var results = oData.results.slice();
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderHeaders",
 								"GET", {
-									filters: [orFilter]
+									// filters: [orFilter]
 								}, {}, that)
 							.then(function(oData) {
 								debugger;
@@ -592,14 +595,15 @@ sap.ui.define(
 					})
 				this.orderNoPopup.bindAggregation("items", {
 					path: 'temp>/items',
-					filters: orFilter,
-					template: new sap.m.DisplayListItem({
-						label: "{temp>OrderNo}",
-						value: {
-							path: 'temp>Customer',
-							formatter: this.getCustomerName.bind(this)
-						}
-					})
+							filters: orFilter,
+							template: new sap.m.DisplayListItem({
+								label: "{temp>OrderNo}",
+								value: {
+									path: 'temp>Customer',
+									formatter: this.getCustomerName.bind(this)
+								}
+					}),
+					sorter: new sap.ui.model.Sorter("OrderNo")
 				});
 				this.orderNoPopup.open();
 			},
@@ -858,6 +862,7 @@ sap.ui.define(
 				this.getView().byId("idQ").setText(totalQuantity);
 				this.getView().byId("idQ").setState(totalQuantity<0?"Error":"Success");
 				this.getView().byId("idW").setText(totalWeight);
+				this.getView().byId("idW").setState(totalWeight<0?"Error":"Success");
 			},
 			onSubmitQuantity : function(oEvent){
 				this.getView().byId("idWeight").focus();
@@ -871,8 +876,43 @@ sap.ui.define(
 				this.getView().byId("idSend").focus();
 			},
 			onSubmitOrderNo : function(oEvent){
-				this.getView().byId("idMatCode").focus();
-				this.getView().byId("idMatCode").$().find("input").select();
-			}
+				this.getView().byId("idQuantity").focus();
+				this.getView().byId("idQuantity").$().find("input").select();
+			},
+
+			_getDialog: function(oEvent) {
+				if (!this.oDialog) {
+					this.oDialog = sap.ui.xmlfragment("stockDialog", "victoria.fragments.entryDialog", this);
+					this.getView().addDependent(this.oDialog);
+				}
+				this.oDialog.open();
+				var title = this.getView().byId("idTable1").getSelectedItem().getCells()[1].getText();
+				sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
+				var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
+				sap.ui.getCore().byId("entryDialog--idDialogDate").setValue(cell0);
+				var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
+				sap.ui.getCore().byId("entryDialog--idDialogCust").setValue(cell2);
+				var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+				var amt1 = parseFloat(cell3);
+				sap.ui.getCore().byId("entryDialog--idDialogAmt").setValue(cell3);
+				var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+				var gold = parseFloat(cell4);
+				sap.ui.getCore().byId("entryDialog--idDialogGold").setValue(cell4);
+				var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[6].mProperties.text;
+				var silver = parseFloat(cell5);
+				sap.ui.getCore().byId("entryDialog--idDialogSil").setValue(cell5);
+				var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
+				sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
+			},
+
+			onEdit: function(oEvent) {
+				var recCount = this.getView().byId("idTable1").getSelectedItems().length;
+				if (recCount > 1) {
+					sap.m.MessageBox.alert(
+						that.resourceBundle.getText("Selectoneentryonly"));
+				} else {
+					this._getDialog();
+				}
+			},
 		});
 	});

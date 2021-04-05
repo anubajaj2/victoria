@@ -26,7 +26,7 @@
 						 showSuggestion="true"
 						 suggestionItemSelected="onMaterialSelect"
              submit="ValueChangeMaterial"
-						 value="{orderItems>MaterialCode}" maxSuggestionWidth="250px"
+						 value="{orderItems>MaterialCode}" maxSuggestionWidth="auto"
 						 suggestionItems="{path: '/Products', templateShareable:false}"
 						 editable="{= ${orderItems>itemNo} === '' ? true : false}">
 						<m:suggestionItems>

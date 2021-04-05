@@ -23,6 +23,7 @@ sap.ui.define(
 			DeductionCash: 0,
 			DeductionGold: 0,
 			DeductionSilver: 0,
+			valueChange: false,
 			onInit: function(oEvent) {
 
 				BaseController.prototype.onInit.apply(this);
@@ -1222,7 +1223,7 @@ sap.ui.define(
 					this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText("Please choose Customer before creating Order");
 					that.getView().setBusy(false);
 				} else {
-
+						this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
 					if (orderData) {
 						orderData.id = "";
 						orderData.CreatedBy = "";

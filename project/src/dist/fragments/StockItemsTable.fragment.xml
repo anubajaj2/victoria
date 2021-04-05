@@ -1,7 +1,7 @@
 <core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
   <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
-	<Table id="idTable1"
+	<Table id="idTable1" class ="myCustomText"
     items="{
            path: '/StockItems',
              sorter: {
@@ -19,31 +19,32 @@
 				<Button id="idItemsReport" text = "{i18n>DailyFinalItemDetail}" icon="sap-icon://download" press="onItemsReport"></Button>
 				<Button id="idStockReport" text = "{i18n>AllItemDetail}" icon="sap-icon://download" press="onStockReport"></Button>
 				<!-- <Button id="idDownload" text = "Stock Report" icon="sap-icon://download" press="onExportPdf"></Button> -->
+				  <!-- <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button> -->
 				<Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>
     </headerToolbar>
 		<columns>
 			<Column>
-				<Label text="Date"></Label>
+				<Label text="Date" design="Bold"></Label>
       </Column>
 			<Column>
-        <Label text="Order Number" />
+        <Label text="Order Number" design="Bold" />
       </Column>
       <Column>
-        <Label text="Material" />
+        <Label text="Material" design="Bold"/>
       </Column>
       <Column>
-        <Label text="Quantity"></Label>
+        <Label text="Quantity" design="Bold"></Label>
 
       </Column>
       <Column>
-        <Label text="Weight"></Label>
+        <Label text="Weight" design="Bold"></Label>
       </Column>
         <Column>
-          <Label text="Created By"></Label>
+          <Label text="Created By" design="Bold"></Label>
         </Column>
         <Column>
-          <Label text="Remarks"></Label>
+          <Label text="Remarks" design="Bold"></Label>
         </Column>
       </columns>
       <items>

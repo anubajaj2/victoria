@@ -25,15 +25,21 @@
                 <f:fields>
                   <DatePicker id="idDate" valueFormat="yyyy-MM-dd" required="true" change="onPayDateChange"
                     displayFormat="dd.MM.yyyy" value="{path: 'local>/StockItemsData/Date'}"></DatePicker>
+                    <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="true">
+                      <!-- <layoutData> -->
+                        <!-- <l:GridData span="XL5 L5"/> -->
+                      <!-- </layoutData> -->
+                    </CheckBox>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="Order Number">
                 <f:fields>
                   <Input id="idOrderNo"
-                  value="{path: 'local>/StockItemsData/Order'}" showValueHelp="true"
+                  value="" showValueHelp="true" width="240px"
                   valueHelpRequest="valueHelpOrder" valueHelpOnly="false" submit = "onSubmitOrderNo"/>
                 </f:fields>
               </f:FormElement>
+
               <f:FormElement label="{i18n>material}">
                 <f:fields>
                   <Input id="idMatCode"
@@ -54,11 +60,7 @@
               </f:FormElement>
               <f:FormElement>
                 <f:fields>
-              <CheckBox id="CBID" text="{i18n>contEntry}" select="onSelect" wrapping="true" selected="true">
-                <!-- <layoutData> -->
-                  <!-- <l:GridData span="XL5 L5"/> -->
-                <!-- </layoutData> -->
-              </CheckBox>
+
             </f:fields>
           </f:FormElement>
 

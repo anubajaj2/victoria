@@ -21,7 +21,7 @@
 					<StandardListItem id="salesws" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Sales'? true : false}" icon="sap-icon://my-sales-order" title="{i18n>WholesaleSales}" description=""></StandardListItem>
 					<StandardListItem id="Suppliers" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Booking'? true : false}" icon="sap-icon://capital-projects" title="{i18n>Booking}" description=""></StandardListItem>
 					<StandardListItem id="Kacchi" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Kacchi'? true : false}" icon="sap-icon://crm-service-manager" title="{i18n>Kacchi}" description=""></StandardListItem>
-					<StandardListItem id="reports" visible="{=${local>/Role}==='Admin' ? true : false}" icon="sap-icon://expense-report" title="{i18n>Reports}" description=""></StandardListItem>
+					<!-- <StandardListItem id="reports" visible="{=${local>/Role}==='Admin' ? true : false}" icon="sap-icon://expense-report" title="{i18n>Reports}" description=""></StandardListItem> -->
 					<!-- <StandardListItem id="pendingOrders" icon="sap-icon://order-status" title="{i18n>StockMaintenance}" description=""></StandardListItem> -->
 					<StandardListItem id="Customizing" visible="{=${local>/Role}==='Admin' ? true : false}" icon="sap-icon://simulate" title="{i18n>Customizing}" description=""></StandardListItem>
 					<StandardListItem id="customerOrders" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Order'? true : false}" icon="sap-icon://customer-order-entry" title="{i18n>CustomerOrders}" description=""></StandardListItem>
@@ -30,9 +30,9 @@
 					<StandardListItem id="Stock" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Stock'? true : false}"  icon="sap-icon://detail-view" title="{i18n>StockItems}" description=""></StandardListItem>
 					<StandardListItem id="adminPanel" visible="{=${local>/Role}==='Admin' ? true : false}" icon="sap-icon://key-user-settings" title="{i18n>AdminPanel}" description=""></StandardListItem>
 					<StandardListItem id="dayBook" visible="{=${local>/Role}==='Admin' ? true : ${local>/Role}==='Content'? true : false}" icon="sap-icon://product" title="{i18n>Daybookscreen}" description=""></StandardListItem>
-					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="{i18n>DataMaintenance}" description=""></StandardListItem>
+					<!-- <StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="dataMaintenance" icon="sap-icon://database" title="{i18n>DataMaintenance}" description=""></StandardListItem>
 					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="CollaborationCenter" icon="sap-icon://collaborate" title="{i18n>CollaborationCenter}" description=""></StandardListItem>
-					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="analytical" icon="sap-icon://bar-chart" title="{i18n>AnalyticalPanel}" description=""></StandardListItem>
+					<StandardListItem visible="{= ${local>/Role} === 'Admin'}" id="analytical" icon="sap-icon://bar-chart" title="{i18n>AnalyticalPanel}" description=""></StandardListItem> -->
 				</items>
 			</List>
 		</content>

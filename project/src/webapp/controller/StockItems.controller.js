@@ -29,7 +29,7 @@ sap.ui.define(
 							// A case-insensitive "string contains" style filter
 							return oItem.getText().match(new RegExp(sTerm, "i"));
 						});
-
+this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			},
 
 
@@ -75,7 +75,7 @@ sap.ui.define(
 					filters: [oFilter1, oFilter2],
 					and: true
 				});
-				this.getView().byId("idTable1").getBinding("items").filter(oFilter, true);
+				// this.getView().byId("idTable1").getBinding("items").filter(oFilter, true);
 
 			},
 
@@ -904,36 +904,122 @@ sap.ui.define(
 			},
 
 			_getDialog: function(oEvent) {
+				debugger;
 				if (!this.oDialog) {
-					this.oDialog = sap.ui.xmlfragment("stockDialog", "victoria.fragments.entryDialog", this);
+					this.oDialog = sap.ui.xmlfragment("stockDialog", "victoria.fragments.stockDialog", this);
 					this.getView().addDependent(this.oDialog);
 				}
 				this.oDialog.open();
 				var title = this.getView().byId("idTable1").getSelectedItem().getCells()[1].getText();
-				sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
-				var cell0 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
-				sap.ui.getCore().byId("entryDialog--idDialogDate").setValue(cell0);
-				var cell2 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[2].mProperties.text;
-				sap.ui.getCore().byId("entryDialog--idDialogCust").setValue(cell2);
-				var cell3 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[4].mProperties.text;
+				sap.ui.getCore().byId("stockDialog--idDialog-title").setText(title);
+				var cell0 = this.getView().byId("idTable1").getSelectedItem().mAggregations.cells[0].mProperties.text;
+				sap.ui.getCore().byId("stockDialog--idDialogDate").setValue(cell0);
+				var cell2 = this.getView().byId("idTable1").getSelectedItem().mAggregations.cells[2].mProperties.text;
+				sap.ui.getCore().byId("stockDialog--idDialogNo").setValue(cell2);
+				var cell3 = this.getView().byId("idTable1").getSelectedItem().mAggregations.cells[3].mProperties.text;
 				var amt1 = parseFloat(cell3);
-				sap.ui.getCore().byId("entryDialog--idDialogAmt").setValue(cell3);
-				var cell4 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[5].mProperties.text;
+				sap.ui.getCore().byId("stockDialog--idDialogQty").setValue(cell3);
+				var cell4 = this.getView().byId("idTable1").getSelectedItem().mAggregations.cells[4].mProperties.text;
 				var gold = parseFloat(cell4);
-				sap.ui.getCore().byId("entryDialog--idDialogGold").setValue(cell4);
-				var cell5 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[6].mProperties.text;
-				var silver = parseFloat(cell5);
-				sap.ui.getCore().byId("entryDialog--idDialogSil").setValue(cell5);
-				var cell6 = this.getView().byId("idTable").getSelectedItem().mAggregations.cells[7].mProperties.text;
-				sap.ui.getCore().byId("entryDialog--idDialogRem").setValue(cell6);
+				sap.ui.getCore().byId("stockDialog--idDialogWeight").setValue(cell4);
+
+				var cell6 = this.getView().byId("idTable1").getSelectedItem().mAggregations.cells[6].mProperties.text;
+				sap.ui.getCore().byId("stockDialog--idDialogRem").setValue(cell6);
+			},
+
+
+			onPressHandleEntrySavePopup: function(oEvent) {
+				debugger;
+				var that = this;
+				that.getView().setBusy(true);
+				var myData = this.getView().getModel("local").getProperty("/StockItemsData");
+				myData.Date = sap.ui.getCore().byId("stockDialog--idDialogDate").getValue();
+				myData.Qty = sap.ui.getCore().byId("stockDialog--idDialogQty").getValue();
+				myData.Weight = sap.ui.getCore().byId("stockDialog--idDialogWeight").getValue();
+				// myData.Silver = sap.ui.getCore().byId("stockDialog--idDialogSil").getValue();
+				myData.Remarks = sap.ui.getCore().byId("stockDialog--idDialogRem").getValue();
+
+				var id = this.getView().byId("idTable1").getSelectedContextPaths()[0].split("'")[1];
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems('" + id + "')",
+						"PUT", {}, myData, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						sap.m.MessageToast.show(that.resourceBundle.getText("Update111"));
+						that.oDialog.close();
+						// that._getEditClear();
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					});
+
+				var g = sap.ui.getCore().byId("stockDialog--idDialogQty").getValue();
+				var g1 = parseFloat(sap.ui.getCore().byId("stockDialog--idDialogQty").getValue());
+				// var s = sap.ui.getCore().byId("stockDialog--idDialogSil").getValue();
+				// var s1 = parseFloat(sap.ui.getCore().byId("stockDialog--idDialogSil").getValue());
+				var c = sap.ui.getCore().byId("stockDialog--idDialogWeight").getValue();
+				var c1 = parseFloat(sap.ui.getCore().byId("stockDialog--idDialogWeight").getValue());
+
+				var itemList = this.getView().byId("idTable1").getItems();
+				var noOfItems = itemList.length;
+				var nCash = 0;
+				var nGold = 0;
+				var nSilver = 0;
+				if (itemList.length) {
+					for (var i = 0; i < itemList.length; i++) {
+						var p = itemList[i].getBindingContext().getObject().Weight;
+						if (p) {
+							nCash += nCash + p - nCash;
+						}
+
+					}
+				}
+				var cash11 = nCash - parseFloat(this.getView().byId("idTable1").getSelectedItem().getCells()[5].getText())
+				// var cash12 = cash11 + TGC1;
+				var z = cash11;
+				z.toFixed(2);
+				parseFloat(z.toFixed(2));
+
+				var itemList = this.getView().byId("idTable1").getItems();
+				var noOfItems = itemList.length;
+				var nCash = 0;
+				var nGold = 0;
+				var nSilver = 0;
+				if (itemList.length) {
+					for (var i = 0; i < itemList.length; i++) {
+						var q = itemList[i].getBindingContext().getObject().Qty;
+						if (q) {
+							nGold += nGold + q - nGold;
+						}
+
+					}
+				}
+				var gold11 = nGold - parseFloat(this.getView().byId("idTable1").getSelectedItem().getCells()[4].getText())
+				// var gold12 = gold11 + TGC1;
+				var z = gold11;
+				z.toFixed(2);
+				parseFloat(z.toFixed(2));
+
+this.oDialog.close();
+			},
+
+			onPressHandleEntryCancelPopup: function() {
+				this.oDialog.close();
 			},
 
 			onEdit: function(oEvent) {
+				debugger;
+				var that=this;
 				var recCount = this.getView().byId("idTable1").getSelectedItems().length;
 				if (recCount > 1) {
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly"));
-				} else {
+				}
+				else if(recCount === 0){
+					sap.m.MessageBox.alert(
+						that.resourceBundle.getText("Selectoneentryonly1"));
+				}
+				 else {
 					this._getDialog();
 				}
 			},

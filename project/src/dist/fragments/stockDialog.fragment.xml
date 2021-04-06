@@ -7,16 +7,13 @@
           <Label text="{i18n>Date}"></Label>
           <DatePicker id="idDialogDate" valueFormat="yyyy-MM-dd" change=""
             displayFormat="dd.MM.yyyy" value="{/Date}"></DatePicker>
-						<Label text="Order Number" visible="false"></Label>
-						<Input id="idDialogCust" visible="false" value=""></Input>
-          <Label text="Material"></Label>
-          <Input id="idDialogAmt" value="{/Cash}"></Input>
-          <Label text="Quantity"></Label>
-          <Input id="idDialogGold" value="{/Gold}"></Input>
+						<Label text="OrderNo" visible="false"></Label>
+						<Input id="idDialogNo" visible="false" value=""></Input>
+  				<Label text="Quantity"></Label>
+          <Input id="idDialogQty" value="{/Gold}"></Input>
           <Label text="Weight"></Label>
-          <Input id="idDialogSil" value="{/Silver}"></Input>
-          <Label text="Created By"></Label>
-          <Input id="idDialogRem" value="{/Remarks}"></Input>
+          <Input id="idDialogWeight" value="{/Silver}"></Input>
+
 					<Label text="Remarks"></Label>
 					<Input id="idDialogRem" value="{/Remarks}"></Input>
 				</f:content>

@@ -10,6 +10,14 @@
     font-family: Devlys Normal;
 }
 
+#validationDialog{
+  width: 0;
+  height: 0;
+  position: absolute;
+  visibility: hidden;
+
+}
+
 #translControl{
   padding: 10px;
 }
@@ -20,7 +28,7 @@
 
 .sapMSuggestionsPopover .sapMListUl *.sapMLIB {
     font-weight: bold;
-  
+
 }
 
 

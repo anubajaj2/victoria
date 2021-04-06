@@ -19,7 +19,7 @@
 				<Button id="idItemsReport" text = "{i18n>DailyFinalItemDetail}" icon="sap-icon://download" press="onItemsReport"></Button>
 				<Button id="idStockReport" text = "{i18n>AllItemDetail}" icon="sap-icon://download" press="onStockReport"></Button>
 				<!-- <Button id="idDownload" text = "Stock Report" icon="sap-icon://download" press="onExportPdf"></Button> -->
-				  <!-- <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button> -->
+				  <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
 				<Button id="idDelete" icon="sap-icon://delete" press="onDelete"></Button>
       </Toolbar>
     </headerToolbar>

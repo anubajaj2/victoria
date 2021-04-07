@@ -1,22 +1,18 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
-	xmlns:unified="sap.ui.unified">
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:unified="sap.ui.unified">
 	<VBox class="sapUISmallMargin">
 		<f:Form id="idCoForm2" editable="true">
 			<f:title>
 				<core:Title text="{i18n>coOrdDtl}"/>
 			</f:title>
 			<f:layout>
-				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-					emptySpanS="0" adjustLabelSpan="false" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+				<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="2" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" adjustLabelSpan="false" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
 			</f:layout>
 			<f:formContainers>
 				<f:FormContainer title="{i18n>coOrdItem}">
 					<f:formElements>
 						<f:FormElement label="{i18n>coMaterial}">
 							<f:fields>
-								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true" maxSuggestionWidth="auto"
-									suggestionItemSelected="onMaterialSelect" submit="onMaterialEnter"
-									showSuggestion="true" suggestionItems="{/Products}">
+								<Input id="idCoMaterial" value="{local>/coTemp/MaterialCode}" editable="true" maxSuggestionWidth="auto" suggestionItemSelected="onMaterialSelect" submit="onMaterialEnter" showSuggestion="true" suggestionItems="{/Products}">
 									<suggestionItems>
 										<core:ListItem text="{ProductCode}" additionalText="{ProductName}"/>
 									</suggestionItems>
@@ -49,15 +45,24 @@
 						</f:FormElement>
 						<f:FormElement label="{i18n>coKarigar}">
 							<f:fields>
-								<Input id="idCoKarigar" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpKarigar" value="{path: 'local>/coTemp/KarigarCode'}"
-									suggestionItemSelected="onKarigarSelect" suggest="onSuggest1" maxSuggestionWidth="auto"
-									submit="onKarigarEnter" showSuggestion="true" suggestionItems="{/Customers}">
-										<suggestionItems>
-												<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
-										</suggestionItems>
-										<layoutData>
-												<l:GridData span="XL3 L3"/>
-										</layoutData>
+								<Input
+									id="idCoKarigar"
+									showValueHelp="true"
+									editable="true"
+									valueHelpRequest="onValueHelpKarigar"
+									value="{path: 'local>/coTemp/KarigarCode'}"
+									suggestionItemSelected="onKarigarSelect"
+									suggest="onSuggest1"
+									maxSuggestionWidth="auto"
+									submit="onKarigarEnter"
+									showSuggestion="true"
+									suggestionItems="{/Customers}">
+									<suggestionItems>
+										<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{Name}"/>
+									</suggestionItems>
+									<layoutData>
+										<l:GridData span="XL3 L3"/>
+									</layoutData>
 								</Input>
 								<!-- <Input id="idCoKarigar" value="{local>/coTemp/KarigarCode}" placeholder="{i18n>coKarigar}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpKarigar"/> -->
 								<Input id="idCoKarigarName" placeholder="{i18n>coKarigarName}" value="" editable="false"/>
@@ -93,7 +98,12 @@
 						</f:FormElement>
 						<f:FormElement label="Photo">
 							<f:fields>
-								<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>
+								<Button id="idOrderPictureUpload" icon="sap-icon://picture" type="{ path: 'photo2>/Content', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto2" tooltip="{i18n>coPhoto}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label=" ">
+							<f:fields>
+								<Image class="sapUISmallMargin" height="100px" width="400px" src="{photo2>/Content}" id = "idOrderPictureDisplay"/>
 							</f:fields>
 						</f:FormElement>
 						<!-- <Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/> -->

@@ -8,7 +8,7 @@ var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var xlsx = require('node-xlsx');
 var express = require('express');
-var fs = require('fs');
+// var fs = require('fs');
 var app = express();
 app = module.exports = loopback();
 
@@ -18,7 +18,7 @@ app = module.exports = loopback();
 // 	extended: true
 // }));
 app.use(bodyParser.json({
-	limit: '5mb'
+	limit: '10mb'
 }));
 app.use(bodyParser.urlencoded({
 	extended: true

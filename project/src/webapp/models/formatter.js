@@ -68,6 +68,8 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			if(value){
 				if(value === "X"){
 					return "Accept";
+				}else if(value.length>10){
+					return "Accept";
 				}else{
 					return "Reject";
 				}

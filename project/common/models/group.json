@@ -18,6 +18,10 @@
     "description": {
       "type": "string",
       "required": true
+    },
+    "hide":{
+      "type": "boolean",
+      "default": false
     }
   },
   "scope":{

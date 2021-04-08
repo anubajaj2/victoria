@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
-	<Table id="idCoTable" items="{ path: '/CustomerOrders', sorter: {path: 'DelDate', descending: 'true'} }" growing="true"
+	<Table id="idCoTable" items="{ path: '/CustomerOrders', sorter: {path: 'CreatedOn', descending: 'true'} }" growing="true"
 		growingThreshold="20" mode="MultiSelect" updateFinished="onUpdateFinished">
 		<headerToolbar>
 			<Toolbar>

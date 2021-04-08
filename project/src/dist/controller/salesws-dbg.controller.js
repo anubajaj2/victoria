@@ -480,7 +480,7 @@ sap.ui.define(
 				// this.WSCalculation(oEvent);
 				this.setStatus('red');
 			},
-			WSCalculation: function(oEvent) {
+			WSCalculation: function(oEvent) {debugger;
 
 				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
@@ -1057,7 +1057,7 @@ sap.ui.define(
 										// TotalOrderValueSilver: 0,
 										var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
 										var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-										if (subtotalItem) {
+										if (subtotalItem) {debugger;
 											that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
 											var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
 											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
@@ -1756,7 +1756,8 @@ sap.ui.define(
 				var headerId = "WSHeaderFragment--WSOrderHeader";
 				this.toggleUiTable(btnId, headerId)
 			},
-			finalCalculation: function(category, data, tablePath, cells) {
+			finalCalculation: function(category, data, priceF, tablePath, cells,
+				quantityOfStone, goldBhav, goldBhavK, silverBhav, silverBhavK) {debugger;
 
 				var that = this;
 				var oLocale = new sap.ui.core.Locale("en-US");
@@ -1788,27 +1789,81 @@ sap.ui.define(
 						var weightF = data.Weight - data.WeightD;
 					} else {
 						var weightF = data.Weight;
-					};
+					}
+					if (category.Type === 'Gold') {
+						//get the gold price
+						if (category.Karat === '22/22') {
+							priceF = weightF * goldBhav;
+						} else
+						if (category.Karat === '22/20') {
+							priceF = weightF * goldBhav;
+						}
+					} else if (category.Type === 'Silver') {
+						priceF = weightF * silverBhav;
+					}
 
 					//Making charges
 					var makingCharges = data.Making * weightF;
 					var stonevalue = data.QtyD * data.MakingD;
 
 
-					if ((makingCharges || stonevalue) ||
-						(makingCharges === 0 || stonevalue === 0)) {
-						var subTot = makingCharges + stonevalue;
-						subTot = parseFloat(subTot).toFixed(0);
-						var subTotF = this.getIndianCurr(subTot);
+					// if ((makingCharges || stonevalue) ||
+					// 	(makingCharges === 0 || stonevalue === 0)) {
+					// 	var subTot = makingCharges + stonevalue;
+					// 	subTot = parseFloat(subTot).toFixed(0);
+					// 	var subTotF = this.getIndianCurr(subTot);
+					// 	if (tablePath) {
+					//
+					// 		category.SubTotal = subTotF;
+					// 		// this.setStatus('red');
+					// 		this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
+					// 	} else {
+					// 		cells[cells.length - 1].setText(subTotF);
+					// 	}
+					// }
+					if ((priceF || makingCharges || stonevalue) ||
+						(priceF === 0 || makingCharges === 0 || stonevalue === 0)) {
+						var subTot = data.Qty*(priceF + makingCharges + stonevalue);
+
+						// if ((data.SubTotal) && (data.SubTotal != "")) {
+						// 	var currentSubTot = oFloatFormat.parse(data.SubTotal);
+						// 	this.orderAmount = subTot + this.orderAmount - currentSubTot;
+						// } else {
+						// 	data.SubTotal = subTot;
+						// 	this.orderAmount = subTot + this.orderAmount;
+						// 	var orderAmount = this.orderAmount;
+						// }
+						// var orderAmount = this.orderAmount;
+						// var orderAmount = orderAmount.toString();
+						// var orderAmountF = this.getIndianCurr(orderAmount);
+						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', orderAmountF);
+						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', orderAmountF);
+						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', orderAmountF);
+						if(subTot === 0){
+							subTotF = "0"
+						}else{
+							var subTotF = this.getIndianCurr(subTot);
+						}
+
+						// gold price per gram
 						if (tablePath) {
 
-							category.SubTotal = subTotF;
-							// this.setStatus('red');
+							if (subTotF) {
+								category.SubTotal = subTotF;
+							} else {
+								category.SubTotal = 0;
+							}
+							//capture if there is any change
+							// this.noChange.flag = true;
 							this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 						} else {
-							cells[cells.length - 1].setText(subTotF);
+							if (subTotF != "") {
+								cells[cells.length - 1].setText(subTotF);
+							} else {
+								cells[cells.length - 1].setText('0');
+							}
 						}
-					} else {
+					}else {
 						cells[cells.length - 1].setText(0);
 					};
 
@@ -1915,7 +1970,8 @@ sap.ui.define(
 				var orderAmountCash = this.TotalOrderValueCash.toString();
 				orderAmountCash = parseFloat(orderAmountCash).toFixed(0);
 				orderAmountCash = this.getIndianCurr(orderAmountCash);
-
+				// debugger;
+				this.orderAmount = orderAmountCash;
 				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', orderAmountCash);
 
 				if ((data.SubTotalG) && (data.SubTotalG != "")) {
@@ -2073,9 +2129,10 @@ sap.ui.define(
 					// tunch = data.Tunch;
 				}
 			},
-			Calculation: function(oEvent, tablePath, i) {
+			Calculation: function(oEvent, tablePath, i) {debugger;
 
 				var that = this;
+				var orderHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				if ((oEvent.getId() === "orderReload") ||
 					(oEvent.getSource().getBindingInfo('value').binding.getPath().split('/')[1] === 'orderHeader')) {
 					if (tablePath) {
@@ -2091,13 +2148,26 @@ sap.ui.define(
 					var i = oEvent.getSource().getParent().getIndex();
 				}
 				var data = this.getView().getModel('orderItems').getProperty(path);
+				var priceF = 0.00;
+				var tempWeight = 0.00;
 				if (oEvent.getId() != "orderReload") {
 					var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
 					var newValue = oEvent.getParameters().newValue;
 				}
-				var quantityOfStone = 0;
+				//per gm
+				// var gold22pergm = orderHeader.GoldBhav22 / 10;
+				// var gold20pergm = orderHeader.GoldBhav20 / 10;
+				// var silverpergm = orderHeader.SilverBhav / 1000;
+				var goldBhav = orderHeader.Goldbhav/10;
+				var goldBhavK = orderHeader.GoldbhavK/10;
+				var silverBhav = orderHeader.SilverBhav/1000;
+				var silverBhavK = orderHeader.SilverBhavK/1000;
+				var quantityOfStone = data.QtyD;
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+				// var quantityOfStone = 0;
+				// var oLocale = new sap.ui.core.Locale("en-US");
+				// var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				if ((!category.Category) || (!category.Type)) {
 					if (category.Material !== "") {
 						that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -2114,7 +2184,9 @@ sap.ui.define(
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
-								that.finalCalculation(category, data, tablePath, cells);
+								// that.finalCalculation(category, data, tablePath, cells);
+								that.finalCalculation(category, data, priceF, tablePath, cells,
+									quantityOfStone, goldBhav, goldBhavK, silverBhav, silverBhavK);
 								that.getFinalBalance();
 								that.onRadioButtonSelect();
 							})
@@ -2124,11 +2196,14 @@ sap.ui.define(
 								var oPopover = that.getErrorMessage(oError);
 							});
 					}
+				}else{
+					that.PreCalc(data, fieldId, newValue, oFloatFormat);
+					that.finalCalculation(category, data, priceF, tablePath, cells,
+						quantityOfStone, goldBhav, goldBhavK, silverBhav, silverBhavK);
+					that.getFinalBalance();
+					that.onRadioButtonSelect();
 				}
-				that.PreCalc(data, fieldId, newValue, oFloatFormat);
-				that.finalCalculation(category, data, tablePath, cells);
-				that.getFinalBalance();
-				that.onRadioButtonSelect();
+
 				this.byId("IdMaking");
 				this.byId("IdMakingD");
 				this.byId("IdWeightD");
@@ -3124,13 +3199,13 @@ sap.ui.define(
 					debugger;
 					var TotalOrderValueSilver = that.TotalOrderValueSilver;
 					var TotalOrderValueGold = that.TotalOrderValueGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
-					var TotalOrderValueCash = 100 * that.TotalOrderValueCash / WSHeader.SilverBhav;
+					var TotalOrderValueCash = 1000 * that.TotalOrderValueCash / WSHeader.SilverBhav;
 					var DeductionGold = that.DeductionGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
 					var DeductionSilver = that.DeductionSilver;
-					var DeductionCash = 100 * that.DeductionCash / WSHeader.SilverBhav;
+					var DeductionCash = 1000 * that.DeductionCash / WSHeader.SilverBhav;
 					var FinalBalanceGold = that.FinalBalanceGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
-					var FinalBalanceSilver = that.FinalBalanceSilver;
-					var FinalBalanceCash = 100 * that.FinalBalanceCash / WSHeader.SilverBhav;
+					var FinalBalanceSilver =1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
+					var FinalBalanceCash = that.FinalBalanceCash;
 					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
 					var BalanceSuffix = "grams of Silver";
 
@@ -3143,7 +3218,7 @@ sap.ui.define(
 					DeductionGold = 0;
 					DeductionCash = 0;
 
-					FinalBalanceSilver = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
+					FinalBalanceSilver =  FinalBalanceSilver;
 					FinalBalanceGold = 0;
 					FinalBalanceCash = 0;
 

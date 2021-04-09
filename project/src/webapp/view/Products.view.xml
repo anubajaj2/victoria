@@ -7,6 +7,7 @@
 		<semantic:customHeaderContent>
 			<Text id="idUser"></Text>
 			<Button tooltip="{i18n>material}" type="Ghost" icon="sap-icon://download" press="onPressMaterialDownload"/>
+				<!-- <Button text="Backup" tooltip="Backup mongodb" type="Ghost" icon="sap-icon://download" press="onPressBackup" /> -->
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="{i18n>fullscreen}" iconFirst="true" press="toggleFullScreen"/>
 			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>

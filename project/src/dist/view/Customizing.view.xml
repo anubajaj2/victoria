@@ -7,6 +7,7 @@
 		<semantic:customHeaderContent>
 			<!-- <Text id="idDB"> </Text> -->
 			<Text id="idUser"> </Text>
+			<Button text="Backup" tooltip="DB Backup" type="Ghost" icon="sap-icon://download" press="onPressBackup" />
 			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
 		</semantic:customHeaderContent>
 <!-- value="Data Upload Type" -->

@@ -265,6 +265,13 @@ sap.ui.define([
 
 
 			},
+
+
+					onPressBackup:function(){
+							var reportType = "Backup";
+							window.open("/VictoriaBackup");
+					},
+
 			/**
 			 * Binds the view to the object path.
 			 * @function

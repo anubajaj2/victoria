@@ -160,6 +160,7 @@ sap.ui.define([
 			window.open("/materialDownload?type=Materials");
 		},
 
+
 		onKeyPress: function(oEvent) {
 
 			var input = oEvent.getSource();

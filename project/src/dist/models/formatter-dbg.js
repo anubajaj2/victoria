@@ -78,7 +78,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 			}
 
 		},
-		byNameCity: function(Name, City){debugger;
+		byNameCity: function(Name, City){
 			return Name + "-" + this.allMasterData.cities[City].cityName;
 		},
 		byNameCityGroup: function(customerId){

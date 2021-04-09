@@ -66,6 +66,7 @@
 			<!-- smartFilterId="smartFilterBar" -->
 			<!-- beforeExport="onBeforeExport" -->
 			<smartTable:SmartTable
+				id="idSmartTable"
 				entitySet="/"
 				useExportToExcel="false"
 				useVariantManagement="false"
@@ -75,6 +76,7 @@
 				enableAutoBinding="false"
 				class="sapUiResponsiveContentPadding"
 				tableType="ResponsiveTable"
+				demandPopin="false"
 				tableBindingPath="local>/EntryData">
 
 				<smartTable:customToolbar>
@@ -96,6 +98,7 @@
              descending: 'true'
              }
            }"
+					 showNoData="false"
 					mode="MultiSelect"
 					growing="true"
 					growingThreshold="20"

@@ -117,6 +117,7 @@ sap.ui.define([
 									that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
 									if(role==="Admin"){
 										that2.oRouter.navTo("Customers");
+										
 									}else if(role==="Content"){
 										that2.oRouter.navTo("dayBook");
 									}else if(role==="Sales"){

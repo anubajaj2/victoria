@@ -31,12 +31,21 @@ sap.ui.define([
 
 			Controller.prototype.onInit.apply(this);
 			var oRouter = this.getRouter();
-			oRouter.getRoute("dayBook").attachMatched(this._onRouteMatched, this);
+			// oRouter.getRoute("dayBook").attachMatched(this._onRouteMatched, this);
 			var that = this;
 			var currentUser = this.getModel("local").getProperty("/CurrentUser");
 			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 			loginUser = "Hey " + loginUser;
 			this.getView().byId("idUser").setText(loginUser);
+				oRouter.getRoute("dayBook").attachMatched(this._onRouteMatched, this);
+// 			if(this.getModel("local").oData.AppUsers[currentUser].Role === "Admin"){
+// 			debugger;
+// 			var oFilter1 = new Filter([
+// 				new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
+// 			], true);
+// this.getView().byId("idTable1").getBinding("items").filter(oFilter1);
+// 			// this.getView().byId("idTable1").setVisible();
+// 			}
 		},
 		getRouter: function() {
 			debugger;
@@ -44,6 +53,16 @@ sap.ui.define([
 		},
 		_onRouteMatched: function() {
 			debugger
+			var currentUser = this.getModel("local").getProperty("/CurrentUser");
+						if(this.getModel("local").oData.AppUsers[currentUser].Role !== "Admin"){
+						debugger;
+						var oFilter1 = new Filter([
+							new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
+						], true);
+			this.getView().byId("idTable1").getBinding("items").filter(oFilter1);
+			return;
+						// this.getView().byId("idTable1").setVisible();
+						}
 			// var that = this;
 			// that.getView().getModel("local").setProperty("/EntryData/Date", new Date());
 			// this.getView().byId("DateId1").setDateValue(new Date());
@@ -200,6 +219,15 @@ sap.ui.define([
 
 		onUpdateFinished: function(oEvent) {
 			debugger;
+// 			if(this.getModel("local").oData.AppUsers[currentUser].Role === "Admin"){
+// 			debugger;
+// 			var oFilter1 = new Filter([
+// 				new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
+// 			], true);
+// this.getView().byId("idTable1").getBinding("items").filter(oFilter1);
+// return;
+// 			// this.getView().byId("idTable1").setVisible();
+// 			}
 			var oTable = oEvent.getSource();
 			var itemList = oTable.getItems();
 			var noOfItems = itemList.length;
@@ -222,7 +250,7 @@ sap.ui.define([
 					oTable.getItems()[i].getCells()[3].setText(productData.ProductCode + ' - ' + productData.ProductName);
 				}
 			}
-			this.getView().byId("idTable1").setBlocked(false);
+			// this.getView().byId("idTable1").setBlocked(false);
 
 		},
 
@@ -430,6 +458,7 @@ sap.ui.define([
 
 
 		onExport: function() {
+			debugger;
 			var aCols, oRowBinding, oSettings, oSheet, oTable;
 
 			if (!this._oTable) {

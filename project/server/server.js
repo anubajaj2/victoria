@@ -9130,8 +9130,6 @@ else{
 		})
 
 
-
-
 		 //previous order
 		//function to get next order
 		app.post('/nextWSOrder', function(req, res) {

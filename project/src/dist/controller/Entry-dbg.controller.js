@@ -273,7 +273,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
 			},
 
-			
+
 			onSearch1: function(oEvent) {debugger;
 				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key

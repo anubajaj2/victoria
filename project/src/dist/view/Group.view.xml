@@ -1,5 +1,5 @@
 <mvc:View controllerName="victoria.controller.Group" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield" 	xmlns:l="sap.ui.layout"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 	<semantic:FullscreenPage id="Group" navButtonPress="onNavBack" showNavButton="false" title="{i18n>ManageGroup}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
@@ -23,7 +23,7 @@
 					type="Text"
 					value="{groupModel>/groupCode}">
 				</Input> -->
-					<ComboBox value="{groupModel>/groupCode}" change="groupCodeCheck" items="{groupModelInfo>/results}" valueState="{dataModel>/groupCodeState}"
+					<ComboBox value="{groupModel>/groupCode}" id="idSelect" change="groupCodeCheck" items="{groupModelInfo>/results}" valueState="{dataModel>/groupCodeState}"
 						valueStateText="Group Code cannot be blank" enabled="{viewModel>/codeEnabled}">
 						<core:Item key="{groupModelInfo>groupCode}" text="{groupModelInfo>groupCode}"/>
 					</ComboBox>
@@ -31,6 +31,15 @@
 					<Input id="groupName" submit="onSubmitGroupName" type="Text" value="{groupModel>/groupName}"></Input>
 					<Label text="{i18n>GroupDescription}"/>
 					<Input id="groupDescription" submit="onSubmitGroupDescription" type="Text" value="{groupModel>/description}"></Input>
+
+					<CheckBox id="CBID1" text="Hidden" select="" wrapping="true" selected= "{path: 'groupModel>/hide', type: 'sap.ui.model.type.Boolean'}">
+						<layoutData>
+											<l:GridData linebreak="true"
+												indentL="3"
+												indentM="4" />
+										</layoutData>
+					</CheckBox>
+
 				</f:content>
 			</f:SimpleForm>
 		</semantic:content>

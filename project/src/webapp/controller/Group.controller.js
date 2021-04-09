@@ -161,7 +161,86 @@ sap.ui.define([
 			this.getView().byId("acceptButton").focus();
 		},
 
+
+onSelect:function(oEvent){
+	debugger;
+	var that = this;
+	var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext()
+		// password = sap.ui.getCore().byId("Secure_Dialog--idPassword").getValue(),
+		// confirmPassword = sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").getValue();
+		// password1 = sap.ui.getCore().byId("Secure_Password--idPassword").getValue(),
+		// confirmPassword1 = sap.ui.getCore().byId("Secure_Password--idConfirmPassword").getValue();
+	// if (password !== confirmPassword) {
+	// 	MessageToast.show("Password not matched");
+	// 	return;
+	// }
+	// if (password1 !== confirmPassword1) {
+	// 	MessageToast.show("Password not matched");
+	// 	return;
+	// }
+	var Payload = {
+		"groupCode": sap.ui.getCore().byId("idSelect").getValue(),
+		"groupName": sap.ui.getCore().byId("groupName").getValue(),
+		"description": sap.ui.getCore().byId("groupDescription").getValue(),
+		"hide": this.getView().byId("CBID1").getSelected()
+		// "TechnicalId": sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
+	};
+	if (bindingPath) {
+		var sPath = oEvent.getSource().getBindingContext().sPath;
+
+		this.ODataHelper.callOData(this.getOwnerComponent().getModel(), sPath, "PUT", {},
+				Payload, this)
+			.then(function(oData) {
+				sap.m.MessageToast.show("Server Updated successfully");
+				that.getView().setBusy(false);
+				that._oDialogSecure.close();
+				// that._oDialogSecure1.close();
+
+			}).catch(function(oError) {
+				that.getView().setBusy(false);
+				that.oPopover = that.getErrorMessage(oError);
+				that.getView().setBusy(false);
+			});
+	} else {
+		var createUserPayload = {
+			name: Payload.UserName,
+			emailId: Payload.EmailId,
+			password: password,
+			role: Payload.Role,
+			Authorization: "kREmIDG9mpGiGuWnfayajMIyIZhNEPfZ2okow0VLRMxyAs2dRZIH1L5eqTLYdEGY" //this.getModel("local").getProperty("/Authorization")
+		};
+		$.post('/createNewUser', createUserPayload)
+			.then(function(data) {
+				that.getOwnerComponent().getModel().refresh();
+				sap.m.MessageToast.show(data);
+				that.getView().setBusy(false);
+				that._oDialogSecure.close();
+				// that._oDialogSecure1.close();
+			})
+			.fail(function(error) {
+				sap.m.MessageBox.error("User Creation failed");
+				that.getView().setBusy(false);
+				// that.oPopover = that.getErrorMessage(error);
+				that.getView().setBusy(false);
+			});
+		// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
+		// 	Payload, this)
+		// .then(function(oData) {
+		// 	sap.m.MessageToast.show("Server Updated successfully");
+		// 	that.getView().setBusy(false);
+		// 	that._oDialogSecure.close();
+		//
+		// }).catch(function(oError) {
+		// 	that.getView().setBusy(false);
+		// 	that.oPopover = that.getErrorMessage(oError);
+		// 	that.getView().setBusy(false);
+		// });
+	}
+
+},
+
 		groupCodeCheck: function(oEvent) {
+			debugger;
 			var groupModel = this.getView().getModel("groupModel");
 			var groupCode = groupModel.getData().groupCode;
 			var groupJson = this.getView().getModel("groupModelInfo").getData().results;
@@ -179,6 +258,7 @@ sap.ui.define([
 			if (found.length > 0) {
 				groupModel.getData().groupName = found[0].groupName;
 				groupModel.getData().description = found[0].description;
+				groupModel.getData().hide = found[0].hide;
 				viewModel.setProperty("/buttonText", "Update");
 				viewModel.setProperty("/deleteEnabled", true);
 				viewModel.setProperty("/codeEnabled", false);
@@ -272,10 +352,13 @@ sap.ui.define([
 		},
 
 		saveGroup: function() {
+			debugger;
 			var that = this;
 			var groupModel = this.getView().getModel("groupModel");
 			var groupCode = groupModel.getData().groupCode;
+			var hide = groupModel.getData().hide;
 			var groupJson = this.getView().getModel("groupModelInfo").getData().results;
+
 			if (groupCode === "") {
 				this.additionalInfoValidation();
 				MessageToast.show(that.resourceBundle.getText("Fields"));
@@ -289,10 +372,18 @@ sap.ui.define([
 					}
 				);
 			}
+			function gethide(hide) {
+				return groupJson.filter(
+					function(data) {
+						return data.hide === hide;
+					}
+				);
+			}
 
 			var found = getGroupCode(groupCode);
-			if (found.length > 0) {
-
+			// var found1 = gethide(hide);
+			if (found.length > 0 ) {
+debugger;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Groups('" + found[0].id + "')", "PUT", {}, groupModel.getData(), this)
 					.then(function(oData) {
@@ -303,6 +394,7 @@ sap.ui.define([
 					});
 
 			} else {
+				debugger;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Group", "POST", {}, groupModel.getData(), this)
 					.then(function(oData) {

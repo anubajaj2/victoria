@@ -51,6 +51,22 @@ app.start = function() {
 				return res.send("done");
 			});
 		});
+
+		app.post('/updatePhotoFlag1', function(req, res) {
+
+			var customerOrderKey = req.body.id;
+			var isPhoto = req.body.hide;
+			var oCustomerOrder = app.models.Group;
+			var updateObj = {
+				hide: isPhoto
+			};
+			oCustomerOrder.findById(customerOrderKey).then(function(instance) {
+				instance.updateAttributes(updateObj);
+				return res.send("done");
+			});
+		});
+
+
 		app.post('/updatePhoto', function(req, res) {
 
 			var photoKey = req.body.id;

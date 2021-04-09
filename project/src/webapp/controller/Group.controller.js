@@ -163,80 +163,7 @@ sap.ui.define([
 
 
 onSelect:function(oEvent){
-	debugger;
-	var that = this;
-	var bindingPath = oEvent.getSource().getParent().getContent()[0].getBindingContext()
-		// password = sap.ui.getCore().byId("Secure_Dialog--idPassword").getValue(),
-		// confirmPassword = sap.ui.getCore().byId("Secure_Dialog--idConfirmPassword").getValue();
-		// password1 = sap.ui.getCore().byId("Secure_Password--idPassword").getValue(),
-		// confirmPassword1 = sap.ui.getCore().byId("Secure_Password--idConfirmPassword").getValue();
-	// if (password !== confirmPassword) {
-	// 	MessageToast.show("Password not matched");
-	// 	return;
-	// }
-	// if (password1 !== confirmPassword1) {
-	// 	MessageToast.show("Password not matched");
-	// 	return;
-	// }
-	var Payload = {
-		"groupCode": sap.ui.getCore().byId("idSelect").getValue(),
-		"groupName": sap.ui.getCore().byId("groupName").getValue(),
-		"description": sap.ui.getCore().byId("groupDescription").getValue(),
-		"hide": this.getView().byId("CBID1").getSelected()
-		// "TechnicalId": sap.ui.getCore().byId("Secure_Dialog--idTech").getValue()
-	};
-	if (bindingPath) {
-		var sPath = oEvent.getSource().getBindingContext().sPath;
-
-		this.ODataHelper.callOData(this.getOwnerComponent().getModel(), sPath, "PUT", {},
-				Payload, this)
-			.then(function(oData) {
-				sap.m.MessageToast.show("Server Updated successfully");
-				that.getView().setBusy(false);
-				that._oDialogSecure.close();
-				// that._oDialogSecure1.close();
-
-			}).catch(function(oError) {
-				that.getView().setBusy(false);
-				that.oPopover = that.getErrorMessage(oError);
-				that.getView().setBusy(false);
-			});
-	} else {
-		var createUserPayload = {
-			name: Payload.UserName,
-			emailId: Payload.EmailId,
-			password: password,
-			role: Payload.Role,
-			Authorization: "kREmIDG9mpGiGuWnfayajMIyIZhNEPfZ2okow0VLRMxyAs2dRZIH1L5eqTLYdEGY" //this.getModel("local").getProperty("/Authorization")
-		};
-		$.post('/createNewUser', createUserPayload)
-			.then(function(data) {
-				that.getOwnerComponent().getModel().refresh();
-				sap.m.MessageToast.show(data);
-				that.getView().setBusy(false);
-				that._oDialogSecure.close();
-				// that._oDialogSecure1.close();
-			})
-			.fail(function(error) {
-				sap.m.MessageBox.error("User Creation failed");
-				that.getView().setBusy(false);
-				// that.oPopover = that.getErrorMessage(error);
-				that.getView().setBusy(false);
-			});
-		// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),'/AppUsers', "POST", {},
-		// 	Payload, this)
-		// .then(function(oData) {
-		// 	sap.m.MessageToast.show("Server Updated successfully");
-		// 	that.getView().setBusy(false);
-		// 	that._oDialogSecure.close();
-		//
-		// }).catch(function(oError) {
-		// 	that.getView().setBusy(false);
-		// 	that.oPopover = that.getErrorMessage(oError);
-		// 	that.getView().setBusy(false);
-		// });
-	}
-
+this.getView().byId("acceptButton").focus();
 },
 
 		groupCodeCheck: function(oEvent) {
@@ -289,6 +216,7 @@ onSelect:function(oEvent){
 			viewModel.setProperty("/buttonText", "Save");
 			viewModel.setProperty("/deleteEnabled", false);
 			dataModel.setProperty("/groupCode", "None");
+			dataModel.setProperty("/hide", "None");
 			groupModel.refresh();
 		},
 
@@ -387,6 +315,23 @@ debugger;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Groups('" + found[0].id + "')", "PUT", {}, groupModel.getData(), this)
 					.then(function(oData) {
+
+							sap.m.MessageToast.show(that.resourceBundle.getText("Pic4"));
+							var oModelPhoto = new JSONModel();
+							oModelPhoto.setData();
+							that.getView().setModel(oModelPhoto, "photo2");
+							// update picture flag in customer orders
+							var payload = {
+								id: found[0].id,
+								hide:  groupModel.getData().hide
+							};
+							$.post('/updatePhotoFlag1', payload)
+								.done(function(data, status) {
+									sap.m.MessageToast.show(that.resourceBundle.getText("Data12"));
+								})
+								.fail(function(xhr, status, error) {
+									sap.m.MessageBox.error(that.resourceBundle.getText("Update12"));
+								});
 						MessageToast.show(that.resourceBundle.getText("Data"));
 						that._onRouteMatched();
 					}).catch(function(oError) {

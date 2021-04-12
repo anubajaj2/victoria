@@ -46,9 +46,9 @@
 								autocomplete="false"
 								submit="onEnter"
 								showSuggestion="true"
-								suggestionItems="{/Customers}">
+								suggestionItems="{local>/finalCustomer}">
 								<suggestionItems>
-									<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
+									<core:ListItem text="{local>CustomerCode}" key="{local>City}" additionalText="{parts: [{path: 'local>Name'}, {path: 'local>City'}],
 																																												 formatter: '.formatter.byNameCity'}"/>
 								</suggestionItems>
 

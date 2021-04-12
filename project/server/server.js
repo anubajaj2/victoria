@@ -2979,6 +2979,122 @@ debugger;
                 );
             })
 
+
+
+	app.get('/GroupHide',function(req,res){
+			debugger;
+
+			var responseData = [];
+			var oSubCounter = {};
+			var CustomerOrder = app.models.CustomerOrder;
+			var Customer = app.models.Customer;
+			var Entry = app.models.Entry;
+		  var Group=app.models.Group;
+			var async = require('async');
+			debugger;
+			async.waterfall([
+				function(callback) {
+					//1. read all the pending orders
+					CustomerOrder.find().then(function(pendingOrderRecords) {
+						callback(null, pendingOrderRecords);
+					});
+				},
+				function(pendingOrderRecords, callback) {
+					//2. Each pending order has customer and karigar which is the ID
+					//   Take these ids in an arry and find all the customer names and karigar names
+					var allCust = [];
+					// for (var i = 0; i < pendingOrderRecords.length; i++) {
+					// 	allCust.push(pendingOrderRecords[i].Customer);
+					// }
+					// for (var i = 0; i < pendingOrderRecords.length; i++) {
+					// 	allCust.push(pendingOrderRecords[i].Karigar);
+					// }
+					// //remove adjucent duplicates
+					// allCust = allCust.filter(function(item, pos, self) {
+					// 	return self.indexOf(item) == pos;
+					// });
+
+					Customer.find({
+							where: {
+								//3. this is how in loop back we read all items which are inside customer
+								id: {
+									inq: allCust
+								}
+							},
+							fields: {
+								"id": true,
+								"Name": true,
+								"Group": true,
+								"CustomerCode": true
+							}
+						})
+						.then(function(allCustomers, err) {
+							callback(null, pendingOrderRecords, allCustomers);
+						});
+
+				},
+				function(pendingOrderRecords, allCustomers, callback) {
+					// 4. now get the cities for all those karigars and customers
+					var allCities = [];
+					for (var i = 0; i < allCustomers.length; i++) {
+						allCities.push(allCustomers[i].Group);
+					}
+					//remove adjucent duplicates
+					allCities = allCities.filter(function(item, pos, self) {
+						return self.indexOf(item) == pos;
+					});
+
+					Group.find({
+							where: {
+								id: {
+									inq: allCities
+								}
+							},
+							fields: {
+								"id": true,
+								"groupCode": true,
+								"groupName":true,
+								"hide":true
+							}
+						})
+						.then(function(CityRecords, err) {
+							callback(null, pendingOrderRecords, allCustomers, CityRecords);
+						});
+				},
+				function(pendingOrderRecords, allCustomers, CityRecords, callback) {
+					// 4. now get the cities for all those karigars and customers
+					var allProds = [];
+					for (var i = 0; i < pendingOrderRecords.length; i++) {
+						allProds.push(pendingOrderRecords[i].Material);
+					}
+					//remove adjucent duplicates
+					allProds = allProds.filter(function(item, pos, self) {
+						return self.indexOf(item) == pos;
+					});
+
+					Entry.find({
+							where: {
+								id: {
+									inq: allProds
+								}
+							},
+							fields: {
+								"id": true,
+								"Customer": true,
+								"Product":true,
+								"City":true
+
+							}
+						})
+						.then(function(ProductRecords, err) {
+							callback(null, pendingOrderRecords, allCustomers, CityRecords, ProductRecords);
+						});
+				}
+			])
+
+
+	})
+
 		///// Coding for Entry Download/////
 		app.get('/pOrderDownload', function(req, res) {
 			//--- Calculate total per batch, prepare json and return
@@ -4159,6 +4275,8 @@ debugger;
 
 			);
 		})
+
+
 		app.get('/entryDownloadBetween', function(req, res) {
 			debugger;
 			var reportType = req.query.type;

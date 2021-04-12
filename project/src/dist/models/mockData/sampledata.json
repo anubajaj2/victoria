@@ -254,6 +254,16 @@
 		"CustomerId": "",
 		"CustomerName": ""
 	},
+
+	"final":{
+			"Address":"",
+			"City":"",
+			"Group":"",
+			"MobilePhone":"",
+			"Name":""
+	},
+
+
 	"printCustomizingData": {
 		"ID": "",
 		"Name": "",

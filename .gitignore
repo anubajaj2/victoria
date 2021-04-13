@@ -9,5 +9,12 @@ fioriHtmlRunner.html
 visual_ext_index.html
 /webapp/visual_ext_index.html
 
-./project/dump
-/server/dump
+
+./dump
+./project/dump/
+./project/server/dump/
+/project/server/dump/
+
+/project/dump
+/project/server/zip
+/project/uploads

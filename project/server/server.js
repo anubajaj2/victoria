@@ -9237,7 +9237,7 @@ else{
 
 					path2,
 				          // __dirname + "test" + ".zip",
-									__dirname + "/"  + tempFilePath,
+									__dirname + "//zip" +"/"  + tempFilePath,
 				        function(err) {
 				          if (err) {
 				            console.log("Zip error ... ");

@@ -108,127 +108,12 @@ sap.ui.define([
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
-				debugger;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
 						that.allMasterData.customers[oData.results[i].id] = oData.results[i];
 						that.allMasterData.customersId[oData.results[i].CustomerCode] = oData.results[i];
 					}
-					var currentUser = that.getModel("local").getProperty("/CurrentUser");
-											if(that.getModel("local").oData.AppUsers[currentUser].Role !== "Admin")
-											{
-											debugger;
-											var oFilter1 = new Filter([
-												new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
-											], true);
-								that.getView().byId("idTable1").getBinding("items").filter(oFilter1);
-								// return;
-								that.getView().setBusy(false);
-					// 			that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, that)
-					// 				.then(function (oData) {
-					// 					var entrys = oData.results;
-					// 					var customers = [];
-					// 					var i=0;
-					// 					var j=0;
-					// 					var final=[];
-					// 					try{
-					// 						for(i=0;i<=entrys["length"];i++){
-					// 						// debugger;
-					// 					 var customerId = entrys[i].Customer;
-					// 					 customers.push(customerId);
-					// 					}
-					// 					}
-					// 					catch(err){
-					// 						debugger;
-					// 					}
-					//
-					// 					debugger;
-					// 					for(j=0;j<customers.length;j++){
-					// 							debugger;
-					// 							var grp=that.allMasterData.customers[customers[j]].Group;
-					// 							var hide=that.allMasterData.groups[grp].hide;
-					// 							if(hide===false){
-					// 									final.push(customers[j]);
-					// 							}
-					// 					}
-					// 					debugger;
-					// 					for(j=0;j<final.length;j++){
-					// 						try{
-					// 						for(i=0;i<=entrys["length"];i++){
-					// 						// debugger;
-					// 					        if(final[j]===entrys[i].Customer){
-					//                         entryFinal.push(entrys[i]);
-					//                           break;
-					// 					        }
-					// 					}
-					// 					}
-					// 					catch(err){
-					// // 						debugger;
-					// 					}
-					//
-					// 					}
-					// 					// that.getView().setBusy(false);
-					// 				}).catch(function (oError) {
-					// 					var oPopover = that.getErrorMessage(oError);
-					// 				});
-					var customers=that.allMasterData.customers;
-										var final=[];
-										function sizeObj(obj) {
-					return Object.keys(obj).length;
-					}
-
-					debugger;
-					// for(var i=0;i<c;i++){
-					for(var j in customers){
-					// 												debugger;
-																	var grp=customers[j].Group;
-																	var hide=that.allMasterData.groups[grp].hide;
-																	if(hide===false){
-																			final.push(customers[j]);
-					// 															break;
-																	}
-															}
-					// }
-					debugger;
-					// var c=sizeObj(final);
-					// var finals=[];
-					// for(var i=0;i<c;i++){
-					//  for(var j in final){
-					// 	 finals[i]=final[j];
-					// 	 break;
-					//  }}
-														debugger;
-														that.getView().getModel("local").setProperty("/finalCustomer",final);
-										// that.getView().byId("idTable1").setVisible();
-										}
-
-										// // else
-										// // {
-										// 	debugger;
-										// 	// customers=that.allMasterData.customers;
-										// 	// that.getView().getModel("local").setProperty("/finalCustomer",customers);
-										// // }
-
-										else {
-											debugger;
-											function sizeObj(obj) {
-						return Object.keys(obj).length;
-						}
-											var customers=that.allMasterData.customers;
-											var c=sizeObj(customers);
-											var finals=[];
-											// for(var i=0;i<c;i++){
-											 for(var j in customers){
-												 finals.push(customers[j]);
-												 // break;
-											 }
-										 // }
-					debugger;
-						that.getView().getModel("local").setProperty("/finalCustomer",finals);
-										}
-
-
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
@@ -294,6 +179,7 @@ sap.ui.define([
 				$.post('/api/Users/logout?access_token=' + accessToken, {})
 					.done(function(data, status) {
 						that.getView().getModel("local").setProperty("/Authorization", "");
+						
 						that.getView().getModel().setHeaders({
 							"Authorization": ""
 						});
@@ -302,6 +188,9 @@ sap.ui.define([
 					.fail(function(xhr, status, error) {
 						sap.m.MessageBox.error("Logout failed");
 					});
+
+
+
 			} else {
 				that.redirectLoginPage("X", Reload);
 			}

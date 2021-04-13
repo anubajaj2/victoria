@@ -27,6 +27,7 @@ sap.ui.define([
 				});
 			},
 			handleUploadPress: function (oEvent) {
+				debugger;
 				// console.log(oEvent.getSource().mProperties["title"]);
 				console.log(this.getView().byId("uploadTypeSelect").mProperties["value"]);
 				var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
@@ -43,6 +44,7 @@ sap.ui.define([
 				oFileUploader.upload();
 			},
 			handleUploadGroupPress: function(){
+				debugger;
 				var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
 				var oFileUploader = this.byId("fileUploader");
 				$.post("/upload", {
@@ -57,6 +59,7 @@ sap.ui.define([
 				});
 			},
 			handleUploadComplete: function (oEvent) {
+				debugger;
 				var sResponse = oEvent.getParameter("response");
 				var oFiler = oEvent.getSource();
 				if (sResponse) {

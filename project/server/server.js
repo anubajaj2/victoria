@@ -14,7 +14,7 @@ var JWTR =  require('jwt-redis').default;
 const crypto = require('crypto');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-Stream');
+const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 var app = express();
 app.set('view engine','ejs');

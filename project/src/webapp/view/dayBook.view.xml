@@ -44,7 +44,7 @@
 								suggestionItemSelected="onEnter"
 								maxSuggestionWidth="auto"
 								autocomplete="false"
-								submit="onEnter"
+								submit="onSubmit"
 								showSuggestion="true"
 								suggestionItems="{local>/finalCustomer}">
 								<suggestionItems>

@@ -697,6 +697,36 @@ sap.ui.define([
 		},
 
 		onSubmit: function(evt) {
+			debugger;
+			var that=this;
+			var v11= this.getView().byId("idCustDay").getValue();
+
+								var customers=that.allMasterData.customers;
+													var finals=[];
+													function sizeObj(obj) {
+								return Object.keys(obj).length;
+								}
+
+								debugger;
+								var flag="N";
+								// for(var i=0;i<c;i++){
+								for(var j in customers){
+								// 												debugger;
+																				var grp=customers[j].Group;
+																				var hide=that.allMasterData.groups[grp].hide;
+																				var cust11 = customers[j].CustomerCode;
+																				if(v11 === cust11){
+																					flag="Y";
+																					break;
+																					// MessageToast.show("Error");
+																				}
+
+																		}
+
+										if(flag==="N"){
+											MessageToast.show("This is Hide Data");
+											return;
+										}
 			$(function() {
 				$('input:text:first').focus();
 				var $inp = $('input:text');

@@ -70,7 +70,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 			onAfterRendering: function() {
 				var oInput = this.getView().byId("idCust");
-				oInput.attachBrowserEvent("“focus",
+				oInput.attachBrowserEvent("focus",
 					function(event) {
 						var oModel = new sap.ui.model.Filter("Customer", "EQ", oInput);
 						// this model is for your reference , use the model that you want to use
@@ -1210,7 +1210,7 @@ debugger;
 					if (this.clearOnSend) {
 						this.clearOnSend = false;
 						var myData = this.getView().getModel("local").getProperty("/EntryData");
-						this.getView().byId("DateId").setDateValue(new Date());
+						this.getView().byId("DateId").setDateValue(myData.Date);
 					} else {
 						this.getView().byId("DateId").setDateValue(new Date());
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
@@ -1296,8 +1296,8 @@ debugger;
 				var s1 = parseFloat(sap.ui.getCore().byId("entryDialog--idDialogSil").getValue());
 				var c = sap.ui.getCore().byId("entryDialog--idDialogAmt").getValue();
 				var c1 = parseFloat(sap.ui.getCore().byId("entryDialog--idDialogAmt").getValue());
-				var x = this.getView().byId("idTC").getText();
-				var x1 = parseFloat(this.byId("idTC").getText());
+				var x1 = this.getView().byId("idTC").getText();
+				// var x1 = parseFloat(this.byId("idTC").getText());
 				if (x1 > c1) {
 					var TGC = x1 - c1;
 				}
@@ -1337,8 +1337,8 @@ debugger;
 				} else {
 					that.byId("idTC").setState('Warning');
 				}
-				var x = this.getView().byId("idG").getText();
-				var x1 = parseFloat(this.byId("idG").getText());
+				var x1 = this.getView().byId("idG").getText();
+				// var x1 = parseFloat(this.byId("idG").getText());
 				if (x1 > g1) {
 					var TGC = x1 - g1;
 				}
@@ -1378,8 +1378,8 @@ debugger;
 				} else {
 					that.byId("idG").setState('Warning');
 				}
-				var x = this.getView().byId("idS").getText();
-				var x1 = parseFloat(this.byId("idS").getText());
+				var x1 = this.getView().byId("idS").getText();
+				// var x1 = parseFloat(this.byId("idS").getText());
 				if (x1 > s1) {
 					var TGC = x1 - s1;
 				}
@@ -1443,11 +1443,19 @@ debugger;
 			},
 
 			onEdit: function(oEvent) {
+				debugger;
+
+				var that=this;
 				var recCount = this.getView().byId("idTable").getSelectedItems().length;
 				if (recCount > 1) {
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly"));
-				} else {
+				}
+				else if(recCount === 0){
+					sap.m.MessageBox.alert(
+						that.resourceBundle.getText("Selectoneentryonly1"));
+				}
+				 else {
 					this._getDialog();
 				}
 			},

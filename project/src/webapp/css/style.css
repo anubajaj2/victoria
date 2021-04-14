@@ -168,3 +168,16 @@ html.overflow-y-hidden {
 .myCustomText .sapMObjStatusText {
   font-size: 18px;
 }
+
+
+
+.sapMListTblRow:hover{
+background-color:#1a73e8;
+/* cursor: pointer; */
+background: #1a73e8;
+}
+
+
+#__item6-__clone3.selected{
+  background-color: red; font-weight: bold; color: #fff;
+}

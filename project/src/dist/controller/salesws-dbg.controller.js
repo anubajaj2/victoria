@@ -491,6 +491,8 @@ sap.ui.define(
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
+					(category.Type === 'GLD' && category.Category === "gm") ||
+					(category.Type === 'SLV' && category.Category === "gm") ||
 					(category.Type === 'Silver' && category.Category === "gm")) {
 					//get the weight
 					if (fieldId === "IdWeight") {
@@ -640,6 +642,8 @@ sap.ui.define(
 					};
 
 				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
+				(category.Type === 'GLD' && category.Category === "pcs") ||
+				(category.Type === 'SLV' && category.Category === "pcs") ||
 					(category.Type === 'Silver' && category.Category === "pcs")) {
 					//get the weight
 					if (fieldId === "IdWeight") {
@@ -1781,6 +1785,8 @@ sap.ui.define(
 				}
 
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
+				(category.Type === 'GLD' && category.Category === "gm") ||
+				(category.Type === 'SLV' && category.Category === "gm") ||
 					(category.Type === 'Silver' && category.Category === "gm")) {
 
 					//get the final weight // X=Weight - WeightD
@@ -1790,7 +1796,7 @@ sap.ui.define(
 					} else {
 						var weightF = data.Weight;
 					}
-					if (category.Type === 'Gold') {
+					if (category.Type === 'Gold' || category.Type === 'GLD') {
 						//get the gold price
 						if (category.Karat === '22/22') {
 							priceF = weightF * goldBhav;
@@ -1798,7 +1804,7 @@ sap.ui.define(
 						if (category.Karat === '22/20') {
 							priceF = weightF * goldBhav;
 						}
-					} else if (category.Type === 'Silver') {
+					} else if (category.Type === 'Silver' || category.Type === 'SLV') {
 						priceF = weightF * silverBhav;
 					}
 
@@ -1869,6 +1875,8 @@ sap.ui.define(
 
 
 				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
+				(category.Type === 'GLD' && category.Category === "pcs") ||
+				(category.Type === 'SLV' && category.Category === "pcs") ||
 					(category.Type === 'Silver' && category.Category === "pcs")) {
 
 					//get the final weight // X=Weight - WeightD

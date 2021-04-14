@@ -2105,6 +2105,8 @@ debugger;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 			if ((category.Type === 'Gold' && category.Category === "gm") ||
+			(category.Type === 'GLD' && category.Category === "gm") ||
+			(category.Type === 'SLV' && category.Category === "gm") ||
 				(category.Type === 'Silver' && category.Category === "gm")) {
 				//get the final weight
 				if (data.WeightD !== "" ||
@@ -2113,7 +2115,7 @@ debugger;
 				} else {
 					var weightF = data.Weight;
 				}
-				if (category.Type === 'Gold') {
+				if (category.Type === 'Gold' || category.Type === 'GLD') {
 					//get the gold price
 					if (category.Karat === '22/22') {
 						priceF = weightF * gold22pergm;
@@ -2121,7 +2123,7 @@ debugger;
 					if (category.Karat === '22/20') {
 						priceF = weightF * gold20pergm;
 					}
-				} else if (category.Type === 'Silver') {
+				} else if (category.Type === 'Silver'|| category.Type === 'SLV') {
 					priceF = weightF * silverpergm;
 				}
 				//Making charges
@@ -2198,6 +2200,8 @@ debugger;
 					cells[cells.length - 1].setText(0);
 				}
 			} else if ((category.Type === "Gold" && category.Category === "pcs") ||
+			(category.Type === "GLD" && category.Category === "pcs") ||
+			(category.Type === "SLV" && category.Category === "pcs") ||
 				(category.Type === 'Silver' && category.Category === "pcs")) {
 				//get the final weight
 				if (data.WeightD !== "" ||
@@ -2207,7 +2211,7 @@ debugger;
 					var weightF = data.Weight;
 				}
 
-				if (category.Type === 'Gold') {
+				if (category.Type === 'Gold' || category.Type === 'GLD') {
 					//get the gold price
 					if (category.Karat === '22/22') {
 						priceF = weightF * gold22pergm;
@@ -2215,7 +2219,7 @@ debugger;
 					if (category.Karat === '22/20') {
 						priceF = weightF * gold20pergm;
 					}
-				} else if (category.Type === 'Silver') {
+				} else if (category.Type === 'Silver' || category.Type === 'SLV') {
 					priceF = weightF * silverpergm;
 				}
 				if (!priceF) {

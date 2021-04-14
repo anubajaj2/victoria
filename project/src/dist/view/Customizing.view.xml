@@ -29,7 +29,7 @@
 
 				<Button text="{i18n>UploadFile}" press="handleUploadPress"/>
 
-<!-- 
+<!--
 
 								<u:FileUploader id="fileUploader1" name="file" uploadUrl="/VictoriaGFS" uploadPress="handleUploadPress1" tooltip="ZIP" uploadComplete="handleUploadComplete1">
 									<u:parameters>

@@ -64,27 +64,27 @@ app.start = function() {
 
 
 
-app.get('/logout',function(req,res){
-	debugger
-	var redis = require('redis');
-
-var JWTR =  require('jwt-redis').default;
-var redisClient = redis.createClient();
-var jwtr = new JWTR(redisClient);
-
-jwtr.sign(payload, secret)
-    .then((token)=>{
-            // your code
-    })
-    .catch((error)=>{
-            // error handling
-    });
-		jwtr.verify(token, secret);
-		jwtr.destroy(token);
-		res.clearCookie("jwt");
-
-});
-
+// app.get('/logout',function(req,res){
+// 	debugger
+// 	var redis = require('redis');
+//
+// var JWTR =  require('jwt-redis').default;
+// var redisClient = redis.createClient();
+// var jwtr = new JWTR(redisClient);
+//
+// jwtr.sign(payload, secret)
+//     .then((token)=>{
+//             // your code
+//     })
+//     .catch((error)=>{
+//             // error handling
+//     });
+// 		jwtr.verify(token, secret);
+// 		jwtr.destroy(token);
+// 		res.clearCookie("jwt");
+//
+// });
+//
 
 
 		app.post('/updatePhotoFlag1', function(req, res) {
@@ -9394,57 +9394,57 @@ else{
 
 
 
-				var mongo = require('mongodb');
-				var mongoose = require('mongoose');
+				// var mongo = require('mongodb');
+				// var mongoose = require('mongoose');
+				//
+				// var Grid = require('gridfs-stream');
+				// const mongoURI = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0.gnqvx.mongodb.net/design?retryWrites=true&w=majority';
+				// const conn = mongoose.createConnection(mongoURI);
+				// let gfs
+				// conn.once('open',()=>{
+				// 	gfs = Grid(conn.db,mongoose.mongo);
+				// 	gfs.collecion('uploads');
+				// })
+				//
+				// const storage = new GridFsStorage({
+				// 	url:mongoURI,
+				// 	file:(req,res)=>{
+				// 		return new Promise((resolve,reject)=>{
+				// 			crypto.randomBytes(16,(err,buf)=>{
+				// 				if(err){
+				// 					return reject(err);
+				// 				}
+				// 				const filename = buf.toString('hex') + path.extname(file.originalname);
+				// 				const fileInfo = {
+				// 					filename : filename,
+				// 					bucketName  :'uploads'
+				// 				};
+				// 				resolve(fileInfo);
+				// 			});
+				// 		});
+				// 	}
+				// });
 
-				var Grid = require('gridfs-stream');
-				const mongoURI = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0.gnqvx.mongodb.net/design?retryWrites=true&w=majority';
-				const conn = mongoose.createConnection(mongoURI);
-				let gfs
-				conn.once('open',()=>{
-					gfs = Grid(conn.db,mongoose.mongo);
-					gfs.collecion('uploads');
-				})
+				// const upload = multer({storage});
 
-				const storage = new GridFsStorage({
-					url:mongoURI,
-					file:(req,res)=>{
-						return new Promise((resolve,reject)=>{
-							crypto.randomBytes(16,(err,buf)=>{
-								if(err){
-									return reject(err);
-								}
-								const filename = buf.toString('hex') + path.extname(file.originalname);
-								const fileInfo = {
-									filename : filename,
-									bucketName  :'uploads'
-								};
-								resolve(fileInfo);
-							});
-						});
-					}
-				});
-
-				const upload = multer({storage});
-
-app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
-						debugger;
-
-res.setHeader('Content-Type', 'application/zip');
-res.setHeader(
-	"Content-Disposition",
-	"attachment; filename=" + req.files.file.name
-);
-
-
-
-res.json({file:req.files.file});
-res.json({file:req.files.file.data});
-res.redirect('/');
+// app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
+// 						debugger;
+//
+// res.setHeader('Content-Type', 'application/zip');
+// res.setHeader(
+// 	"Content-Disposition",
+// 	"attachment; filename=" + req.files.file.name
+// );
 
 
 
-})
+// res.json({file:req.files.file});
+// res.json({file:req.files.file.data});
+// res.redirect('/');
+//
+//
+//
+// })
 
 
 

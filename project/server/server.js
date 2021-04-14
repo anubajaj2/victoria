@@ -9,11 +9,21 @@ var xlsxtojson = require("xlsx-to-json-lc");
 var xlsx = require('node-xlsx');
 var express = require('express');
 // var fs = require('fs');
+var redis = require('redis');
+var JWTR =  require('jwt-redis').default;
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-Stream');
+const methodOverride = require('method-override');
 var app = express();
+app.set('view engine','ejs');
+
 app = module.exports = loopback();
 
 // parse application/json
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 // app.use(bodyParser.urlencoded({
 // 	extended: true
 // }));
@@ -53,6 +63,27 @@ app.start = function() {
 		});
 
 
+
+app.get('/logout',function(req,res){
+	debugger
+	var redis = require('redis');
+
+var JWTR =  require('jwt-redis').default;
+var redisClient = redis.createClient();
+var jwtr = new JWTR(redisClient);
+
+jwtr.sign(payload, secret)
+    .then((token)=>{
+            // your code
+    })
+    .catch((error)=>{
+            // error handling
+    });
+		jwtr.verify(token, secret);
+		jwtr.destroy(token);
+		res.clearCookie("jwt");
+
+});
 
 
 
@@ -548,6 +579,8 @@ app.start = function() {
 				});
 
 			}
+
+			// jwtr.destroy(token)
 		);
 		app.post('/updateRetailOrderHdr', function(req, res) {
 debugger;
@@ -9328,7 +9361,7 @@ else{
 
 							path2,
 						          // __dirname + "test" + ".zip",
-											__dirname + "/"  + tempFilePath,
+											__dirname +  "//zip"  + tempFilePath,
 						        function(err) {
 						          if (err) {
 						            console.log("Zip error ... ");
@@ -9360,6 +9393,75 @@ else{
 
 
 
+
+				var mongo = require('mongodb');
+				var mongoose = require('mongoose');
+
+				var Grid = require('gridfs-stream');
+				const mongoURI = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0.gnqvx.mongodb.net/design?retryWrites=true&w=majority';
+				const conn = mongoose.createConnection(mongoURI);
+				let gfs
+				conn.once('open',()=>{
+					gfs = Grid(conn.db,mongoose.mongo);
+					gfs.collecion('uploads');
+				})
+
+				const storage = new GridFsStorage({
+					url:mongoURI,
+					file:(req,res)=>{
+						return new Promise((resolve,reject)=>{
+							crypto.randomBytes(16,(err,buf)=>{
+								if(err){
+									return reject(err);
+								}
+								const filename = buf.toString('hex') + path.extname(file.originalname);
+								const fileInfo = {
+									filename : filename,
+									bucketName  :'uploads'
+								};
+								resolve(fileInfo);
+							});
+						});
+					}
+				});
+
+				const upload = multer({storage});
+
+app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
+						debugger;
+
+res.setHeader('Content-Type', 'application/zip');
+res.setHeader(
+	"Content-Disposition",
+	"attachment; filename=" + req.files.file.name
+);
+
+
+
+res.json({file:req.files.file});
+res.json({file:req.files.file.data});
+res.redirect('/');
+
+
+
+})
+
+
+
+
+app.get('/files',(req,res)=>{
+	debugger;
+	gfs.files.find().toArray((err,files)=>{
+		if(!files || files.length ===0){
+			return res.status(404).json({
+				err:'No files exist'
+			});
+		}
+			return res.json(files);
+	});
+});
+
+// const port =5000;
 
 		 //previous order
 		//function to get next order

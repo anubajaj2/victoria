@@ -29,6 +29,16 @@
 
 				<Button text="{i18n>UploadFile}" press="handleUploadPress"/>
 
+<!-- 
+
+								<u:FileUploader id="fileUploader1" name="file" uploadUrl="/VictoriaGFS" uploadPress="handleUploadPress1" tooltip="ZIP" uploadComplete="handleUploadComplete1">
+									<u:parameters>
+										<u:FileUploaderParameter name="createdBy"/>
+									</u:parameters>
+								</u:FileUploader>
+
+								<Button text="ZIP" press="handleUploadPress1"/> -->
+
 				<f:Form id="idCalculation" editable="true" validateFieldGroup="onValidateFieldGroup"
 					title="{i18n>Retail11}">
 					<f:toolbar>

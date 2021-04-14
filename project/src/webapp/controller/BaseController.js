@@ -114,6 +114,62 @@ sap.ui.define([
 						that.allMasterData.customers[oData.results[i].id] = oData.results[i];
 						that.allMasterData.customersId[oData.results[i].CustomerCode] = oData.results[i];
 					}
+
+					var currentUser = that.getModel("local").getProperty("/CurrentUser");
+											if(that.getModel("local").oData.AppUsers[currentUser].Role !== "Admin")
+											{
+											debugger;
+											var oFilter1 = new Filter([
+												new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
+											], true);
+								that.getView().byId("idTable1").getBinding("items").filter(oFilter1);
+								// return;
+								that.getView().setBusy(false);
+
+					var customers=that.allMasterData.customers;
+										var final=[];
+										function sizeObj(obj) {
+					return Object.keys(obj).length;
+					}
+
+					debugger;
+					// for(var i=0;i<c;i++){
+					for(var j in customers){
+					// 												debugger;
+																	var grp=customers[j].Group;
+																	var hide=that.allMasterData.groups[grp].hide;
+																	if(hide===false){
+																			final.push(customers[j]);
+					// 															break;
+																	}
+															}
+					// }
+					debugger;
+
+														debugger;
+														that.getView().getModel("local").setProperty("/finalCustomer",final);
+										// that.getView().byId("idTable1").setVisible();
+										}
+
+
+
+										else {
+											debugger;
+											function sizeObj(obj) {
+						return Object.keys(obj).length;
+						}
+											var customers=that.allMasterData.customers;
+											var c=sizeObj(customers);
+											var finals=[];
+											// for(var i=0;i<c;i++){
+											 for(var j in customers){
+												 finals.push(customers[j]);
+												 // break;
+											 }
+										 // }
+					debugger;
+						that.getView().getModel("local").setProperty("/finalCustomer",finals);
+										}
 				}).catch(function(oError) {
 					var oPopover = that.getErrorMessage(oError);
 				});
@@ -173,13 +229,14 @@ sap.ui.define([
 			return this.currentUser;
 		},
 		logOutApp: function(Reload) {
+			debugger;
 			var that = this;
 			var accessToken = that.getView().getModel("local").getProperty("/Authorization");
 			if (accessToken) {
 				$.post('/api/Users/logout?access_token=' + accessToken, {})
 					.done(function(data, status) {
 						that.getView().getModel("local").setProperty("/Authorization", "");
-						
+
 						that.getView().getModel().setHeaders({
 							"Authorization": ""
 						});
@@ -192,6 +249,7 @@ sap.ui.define([
 
 
 			} else {
+
 				that.redirectLoginPage("X", Reload);
 			}
 

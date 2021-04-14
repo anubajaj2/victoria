@@ -43,6 +43,26 @@ sap.ui.define([
 					this.getModel("local").getData().CurrentUser)
 				oFileUploader.upload();
 			},
+
+			handleUploadPress1: function (oEvent) {
+				debugger;
+				// console.log(oEvent.getSource().mProperties["title"]);
+				// console.log(this.getView().byId("uploadTypeSelect").mProperties["value"]);
+				// var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
+				var that = this;
+				var oFileUploader = this.byId("fileUploader1");
+				// this.byId("fileUploader1").setAdditionalData(uploadTypeValue);
+				if (!oFileUploader.getValue()) {
+					MessageToast.show(that.resourceBundle.getText("Choose11"));
+					return;
+				}
+
+				oFileUploader.getAggregation("parameters")[0].setValue(
+					this.getModel("local").getData().CurrentUser)
+				oFileUploader.upload();
+			},
+
+
 			handleUploadGroupPress: function(){
 				debugger;
 				var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
@@ -57,7 +77,38 @@ sap.ui.define([
 					debugger;
 					MessageToast.show(that.resourceBundle.getText("downloaded12"));
 				});
+
+
+
+				// var oFileUploader1 = this.byId("fileUploader1");
+				// $.post("/VictoriaGFS", {
+				// 	file: oFileUploader1.getValue(),
+				//
+				// }).then(function (oData) {
+				// 	debugger;
+				// 	MessageToast.show(that.resourceBundle.getText("downloaded11"));
+				// }, function (oError) {
+				// 	debugger;
+				// 	MessageToast.show(that.resourceBundle.getText("downloaded12"));
+				// });
 			},
+
+			handleUploadGroupPress1: function(){
+				debugger;
+				// var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
+				var oFileUploader = this.byId("fileUploader1");
+				$.post("/VictoriaGFS", {
+					file: oFileUploader.getValue(),
+
+				}).then(function (oData) {
+					debugger;
+					MessageToast.show(that.resourceBundle.getText("downloaded11"));
+				}, function (oError) {
+					debugger;
+					MessageToast.show(that.resourceBundle.getText("downloaded12"));
+				});
+			},
+
 			handleUploadComplete: function (oEvent) {
 				debugger;
 				var sResponse = oEvent.getParameter("response");
@@ -73,6 +124,28 @@ sap.ui.define([
 					MessageToast.show(sMsg);
 				}
 			},
+
+
+
+			handleUploadComplete1: function (oEvent) {
+				debugger;
+				var that =this;
+				var sResponse = oEvent.getParameter("response");
+				var oFiler = oEvent.getSource();
+				if (!sResponse) {
+					var sMsg = "";
+					debugger;
+					
+					// if (JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).error_code !== 0) {
+					// 	sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).err_desc;
+					// }
+					// else {
+						sMsg = that.resourceBundle.getText("UploadedSuccessfully");
+
+					MessageToast.show(sMsg);
+				}
+			},
+
 			onInit: function () {
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				var oViewModel1 = new JSONModel({

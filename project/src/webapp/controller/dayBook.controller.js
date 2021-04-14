@@ -120,6 +120,9 @@ sap.ui.define([
 					debugger;
 						that.getView().getModel("local").setProperty("/finalCustomer",finals);
 										}
+									// }).catch(function(oError) {
+									// 	var oPopover = that.getErrorMessage(oError);
+									// });
 
 
 		this.getView().getModel("local").setProperty("/Footer", false);

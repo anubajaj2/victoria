@@ -2,7 +2,7 @@
   <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
 
-	<Table id="idTable" inset="false" class ="myCustomText"
+	<Table id="idTable" inset="false" class ="myCustomText" 	alternateRowColors="false" includeItemInSelection="false"
     items="{
            path: '/Entrys',
              sorter: [{
@@ -14,7 +14,7 @@
 						 }
              ]
            }"
-    mode="MultiSelect" growing="true"
+    mode="MultiSelect" showSeparators="All" growing="true"
 	  growingThreshold="20" updateFinished="onUpdateFinished">
     <headerToolbar>
       <Toolbar>
@@ -34,32 +34,32 @@
 				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
 				<Label text="{i18n>Date}" design="Bold" ></Label>
       </Column>
-      <Column>
+      <Column  demandPopin="true">
 				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
         <Label text="{i18n>coCustName}" design="Bold" />
       </Column>
-      <Column visible="false">
+      <Column visible="false" demandPopin="true">
 				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
         <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
       </Column>
-      <Column visible="true">
+      <Column visible="true" demandPopin="true">
 				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
         <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
       </Column>
-      <Column>
+      <Column demandPopin="true">
 				<!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
         <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
 
       </Column>
-      <Column>
+      <Column demandPopin="true">
 				<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
         <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
       </Column>
-        <Column>
+        <Column demandPopin="true">
 					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
           <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
         </Column>
-        <Column>
+        <Column demandPopin="true">
 					<!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
           <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
         </Column>

@@ -135,7 +135,7 @@ sap.ui.define([
 				if (!sResponse) {
 					var sMsg = "";
 					debugger;
-					
+
 					// if (JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).error_code !== 0) {
 					// 	sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).err_desc;
 					// }
@@ -346,6 +346,8 @@ sap.ui.define([
 					onPressBackup:function(){
 							var reportType = "Backup";
 							window.open("/VictoriaBackup");
+							
+
 					},
 
 			/**

@@ -9227,7 +9227,7 @@ else{
 				const path1 = path.split("project")[0];
 				const path2 = path1 + "\project\\dump\\test";
 				var options = {
-        root: path11.join(__dirname)
+        root: path11.join(__dirname + "\\zip")
     };
 
 				try{
@@ -9265,6 +9265,7 @@ else{
 							var date1=new Date();
 							var date=formatDateForEntry(date1);
 							var tempFilePath="victoria-"+date+".zip";
+							var v1 = __dirname + "//zip" +"/"  + tempFilePath
 
 				      zipFolder(
 
@@ -9302,94 +9303,6 @@ else{
 
 
 
-
-
-
-				app.post('/VictoriaUpdate',function(req,res){
-						debugger;
-						// const zipfile = archiver('zip');
-						var backup = require('mongodb-backup');
-						var path11 = require('path');
-						var exec = require('child_process').exec;
-						const zipFolder = require("zip-folder");
-						const config = require('./config.json');
-						const path = __dirname;
-						const download = require('downloadjs');
-						const path1 = path.split("project")[0];
-						const path2 = path1 + "\project\\dump\\test";
-						var options = {
-		        root: path11.join(__dirname)
-		    };
-
-						try{
-						// function takeMongoBackup() {
-
-							debugger;
-												var nrc = require('node-run-cmd');
-												nrc.run('mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"');
-						  //remove directory
-						  // rimraf.sync(config.DB_OPTIONS.database);
-
-						  //backup mongo
-						const uri1='mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true';
-						const cmd = 'mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"';
-						 // Command for mongodb dump process
-
-						  console.log("DB backup started ... ");
-						  console.log(cmd);
-						  exec(cmd, function(error, stdout, stderr) {
-						    if ((res)) {
-						      console.log("DB backup generated ... ");
-									function formatDateForEntry(date) {
-											var d = new Date(date),
-													month = '' + (d.getMonth() + 1),
-													day = '' + d.getDate(),
-													year = d.getFullYear();
-
-											if (month.length < 2)
-													month = '0' + month;
-											if (day.length < 2)
-													day = '0' + day;
-
-											return [day, month, year].join('.');
-									}
-									var date1=new Date();
-									var date=formatDateForEntry(date1);
-									var tempFilePath="victoria-"+date+".zip";
-
-						      zipFolder(
-
-							path2,
-						          // __dirname + "test" + ".zip",
-											__dirname +  "//zip"  + tempFilePath,
-						        function(err) {
-						          if (err) {
-						            console.log("Zip error ... ");
-						            console.log("oh no!", err);
-						          } else {
-
-												res.setHeader('Content-Type', 'application/zip');
-												res.setHeader(
-													"Content-Disposition",
-													"attachment; filename=" + tempFilePath
-												);
-
-
-												res.sendFile(tempFilePath,options);
-												// res.end();
-						            console.log("Backup zipped successful");
-
-						          }
-						        }
-						      );
-						    }
-						  });
-						}
-						catch(res){
-						// 		debugger;
-							}
-
-				})
 
 
 

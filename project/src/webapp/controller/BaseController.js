@@ -231,7 +231,8 @@ sap.ui.define([
 		logOutApp: function(Reload) {
 			debugger;
 			var that = this;
-			var accessToken = that.getView().getModel("local").getProperty("/Authorization");
+			// var accessToken = that.getView().getModel("local").getProperty("/Authorization");
+			var accessToken = that.getView().getModel().getHeaders().Authorization;
 			if (accessToken) {
 				$.post('/api/Users/logout?access_token=' + accessToken, {})
 					.done(function(data, status) {
@@ -249,6 +250,7 @@ sap.ui.define([
 
 
 			} else {
+				window.open("/logOut");
 
 				that.redirectLoginPage("X", Reload);
 			}

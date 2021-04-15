@@ -247,10 +247,9 @@ sap.ui.define([
 						sap.m.MessageBox.error("Logout failed");
 					});
 
-
+// that.redirectLoginPage("X", Reload);
 
 			} else {
-				window.open("/logOut");
 
 				that.redirectLoginPage("X", Reload);
 			}
@@ -663,7 +662,21 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
 		redirectLoginPage: function(logOut, Reload) {
+			debugger;
+				var accessToken = that.getView().getModel().getHeaders().Authorization;
 			if (logOut == "X" && Reload != "X") {
+				$.post('/api/Users/logout?access_token=' + accessToken, {})
+					.done(function(data, status) {
+						that.getView().getModel("local").setProperty("/Authorization", "");
+
+						that.getView().getModel().setHeaders({
+							"Authorization": ""
+						});
+						// that.redirectLoginPage("X", Reload);
+					})
+					.fail(function(xhr, status, error) {
+						sap.m.MessageBox.error("Logout failed");
+					});
 				MessageBox.alert("Logout Successful");
 			} else if (Reload != "X") {
 				MessageBox.alert(that.resourceBundle.getText("Page11"));

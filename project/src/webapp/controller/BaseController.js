@@ -372,6 +372,7 @@ sap.ui.define([
 			// this.getView().addDependent(this.orderSearchPopup);
 			var title = this.getView().getModel("i18n").getProperty("orderSearch");
 			this.orderSearchPopup.setTitle(title);
+				// this.getView().setBusy(false);
 			// this.orderSearchPopup.sId = 'orderNo';
 
 			var orderDate = this.byId("Sales--DateId").getValue();

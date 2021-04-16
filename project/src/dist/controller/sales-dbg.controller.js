@@ -774,16 +774,18 @@ debugger;
 			return retVal;
 		},
 		getOrderDetails: function(oEvent, orderId, oFilter, orderNo) {
+
 			var that = this;
 			debugger;
-			that.getView().setBusy(true);
+			// that.getView().setBusy(true);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/OrderHeaders('" + orderId + "')", "GET", {
 						filters: [oFilter]
 					}, {}, this)
 				.then(function(oData) {
 					debugger;
-					that.getView().setBusy(false);
+					// that.getView().setBusy(false);
+
 					var date = oData.Date;
 					var custId = oData.Customer;
 					// that.getEntryData(oEvent,custId,orderNo,date)
@@ -794,15 +796,17 @@ debugger;
 					that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
 					that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + that.allMasterData.cities[
 						customerCity].cityName);
+
 					that.getView().byId("Sales--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
 					var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
-					that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
+					// that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
 					// assign the item Details
+					// that.getView().setBusy(true);
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 							"/OrderHeaders('" + orderId + "')/ToOrderItems",
 							"GET", {}, {}, that)
 						.then(function(oData) {
-							if (oData.results.length > 0) {
+							if (oData.results.length >= 0) {
 								var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
 								for (var i = 0; i < oData.results.length; i++) {
 									allItems[i].OrderNo = oData.results[i].OrderNo;
@@ -1321,6 +1325,7 @@ debugger;
 			}
 		},
 		commitRecords: function(oEvent) {
+			debugger;
 			if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
 				var that = this;
 				var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
@@ -1346,7 +1351,7 @@ debugger;
 						.then(function(oData) {
 							debugger;
 							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
-							message.show(oBundle);
+							sap.m.MessageToast.show(oBundle);
 							that.getView().setBusy(false);
 						})
 						.catch(function(oError) {
@@ -1485,6 +1490,7 @@ debugger;
 			}
 		},
 		stockTransfer: function(allItems) {
+			debugger;
 			var that = this;
 			var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
 			// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
@@ -1661,10 +1667,10 @@ debugger;
 
 							for (var i = selIdxs.length - 1; i >= 0; --i) {
 								if (oSourceCall === 'orderItemBases') {
-									var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
-									var id = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].itemNo;
-									var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
-									var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+									var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]];
+									var id = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].itemNo;
+									var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].Material;
+									var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].OrderNo;
 									var date = that.getView().byId("Sales--DateId").getDateValue();
 									var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
 									if (subtotalItem) {
@@ -1684,8 +1690,8 @@ debugger;
 										stockData.Product = pid;
 										stockData.OrderItemId = id;
 										stockData.Date = date;
-										stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
-										stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
+										stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].Weight;
+										stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].Qty;
 										debugger;
 										that.byId("Sales--idSaveIcon").setColor('green');
 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
@@ -1762,18 +1768,35 @@ debugger;
 			this.hideDColumns(oEvent);
 		},
 		previousOrder: function(oEvent) {
+			debugger;
+			var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
+			var dateFrom = new Date(selectedDate);
+			dateFrom.setDate(selectedDate.getDate());
+			dateFrom.setHours(0, 0, 0, 1)
+			var dateTo = new Date(selectedDate);
+			dateTo.setDate(selectedDate.getDate());
+			dateTo.setHours(23, 59, 59, 59)
+			var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
+			var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
+			var orFilter = new sap.ui.model.Filter({
+				filters: [oFilter1, oFilter2],
+				and: true
+			});
 			var that = this;
+
 			this.setWidths(false);
+
 			var myData = this.getView().getModel("local").getProperty("/orderHeader");
-			this.getView().setBusy(true);
+		// that.getView().setBusy(true);
 			$.post("/previousOrder", {
 					OrderDetails: myData
 				})
 				.then(function(result) {
 					that.byId("idRetailTransfer").setEnabled(true);
-					that.getView().setBusy(false);
+					// that.getView().setBusy(true);
 					console.log(result);
 					if (result) {
+
 						delete that.orderAmount;
 						delete that.deduction;
 						delete that.finalBal;
@@ -1796,6 +1819,24 @@ debugger;
 						that.orderReturn(oEvent, id);
 						oEvent.sId = "orderReload";
 						that.getOrderDetails(oEvent, orderId, oFilter);
+						if (!that.navigation) {
+							var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+							that.getOrderDetails(oEvent, result.id, orFilter);
+							that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
+							that.getView().addDependent(that.orderSearchPopup);
+							that.orderSearchPopup.bindAggregation("items", {
+								path: '/OrderHeaders',
+								filters: orFilter,
+								template: new sap.m.DisplayListItem({
+									label: "{OrderNo}",
+									value: {
+										path: 'Customer',
+										formatter: that.getCustomerName.bind(that)
+									}
+								})
+							});
+							that.navigation = true;
+						}
 					}
 				});
 		},
@@ -1813,10 +1854,10 @@ debugger;
 			debugger;
 			var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
 			var dateFrom = new Date(selectedDate);
-			dateFrom.setDate(selectedDate.getDate() - 1);
+			dateFrom.setDate(selectedDate.getDate());
 			dateFrom.setHours(0, 0, 0, 1)
 			var dateTo = new Date(selectedDate);
-			dateTo.setDate(selectedDate.getDate() - 1);
+			dateTo.setDate(selectedDate.getDate());
 			dateTo.setHours(23, 59, 59, 59)
 			var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 			var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
@@ -1825,7 +1866,9 @@ debugger;
 				and: true
 			});
 			var that = this;
+
 			this.setWidths(false);
+			// that.getView().setBusy(false);
 			var myData = this.getView().getModel("local").getProperty("/orderHeader");
 			if (!myData.OrderNo && false) {
 				this.orderPopup(oEvent);
@@ -1836,7 +1879,7 @@ debugger;
 						}, {}, that)
 					.then(function(oData) {
 						debugger;
-						that.getView().setBusy(false);
+						// that.getView().setBusy(false);
 						// ordersForSelectedDate = oData;
 						var n = oData.results.length;
 						if (n == 0) {
@@ -1862,12 +1905,12 @@ debugger;
 						}
 					})
 			} else {
-				this.getView().setBusy(true);
+				// this.getView().setBusy(false);
 				$.post("/nextOrder", {
 						OrderDetails: myData
 					})
 					.then(function(result) {
-						that.getView().setBusy(false);
+						// that.getView().setBusy(false);
 						console.log(result);
 						that.byId("idRetailTransfer").setEnabled(true);
 						if (result) {

@@ -664,20 +664,21 @@ sap.ui.define([
 		},
 		redirectLoginPage: function(logOut, Reload) {
 			debugger;
+			var that =this;
 				var accessToken = that.getView().getModel().getHeaders().Authorization;
 			if (logOut == "X" && Reload != "X") {
-				$.post('/api/Users/logout?access_token=' + accessToken, {})
-					.done(function(data, status) {
-						that.getView().getModel("local").setProperty("/Authorization", "");
-
-						that.getView().getModel().setHeaders({
-							"Authorization": ""
-						});
-						// that.redirectLoginPage("X", Reload);
-					})
-					.fail(function(xhr, status, error) {
-						sap.m.MessageBox.error("Logout failed");
-					});
+				// $.post('/api/Users/logout?access_token=' + accessToken, {})
+				// 	.done(function(data, status) {
+				// 		that.getView().getModel("local").setProperty("/Authorization", "");
+				//
+				// 		that.getView().getModel().setHeaders({
+				// 			"Authorization": ""
+				// 		});
+				// 		// that.redirectLoginPage("X", Reload);
+				// 	})
+				// 	.fail(function(xhr, status, error) {
+				// 	MessageBox.alert("Logout Successful");
+				// 	});
 				MessageBox.alert("Logout Successful");
 			} else if (Reload != "X") {
 				MessageBox.alert(that.resourceBundle.getText("Page11"));

@@ -806,7 +806,7 @@ debugger;
 							"/OrderHeaders('" + orderId + "')/ToOrderItems",
 							"GET", {}, {}, that)
 						.then(function(oData) {
-							if (oData.results.length >= 0) {
+							if (oData.results.length > 0) {
 								var allItems = that.getView().getModel("orderItems").getProperty("/itemData");
 								for (var i = 0; i < oData.results.length; i++) {
 									allItems[i].OrderNo = oData.results[i].OrderNo;

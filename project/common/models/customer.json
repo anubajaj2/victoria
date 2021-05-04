@@ -35,6 +35,10 @@
       "type": "string",
       "required": false
     },
+    "Interest": {
+      "type": "number",
+      "default": 0
+    },
     "Type": {
       "type":"string",
       "required": false

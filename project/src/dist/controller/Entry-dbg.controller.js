@@ -25,7 +25,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				// that.getView().setBusy(true);
-				var that = this;
+				// var that = this;
 				var currentUser = this.getModel("local").getProperty("/CurrentUser");
 				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 				loginUser = "Hey " + loginUser;
@@ -36,6 +36,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	}).catch(function (oError) {
 				// 		var oPopover = that.getErrorMessage(oError);
 				// 	});
+
 				debugger;
 				this.getOwnerComponent().getModel("local").setProperty("/materialEnable", false);
 
@@ -91,10 +92,19 @@ sap.ui.define(["victoria/controller/BaseController",
 				});
 				that.getView().setModel(oJson, "material");
 				var that = this;
-				var viewModel = this.getView().getModel("viewModel");
-				viewModel.setProperty("/codeEnabled", true);
-				viewModel.setProperty("/buttonText", "Save");
-				viewModel.setProperty("/deleteEnabled", false);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
+					.then(function (oData) {
+						debugger;
+						that.getView().getModel("local").setProperty("/EntryLayout",oData.results[0].EntryLayout)
+						// that.getView().setBusy(false);
+					}).catch(function (oError) {
+						debugger;
+						// var oPopover = that.getErrorMessage(oError);
+					});
+				// var viewModel = this.getView().getModel("viewModel");
+				// viewModel.setProperty("/codeEnabled", true);
+				// viewModel.setProperty("/buttonText", "Save");
+				// viewModel.setProperty("/deleteEnabled", false);
 				var odataModel = new JSONModel({
 					"CustomerCodeState": "None",
 					"CityState": "None",
@@ -104,6 +114,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 				});
 				this.setModel(odataModel, "dataModel");
+
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Customers", "GET", {}, {}, this)
@@ -127,7 +138,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}).catch(function(oError) {
 						MessageToast.show(that.resourceBundle.getText("ReqField"));
 					});
-				this.clearCustomer();
+				// this.onClear();
 
 				$(document).keydown(function(evt) {
 
@@ -394,52 +405,78 @@ sap.ui.define(["victoria/controller/BaseController",
 				var CT = "Silver Given @" + wtValue + 'x' + thValue;
 				var ST = "Gold Given @" + wtValue + 'x' + thValue;
 				var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
-				var splitText = this.getView().byId("idMatText").getText().split("-")[1]
+				var KSR = "Kaccha Sona Received @" + wtValue + 'x' + thValue;
+				var KST = "Kaccha Sona Given @" + wtValue + 'x' + thValue;
+				if(this.getView().byId("RB-4").getSelected() && !this.getView().byId("idMatText").getText()){ 
+					MessageToast.show("Please Select the Material to Calculate");
+					return;
+				}else {
+					var splitText = this.getView().byId("idMatText").getText().split("-")[1]
+				}
 				var rem = this.getView().byId("idMatText").getText();
 				var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
 				var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
 				if (X > 0 && this.getView().byId("RB-1").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CR);
 				} else if (X > 0 && this.getView().byId("RB-2").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(SR);
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KR);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
+				} else if (X > 0 && this.getView().byId("RB-5").getSelected()) {
+					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(KSR);
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
+					debugger;
+					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idRemarks").setValue(posMat);
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
-					debugger;
-					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-1").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CT);
 				} else if (X < 0 && this.getView().byId("RB-2").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(ST);
 				} else if (X < 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KT);
+				} else if (X < 0 && this.getView().byId("RB-5").getSelected()) {
+					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(KST);
 				}
 			},
 			onPressGWiseDownload: function() {
@@ -734,7 +771,7 @@ debugger;
 					var selType = oEvent.getParameter("selectedItem").getKey();
 					// this.getView().byId("idMatType").setText(selType);
 					this.getView().byId("idMat").setValue(selMat);
-					this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
+					this.getView().byId("idMatText").setText(selMatName + " - " + selMat + " " + selType);
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idweight").focus();
 						this.getView().byId("idweight").$().find("input").select();
@@ -870,11 +907,13 @@ debugger;
 
 				if (this.getView().byId("RB-1").getSelected() ||
 					this.getView().byId("RB-2").getSelected() ||
-					this.getView().byId("RB-3").getSelected()) {
+					this.getView().byId("RB-3").getSelected() ||
+					this.getView().byId("RB-5").getSelected()) {
 					// this.getView().byId("idformMat").setVisible(false);
 					// this.getView().byId("idMat").setVisible(false);
 					this.getView().getModel("local").setProperty("/materialEnable", false);
 					this.getView().byId("idMat").setValue("");
+					this.getView().byId("idMatText").setText("")
 					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idweight").focus();
 					});

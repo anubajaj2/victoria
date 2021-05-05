@@ -103,6 +103,8 @@
 					id="idSendSMS"
 					state="{customerModel>/HasInterest}">
 				</Switch > -->
+				<Label text="Interest %"/>
+				<Input id="idInterest" submit="customerInterest" type="Number" value="{customerModel>/Interest}"/>
 				</f:content>
 			</f:SimpleForm>
 		</semantic:content>

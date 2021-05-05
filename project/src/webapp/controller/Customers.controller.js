@@ -53,7 +53,8 @@ sap.ui.define([
 					"Name": "",
 					"SecondaryPhone": "0",
 					"Group": "",
-					"Type": ""
+					"Type": "",
+					"Interest":"0"
 				});
 			var oViewModel1 = new JSONModel({
 				"items": [{
@@ -123,6 +124,7 @@ sap.ui.define([
 			this.getView().getModel("customerModel").setProperty("/City", sId);
 		},
 		onPressCustCodeDownload: function() {
+			debugger;
     //   var reportType = "Customer_Codes";
     //   $.post("/custCodeDownload",{type: reportType}).then(function(oData)
     // {
@@ -488,6 +490,7 @@ sap.ui.define([
 						customerModel.setProperty("/MobilePhone", customerModInfo.MobilePhone);
 						customerModel.setProperty("/Address", customerModInfo.Address);
 						customerModel.setProperty("/SecondaryPhone", customerModInfo.SecondaryPhone);
+						customerModel.setProperty("/Interest", customerModInfo.Interest);
 						var oGroup = that.getView().byId("idGroup");
 						oGroup.setSelectedKey(customerModInfo.Group);
 						customerModel.setProperty("/Group", customerModInfo.Group);
@@ -515,6 +518,7 @@ sap.ui.define([
 						customerModel.getData().Address = "";
 						customerModel.getData().Name = "";
 						customerModel.getData().SecondaryPhone = "0";
+						customerModel.getData().Interest = "0";
 						customerModel.getData().Group = "";
 						customerModel.getData().Type = "";
 						viewModel.setProperty("/buttonText", "Save");
@@ -542,9 +546,15 @@ sap.ui.define([
 			this.getView().byId("idSecondaryPhone").$().find("input").select();
 		},
 		customerSecondaryPhoneSubmit: function() {
+			this.getView().byId("idInterest").focus();
+			this.getView().byId("idInterest").$().find("input").select();
+		},
+		customerInterest: function() {
 			this.getView().byId("customerAccept").focus();
+
 		},
 		customerCodeCheck: function(oEvent) {
+			debugger;
 			var customerModel = this.getView().getModel("customerModel");
 			var selectedCustData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
 				.getPath());
@@ -563,6 +573,7 @@ sap.ui.define([
 				customerModel.setProperty("/MobilePhone", selectedCustData.MobilePhone);
 				customerModel.setProperty("/Address", selectedCustData.Address);
 				customerModel.setProperty("/SecondaryPhone", selectedCustData.SecondaryPhone);
+				customerModel.setProperty("/Interest", selectedCustData.Interest);
 				var oGroup = this.getView().byId("idGroup");
 				oGroup.setSelectedKey(selectedCustData.Group);
 				customerModel.setProperty("/Group", selectedCustData.Group);
@@ -585,6 +596,7 @@ sap.ui.define([
 				customerModel.getData().Address = "";
 				customerModel.getData().Name = "";
 				customerModel.getData().SecondaryPhone = "0";
+				customerModel.getData().Interest = "0";
 				customerModel.getData().Group = "";
 				customerModel.getData().Type = "";
 				viewModel.setProperty("/buttonText", "Save");
@@ -610,6 +622,7 @@ sap.ui.define([
 			customerModel.getData().Name = "";
 			customerModel.getData().CustomerCode = "";
 			customerModel.getData().SecondaryPhone = "0";
+			customerModel.getData().Interest = "0";
 			// customerModel.getData().Group = "";
 			viewModel.setProperty("/codeEnabled", true);
 			viewModel.setProperty("/buttonText", "Save");
@@ -807,6 +820,7 @@ sap.ui.define([
 			this.getView().setBusy(false);
 		},
 		deleteCnfCustomer: function(customerCode, customerModel) {
+			debugger;
 			var that = this;
 
 			sap.m.MessageBox.confirm(
@@ -829,6 +843,7 @@ sap.ui.define([
 									customerModel.getData().CustomerCode = ""
 									customerModel.getData().Name = "";
 									customerModel.getData().SecondaryPhone = "0";
+									customerModel.getData().Interest = "0";
 									customerModel.getData().Group = "";
 									// var typeValue = typeModel.getData().items[0].text;
 									// var oType = this.getView().byId("idType");
@@ -975,7 +990,7 @@ sap.ui.define([
 			this.getModel().update("/Customers(" + that.getModel("customerModel").getProperty("/Id") + ")", updatedData, {
 				success: function() {
 					MessageToast.show(that.resourceBundle.getText("Update1"));
-					
+
 				}
 			});
 		},

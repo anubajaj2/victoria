@@ -25,7 +25,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				// that.getView().setBusy(true);
-				var that = this;
+				// var that = this;
 				var currentUser = this.getModel("local").getProperty("/CurrentUser");
 				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 				loginUser = "Hey " + loginUser;
@@ -36,6 +36,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	}).catch(function (oError) {
 				// 		var oPopover = that.getErrorMessage(oError);
 				// 	});
+
 				debugger;
 				this.getOwnerComponent().getModel("local").setProperty("/materialEnable", false);
 
@@ -91,10 +92,19 @@ sap.ui.define(["victoria/controller/BaseController",
 				});
 				that.getView().setModel(oJson, "material");
 				var that = this;
-				var viewModel = this.getView().getModel("viewModel");
-				viewModel.setProperty("/codeEnabled", true);
-				viewModel.setProperty("/buttonText", "Save");
-				viewModel.setProperty("/deleteEnabled", false);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
+					.then(function (oData) {
+						debugger;
+						that.getView().getModel("local").setProperty("/EntryLayout",oData.results[0].EntryLayout)
+						// that.getView().setBusy(false);
+					}).catch(function (oError) {
+						debugger;
+						// var oPopover = that.getErrorMessage(oError);
+					});
+				// var viewModel = this.getView().getModel("viewModel");
+				// viewModel.setProperty("/codeEnabled", true);
+				// viewModel.setProperty("/buttonText", "Save");
+				// viewModel.setProperty("/deleteEnabled", false);
 				var odataModel = new JSONModel({
 					"CustomerCodeState": "None",
 					"CityState": "None",
@@ -104,6 +114,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 				});
 				this.setModel(odataModel, "dataModel");
+
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Customers", "GET", {}, {}, this)

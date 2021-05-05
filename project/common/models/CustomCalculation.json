@@ -78,6 +78,11 @@
       "required": false,
       "default": 0
     },
+    "EntryLayout":{
+        "type":"boolean",
+        "default":false
+    },
+
     "CreatedOn": {
       "type": "date"
     },

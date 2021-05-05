@@ -138,7 +138,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}).catch(function(oError) {
 						MessageToast.show(that.resourceBundle.getText("ReqField"));
 					});
-				this.clearCustomer();
+				// this.onClear();
 
 				$(document).keydown(function(evt) {
 
@@ -405,52 +405,78 @@ sap.ui.define(["victoria/controller/BaseController",
 				var CT = "Silver Given @" + wtValue + 'x' + thValue;
 				var ST = "Gold Given @" + wtValue + 'x' + thValue;
 				var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
-				var splitText = this.getView().byId("idMatText").getText().split("-")[1]
+				var KSR = "Kaccha Sona Received @" + wtValue + 'x' + thValue;
+				var KST = "Kaccha Sona Given @" + wtValue + 'x' + thValue;
+				if(this.getView().byId("RB-4").getSelected() && !this.getView().byId("idMatText").getText()){ 
+					MessageToast.show("Please Select the Material to Calculate");
+					return;
+				}else {
+					var splitText = this.getView().byId("idMatText").getText().split("-")[1]
+				}
 				var rem = this.getView().byId("idMatText").getText();
 				var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
 				var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
 				if (X > 0 && this.getView().byId("RB-1").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CR);
 				} else if (X > 0 && this.getView().byId("RB-2").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(SR);
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KR);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
+				} else if (X > 0 && this.getView().byId("RB-5").getSelected()) {
+					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(KSR);
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
+					debugger;
+					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idRemarks").setValue(posMat);
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
-					debugger;
-					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Gold") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "Silver") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() || splitText.split(" ")[1] === "GS") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-1").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CT);
 				} else if (X < 0 && this.getView().byId("RB-2").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(ST);
 				} else if (X < 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KT);
+				} else if (X < 0 && this.getView().byId("RB-5").getSelected()) {
+					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(KST);
 				}
 			},
 			onPressGWiseDownload: function() {
@@ -745,7 +771,7 @@ debugger;
 					var selType = oEvent.getParameter("selectedItem").getKey();
 					// this.getView().byId("idMatType").setText(selType);
 					this.getView().byId("idMat").setValue(selMat);
-					this.getView().byId("idMatText").setText(selMatName + " - " + selMat);
+					this.getView().byId("idMatText").setText(selMatName + " - " + selMat + " " + selType);
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idweight").focus();
 						this.getView().byId("idweight").$().find("input").select();
@@ -881,11 +907,13 @@ debugger;
 
 				if (this.getView().byId("RB-1").getSelected() ||
 					this.getView().byId("RB-2").getSelected() ||
-					this.getView().byId("RB-3").getSelected()) {
+					this.getView().byId("RB-3").getSelected() ||
+					this.getView().byId("RB-5").getSelected()) {
 					// this.getView().byId("idformMat").setVisible(false);
 					// this.getView().byId("idMat").setVisible(false);
 					this.getView().getModel("local").setProperty("/materialEnable", false);
 					this.getView().byId("idMat").setValue("");
+					this.getView().byId("idMatText").setText("")
 					jQuery.sap.delayedCall(500, this, function() {
 						this.getView().byId("idweight").focus();
 					});

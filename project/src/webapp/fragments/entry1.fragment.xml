@@ -51,7 +51,7 @@
                                         <l:GridData span="XL3 L3"/>
                                     </layoutData>
                                 </Input>
-                                <Text id="idCustText" text="{path: 'local>/EntryData/Customer', formatter: '.formatter.byNameCityGroup'}" enableSelection="false"/>
+                                <Text id="idCustText" text="{path: 'local>/EntryData/Customer', formatter: '.formatter.byNameCityGroup'}" />
                             </f:fields>
                         </f:FormElement>
                         <f:FormElement label="{i18n>Cash}">
@@ -139,8 +139,8 @@
                                         <l:GridData span="XL3 L3"/>
                                     </layoutData>
                                 </Input>
-                                <Text id="idMatText" enableSelection="false"/>
-                                <Text id="idMatType" enableSelection="false"/>
+                                <Text id="idMatText" />
+                                <Text id="idMatType" />
                             </f:fields>
                         </f:FormElement>
                         <!-- <f:FormElement label="{i18n>type}"><f:fields><Input id="idMatType" width="50%" value=""> -->

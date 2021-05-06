@@ -108,7 +108,7 @@ sap.ui.define([
 								var myData = that2.getOwnerComponent().getModel("local").setProperty("/CustomCalculation", oData.results[0]);
 								// if(oData.results[0].AMCDate)
 								debugger;
-								if(o.results[0].hasOwnProperty("AMCDate")){
+								if(oData.results[0].hasOwnProperty("AMCDate")){
 									if (oData.results[0].AMCDate.toLocaleDateString() === (new Date()).toLocaleDateString() || oData.results[0].AMCDate < (new Date())) {
 										sap.m.MessageBox.error("Your Lience is expired,\n Please Renew Your Lience to continue using the Application");
 										return;

@@ -5386,7 +5386,7 @@ debugger;
 									arrGroups.push(customerRecord[i].Group.toString());
 								}
 							}
-							
+
 							// if(typeof(customerRecord[0].Group)!=="object"){
 							// 	debugger;
 							// }
@@ -5441,7 +5441,7 @@ debugger;
 								custFinal.Name = customerRecord[i].Name;
 								custFinal.SecondaryPhone = customerRecord[i].SecondaryPhone;
 								custFinal.Type = customerRecord[i].Type;
-
+								custFinal.Interest = customerRecord[i].Interest;
 								//loop through city records to get city name
 								for (var m = 0; m < cityRecord.length; m++) {
 									if(customerRecord[i].City!==undefined){
@@ -5488,7 +5488,7 @@ debugger;
 								};
 
 								//Merging second Row
-								sheet.mergeCells('A2:H2');
+								sheet.mergeCells('A2:I2');
 
 								//Code for getting current datetime
 								var currentdate = new Date();
@@ -5500,7 +5500,7 @@ debugger;
 								};
 
 								// Header creation
-								var header = ["City", "MobilePhone", "Address", "CustomerCode", "Name", "SecondaryPhone", "Group", "Type"];
+								var header = ["City", "MobilePhone", "Address", "CustomerCode", "Name", "SecondaryPhone", "Group", "Type", "Interest %"];
 								sheet.addRow().values = header;
 
 								//Coding for cell color and bold character
@@ -5560,12 +5560,19 @@ debugger;
 										argb: 'A9A9A9'
 									}
 								};
+								sheet.getCell('I2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
 
 								// Looping through the records
 								for (var l = 0; l < custFinals["length"]; l++) {
 									var items = custFinals[l];
 									var item = [items.City, items.MobilePhone, items.Address, items.CustomerCode, items.Name, items.SecondaryPhone, items.Group,
-										items.Type
+										items.Type, items.Interest
 									];
 									sheet.addRow().values = item;
 								}
@@ -5574,7 +5581,7 @@ debugger;
 
 								//Coding for rows and column border
 								var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE,
-									colMaxLengthF, colMaxLengthG, colMaxLengthH;
+									colMaxLengthF, colMaxLengthG, colMaxLengthH,colMaxLengthI;
 								for (var j = 1; j <= totText; j++) {
 									sheet.getCell('A' + (j)).border = {
 										top: {
@@ -5675,6 +5682,20 @@ debugger;
 										}
 									};
 									sheet.getCell('H' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('I' + (j)).border = {
 										top: {
 											style: 'thin'
 										},
@@ -5794,6 +5815,19 @@ debugger;
 										}
 										if (j == totText) {
 											sheet.getColumn('H').width = colMaxLengthH + 2;
+										}
+
+										if (sheet.getCell('I' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+											} else {
+												if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
+													colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('I').width = colMaxLengthI + 2;
 										}
 									}
 									// code added by surya for autocolumn width - ended

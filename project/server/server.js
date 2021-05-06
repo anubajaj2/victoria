@@ -5376,12 +5376,17 @@ debugger;
 						debugger;
 						for (var i = 0; i < customerRecord["length"]; i++) {
 							// try {
-							if (!(arrCities.includes(customerRecord[i].City.toString()))) {
-								arrCities.push(customerRecord[i].City.toString());
+							if(customerRecord[i].City!==undefined)	{
+								if (!(arrCities.includes(customerRecord[i].City.toString()))) {
+									arrCities.push(customerRecord[i].City.toString());
+								}
 							}
-							if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
-								arrGroups.push(customerRecord[i].Group.toString());
+							if(customerRecord[i].Group!==undefined){
+								if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
+									arrGroups.push(customerRecord[i].Group.toString());
+								}
 							}
+							
 							// if(typeof(customerRecord[0].Group)!=="object"){
 							// 	debugger;
 							// }
@@ -5439,17 +5444,21 @@ debugger;
 
 								//loop through city records to get city name
 								for (var m = 0; m < cityRecord.length; m++) {
+									if(customerRecord[i].City!==undefined){
 									if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
 										custFinal.City = cityRecord[m].cityName.toString();
 										break;
+									}
 									}
 								}
 
 								//loop through Group records to get group name
 								for (var k = 0; k < groupRecord.length; k++) {
+									if(customerRecord[i].Group!==undefined){
 									if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
 										custFinal.Group = groupRecord[k].groupName.toString();
 										break;
+									}
 									}
 								}
 								//Now push prepared record object to the array of Final Customer
@@ -5820,6 +5829,7 @@ debugger;
 								});
 							}
 						}).catch(function(oError) {
+							debugger;
 							that.getView().setBusy(false);
 						});
 					} catch (e) {

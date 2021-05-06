@@ -82,6 +82,9 @@
         "type":"boolean",
         "default":false
     },
+    "AMCDate": {
+      "type": "date"
+    },
 
     "CreatedOn": {
       "type": "date"

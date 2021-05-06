@@ -97,51 +97,92 @@ sap.ui.define([
 					};
 					var found = false;
 					var AppUsers = [];
+
+					debugger;
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-							"/AppUsers", "GET", {}, {}, that)
+							"/CustomCalculations", "GET", {}, {}, that)
 						.then(function(oData) {
-							if (oData.results.length != 0) {
-								for (var i = 0; i < oData.results.length; i++) {
-									AppUsers[oData.results[i].TechnicalId] = oData.results[i];
-									if (oData.results[i].TechnicalId === data.userId) {
-										var role=oData.results[i].Role;
-										that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
-										that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
-										found = true;
-									} else {
-										that2.getView().getModel("local").setProperty("/Authorization", "");
-
-									}
+							// var oModelCalculation = new sap.ui.model.json.JSONModel();
+							// oModelCalculation.setData(oData);
+							if (oData.results.length > 0) {
+								var myData = that2.getOwnerComponent().getModel("local").setProperty("/CustomCalculation", oData.results[0]);
+								// if(oData.results[0].AMCDate)
+								debugger;
+								if (oData.results[0].AMCDate.toLocaleDateString() === (new Date()).toLocaleDateString() || oData.results[0].AMCDate < (new Date())) {
+									sap.m.MessageBox.error("Your Lience is expired,\n Please Renew Your Lience to continue using the Application");
+									return;
 								}
-
-								if (found === true) {
-									that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
-									if(role==="Admin"){
-										that2.oRouter.navTo("Customers");
-
-									}else if(role==="Content"){
-										that2.oRouter.navTo("dayBook");
-									}else if(role==="Sales"){
-										that2.oRouter.navTo("sales");
-									}else if(role==="Order"){
-										that2.oRouter.navTo("customerOrders");
-									}else if(role==="Kacchi"){
-										that2.oRouter.navTo("Kacchi");
-									}else if(role==="Booking"){
-										that2.oRouter.navTo("Suppliers");
-									}else if(role==="Stock"){
-										that2.oRouter.navTo("Stock");
+								else{
+									for(var i=1;i<=5;i++){
+										var cDate=new Date(oData.results[0].AMCDate);
+										cDate.setDate(cDate.getDate() - i)
+										if(cDate.toLocaleDateString()===  (new Date()).toLocaleDateString()){
+											// sap.m.MessageBox.error("Your Lience is expired in "+i+" days");
+											var that3=that2;
+												sap.m.MessageBox.error("Your Lience is expired in "+i+" days", {
+													onClose: function (sAction) {
+														that3.navigation(data);
+													}
+												});
+											// that2.navigation(data);
+											return;
+										}
 									}
-									// that2.oRouter.navTo("Customers");
-that2.onDropDownSelect();
-
-								} else {
-									sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
+									
 								}
+								that2.navigation(data);
+								
 							}
-						}).catch(function(oError) {
-
+						})
+						.catch(function(oError) {
+							sap.m.MessageToast.show(that2.resourceBundle.getText("Fetch11"));
 						});
+					// that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+					// 		"/AppUsers", "GET", {}, {}, that)
+					// 	.then(function(oData) {
+					// 		if (oData.results.length != 0) {
+					// 			for (var i = 0; i < oData.results.length; i++) {
+					// 				AppUsers[oData.results[i].TechnicalId] = oData.results[i];
+					// 				if (oData.results[i].TechnicalId === data.userId) {
+					// 					var role = oData.results[i].Role;
+					// 					that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
+					// 					that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
+					// 					found = true;
+					// 				} else {
+					// 					that2.getView().getModel("local").setProperty("/Authorization", "");
+
+					// 				}
+					// 			}
+
+					// 			if (found === true) {
+					// 				that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
+					// 				if (role === "Admin") {
+					// 					that2.oRouter.navTo("Customers");
+
+					// 				} else if (role === "Content") {
+					// 					that2.oRouter.navTo("dayBook");
+					// 				} else if (role === "Sales") {
+					// 					that2.oRouter.navTo("sales");
+					// 				} else if (role === "Order") {
+					// 					that2.oRouter.navTo("customerOrders");
+					// 				} else if (role === "Kacchi") {
+					// 					that2.oRouter.navTo("Kacchi");
+					// 				} else if (role === "Booking") {
+					// 					that2.oRouter.navTo("Suppliers");
+					// 				} else if (role === "Stock") {
+					// 					that2.oRouter.navTo("Stock");
+					// 				}
+					// 				// that2.oRouter.navTo("Customers");
+					// 				that2.onDropDownSelect();
+
+					// 			} else {
+					// 				sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
+					// 			}
+					// 		}
+					// 	})
+					// 	.catch(function(oError) {
+
+					// 	});
 
 				})
 				.fail(function(xhr, status, error) {
@@ -163,6 +204,59 @@ that2.onDropDownSelect();
 			// // this.getView().byId("languageSelect").setSelectedKey("English")
 			// that.oRouter.navTo("Customers");
 			// }
+		},
+		navigation:function(data){
+			debugger;
+			var found = false;
+			var that=this;
+			var that2=that;
+			var AppUsers = [];
+			that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							"/AppUsers", "GET", {}, {}, that)
+						.then(function(oData) {
+							if (oData.results.length != 0) {
+								for (var i = 0; i < oData.results.length; i++) {
+									AppUsers[oData.results[i].TechnicalId] = oData.results[i];
+									if (oData.results[i].TechnicalId === data.userId) {
+										var role = oData.results[i].Role;
+										that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
+										that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
+										found = true;
+									} else {
+										that2.getView().getModel("local").setProperty("/Authorization", "");
+
+									}
+								}
+
+								if (found === true) {
+									that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
+									if (role === "Admin") {
+										that2.oRouter.navTo("Customers");
+
+									} else if (role === "Content") {
+										that2.oRouter.navTo("dayBook");
+									} else if (role === "Sales") {
+										that2.oRouter.navTo("sales");
+									} else if (role === "Order") {
+										that2.oRouter.navTo("customerOrders");
+									} else if (role === "Kacchi") {
+										that2.oRouter.navTo("Kacchi");
+									} else if (role === "Booking") {
+										that2.oRouter.navTo("Suppliers");
+									} else if (role === "Stock") {
+										that2.oRouter.navTo("Stock");
+									}
+									// that2.oRouter.navTo("Customers");
+									that2.onDropDownSelect();
+
+								} else {
+									sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
+								}
+							}
+						})
+						.catch(function(oError) {
+							debugger;
+						});
 		},
 		// 		onAfterRendering: function(){debugger;
 		// 	this.UserInfoService = sap.ushell.Container.getService("UserInfo");
@@ -188,9 +282,9 @@ that2.onDropDownSelect();
 				if (selectedlaunguage === 'Hi') {
 					sap.ui.getCore().getConfiguration().setLanguage('Hi');
 					// window.location.hash="sap-ui-language=hi";
-					window.navigator.browserLanguage="?sap-ui-language=hi";
+					window.navigator.browserLanguage = "?sap-ui-language=hi";
 					// window.location.search = "?sap-ui-language=hi";
-					window.navigator.language="?sap-ui-language=hi";
+					window.navigator.language = "?sap-ui-language=hi";
 
 					// this.oRouter.navTo("Customers");
 

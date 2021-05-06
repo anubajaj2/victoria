@@ -13,6 +13,8 @@
 <!-- value="Data Upload Type" -->
 		<semantic:content id="test11">
 			<VBox class="sapUiSmallMargin">
+			<HBox>
+			<VBox class="sapUiSmallMarginEnd">
 				<ComboBox id="uploadTypeSelect">
 					<core:Item key="Group" text="Group" />
 					<core:Item key="City" text="City" />
@@ -28,6 +30,24 @@
 				</u:FileUploader>
 
 				<Button text="{i18n>UploadFile}" press="handleUploadPress"/>
+			</VBox>
+			<HBox class="sapUiSmallMarginBegin">
+				<Label text="Entry Layout" class="sapUiSmallMarginTop"/>
+				<Switch state="{local>/CustomCalculation/EntryLayout}" class="sapUiSmallMarginBegin">
+				<layoutData>
+					<FlexItemData growFactor="1" />
+				</layoutData>
+			</Switch>
+			</HBox>
+			<HBox class="sapUiSmallMarginBegin">
+				<Label text="AMC Date" class="sapUiSmallMarginTop"/>
+					<DatePicker
+						id="AMCdatePicker" class="sapUiTinyMarginBegin"
+						value="{local>/CustomCalculation/AMCDate}"  displayFormat="long"/>
+			</HBox>
+			
+			</HBox>
+				
 
 <!--
 

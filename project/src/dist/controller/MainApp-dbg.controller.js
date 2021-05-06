@@ -108,30 +108,32 @@ sap.ui.define([
 								var myData = that2.getOwnerComponent().getModel("local").setProperty("/CustomCalculation", oData.results[0]);
 								// if(oData.results[0].AMCDate)
 								debugger;
-								if (oData.results[0].AMCDate.toLocaleDateString() === (new Date()).toLocaleDateString() || oData.results[0].AMCDate < (new Date())) {
-									sap.m.MessageBox.error("Your Lience is expired,\n Please Renew Your Lience to continue using the Application");
-									return;
-								}
-								else{
-									for(var i=1;i<=5;i++){
-										var cDate=new Date(oData.results[0].AMCDate);
-										cDate.setDate(cDate.getDate() - i)
-										if(cDate.toLocaleDateString()===  (new Date()).toLocaleDateString()){
-											// sap.m.MessageBox.error("Your Lience is expired in "+i+" days");
-											var that3=that2;
-												sap.m.MessageBox.error("Your Lience is expired in "+i+" days", {
-													onClose: function (sAction) {
-														that3.navigation(data);
-													}
-												});
-											// that2.navigation(data);
-											return;
+								if(o.results[0].hasOwnProperty("AMCDate")){
+									if (oData.results[0].AMCDate.toLocaleDateString() === (new Date()).toLocaleDateString() || oData.results[0].AMCDate < (new Date())) {
+										sap.m.MessageBox.error("Your Lience is expired,\n Please Renew Your Lience to continue using the Application");
+										return;
+									}
+									else{
+										for(var i=1;i<=5;i++){
+											var cDate=new Date(oData.results[0].AMCDate);
+											cDate.setDate(cDate.getDate() - i)
+											if(cDate.toLocaleDateString()===  (new Date()).toLocaleDateString()){
+												// sap.m.MessageBox.error("Your Lience is expired in "+i+" days");
+												var that3=that2;
+													sap.m.MessageBox.error("Your Lience is expired in "+i+" days", {
+														onClose: function (sAction) {
+															that3.navigation(data);
+														}
+													});
+												// that2.navigation(data);
+												return;
+											}
 										}
 									}
-									
 								}
+
 								that2.navigation(data);
-								
+
 							}
 						})
 						.catch(function(oError) {

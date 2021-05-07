@@ -124,7 +124,7 @@
                         </f:FormElement>
                         <f:FormElement>
                             <f:fields>
-                                <CheckBox text="{i18n>RsCalculation}" id="rsCalculationBox" />
+                                <CheckBox text="{i18n>RsCalculation}" id="rsCalculationBox" selected="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}"/>
                             </f:fields>
                         </f:FormElement>
                         <f:FormElement id="idformMat" label="{i18n>material}" visible="true">

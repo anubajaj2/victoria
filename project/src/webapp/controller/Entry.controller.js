@@ -419,67 +419,120 @@ sap.ui.define(["victoria/controller/BaseController",
 				var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
 				var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
 				if (X > 0 && this.getView().byId("RB-1").getSelected()) {
-					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-					this.getView().byId("idGold").setValue(0);
-					this.getView().byId("idRemarks").setValue(CR);
+					if(this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue)/1000;
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
+						this.getView().byId("idRemarks").setValue(CR);
+					}else {
+						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idCash").setValue(0);
+						this.getView().byId("idRemarks").setValue(CR);
+					}
+					
 				} else if (X > 0 && this.getView().byId("RB-2").getSelected()) {
-					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-					this.getView().byId("idSilver").setValue(0);
-					this.getView().byId("idRemarks").setValue(SR);
+					if(this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue)/10;
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
+						this.getView().byId("idRemarks").setValue(SR);
+					}else {
+						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idCash").setValue(0);
+						this.getView().byId("idRemarks").setValue(SR);
+					}
+					
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(KR);
 				} else if (X > 0 && this.getView().byId("RB-5").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(KSR);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					debugger;
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
 					debugger;
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-1").getSelected()) {
-					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-					this.getView().byId("idGold").setValue(0);
-					this.getView().byId("idRemarks").setValue(CT);
+					if(this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue)/1000;
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
+						this.getView().byId("idRemarks").setValue(CT);
+					}else {
+						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idCash").setValue(0);
+						this.getView().byId("idRemarks").setValue(CT);						
+					}
+
 				} else if (X < 0 && this.getView().byId("RB-2").getSelected()) {
-					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-					this.getView().byId("idSilver").setValue(0);
-					this.getView().byId("idRemarks").setValue(ST);
+					if(this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue)/10;
+						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
+						this.getView().byId("idRemarks").setValue(ST);
+					}else {
+						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
+						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idCash").setValue(0);
+						this.getView().byId("idRemarks").setValue(ST);
+					}
+					
 				} else if (X < 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(KT);
 				} else if (X < 0 && this.getView().byId("RB-5").getSelected()) {
 					this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
 					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idCash").setValue(0);
 					this.getView().byId("idRemarks").setValue(KST);
 				}
+				
+				
 			},
 			onPressGWiseDownload: function() {
 				debugger;

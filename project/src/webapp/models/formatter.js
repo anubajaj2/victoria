@@ -197,7 +197,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 			var days = parseInt(Difference_In_Days);
 			
-			var totalAmt = Amount + ((Amount*interest*days)/3000);
+			var totalAmt = ((Amount*interest*days)/3000);
 			return totalAmt;
 
 		}

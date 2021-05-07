@@ -24,10 +24,11 @@
                     <headerToolbar>
                         <Toolbar>
                             <Title id="idTitle1" text="{i18n>jamaEntries}"></Title>
+                            <Text id="idCount1" />
                             <ToolbarSpacer />
 
-                            <Button id="idEntryDownload1" icon="sap-icon://download" text="{i18n>EntryDownload}" press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true" />
-                            <Button icon="sap-icon://download" text="{i18n>GroupReport}" press="onPressGWiseDownload" />
+                            <Button id="idEntryDownload1" visible="false" icon="sap-icon://download" text="{i18n>EntryDownload}" press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true" />
+                            <Button icon="sap-icon://download" visible="false" text="{i18n>GroupReport}" press="onPressGWiseDownload" />
                             <Button id="idtool1" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
                             <Button icon="sap-icon://delete" press="onDelete" tooltip="{i18n>Delete}"></Button>
                         </Toolbar>
@@ -89,7 +90,7 @@
                                 <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id441" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Silver'}" id="id551" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
-                                             formatter: '.formatter.getInterestAmount'}"/>
+                                             formatter: '.formatter.getInterestAmount'}" />
                                 <Text text="{Remarks}"></Text>
                             </cells>
                         </ColumnListItem>
@@ -123,6 +124,7 @@
                     <headerToolbar>
                         <Toolbar>
                             <Title id="idTitle2" text="{i18n>naamEntries}"></Title>
+                            <Text id="idCount2" />
                             <ToolbarSpacer />
 
                             <Button id="idEntryDownload2" icon="sap-icon://download" text="{i18n>EntryDownload}" press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true" />
@@ -188,7 +190,7 @@
                                 <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id442" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Silver'}" id="id552" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
-                                            formatter: '.formatter.getInterestAmount'}" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"/>
+                                            formatter: '.formatter.getInterestAmount'}" />
                                 <Text text="{Remarks}"></Text>
                             </cells>
                         </ColumnListItem>

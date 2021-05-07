@@ -233,6 +233,8 @@ sap.ui.define(["victoria/controller/BaseController",
 				// var oFilter = new sap.ui.model.Filter("Date", "EQ", minDate);
 				// var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.EQ, minDate1);
 				that.getView().byId("idTable").getBinding("items").filter(oFilter1);
+				that.getView().byId("idTable1").getBinding("items").filter(oFilter1);
+				that.getView().byId("idTable2").getBinding("items").filter(oFilter1);
 
 				// this.Date = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).Date;
 				that.getView().byId("idCash").focus();
@@ -1243,6 +1245,8 @@ debugger;
 						this.byId("idCust").setValue("");
 						this.byId("idCustText").setText("");
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
+						this.getView().byId("idTable1").getBinding("items").filter(oFilter);
+						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCust").focus();
@@ -1266,6 +1270,8 @@ debugger;
 					} else {
 						this.getView().byId("DateId").setDateValue(new Date());
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
+						this.getView().byId("idTable1").getBinding("items").filter(oFilter);
+						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCust").focus();
@@ -1289,6 +1295,8 @@ debugger;
 					// 												 "GET", {}, myData, this)
 					this.byId("DueDateId").setDateValue(new Date());
 					this.getView().byId("idTable").getBinding("items").filter([]);
+					this.getView().byId("idTable1").getBinding("items").filter([]);
+					this.getView().byId("idTable2").getBinding("items").filter([]);
 				}
 
 			},

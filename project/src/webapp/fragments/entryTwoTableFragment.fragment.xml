@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
     <Page>
         <content>
-            <HBox >
+            <HBox>
                 <!-- table 1 -->
                 <Table id="idTable1" inset="false" class="myCustomText" alternateRowColors="false" includeItemInSelection="false" items="{
                     path: '/Entrys',
@@ -20,7 +20,7 @@
                           value1: 0
                         }
                           ]
-                    }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished" visible="{local>/CustomCalculation/EntryLayout}">
+                    }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished" visible="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}">
                     <headerToolbar>
                         <Toolbar>
                             <Title id="idTitle1" text="{i18n>jamaEntries}"></Title>
@@ -63,6 +63,9 @@
                             <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
                         </Column>
                         <Column demandPopin="true">
+                            <Label text="{i18n>Interest}" design="Bold" wrapping="true"></Label>
+                        </Column>
+                        <Column demandPopin="true">
                             <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
                             <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
                         </Column>
@@ -85,6 +88,8 @@
                                 <ObjectStatus text="{path:'Cash'}" id="cashid1" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id441" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Silver'}" id="id551" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
+                                <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
+                                             formatter: '.formatter.getInterestAmount'}"/>
                                 <Text text="{Remarks}"></Text>
                             </cells>
                         </ColumnListItem>
@@ -92,9 +97,9 @@
                 </Table>
 
                 <VBox>
-                    <Text text="" class="sapUiSmallMarginEnd"/>
+                    <Text text="" class="sapUiSmallMarginEnd" />
                 </VBox>
-                
+
                 <!-- table 2 -->
 
                 <Table id="idTable2" inset="false" class="myCustomText" alternateRowColors="false" includeItemInSelection="false" items="{
@@ -157,6 +162,9 @@
                             <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
                         </Column>
                         <Column demandPopin="true">
+                            <Label text="{i18n>Interest}" design="Bold" wrapping="true"></Label>
+                        </Column>
+                        <Column demandPopin="true">
                             <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
                             <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
                         </Column>
@@ -179,6 +187,8 @@
                                 <ObjectStatus text="{path:'Cash'}" id="cashid2" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id442" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
                                 <ObjectStatus text="{path:'Silver'}" id="id552" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
+                                <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
+                                            formatter: '.formatter.getInterestAmount'}" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"/>
                                 <Text text="{Remarks}"></Text>
                             </cells>
                         </ColumnListItem>

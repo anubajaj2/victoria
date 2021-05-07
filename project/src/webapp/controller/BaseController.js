@@ -1816,6 +1816,8 @@ sap.ui.define([
 
 					var oFilter2 = new sap.ui.model.Filter("Type", "EQ", myData.Type);
 					this.getView().byId("idTable").getBinding("items").filter(oFilter2);
+					this.getView().byId("idTable1").getBinding("items").filter(oFilter2);
+					this.getView().byId("idTable2").getBinding("items").filter(oFilter2);
 					this.getView().byId("idBookingDlvTable").getBinding("items").filter(oFilter2);
 
 				} else {
@@ -1827,6 +1829,8 @@ sap.ui.define([
 						and: true
 					});
 					this.getView().byId("idTable").getBinding("items").filter([oFilter]);
+					this.getView().byId("idTable1").getBinding("items").filter([oFilter]);
+					this.getView().byId("idTable2").getBinding("items").filter([oFilter]);
 					this.getView().byId("idBookingDlvTable").getBinding("items").filter([oFilter]);
 				}
 				var that = this;

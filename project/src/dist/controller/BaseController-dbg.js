@@ -1901,6 +1901,8 @@ sap.ui.define([
 				// this.getView().getModel("local").getProperty("/EntryData",myData);
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idTable").getBinding("items").filter(oFilter);
+				this.getView().byId("idTable1").getBinding("items").filter(oFilter);
+				this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 				this.customerId = selectedCustomer.id;
 				$.post("/getTotalEntryCustomer", {
 					Customer: myData.Customer

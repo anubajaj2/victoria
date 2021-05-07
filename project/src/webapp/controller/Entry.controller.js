@@ -421,31 +421,25 @@ sap.ui.define(["victoria/controller/BaseController",
 				if (X > 0 && this.getView().byId("RB-1").getSelected()) {
 					if(this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
-						this.getView().byId("idSilver").setValue(0);
-						this.getView().byId("idGold").setValue(0);
+						this.getView().byId("idSilver").setValue(0);			
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idRemarks").setValue(CR);
 					}else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(0);
-						this.getView().byId("idRemarks").setValue(CR);
 					}
-					
+					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idRemarks").setValue(CR);
 				} else if (X > 0 && this.getView().byId("RB-2").getSelected()) {
 					if(this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/10;
-						this.getView().byId("idGold").setValue(0);
-						this.getView().byId("idSilver").setValue(0);
+						this.getView().byId("idGold").setValue(0);						
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idRemarks").setValue(SR);
 					}else {
-						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idSilver").setValue(0);
-						this.getView().byId("idCash").setValue(0);
-						this.getView().byId("idRemarks").setValue(SR);
+						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));						
+						this.getView().byId("idCash").setValue(0);						
 					}
-					
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(SR);
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);
@@ -495,31 +489,25 @@ sap.ui.define(["victoria/controller/BaseController",
 				} else if (X < 0 && this.getView().byId("RB-1").getSelected()) {
 					if(this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
-						this.getView().byId("idSilver").setValue(0);
-						this.getView().byId("idGold").setValue(0);
-						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idRemarks").setValue(CT);
+						this.getView().byId("idSilver").setValue(0);						
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));						
 					}else {
-						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idGold").setValue(0);
-						this.getView().byId("idCash").setValue(0);
-						this.getView().byId("idRemarks").setValue(CT);						
+						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));					
+						this.getView().byId("idCash").setValue(0);												
 					}
-
+					this.getView().byId("idGold").setValue(0);
+					this.getView().byId("idRemarks").setValue(CT);
 				} else if (X < 0 && this.getView().byId("RB-2").getSelected()) {
 					if(this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/10;
-						this.getView().byId("idGold").setValue(0);
-						this.getView().byId("idSilver").setValue(0);
-						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idRemarks").setValue(ST);
+						this.getView().byId("idGold").setValue(0);						
+						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));						
 					}else {
-						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idSilver").setValue(0);
-						this.getView().byId("idCash").setValue(0);
-						this.getView().byId("idRemarks").setValue(ST);
+						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));						
+						this.getView().byId("idCash").setValue(0);						
 					}
-					
+					this.getView().byId("idSilver").setValue(0);
+					this.getView().byId("idRemarks").setValue(ST);
 				} else if (X < 0 && this.getView().byId("RB-3").getSelected()) {
 					this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
 					this.getView().byId("idGold").setValue(0);

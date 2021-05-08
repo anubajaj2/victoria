@@ -3765,7 +3765,8 @@ debugger;
 								"CustomerCode": true,
 								"Name": true,
 								"Group": true,
-								"City": true
+								"City": true,
+								"Interest":true
 							}
 						}).then(function(customerRecord, err) {
 							callback(err, customerRecord);
@@ -4313,6 +4314,2114 @@ debugger;
 			);
 		})
 
+		app.get('/entryDownload1', function(req, res) {
+			debugger;
+			var reportType = req.query.type;
+			debugger;
+			var custId = req.query.id;
+			var name = req.query.name;
+			var city = req.query.city;
+			// custId = "6043ad0632a5213cb0ec551a";
+			var Ggroup = "";
+			//read customer name by id, group by group id, city by
+			//read kacchi and print report with all coloring, formatting, totaling
+			var responseData = [];
+			var oSubCounter = {};
+			var Customer = app.models.Customer;
+
+			var async = require('async');;
+			async.waterfall([
+					function(callback) {
+						Customer.findById(custId, {
+							fields: {
+								"CustomerCode": true,
+								"Name": true,
+								"Group": true,
+								"City": true,
+								"Interest":true
+							}
+						}).then(function(customerRecord, err) {
+							callback(err, customerRecord);
+						});
+					}
+				], function(err, customerRecord) {
+					// result now equals 'done'
+					//set all values to local variables which we need inside next promise
+					// name = customerRecord.Name;
+					// city = cityRecord.cityName;
+					name = customerRecord.Name;
+					var CInterest=customerRecord.Interest;
+					try {
+						//read the kacchi Records
+						var Entry = app.models.Entry;
+						debugger;
+						Entry.find({
+								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
+								where: {
+									"Customer": custId
+
+								}
+							})
+							.then(function(Records, err) {
+									if (Records) {
+										var excel = require('exceljs');
+										var workbook = new excel.Workbook(); //creating workbook
+										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+										// sheet.columns = [
+										// 		{ width: 11 }
+										// 	];
+										//Heading for excel
+										var heading = {
+											heading: "Fast Report"
+										};
+										sheet.mergeCells('A1:M1');
+										sheet.getCell('M1').value = 'Fast Report';
+										sheet.getCell('A1').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+
+										sheet.getCell('A1').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '808080'
+											}
+										};
+
+										//Merging second Row
+										sheet.mergeCells('A2:M2');
+
+										//Code for getting current datetime
+										var currentdate = new Date();
+										var num = Records.length;
+										var datetime = currentdate.getDate() + "." +
+											(currentdate.getMonth() + 1) + "." +
+											currentdate.getFullYear() + " / " +
+											currentdate.getHours() + ":" +
+											currentdate.getMinutes() + ":" +
+											currentdate.getSeconds();
+										sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
+										sheet.getCell('A2').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+
+										sheet.getRow(2).font === {
+											bold: true
+										};
+
+										sheet.mergeCells('A3:F3');
+
+										//Code for getting current datetime
+										// var currentdate = new Date();
+										// var num = Records.length;
+										// var datetime = currentdate.getDate() + "." +
+										// 	(currentdate.getMonth() + 1) + "." +
+										// 	currentdate.getFullYear() + " / " +
+										// 	currentdate.getHours() + ":" +
+										// 	currentdate.getMinutes() + ":" +
+										// 	currentdate.getSeconds();
+										sheet.getCell('A3').value = 'Credit';
+										sheet.getCell('A3').alignment = {
+											vertical: 'middle',
+											horizontal: 'left'
+										};
+
+										sheet.getRow(3).font === {
+											bold: true
+										};
+
+										sheet.mergeCells('H3:M3');
+
+										//Code for getting current datetime
+										// var currentdate = new Date();
+										// var num = Records.length;
+										// var datetime = currentdate.getDate() + "." +
+										// 	(currentdate.getMonth() + 1) + "." +
+										// 	currentdate.getFullYear() + " / " +
+										// 	currentdate.getHours() + ":" +
+										// 	currentdate.getMinutes() + ":" +
+										// 	currentdate.getSeconds();
+										sheet.getCell('H3').value = 'Debit';
+										sheet.getCell('H3').alignment = {
+											vertical: 'middle',
+											horizontal: 'left'
+										};
+
+										sheet.getRow(3).font === {
+											bold: true
+										};
+
+										var header = ["Date", "Silver", "Cash", "Gold","Interest", "Remarks"," ","Date", "Silver", "Cash", "Gold","Interest", "Remarks"];
+
+										sheet.addRow().values = header;
+
+										//Coding for cell color and bold character
+										sheet.getCell('A4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('B4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('C4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('D4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('E4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('F4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('G4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '000000'
+											}
+										};
+										sheet.getCell('H4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('I4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('J4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('K4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('L4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('M4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+
+										var totCash = 0;
+										var totalB = 0;
+										var totalC = 0;
+										var totalD = 0;
+										var totalE = 0;
+										var totalI = 0;
+										var totalJ = 0;
+										var totalK = 0;
+										var totalL = 0;
+										//code added by surya 10 nov - start
+
+										// define function to change date format to dd.mm.yyyy using date Object
+										function formatDateForEntry(date) {
+											var d = new Date(date),
+												month = '' + (d.getMonth() + 1),
+												day = '' + d.getDate(),
+												year = d.getFullYear();
+
+											if (month.length < 2)
+												month = '0' + month;
+											if (day.length < 2)
+												day = '0' + day;
+
+											return [day, month, year].join('.');
+										}
+										function getInterestAmount(Amount,date,interest) {
+											debugger;
+											if(interest===undefined){
+												interest=0;
+											}
+											// var oCustomer = this.allMasterData.customers[customerId];
+											// var interest  = oCustomer.Interest;
+											var date2 = new Date();
+											var date1 = date;
+											var Difference_In_Time = date2.getTime() - date1.getTime();
+											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+											var days = parseInt(Difference_In_Days);
+											
+											var totalAmt = ((Amount*interest*days)/3000);
+											return totalAmt;
+								
+										}
+										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
+										//code added by surya 10 nov - end
+										//Coding to remove unwanted items or Rows
+										var pEntry=[];
+										var nEntry=[];
+										for (var i = 0; i < Records["length"]; i++) {
+											var items = Records[i].__data;
+											// var interest=getInterestAmount(items["Cash"],items["Date"],items["Interest"]);
+											// items["Date"] = formatDateForEntry(items["Date"]);
+											// var item = [items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
+											// totalB = totalB + items["Silver"];
+											// totalC = totalC + items["Cash"];
+											// totalD = totalD + items["Gold"];
+											// sheet.addRow().values = item;
+											if(items["Cash"]>0){
+												pEntry.push(items);
+												// sheet.getCell("A"+(i+5)).value=items["Date"];
+												// sheet.getCell("B"+(i+5)).value=items["Silver"];
+												// sheet.getCell("C"+(i+5)).value=items["Cash"];
+												// sheet.getCell("D"+(i+5)).value=interest;
+												// sheet.getCell("E"+(i+5)).value=items["Gold"];
+												// sheet.getCell("F"+(i+5)).value=items["Remarks"];
+											}
+											else{
+												nEntry.push(items);
+												// sheet.getCell("H"+(i+5)).value=items["Date"];
+												// sheet.getCell("I"+(i+5)).value=items["Silver"];
+												// sheet.getCell("J"+(i+5)).value=items["Cash"];
+												// sheet.getCell("K"+(i+5)).value=interest;
+												// sheet.getCell("L"+(i+5)).value=items["Gold"];
+												// sheet.getCell("M"+(i+5)).value=items["Remarks"];
+											}
+										}
+										for(i=0;i<pEntry.length;i++){
+											var items = pEntry[i];
+											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											totalB = totalB + items["Silver"];
+											totalC = totalC + items["Cash"];
+											totalD = totalD + items["Gold"];
+											totalE=totalE+interest;
+											items["Date"] = formatDateForEntry(items["Date"]);
+												sheet.getCell("A"+(i+5)).value=items["Date"];
+												sheet.getCell("B"+(i+5)).value=items["Silver"];
+												sheet.getCell("C"+(i+5)).value=items["Cash"];
+												sheet.getCell("D"+(i+5)).value=items["Gold"];
+												sheet.getCell("E"+(i+5)).value=interest;
+												sheet.getCell("F"+(i+5)).value=items["Remarks"];
+										}
+										for(i=0;i<nEntry.length;i++){
+											var items = nEntry[i];
+											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											totalI = totalI + items["Silver"];
+											totalJ = totalJ + items["Cash"];
+											totalK = totalK + items["Gold"];
+											totalL=totalL+interest;
+											items["Date"] = formatDateForEntry(items["Date"]);
+												sheet.getCell("H"+(i+5)).value=items["Date"];
+												sheet.getCell("I"+(i+5)).value=items["Silver"];
+												sheet.getCell("J"+(i+5)).value=items["Cash"];
+												sheet.getCell("K"+(i+5)).value=items["Gold"];
+												sheet.getCell("L"+(i+5)).value=interest;
+												sheet.getCell("M"+(i+5)).value=items["Remarks"];
+										}
+
+										//Coding for formula and concatenation in the last line
+										if(pEntry.length>=nEntry.length){
+											var totText = pEntry.length + 5;
+										}
+										else{
+											var totText = nEntry.length + 5;
+										}
+										// var totText = Records["length"] + 5;
+										var totCol = totText - 1;
+										totalB = totalB.toFixed(3);
+										totalC = totalC.toFixed(2);
+										totalD = totalD.toFixed(2);
+										totalE=totalE.toFixed(2);
+										totalI = totalI.toFixed(3);
+										totalJ = totalJ.toFixed(2);
+										totalK = totalK.toFixed(2);
+										totalL=totalL.toFixed(2);
+										sheet.getCell('A' + totText).value = "TOTAL";
+
+										sheet.getCell('B' + totText).value = totalB;
+										sheet.getCell('C' + totText).value = totalC;
+										sheet.getCell('D' + totText).value = totalD;
+										sheet.getCell('E' + totText).value = totalE;
+										sheet.getCell('H' + totText).value = "TOTAL";
+
+										sheet.getCell('I' + totText).value = totalI;
+										sheet.getCell('J' + totText).value = totalJ;
+										sheet.getCell('K' + totText).value = totalK;
+										sheet.getCell('L' + totText).value = totalL;
+
+										sheet.getCell('A' + totText).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '00FFFF'
+											},
+											bgColor: {
+												argb: '00FFFF'
+											}
+										};
+										sheet.getCell('A' + totText).font = {
+											color: {
+												argb: '0000FF'
+											},
+											bold: true
+										};
+										
+										sheet.getCell('H' + totText).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '00FFFF'
+											},
+											bgColor: {
+												argb: '00FFFF'
+											}
+										};
+										sheet.getCell('H' + totText).font = {
+											color: {
+												argb: '0000FF'
+											},
+											bold: true
+										};
+
+										//Coding for rows and column border
+										for (var j = 1; j <= totText; j++) {
+											////
+											if (sheet.getCell('B' + (j)).value == '') {
+												sheet.getCell('B' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('B' + (j)).value < 0) {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											if (j > 2) {
+												sheet.getCell('G' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '000000'
+													},
+													fgColor: {
+														argb: '000000'
+													}
+												};
+											}											
+
+											if (sheet.getCell('C' + (j)).value == '') {
+												sheet.getCell('C' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												// if (j > 3 && j <= (totText - 2)) {
+												// 	var valC = sheet.getCell('C' + (j)).value;
+												// 	sheet.getCell('C' + (j)).value = valC + '/-';
+												// 	sheet.getCell('C' + (j)).alignment = {
+												// 		vertical: 'bottom',
+												// 		horizontal: 'right'
+												// 	};
+												// }
+
+											} else if (sheet.getCell('C' + (j)).value < 0) {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												// if (j > 3 && j <= (totText - 2)) {
+												// 	var valC = sheet.getCell('C' + (j)).value;
+												// 	sheet.getCell('C' + (j)).value = valC + '/-';
+												// 	sheet.getCell('C' + (j)).alignment = {
+												// 		vertical: 'bottom',
+												// 		horizontal: 'right'
+												// 	};
+												// }
+
+											} else {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+												// if (j > 3 && j <= (totText - 2)) {
+												// 	var valC = sheet.getCell('C' + (j)).value;
+												// 	sheet.getCell('C' + (j)).value = valC + '/-';
+												// 	sheet.getCell('C' + (j)).alignment = {
+												// 		vertical: 'bottom',
+												// 		horizontal: 'right'
+												// 	};
+												// }
+
+											}
+
+											if (sheet.getCell('D' + (j)).value == '') {
+												sheet.getCell('D' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('D' + (j)).value < 0) {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											if (sheet.getCell('E' + (j)).value == '') {
+												sheet.getCell('E' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('E' + (j)).value < 0) {
+												sheet.getCell('E' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('E' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											if (sheet.getCell('I' + (j)).value == '') {
+												sheet.getCell('I' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('I' + (j)).value < 0) {
+												sheet.getCell('I' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('I' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											if (sheet.getCell('J' + (j)).value == '') {
+												sheet.getCell('J' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('J' + (j)).value < 0) {
+												sheet.getCell('J' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('J' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											if (sheet.getCell('K' + (j)).value == '') {
+												sheet.getCell('K' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('K' + (j)).value < 0) {
+												sheet.getCell('K' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('K' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											if (sheet.getCell('L' + (j)).value == '') {
+												sheet.getCell('L' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('L' + (j)).value < 0) {
+												sheet.getCell('L' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('L' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+
+											////
+											sheet.getCell('A' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('B' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('C' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('D' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('E' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('F' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('G' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('H' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('I' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('J' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('K' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('L' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('M' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+
+											// code added by surya for autocolumn width - started
+											//setting absolute length for column A
+											if (j > "2") {
+												if (sheet.getCell('A' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+													} else {
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('A').width = colMaxLengthA + 2;
+													sheet.getColumn('H').width = colMaxLengthA + 2;
+												}
+												//setting absolute length for column B
+												if (sheet.getCell('B' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+													} else {
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('B').width = colMaxLengthB + 2;
+												}
+												//setting absolute length for column C
+												if (sheet.getCell('C' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+													} else {
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('C').width = colMaxLengthC + 2;
+												}
+												//setting absolute length for column D
+												if (sheet.getCell('D' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+													} else {
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('D').width = colMaxLengthD + 3;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('E' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+													} else {
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('E').width = colMaxLengthE + 2;
+												}
+											}
+											// code added by surya for autocolumn width - ended
+
+										}
+
+										// if (totalB == 0) {
+										// 	sheet.getCell('B' + totText).value = totalB + 'gm';
+										// } else {
+										// 	sheet.getCell('B' + totText).value = totalB + 'gm';
+										// }
+
+										// if (totalD == 0) {
+										// 	sheet.getCell('D' + totText).value = totalD + 'gm';
+										// } else {
+										// 	sheet.getCell('D' + totText).value = totalD + 'gm';
+										// }
+
+										// sheet.getCell('B' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+										// sheet.getCell('C' + totText).value = totalC + '/-';
+										// sheet.getCell('C' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+										// sheet.getCell('D' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+
+										// sheet.getCell('B' + totText).font = {
+										// 	color: {
+										// 		argb: '800000'
+										// 	}
+										// };
+										// sheet.getCell('D' + totText).font = {
+										// 	color: {
+										// 		argb: '800000'
+										// 	}
+										// };
+										sheet.getColumn('G').width =1;
+
+										//Coding to download in a folder
+										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+										// 	currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
+										// 	currentdate.getSeconds() + '.xlsx';
+										// console.log("tempFilePath : ", tempFilePath);
+										// workbook.xlsx.writeFile(tempFilePath).then(function() {
+										// 	res.sendFile(tempFilePath, function(err) {
+										// 		if (err) {
+										// 			console.log('---------- error downloading file: ', err);
+										// 		}
+										// 	});
+										// 	console.log('file is written @ ' + tempFilePath);
+										// });
+
+										const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// workbook.xlsx
+										//   .writeFile(tempFileName)
+										//   .then(response => {
+										//     console.log("file is written");
+										//     console.log(path.join(__dirname, "../newSaveeee.xlsx"));
+										//     res.sendFile(path.join(__dirname, "../" + tempFileName));
+										//   })
+										//   .catch(err => {
+										//     console.log(err);
+										//   });
+										// const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// var tempfile = require('tempfile');
+										// var tmp = tempfile(".xlsx");
+										// workbook.xlsx.writeFile("D:/" + tempFileName).then(function() {
+										//     console.log("xlsx file is written.");
+										// 		res.status(200).type("application/vnd.ms-excel").end();
+										// 		res.download(tmp, function(err){
+										//         console.log('---------- error downloading file: ' + err);
+										//     });
+										// });
+										// res is a Stream object
+										//anurag
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFileName
+										);
+										// console.log("came");
+										return workbook.xlsx.write(res).then(function(data) {
+											console.log(data);
+											//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+											//res.end(new Buffer(data, 'base64'));
+											res.status(200).end();
+										});
+										// res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+										//
+										// res.setHeader("Content-Disposition", "attachment; filename=Rep1ort.xlsx");
+										//
+										// workbook.xlsx.write(res).then(function () {
+										//     res.status(200).end();
+										// });
+									}
+								}
+
+							).catch(function(oError) {
+								debugger;
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
+							});
+					} catch (e) {
+
+					} finally {
+
+					}
+				}
+				//res.send(responseData);
+
+			);
+		})		
+
+
+		app.get('/entryDownload2', function(req, res) {
+			debugger;
+			var reportType = req.query.type;
+			debugger;
+			var custId = req.query.id;
+			var name = req.query.name;
+			var city = req.query.city;
+			// custId = "6043ad0632a5213cb0ec551a";
+			var Ggroup = "";
+			//read customer name by id, group by group id, city by
+			//read kacchi and print report with all coloring, formatting, totaling
+			var responseData = [];
+			var oSubCounter = {};
+			var Customer = app.models.Customer;
+
+			var async = require('async');;
+			async.waterfall([
+					function(callback) {
+						Customer.findById(custId, {
+							fields: {
+								"CustomerCode": true,
+								"Name": true,
+								"Group": true,
+								"City": true,
+								"Interest":true
+							}
+						}).then(function(customerRecord, err) {
+							callback(err, customerRecord);
+						});
+					}
+				], function(err, customerRecord) {
+					// result now equals 'done'
+					//set all values to local variables which we need inside next promise
+					// name = customerRecord.Name;
+					// city = cityRecord.cityName;
+					name = customerRecord.Name;
+					var CInterest=customerRecord.Interest;
+					try {
+						//read the kacchi Records
+						var Entry = app.models.Entry;
+						debugger;
+						Entry.find({
+								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
+								where: {
+									"Customer": custId
+
+								}
+							})
+							.then(function(Records, err) {
+									if (Records) {
+										var excel = require('exceljs');
+										var workbook = new excel.Workbook(); //creating workbook
+										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+										// sheet.columns = [
+										// 		{ width: 11 }
+										// 	];
+										//Heading for excel
+										var heading = {
+											heading: "Fast Report"
+										};
+										sheet.mergeCells('A1:I1');
+										sheet.getCell('I1').value = 'Fast Report';
+										sheet.getCell('A1').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+
+										sheet.getCell('A1').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: '808080'
+											}
+										};
+
+										//Merging second Row
+										sheet.mergeCells('A2:I2');
+
+										//Code for getting current datetime
+										var currentdate = new Date();
+										var num = Records.length;
+										var datetime = currentdate.getDate() + "." +
+											(currentdate.getMonth() + 1) + "." +
+											currentdate.getFullYear() + " / " +
+											currentdate.getHours() + ":" +
+											currentdate.getMinutes() + ":" +
+											currentdate.getSeconds();
+										sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
+										sheet.getCell('A2').alignment = {
+											vertical: 'middle',
+											horizontal: 'center'
+										};
+
+										sheet.getRow(2).font === {
+											bold: true
+										};
+										var pEntry=[];
+										var nEntry=[];
+										for (var i = 0; i < Records["length"]; i++) {
+											var items = Records[i].__data;
+											
+											if(items["Cash"]>0){
+												pEntry.push(items);
+												
+											}
+											else{
+												nEntry.push(items);
+												
+											}
+										}
+
+										sheet.mergeCells('A3:D3');
+										sheet.getCell('A3').value = 'जमा - '+pEntry.length;
+										sheet.getCell('A3').alignment = {
+											vertical: 'middle',
+											horizontal: 'left'
+										};
+
+										sheet.getRow(3).font === {
+											bold: true
+										};
+
+										sheet.mergeCells('F3:I3');
+
+										//Code for getting current datetime
+										// var currentdate = new Date();
+										// var num = Records.length;
+										// var datetime = currentdate.getDate() + "." +
+										// 	(currentdate.getMonth() + 1) + "." +
+										// 	currentdate.getFullYear() + " / " +
+										// 	currentdate.getHours() + ":" +
+										// 	currentdate.getMinutes() + ":" +
+										// 	currentdate.getSeconds();
+										sheet.getCell('F3').value = 'नाम - '+nEntry.length;
+										sheet.getCell('F3').alignment = {
+											vertical: 'middle',
+											horizontal: 'left'
+										};
+
+										sheet.getRow(3).font === {
+											bold: true
+										};
+
+										var header = ["तारीख", "दिन", "रुपया", "ब्याज"," ","तारीख", "दिन", "रुपया", "ब्याज"];
+
+										sheet.addRow().values = header;
+
+										//Coding for cell color and bold character
+										sheet.getCell('A4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('B4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('C4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('D4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('E4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('F4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('G4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('H4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										sheet.getCell('I4').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
+										// sheet.getCell('J4').fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: 'A9A9A9'
+										// 	}
+										// };
+										// sheet.getCell('K4').fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: 'A9A9A9'
+										// 	}
+										// };
+										// sheet.getCell('L4').fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: 'A9A9A9'
+										// 	}
+										// };
+										// sheet.getCell('M4').fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: 'A9A9A9'
+										// 	}
+										// };
+
+										var totCash = 0;
+										// var totalB = 0;
+										// var totalC = 0;
+										var totalC = 0;
+										var totalD = 0;
+										// var totalI = 0;
+										// var totalJ = 0;
+										var totalH = 0;
+										var totalI = 0;
+										//code added by surya 10 nov - start
+
+										// define function to change date format to dd.mm.yyyy using date Object
+										function formatDateForEntry(date) {
+											var d = new Date(date),
+												month = '' + (d.getMonth() + 1),
+												day = '' + d.getDate(),
+												year = d.getFullYear();
+
+											if (month.length < 2)
+												month = '0' + month;
+											if (day.length < 2)
+												day = '0' + day;
+
+											return [day, month, year].join('.');
+										}
+										function getInterestAmount(Amount,date,interest) {
+											debugger;
+											if(interest===undefined){
+												interest=0;
+											}
+											// var oCustomer = this.allMasterData.customers[customerId];
+											// var interest  = oCustomer.Interest;
+											var date2 = new Date();
+											var date1 = date;
+											var Difference_In_Time = date2.getTime() - date1.getTime();
+											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+											var days = parseInt(Difference_In_Days);
+											
+											var totalAmt = ((Amount*interest*days)/3000);
+											return [totalAmt,days];
+								
+										}
+										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
+									
+										//Coding to remove unwanted items or Rows
+										
+										for(i=0;i<pEntry.length;i++){
+											var items = pEntry[i];
+											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											// totalB = totalB + items["Silver"];
+											totalC = totalC + items["Cash"];
+											// totalD = totalD + items["Gold"];
+											totalD=totalD+interest[0];
+											items["Date"] = formatDateForEntry(items["Date"]);
+												sheet.getCell("A"+(i+5)).value=items["Date"];
+												sheet.getCell("B"+(i+5)).value=interest[1];
+												sheet.getCell("C"+(i+5)).value=items["Cash"];
+												// sheet.getCell("D"+(i+5)).value=items["Gold"];
+												sheet.getCell("D"+(i+5)).value=interest[0];
+												// sheet.getCell("F"+(i+5)).value=items["Remarks"];
+										}
+										for(i=0;i<nEntry.length;i++){
+											var items = nEntry[i];
+											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											// totalI = totalI + items["Silver"];
+											totalH = totalH + items["Cash"];
+											// totalK = totalK + items["Gold"];
+											totalI=totalI+interest[0];
+											items["Date"] = formatDateForEntry(items["Date"]);
+												sheet.getCell("F"+(i+5)).value=items["Date"];
+												sheet.getCell("G"+(i+5)).value=interest[1];
+												sheet.getCell("H"+(i+5)).value=items["Cash"];
+												// sheet.getCell("K"+(i+5)).value=items["Gold"];
+												sheet.getCell("I"+(i+5)).value=interest[0];
+												// sheet.getCell("M"+(i+5)).value=items["Remarks"];
+										}
+
+										//Coding for formula and concatenation in the last line
+										if(pEntry.length>=nEntry.length){
+											var totText = pEntry.length + 5;
+										}
+										else{
+											var totText = nEntry.length + 5;
+										}
+										// var totText = Records["length"] + 5;
+										var totCol = totText - 1;
+										// totalB = totalB.toFixed(3);
+										// totalC = totalC.toFixed(2);
+										totalD = totalD.toFixed(2);
+										totalC=totalC.toFixed(2);
+										// totalI = totalI.toFixed(3);
+										totalH = totalH.toFixed(2);
+										totalI = totalI.toFixed(2);
+										// totalL=totalL.toFixed(2);
+										sheet.getCell('A' + totText).value = "कुल जमा ";
+
+										// sheet.getCell('B' + totText).value = totalB;
+										sheet.getCell('C' + totText).value = totalC;
+										sheet.getCell('D' + totText).value = totalD;
+										// sheet.getCell('E' + totText).value = totalE;
+										sheet.getCell('F' + totText).value = "कुल हिसाब ";
+
+										// sheet.getCell('I' + totText).value = totalI;
+										// sheet.getCell('J' + totText).value = totalJ;
+										sheet.getCell('H' + totText).value = totalH;
+										sheet.getCell('I' + totText).value = totalI;
+
+										// sheet.getCell('A' + totText).fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: '00FFFF'
+										// 	},
+										// 	bgColor: {
+										// 		argb: '00FFFF'
+										// 	}
+										// };
+										// sheet.getCell('A' + totText).font = {
+										// 	color: {
+										// 		argb: '0000FF'
+										// 	},
+										// 	bold: true
+										// };
+										
+										// sheet.getCell('F' + totText).fill = {
+										// 	type: 'pattern',
+										// 	pattern: 'solid',
+										// 	fgColor: {
+										// 		argb: '00FFFF'
+										// 	},
+										// 	bgColor: {
+										// 		argb: '00FFFF'
+										// 	}
+										// };
+										// sheet.getCell('F' + totText).font = {
+										// 	color: {
+										// 		argb: '0000FF'
+										// 	},
+										// 	bold: true
+										// };
+
+										//Coding for rows and column border
+										for (var j = 1; j <= totText; j++) {
+											////
+											// if (sheet.getCell('B' + (j)).value == '') {
+											// 	sheet.getCell('B' + (j)).fill = {
+											// 		type: 'pattern',
+											// 		pattern: 'solid',
+											// 		bgColor: {
+											// 			argb: '00FFFF'
+											// 		},
+											// 		fgColor: {
+											// 			argb: '00FFFF'
+											// 		}
+											// 	};
+
+											// } else if (sheet.getCell('B' + (j)).value < 0) {
+											// 	sheet.getCell('B' + (j)).font = {
+											// 		color: {
+											// 			argb: 'FF0000'
+											// 		},
+											// 		bold: true
+											// 	};
+											// } else {
+											// 	sheet.getCell('B' + (j)).font = {
+											// 		color: {
+											// 			argb: '000000'
+											// 		},
+											// 		bold: true
+											// 	};
+											// }
+											sheet.getRow(j).font = {
+											bold: true,
+											size:14
+										};
+
+											if (j > 2) {
+												sheet.getCell('E' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '000000'
+													},
+													fgColor: {
+														argb: '000000'
+													}
+												};
+											}											
+
+											if (sheet.getCell('C' + (j)).value == '') {
+												sheet.getCell('C' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												
+
+											} else if (sheet.getCell('C' + (j)).value < 0) {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												
+											} else {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											
+
+											}
+
+											if (sheet.getCell('D' + (j)).value == '') {
+												sheet.getCell('D' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('D' + (j)).value < 0) {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											// if (sheet.getCell('E' + (j)).value == '') {
+											// 	sheet.getCell('E' + (j)).fill = {
+											// 		type: 'pattern',
+											// 		pattern: 'solid',
+											// 		bgColor: {
+											// 			argb: '00FFFF'
+											// 		},
+											// 		fgColor: {
+											// 			argb: '00FFFF'
+											// 		}
+											// 	};
+
+											// } else if (sheet.getCell('E' + (j)).value < 0) {
+											// 	sheet.getCell('E' + (j)).font = {
+											// 		color: {
+											// 			argb: 'FF0000'
+											// 		},
+											// 		bold: true
+											// 	};
+											// } else {
+											// 	sheet.getCell('E' + (j)).font = {
+											// 		color: {
+											// 			argb: '000000'
+											// 		},
+											// 		bold: true
+											// 	};
+											// }
+											if (sheet.getCell('I' + (j)).value == '') {
+												sheet.getCell('I' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('I' + (j)).value < 0) {
+												sheet.getCell('I' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('I' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											if (sheet.getCell('H' + (j)).value == '') {
+												sheet.getCell('H' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('H' + (j)).value < 0) {
+												sheet.getCell('H' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('H' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+											
+
+
+											////
+											sheet.getCell('A' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('B' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('C' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('D' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('E' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('F' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('G' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('H' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('I' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											// sheet.getCell('J' + (j)).border = {
+											// 	top: {
+											// 		style: 'thin'
+											// 	},
+											// 	left: {
+											// 		style: 'thin'
+											// 	},
+											// 	bottom: {
+											// 		style: 'thin'
+											// 	},
+											// 	right: {
+											// 		style: 'thin'
+											// 	}
+											// };
+											// sheet.getCell('K' + (j)).border = {
+											// 	top: {
+											// 		style: 'thin'
+											// 	},
+											// 	left: {
+											// 		style: 'thin'
+											// 	},
+											// 	bottom: {
+											// 		style: 'thin'
+											// 	},
+											// 	right: {
+											// 		style: 'thin'
+											// 	}
+											// };
+											// sheet.getCell('L' + (j)).border = {
+											// 	top: {
+											// 		style: 'thin'
+											// 	},
+											// 	left: {
+											// 		style: 'thin'
+											// 	},
+											// 	bottom: {
+											// 		style: 'thin'
+											// 	},
+											// 	right: {
+											// 		style: 'thin'
+											// 	}
+											// };
+											// sheet.getCell('M' + (j)).border = {
+											// 	top: {
+											// 		style: 'thin'
+											// 	},
+											// 	left: {
+											// 		style: 'thin'
+											// 	},
+											// 	bottom: {
+											// 		style: 'thin'
+											// 	},
+											// 	right: {
+											// 		style: 'thin'
+											// 	}
+											// };
+
+											// code added by surya for autocolumn width - started
+											//setting absolute length for column A
+											if (j > "2") {
+												if (sheet.getCell('A' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+													} else {
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('A').width = colMaxLengthA + 2;
+													sheet.getColumn('F').width = colMaxLengthA + 2;
+												}
+												//setting absolute length for column B
+												if (sheet.getCell('B' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+													} else {
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('B').width = colMaxLengthB + 2;
+												}
+												//setting absolute length for column C
+												if (sheet.getCell('C' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+													} else {
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('C').width = colMaxLengthC + 2;
+												}
+												//setting absolute length for column D
+												if (sheet.getCell('D' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+													} else {
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('D').width = colMaxLengthD + 3;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('E' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+													} else {
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('E').width = colMaxLengthE + 2;
+												}
+											}
+											// code added by surya for autocolumn width - ended
+
+										}
+
+										// if (totalB == 0) {
+										// 	sheet.getCell('B' + totText).value = totalB + 'gm';
+										// } else {
+										// 	sheet.getCell('B' + totText).value = totalB + 'gm';
+										// }
+
+										// if (totalD == 0) {
+										// 	sheet.getCell('D' + totText).value = totalD + 'gm';
+										// } else {
+										// 	sheet.getCell('D' + totText).value = totalD + 'gm';
+										// }
+
+										// sheet.getCell('B' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+										// sheet.getCell('C' + totText).value = totalC + '/-';
+										// sheet.getCell('C' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+										// sheet.getCell('D' + totText).alignment = {
+										// 	vertical: 'bottom',
+										// 	horizontal: 'right'
+										// };
+
+										// sheet.getCell('B' + totText).font = {
+										// 	color: {
+										// 		argb: '800000'
+										// 	}
+										// };
+										// sheet.getCell('D' + totText).font = {
+										// 	color: {
+										// 		argb: '800000'
+										// 	}
+										// };
+										sheet.getColumn('E').width =1;
+										sheet.mergeCells('A'+(totText+2)+':D'+(totText+2));
+										sheet.mergeCells('A'+(totText+3)+':B'+(totText+3));
+										sheet.mergeCells('C'+(totText+3)+':D'+(totText+3));
+										sheet.getCell('A' + (totText+2)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+										};
+										sheet.getCell('A' + (totText+3)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+										};
+										sheet.getCell('C' + (totText+3)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+										};
+										var ctotal=(parseFloat(totalC)+parseFloat(totalD))+(parseFloat(totalH)+parseFloat(totalI));
+										sheet.getCell("A"+(totText+2)).value="कुल हिसाब";
+										sheet.getCell("A"+(totText+3)).value="कुल रुपए";
+										sheet.getCell("C"+(totText+3)).value=ctotal;
+										sheet.getRow((totText+2)).font={
+											bold:true,
+											size:14
+										};
+										sheet.getRow((totText+3)).font={
+											bold:true,
+											size:14
+										};
+										if (sheet.getCell('C' + ((totText+3))).value == '') {
+												sheet.getCell('C' + ((totText+3))).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												
+
+											} else if (sheet.getCell('C' + ((totText+3))).value < 0) {
+												sheet.getCell('C' + ((totText+3))).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												
+											} else {
+												sheet.getCell('C' + ((totText+3))).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											
+
+											}
+											// sheet.getCell('A' + (totText+3)).fill = {
+											// type: 'pattern',
+											// pattern: 'solid',
+											// fgColor: {
+											// 	argb: '00FFFF'
+											// },
+											// bgColor: {
+											// 	argb: '00FFFF'
+											// }
+											// };
+											// sheet.getCell('A' + (totText+3)).font = {
+											// 	color: {
+											// 		argb: '0000FF'
+											// 	},
+											// 	bold: true
+											// };
+											// sheet.getCell('A' + (totText+2)).fill = {
+											// type: 'pattern',
+											// pattern: 'solid',
+											// fgColor: {
+											// 	argb: '00FFFF'
+											// },
+											// bgColor: {
+											// 	argb: '00FFFF'
+											// }
+											// };
+											// sheet.getCell('A' + (totText+2)).font = {
+											// 	color: {
+											// 		argb: '0000FF'
+											// 	},
+											// 	bold: true
+											// };
+
+										//Coding to download in a folder
+										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+										// 	currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
+										// 	currentdate.getSeconds() + '.xlsx';
+										// console.log("tempFilePath : ", tempFilePath);
+										// workbook.xlsx.writeFile(tempFilePath).then(function() {
+										// 	res.sendFile(tempFilePath, function(err) {
+										// 		if (err) {
+										// 			console.log('---------- error downloading file: ', err);
+										// 		}
+										// 	});
+										// 	console.log('file is written @ ' + tempFilePath);
+										// });
+
+										const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// workbook.xlsx
+										//   .writeFile(tempFileName)
+										//   .then(response => {
+										//     console.log("file is written");
+										//     console.log(path.join(__dirname, "../newSaveeee.xlsx"));
+										//     res.sendFile(path.join(__dirname, "../" + tempFileName));
+										//   })
+										//   .catch(err => {
+										//     console.log(err);
+										//   });
+										// const tempFileName = reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+										// var tempfile = require('tempfile');
+										// var tmp = tempfile(".xlsx");
+										// workbook.xlsx.writeFile("D:/" + tempFileName).then(function() {
+										//     console.log("xlsx file is written.");
+										// 		res.status(200).type("application/vnd.ms-excel").end();
+										// 		res.download(tmp, function(err){
+										//         console.log('---------- error downloading file: ' + err);
+										//     });
+										// });
+										// res is a Stream object
+										//anurag
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFileName
+										);
+										// console.log("came");
+										return workbook.xlsx.write(res).then(function(data) {
+											console.log(data);
+											//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+											//res.end(new Buffer(data, 'base64'));
+											res.status(200).end();
+										});
+										// res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+										//
+										// res.setHeader("Content-Disposition", "attachment; filename=Rep1ort.xlsx");
+										//
+										// workbook.xlsx.write(res).then(function () {
+										//     res.status(200).end();
+										// });
+									}
+								}
+
+							).catch(function(oError) {
+								debugger;
+								that.getView().setBusy(false);
+								var oPopover = that.getErrorMessage(oError);
+							});
+					} catch (e) {
+
+					} finally {
+
+					}
+				}
+				//res.send(responseData);
+
+			);
+		})
 
 		app.get('/entryDownloadBetween', function(req, res) {
 			debugger;

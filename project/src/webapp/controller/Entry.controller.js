@@ -462,7 +462,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(KSR);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("Gold")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/10; 
 						this.getView().byId("idGold").setValue(0);						
@@ -473,7 +473,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("Silver")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
 						this.getView().byId("idSilver").setValue(0);						
@@ -484,7 +484,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
+				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("GS")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
 						this.getView().byId("idSilver").setValue(0);
@@ -496,7 +496,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("Gold")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/10;
 						this.getView().byId("idGold").setValue(0);						
@@ -507,7 +507,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Silver") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("Silver")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
 						this.getView().byId("idSilver").setValue(0);					
@@ -518,7 +518,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
-				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "GS") {
+				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("GS")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
 						X = (wtValue * thValue)/1000;
 						this.getView().byId("idSilver").setValue(0);						

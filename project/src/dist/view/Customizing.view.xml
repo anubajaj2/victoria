@@ -33,7 +33,7 @@
 			</VBox>
 			<HBox class="sapUiSmallMarginBegin">
 				<Label text="Entry Layout" class="sapUiSmallMarginTop"/>
-				<Switch state="{local>/CustomCalculation/EntryLayout}" class="sapUiSmallMarginBegin">
+				<Switch state="{local>/CustomCalculation/EntryLayout}" class="sapUiSmallMarginBegin" customTextOff="Double" customTextOn="Single">
 				<layoutData>
 					<FlexItemData growFactor="1" />
 				</layoutData>

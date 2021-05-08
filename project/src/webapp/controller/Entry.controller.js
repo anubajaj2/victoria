@@ -869,7 +869,8 @@ debugger;
 					var selType = oEvent.getParameter("selectedItem").getKey();
 					// this.getView().byId("idMatType").setText(selType);
 					this.getView().byId("idMat").setValue(selMat);
-					this.getView().byId("idMatText").setText(selMatName + " - " + selMat + " " + selType);
+					var matText = selMatName + " - " + selMat + " " + selType;
+					this.getView().byId("idMatText").setText(matText);
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idweight").focus();
 						this.getView().byId("idweight").$().find("input").select();

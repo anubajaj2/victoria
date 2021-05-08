@@ -79,7 +79,7 @@ sap.ui.define([
 			$.post('/api/Users/login', loginPayload)
 				.done(function(data, status) {
 					debugger;
-					that.getView().getModel("local").setProperty("/Authorization", data.id);
+					that.getOwnerComponent().getModel("local").setProperty("/AuthorizationToken", data.id);
 					that.getView().getModel().setHeaders({
 						"Authorization": data.id
 					});

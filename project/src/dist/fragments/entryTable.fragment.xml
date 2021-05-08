@@ -15,7 +15,7 @@
              ]
            }"
     mode="MultiSelect" showSeparators="All" growing="true"
-	  growingThreshold="20" updateFinished="onUpdateFinished" visible="{= ${local>/CustomCalculation/EntryLayout} === true ? false: true}">
+	  growingThreshold="20" updateFinished="onUpdateFinished" visible="{= ${local>/CustomCalculation/EntryLayout} === undefined ? true: ${local>/CustomCalculation/EntryLayout} === true ? false:true}">
     <headerToolbar>
       <Toolbar>
         <Title id="idTitle" text="{i18n>allEntries}"></Title>

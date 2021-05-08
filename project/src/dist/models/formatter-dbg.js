@@ -1,4 +1,4 @@
-sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
+sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat"], function(NumberFormat, DateFormat) {
 	return {
 		getFormattedDate: function(monthInc) {
 			var dateObj = new Date();
@@ -186,6 +186,20 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 		formatCurrency: function (a,b){
 			var oCurrencyFormat = NumberFormat.getCurrencyInstance();
 			return oCurrencyFormat.format(a,b);
+		},
+		getInterestAmount: function(customerId, Amount, date) {
+			debugger;
+			var oCustomer = this.allMasterData.customers[customerId];
+			var interest  = oCustomer.Interest;
+			var date2 = new Date();
+			var date1 = date;
+			var Difference_In_Time = date2.getTime() - date1.getTime();
+			var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+			var days = parseInt(Difference_In_Days);
+			
+			var totalAmt = ((Amount*interest*days)/3000);
+			return totalAmt;
+
 		}
 
 

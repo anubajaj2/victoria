@@ -237,7 +237,7 @@ sap.ui.define([
 				}
 			},
 
-			SaveCalculation: function (oEvent) {
+			SaveCalculation: function (oEvent) {debugger;
 				var that = this
 				var valid = true;
 				var oObj = this.getView().byId("__component0---idCustomizing--idCalculation");
@@ -288,7 +288,7 @@ sap.ui.define([
 					if (id) {
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								"/CustomCalculations('" + myData.id + "')", "PUT", {}, myData, this)
-							.then(function (oData) {
+							.then(function (oData) {debugger;
 								that.getView().setBusy(false);
 								MessageToast.show(that.resourceBundle.getText("Data"));
 								that._onRouteMatched();

@@ -1,4 +1,4 @@
-<mvc:View controllerName="victoria.controller.customCalculation" xmlns.c="sap.ui.commons"
+<mvc:View controllerName="victoria.controller.customCalculation"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
@@ -23,7 +23,7 @@
 					<core:Item key="Entry" text="Entry" />
 				</ComboBox>
 
-				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" uploadPress="handleUploadPress" tooltip="{i18n>Upload11}" uploadComplete="handleUploadComplete">
+				<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" tooltip="{i18n>Upload11}" uploadComplete="handleUploadComplete">
 					<u:parameters>
 						<u:FileUploaderParameter name="createdBy"/>
 					</u:parameters>

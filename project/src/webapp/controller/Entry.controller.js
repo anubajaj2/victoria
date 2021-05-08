@@ -464,7 +464,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().byId("idRemarks").setValue(KSR);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.split(" ")[2] === "Gold") {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+						X = (wtValue * thValue)/10; 
 						this.getView().byId("idGold").setValue(0);						
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));						
 					} else {

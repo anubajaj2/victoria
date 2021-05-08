@@ -190,3 +190,7 @@ background: lightgrey;
   /* cursor: pointer; */
   background: lightgrey;
 }
+
+#__container1--Grid {
+  width: 20rem;
+}

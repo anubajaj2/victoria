@@ -47,6 +47,7 @@ sap.ui.define([
 			debugger;
 			//var oModel = Models.createFruitModel();
 			//sap.ui.getCore().setModel(oModel);
+			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			this.idleLogout();
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 
@@ -78,7 +79,7 @@ sap.ui.define([
 			$.post('/api/Users/login', loginPayload)
 				.done(function(data, status) {
 					debugger;
-					that.getView().getModel("local").setProperty("/Authorization", data.id);
+					that.getOwnerComponent().getModel("local").setProperty("/AuthorizationToken", data.id);
 					that.getView().getModel().setHeaders({
 						"Authorization": data.id
 					});

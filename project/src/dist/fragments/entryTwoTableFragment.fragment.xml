@@ -1,7 +1,7 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-    <Page>
-        <content>
-            <HBox>
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" >
+    <!-- <Page>
+        <content> -->
+            <HBox visible="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}">
                 <!-- table 1 -->
                 <Table id="idTable1" inset="false" class="myCustomText" alternateRowColors="false" includeItemInSelection="false" items="{
                     path: '/Entrys',
@@ -20,7 +20,7 @@
                           value1: 0
                         }
                           ]
-                    }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished" visible="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}">
+                    }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished1" >
                     <headerToolbar>
                         <Toolbar>
                             <Title id="idTitle1" text="{i18n>jamaEntries}"></Title>
@@ -120,7 +120,7 @@
                  value1: 0
                }
                  ]
-           }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished" visible="{local>/CustomCalculation/EntryLayout}">
+           }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished2">
                     <headerToolbar>
                         <Toolbar>
                             <Title id="idTitle2" text="{i18n>naamEntries}"></Title>
@@ -197,6 +197,6 @@
                     </items>
                 </Table>
             </HBox>
-        </content>
-    </Page>
+        <!-- </content>
+    </Page> -->
 </core:FragmentDefinition>

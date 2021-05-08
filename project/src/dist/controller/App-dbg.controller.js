@@ -28,6 +28,7 @@ sap.ui.define([
 			 function yourFunction() {
 					 // your function for too long inactivity goes here
 					 // e.g. window.location.href = 'logout.php';
+					 this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 					 sap.m.MessageBox.alert(that.resourceBundle.getText("Page11") + "!");
 					 window.top.location.href = "/";
 			 }

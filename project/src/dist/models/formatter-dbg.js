@@ -198,6 +198,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			var days = parseInt(Difference_In_Days);
 			
 			var totalAmt = ((Amount*interest*days)/3000);
+			totalAmt = parseFloat(totalAmt.toFixed(2));
 			return totalAmt;
 
 		}

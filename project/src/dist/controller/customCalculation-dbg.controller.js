@@ -237,7 +237,7 @@ sap.ui.define([
 				}
 			},
 
-			SaveCalculation: function (oEvent) {
+			SaveCalculation: function (oEvent) {debugger;
 				var that = this
 				var valid = true;
 				var oObj = this.getView().byId("__component0---idCustomizing--idCalculation");
@@ -286,9 +286,36 @@ sap.ui.define([
 				// var retVal = that.validateAll(myData);
 				if (valid === true) {
 					if (id) {
+				var that2=that;
+				debugger;
+				var token=that.getOwnerComponent().getModel("local").getProperty("/AuthorizationToken");
+				var lpayload={
+					"id":id,
+					"EntryLayout":myData.EntryLayout
+				};
+						$.ajax('/api/CustomCalculations/'+myData.id+'?access_token='+token+'&id='+myData.id,{
+						type:"PUT",
+						headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json",
+					
+				}, 
+				data:JSON.stringify(lpayload),
+					success:function(data, status) {
+						debugger;
+
+
+					},
+					error:function(xhr, status, error) {
+						debugger;
+						// sap.ui.getCore().byId("idChangePass--idPassEmail").setValueState("Error");
+						
+					}
+						});
+						debugger;
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								"/CustomCalculations('" + myData.id + "')", "PUT", {}, myData, this)
-							.then(function (oData) {
+							.then(function (oData) {debugger;
 								that.getView().setBusy(false);
 								MessageToast.show(that.resourceBundle.getText("Data"));
 								that._onRouteMatched();

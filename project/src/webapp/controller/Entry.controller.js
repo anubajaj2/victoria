@@ -927,8 +927,9 @@ debugger;
 				});
 
 			},
-			onPressEntryDownload: function() {
+			onPressEntryDownload: function(oEvent) {
 				debugger;
+				var sId = oEvent.getSource().getId();
 				// var test = this.getView().getModel("customerModel");
 				var that = this;
 				var reportType = "Entry";
@@ -946,31 +947,10 @@ debugger;
 					});
 					return;
 				}
-				// $.get("/entryDownload", {
-				// 	id: custId,
-				// 	name: name,
-				// 	city: city,
-				// 	type: reportType
-				// }).then(function (oData) {
-				// 	debugger;
-				// 	MessageToast.show("Data downloaded successfully");
-				// 	console.log(that.getImageUrlFromContent(oData));
-				// }, function (oError) {
-				// 	debugger;
-				// 	MessageToast.show("Data could not be downloaded");
-				// });
-
-
-				// if(name === "" || name=== undefined ){
-				// 	sap.m.MessageBox.error(" Please Select a Customer Name", {
-				// 		title: "Error"});
-				// 	return;
-				// }
-				// if(city === "" || city=== undefined ){
-				// 	sap.m.MessageBox.error(" Please Select a Customer City", {
-				// 		title: "Error"});
-				// 	return;
-				// }
+				if (sId.includes("idEntryDownload2")) {
+					window.open("/entryDownload2?id=" + custId + "&type=Entry&name=" + name + "&city=" + city);
+					return;
+				}
 				window.open("/entryDownload?id=" + custId + "&type=Entry&name=" + name + "&city=" + city);
 			},
 			getImageUrlFromContent: function(base64Stream) {

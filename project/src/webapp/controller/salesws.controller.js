@@ -1829,7 +1829,8 @@ sap.ui.define(
 					// }
 					if ((priceF || makingCharges || stonevalue) ||
 						(priceF === 0 || makingCharges === 0 || stonevalue === 0)) {
-						var subTot = data.Qty*(priceF + makingCharges + stonevalue);
+						var subTot = (priceF + makingCharges + stonevalue);
+						subTot = parseFloat(subTot.toFixed(2));
 
 						// if ((data.SubTotal) && (data.SubTotal != "")) {
 						// 	var currentSubTot = oFloatFormat.parse(data.SubTotal);

@@ -47,6 +47,7 @@ sap.ui.define([
 			debugger;
 			//var oModel = Models.createFruitModel();
 			//sap.ui.getCore().setModel(oModel);
+			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			this.idleLogout();
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 

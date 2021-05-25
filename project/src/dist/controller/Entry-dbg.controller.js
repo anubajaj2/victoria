@@ -1165,14 +1165,10 @@ debugger;
 				var that = this;
 				var tableId = oEvent.getSource().getParent().getParent().getId();
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
-				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
-				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
-				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
-				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
-				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
+			
 				var custId1 = this.getView().byId("idCust").getValue();
 				var custId2 = this.getView().byId("idCustText").getText();
-				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined ) {
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined ) {
 					sap.m.MessageBox.error("Please Select a Customer for Delete Data", {
 						title: "Error"
 					});

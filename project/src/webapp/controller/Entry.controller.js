@@ -1164,6 +1164,42 @@ debugger;
 			onDelete: function(oEvent) {debugger;
 				var that = this;
 				var tableId = oEvent.getSource().getParent().getParent().getId();
+				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
+				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
+				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
+				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
+				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
+				var custId1 = this.getView().byId("idCust").getValue();
+				var custId2 = this.getView().byId("idCustText").getText();
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined ) {
+					sap.m.MessageBox.error("Please Select a Customer for Delete Data", {
+						title: "Error"
+					});
+					return;
+				}
+
+				var tableId = oEvent.getSource().getParent().getParent().getId();
+				if(tableId.includes("idTable2")){
+					var recCount = this.getView().byId("idTable2").getSelectedItems().length;
+				} else if (tableId.includes("idTable1")) {
+					recCount = this.getView().byId("idTable1").getSelectedItems().length;
+				} else {
+					recCount = this.getView().byId("idTable").getSelectedItems().length;
+				}
+
+				if (recCount > 1) {
+					sap.m.MessageBox.alert(
+						that.resourceBundle.getText("Selectoneentryonly"));
+				}
+				else if(recCount === 0){
+					sap.m.MessageBox.alert(
+						that.resourceBundle.getText("Selectoneentryonly1"));
+				}
+				 else {
+
+
+
 				sap.m.MessageBox.confirm(
 					"Deleting Selected Records", {
 						title: "Confirm",
@@ -1260,6 +1296,7 @@ debugger;
 						}
 					}
 				);
+			}
 			},
 			_getEditClear: function() {
 				debugger;
@@ -1309,16 +1346,17 @@ debugger;
 			onClear: function() {
 				debugger;
 				var oFilter = [];
+				var myData = this.getView().getModel("local").getProperty("/EntryData");
 				var check = this.getView().byId("CBID").getSelected();
 				if (check === true) {
 					if (this.clearOnSend) {
 						this.clearOnSend = false;
-						var myData = this.getView().getModel("local").getProperty("/EntryData");
-						this.getView().byId("DateId").setDateValue(myData.Date);
+
+						this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 						this.byId("idCust").getValue();
 						this.byId("idCustText").getText();
 					} else {
-						this.getView().byId("DateId").setDateValue(new Date());
+						this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 						this.byId("idCust").setValue("");
 						this.byId("idCustText").setText("");
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
@@ -1342,10 +1380,11 @@ debugger;
 				} else if (check === false) {
 					if (this.clearOnSend) {
 						this.clearOnSend = false;
-						var myData = this.getView().getModel("local").getProperty("/EntryData");
-						this.getView().byId("DateId").setDateValue(myData.Date);
+
+						this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 					} else {
-						this.getView().byId("DateId").setDateValue(new Date());
+
+						this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable2").getBinding("items").filter(oFilter);

@@ -1165,7 +1165,7 @@ debugger;
 				var that = this;
 				var tableId = oEvent.getSource().getParent().getParent().getId();
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
-			
+
 				var custId1 = this.getView().byId("idCust").getValue();
 				var custId2 = this.getView().byId("idCustText").getText();
 				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined ) {
@@ -1184,11 +1184,11 @@ debugger;
 					recCount = this.getView().byId("idTable").getSelectedItems().length;
 				}
 
-				if (recCount > 1) {
-					sap.m.MessageBox.alert(
-						that.resourceBundle.getText("Selectoneentryonly"));
-				}
-				else if(recCount === 0){
+				// if (recCount > 1) {
+				// 	sap.m.MessageBox.alert(
+				// 		that.resourceBundle.getText("Selectoneentryonly"));
+				// }
+			 if(recCount === 0){
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly1"));
 				}

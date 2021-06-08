@@ -45,7 +45,7 @@
 										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">
 											<f:fields>
-												<Input id="idOrderNo" value="{local>/orderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
+												<Input id="idOrderNo" width="2.5rem" value="{local>/orderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>
 												<Button text="{i18n>C}" press="orderCreate" tooltip="{i18n>C}"/>
 												<Button icon="sap-icon://nav-back" tooltip="{i18n>back}" press="previousOrder"/>
 												<Button icon="sap-icon://feeder-arrow" tooltip="{i18n>Next}" press="nextOrder"/>

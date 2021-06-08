@@ -1790,11 +1790,20 @@ sap.ui.define(
 					(category.Type === 'Silver' && category.Category === "gm")) {
 
 					//get the final weight // X=Weight - WeightD
-					if (data.WeightD !== "" ||
-						data.WeightD !== 0) {
-						var weightF = data.Weight - data.WeightD;
+					if (data.WeightD !== "" || data.WeightD !== 0) {
+						if (data.Tunch) {
+							var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
+						}else {
+							var weightF = data.Weight - data.WeightD;
+						}
+
 					} else {
-						var weightF = data.Weight;
+						if(data.Tunch) {
+							var weightF = (data.Weight)*(data.Tunch/100);
+						}else {
+							var weightF = data.Weight;
+						}
+
 					}
 					if (category.Type === 'Gold' || category.Type === 'GLD') {
 						//get the gold price
@@ -3082,6 +3091,7 @@ sap.ui.define(
 				}
 			},
 			onRadioButtonSelect: function() {
+				debugger;
 				var that = this;
 				debugger;
 				var oLocale = new sap.ui.core.Locale("en-US");

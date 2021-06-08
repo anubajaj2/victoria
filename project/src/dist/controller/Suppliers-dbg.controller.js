@@ -42,7 +42,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				}]
 			});
 			this.setModel(oViewModel1, "fixed");
-			debugger;
+
 			BaseController.prototype.onInit.apply(this);
 			var that = this;
 			var currentUser = this.getModel("local").getProperty("/CurrentUser");
@@ -129,7 +129,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 		},
 		onRadioButtonSelect: function(oEvent) {
-			debugger;
+
 			//var custid = this.getView().byId("idCustomerCode");
 			//custid.setSelectedKey("");
 			//custid.setValue("");
@@ -178,7 +178,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					myData
 				}).then(function(result) {
 					console.log(result);
-					debugger;
+
 					if (myData.Type = "Silver") {
 						that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(3)));
 					} else {
@@ -188,7 +188,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					parseFloat(that.byId("idBTQ").getText());
 					if (parseFloat(that.byId("idBTQ").getText()) > 0) {
 						that.byId("idBTQ").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idBTQ").setState('Warning');
 					}
@@ -199,7 +199,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					parseFloat(that.byId("idBAP").getText());
 					if (parseFloat(that.byId("idBAP").getText()) > 0) {
 						that.byId("idBAP").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idBAP").setState('Warning');
 					}
@@ -210,7 +210,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					myData
 				}).then(function(result) {
 					console.log(result);
-					debugger;
+
 					if (myData.Type = "Silver") {
 						that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(3)));
 					} else {
@@ -220,7 +220,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					//parseFloat(that.byId("idBTQ").getText());
 					if (parseFloat(that.byId("idDTQ").getText()) > 0) {
 						that2.byId("idDTQ").setState('Success');
-						debugger;
+
 					} else {
 						that2.byId("idDTQ").setState('Warning');
 					}
@@ -230,7 +230,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					that2.byId("idDAP").getText();
 					if (parseFloat(that.byId("idDAP").getText()) > 0) {
 						that2.byId("idDAP").setState('Success');
-						debugger;
+
 					} else {
 						that2.byId("idDAP").setState('Warning');
 					}
@@ -279,7 +279,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			this.getView().byId("idTable").getBinding("items").filter([oFilter]);
 			this.getView().byId("idBookingDlvTable").getBinding("items").filter([oFilter]);
 
-			debugger;
+
 			jQuery.sap.delayedCall(500, this, function() {
 				this.getView().byId("idQnty").focus();
 			});
@@ -289,7 +289,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				myData
 			}).then(function(result) {
 				console.log(result);
-				debugger;
+
 				if (myData.Type = "Silver") {
 					that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(3)));
 				} else {
@@ -299,7 +299,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				parseFloat(that.byId("idBTQ").getText());
 				if (parseFloat(that.byId("idBTQ").getText()) > 0) {
 					that.byId("idBTQ").setState('Success');
-					debugger;
+
 				} else {
 					that.byId("idBTQ").setState('Warning');
 				}
@@ -310,7 +310,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				parseFloat(that.byId("idBAP").getText());
 				if (parseFloat(that.byId("idBAP").getText()) > 0) {
 					that.byId("idBAP").setState('Success');
-					debugger;
+
 				} else {
 					that.byId("idBAP").setState('Warning');
 				}
@@ -321,7 +321,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				myData
 			}).then(function(result) {
 				console.log(result);
-				debugger;
+
 				if (myData.Type = "Silver") {
 					that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(3)));
 				} else {
@@ -331,7 +331,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				//parseFloat(that.byId("idBTQ").getText());
 				if (parseFloat(that.byId("idDTQ").getText()) > 0) {
 					that2.byId("idDTQ").setState('Success');
-					debugger;
+
 				} else {
 					that2.byId("idDTQ").setState('Warning');
 				}
@@ -341,7 +341,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				that2.byId("idDAP").getText();
 				if (parseFloat(that.byId("idDAP").getText()) > 0) {
 					that2.byId("idDAP").setState('Success');
-					debugger;
+
 				} else {
 					that2.byId("idDAP").setState('Warning');
 				}
@@ -352,7 +352,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			this.getCustomerPopup(oEvent);
 		},
 		onClear: function() {
-			debugger;
+
 			var custid = this.getView().byId("idCustomerCode");
 			custid.setSelectedKey("");
 			custid.setValue("");
@@ -393,7 +393,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				sap.ui.getCore().byId("BookingDialog--save1").setVisible(false);
 				sap.ui.getCore().byId("BookingDialog--save2").setVisible(true);
 			}
-			debugger;
+
 			var title = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[1].mProperties.text;
 			sap.ui.getCore().byId("BookingDialog--idDialog-title").setText(title);
 			var cell0 = this.getView().byId(tabName).getSelectedItem().mAggregations.cells[0].mProperties.text;
@@ -415,7 +415,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		// 			this.getView().addDependent(this.oEditDlvDialog);
 		// 		}
 		// 		this.oEditDlvDialog.open();
-		// 		debugger;
+		//
 		// 		var title = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
 		// 		sap.ui.getCore().byId("BookingDialog--idDialog-title").setText(title);
 		// 		var cell0 = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[0].mProperties.text;
@@ -436,7 +436,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				this.getView().addDependent(this.oDialog);
 			}
 
-			debugger;
+
 
 			var aSelectedItems = this.getOwnerComponent().byId("idSuppliers").byId("idTable").getSelectedItems();
 			var oSelectedItem = aSelectedItems[0];
@@ -478,7 +478,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			}
 
 			this.oDialog.open();
-			debugger;
+
 			sap.ui.getCore().byId("BookingDialogMove--cnf").setVisible(false);
 			sap.ui.getCore().byId("BookingDialogMove--ret").setVisible(true);
 			// var title = this.getView().byId("idBookingDlvTable").getSelectedItem().mAggregations.cells[1].mProperties.text;
@@ -498,7 +498,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 		},
 		onPressHandleDlvConfirmPopup: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			// var myData = this.getView().getModel("local").getProperty("/BookingDetail");
@@ -526,7 +526,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			// 			var x = that.getView().byId("idTable").getSelectedItems();
 			// 		 	if(x.length){
 			// 			 for(var i=0; i<x.length; i++){
-			// 				 debugger;
+			//
 			// 				 var myUrl = x[i].getBindingContext().sPath;
 			// 				 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
 			// 			 }
@@ -538,7 +538,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			// 		});
 			//
 			// }else{
-			debugger;
+
 			if (parseInt(dlvQnty) > parseInt(qnty)) {
 				sap.m.MessageToast.show(that.resourceBundle.getText("Delivery11"));
 			} else {
@@ -552,7 +552,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						if (oData.results.length > 0) {
 							that.insertDlvDetails(oSelected, dlvQnty, qnty, oData);
 						} else {
@@ -565,7 +565,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 										filters: [oFilter]
 									}, {}, that)
 								.then(function(oData) {
-									debugger;
+
 									if (oData.results.length > 0) {
 										that.insertDlvDetails(oSelected, dlvQnty, qnty, oData);
 									} else {
@@ -633,7 +633,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					} else {
 						var x = oSelected;
 						// that.getView().byId("idTable").getSelectedItems();
-						debugger;
+
 						var myUrl = x.getBindingContext().sPath;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 
@@ -694,7 +694,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					} else {
 						var x = oSelected;
 						// that.getView().byId("idTable").getSelectedItems();
-						debugger;
+
 						var myUrl = x.getBindingContext().sPath;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					}
@@ -706,7 +706,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				});
 		},
 		onPressHandleDlvReturnPopup: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			// var myData = this.getView().getModel("local").getProperty("/BookingDlvDetail");
@@ -734,7 +734,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			// 			var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
 			// 		 	if(x.length){
 			// 			 for(var i=0; i<x.length; i++){
-			// 				 debugger;
+			//
 			// 				 var myUrl = x[i].getBindingContext().sPath;
 			// 				 that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
 			// 			 }
@@ -746,13 +746,13 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			// 		});
 			//
 			// }else{
-			debugger;
+
 			if (parseInt(dlvQnty) > parseInt(qnty)) {
 				sap.m.MessageToast.show(that.resourceBundle.getText("Delivery13"));
 			} else {
 
 				var oSelected = this.getView().byId("idBookingDlvTable").getSelectedItem();
-				debugger;
+
 				var recId = oSelected.getBindingContext().getObject().Recid;
 
 				var oFilter = new sap.ui.model.Filter("id", "EQ", recId);
@@ -762,7 +762,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						if (oData.results.length > 0) {
 							that.insertDetails(oSelected, dlvQnty, qnty, oData);
 						} else {
@@ -792,7 +792,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		},
 
 
-		onSuggest: function(oEvent) {debugger;
+		onSuggest: function(oEvent) {
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 		const key = oEvent.key
 		var id1 = oEvent.getParameter("id").split("--")[2]
@@ -876,7 +876,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					} else {
 						var x = oSelected;
 						// that.getView().byId("idTable").getSelectedItems();
-						debugger;
+
 						var myUrl = x.getBindingContext().sPath;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					}
@@ -933,7 +933,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					} else {
 						var x = oSelected;
 						// that.getView().byId("idTable").getSelectedItems();
-						debugger;
+
 						var myUrl = x.getBindingContext().sPath;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					}
@@ -946,7 +946,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 		},
 		onPressHandleEntrySavePopup: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			var myData = this.getView().getModel("local").getProperty("/BookingDetail");
@@ -976,7 +976,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				});
 		},
 		onPressHandleDlvEntrySavePopup: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			var myData = this.getView().getModel("local").getProperty("/BookingDlvDetail");
@@ -1013,20 +1013,20 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 		onDelete: function() {
 			var that = this;
-			// debugger;
+			//
 			sap.m.MessageBox.confirm(
 				"Deleting Selected Records", {
 					title: "Confirm",
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
-							debugger;
+
 							var x = that.getView().byId("idTable").getSelectedItems();
 							if (x.length) {
 								for (var i = 0; i < x.length; i++) {
-									debugger;
+
 									var myUrl = x[i].getBindingContext().sPath;
 									that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 								}
@@ -1037,25 +1037,25 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					}
 				}
 			);
-			// debugger;
+			//
 		},
 
 		onBookingDlvDelete: function(oEvent) {
 			var that = this;
-			// debugger;
+			//
 			sap.m.MessageBox.confirm(
 				that.resourceBundle.getText("DELETE11"), {
 					title: "Confirm",
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
-							debugger;
+
 							var x = that.getView().byId("idBookingDlvTable").getSelectedItems();
 							if (x.length) {
 								for (var i = 0; i < x.length; i++) {
-									debugger;
+
 									var myUrl = x[i].getBindingContext().sPath;
 									that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 								}
@@ -1066,18 +1066,18 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					}
 				}
 			);
-			// debugger;
+			//
 		},
 
 		onNameChange: function(oEvent) {
 
-			debugger;
+
 			var cName = oEvent.getParameter("value");
 			this.getView().byId("idCustName").setText(cName);
 
 		},
 		onSend: function() {
-			debugger;
+
 
 			var that = this;
 			that.getView().setBusy(true);
@@ -1093,7 +1093,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				delete myData.ToCustomers;
 			}
 
-			debugger;
+
 			if (this.getView().byId("idRb1").getSelected()) {
 				myData.Type = "Silver";
 			} else if (this.getView().byId("idRb2").getSelected()) {
@@ -1137,7 +1137,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				}
 			}
 		},
-		onBookingReportDownload: function(){debugger;
+		onBookingReportDownload: function(){
 			var type=this.getView().byId("idRb").getSelectedButton().getText();
 			var test = this.getView().getModel("local").getProperty("/selectedCustomer");
       var reportType = "Booking_Summary";
@@ -1146,16 +1146,16 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			window.open("/bookingDownload?type=Booking_Summary&id="+custId+"&name="+custName+"&type1="+type);
 		},
 		onUpdateFinished: function(oEvent) {
-			debugger;
+
 			var oTable = oEvent.getSource();
 			var itemList = oTable.getItems();
 			var noOfItems = itemList.length;
 			var value1;
 			var id;
 			var cell;
-			debugger;
+
 			for (var i = 0; i < noOfItems; i++) {
-				debugger;
+
 				//Read the GUID from the Screen
 				// var customerId = oTable.getItems()[i].getCells()[1].getText();
 				var customerId = oTable.getItems()[i].getBindingContext().getObject().Customer;
@@ -1167,7 +1167,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		},
 
 		onEdit: function(oEvent) {
-			debugger;
+
 			var title = oEvent.getSource().getParent().getContent()[0].getId().split("--")[2];
 
 			if (title === "idTitle") {
@@ -1190,7 +1190,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 		},
 		onBookingDlvEdit: function(oEvent) {
-			debugger;
+
 			var title = oEvent.getSource().getParent().getContent()[0].getId().split("--")[2];
 			var oNum = this.getView().byId("idBookingDlvTable").getSelectedItems().length;
 			if (oNum > 1) {
@@ -1216,7 +1216,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		},
 		onMaterialSelect: function(oEvent) {
 			//whatever material id selected push that in local model
-			debugger;
+
 			var myData = this.getView().getModel("local").getProperty("/demoData");
 			myData.Material = oEvent.getParameter("selectedItem").getKey();
 			this.getView().getModel("local").setProperty("/demoData", myData);
@@ -1294,7 +1294,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		},
 
 		toggleFullScreen: function() {
-			debugger;
+
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idSuppliers--BookingHeader";
 			this.toggleUiTable(btnId, headerId)
@@ -1327,7 +1327,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		},
 
 		// onDropBookingTable:function(oEvent){
-		// 	debugger;
+		//
 		// 	var oDraggedItem = oEvent.getParameter("draggedControl");
 		//   var oDraggedItemContext = oDraggedItem.getBindingContext();
 		// 	if (!oDraggedItemContext) {
@@ -1338,7 +1338,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 		//   oModel.setProperty("Rank", 0, oDraggedItemContext);
 		// },
 		onDropBookingDeliveryTable: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			var oDraggedItem = oEvent.getParameter("draggedControl");
@@ -1366,7 +1366,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 						filters: [oFilter]
 					}, {}, this)
 				.then(function(oData) {
-					debugger;
+
 					if (oData.results.length > 0) {
 						that.insertDragDlvDetails(oDraggedItem, oData);
 					} else {
@@ -1379,7 +1379,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 									filters: [oFilter]
 								}, {}, that)
 							.then(function(oData) {
-								debugger;
+
 								if (oData.results.length > 0) {
 									that.insertDragDlvDetails(oDraggedItem, oData);
 								} else {
@@ -1423,7 +1423,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					// that.getView().byId("idTable").getSelectedItems();
 					// if(x.length){
 					//  for(var i=0; i<x.length; i++){
-					debugger;
+
 					var myUrl = x.getBindingContext().sPath;
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					//  }
@@ -1460,7 +1460,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					// that.getView().byId("idTable").getSelectedItems();
 					// if(x.length){
 					//  for(var i=0; i<x.length; i++){
-					debugger;
+
 					var myUrl = x.getBindingContext().sPath;
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					//  }
@@ -1472,7 +1472,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				});
 		},
 		onDropBookingTable: function(oEvent) {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			var oDraggedItem = oEvent.getParameter("draggedControl");
@@ -1495,7 +1495,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 						filters: [oFilter]
 					}, {}, this)
 				.then(function(oData) {
-					debugger;
+
 					if (oData.results.length > 0) {
 						that.insertDragDetails(oDraggedItem, oData);
 					} else {
@@ -1543,7 +1543,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					// that.getView().byId("idBookingDlvTable").getSelectedItems();
 					// if(x.length){
 					//  for(var i=0; i<x.length; i++){
-					debugger;
+
 					var myUrl = x.getBindingContext().sPath;
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					//  }
@@ -1578,7 +1578,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					// that.getView().byId("idBookingDlvTable").getSelectedItems();
 					// if(x.length){
 					//  for(var i=0; i<x.length; i++){
-					debugger;
+
 					var myUrl = x.getBindingContext().sPath;
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 					//  }
@@ -1623,17 +1623,17 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			}
 		},
 		decimalvalidator3: function(oEvent) {
-			debugger;
+
 			var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
 			this.getView().byId("idQnty").setValue(dQty);
 			console.log(this.getView().byId("idQnty"))
 		},
 		decimalvalidator2: function(oEvent) {
-			debugger;
+
 			var dQty = oEvent.mParameters.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
 			this.getView().byId("idQnty").setValue(dQty);
 		},
-		customerCodeCheck1: function(oEvent) {debugger;
+		customerCodeCheck1: function(oEvent) {
 			this.getCustomer(oEvent);
 			this.getView().byId("idQnty").focus();
 		},

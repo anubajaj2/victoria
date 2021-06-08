@@ -81,7 +81,7 @@ sap.ui.define([
 				}).catch(function(oError) {});
 		},
 		getIndianCurr: function(value) {
-			debugger;
+
 			if (value) {
 				var x = value;
 				x = x.toString();
@@ -101,7 +101,7 @@ sap.ui.define([
 		},
 		//retail Transfer
 		onTransfer: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -112,7 +112,7 @@ sap.ui.define([
 			var orderNo = orderHeaderT.OrderId;
 			var date = new Date(orderDetail.Date);
 			var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
-			debugger;
+
 			if (postedEntryData.Cash === finalAmount) {
 				var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
 				MessageBox.show(
@@ -130,7 +130,7 @@ sap.ui.define([
 				(finalAmount !== "" || finalAmount !== 0) &&
 				(that.byId("Sales--idSaveIcon").getColor() === 'green') &&
 				(postedEntryData.Cash !== finalAmount)) {
-				debugger;
+
 				var entryData = this.getView().getModel("local").getProperty("/EntryData");
 				entryData.Date = new Date(orderDetail.Date);
 				entryData.OrderNo = orderHeaderT.OrderId;
@@ -224,7 +224,7 @@ sap.ui.define([
 		//   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 		//       "/prints", "GET", {}, {}, this)
 		//     .then(function(oData) {
-		//       debugger;
+		//
 		//       // that.getView().setBusy(false);
 		//       // if(oData.results.length > 0){
 		//
@@ -232,21 +232,21 @@ sap.ui.define([
 		//   });
 		// },
 		onPrint: function() {
-			debugger;
+
 			var that = this;
 
 			// var allItems = this.getView().getModel("local").getProperty("/printCustomizingData");
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/prints", "GET", {}, {}, this)
 				.then(function(oData) {
-					debugger;
+
 					that.retailPrint(oData);
 					// that.getView().getModel("local").setProperty("/printCustomizingData",oData);
 
 				}).catch(function(oError) {});
 		},
 		retailPrint: function(oData) {
-			debugger;
+
 			var arrayRemoveFromPrint = [];
 			var hideHeaderContents = [];
 			var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
@@ -320,7 +320,7 @@ sap.ui.define([
 						}
 						break;
 					case "__component0---idPrint--idRWeight":
-						debugger;
+
 						if (oData.results[i].Value === "false") {
 							arrayRemoveFromPrint.push('idRWeight');
 						}
@@ -471,7 +471,7 @@ sap.ui.define([
 				'</tbody>' +
 				'</table>' +
 				'<hr />';
-debugger;
+
 			// Prepare Order table header
 			var table =
 				"<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
@@ -545,7 +545,7 @@ debugger;
 					'</tr>' +
 					'<p><h3>Returns:</h3></p>';
 				for (var i = 0; i < oReturns.length; i++) {
-					debugger;
+
 					if (oReturns[i].Type) {
 						var retTotQuant = retTotQuant + oReturns[i].Qty;
 						var retTotWeight = retTotWeight + oReturns[i].Weight;
@@ -584,7 +584,7 @@ debugger;
 				'<td class="idRMarking" style="width: 800px;">&nbsp;' + rMarking + '</td>' +
 				'</tr>' +
 				'</tbody></table>';
-			debugger;
+
 			var random = Math.floor(Math.random() * 10000);
 			var myWindows = window.open("", "PrintWindow" + random, "width=1200,height=800");
 			myWindows.document.write(header + table + footer);
@@ -692,7 +692,7 @@ debugger;
 		},
 		onConfirm: function(oEvent) {
 			var that = this;
-			debugger;
+
 			//order popup
 			// if (oEvent.getParameter('id') === 'orderNo'){
 			if (oEvent.getParameters().selectedItem.mBindingInfos.label.binding.sPath === 'OrderNo') {
@@ -751,7 +751,7 @@ debugger;
 			}
 		},
 		getEntryData: function(oEvent, custId, orderNo, date, postedEntryData) {
-			debugger;
+
 			var retVal;
 			var that = this;
 			var orderDate = date;
@@ -764,7 +764,7 @@ debugger;
 					entryData
 				})
 				.then(function(result) {
-					debugger;
+
 					postedEntryData.Customer = result.Customer;
 					postedEntryData.Cash = result.Cash;
 					postedEntryData.OrderNo = result.OrderNo;
@@ -776,14 +776,14 @@ debugger;
 		getOrderDetails: function(oEvent, orderId, oFilter, orderNo) {
 
 			var that = this;
-			debugger;
+
 			// that.getView().setBusy(true);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/OrderHeaders('" + orderId + "')", "GET", {
 						filters: [oFilter]
 					}, {}, this)
 				.then(function(oData) {
-					debugger;
+
 					// that.getView().setBusy(false);
 
 					var date = oData.Date;
@@ -881,7 +881,7 @@ debugger;
 		//on order create Button
 		orderCreate: function(oEvent) {
 			var that = this;
-			debugger;
+
 			if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo) {
 				var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("deleteUnsaveData");
@@ -1161,7 +1161,7 @@ debugger;
 							//                       "/OrderReturns('"+ oId +"')", "PUT",
 							//                        {},oReturnOrderClone, that)
 							//   .then(function(oData) {
-							//      debugger;
+							//
 							//   that.getView().setBusy(false);
 							//            })
 							//   .catch(function(oError){
@@ -1262,7 +1262,7 @@ debugger;
 			}
 		},
 		onSave: function(oEvent) {
-			debugger;
+
 			var that = this;
 			//if header check pass
 			if (this.onValidation() === true) {
@@ -1325,21 +1325,21 @@ debugger;
 			}
 		},
 		commitRecords: function(oEvent) {
-			debugger;
+
 			if (this.byId('Sales--idSaveIcon').getColor() === 'red') {
 				var that = this;
 				var oHeader = that.getView().getModel('local').getProperty('/orderHeader');
 				var oId = that.getView().getModel('local').getProperty('/orderHeaderTemp').OrderId;
 				if (this.headerNoChange === true) {
 					oHeader.Date = new Date(oHeader.Date);
-					debugger;
+
 					var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 					// order header put
-					debugger;
+
 					$.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
 					.done(function(data, status) {
 					  sap.m.MessageToast.show("Order Header updated");
-					  debugger;
+
 					})
 					.fail(function(xhr, status, error) {
 					  sap.m.MessageBox.error("Failed to update Header");
@@ -1349,7 +1349,7 @@ debugger;
 							"/OrderHeaders('" + oId + "')",
 							"PUT", {}, oHeader, this)
 						.then(function(oData) {
-							debugger;
+
 							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderSave");
 							sap.m.MessageToast.show(oBundle);
 							that.getView().setBusy(false);
@@ -1418,12 +1418,12 @@ debugger;
 						//Item data save
 						if (data.itemNo) {
 							// if (this.noChange.flag === false) {
-							//   debugger;
+							//
 							//   that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							//           "/OrderItems('"+ data.itemNo +"')","PUT", {},
 							//           oOrderDetailsClone, this)
 							//   .then(function(oData) {
-							//         debugger;
+							//
 							//         that.getView().setBusy(false);
 							// })
 							//   .catch(function(oError){
@@ -1432,7 +1432,7 @@ debugger;
 							//       });
 							// }
 						} else {
-							debugger;
+
 							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 									"/OrderItems", "POST", {}, oOrderDetailsClone, this)
 								.then(function(oData) {
@@ -1442,7 +1442,7 @@ debugger;
 									for (var i = 0; i < allItems.length; i++) {
 										if (allItems[i].Material === oData.Material &&
 											allItems[i].itemNo === "") {
-											debugger;
+
 											allItems[i].itemNo = oData.id;
 											allItems[i].OrderNo = oId;
 											that.stockTransfer(allItems[i]);
@@ -1490,7 +1490,7 @@ debugger;
 			}
 		},
 		stockTransfer: function(allItems) {
-			debugger;
+
 			var that = this;
 			var orderNo = this.getView().getModel('local').getProperty('/orderHeader/OrderNo');
 			// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
@@ -1558,7 +1558,7 @@ debugger;
 			}
 		},
 		onClear: function(oEvent, id) {
-			debugger;
+
 			var that = this;
 			delete this.orderAmount;
 			delete this.deduction;
@@ -1649,7 +1649,7 @@ debugger;
 			}
 		},
 		onDelete: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -1692,7 +1692,7 @@ debugger;
 										stockData.Date = date;
 										stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].Weight;
 										stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs[i]].Qty;
-										debugger;
+
 										that.byId("Sales--idSaveIcon").setColor('green');
 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderItems('" + id + "')",
 											"DELETE", {}, {}, that)
@@ -1700,7 +1700,7 @@ debugger;
 												Stock: stockData
 											})
 											.then(function(result) {
-												debugger;
+
 												var stockId = result.id;
 												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 													"/stockMaints('" + stockId + "')",
@@ -1768,7 +1768,7 @@ debugger;
 			this.hideDColumns(oEvent);
 		},
 		previousOrder: function(oEvent) {
-			debugger;
+
 			var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
 			var dateFrom = new Date(selectedDate);
 			dateFrom.setDate(selectedDate.getDate());
@@ -1851,7 +1851,7 @@ debugger;
 		},
 
 		nextOrder: function(oEvent) {
-			debugger;
+
 			var selectedDate = this.getView().byId("Sales--DateId").getDateValue();
 			var dateFrom = new Date(selectedDate);
 			dateFrom.setDate(selectedDate.getDate());
@@ -1878,7 +1878,7 @@ debugger;
 							filters: [orFilter]
 						}, {}, that)
 					.then(function(oData) {
-						debugger;
+
 						// that.getView().setBusy(false);
 						// ordersForSelectedDate = oData;
 						var n = oData.results.length;
@@ -1886,7 +1886,7 @@ debugger;
 							sap.m.MessageToast.show("No orders for selected date");
 						} else {
 							var firstRecord = oData.results[0];
-							debugger;
+
 							var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
 							that.getOrderDetails(oEvent, firstRecord.id, orFilter);
 							that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
@@ -2024,7 +2024,7 @@ debugger;
 		},
 
 		getFloatValue: function(data, oFloatFormat, quantityOfStone) {
-			debugger;
+
 			if (data.Making) {
 				if (data.Making === "") {
 					data.Making = 0;
@@ -2309,7 +2309,7 @@ debugger;
 		},
 
 
-		onSuggest: function(oEvent) {debugger;
+		onSuggest: function(oEvent) {
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 		const key = oEvent.key
 		var id1 = oEvent.getParameter("id").split("--")[2]
@@ -2393,7 +2393,7 @@ debugger;
 							"/Products('" + category.Material + "')", "GET", {}, {}, that)
 						.then(function(oData) {
 							category.Category = oData.Category;
-							debugger;
+
 							if (!category.Making || category.Making === 0) {
 								category.Making = oData.Making;
 							}

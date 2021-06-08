@@ -120,7 +120,7 @@ sap.ui.define([
 				//
 				// 	}
 				// }).catch(function(oError) {
-				// 	debugger;
+				//
 				// });
 				// var sMsg = "";
 				// $.post('/updateInq')
@@ -151,11 +151,11 @@ sap.ui.define([
 					for (var i = 0; i < oData.results.length; i++) {
 						that.Students[oData.results[i].id] = oData.results[i];
 					}
-					debugger;
+
 					//console.log(oData.results.length);
 				}
 			}).catch(function(oError) {
-				debugger;
+
 			});
 			that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Courses", "GET", {
 			}, null, that)
@@ -164,11 +164,11 @@ sap.ui.define([
 					for (var i = 0; i < oData.results.length; i++) {
 						that.Courses[oData.results[i].id] = oData.results[i];
 					}
-					debugger;
+
 					//console.log(oData.results.length);
 				}
 			}).catch(function(oError) {
-				debugger;
+
 			});
 
 			// $.post('/updateAllInq')
@@ -191,11 +191,11 @@ sap.ui.define([
 			// 				console.log("updated false success");
 			// 			});
 			// 		}
-			// 		debugger;
+			//
 			// 		//console.log(oData.results.length);
 			// 	}
 			// }).catch(function(oError) {
-			// 	debugger;
+			//
 			// });
 
 
@@ -204,7 +204,7 @@ sap.ui.define([
 			var sResponse = oEvent.getParameter("response");
 			if (sResponse) {
 				var sMsg = "";
-				debugger;
+
 				var m = /^\[(\d\d\d)\]:(.*)$/.exec(sResponse);
 				if (m[1] == "200") {
 					$.post('/upload', {

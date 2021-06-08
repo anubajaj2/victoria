@@ -29,14 +29,14 @@ sap.ui.define(
       return this.getOwnerComponent().getRouter();
   },
   _onRouteMatched: function(oEvent){
-    debugger;
+
       var that = this;
       that.clearScreen();
       var allItems = this.getView().getModel("local").getProperty("/printCustomizingData");
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/prints", "GET", {}, {}, this)
         .then(function(oData) {
-          debugger;
+
           that.getView().setBusy(false);
           if(oData.results.length > 0){
             // this.getView().getModel("local").getProperty("/printCustomizingData");
@@ -67,7 +67,7 @@ sap.ui.define(
 
   },
   updateData: function(oData){
-    debugger;
+
     var that = this;
     var allItems = that.getView().getModel("local").getProperty("/printCustomizingData");
     for (var i = 0; i < oData.results.length; i++) {
@@ -84,14 +84,14 @@ sap.ui.define(
     var allItems = that.getView().getModel("local").getProperty("/printCustomizingData");
     this.ODataHelper.callOData(this.getOwnerComponent().getModel(),"/prints", "POST", {}, allItems,this)
       .then(function(oData) {
-       debugger;
+
       }).catch(function(oError) {
        that.getView().setBusy(false);
        var oPopover = that.getErrorMessage(oError);
      });
   },
   onSubmit: function(oEvent){
-    debugger;
+
     var that = this;
     this.getView().setBusy(true);
     var sId = oEvent.getSource().getId();
@@ -112,7 +112,7 @@ sap.ui.define(
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/prints", "GET", {filters: [oFilter]}, {}, this)
         .then(function(oData) {
-          debugger;
+
           that.getView().setBusy(false);
           if(oData.results.length > 0){
             that.updateData(oData);

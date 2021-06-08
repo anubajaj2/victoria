@@ -73,7 +73,7 @@ sap.ui.define([
 			// 	}).catch(function(oError) {
 			// 		var oPopover = that.getErrorMessage(oError);
 			// 	});
-			debugger;
+
 			var that = this;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems", "GET", null, null, this)
 				.then(function(oData) {
@@ -118,7 +118,7 @@ sap.ui.define([
 					var currentUser = that.getModel("local").getProperty("/CurrentUser");
 											if(that.getModel("local").oData.AppUsers[currentUser].Role !== "Admin")
 											{
-											debugger;
+
 											var oFilter1 = new Filter([
 												new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
 											], true);
@@ -132,10 +132,10 @@ sap.ui.define([
 					return Object.keys(obj).length;
 					}
 
-					debugger;
+
 					// for(var i=0;i<c;i++){
 					for(var j in customers){
-					// 												debugger;
+					//
 																	var grp=customers[j].Group;
 																	var hide=that.allMasterData.groups[grp].hide;
 																	if(hide===false){
@@ -144,9 +144,9 @@ sap.ui.define([
 																	}
 															}
 					// }
-					debugger;
 
-														debugger;
+
+
 														that.getView().getModel("local").setProperty("/finalCustomer",final);
 										// that.getView().byId("idTable1").setVisible();
 										}
@@ -154,7 +154,7 @@ sap.ui.define([
 
 
 										else {
-											debugger;
+
 											function sizeObj(obj) {
 						return Object.keys(obj).length;
 						}
@@ -167,7 +167,7 @@ sap.ui.define([
 												 // break;
 											 }
 										 // }
-					debugger;
+
 						that.getView().getModel("local").setProperty("/finalCustomer",finals);
 										}
 				}).catch(function(oError) {
@@ -229,7 +229,7 @@ sap.ui.define([
 			return this.currentUser;
 		},
 		logOutApp: function(Reload) {
-			debugger;
+
 			var that = this;
 			// var accessToken = that.getView().getModel("local").getProperty("/Authorization");
 			var accessToken = that.getView().getModel().getHeaders().Authorization;
@@ -354,7 +354,7 @@ sap.ui.define([
 								path: "City"
 							}],
 							formatter: function(Name, City) {
-								debugger;
+
 								return Name + "-" + that.allMasterData.cities[City].cityName
 							}
 						}
@@ -393,7 +393,7 @@ sap.ui.define([
 			} else {
 				var oFilter3 = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
 			}
-			debugger;
+
 			var orFilter = new sap.ui.model.Filter({
 				filters: [oFilter1, oFilter2],
 				and: true
@@ -406,9 +406,9 @@ sap.ui.define([
 			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 			//     "/OrderHeaders", "GET", {expand: "ToCustomers",filters: orFilter}, {}, this)
 			//   .then(function(oData) {
-			//     debugger;
+			//
 			//   }).catch(function(oError) {
-			//     debugger;
+			//
 			//   });
 			this.orderSearchPopup.bindAggregation("items", {
 				path: '/OrderHeaders',
@@ -503,7 +503,7 @@ sap.ui.define([
 		},
 
 		getObjListSelectedkey: function(oEvent) {
-			debugger;
+
 			var title = oEvent.getParameter("selectedItem").getTitle();
 			var intro = oEvent.getParameter("selectedItem").getIntro();
 			var number = oEvent.getParameter("selectedItem").getNumber();
@@ -539,7 +539,7 @@ sap.ui.define([
 		},
 		// Zoom in/out for UI tables
 		toggleUiTable: function(btnId, headerId) {
-			debugger;
+
 			// if(this.toggleScreenState === true){
 			if (this.toggleTableState === true) {
 				this._openFullScreen(btnId, headerId);
@@ -555,12 +555,12 @@ sap.ui.define([
 		},
 
 		_closeFullScreen: function(btnId, headerId) {
-			debugger;
+
 			this.getView().byId(headerId).setVisible(true);
 			this.getView().oParent.oParent._oMasterNav.setVisible(true);
 		},
 		_openFullScreen: function(btnId, headerId) {
-			debugger;
+
 			this.getView().byId(headerId).setVisible(false);
 			this.getView().oParent.oParent._oMasterNav.setVisible(false);
 		},
@@ -663,7 +663,7 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
 		redirectLoginPage: function(logOut, Reload) {
-			debugger;
+
 			var that =this;
 				var accessToken = that.getView().getModel().getHeaders().Authorization;
 			if (logOut == "X" && Reload != "X") {
@@ -838,7 +838,7 @@ sap.ui.define([
 		},
 
 		focusAndSelectNextInput: function(currentBoxId, id) {
-			debugger;
+
 			setTimeout(function() {
 				var textboxes = $(id);
 				var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
@@ -854,7 +854,7 @@ sap.ui.define([
 		},
 
 		ValueChangeMaterial: function(oEvent) {
-			debugger;
+
 			var id = oEvent.getSource().getId().split('---')[1];
 			if (id !== undefined) {
 				if (id.split('--')[0] === 'idsales') {
@@ -896,7 +896,7 @@ sap.ui.define([
 								filters: [oFilter]
 							}, {}, that)
 						.then(function(oData) {
-							debugger;
+
 							orderId = oData.results[oData.results.length - 1].id;
 							orderNoPath = orderNoPath + "/OrderNo";
 							that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
@@ -929,7 +929,7 @@ sap.ui.define([
 							that.focusAndSelectNextInput(currentBoxId, "input[id*='---idsales--']");
 						}
 					}
-					debugger;
+
 					oModelForRow.setProperty(sRowPath + "/Material", oData.results[0].id);
 					if (oData.results[0].HindiName) {
 						oModelForRow.setProperty(sRowPath + "/Description", oData.results[0].HindiName);
@@ -956,7 +956,7 @@ sap.ui.define([
 
 		materialPopup: null,
 		onFindMaterial: function() {
-			debugger;
+
 			var that = this;
 
 			var oHeader = this.getView().getModel('local').getProperty('/orderHeader');
@@ -977,7 +977,7 @@ sap.ui.define([
 								filters: [oFilter]
 							}, {}, that)
 						.then(function(oData) {
-							debugger;
+
 							orderId = oData.results[oData.results.length - 1].id;
 							orderId = "'" + orderId + "'";
 							oFilter = new sap.ui.model.Filter("OrderNo", "EQ", orderId);
@@ -988,7 +988,7 @@ sap.ui.define([
 										filters: [oFilter]
 									}, {}, that)
 								.then(function(oData) {
-									debugger;
+
 									if (oData.results.length > 0) {
 										var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
 										for (var i = 0; i < oData.results.length; i++) {
@@ -1024,7 +1024,7 @@ sap.ui.define([
 								filters: [oFilter]
 							}, {}, that)
 						.then(function(oData) {
-							debugger;
+
 							if (oData.results.length > 0) {
 								var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
 								for (var i = 0; i < oData.results.length; i++) {
@@ -1086,7 +1086,7 @@ sap.ui.define([
 				dialogSave = sap.ui.core.Fragment.byId("fr2", "dialogSave");
 			}
 			if (oEvent.getSource().getValue() <= 0) {
-				debugger;
+
 				oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
 				dialogSave.setEnabled(false);
 			} else {
@@ -1096,7 +1096,7 @@ sap.ui.define([
 		},
 
 		onDialogSave: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var oTableDetails = sap.ui.core.Fragment.byId("fr1", "materialPopupTable");
 			if (!oTableDetails) {
@@ -1147,7 +1147,7 @@ sap.ui.define([
 										"POST", {}, payload, this)
 									.then(function(oData) {
 										that.getView().setBusy(false);
-										debugger;
+
 										allItems[i].id = oData.id;
 										sap.m.MessageToast.show("Data Saved Successfully");
 										if (fragIndicator) {
@@ -1166,7 +1166,7 @@ sap.ui.define([
 		},
 
 		deleteReturnValues: function(oEvent, i, selIdxs, viewId, oTableData) {
-			debugger;
+
 			var that = this;
 			var id = that.getView().getModel('returnModel').getProperty('/TransData')[selIdxs].ReturnId;
 			if (id) {
@@ -1203,7 +1203,7 @@ sap.ui.define([
 			that.getView().getModel('returnModel').setProperty('/TransData', oTableData);
 		},
 		onReturnValue: function(oEvent) {
-			debugger;
+
 			if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 				this.byId("Sales--idSaveIcon").setColor('red');
 			} else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
@@ -1216,7 +1216,7 @@ sap.ui.define([
 			this.defaultValuesLoad(oEvent, userEnterValue, customCal, key);
 		},
 		defaultValuesLoad: function(oEvent, userEnterValue, customCal, key) {
-			debugger;
+
 			var that = this;
 			var viewId = oEvent.getSource().getParent().getId().split('---')[1].split('--')[0];
 			if (key) {
@@ -1272,7 +1272,7 @@ sap.ui.define([
 			that.getView().getModel('local').setProperty('/returnModel', userEnterValue);
 		},
 		onReturnChange: function(oEvent) {
-			debugger;
+
 			if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 				this.byId("Sales--idSaveIcon").setColor('red');
 				var orderTemp = this.getView().getModel('local').getProperty('/orderHeaderTemp');
@@ -1378,7 +1378,7 @@ sap.ui.define([
 			}
 		},
 		returnCalculation: function(oEvent, orderHeader, data) {
-			debugger;
+
 			if (oEvent.getId() === 'orderReload') {
 				var seletedLine = this.getView().getModel('returnModel').getProperty(data);
 				// var category = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(data);
@@ -1436,7 +1436,7 @@ sap.ui.define([
 							seletedLine.SubTotalS = 0;
 						}
 					} else {
-						debugger;
+
 						if (deductionF === '0' || deductionF === '') {
 							deductionF = '0';
 						}
@@ -1454,7 +1454,7 @@ sap.ui.define([
 							cells[cells.length - 3].setText(0);
 						}
 					} else {
-						debugger;
+
 						if (deductionF === '0' || deductionF === '') {
 							deductionF = '0';
 						}
@@ -1496,7 +1496,7 @@ sap.ui.define([
 							seletedLine.SubTotal = 0;
 						}
 					} else {
-						debugger;
+
 						if (deductionF === '0' || deductionF === '') {
 							deductionF = '0';
 						}
@@ -1517,7 +1517,7 @@ sap.ui.define([
 							cells[cells.length - 1].setText(0);
 						}
 					} else {
-						debugger;
+
 						if (deductionF === '0' || deductionF === '') {
 							deductionF = '0';
 						}
@@ -1595,7 +1595,7 @@ sap.ui.define([
 							this.getView().setBusy(false);
 							// returnError = false;
 						}
-						debugger;
+
 						if (data.Bhav === "" || data.Bhav === 0 || data.Bhav === "0") {
 							if (((viewId == "idsalesws") &&
 									(data.Key === "OG" || data.Key === "OS")) ||
@@ -1631,7 +1631,7 @@ sap.ui.define([
 								returnError = true;
 							}
 						} //Key check
-						debugger;
+
 						this.getView().getModel("returnModel").setProperty("/TransData", returnModel);
 					} //bhav check
 				} //data.Key check
@@ -1712,9 +1712,9 @@ sap.ui.define([
 		},
 		hideDColumns: function(oEvent) {
 			//on setting button click
-			debugger;
+
 			var oModel = this.getView().getModel('VisibleSet');
-			debugger;
+
 			if (oModel.getProperty('/set') === true) {
 				oModel.setProperty('/set', false);
 			} else {
@@ -1723,7 +1723,7 @@ sap.ui.define([
 		},
 
 		onCustomerSelect: function(oEvent, custName, custId) {
-			debugger;
+
 			var that = this;
 			if (oEvent.getParameter("selectedItem")) {
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
@@ -1736,7 +1736,7 @@ sap.ui.define([
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {
-			debugger;
+
 			var that = this;
 			if (oEvent.getParameter("selectedItem")) {
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
@@ -1744,7 +1744,7 @@ sap.ui.define([
 			}
 		},
 
-		getCustomer: function(oEvent) {debugger;
+		getCustomer: function(oEvent) {
 			var that = this;
 			var oSource = oEvent.getSource();
 			if (oEvent.getParameter("value")) {
@@ -1761,7 +1761,7 @@ sap.ui.define([
 		},
 
 		setCustomerIdAndCustomerName: function(selectedCustomer) {
-			debugger;
+
 			this.getView().getModel("local").setProperty("/selectedCustomer", selectedCustomer)
 			var that = this;
 			var cityId = selectedCustomer.City;
@@ -1838,7 +1838,7 @@ sap.ui.define([
 					myData
 				}).then(function(result) {
 					console.log(result);
-					debugger;
+
 					if (myData.Type = "Silver") {
 						that.byId("idBTQ").setText(parseFloat(result.BookedQtyTotal.toFixed(3)));
 					} else {
@@ -1848,7 +1848,7 @@ sap.ui.define([
 					parseFloat(that.byId("idBTQ").getText());
 					if (parseFloat(that.byId("idBTQ").getText()) > 0) {
 						that.byId("idBTQ").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idBTQ").setState('Warning');
 					}
@@ -1858,7 +1858,7 @@ sap.ui.define([
 					parseFloat(that.byId("idBAP").getText());
 					if (parseFloat(that.byId("idBAP").getText()) > 0) {
 						that.byId("idBAP").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idBAP").setState('Warning');
 					}
@@ -1868,7 +1868,7 @@ sap.ui.define([
 					myData
 				}).then(function(result) {
 					console.log(result);
-					debugger;
+
 					if (myData.Type = "Silver") {
 						that2.byId("idDTQ").setText(parseFloat(result.DeliveredQtyTotal.toFixed(3)));
 					} else {
@@ -1877,7 +1877,7 @@ sap.ui.define([
 					that2.byId("idDTQ").getText();
 					if (parseFloat(that.byId("idDTQ").getText()) > 0) {
 						that2.byId("idDTQ").setState('Success');
-						debugger;
+
 					} else {
 						that2.byId("idDTQ").setState('Warning');
 					}
@@ -1886,7 +1886,7 @@ sap.ui.define([
 					that2.byId("idDAP").getText();
 					if (parseFloat(that.byId("idDAP").getText()) > 0) {
 						that2.byId("idDAP").setState('Success');
-						debugger;
+
 					} else {
 						that2.byId("idDAP").setState('Warning');
 					}
@@ -1912,7 +1912,7 @@ sap.ui.define([
 					Customer: myData.Customer
 				}).then(function(result) {
 					console.log(result);
-					debugger;
+
 					if (result.CashTotal === null) {
 						that.byId("idTC").setText('0');
 					} else {
@@ -1922,7 +1922,7 @@ sap.ui.define([
 					parseFloat(that.byId("idTC").getText());
 					if (parseFloat(that.byId("idTC").getText()) > 0) {
 						that.byId("idTC").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idTC").setState('Warning');
 					}
@@ -1931,7 +1931,7 @@ sap.ui.define([
 					parseFloat(that.byId("idG").getText());
 					if (parseFloat(that.byId("idG").getText()) > 0) {
 						that.byId("idG").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idG").setState('Warning');
 					}
@@ -1944,14 +1944,14 @@ sap.ui.define([
 					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
 					if (parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3)) > 0) {
 						that.byId("idS").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idS").setState('Warning');
 					}
 				});
 			}
 			else if(kachhiId){
-				debugger;
+
 				if(customerCode){
 		      var custHeader = this.getView().getModel("local").getProperty("/kachhiHeaderTemp");
 		          custHeader.CustomerId = customerCode;
@@ -1978,7 +1978,7 @@ sap.ui.define([
 		},
 
 		onMaterialSelect: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var id = oEvent.getSource().getId().split('---')[1];
 			if (id !== undefined) {
@@ -2010,7 +2010,7 @@ sap.ui.define([
 								filters: [oFilter]
 							}, {}, that)
 						.then(function(oData) {
-							debugger;
+
 							orderId = oData.results[oData.results.length - 1].id;
 							orderNoPath = orderNoPath + "/OrderNo";
 							that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
@@ -2065,11 +2065,11 @@ sap.ui.define([
 		},
 
 		onTableExpand: function(oEvent) {
-			debugger;
+
 			var splitApp = this.getView().oParent.oParent;
 			var masterVisibility = splitApp.getMode();
 			if (masterVisibility == "ShowHideMode") {
-				debugger;
+
 				splitApp.setMode(sap.m.SplitAppMode.HideMode);
 			} else {
 				splitApp.setMode(sap.m.SplitAppMode.ShowHideMode);
@@ -2097,7 +2097,7 @@ sap.ui.define([
 
 
 		onSuggest: function(oEvent) {
-			debugger;
+
 			var sTerm = oEvent.getParameter("suggestValue").toLocaleUpperCase();
 
 			// var sTerm=oEvent.getSource().getProperty("value");

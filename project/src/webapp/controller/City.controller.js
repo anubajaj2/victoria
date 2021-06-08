@@ -68,7 +68,7 @@ sap.ui.define([
 
 			// 			var a ={"cityCode":"1","cityName" : "Bangalore", "state" : "KA"
 			// };
-			// debugger;
+			//
 			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/City", "POST", {}, a, this)
 			// .then(function(oData) {
 			//
@@ -95,9 +95,9 @@ sap.ui.define([
        var reportType = "City";
      //   $.post("/cityDownload",{type: reportType}).then(function(oData)
      // {
-     //   debugger;
+     //
      //   MessageToast.show("Data downloaded successfully");
-     // },function(oError){debugger;
+     // },function(oError){
      //   MessageToast.show("Data could not be downloaded");
      // });
      window.open("/cityDownload?type=City");
@@ -268,7 +268,7 @@ sap.ui.define([
 		},
 
 		toggleFullScreen: function() {
-			debugger;
+
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idCity--CityHeader";
 			this.toggleUiTable(btnId, headerId);

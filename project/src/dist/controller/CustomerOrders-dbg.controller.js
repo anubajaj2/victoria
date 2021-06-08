@@ -88,7 +88,7 @@ sap.ui.define([
 		},
 
 		onKarigarSelect: function(oEvent, custName, custId) {
-			debugger;
+
 			var that = this;
 			if (oEvent.getParameter("selectedItem")) {
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
@@ -97,7 +97,7 @@ sap.ui.define([
 		},
 
 		setKarigar: function(selectedCustomer) {
-			debugger;
+
 			// this.getView().getModel("local").setProperty("/selectedCustomer", selectedCustomer)
 			var that = this;
 			var cityId = selectedCustomer.City;
@@ -113,24 +113,24 @@ sap.ui.define([
 		},
 
 		onEnter: function(oEvent) {
-			debugger;
+
 			this.getView().byId("idCoMaterial").focus();
 			this.getView().byId("idCoMaterial").$().find("input").select();
 		},
 
 		onMaterialEnter: function(oEvent) {
-			debugger;
+
 			this.getView().byId("idCoQty").focus();
 			this.getView().byId("idCoQty").$().find("input").select();
 		},
 
 		onKarigarEnter: function(oEvent) {
-			debugger;
+
 			this.getView().byId("idCoRemarks").focus();
 			this.getView().byId("idCoRemarks").$().find("input").select();
 		},
 		onRemarksSubmit: function(oEvent) {
-			debugger;
+
 			this.getView().byId("acceptButton").focus();
 		},
 
@@ -263,7 +263,7 @@ sap.ui.define([
 				oDP.setValueState(sap.ui.core.ValueState.Error);
 			}
 			var fieldId = oEvent.getSource().getId();
-			debugger;
+
 			if (fieldId.split("--")[2] === "idCoDate") {
 				var sValue = oEvent.getParameter("value");
 				var parts = sValue.split('-');
@@ -282,7 +282,7 @@ sap.ui.define([
 
 			// $(function() {
 			//         $('input:text:first').focus();
-			//             debugger;
+			//
 			//         var $inp = $('input:text');
 			//         $inp.bind('keypress', function(e) {
 			//             //var key = (e.keyCode ? e.keyCode : e.charCode);
@@ -400,7 +400,7 @@ sap.ui.define([
 			}
 		},
 		handleUploadPress: function(oEvent) {
-			debugger;
+
 			var oFileUploader = sap.ui.getCore().byId("idCoUploader");
 			// if (!oFileUploader.getValue()) {
 			//   sap.m.MessageToast.show("Choose a file first");
@@ -431,7 +431,7 @@ sap.ui.define([
 					//   $.post('/updatePhoto', payload)
 					//     .done(function(data, status) {
 					//       sap.m.MessageToast.show("Photo updated");
-					//       debugger;
+					//
 					//       var oModelPhoto = new JSONModel();
 					//       oModelPhoto.setData(payload);
 					//       that.getView().setModel(oModelPhoto, "photo");
@@ -452,7 +452,7 @@ sap.ui.define([
 					//       .then(function(oData) {
 					//           sap.m.MessageToast.show("Photo uploaded Successfully");
 					//           // update picture flag in customer orders
-					//           debugger;
+					//
 					//     //show uploaded picture
 					//           var oModelPhoto = new JSONModel();
 					//           oModelPhoto.setData(oData);
@@ -501,7 +501,7 @@ sap.ui.define([
 				beginButton: new sap.m.Button({
 					text: "Capture Photo",
 					press: function(oEvent) {
-						debugger;
+
 						// TO DO: get the object of our video player which live camera stream is running
 						//take the image object out of it and set to main page using global variable
 						that.imageVal = document.getElementById("player");
@@ -522,7 +522,7 @@ sap.ui.define([
 				endButton: new sap.m.Button({
 					text: "Cancel",
 					press: function() {
-						debugger;
+
 						that.fixedDialog.close();
 					}
 				})
@@ -546,7 +546,7 @@ sap.ui.define([
 
 		setImage: function() {
 			//Take the running image from the video stream of camera
-			debugger;
+
 			var oVBox = this.getView().getDependents()[0].getContent()[0].getContent()[0];
 			// var items = oVBox.getItems();
 			// var snapId = 'anubhav-' + items.length;
@@ -572,7 +572,7 @@ sap.ui.define([
 		},
 
 		savePicToDb: function(fileName, fileType, picture) {
-			debugger;
+
 			var that = this;
 			if (this.selRow && this.selRow.Picture === "X") {
 				var photoId = this.getView().getModel("photo").getData().id;
@@ -585,7 +585,7 @@ sap.ui.define([
 				$.post('/updatePhoto', payload)
 					.done(function(data, status) {
 						sap.m.MessageToast.show(that.resourceBundle.getText("Pic2"));
-						debugger;
+
 						var oModelPhoto = new JSONModel();
 						oModelPhoto.setData(payload);
 						that.getView().setModel(oModelPhoto, "photo");
@@ -607,7 +607,7 @@ sap.ui.define([
 					.then(function(oData) {
 						sap.m.MessageToast.show(that.resourceBundle.getText("Pic4"));
 						// update picture flag in customer orders
-						debugger;
+
 						//show uploaded picture
 						var oModelPhoto = new JSONModel();
 						oModelPhoto.setData(oData);
@@ -675,7 +675,7 @@ sap.ui.define([
 		},
 		// close photo upload popup
 		handleClosePress: function(oEvent) {
-			debugger;
+
 			// if (!this.photoPopup) {
 			//     this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
 			// }
@@ -748,7 +748,7 @@ sap.ui.define([
 			});
 		},
 		onClear: function() {
-			debugger;
+
 			var that = this;
 			this.getView().byId("idCoDate").setDateValue(new Date());
 			var date = new Date();
@@ -790,7 +790,7 @@ sap.ui.define([
 
 
 		onSuggest: function(oEvent) {
-			debugger;
+
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key
 			var id1 = oEvent.getParameter("id").split("--")[2]
@@ -829,7 +829,7 @@ sap.ui.define([
 
 
 		onSuggest1: function(oEvent) {
-			debugger;
+
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key
 			var id1 = oEvent.getParameter("id").split("--")[2]
@@ -890,7 +890,7 @@ sap.ui.define([
 
 				var karigarId = oTable.getItems()[i].getCells()[11].getText();
 				if (karigarId !== "null" && karigarId !== "") {
-					debugger;
+
 					var customerData = this.allMasterData.customers[karigarId];
 					oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name);
 				}

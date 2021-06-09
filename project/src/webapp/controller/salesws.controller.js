@@ -1945,7 +1945,7 @@ sap.ui.define(
 					}
 				};
 
-				if (category.Type === "Silver") {
+				if (category.Type === "Silver" || category.Type === 'SLV') {
 					var SubTotalS = weightF * data.Tunch / 100;
 					SubTotalS = parseFloat(SubTotalS).toFixed(2);
 					var SubTotalG = 0;
@@ -1981,7 +1981,7 @@ sap.ui.define(
 						cells[cells.length - 2].setText(category.SubTotalG);
 					}
 
-				} else if (category.Type === "Gold") {
+				} else if (category.Type === "Gold" || category.Type === 'GLD') {
 
 					var SubTotalG = weightF * data.Tunch / 100;
 					SubTotalG = parseFloat(SubTotalG).toFixed(3);

@@ -4587,10 +4587,10 @@ debugger;
 											var Difference_In_Time = date2.getTime() - date1.getTime();
 											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 											var days = parseInt(Difference_In_Days);
-											
+
 											var totalAmt = ((Amount*interest*days)/3000);
 											return totalAmt;
-								
+
 										}
 										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
 										//code added by surya 10 nov - end
@@ -4702,7 +4702,7 @@ debugger;
 											},
 											bold: true
 										};
-										
+
 										sheet.getCell('H' + totText).fill = {
 											type: 'pattern',
 											pattern: 'solid',
@@ -4762,7 +4762,7 @@ debugger;
 														argb: '000000'
 													}
 												};
-											}											
+											}
 
 											if (sheet.getCell('C' + (j)).value == '') {
 												sheet.getCell('C' + (j)).fill = {
@@ -5354,7 +5354,7 @@ debugger;
 				//res.send(responseData);
 
 			);
-		})		
+		})
 
 
 		app.get('/entryDownload2', function(req, res) {
@@ -5457,14 +5457,14 @@ debugger;
 										var nEntry=[];
 										for (var i = 0; i < Records["length"]; i++) {
 											var items = Records[i].__data;
-											
+
 											if(items["Cash"]>0){
 												pEntry.push(items);
-												
+
 											}
 											else{
 												nEntry.push(items);
-												
+
 											}
 										}
 
@@ -5634,15 +5634,15 @@ debugger;
 											var Difference_In_Time = date2.getTime() - date1.getTime();
 											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 											var days = parseInt(Difference_In_Days);
-											
+
 											var totalAmt = ((Amount*interest*days)/3000);
 											return [totalAmt,days];
-								
+
 										}
 										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
-									
+
 										//Coding to remove unwanted items or Rows
-										
+
 										for(i=0;i<pEntry.length;i++){
 											var items = pEntry[i];
 											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
@@ -5720,7 +5720,7 @@ debugger;
 										// 	},
 										// 	bold: true
 										// };
-										
+
 										// sheet.getCell('F' + totText).fill = {
 										// 	type: 'pattern',
 										// 	pattern: 'solid',
@@ -5784,7 +5784,7 @@ debugger;
 														argb: '000000'
 													}
 												};
-											}											
+											}
 
 											if (sheet.getCell('C' + (j)).value == '') {
 												sheet.getCell('C' + (j)).fill = {
@@ -5797,7 +5797,7 @@ debugger;
 														argb: '00FFFF'
 													}
 												};
-												
+
 
 											} else if (sheet.getCell('C' + (j)).value < 0) {
 												sheet.getCell('C' + (j)).font = {
@@ -5806,7 +5806,7 @@ debugger;
 													},
 													bold: true
 												};
-												
+
 											} else {
 												sheet.getCell('C' + (j)).font = {
 													color: {
@@ -5814,7 +5814,7 @@ debugger;
 													},
 													bold: true
 												};
-											
+
 
 											}
 
@@ -5927,7 +5927,7 @@ debugger;
 													bold: true
 												};
 											}
-											
+
 
 
 											////
@@ -6292,7 +6292,7 @@ debugger;
 														argb: '00FFFF'
 													}
 												};
-												
+
 
 											} else if (sheet.getCell('C' + ((totText+3))).value < 0) {
 												sheet.getCell('C' + ((totText+3))).font = {
@@ -6301,7 +6301,7 @@ debugger;
 													},
 													bold: true
 												};
-												
+
 											} else {
 												sheet.getCell('C' + ((totText+3))).font = {
 													color: {
@@ -6309,7 +6309,7 @@ debugger;
 													},
 													bold: true
 												};
-											
+
 
 											}
 											// sheet.getCell('A' + (totText+3)).fill = {
@@ -9188,7 +9188,7 @@ debugger;
 
 							data.on('end', function() {
 								// callback(err, entryRecord);
-								console.log(JSON.stringify(items));
+								//console.log(JSON.stringify(items));
 								var aItemsToday = items;
 								//TILL TODAY TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
 								app.models.Customer.find({
@@ -9215,7 +9215,9 @@ debugger;
 						var arrGroups = [];
 
 						for (var i = 0; i < customerRecord["length"]; i++) {
+							console.log(customerRecord[i].CustomerCode + " " + customerRecord[i].City);
 							if (!(arrCities.includes(customerRecord[i].City.toString()))) {
+		
 								arrCities.push(customerRecord[i].City.toString());
 							}
 							if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {

@@ -19,7 +19,7 @@ sap.ui.define([
 		 */
 
 		onInit: function() {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(false);
 			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys", "GET", null, null, this)
@@ -40,7 +40,7 @@ sap.ui.define([
 			this.getView().byId("idUser").setText(loginUser);
 				oRouter.getRoute("dayBook").attachMatched(this._onRouteMatched, this);
 // 			if(this.getModel("local").oData.AppUsers[currentUser].Role === "Admin"){
-// 			debugger;
+//
 // 			var oFilter1 = new Filter([
 // 				new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
 // 			], true);
@@ -49,11 +49,11 @@ sap.ui.define([
 // 			}
 		},
 		getRouter: function() {
-			debugger;
+
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
 		_onRouteMatched: function(oEvent) {
-			debugger;
+
 
 			// var customers=this.allMasterData.customers;
 
@@ -68,7 +68,7 @@ sap.ui.define([
 					var currentUser = that.getModel("local").getProperty("/CurrentUser");
 											if(that.getModel("local").oData.AppUsers[currentUser].Role !== "Admin")
 											{
-											debugger;
+
 											var oFilter1 = new Filter([
 												new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
 											], true);
@@ -82,10 +82,10 @@ sap.ui.define([
 					return Object.keys(obj).length;
 					}
 
-					debugger;
+
 					// for(var i=0;i<c;i++){
 					for(var j in customers){
-					// 												debugger;
+					//
 																	var grp=customers[j].Group;
 																	var hide=that.allMasterData.groups[grp].hide;
 																	if(hide===false){
@@ -94,9 +94,9 @@ sap.ui.define([
 																	}
 															}
 					// }
-					debugger;
 
-														debugger;
+
+
 														that.getView().getModel("local").setProperty("/finalCustomer",final);
 										// that.getView().byId("idTable1").setVisible();
 										}
@@ -104,7 +104,7 @@ sap.ui.define([
 
 
 										else {
-											debugger;
+
 											function sizeObj(obj) {
 						return Object.keys(obj).length;
 						}
@@ -117,7 +117,7 @@ sap.ui.define([
 												 // break;
 											 }
 										 // }
-					debugger;
+
 						that.getView().getModel("local").setProperty("/finalCustomer",finals);
 										}
 									// }).catch(function(oError) {
@@ -130,7 +130,7 @@ sap.ui.define([
 		},
 
 		onValueHelpRequest: function(oEvent) {
-			debugger;
+
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -172,7 +172,7 @@ sap.ui.define([
 
 
 		onEnter: function(oEvent) {
-			debugger;
+
 			var that = this;
 			// this.getCustomer(oEvent);
 			var searchStr=this.getView().byId("idCustDay").getValue();
@@ -204,7 +204,7 @@ sap.ui.define([
 		},
 
 		onPressEntryDownload: function() {
-			debugger;
+
 			var cust = this.getView().byId("idCustDay").getValue();
 			var minDate = this.getView().byId("dateRangeId").getDateValue();
 			var maxDate = this.getView().byId("dateRangeId").getSecondDateValue();
@@ -235,7 +235,7 @@ sap.ui.define([
 
 		onExportExcel: function() {
 			var that = this;
-			debugger;
+
 			var data = this.getView().getModel().oData;
 			// var data = sap.ui.getCore().getModel("ojsonModel").getData();
 
@@ -243,7 +243,7 @@ sap.ui.define([
 
 		},
 		JSONToExcelConvertor: function(JSONData, ReportTitle, ShowLabel) {
-			debugger;
+
 
 			// If JSONData is not an object then JSON.parse will parse the JSON
 			// string in an Object
@@ -321,7 +321,7 @@ sap.ui.define([
 
 
 		onConfirm: function(oEvent) {
-			debugger;
+
 			var selCust = oEvent.getParameter("selectedItem").getLabel();
 			this.getView().byId("idCustDay").setValue(selCust);
 			this.getView().getModel("local").setProperty("/EntryData/Customer",
@@ -332,9 +332,9 @@ sap.ui.define([
 
 
 		onUpdateFinished: function(oEvent) {
-			debugger;
+
 // 			if(this.getModel("local").oData.AppUsers[currentUser].Role === "Admin"){
-// 			debugger;
+//
 // 			var oFilter1 = new Filter([
 // 				new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.EQ, "")
 // 			], true);
@@ -371,7 +371,7 @@ sap.ui.define([
 
 
 		onFilterSearch: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var cust = this.getView().byId("idCustDay").getValue();
 			if (cust !== "") {
@@ -418,14 +418,14 @@ sap.ui.define([
 					// max:maxDate.toISOString(),
 					// min:minDate.toISOString()
 				}).then(function(result) {
-					debugger;
+
 					that.getView().getModel("local").setProperty("/Footer", true);
 					that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 					that.byId("idTC1").getText();
 					parseFloat(that.byId("idTC1").getText());
 					if (parseFloat(that.byId("idTC1").getText()) > 0) {
 						that.byId("idTC1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idTC1").setState('Warning');
 					}
@@ -434,7 +434,7 @@ sap.ui.define([
 					parseFloat(that.byId("idG1").getText());
 					if (parseFloat(that.byId("idG1").getText()) > 0) {
 						that.byId("idG1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idG1").setState('Warning');
 					}
@@ -447,11 +447,11 @@ sap.ui.define([
 					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
 					if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
 						that.byId("idS1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idS1").setState('Warning');
 					}
-					debugger;
+
 				});
 			} else {
 				if (cust === "") {
@@ -467,14 +467,14 @@ sap.ui.define([
 					max: maxD,
 					min: minDate
 				}).then(function(result) {
-					debugger;
+
 					that.getView().getModel("local").setProperty("/Footer", true);
 					that.byId("idTC1").setText(parseFloat(result.CashTotal).toFixed(2));
 					that.byId("idTC1").getText();
 					parseFloat(that.byId("idTC1").getText());
 					if (parseFloat(that.byId("idTC1").getText()) > 0) {
 						that.byId("idTC1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idTC1").setState('Warning');
 					}
@@ -483,7 +483,7 @@ sap.ui.define([
 					parseFloat(that.byId("idG1").getText());
 					if (parseFloat(that.byId("idG1").getText()) > 0) {
 						that.byId("idG1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idG1").setState('Warning');
 					}
@@ -496,11 +496,11 @@ sap.ui.define([
 					// parseFloat(parseFloat(that.byId("idS").getText()).toFixed(3));
 					if (parseFloat(parseFloat(that.byId("idS1").getText()).toFixed(3)) > 0) {
 						that.byId("idS1").setState('Success');
-						debugger;
+
 					} else {
 						that.byId("idS1").setState('Warning');
 					}
-					debugger;
+
 				});
 			}
 
@@ -509,7 +509,7 @@ sap.ui.define([
 
 
 		onFilterClear: function(oEvent) {
-			debugger;
+
 			this.getView().getModel("local").setProperty("/Footer", false);
 			this.getView().byId("idTable1").getBinding("items").filter("/");
 		},
@@ -572,7 +572,7 @@ sap.ui.define([
 
 
 		onExport: function() {
-			debugger;
+
 			var aCols, oRowBinding, oSettings, oSheet, oTable;
 
 			if (!this._oTable) {
@@ -611,19 +611,19 @@ sap.ui.define([
 
 
 		totalFormatter: function(results) {
-			debugger;
+
 			return results.length;
 		},
 
 
 
 		decimalvalidator1: function(oEvent) {
-			debugger;
+
 			if (oEvent.mParameters.id === "__component0---idEntry--idCash") {
 				$(function() {
 					$('input').on('input.idCash', function(event) {
 						if (event.currentTarget.id == "__component0---idEntry--idCash-inner") {
-							debugger;
+
 							this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,2})?/)[0];
 						}
 					});
@@ -631,13 +631,13 @@ sap.ui.define([
 			}
 		},
 		decimalvalidator2: function(oEvent) {
-			debugger;
+
 			if (oEvent.mParameters.id === "__component0---idEntry--idGold") {
 
 				$(function() {
 					$('input').on('input.idGold', function(event) {
 						if (event.currentTarget.id == "__component0---idEntry--idGold-inner") {
-							debugger;
+
 							this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
 						}
 					});
@@ -645,12 +645,12 @@ sap.ui.define([
 			}
 		},
 		decimalvalidator3: function(oEvent) {
-			debugger;
+
 			if (oEvent.mParameters.id === "__component0---idEntry--idSilver") {
 				$(function() {
 					$('input').on('input.idSilver', function(event) {
 						if (event.currentTarget.id == "__component0---idEntry--idSilver-inner") {
-							debugger;
+
 							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,2})?/)[0];
 						}
 					});
@@ -658,12 +658,12 @@ sap.ui.define([
 			}
 		},
 		decimalvalidator4: function(oEvent) {
-			debugger;
+
 			if (oEvent.mParameters.id === "__component0---idEntry--idweight") {
 				$(function() {
 					$('input').on('input.idweight', function(event) {
 						if (event.currentTarget.id == "__component0---idEntry--idweight-inner") {
-							debugger;
+
 							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
 						}
 					});
@@ -671,12 +671,12 @@ sap.ui.define([
 			}
 		},
 		decimalvalidator5: function(oEvent) {
-			debugger;
+
 			if (oEvent.mParameters.id === "__component0---idEntry--idtunch") {
 				$(function() {
 					$('input').on('input.idtunch', function(event) {
 						if (event.currentTarget.id == "__component0---idEntry--idtunch-inner") {
-							debugger;
+
 							this.value = this.value.match(/^[+-]?\d{0,5}(\.\d{0,3})?/)[0];
 						}
 					});
@@ -697,7 +697,7 @@ sap.ui.define([
 		},
 
 		onSubmit: function(evt) {
-			debugger;
+
 			var that=this;
 			var v11= this.getView().byId("idCustDay").getValue();
 
@@ -707,11 +707,11 @@ sap.ui.define([
 								return Object.keys(obj).length;
 								}
 
-								debugger;
+
 								var flag="N";
 								// for(var i=0;i<c;i++){
 								for(var j in customers){
-								// 												debugger;
+								//
 																				var grp=customers[j].Group;
 																				var hide=that.allMasterData.groups[grp].hide;
 																				var cust11 = customers[j].CustomerCode;
@@ -767,7 +767,7 @@ sap.ui.define([
 		},
 		inpField: "",
 		onSelectValue: function(oEvent) {
-			debugger;
+
 			var selectedItem = oEvent.getParameter("selectedItem");
 			var sTitle = selectedItem.getLabel();
 			sap.ui.getCore().byId(this.inpField).setValue(sTitle);
@@ -778,7 +778,7 @@ sap.ui.define([
 
 		},
 
-		onSuggest: function(oEvent) {debugger;
+		onSuggest: function(oEvent) {
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 		const key = oEvent.key
 		var id1 = oEvent.getParameter("id").split("--")[2]

@@ -66,7 +66,7 @@ sap.ui.define([
 			oRouter.getRoute("Group").attachMatched(this._onRouteMatched, this);
 			// 			var a ={"groupCode":"123","groupName" : "ABC", "description" : "test"
 			// };
-			// debugger;
+			//
 			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Group", "POST", {}, a, this)
 			// .then(function(oData) {
 			//
@@ -92,9 +92,9 @@ sap.ui.define([
      //   var reportType = "Groups";
      //   $.post("/groupsDownload",{type: reportType}).then(function(oData)
      // {
-     //   debugger;
+     //
      //   MessageToast.show("Data downloaded successfully");
-     // },function(oError){debugger;
+     // },function(oError){
      //   MessageToast.show("Data could not be downloaded");
      // });
      window.open("/groupsDownload?type=Groups");
@@ -136,7 +136,7 @@ sap.ui.define([
 		},
 
 		toggleFullScreen: function() {
-			debugger;
+
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idGroup--GroupHeader";
 			this.toggleUiTable(btnId, headerId)
@@ -167,7 +167,7 @@ this.getView().byId("acceptButton").focus();
 },
 
 		groupCodeCheck: function(oEvent) {
-			debugger;
+
 			var groupModel = this.getView().getModel("groupModel");
 			var groupCode = groupModel.getData().groupCode;
 			var groupJson = this.getView().getModel("groupModelInfo").getData().results;
@@ -280,7 +280,7 @@ this.getView().byId("acceptButton").focus();
 		},
 
 		saveGroup: function() {
-			debugger;
+
 			var that = this;
 			var groupModel = this.getView().getModel("groupModel");
 			var groupCode = groupModel.getData().groupCode;
@@ -311,7 +311,7 @@ this.getView().byId("acceptButton").focus();
 			var found = getGroupCode(groupCode);
 			// var found1 = gethide(hide);
 			if (found.length > 0 ) {
-debugger;
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Groups('" + found[0].id + "')", "PUT", {}, groupModel.getData(), this)
 					.then(function(oData) {
@@ -339,7 +339,7 @@ debugger;
 					});
 
 			} else {
-				debugger;
+
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Group", "POST", {}, groupModel.getData(), this)
 					.then(function(oData) {

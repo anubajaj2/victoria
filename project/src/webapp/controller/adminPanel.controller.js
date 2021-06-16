@@ -22,7 +22,7 @@ sap.ui.define([
 			var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 			loginUser = "Hey " + loginUser;
 			this.getView().byId("idUser").setText(loginUser);
-			debugger;
+			
 
 
 			that.getView().setBusy(true);
@@ -258,7 +258,7 @@ sap.ui.define([
 
 		onPressHandleSecureOkPopup1: function(oEvent) {
 			// onPressHandleSecureOkPopup:function(oEvent){
-				debugger;
+
 				var passEmail = sap.ui.getCore().byId("idChangePass--idPassEmail").getValue();
 				var currentPass = sap.ui.getCore().byId("idChangePass--idCurrentPassword").getValue();
 				var newPass = sap.ui.getCore().byId("idChangePass--idPassword").getValue();
@@ -289,13 +289,13 @@ sap.ui.define([
 									contentType: "application/json",
 									data: JSON.stringify(passPayload), // data to submit
 									success: function(data, status, xhr) {
-										debugger;
+
 										MessageToast.show("Password Updated Successfully");
 										that2._oDialogSecure1.close();
 
 									},
 									error: function(jqXhr, textStatus, errorMessage) {
-										debugger;
+
 										MessageToast.show("Password Update failed,Please contact Server");
 										that2._oDialogSecure1.close();
 									}
@@ -304,7 +304,7 @@ sap.ui.define([
 
 					})
 					.fail(function(xhr, status, error) {
-						debugger;
+
 						// sap.ui.getCore().byId("idChangePass--idPassEmail").setValueState("Error");
 						sap.ui.getCore().byId("idChangePass--idCurrentPassword").setValueState("Error");
 						sap.m.MessageBox.error("Failed, Please enter correct credentials");
@@ -335,7 +335,7 @@ sap.ui.define([
 		},
 		onPressOpenAddSecureDialog: function(createMode) {
 			if (!this._oDialogSecure) {
-				debugger;
+
 				this._oDialogSecure = sap.ui.xmlfragment("Secure_Dialog", "victoria.fragments.SecureDialog", this);
 				// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
 				// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);
@@ -357,7 +357,7 @@ sap.ui.define([
 
 		onPressOpenAddSecureDialog1: function(createMode) {
 			// if (!this._oDialogSecure1) {
-			// 	debugger;
+			//
 			// 	this._oDialogSecure1 = sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.SecurePassword", this);
 			// 	// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
 			// 	// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);
@@ -407,7 +407,7 @@ sap.ui.define([
 
 		},
 		editSecureField1: function(oEvent) {
-			debugger;
+
 			this.aBindingContext = oEvent.getSource().getBindingContext().sPath;
 			// // this.onPressOpenAddSecureDialog(false);
 			// this.onPressOpenAddSecureDialog1(false);
@@ -417,7 +417,7 @@ sap.ui.define([
 			// // this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", false);
 
 			if (!this._oDialogSecure1) {
-				debugger;
+
 				this._oDialogSecure1 = sap.ui.xmlfragment("idChangePass", "victoria.fragments.SecurePassword", this);
 				// this._oDialogSecure.setModel(new JSONModel({}), "secureFormModel");
 				// this._oDialogSecure.getModel("secureFormModel").setProperty("/CreateMode", true);

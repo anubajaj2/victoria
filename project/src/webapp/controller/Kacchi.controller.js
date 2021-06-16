@@ -14,7 +14,7 @@ sap.ui.define(
       formatter: formatter,
 
   onInit:function(){
-    debugger;
+
     this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
     // that = this;
     BaseController.prototype.onInit.apply(this);
@@ -39,7 +39,7 @@ _onRouteMatched: function(oEvent){
 },
 //Delete the selected rows from the UI table
   onSelDelete: function(){
-    debugger;
+
     var oTable = this.byId("idCustTable");
     var nRows = oTable.getBinding("rows").getLength();
     var oTableData = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
@@ -66,13 +66,13 @@ _onRouteMatched: function(oEvent){
 
   },
   toggleFullScreen: function(oEvent){
-    debugger;
+
     var btnId = "idFullScreenBtn";
     var headerId = "idKacchiHead";
     this.toggleUiTable(btnId,headerId)
   },
   getTotals: function(){
-    debugger;
+
     var paggaCount = 0,count = 0,tWeight = 0.00,
     tTunch = 0.00,cntTunch = 0,tFine = 0.00;
     this.byId("idItemsCount").setText("");
@@ -119,7 +119,7 @@ _onRouteMatched: function(oEvent){
 
 
 
-  onSuggest: function(oEvent) {debugger;
+  onSuggest: function(oEvent) {
     // var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
   const key = oEvent.key
   var id1 = oEvent.getParameter("id").split("--")[2]
@@ -159,7 +159,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 // this method is called as and when the used performs any action on input fields like putting the value setColor
 // at this time we have the flexibility to perform any real time operation/calculations on the ui fields
   onliveChange: function(oEvent){
-    debugger;
+
     var fine = 0.00;
     this.byId("idSaveIcon").setColor('red');
     var oCurrentRow = oEvent.getSource().getParent();
@@ -193,7 +193,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
    this.getTotals();
   },
   onliveChangeWeight: function(oEvent){
-    debugger;
+
     var fine = 0.00;
     this.byId("idSaveIcon").setColor('red');
     var oCurrentRow = oEvent.getSource().getParent();
@@ -236,7 +236,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
    this.getTotals();
   },
   onTransfer: function(){
-    debugger;
+
     var that=this;
     var color = this.byId("idSaveIcon").getColor();
     var totalFine = this.byId("idTotalFine").getText();
@@ -317,7 +317,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
   onPrint: function(oEvent){
     var i;
     // This function has been implemented to give the user's flexibility to print the document
-    debugger;
+
 
     var header = 	'<center><h3>Kachhi Report</h3></center><hr>'
                   +
@@ -377,14 +377,14 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
   },
 //  Get the F4 help for Customers
   onCustValueHelp: function(oEvent){
-         debugger;
+
          // this.getKachhiCustPopup(oEvent)
       this.getCustomerPopup(oEvent);
   },
   onPressKacchiDownload: function() {
-    debugger;
+
     var test = this.getView().getModel("local");
-    debugger;
+
     var reportType = "Kacchi";
     var custId = test.oData.kacchiData.Customer;
     var name = test.oData.kachhiHeaderTemp.CustomerName;
@@ -416,7 +416,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
   },
 
   validateAll: function(myData,i){
-    debugger;
+
     var retVal = true;
     var model = this.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
     var table = this.getView().byId("idCustTable");
@@ -441,7 +441,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
   },
   // Save the data entered in the UI table to the dataBase
   onSave: function(oEvent){
-    debugger;
+
     var that = this;
     var recCount = that.byId("idItemsCount").getText();
     if(recCount == 0 || recCount == ""){
@@ -471,7 +471,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
                 that.getView().setBusy(false);
                 sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
                 //read the data which is Saved
-                debugger;
+
                 var id = oData.id;
                 var pagga = oData.PaggaNo;
                 var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
@@ -500,7 +500,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 
   },
   onClear:function(){
-    debugger;
+
     var that = this;
     var saveStatusIconColor = this.byId("idSaveIcon").getColor();
     if(saveStatusIconColor == "red"){
@@ -554,7 +554,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
     that.byId("idTotalTunch").setText("");
   },
   onDelete: function(oEvent) {
-    debugger;
+
     var that = this;
     var recCount = that.byId("idItemsCount").getText();
     if(recCount == 0 || recCount == ""){
@@ -572,7 +572,7 @@ oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
       initialFocus: null,                                  // default
       textDirection: sap.ui.core.TextDirection.Inherit,     // default
       onClose : function(sButton){
-        debugger;
+
       if (sButton === MessageBox.Action.OK) {
         var selIdxs = that.getView().byId("idCustTable").getSelectedIndices();
         var AllData = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
@@ -622,13 +622,13 @@ getCustDataFromDB: function(oFilter){
   this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
       "/Kacchis", "GET", {filters: [oFilter]}, {}, this)
     .then(function(oData) {
-      debugger;
+
       that.getView().setBusy(false);
       if(oData.results.length > 0){          // that.clearScreen();
         that.createModel();
         var allItems = that.getView().getModel("kachhiLocalModel").getProperty("/kachhiData");
         for(var i = 0 ; i<oData.results.length ; i++){
-          debugger;
+
             allItems[i].PaggaNo  = oData.results[i].PaggaNo;
             allItems[i].id       = oData.results[i].id;
             allItems[i].Tunch    = oData.results[i].Tunch;
@@ -651,7 +651,7 @@ getCustDataFromDB: function(oFilter){
   this.getView().setBusy(false);
 },
 onConfirm: function(oEvent){
-  debugger;
+
   var that = this;
   //Push the selected customer id to the local model
     var myData = this.getView().getModel("local").getProperty("/kacchiData");
@@ -693,14 +693,14 @@ onConfirm: function(oEvent){
 
 
   onEnter: function (oEvent) {
-    debugger;
+
     this.getCustomer(oEvent);
 
     this.getView().byId("idTotalFine").focus();
     this.getView().byId("idTotalFine").$().find("input").select();
   },
   //
-  // onConfirm: function (oEvent) {debugger;
+  // onConfirm: function (oEvent) {
   //   var selCust = oEvent.getParameter("selectedItem").getLabel();
   //   this.getView().byId("idCustNo").setValue(selCust);
   //   this.getView().getModel("local").setProperty("/kachhiData/CustomerName",

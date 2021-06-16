@@ -36,12 +36,12 @@ function (BaseController,MessageBox,MessageToast,History) {
 },
 
 decimalvalidator: function (oEvent) {
-          debugger;
+
     if(oEvent.mParameters.id==="__component0---idpendingOrders--idweight"){
     $(function() {
       $('input').on('input.idweight',function(event) {
         if(event.currentTarget.id=="__component0---idpendingOrders--idweight-inner"){
-        debugger;
+
         this.value = this.value.match(/^[+-]?\d{0,8}(\.\d{0,3})?/)[0];
       }
       });
@@ -186,7 +186,7 @@ that.resourceBundle.getText("DELETE11"), {
              var nQty = 0;
              var nWt = 0;
              for(var i=0; i<x.length; i++){
-               debugger;
+
                var myUrl = x[i].getBindingContext().sPath;
                that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,"DELETE",{},{},that);
                 sap.ui.getCore().byId("__component0---idpendingOrders--idTable").getModel().refresh(true);

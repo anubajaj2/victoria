@@ -44,7 +44,7 @@ sap.ui.define([
 			this.logOutApp();
 		},
 		onInit: function() {
-			debugger;
+
 			//var oModel = Models.createFruitModel();
 			//sap.ui.getCore().setModel(oModel);
 			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
@@ -61,7 +61,7 @@ sap.ui.define([
 		},
 
 		Login: function(oEvent) {
-			debugger;
+
 
 			var loginPayload = {
 				"email": this.getView().byId("userid").getValue(),
@@ -73,12 +73,12 @@ sap.ui.define([
 				sap.m.MessageBox.error("User/password cannot be empty");
 				return; //--- Added - Swaroop
 			}
-			// debugger;
+			//
 
-			debugger;
+
 			$.post('/api/Users/login', loginPayload)
 				.done(function(data, status) {
-					debugger;
+
 					that.getOwnerComponent().getModel("local").setProperty("/AuthorizationToken", data.id);
 					that.getView().getModel().setHeaders({
 						"Authorization": data.id
@@ -87,7 +87,7 @@ sap.ui.define([
 					that.getView().getModel("local").setProperty("/CurrentUser", data.userId);
 					that.getView().getModel().setUseBatch(false);
 					var that2 = that;
-					debugger;
+
 					//Check the role and set it after that navigate to App
 					//that.oRouter.navTo("newlead");
 
@@ -99,7 +99,7 @@ sap.ui.define([
 					var found = false;
 					var AppUsers = [];
 
-					debugger;
+
 					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 							"/CustomCalculations", "GET", {}, {}, that)
 						.then(function(oData) {
@@ -108,7 +108,7 @@ sap.ui.define([
 							if (oData.results.length > 0) {
 								var myData = that2.getOwnerComponent().getModel("local").setProperty("/CustomCalculation", oData.results[0]);
 								// if(oData.results[0].AMCDate)
-								debugger;
+
 								if(oData.results[0].hasOwnProperty("AMCDate")){
 									if (oData.results[0].AMCDate.toLocaleDateString() === (new Date()).toLocaleDateString() || oData.results[0].AMCDate < (new Date())) {
 										sap.m.MessageBox.error("Your Lience is expired,\n Please Renew Your Lience to continue using the Application");
@@ -209,7 +209,7 @@ sap.ui.define([
 			// }
 		},
 		navigation:function(data){
-			debugger;
+
 			var found = false;
 			var that=this;
 			var that2=that;
@@ -258,10 +258,10 @@ sap.ui.define([
 							}
 						})
 						.catch(function(oError) {
-							debugger;
+
 						});
 		},
-		// 		onAfterRendering: function(){debugger;
+		// 		onAfterRendering: function(){
 		// 	this.UserInfoService = sap.ushell.Container.getService("UserInfo");
 		// 	var that = this;
 		// 	this.UserInfoService.getLanguageList().then(function(langJSON){
@@ -278,7 +278,7 @@ sap.ui.define([
 		// },
 
 		onDropDownSelect: function(oEvent) {
-				debugger;
+
 
 				// var selectedItem = oEvent.getParameter("selectedItem");
 				var selectedlaunguage = this.getView().byId("languageSelect").getSelectedKey();

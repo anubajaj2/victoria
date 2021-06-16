@@ -42,7 +42,7 @@ sap.ui.define([
 			 this.logOutApp();
 		 },
 			onInit: function() {
-				debugger;
+
 				this.getOwnerComponent().getModel("local").setSizeLimit(1500);
 				this.getOwnerComponent().getModel().setSizeLimit(1500);
 

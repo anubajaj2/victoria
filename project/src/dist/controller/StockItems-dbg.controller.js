@@ -24,7 +24,7 @@ sap.ui.define(
 				var loginUser = this.getModel("local").oData.AppUsers[currentUser].UserName;
 				loginUser = "Hey " + loginUser;
 				this.getView().byId("idUser").setText(loginUser);
-				debugger;
+
 				this.byId("idOrderNo").setFilterFunction(function (sTerm, oItem) {
 							// A case-insensitive "string contains" style filter
 							return oItem.getText().match(new RegExp(sTerm, "i"));
@@ -35,17 +35,17 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 
 			onAfterRendering: function() {
-				debugger;
+
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				this.oRouter.attachRoutePatternMatched(this.herculis, this);
 			},
 			herculis: function(oEvent) {
-				debugger;
+
 				var oFilter = [];
 				var oFilter1 = null;
 				var oFilter2 = null;
 				var that = this;
-				debugger;
+
 				var table = this.getView().byId("idTable1");
 				var currentModel = this.getView().getModel();
 				table.setModel(currentModel);
@@ -83,7 +83,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				this.orderPopup(oEvent);
 			},
 			onPayDateChange: function(oEvent) {
-				debugger;
+
 				var dDateStart = oEvent.getSource().getProperty('dateValue');
 				dDateStart.setHours(0, 0, 0, 1);
 				var dDateEnd = new Date(dDateStart);
@@ -102,9 +102,9 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 			},
 			decimalvalidator: function(oEvent) {
-				debugger;
+
 				if (oEvent.getSource().getValue() <= 0) {
-					debugger;
+
 					oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
 					// dialogSave.setEnabled(false);
 				} else {
@@ -116,7 +116,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					$(function() {
 						$('input').on('input.idWeight', function(event) {
 							if (event.currentTarget.id == "__component0---idStockItems--idWeight-inner") {
-								debugger;
+
 								this.value = this.value.match(/^[+-]?\d{0,6}(\.\d{0,3})?/)[0];
 							}
 						});
@@ -124,7 +124,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				}
 			},
 			onConfirm: function(oEvent) {
-				debugger;
+
 				var oFiltern = null;
 				var oFilter = [];
 				var oFilterr = [];
@@ -171,7 +171,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var items = oData.results;
 						var json = new sap.ui.model.json.JSONModel();
 						json.setData({
@@ -195,7 +195,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilterr]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var results = oData.results.slice();
 						that.cid = oData.results[0].id;
 					})
@@ -206,7 +206,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					this.getView().byId("idQuantity").$().find("input").select();
 			},
 			onMaterialSelect: function(oEvent) {
-				debugger;
+
 				var that = this;
 				var oFiltern = null;
 				var oFilter = [];
@@ -247,7 +247,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var items = oData.results;
 						console.log(items);
 						var aQuantity = items.map((i) => {
@@ -279,7 +279,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					}).catch(function(oError) {});
 			},
 			validateValue: function(oEvent) {
-				debugger;
+
 				var that = this;
 				var oFilter = [];
 				var oFilter1 = null;
@@ -314,7 +314,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var results = oData.results;
 						var f = that.byId("idQuantity").getValue();
 
@@ -332,7 +332,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 						console.log(oError);
 					});
 				// if(oEvent.getSource().getValue() <= 0 ){
-				//   debugger;
+				//
 				//   oEvent.getSource().setValueState(sap.ui.core.ValueState.Error);
 				//   dialogSave.setEnabled(false);
 				// }
@@ -343,7 +343,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				that.Qtty = 0;
 			},
 			onItemsReport : function(){
-				debugger;
+
 				var dDateStart = this.getView().byId("idDate").getValue();
 				window.open("/ItemsReport?date="+dDateStart);
 			},
@@ -458,7 +458,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 			},
 			refreshModel1: function(oEvent) {
-				debugger;
+
 				var that = this;
 				var oFiltern = null;
 				var oFilter = [];
@@ -503,7 +503,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var items = oData.results;
 						var aQuantity = items.map((i) => {
 							return i.Qty
@@ -538,7 +538,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				var oFilter1 = null;
 				var oFilter2 = null;
 				var that = this;
-				debugger;
+
 				var table = this.getView().byId("idTable1");
 				var value = oEvent.getParameter("value");
 				var input = oEvent.getSource();
@@ -552,7 +552,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				}
 			},
 			orderPopup: function(oEvent) {
-				debugger;
+
 				var that = this;
 				this.orderNoPopup = new sap.ui.xmlfragment("victoria.fragments.popup", this);
 				this.getView().addDependent(this.orderNoPopup);
@@ -565,7 +565,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				dateTo.setHours(23, 59, 59, 59)
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
-				debugger;
+
 				var orFilter = new sap.ui.model.Filter({
 					filters: [oFilter1, oFilter2],
 					and: true
@@ -577,14 +577,14 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 							// filters: [orFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						var results = oData.results.slice();
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderHeaders",
 								"GET", {
 									// filters: [orFilter]
 								}, {}, that)
 							.then(function(oData) {
-								debugger;
+
 								var results1 = oData.results.slice();
 								var abc = results.concat(results1);
 								var oModel = new sap.ui.model.json.JSONModel();
@@ -614,7 +614,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				this.orderNoPopup.open();
 			},
 			onSend: function(oEvent) {
-				debugger;
+
 				var that = this;
 				var qty = this.getView().byId("idQuantity").getValue();
 				var wgt = this.getView().byId("idWeight").getValue();
@@ -635,7 +635,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 					sap.m.MessageBox.show("Please enter quantity");
 					return;
 				} else if (this.getView().byId("idMatCode").getValue()) {
-					debugger;
+
 					var matVal = this.getView().byId("idMatCode").getValue();
 					var oFilterM = new sap.ui.model.Filter("ProductCode", sap.ui.model.FilterOperator.EQ, matVal);
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -643,7 +643,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 								filters: [oFilterM]
 							}, {}, this)
 						.then(function(oData) {
-							debugger;
+
 							that.mItems = oData.results;
 							if (that.mItems.length == 0) {
 								sap.m.MessageBox.show("Please select the valid Material");
@@ -655,7 +655,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 										"POST", {}, data, that)
 									.then(function(oData) {
 										that.getView().setBusy(false);
-										debugger;
+
 										sap.m.MessageToast.show("Data Saved Successfully");
 										if (that.getView().byId("CBID").getSelected()) {
 											// that.getView().byId("idOrderNo").setValue("");
@@ -709,7 +709,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				// 	                          "POST", {}, data, this)
 				// 	.then(function(oData) {
 				// 		that.getView().setBusy(false);
-				// 		debugger;
+				//
 				// 		sap.m.MessageToast.show("Data Saved Successfully");
 				//     if(that.getView().byId("CBID").getSelected()){
 				//     // that.getView().byId("idOrderNo").setValue("");
@@ -769,7 +769,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 			},
 			onClear: function() {
-				debugger;
+
 				var that = this;
 				that.getView().byId("idOrderNo").setValue("");
 				that.getView().byId("idMatCode").setValue("");
@@ -796,14 +796,14 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: "",
 						onClose: function(sAction) {
-							debugger;
+
 							if (sAction === "OK") {
-								debugger;
+
 								var y = that.getView().byId("idTable1");
 								var x = y.getSelectedItems();
 								if (x.length) {
 									for (var i = 0; i < x.length; i++) {
-										debugger;
+
 										var myUrl = x[i].getBindingContext().sPath;
 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
 										y.getModel().refresh(true);
@@ -820,7 +820,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			},
 
 			onUpdateFinished: function(oEvent) {
-				debugger;
+
 				var oTable = oEvent.getSource();
 				var itemList = oTable.getItems();
 				var noOfItems = itemList.length;
@@ -830,7 +830,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				var totalWeight = 0;
 				var totalQuantity = 0;
 				for (var i = 0; i < noOfItems; i++) {
-					debugger;
+
 					var materialId = oTable.getItems()[i].getCells()[2].getText();
 					var orderId = oTable.getItems()[i].getCells()[1].getText();
 					var custId = oTable.getItems()[i].getCells()[5].getText();
@@ -886,7 +886,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 				this.getView().byId("idSend").focus();
 			},
 			onSubmitOrderNo : function(oEvent){
-				debugger;
+
 				this.getView().byId("idQuantity").focus();
 				this.getView().byId("idQuantity").$().find("input").select();
 				var orderNo = this.getView().byId("idOrderNo").getValue();
@@ -904,7 +904,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 			},
 
 			_getDialog: function(oEvent) {
-				debugger;
+
 				if (!this.oDialog) {
 					this.oDialog = sap.ui.xmlfragment("stockDialog", "victoria.fragments.stockDialog", this);
 					this.getView().addDependent(this.oDialog);
@@ -929,7 +929,7 @@ this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundl
 
 
 			onPressHandleEntrySavePopup: function(oEvent) {
-				debugger;
+
 				var that = this;
 				that.getView().setBusy(true);
 				var myData = this.getView().getModel("local").getProperty("/StockItemsData");
@@ -1008,7 +1008,7 @@ this.oDialog.close();
 			},
 
 			onEdit: function(oEvent) {
-				debugger;
+
 				var that=this;
 				var recCount = this.getView().byId("idTable1").getSelectedItems().length;
 				if (recCount > 1) {

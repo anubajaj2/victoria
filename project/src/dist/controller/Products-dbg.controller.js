@@ -152,9 +152,9 @@ sap.ui.define([
 			var reportType = "Materials";
 			//   $.post("/materialDownload",{type: reportType}).then(function(oData)
 			// {
-			//   debugger;
+			//
 			//   MessageToast.show("Data downloaded successfully");
-			// },function(oError){debugger;
+			// },function(oError){
 			//   MessageToast.show("Data could not be downloaded");
 			// });
 			window.open("/materialDownload?type=Materials");
@@ -168,14 +168,14 @@ sap.ui.define([
 		},
 
 		toggleFullScreen: function() {
-			debugger;
+
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idProducts--ProductHeader";
 			this.toggleUiTable(btnId, headerId)
 		},
 
 		onAfterRendering: function() {
-			debugger;
+
 
 			// var state = this.getView().byId("idHindiName").getState();
 			// if(state=== true){
@@ -193,7 +193,7 @@ sap.ui.define([
 
 			// Create an instance on TransliterationControl with the required
 			// options.
-			debugger;
+
 			var control =
 				new google.elements.transliteration.TransliterationControl(options);
 
@@ -203,12 +203,12 @@ sap.ui.define([
 			control.showControl('translControl');
 			// }
 
-			debugger;
+
 			window.focus = this;
 			this.getView().byId("idProductCode").attachBrowserEvent("focusout", newFunction);
 
 			function newFunction() {
-				debugger;
+
 				var focusthis = window.focus;
 				var productModel = focusthis.getView().getModel("productModel");
 				var selProd = focusthis.getView().byId("idProductCode").getValue();
@@ -220,9 +220,9 @@ sap.ui.define([
 							filters: [oFilter]
 						}, {}, focusthis)
 					.then(function(oData) {
-						debugger;
+
 						if (oData.results.length > 0) {
-							debugger;
+
 							that.getView().byId("idProductCode").setValue(oData.results[0].ProductCode);
 							// that.getView().byId("idCustomerCode").setEditable(false);
 							that.getView().byId("idProductName").setValue(oData.results[0].ProductName);
@@ -284,24 +284,24 @@ sap.ui.define([
 
 			// this.getView().byId("idProductCode").addEventDelegate({
 			//     onfocusout : function(focusthat) {
-			// 			debugger;
+			//
 			//       // alert("focus");
 			//     }
 			//   });
 			// this.getView().byId("idProductCode").addEventListener("focusout", fncFocusOut);
 			// function fncFocusOut(){
-			// 	debugger;
+			//
 			// }
 		},
 
 		// onSubmit:function(oEvent){
-		// 	debugger;
+		//
 		// 	var state = oEvent.getParameters().state;
 		// 	if(state=== false){
-		// 	debugger;
+		//
 		// }
 		// else{
-		// 	debugger;
+		//
 		// 				}
 		// },
 
@@ -388,7 +388,7 @@ sap.ui.define([
 		},
 
 		productCodeEnter: function(oEvent) {
-			debugger;
+
 			this.getView().byId("idProductName").focus();
 			// $(function() {
 			// 				$('input:text:first').focus();
@@ -483,7 +483,7 @@ sap.ui.define([
 				});
 		},
 		productCodeCheck: function(oEvent) {
-			debugger;
+
 			// var productModel = this.getView().getModel("Products");
 			var productModel = this.getView().getModel("productModel");
 			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
@@ -592,7 +592,7 @@ sap.ui.define([
 		},
 
 		clearProduct: function() {
-			debugger;
+
 			var productModel = this.getView().getModel("productModel");
 			var viewModel = this.getView().getModel("viewModel");
 			var dataModel = this.getView().getModel("dataModel");
@@ -632,7 +632,7 @@ sap.ui.define([
 		},
 
 		SaveProduct: function(oEvent) {
-			debugger;
+
 			var that = this;
 			var productModel = that.getView().getModel("productModel");
 			var prodId = productModel.getData().Id;
@@ -665,7 +665,7 @@ sap.ui.define([
 			// 	filters: aFilters,
 			// 	success: function(data){
 			// 		if(data.results.length > 0){
-			debugger;
+
 			if (prodId.length > 0) {
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Products('" + prodId + "')", "PUT", {}, productModel.getData(), this)
@@ -744,21 +744,21 @@ sap.ui.define([
 				);
 			}
 
-			debugger;
+
 			var flg = true;
 			var that = this;
 			var tables = ["/Entrys", "/OrderItems", "/WSOrderItems", "/CustomerOrders"];
 			var oFilter = new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, "'" + productCode + "'");
 
 			for (var i = 0; i < tables.length; i++) {
-				debugger;
+
 
 				await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
 						"GET", {
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						if (oData.results.length > 0) {
 							that.Errmsgprd();
 							flg = true;
@@ -777,7 +777,7 @@ sap.ui.define([
 					that.getView().setBusy(false);
 				}
 			}
-			debugger;
+
 			if (flg === false) {
 				this.deleteCnfProduct(productCode, productModel);
 				this.getView().setBusy(false);
@@ -831,9 +831,9 @@ sap.ui.define([
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
-							debugger;
+
 
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Products('" + productCode + "')", "DELETE", {}, {}, that)

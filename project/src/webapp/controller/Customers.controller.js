@@ -118,25 +118,25 @@ sap.ui.define([
 
 		},
 		onSuggestionItemSelected: function(oEvent) {
-			//debugger;
+			//
 			var sId = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath())
 				.id;
 			this.getView().getModel("customerModel").setProperty("/City", sId);
 		},
 		onPressCustCodeDownload: function() {
-			debugger;
+
     //   var reportType = "Customer_Codes";
     //   $.post("/custCodeDownload",{type: reportType}).then(function(oData)
     // {
-    //   debugger;
+    //
     //   MessageToast.show("Data downloaded successfully");
-    // },function(oError){debugger;
+    // },function(oError){
     //   MessageToast.show("Data could not be downloaded");
     // });
     window.open("/custCodeDownload?type=Customer_Codes");
     },
 		onSelectChange: function(oEvent) {
-			debugger;
+
 			var oValue = oEvent.getSource().getId();
 			// var oSelect = oEvent.getParameter("selectedItem").getText();
 			var oSelect = oEvent.getParameter("selectedItem").mProperties.key;
@@ -250,7 +250,7 @@ sap.ui.define([
 		// 					filters: [oFilter]
 		// 				}, {}, focusthis)
 		// 			.then(function(oData) {
-		// 				debugger;
+		//
 		// 				if (oData.results.length > 0) {
 		// 					console.log(focusthis.allMasterData.cities[oData.results[0].City].cityCode)
 		// 					that.getView().byId("idCustomerCode").setValue(oData.results[0].CustomerCode);
@@ -297,7 +297,7 @@ sap.ui.define([
 		// },
 
 		_myFunction1: function() {
-			debugger;
+
 		},
 		onKeyPress: function(oEvent) {
 
@@ -306,14 +306,14 @@ sap.ui.define([
 		},
 
 		toggleFullScreen: function() {
-			debugger;
+
 			var btnId = "idFullScreenBtn";
 			var headerId = "__component0---idCustomers--CustomerHeader";
 			this.toggleUiTable(btnId, headerId)
 		},
 
 		deleteAllCustomers: function() {
-			debugger;
+
 			var that = this;
 			sap.m.MessageBox.confirm(
 				"Do you want to Delete All Customers?", {
@@ -321,7 +321,7 @@ sap.ui.define([
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
 							$.post("/deleteRecords", {
 								// customerId: "",
@@ -338,7 +338,7 @@ sap.ui.define([
 		},
 
 		deleteAllEntrys: function() {
-			debugger;
+
 			var that = this;
 			sap.m.MessageBox.confirm(
 				"Do you want to Delete All Entrys?", {
@@ -346,9 +346,9 @@ sap.ui.define([
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
-							debugger;
+
 
 							$.post("/deleteRecords", {
 								// customerId: "",
@@ -365,7 +365,7 @@ sap.ui.define([
 		},
 
 		deleteAllTables: function() {
-			debugger;
+
 			var that = this;
 			sap.m.MessageBox.confirm(
 				"Do you want to Delete All Tables?", {
@@ -373,7 +373,7 @@ sap.ui.define([
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
 
 							$.post("/deleteRecords", {
@@ -391,7 +391,7 @@ sap.ui.define([
 		},
 
 		additionalInfoValidation: function() {
-			debugger;
+
 			var customerModel = this.getView().getModel("customerModel");
 			var oDataModel = this.getView().getModel("dataModel");
 			if (customerModel.getData().CustomerCode === "") {
@@ -448,7 +448,7 @@ sap.ui.define([
 		},
 
 		customerCodeEnter: function(oEvent) {
-			debugger;
+
 			this.getView().byId("idName").focus();
 			// $(function () {
 			// 	$('input:text:first').focus();
@@ -465,7 +465,7 @@ sap.ui.define([
 			// });
 			var firstThat = this;
 			var that = this;
-			debugger;
+
 			var customerModel = this.getView().getModel("customerModel");
 			var selData = oEvent.getParameter("value").toLocaleUpperCase();
 			customerModel.setProperty("/CustomerCode", selData);
@@ -554,7 +554,7 @@ sap.ui.define([
 
 		},
 		customerCodeCheck: function(oEvent) {
-			debugger;
+
 			var customerModel = this.getView().getModel("customerModel");
 			var selectedCustData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
 				.getPath());
@@ -565,7 +565,7 @@ sap.ui.define([
 			var viewModel = this.getView().getModel("viewModel");
 			var oCustCode = this.getView().byId("idCustomerCode").getValue();
 			var found = customerCode;
-			debugger;
+
 			if (found.length > 0) {
 				customerModel.setProperty("/CustomerCode", selectedCustData.id);
 				customerModel.setProperty("/City", selectedCustData.City);
@@ -650,7 +650,7 @@ sap.ui.define([
 		},
 
 		SaveCustomer: function() {
-			debugger;
+
 			var that = this;
 			var customerModel = this.getView().getModel("customerModel");
 			var custId = customerModel.getData().Id;
@@ -658,7 +658,7 @@ sap.ui.define([
 			customerModel.setProperty("/CustomerCode", customerCode);
 			var oCuscode = customerModel.getProperty("/CustomerCode").toLocaleUpperCase();
 			customerModel.setProperty("/CustomerCode", oCuscode);
-			debugger;
+
 			that.additionalInfoValidation();
 			var oret = true;
 			if (customerModel.getData().Name === "" || customerModel.getData().CustomerCode === "") {
@@ -666,7 +666,7 @@ sap.ui.define([
 				MessageToast.show(that.resourceBundle.getText("Fields"));
 				oret = false;
 			}
-			debugger;
+
 			if (oret === true) {
 
 				if (custId.length > 0) {
@@ -689,7 +689,7 @@ sap.ui.define([
 								filters: [oFilter]
 							}, {}, this)
 						.then(function(oData) {
-							debugger;
+
 							if (oData.results.length > 0) {
 								MessageToast.show(that.resourceBundle.getText("Data2"));
 							} else {
@@ -716,7 +716,7 @@ sap.ui.define([
 		},
 
 		deleteCustomer: async function() {
-			debugger;
+
 			var that = this;
 			that.getView().setBusy(true);
 			var customerModel = this.getView().getModel("customerModel");
@@ -739,7 +739,7 @@ sap.ui.define([
 
 			var found = getCustomerCode(customerCode);
 			var typeModel = this.getView().getModel("typec");
-			debugger;
+
 			var flg = true;
 			// await this.validateCustomer(customerCode,flg);
 
@@ -747,14 +747,14 @@ sap.ui.define([
 			var tables = ["/Entrys", "/OrderHeaders", "/WSOrderHeaders", "/CustomerOrders", "/BookingDetails", "/BookingDlvDetails", "/Kacchis"];
 			var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + customerCode + "'");
 			for (var i = 0; i < tables.length; i++) {
-				debugger;
+
 
 				await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
 						"GET", {
 							filters: [oFilter]
 						}, {}, this)
 					.then(function(oData) {
-						debugger;
+
 						if (oData.results.length > 0) {
 							that.Errmsg();
 							flg = true;
@@ -773,28 +773,28 @@ sap.ui.define([
 					that.getView().setBusy(false);
 				}
 			}
-			debugger;
+
 			if (flg === false) {
 				this.deleteCnfCustomer(customerCode, customerModel);
 				this.getView().setBusy(false);
 			}
 
-			debugger;
+
 
 		},
 
 		// validateCustomer:async function(customerCode,flg){
-		// 	debugger;
+		//
 		// 	var that=this;
 		// 	var tables=["/Entrys","/OrderHeaders","/OrderHeaders","/CustomerOrders"];
 		// 	var oFilter = new sap.ui.model.Filter("Customer","EQ",  "'"+customerCode+"'");
 		// 	for(var i=0; i<tables.length; i++){
-		// 		debugger;
+		//
 		//
 		// 		await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
 		// 															"GET", {filters: [oFilter]}, {}, this)
 		// 										 .then(function(oData) {
-		// 											 debugger;
+		//
 		// 											 if(oData.results.length > 0 ){
 		// 												 that.Errmsg();
 		// 												 flg = true;
@@ -820,7 +820,7 @@ sap.ui.define([
 			this.getView().setBusy(false);
 		},
 		deleteCnfCustomer: function(customerCode, customerModel) {
-			debugger;
+
 			var that = this;
 
 			sap.m.MessageBox.confirm(
@@ -829,9 +829,9 @@ sap.ui.define([
 					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 					styleClass: "",
 					onClose: function(sAction) {
-						debugger;
+
 						if (sAction === "OK") {
-							debugger;
+
 
 							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Customers('" + customerCode + "')", "DELETE", {}, {}, that)
@@ -1014,7 +1014,7 @@ sap.ui.define([
 			});
 		},
 		Save: function() {
-			debugger;
+
 			var that = this;
 			var aFilters = [];
 			var oFilter = new Filter("Company", "EQ", that.getModel("customerModel").getProperty("/Company"));

@@ -23,16 +23,16 @@ sap.ui.define(
               // End of addition by Sweta
           },
           onUpdateFinished: function(oEvent){
-            debugger;
+
             var oTable = oEvent.getSource();
       			var itemList = oTable.getItems();
       			var noOfItems = itemList.length;
       			var value1;
       			var id;
       			var cell;
-      			debugger;
+
       			for (var i = 0; i < noOfItems; i++) {
-      				debugger;
+
               //Read the GUID from the Screen
               var customerId = oTable.getItems()[i].getCells()[1].getText();
               var customerData = this.allMasterData.customers[customerId];
@@ -48,7 +48,7 @@ sap.ui.define(
           },
           onMaterialSelect: function(oEvent){
             //whatever material id selected push that in local model
-            debugger;
+
               var myData = this.getView().getModel("local").getProperty("/demoData");
               myData.Material = oEvent.getParameter("selectedItem").getKey();
                this.getView().getModel("local").setProperty("/demoData", myData);

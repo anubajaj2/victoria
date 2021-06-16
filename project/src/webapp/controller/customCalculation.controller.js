@@ -27,7 +27,7 @@ sap.ui.define([
 				});
 			},
 			handleUploadPress: function (oEvent) {
-				debugger;
+
 				// console.log(oEvent.getSource().mProperties["title"]);
 				console.log(this.getView().byId("uploadTypeSelect").mProperties["value"]);
 				var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
@@ -45,7 +45,7 @@ sap.ui.define([
 			},
 
 			handleUploadPress1: function (oEvent) {
-				debugger;
+
 				// console.log(oEvent.getSource().mProperties["title"]);
 				// console.log(this.getView().byId("uploadTypeSelect").mProperties["value"]);
 				// var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
@@ -64,17 +64,17 @@ sap.ui.define([
 
 
 			handleUploadGroupPress: function(){
-				debugger;
+
 				var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
 				var oFileUploader = this.byId("fileUploader");
 				$.post("/upload", {
 					file: oFileUploader.getValue(),
 					type: uploadTypeValue
 				}).then(function (oData) {
-					debugger;
+
 					MessageToast.show(that.resourceBundle.getText("downloaded11"));
 				}, function (oError) {
-					debugger;
+
 					MessageToast.show(that.resourceBundle.getText("downloaded12"));
 				});
 
@@ -85,37 +85,37 @@ sap.ui.define([
 				// 	file: oFileUploader1.getValue(),
 				//
 				// }).then(function (oData) {
-				// 	debugger;
+				//
 				// 	MessageToast.show(that.resourceBundle.getText("downloaded11"));
 				// }, function (oError) {
-				// 	debugger;
+				//
 				// 	MessageToast.show(that.resourceBundle.getText("downloaded12"));
 				// });
 			},
 
 			handleUploadGroupPress1: function(){
-				debugger;
+
 				// var uploadTypeValue = this.getView().byId("uploadTypeSelect").mProperties["value"];
 				var oFileUploader = this.byId("fileUploader1");
 				$.post("/VictoriaGFS", {
 					file: oFileUploader.getValue(),
 
 				}).then(function (oData) {
-					debugger;
+
 					MessageToast.show(that.resourceBundle.getText("downloaded11"));
 				}, function (oError) {
-					debugger;
+
 					MessageToast.show(that.resourceBundle.getText("downloaded12"));
 				});
 			},
 
 			handleUploadComplete: function (oEvent) {
-				debugger;
+
 				var sResponse = oEvent.getParameter("response");
 				var oFiler = oEvent.getSource();
 				if (sResponse) {
 					var sMsg = "";
-					debugger;
+
 					if (JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).error_code !== 0) {
 						sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).err_desc;
 					} else {
@@ -128,13 +128,13 @@ sap.ui.define([
 
 
 			handleUploadComplete1: function (oEvent) {
-				debugger;
+
 				var that =this;
 				var sResponse = oEvent.getParameter("response");
 				var oFiler = oEvent.getSource();
 				if (!sResponse) {
 					var sMsg = "";
-					debugger;
+
 
 					// if (JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).error_code !== 0) {
 					// 	sMsg = JSON.parse(sResponse.split("\">")[1].replace("</pre>", "")).err_desc;
@@ -237,7 +237,7 @@ sap.ui.define([
 				}
 			},
 
-			SaveCalculation: function (oEvent) {debugger;
+			SaveCalculation: function (oEvent) {
 				var that = this
 				var valid = true;
 				var oObj = this.getView().byId("__component0---idCustomizing--idCalculation");
@@ -287,7 +287,7 @@ sap.ui.define([
 				if (valid === true) {
 					if (id) {
 				var that2=that;
-				debugger;
+
 				var token=that.getOwnerComponent().getModel("local").getProperty("/AuthorizationToken");
 				var lpayload={
 					"id":id,
@@ -298,24 +298,24 @@ sap.ui.define([
 						headers: {
 					"Content-Type": "application/json",
 					"Accept": "application/json",
-					
-				}, 
+
+				},
 				data:JSON.stringify(lpayload),
 					success:function(data, status) {
-						debugger;
+
 
 
 					},
 					error:function(xhr, status, error) {
-						debugger;
+
 						// sap.ui.getCore().byId("idChangePass--idPassEmail").setValueState("Error");
-						
+
 					}
 						});
-						debugger;
+
 						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								"/CustomCalculations('" + myData.id + "')", "PUT", {}, myData, this)
-							.then(function (oData) {debugger;
+							.then(function (oData) {
 								that.getView().setBusy(false);
 								MessageToast.show(that.resourceBundle.getText("Data"));
 								that._onRouteMatched();
@@ -373,7 +373,7 @@ sap.ui.define([
 					onPressBackup:function(){
 							var reportType = "Backup";
 							window.open("/VictoriaBackup");
-							
+
 
 					},
 

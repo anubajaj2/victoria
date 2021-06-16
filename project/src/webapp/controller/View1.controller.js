@@ -63,10 +63,10 @@ sap.ui.define([
 
 			// //step 3: navigate to next view
 			// this.onNext();
-			// //debugger;
+			// //
 		},
 		onSearch: function(oEvent){
-			//debugger;
+			//
 			var searchStr = oEvent.getParameter("query");
 			if(!searchStr){
 				searchStr = oEvent.getParameter("newValue");

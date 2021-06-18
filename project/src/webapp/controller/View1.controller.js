@@ -15,6 +15,9 @@ sap.ui.define([
 			//var oModel = Models.createFruitModel();
 			//sap.ui.getCore().setModel(oModel);
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			if (sap.ui.Device.system.phone) {
+				this.getOwnerComponent().getModel("local").setProperty("/IsPhone", true);
+			}
 		},
 		onSuggest: function(oEvent){
 			var suggestVal = oEvent.getParameter("suggestValue");

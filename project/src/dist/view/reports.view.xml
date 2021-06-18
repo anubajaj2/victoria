@@ -2,9 +2,8 @@
   xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form">
   <semantic:FullscreenPage
     id="editEntry"
-    navButtonPress="onNavBack"
-    showNavButton="false"
-    title="Reports">
+    navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}"
+    title="Reports" >
     <semantic:customHeaderContent>
       <Text id="idDB"> </Text>
       <Text id="idUser"> </Text>

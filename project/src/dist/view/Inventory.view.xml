@@ -1,11 +1,11 @@
 <mvc:View controllerName="victoria.controller.Inventory" xmlns="sap.ui.commons"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:m="sap.m"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:table="sap.ui.table"
-	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" 
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
 	xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="inventory"
-		navButtonPress="onNavBack" showNavButton="true" title="Manage Inventory"
+		navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}" title="Manage Inventory"
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content>
@@ -21,7 +21,7 @@
 						adjustLabelSpan="false"
 						columnsL="2"
 						columnsM="2"
-						class="editableForm">				
+						class="editableForm">
 						<f:content>
 							<core:Title text="Primary"></core:Title>
 							<m:Label text="Entry Date" ></m:Label>
@@ -31,10 +31,10 @@
 								valueFormat="yyyy-MM-dd"
 								change="dateChanged"
 								value="{path:'objectView>/dateValue',
-								 type:'sap.ui.model.type.Date', 
+								 type:'sap.ui.model.type.Date',
 								 formatOptions: { style: 'medium', strictParsing: true}}"
 								/>
-							
+
 							<m:Label text="Entry Type"/>
 							<m:Select
 								id="idEntryType" width="200px"
@@ -44,22 +44,22 @@
 								}">
 								<core:Item key="{Id}" text="{TypeName}" />
 							</m:Select>
-							
+
 							<m:Label text="Customer Code" labelFor="customerCode"/>
 							<m:Input width="200px"
 								id="customerCode"
 								type="Text"
 								showSuggestion="true"
 								value="{objectView>/CustomerCode}"
-								suggestionItems="{/Customers}" 
+								suggestionItems="{/Customers}"
 								suggestionItemSelected="selectedCustomer">
 								<m:suggestionItems>
 									<core:Item text="{Company}" key="{Id}"/>
 								</m:suggestionItems>
 							</m:Input>
 							<m:Title level="H3" id="lblCustomer" class="sapUiTinyMarginTop"/>
-							
-							
+
+
 							<core:Title text="Product Data"></core:Title>
 							<m:Label text="Product Code" labelFor="productInput"/>
 							<m:Input width="200px"
@@ -67,40 +67,40 @@
 								type="Text"
 								showSuggestion="true"
 								value="{objectView>/ProductCode}"
-								suggestionItems="{/Products}" 
+								suggestionItems="{/Products}"
 								suggestionItemSelected="selectedProduct">
 								<m:suggestionItems>
 									<core:Item text="{ProductCode}" key="{Id}"/>
 								</m:suggestionItems>
 							</m:Input>
 							<m:Title level="H3" id="lblProduct" class="sapUiTinyMarginTop"/>
-							
+
 							<m:Label text="Quantity"/>
 							<m:Input width="200px"
 								id="idQty"
 								type="Number"
 								value="{objectView>/Qty}">
 							</m:Input>
-							
+
 							<m:Label text="Weight(gm)"/>
 							<m:Input width="200px"
 								id="idWeight"
 								type="Number"
 								value="{objectView>/Weight}">
 							</m:Input>
-							
-							
+
+
 							<m:Label text="Remarks"/>
 							<m:Input width="200px"
 								id="idRemarks"
 								type="Text"
 								value="{objectView>/Remarks}">
 							</m:Input>
-							
+
 							<m:Button text="Submit" press="onSubmit"></m:Button>
 							<m:Button text="Clear" press="onClear"></m:Button>
 						</f:content>
-					</f:SimpleForm>	
+					</f:SimpleForm>
 			<l:BlockLayout id="BlockLayout" background="{/selectedBackground}">
 				<l:BlockLayoutRow accentCells="Accent1">
 					<l:BlockLayoutCell id="Accent1" width="50%"

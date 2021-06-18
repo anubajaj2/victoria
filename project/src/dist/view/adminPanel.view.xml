@@ -1,6 +1,6 @@
 <mvc:View controllerName="victoria.controller.adminPanel" xmlns:core="sap.ui.core" xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic">
-	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>AdminPanel}" >
+	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>AdminPanel}" navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}">
 		<semantic:customHeaderContent>
 			<Text id="idDB"> </Text>
 			<Text id="idUser"> </Text>

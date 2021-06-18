@@ -8,8 +8,7 @@
   xmlns:semantic="sap.m.semantic">
   	<semantic:FullscreenPage
       id="pendingOrders"
-      navButtonPress="onNavBack"
-      showNavButton="false"
+      navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}"
       title="{i18n>StockMaintenance}">
     <semantic:content>
     <VBox class="sapUiSmallMargin">

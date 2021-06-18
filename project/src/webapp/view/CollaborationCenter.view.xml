@@ -4,8 +4,7 @@
   xmlns:semantic="sap.m.semantic">
   <semantic:FullscreenPage
     id="collaborationCenter"
-    navButtonPress="onNavBack"
-    showNavButton="false"
+    navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}"
     title="Collaboration Center">
       <semantic:content>
       <core:Fragment fragmentName="victoria.fragments.CollaborationCenter" type="XML"></core:Fragment>

@@ -4,7 +4,7 @@
 	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="salesws"
-		navButtonPress="onNavBack" showNavButton="false" title="{i18n>WholesaleSales}"
+		navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}" title="{i18n>WholesaleSales}"
 		class="sapUiContentPadding" tooltip="{i18n>back}" >
 		<semantic:customHeaderContent>
 			<!-- <Text id="idDB"> </Text> -->

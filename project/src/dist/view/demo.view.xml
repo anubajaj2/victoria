@@ -4,7 +4,7 @@
 	xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 
 	<semantic:FullscreenPage id="Kacchi"
-		navButtonPress="onNavBack" showNavButton="false" title="Kacchi">
+		navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}" title="Kacchi">
   <!-- <semantic:customHeaderContent>
   <Button text="Save Status" 			type="Emphasized"  icon="sap-icon://status-completed" press="" />
 	<Button text="Transfer Status"  type="Emphasized"  icon="sap-icon://status-completed" press="" />

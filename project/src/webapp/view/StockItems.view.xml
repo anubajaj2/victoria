@@ -2,7 +2,7 @@
   xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:semantic="sap.m.semantic">
   <semantic:FullscreenPage
     id="idStockItems"
-    title="Stock Items">
+    title="Stock Items" navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}">
     <semantic:customHeaderContent>
             <Text id="idUser"> </Text>
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"

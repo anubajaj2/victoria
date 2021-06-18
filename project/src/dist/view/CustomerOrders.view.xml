@@ -3,8 +3,7 @@
   xmlns:semantic="sap.m.semantic">
   <semantic:FullscreenPage
     id="customerOrders"
-    navButtonPress=""
-    showNavButton="false"
+    navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}"
     title="{i18n>CustomerOrders}"
     busy="{objectView>/busy}"
     busyIndicatorDelay="{objectView>/delay}">

@@ -2127,6 +2127,13 @@ sap.ui.define([
 
 },
 
+handleNavButtonPress: function() {
+	
+	var oSplitApp = this.getView().getParent().getParent();
+	var oMaster = oSplitApp.getMasterPages()[0];
+	oSplitApp.toMaster(oMaster, "flip");
+},
+
 
 
 		orderReturn: function(oEvent, id) {

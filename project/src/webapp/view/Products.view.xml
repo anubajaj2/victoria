@@ -2,7 +2,7 @@
 	xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:smartField="sap.ui.comp.smartfield"
 	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-	<semantic:FullscreenPage id="products" navButtonPress="onNavBack" showNavButton="false" title="{i18n>ManageProducts}"
+	<semantic:FullscreenPage id="products" navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}" title="{i18n>ManageProducts}"
 		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}" tooltip="{i18>back}">
 		<semantic:customHeaderContent>
 			<Text id="idUser"></Text>

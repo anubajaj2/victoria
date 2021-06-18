@@ -12,7 +12,7 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:semantic="sap.m.semantic" height="100%">
-	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}">
+	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}" navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}">
 		<semantic:customHeaderContent>
 			<!-- <Text id="idDB"> </Text> -->
 			<Text id="idUser"></Text>

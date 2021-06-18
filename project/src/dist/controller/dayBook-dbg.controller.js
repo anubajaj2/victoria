@@ -322,10 +322,10 @@ sap.ui.define([
 
 		onConfirm: function(oEvent) {
 
-			var selCust = oEvent.getParameter("selectedItem").getLabel();
+			var selCust = oEvent.getParameter("selectedItem").getText();
 			this.getView().byId("idCustDay").setValue(selCust);
-			this.getView().getModel("local").setProperty("/EntryData/Customer",
-				oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+			// this.getView().getModel("local").setProperty("/EntryData/Customer",
+			// 	oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 			// this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 		},
 

@@ -11,7 +11,7 @@
 	xmlns:smartTable="sap.ui.comp.smarttable"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
-	xmlns:semantic="sap.m.semantic">
+	xmlns:semantic="sap.m.semantic" height="100%">
 	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}">
 		<semantic:customHeaderContent>
 			<!-- <Text id="idDB"> </Text> -->
@@ -41,7 +41,7 @@
 								editable="true"
 								valueHelpRequest="onValueHelpRequest"
 								value=""  suggest="onSuggest"
-								suggestionItemSelected="onEnter"
+								suggestionItemSelected="onConfirm"
 								maxSuggestionWidth="auto"
 								autocomplete="false"
 								submit="onSubmit"
@@ -102,8 +102,10 @@
 					mode="MultiSelect"
 					growing="true"
 					growingThreshold="20"
+
 					updateFinished="onUpdateFinished"
-					blocked="false">
+					contextualWidth="Auto"
+					 autoPopinMode="true" inset="false">
 					<!-- <headerToolbar> -->
 					<!-- <Toolbar> -->
 					<!-- <Title id="idTitle" text="{i18n>allEntries}"></Title> -->
@@ -114,38 +116,39 @@
 					<!-- </Toolbar> -->
 					<!-- </headerToolbar> -->
 					<columns>
-						<Column>
+						<Column demandPopin="true" minScreenWidth = "phone">
 							<Label text="{i18n>Date}" design="Bold" visible="true"></Label>
 						</Column>
 						<Column>
 							<Label text="{i18n>coCustName}" design="Bold"/>
 						</Column>
-						<Column visible="false">
+						<Column visible="false" >
 							<Label text="{i18n>custcode}" design="Bold"></Label>
 						</Column>
-						<Column visible="true">
+						<Column visible="true" demandPopin="true" minScreenWidth = "phone">
 							<Label text="{i18n>coMaterial}" design="Bold"></Label>
 						</Column>
-						<Column>
+						<Column demandPopin="false" minScreenWidth = "phone">
 							<Label id="cash" text="{i18n>amount}" design="Bold"></Label>
 							<footer visible="{local>/Footer}">
 								<ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" visible="{local>/Footer}"/>
 							</footer>
 							<!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
 						</Column>
-						<Column>
+						<Column >
 							<Label text="{i18n>Gold}" design="Bold"></Label>
 							<footer visible="{local>/Footer}">
 								<ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" visible="{local>/Footer}"/>
 							</footer>
 						</Column>
-						<Column>
+						<Column demandPopin="true" minScreenWidth = "phone">
 							<Label text="{i18n>Silver}" design="Bold"></Label>
+							<!-- visible="{local>/Footer}" -->
 							<footer visible="{local>/Footer}">
-								<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None" visible="{local>/Footer}"/>
+								<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None"  visible="{local>/Footer}"/>
 							</footer>
 						</Column>
-						<Column>
+						<Column demandPopin="true" minScreenWidth = "phone">
 							<Label text="{i18n>Remarks}" design="Bold"></Label>
 						</Column>
 					</columns>

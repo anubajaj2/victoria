@@ -123,7 +123,7 @@ app.start = function() {
 		//folder name must be uploads in server directory where you should place ur file
 		app.post('/upload',
 			function(req, res) {
-				debugger;
+
 				if (!req.files.myFileUpload) {
 					res.send('No files were uploaded.');
 					return;
@@ -257,7 +257,7 @@ app.start = function() {
 															}
 														}, newRec)
 														.then(function(inq) {
-															debugger;
+
 															console.log("created successfully");
 														})
 														.catch(function(err) {
@@ -280,7 +280,7 @@ app.start = function() {
 															}
 														}, newRec)
 														.then(function(inq) {
-															debugger;
+
 															console.log("created successfully");
 														})
 														.catch(function(err) {
@@ -307,7 +307,7 @@ app.start = function() {
 															}
 														}, newRec)
 														.then(function(inq) {
-															debugger;
+
 															console.log("created successfully");
 														})
 														.catch(function(err) {
@@ -374,7 +374,7 @@ app.start = function() {
 															}
 														}, newRec)
 														.then(function(inq) {
-															debugger;
+
 															console.log("created successfully");
 														})
 														.catch(function(err) {
@@ -549,7 +549,7 @@ app.start = function() {
 											"EmailId": user.email
 										}
 									}).then(function(roleMapping) {
-										debugger;
+
 										if (!roleMapping) {
 											_this4.AppUser.create({
 												TechnicalId: _this4.TechnicalId,
@@ -583,7 +583,7 @@ app.start = function() {
 			// jwtr.destroy(token)
 		);
 		app.post('/updateRetailOrderHdr', function(req, res) {
-debugger;
+
 			var OrderHeader = app.models.OrderHeader;
 			var RecordId = req.body.OrderDetails.id;
 			var Customer = req.body.OrderDetails.Customer;
@@ -601,17 +601,17 @@ debugger;
 				ChangedOn: new Date()
 			};
 			OrderHeader.findById(RecordId).then(function(instance) {
-				debugger;
+
 				instance.updateAttributes(updateObj);
 				// instance.updateAttributes(updateObj).then(function(res) {
-				// 	debugger;
+				//
 				// 	console.log(res);
 				// 	return res.send("done");}).catch(function{});
 				return res.send("done");
 			});
 		});
 		app.get('/kaachiDownload', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 			var custId = req.query.id;
 			var name = req.query.name;
@@ -953,7 +953,7 @@ debugger;
 		})
 
 		app.get('/stockDownload', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 			var responseData = [];
 			var oSubCounter = {};
@@ -1003,7 +1003,7 @@ debugger;
 					}
 				], function(err, sRecord, pRecord) {
 					try {
-						debugger;
+
 						var products = [];
 						var count = 0;
 
@@ -1054,7 +1054,7 @@ debugger;
 							currentdate.getMinutes() + ":" +
 							currentdate.getSeconds();
 
-						debugger;
+
 						var header = ["Material Name", "Material Type", "Tot Quantity", "Tot Weight"];
 						sheet.addRow().values = header;
 
@@ -1259,7 +1259,7 @@ debugger;
 				], function(err, cRecord, b_Record, b_d_Record) {
 
 					try {
-						debugger;
+
 						var excel = require('exceljs');
 							// var type = b_Record[0].Type;
 						var workbook = new excel.Workbook(); //creating workbook
@@ -1780,7 +1780,7 @@ debugger;
 
 
             app.get('/customerOrderReport', function(req, res) {
-                debugger;
+
                 var custId = req.query.id;
                 var custCode = req.query.custCode;
 
@@ -2377,7 +2377,7 @@ debugger;
             })
 
     				app.get('/allCustomerOrderReport', function(req, res) {
-                debugger;
+
                 var custId = req.query.id;
                 var custCode = req.query.custCode;
 
@@ -3019,7 +3019,7 @@ debugger;
 
 
 	app.get('/GroupHide',function(req,res){
-			debugger;
+
 
 			var responseData = [];
 			var oSubCounter = {};
@@ -3028,7 +3028,7 @@ debugger;
 			var Entry = app.models.Entry;
 		  var Group=app.models.Group;
 			var async = require('async');
-			debugger;
+
 			async.waterfall([
 				function(callback) {
 					//1. read all the pending orders
@@ -3143,7 +3143,7 @@ debugger;
 			var Product = app.models.Product;
 
 			var async = require('async');
-			debugger;
+
 			async.waterfall([
 				function(callback) {
 					//1. read all the pending orders
@@ -3238,7 +3238,7 @@ debugger;
 				}
 			], function(err, pendingOrderRecords, allCustomers, CityRecords, ProductRecords) {
 				// result now equals 'done'
-				debugger;
+
 				try {
 					//TODO: Now we have all the data of orders, their customers,
 					//cities, and products with ids
@@ -3251,7 +3251,7 @@ debugger;
 
 						//let lPOrders = JSON.parse(JSON.stringify(pendingOrderRecords[p].__data));
 						var lPOrders = pendingOrderRecords[p].__data;
-						debugger;
+
 
 						var cov_date = new Date(lPOrders.Date);
 						pOrder.Date = cov_date.getDate() + "." +
@@ -3271,14 +3271,14 @@ debugger;
 						pOrder.Remarks = lPOrders.Remarks;
 						//pOrder.Material = lPOrders.Material;
 						for (var m = 0; m < ProductRecords.length; m++) {
-							debugger;
+
 							let lMaterial = JSON.parse(JSON.stringify(ProductRecords[m].__data));
 							if (lPOrders.Material == lMaterial.id) {
 								pOrder.Material = lMaterial.ProductName;
 							}
 						}
 						for (var k = 0; k < allCustomers.length; k++) {
-							debugger;
+
 							let lKarigar = JSON.parse(JSON.stringify(allCustomers[k].__data));
 							if (lPOrders.Karigar == lKarigar.id) {
 								pOrder.Karigar = lKarigar.Name;
@@ -3288,7 +3288,7 @@ debugger;
 							}
 						}
 						for (var c = 0; c < allCustomers.length; c++) {
-							debugger;
+
 							let lCustomer = JSON.parse(JSON.stringify(allCustomers[c].__data));
 							if (lPOrders.Customer == lCustomer.id) {
 								pOrder.Customer = lCustomer.Name;
@@ -3298,7 +3298,7 @@ debugger;
 						pOrders.push(Object.assign({}, pOrder));
 
 					}
-					debugger;
+
 					var reportType = "Pending_Order_Summary";
 					//var custId = req.body.id;
 					//var name = req.body.name;
@@ -3333,7 +3333,7 @@ debugger;
 						currentdate.getMinutes() + ":" +
 						currentdate.getSeconds();
 
-					debugger;
+
 					var header = ["Date", "Delivery Date", "Customer Name", "Item Name", "Qty", "Weight", "Making", "Remarks", "Karigar"];
 					sheet.addRow().values = header;
 
@@ -3720,7 +3720,7 @@ debugger;
 						horizontal: 'right'
 					};
 
-					debugger;
+
 					//Coding to download in a folder
 					var tempFilePath = 'C:\\dex\\' + reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 						currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
@@ -3743,9 +3743,9 @@ debugger;
 			});
 		})
 		app.get('/entryDownload', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
-			debugger;
+
 			var custId = req.query.id;
 			var name = req.query.name;
 			var city = req.query.city;
@@ -3781,7 +3781,7 @@ debugger;
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
-						debugger;
+
 						Entry.find({
 								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
@@ -4315,9 +4315,9 @@ debugger;
 		})
 
 		app.get('/entryDownload1', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
-			debugger;
+
 			var custId = req.query.id;
 			var name = req.query.name;
 			var city = req.query.city;
@@ -4354,7 +4354,7 @@ debugger;
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
-						debugger;
+
 						Entry.find({
 								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
@@ -4576,7 +4576,7 @@ debugger;
 											return [day, month, year].join('.');
 										}
 										function getInterestAmount(Amount,date,interest) {
-											debugger;
+
 											if(interest===undefined){
 												interest=0;
 											}
@@ -5341,7 +5341,7 @@ debugger;
 								}
 
 							).catch(function(oError) {
-								debugger;
+
 								that.getView().setBusy(false);
 								var oPopover = that.getErrorMessage(oError);
 							});
@@ -5358,9 +5358,9 @@ debugger;
 
 
 		app.get('/entryDownload2', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
-			debugger;
+
 			var custId = req.query.id;
 			var name = req.query.name;
 			var city = req.query.city;
@@ -5397,7 +5397,7 @@ debugger;
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
-						debugger;
+
 						Entry.find({
 								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 								where: {
@@ -5623,7 +5623,7 @@ debugger;
 											return [day, month, year].join('.');
 										}
 										function getInterestAmount(Amount,date,interest) {
-											debugger;
+
 											if(interest===undefined){
 												interest=0;
 											}
@@ -6408,7 +6408,7 @@ debugger;
 								}
 
 							).catch(function(oError) {
-								debugger;
+
 								that.getView().setBusy(false);
 								var oPopover = that.getErrorMessage(oError);
 							});
@@ -6424,7 +6424,7 @@ debugger;
 		})
 
 		app.get('/entryDownloadBetween', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 			var custId = req.query.id;
 			var name = req.query.name;
@@ -6999,7 +6999,7 @@ debugger;
 			var productIds = new Set();
 			var items = [];
 			var items2 = [];
-			debugger;
+
 			var d =new Date(req.query.date);
 			d.setUTCHours(0,0,0,0,0);
 			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
@@ -7045,7 +7045,7 @@ debugger;
 							// console.log(JSON.stringify(items2));
 							// console.log(JSON.stringify(aItemsToday));
 							// console.log(productIds);
-							// debugger;
+							//
 							app.models.Product.find({
 								where: {
 									id: {
@@ -7129,7 +7129,7 @@ debugger;
 			var productIds = new Set();
 			var items = [];
 			var items2 = [];
-			debugger;
+
 			var d =new Date(req.query.date);
 			d.setUTCHours(0,0,0,0,0);
 			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
@@ -7216,7 +7216,7 @@ debugger;
 				for (item of stockItems) {
 					stockItemsSet.add(item.Material.toString());
 				}
-				// debugger;
+				//
 				app.models.Product.find({
 					where: {
 						id: {
@@ -7236,7 +7236,7 @@ debugger;
 					}
 					// collection of json obj total quantity item wise,
 					// var stockItemReport = Array.from(stockItemsMap.values());
-					// debugger;
+					//
 					// collecion for whole stock table report
 					var stockReportCollection = [
 						["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
@@ -7379,7 +7379,7 @@ debugger;
 						}
 						// collection of json obj total quantity item wise,
 						// var stockItemReport = Array.from(stockItemsMap.values());
-						// debugger;
+						//
 						// collecion for whole stock table report
 						var stockReportCollection = [
 							["Date", "Item Code", "Name", "Order No", "Quantity", "CreatedBy", "CreatedOn"]
@@ -7455,12 +7455,12 @@ debugger;
 						return res.status(200).type("application/vnd.ms-excel").send(buffer);
 					});
 				});
-				// debugger;
+				//
 			});
 		});
 		///// code added by Surya - start
 		app.get('/custCodeDownload', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 
 			var responseData = [];
@@ -7482,7 +7482,7 @@ debugger;
 						var arrCities = [];
 						var arrGroups = [];
 						// nishan
-						debugger;
+
 						for (var i = 0; i < customerRecord["length"]; i++) {
 							// try {
 							if(customerRecord[i].City!==undefined)	{
@@ -7497,11 +7497,11 @@ debugger;
 							}
 
 							// if(typeof(customerRecord[0].Group)!=="object"){
-							// 	debugger;
+							//
 							// }
 							// 							catch(err) {
 							//   // Block of code to handle errors
-							// 	debugger;
+							//
 							// }
 						}
 						//Fetch city data on the basis of city codes array
@@ -7955,7 +7955,7 @@ debugger;
 								// 	});
 								// 	console.log('file is written @ ' + tempFilePath);
 								// });
-								debugger;
+
 								var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 								res.setHeader(
@@ -7972,7 +7972,7 @@ debugger;
 								});
 							}
 						}).catch(function(oError) {
-							debugger;
+
 							that.getView().setBusy(false);
 						});
 					} catch (e) {
@@ -8619,7 +8619,7 @@ debugger;
 										// 	});
 										// 	console.log('file is written @ ' + tempFilePath);
 										// });
-										debugger;
+
 										var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 										res.setHeader(
@@ -8867,7 +8867,7 @@ debugger;
 										// 	});
 										// 	console.log('file is written @ ' + tempFilePath);
 										// });
-										debugger;
+
 										var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 										res.setHeader(
@@ -9113,7 +9113,7 @@ debugger;
 										// 	});
 										// 	console.log('file is written @ ' + tempFilePath);
 										// });
-										debugger;
+
 										var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 											currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 										res.setHeader(
@@ -9146,11 +9146,11 @@ debugger;
 		});
 
 		app.get('/groupWiseEntryDownload',async function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 			var grp=req.query.group;
 			var gname=req.query.name;
-			debugger;
+
 
 			var async = require('async');
 			// fetch all the entries
@@ -9198,7 +9198,7 @@ debugger;
 										}
 									}
 								},function(err ,customerRecord) {
-									debugger;
+
 									// return entryRecord;
 									callback(err, customerRecord, items);
 
@@ -9217,7 +9217,7 @@ debugger;
 						for (var i = 0; i < customerRecord["length"]; i++) {
 							console.log(customerRecord[i].CustomerCode + " " + customerRecord[i].City);
 							if (!(arrCities.includes(customerRecord[i].City.toString()))) {
-		
+
 								arrCities.push(customerRecord[i].City.toString());
 							}
 							if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
@@ -9239,7 +9239,7 @@ debugger;
 								"cityName": true
 							}
 						}).then(function(cityRecord, err) {
-							debugger;
+
 							// call second function of the waterfall
 							callback(err,customerRecord, entryRecord, cityRecord, arrGroups);
 						});
@@ -9248,7 +9248,7 @@ debugger;
 
 					try {
 						//Fetch Groups data on the basis of group codes array
-						// debugger;
+						//
 						var Group = app.models.Group;
 						Group.find({
 							where: {
@@ -9262,7 +9262,7 @@ debugger;
 								"groupName": true
 							}
 						}).then(function(groupRecord, err) {
-							// debugger;
+							//
 							var entryFinals = [];
 							var noGroupEntries = [];
 							var gro=[];
@@ -9273,7 +9273,7 @@ debugger;
 								entryFinal.Cash = entryRecord[a].Cash;
 								entryFinal.Gold = entryRecord[a].Gold;
 								entryFinal.Silver = entryRecord[a].Silver;
-								// debugger;
+								//
 
 								//loop through customer records to get customer details
 								for (var i = 0; i < customerRecord.length; i++) {
@@ -9287,7 +9287,7 @@ debugger;
 												break;
 											}
 										}
-										// debugger;
+										//
 										if(customerRecord[i].Group.toString() == grp ){
 										//loop through Group records to get group name
 										for (var k = 0; k < groupRecord.length; k++) {
@@ -9322,7 +9322,7 @@ debugger;
 											entryFinals.push(entryFinal);
 										// }
 										} else {
-											// debugger;
+											//
 											noGroupEntries.push(entryFinal);
 										}
 										break;
@@ -9331,7 +9331,7 @@ debugger;
 
 								//Now push prepared record object to the array of Final Entries
 							}
-// debugger;
+//
 							if (entryFinals) {
 
 								//sort customer arrays on the basis of Group
@@ -9345,7 +9345,7 @@ debugger;
 
 								//declare function for making one complete tab groupwise
 								function createTabForGroup(group, groupRecords) {
-										// debugger;
+										//
 									//create a tab sheet with the Group name
 									var sheet = workbook.addWorksheet(group); //creating worksheet
 									//Heading for excel
@@ -9455,7 +9455,7 @@ debugger;
 									// Looping through the records
 									for (var j = 0; j < groupRecords["length"]; j++) {
 										var items = groupRecords[j];
-										// debugger;
+										//
 
 										var date1 = formatDateForEntry(items.Date);
 										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, date1];
@@ -9876,7 +9876,7 @@ debugger;
 
 								//loop the sorted table & for each group create a new sheet.
 								var sameGroupEntries = [];
-								debugger;
+
 
 								function GetSortOrder(prop) {
 										    return function(a, b) {
@@ -9919,7 +9919,7 @@ debugger;
 								if (noGroupEntries) {
 									if(grp=="00"||grp=="01"){
 									//call function to create new tab and prepare complete tab data
-									debugger;
+
 									noGroupEntries.sort(GetSortOrder("CustomerName"));
 									createTabForGroup("No_Group_Customers", noGroupEntries);
 								}
@@ -9966,7 +9966,7 @@ debugger;
 
 							}
 						}).catch(function(oError) {
-							debugger;
+
 							// that.getView().setBusy(false);
 						});
 					} catch (e) {
@@ -9986,7 +9986,7 @@ debugger;
 
 
 		app.get('/entryDownloadDate', function(req, res) {
-			debugger;
+
 			var reportType = req.query.type;
 			var min = req.query.min;
 			var max = req.query.max;
@@ -10019,7 +10019,7 @@ debugger;
 								arrCustomers.push(entryRecord[p].Customer.toString());
 							}
 						}
-						debugger;
+
 						//Fetch city data on the basis of city codes array
 						var Customer = app.models.Customer;
 						Customer.find({
@@ -10036,7 +10036,7 @@ debugger;
 								"Group": true
 							}
 						}).then(function(customerRecord, err) {
-							debugger;
+
 							callback(err, customerRecord, entryRecord);
 						});
 					},
@@ -10085,7 +10085,7 @@ debugger;
 								entryFinal.Cash = entryRecord[a].Cash;
 								entryFinal.Gold = entryRecord[a].Gold;
 								entryFinal.Silver = entryRecord[a].Silver;
-								debugger;
+
 
 								//loop through customer records to get customer details
 								for (var i = 0; i < customerRecord.length; i++) {
@@ -10844,7 +10844,7 @@ debugger;
 		});
 
 		app.post('/getTotalBookingCustomer', function(req, res) {
-			debugger;
+
 			var customerId = req.body.myData.Customer;
 			var typeId = req.body.myData.Type;
 			var Booking = app.models.BookingDetail;
@@ -10876,7 +10876,7 @@ debugger;
 
 		});
 		app.post('/getTotalDeliveredCustomer', function(req, res) {
-			debugger;
+
 			var customerId = req.body.myData.Customer;
 			var typeId = req.body.myData.Type;
 			var Delivered = app.models.BookingDlvDetail;
@@ -10907,7 +10907,7 @@ debugger;
 		});
 
 		app.post('/getTotalEntryCustomer', function(req, res) {
-			debugger;
+
 			var customerId = req.body.Customer;
 			// var Date = req.body.Date;
 			var min = req.body.min;
@@ -10966,7 +10966,7 @@ if(customerId != ""){
 
 
 		app.post('/getTotalEntryCustomerBetween', function(req, res) {
-			debugger;
+
 			var customerId = req.body.Customer;
 			var Entry = app.models.Entry;
 			var min = req.body.min;
@@ -11049,7 +11049,7 @@ else{
 
 		});
 		app.post('/EntryTransfer', function(req, res) {
-			debugger;
+
 			var date = new Date(JSON.parse(JSON.stringify(req.body.entryData.Date)));
 			var orderNo = req.body.entryData.OrderNo;
 			var customer = req.body.entryData.Customer;
@@ -11068,7 +11068,7 @@ else{
 					}
 				})
 				.then(function(entry) {
-					debugger;
+
 					for (var i = 0; i < entry.length; i++) {
 						if (entry[i].OrderNo === orderNo) {
 							res.send({
@@ -11082,7 +11082,7 @@ else{
 				})
 		});
 		app.post('/previousOrder', function(req, res) {
-			debugger;
+
 			var OrderHeader = app.models.OrderHeader;
 			var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
 			start.setHours(0, 0, 0, 0);
@@ -11125,7 +11125,7 @@ else{
 					});
 
 			} else {
-				debugger;
+
 				var orderId = req.body.OrderDetails.id;
 				var orderNo = req.body.OrderDetails.OrderNo;
 				OrderHeader.find({
@@ -11151,7 +11151,7 @@ else{
 						}
 					})
 					.then(function(orders) {
-						debugger;
+
 						//sort the orders in descending order created today
 						if (orders.length > 0) {
 							//if there are/is order created today sort and get next order no
@@ -11171,7 +11171,7 @@ else{
 		}); //previous order
 		//function to get next order
 		app.post('/nextOrder', function(req, res) {
-			debugger;
+
 			var OrderHeader = app.models.OrderHeader;
 			var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
 			start.setHours(0, 0, 0, 0);
@@ -11210,7 +11210,7 @@ else{
 					});
 
 			} else {
-				debugger;
+
 				var orderId = req.body.OrderDetails.id;
 				var orderNo = req.body.OrderDetails.OrderNo;
 				OrderHeader.find({
@@ -11236,7 +11236,7 @@ else{
 						}
 					})
 					.then(function(orders) {
-						debugger;
+
 						if (orders.length > 0) {
 							//if there are/is order created today pass next order no
 							res.send({
@@ -11250,12 +11250,12 @@ else{
 		}); //next order
 
 		app.post('/StockDelete', function(req, res) {
-			debugger;
+
 			var date = new Date(JSON.parse(JSON.stringify(req.body.Stock.Date)));
 			var materialId = req.body.Stock.Product;
 			var orderNo = req.body.Stock.OrderItemId;
 			var Stock = app.models.stockMaint;
-			debugger;
+
 			Stock.find({
 					where: {
 						"OrderItemId": orderNo
@@ -11269,7 +11269,7 @@ else{
 					}
 				})
 				.then(function(Stock) {
-					debugger;
+
 					res.send({
 						"Product": Stock[0].Product.toString(),
 						"Quantity": Stock[0].Quantity,
@@ -11279,7 +11279,7 @@ else{
 				});
 		}); //StockDelete
 		app.post('/previousWSOrder', function(req, res) {
-			debugger;
+
 			var WSOrderHeader = app.models.WSOrderHeader;
 			var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
 			start.setHours(0, 0, 0, 0);
@@ -11322,7 +11322,7 @@ else{
 					});
 
 			} else {
-				debugger;
+
 				var orderId = req.body.OrderDetails.id;
 				var orderNo = req.body.OrderDetails.OrderNo;
 				WSOrderHeader.find({
@@ -11348,7 +11348,7 @@ else{
 						}
 					})
 					.then(function(orders) {
-						debugger;
+
 						//sort the orders in descending order created today
 						if (orders.length > 0) {
 							//if there are/is order created today sort and get next order no
@@ -11370,7 +11370,7 @@ else{
 
 
 		app.get('/VictoriaBackup',function(req,res){
-				debugger;
+
 				// const zipfile = archiver('zip');
 				var backup = require('mongodb-backup');
 				var path11 = require('path');
@@ -11388,7 +11388,7 @@ else{
 				try{
 				// function takeMongoBackup() {
 
-					debugger;
+
 										var nrc = require('node-run-cmd');
 										nrc.run('mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"');
 				  //remove directory
@@ -11451,7 +11451,7 @@ else{
 				  });
 				}
 				catch(res){
-				// 		debugger;
+				//
 					}
 
 		})
@@ -11496,7 +11496,7 @@ else{
 				// const upload = multer({storage});
 
 // app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
-// 						debugger;
+//
 //
 // res.setHeader('Content-Type', 'application/zip');
 // res.setHeader(
@@ -11518,7 +11518,7 @@ else{
 
 
 app.get('/files',(req,res)=>{
-	debugger;
+
 	gfs.files.find().toArray((err,files)=>{
 		if(!files || files.length ===0){
 			return res.status(404).json({
@@ -11534,7 +11534,7 @@ app.get('/files',(req,res)=>{
 		 //previous order
 		//function to get next order
 		app.post('/nextWSOrder', function(req, res) {
-			debugger;
+
 			var WSOrderHeader = app.models.WSOrderHeader;
 			var start = new Date(JSON.parse(JSON.stringify(req.body.OrderDetails.Date)));
 			start.setHours(0, 0, 0, 0);
@@ -11573,7 +11573,7 @@ app.get('/files',(req,res)=>{
 					});
 
 			} else {
-				debugger;
+
 				var orderId = req.body.OrderDetails.id;
 				var orderNo = req.body.OrderDetails.OrderNo;
 				WSOrderHeader.find({
@@ -11599,7 +11599,7 @@ app.get('/files',(req,res)=>{
 						}
 					})
 					.then(function(orders) {
-						debugger;
+
 						if (orders.length > 0) {
 							//if there are/is order created today pass next order no
 							res.send({

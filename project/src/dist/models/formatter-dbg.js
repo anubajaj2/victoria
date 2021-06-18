@@ -35,7 +35,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			for (var i = 0; i < decodedPdfContent.length; i++) {
 				byteArray[i] = decodedPdfContent.charCodeAt(i);
 			}
-			debugger;
+
 			var blob = new Blob([byteArray.buffer], {
 				// type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 				type:'application/octet-stream'
@@ -51,7 +51,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 		return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
 		},
 		getIndianCurr: function(value){
-			debugger;
+
 			if(value){
 				var x=value;
 				x=x.toString();
@@ -85,7 +85,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			// return Name + "-" + this.allMasterData.cities[City].cityName;
 		},
 		byNameCityGroup: function(customerId){
-			debugger;
+
 			if (customerId && customerId !== "null"){
 				var customerData = this.allMasterData.customers[customerId]
 				var Name = customerData.Name;
@@ -110,7 +110,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			return array.sort(lol(property));
 		},
 		getIncrementDate: function(dateObj, monthInc) {
-			debugger;
+
 			//	var dd = dateObj.getDate();
 			dateObj.setMonth(dateObj.getMonth() + monthInc);
 			var dd = dateObj.getDate();
@@ -135,7 +135,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			var mm1 = ddToday.getMonth();
 			var yyyy1 = ddToday.getFullYear();
 
-			debugger;
+
 			if (yyyy > yyyy1) {
 				return true;
 			} else {
@@ -176,7 +176,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 		},
 
 		formatStatusValue: function(sValue) {
-			debugger;
+
 			switch (sValue) {
 				case "L": return "Live";
 				case "V": return "Video";
@@ -188,7 +188,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			return oCurrencyFormat.format(a,b);
 		},
 		getInterestAmount: function(customerId, Amount, date) {
-			debugger;
+
 			var oCustomer = this.allMasterData.customers[customerId];
 			var interest  = oCustomer.Interest;
 			var date2 = new Date();
@@ -196,7 +196,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat", "sap/ui/core/format/DateFormat
 			var Difference_In_Time = date2.getTime() - date1.getTime();
 			var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 			var days = parseInt(Difference_In_Days);
-			
+
 			var totalAmt = ((Amount*interest*days)/3000);
 			totalAmt = parseFloat(totalAmt.toFixed(2));
 			return totalAmt;

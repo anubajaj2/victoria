@@ -194,3 +194,28 @@ background: lightgrey;
 #__container1--Grid {
   width: 20rem;
 }
+
+
+html.sap-phone *, html.sap-tablet:not(.sap-desktop) * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+
+    flex-wrap: wrap;
+    place-content: center;
+}
+.sapMTableTFoot{
+  visibility: visible;
+  visible: true;
+
+}
+
+#__component0---idDayBook--idTable1-tblFooter
+{
+  visibility: visible;
+  visible:true;
+}
+.sapMListTblFooter{
+  visibility: visible;
+  visible:true;
+
+}

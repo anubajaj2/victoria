@@ -16,7 +16,6 @@ sap.ui.define(
 				// browser.driver.navigate().refresh();
         // browser.loadUI5Dependencies()
 				HashChanger.getInstance().replaceHash("");
-				debugger;
 				sap.ui.core.UIComponent.prototype.init.apply(this);
 
      			var oRouter = this.getRouter();

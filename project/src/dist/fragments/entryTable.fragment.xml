@@ -1,16 +1,16 @@
 <core:FragmentDefinition  xmlns="sap.m" xmlns:core="sap.ui.core">
   <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
-
+		<!-- { -->
+		<!-- path: 'Date', -->
+		<!-- descending: 'false'}, -->
 	<Table id="idTable" inset="false" class ="myCustomText" 	alternateRowColors="false" includeItemInSelection="false"
     items="{
            path: '/Entrys',
-             sorter: [{
-             path: 'Date',
-             descending: 'true'},
+             sorter: [
 						{
 						 path: 'ChangedOn',
-             descending: 'true'
+             descending: 'false'
 						 }
              ]
            }"

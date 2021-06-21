@@ -1340,7 +1340,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 
 			onClear: function() {
-
+debugger;
 				var oFilter = [];
 				var myData = this.getView().getModel("local").getProperty("/EntryData");
 				var check = this.getView().byId("CBID").getSelected();
@@ -1388,7 +1388,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					jQuery.sap.delayedCall(100, this, function() {
 						this.getView().byId("idCust").focus();
 					});
-
+// this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 					this.byId("idCust").setValue("");
 					this.byId("idCustText").setText("");
 					this.byId("idMat").setValue("");

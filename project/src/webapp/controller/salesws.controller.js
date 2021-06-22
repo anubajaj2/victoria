@@ -525,6 +525,7 @@ sap.ui.define(
 					//get the final weight // X=Weight - WeightD
 					if (weightD !== "" ||
 						weightD !== 0) {
+							debugger;
 						var weightF = weight - weightD;
 					} else {
 						var weightF = weight;
@@ -610,6 +611,7 @@ sap.ui.define(
 						cells[cells.length - 3].setText(0);
 						cells[cells.length - 2].setText(0)
 					} else {
+						debugger;
 						if (category.Type === "Silver") {
 							// cells[10].setText(weightF * tunch / 100);
 							cells[cells.length - 3].setText(weightF * tunch / 100);
@@ -1072,6 +1074,8 @@ sap.ui.define(
 											var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
 											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
 										}
+
+										debugger;
 										var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
 										if (subtotalItemG) {
 											that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
@@ -1426,6 +1430,7 @@ sap.ui.define(
 							}
 							// SubTotalGold
 							if (data.SubTotalG === "" || data.SubTotalG === 0) {
+								debugger;
 								returnTable.SubTotalG = 0;
 							} else {
 								returnTable.SubTotalG = data.SubTotalG;
@@ -1722,6 +1727,7 @@ sap.ui.define(
 				}
 			},
 			stockTransfer: function(allItems) {
+				debugger;
 				var that = this;
 				var orderNo = this.getView().getModel('local').getProperty('/WSOrderHeader/OrderNo');
 				// var orderId = this.getView().getModel('local').getProperty('/orderHeaderTemp/OrderId');
@@ -1762,7 +1768,7 @@ sap.ui.define(
 			},
 			finalCalculation: function(category, data, priceF, tablePath, cells,
 				quantityOfStone, goldBhav, goldBhavK, silverBhav, silverBhavK) {
-
+debugger;
 				var that = this;
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -1773,6 +1779,7 @@ sap.ui.define(
 				}
 
 				if ((data.SubTotalG) && (data.SubTotalG != "")) {
+					debugger;
 					var oldSubTotG = oFloatFormat.parse(data.SubTotalG);
 				} else {
 					var oldSubTotG = 0;
@@ -1792,12 +1799,15 @@ sap.ui.define(
 					//get the final weight // X=Weight - WeightD
 					if (data.WeightD !== "" || data.WeightD !== 0) {
 						if (data.Tunch) {
-							var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
+							debugger;
+							// var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
+							var weightF = data.Weight
 						}else {
 							var weightF = data.Weight - data.WeightD;
 						}
 
 					} else {
+						debugger;
 						if(data.Tunch) {
 							var weightF = (data.Weight)*(data.Tunch/100);
 						}else {
@@ -1808,17 +1818,28 @@ sap.ui.define(
 					if (category.Type === 'Gold' || category.Type === 'GLD') {
 						//get the gold price
 						if (category.Karat === '22/22') {
+							if(data.Tunch){
+								weightF=weightF*(data.Tunch/100);
+							}
 							priceF = weightF * goldBhav;
 						} else
 						if (category.Karat === '22/20') {
+							if(data.Tunch){
+								weightF=weightF*(data.Tunch/100);
+							}
 							priceF = weightF * goldBhav;
 						}
 					} else if (category.Type === 'Silver' || category.Type === 'SLV') {
+						if(data.Tunch!==0){
+							weightF=weightF*(data.Tunch/100);
+						}
+
 						priceF = weightF * silverBhav;
 					}
 
 					//Making charges
-					var makingCharges = data.Making * weightF;
+					// var makingCharges = data.Making * weightF;
+					var makingCharges = data.Making * category.Weight
 					var stonevalue = data.QtyD * data.MakingD;
 
 
@@ -1892,7 +1913,9 @@ sap.ui.define(
 					//get the final weight // X=Weight - WeightD
 					if (data.WeightD !== "" ||
 						data.WeightD !== 0) {
+							debugger;
 						var weightF = data.Weight - data.WeightD;
+
 					} else {
 						var weightF = data.Weight;
 					};
@@ -1946,7 +1969,9 @@ sap.ui.define(
 				};
 
 				if (category.Type === "Silver" || category.Type === 'SLV') {
-					var SubTotalS = weightF * data.Tunch / 100;
+					debugger;
+					// var SubTotalS = weightF * data.Tunch / 100;
+					var SubTotalS = weightF;
 					SubTotalS = parseFloat(SubTotalS).toFixed(2);
 					var SubTotalG = 0;
 					SubTotalG = parseFloat(SubTotalG).toFixed(3);
@@ -1967,6 +1992,7 @@ sap.ui.define(
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 						if(data.Weight && data.Tunch){
+							debugger;
 						category.SubTotalS = SubTotalS;
 							category.SubTotalG = SubTotalG;
 							category.SubTotal = 0;
@@ -1982,14 +2008,16 @@ sap.ui.define(
 					}
 
 				} else if (category.Type === "Gold" || category.Type === 'GLD') {
+debugger;
 
-					var SubTotalG = weightF * data.Tunch / 100;
+					// var SubTotalG = weightF * data.Tunch / 100;
+					var SubTotalG = weightF;
 					SubTotalG = parseFloat(SubTotalG).toFixed(3);
 					var SubTotalS = 0;
 					SubTotalS = parseFloat(SubTotalS).toFixed(2);
 					// var FSubTotalG = this.getIndianCurr(SubTotalG);
 					if (tablePath) {
-
+debugger;
 						if(data.Weight && data.Tunch){
 						category.SubTotalS = SubTotalS;
 							category.SubTotalG = SubTotalG;
@@ -2004,6 +2032,7 @@ sap.ui.define(
 						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
+						debugger;
 						if(data.Weight && data.Tunch){
 						category.SubTotalS = SubTotalS;
 							category.SubTotalG = SubTotalG;
@@ -2041,6 +2070,7 @@ sap.ui.define(
 				this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', orderGold);
 
 				if ((data.SubTotalS) && (data.SubTotalS != "")) {
+					debugger;
 					var currentSubTotS = oFloatFormat.parse(data.SubTotalS);
 					this.TotalOrderValueSilver = currentSubTotS + this.TotalOrderValueSilver - oldSubTotS;
 				}
@@ -2322,7 +2352,7 @@ sap.ui.define(
 				}
 			},
 			getFinalBalance: function() {
-
+debugger;
 				var that = this;
 				that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
 				if (that.FinalBalanceCash === 0) {
@@ -2357,7 +2387,7 @@ sap.ui.define(
 				that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
 			},
 			onReturnChange: function(oEvent) {
-
+debugger;
 				if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsales') {
 					this.byId("Sales--idSaveIcon").setColor('red');
 				} else if (oEvent.getSource().getId().split('---')[1].split('--')[0] == 'idsalesws') {
@@ -2377,7 +2407,7 @@ sap.ui.define(
 				that.onRadioButtonSelect();
 			},
 			returnCalculation: function(oEvent, orderHeader, data) {
-
+debugger;
 				if (oEvent.getId() === 'orderReload') {
 					var seletedLine = this.getView().getModel('returnModel').getProperty(data);
 					// var category = this.getView().byId("OrderReturn").getModel("returnModel").getProperty(data);
@@ -2407,12 +2437,14 @@ sap.ui.define(
 				}
 
 				if ((seletedLine.SubTotalG) && (seletedLine.SubTotalG != "")) {
+					debugger;
 					var oldSubTotG = oFloatFormat.parse(seletedLine.SubTotalG);
 				} else {
 					var oldSubTotG = 0;
 				}
 
 				if ((seletedLine.SubTotalS) && (seletedLine.SubTotalS != "")) {
+					debugger;
 					var oldSubTotS = oFloatFormat.parse(seletedLine.SubTotalS);
 				} else {
 					var oldSubTotS = 0;
@@ -2424,6 +2456,7 @@ sap.ui.define(
 						seletedLine.Tunch = 100;
 					}
 					var bhavF = seletedLine.Bhav / 10;
+					debugger;
 					var weightF = seletedLine.Weight - seletedLine.KWeight;
 					var fineGold = (seletedLine.Tunch * weightF) / 100;
 					var subtotGold = parseFloat(fineGold).toFixed(3);
@@ -2438,9 +2471,11 @@ sap.ui.define(
 							seletedLine.SubTotal = subTotalNoDecimal;
 
 							if (subTotal) {
+								debugger;
 								seletedLine.SubTotalG = 0
 								seletedLine.SubTotalS = 0;
 							} else {
+								debugger;
 								seletedLine.SubTotal = 0.
 								seletedLine.SubTotalG = subtotGold;
 								seletedLine.SubTotalS = 0;
@@ -2536,6 +2571,7 @@ sap.ui.define(
 					}
 
 					if ((seletedLine.SubTotalS) && (seletedLine.SubTotalS !== "")) {
+						debugger;
 						var currentSubTotS = oFloatFormat.parse(seletedLine.SubTotalS);
 						this.DeductionSilver = currentSubTotS + this.DeductionSilver - oldSubTotS;
 					}
@@ -3130,7 +3166,7 @@ sap.ui.define(
 				}
 			},
 			onRadioButtonSelect: function() {
-					
+
 				var that = this;
 
 				var oLocale = new sap.ui.core.Locale("en-US");

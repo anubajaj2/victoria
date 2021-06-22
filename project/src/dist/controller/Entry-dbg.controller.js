@@ -21,7 +21,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			formatter: formatter,
 			clearOnSend: false,
 			onInit: function() {
-				debugger
+
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				// that.getView().setBusy(true);
@@ -1101,10 +1101,14 @@ sap.ui.define(["victoria/controller/BaseController",
 							sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 							that.clearOnSend = true;
 							that.onClear();
+							that.getView().byId("idCash").focus();
+							that.getView().byId("idCash").$().find("input").select();
+							that.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 						}).catch(function(oError) {
 							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
+							that.getView().byId("DateId").setDateValue(new Date(myData.Date));
+							// var oPopover = that.getErrorMessage(oError);
 						});
 					// this.getView().byId("DateId").setDateValue( new Date());
 					// this.byId("DueDateId").setDateValue( new Date());
@@ -1158,6 +1162,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idMat").setValue("");
 				}
+				this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 			},
 
@@ -1340,7 +1345,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			},
 
 			onClear: function() {
-debugger;
+
 				var oFilter = [];
 				var myData = this.getView().getModel("local").getProperty("/EntryData");
 				var check = this.getView().byId("CBID").getSelected();
@@ -1358,9 +1363,10 @@ debugger;
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
+						return;
 					}
 					jQuery.sap.delayedCall(100, this, function() {
-						this.getView().byId("idCust").focus();
+						this.getView().byId("idCash").focus();
 					});
 
 					this.byId("idMat").setValue("");
@@ -1386,7 +1392,7 @@ debugger;
 						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(100, this, function() {
-						this.getView().byId("idCust").focus();
+						this.getView().byId("idCash").focus();
 					});
 // this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 					this.byId("idCust").setValue("");
@@ -1409,7 +1415,10 @@ debugger;
 					this.getView().byId("idTable").getBinding("items").filter([]);
 					this.getView().byId("idTable1").getBinding("items").filter([]);
 					this.getView().byId("idTable2").getBinding("items").filter([]);
+					return;
+					// this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 				}
+				this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 			},
 			_getDialog: function(oEvent) {

@@ -40,21 +40,22 @@ sap.ui.define(
 			_onRouteMatched: function(oEvent) {
 				var that = this;
 				this.clearScreen(oEvent);
-				setTimeout(function(){
-					$("input[type='Number']").focus(function () {
+				setTimeout(function() {
+					$("input[type='Number']").focus(function() {
 						$(this).select();
-					});}, 3000);
+					});
+				}, 3000);
 			},
-			onAfterRendering: function(){
-			  $("input[type='Number']").focus(function () {
-			    $(this).select();
-			  });
+			onAfterRendering: function() {
+				$("input[type='Number']").focus(function() {
+					$(this).select();
+				});
 			},
 			valueHelpCustomer: function(oEvent) {
 				this.getCustomerPopup(oEvent);
 			},
-			onEnter:function(oEvent){
-			  this.getCustomer(oEvent);
+			onEnter: function(oEvent) {
+				this.getCustomer(oEvent);
 			},
 			setStatus: function(color) {
 				this.byId("WSHeaderFragment--idSaveIcon").setColor(color);
@@ -63,75 +64,75 @@ sap.ui.define(
 				var currStatus = this.byId("WSHeaderFragment--idSaveIcon").getColor();
 				return currStatus;
 			},
-			moveNext: function(oEvent){
+			moveNext: function(oEvent) {
 				//getsource
 				//getParent
 				//currentcellindex +1
 				//if lastcell
 
 			},
-			onSubmitQuantity: function(oEvent){
+			onSubmitQuantity: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[3].focus();
 			},
-			onSubmitQuantityD: function(oEvent){
+			onSubmitQuantityD: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[4].focus(oEvent);
 			},
-			onSubmitWeight: function(oEvent){
+			onSubmitWeight: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[5].focus();
 				//this.getView().byId("IdWeightD").focus();
 			},
-			onSubmitWeightD: function(oEvent){
+			onSubmitWeightD: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[6].focus(oEvent);
 			},
-			onSubmitMaking: function(oEvent){
+			onSubmitMaking: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[7].focus();
 			},
-			onSubmitMakingD: function(oEvent){
+			onSubmitMakingD: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[8].focus();
 			},
-			onSubmitTunch: function(oEvent){
+			onSubmitTunch: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[9].focus();
 			},
-			onReturnSubmitWeight: function(oEvent){
+			onReturnSubmitWeight: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[2].focus();
 			},
-			onReturnSubmitKWeight: function(oEvent){
+			onReturnSubmitKWeight: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[3].focus();
 			},
-			onReturnSubmitTunch: function(oEvent){
+			onReturnSubmitTunch: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[4].focus();
 			},
-			onReturnSubmitQty: function(oEvent){
+			onReturnSubmitQty: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[5].focus();
 			},
-			onReturnSubmitBhav: function(oEvent){
+			onReturnSubmitBhav: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[6].focus();
 			},
-			onReturnSubmitDropdown: function (oEvent) {
+			onReturnSubmitDropdown: function(oEvent) {
 				var oCurrentControl = oEvent.getSource();
 				var oRow = oCurrentControl.getParent();
 				oRow.getCells()[1].focus();
@@ -286,16 +287,17 @@ sap.ui.define(
 						} else if (oData.SummaryMode == "S") {
 							that.getView().byId("WSHeaderFragment--RB-3").setSelected(true);
 						}
-						var customerCity =  customerData.City;
+						var customerCity = customerData.City;
 						that.getView().getModel("local").setProperty("/WSOrderHeader", oData);
 						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId", customerData.CustomerCode);
-						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
+						that.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerName", customerData.Name + " - " + that.allMasterData.cities[
+							customerCity].cityName);
 						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
 						var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 						that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
-						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-						// assign the details on ui
-						//   var that2 = this;
+							// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+							// assign the details on ui
+							//   var that2 = this;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 								"/WSOrderHeaders('" + orderId + "')/ToWSOrderItem",
 								"GET", {}, {}, that)
@@ -396,9 +398,9 @@ sap.ui.define(
 				dateFrom.setHours(0, 0, 0, 1)
 				var dateTo = new Date(orderDate);
 				dateTo.setHours(23, 59, 59, 59)
-				//Now you have to have 2 date Object
-				//firstDate object set the time to 000000 second object 240000
-				//now create 2 filter one ge low and two le High
+					//Now you have to have 2 date Object
+					//firstDate object set the time to 000000 second object 240000
+					//now create 2 filter one ge low and two le High
 
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
@@ -482,7 +484,8 @@ sap.ui.define(
 			},
 			WSCalculation: function(oEvent) {
 
-				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+				var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent()
+					.getBindingContext("orderItems").getPath());
 				var oCurrentRow = oEvent.getSource().getParent();
 				var cells = oCurrentRow.getCells();
 				var fieldId = oEvent.getSource().getId().split('---')[1].split('--')[2].split('-')[0];
@@ -644,8 +647,8 @@ sap.ui.define(
 					};
 
 				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
-				(category.Type === 'GLD' && category.Category === "pcs") ||
-				(category.Type === 'SLV' && category.Category === "pcs") ||
+					(category.Type === 'GLD' && category.Category === "pcs") ||
+					(category.Type === 'SLV' && category.Category === "pcs") ||
 					(category.Type === 'Silver' && category.Category === "pcs")) {
 					//get the weight
 					if (fieldId === "IdWeight") {
@@ -953,17 +956,17 @@ sap.ui.define(
 				oHeaderT.BalanceSuffix = "";
 				var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 				postedEntryData.Customer = "";
-				postedEntryData.Date ="";
-				postedEntryData.OrderNo ="";
-				postedEntryData.OrderType ="";
-				postedEntryData.Remarks ="";
-				postedEntryData.id ="";
-				postedEntryData.Cash ="";
-				postedEntryData.ChangedBy="";
-				postedEntryData.ChangedOn="";
-				postedEntryData.CreatedBy="";
-				postedEntryData.CreatedOn="";
-				that.getView().getModel('local').setProperty('/EntryData',postedEntryData);
+				postedEntryData.Date = "";
+				postedEntryData.OrderNo = "";
+				postedEntryData.OrderType = "";
+				postedEntryData.Remarks = "";
+				postedEntryData.id = "";
+				postedEntryData.Cash = "";
+				postedEntryData.ChangedBy = "";
+				postedEntryData.ChangedOn = "";
+				postedEntryData.CreatedBy = "";
+				postedEntryData.CreatedOn = "";
+				that.getView().getModel('local').setProperty('/EntryData', postedEntryData);
 				this.getView().byId("WSHeaderFragment--RB-4").setSelected(true);
 				this.getView().byId("WSHeaderFragment--custName").setText("");
 				this.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
@@ -1050,126 +1053,127 @@ sap.ui.define(
 						actions: ["Delete selected entries", sap.m.MessageBox.Action.CLOSE],
 						onClose: function(sButton) {
 
-							if (sButton === "Delete selected entries") {
-								// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
-								for (var i = selIdxs.length - 1; i >= 0; --i) {
+								if (sButton === "Delete selected entries") {
+									// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
+									for (var i = selIdxs.length - 1; i >= 0; --i) {
+										if (oSourceCall === 'WSItemFragment--orderItemBases') {
+											var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+											var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
+											var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+											var date = that.getView().byId("WSHeaderFragment--DateId").getDateValue();
+											// TotalOrderValueCash: 0,
+											// TotalOrderValueGold: 0,
+											// TotalOrderValueSilver: 0,
+											var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
+											var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+											if (subtotalItem) {
+												that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
+												var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
+												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
+											}
+											var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
+											if (subtotalItemS) {
+												that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
+												var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
+												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+											}
+
+											var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
+											if (subtotalItemG) {
+												that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
+												var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
+												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+											}
+											that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
+											that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
+											that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
+											if (that.FinalBalanceCash === 0) {
+												var FinalBalanceCash = 0;
+											} else {
+												var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
+											}
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
+
+											if (that.FinalBalanceGold === 0) {
+												var FinalBalanceGold = 0;
+											} else {
+												var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
+											}
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+
+											if (that.FinalBalanceSilver === 0) {
+												var FinalBalanceSilver = 0;
+											} else {
+												var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
+											}
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+											// If row contains id(which means it has been saved in DB)
+											if (id) {
+
+												var stockData = that.getView().getModel('local').getProperty('/stockMaint')
+												stockData.Product = pid;
+												stockData.OrderItemId = id;
+												stockData.Date = date;
+												stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
+												stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
+												var myUrl = "/WSOrderItems('" + id + "')"
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+													"DELETE", {}, {}, that)
+												$.post("/StockDelete", {
+														Stock: stockData
+													})
+													.then(function(result) {
+
+														var stockId = result.id;
+														that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+															"/stockMaints('" + stockId + "')",
+															"DELETE", {}, {}, that)
+													});
+											} else {
+												that.setStatus("red");
+											};
+											var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+											oTableData.splice(selIdxs[i], 1);
+											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+											oTableData.push({
+												"OrderNo": "",
+												"itemNo": "",
+												"Material": "",
+												"MaterialCode": "",
+												"Description": "",
+												"Qty": 0,
+												"QtyD": 0,
+												"Weight": 0,
+												"WeightD": 0,
+												"Making": 0,
+												"MakingD": 0,
+												"Tunch": 0,
+												"Remarks": "",
+												"SubTotal": 0,
+												"SubTotalS": 0,
+												"SubTotalG": 0,
+												"Category": "",
+												"CreatedBy": "",
+												"CreatedOn": "",
+												"ChangedBy": "",
+												"ChangedOn": ""
+											});
+											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+											sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
+										} //sourcecallCheck
+										else if (oSourceCall === 'OrderReturn') {
+
+											that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
+										} //order return else part
+									} //for i loop
 									if (oSourceCall === 'WSItemFragment--orderItemBases') {
-										var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-										var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
-										var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
-										var date = that.getView().byId("WSHeaderFragment--DateId").getDateValue();
-										// TotalOrderValueCash: 0,
-										// TotalOrderValueGold: 0,
-										// TotalOrderValueSilver: 0,
-										var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
-										var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-										if (subtotalItem) {
-											that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
-											var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
-										}
-										var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
-										if (subtotalItemS) {
-											that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
-											var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
-										}
-
-
-										var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
-										if (subtotalItemG) {
-											that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
-											var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
-										}
-										that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
-										that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
-										that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
-										if (that.FinalBalanceCash === 0) {
-											var FinalBalanceCash = 0;
-										} else {
-											var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
-										}
-										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
-
-										if (that.FinalBalanceGold === 0) {
-											var FinalBalanceGold = 0;
-										} else {
-											var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
-										}
-										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
-
-										if (that.FinalBalanceSilver === 0) {
-											var FinalBalanceSilver = 0;
-										} else {
-											var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
-										}
-										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
-										// If row contains id(which means it has been saved in DB)
-										if (id) {
-
-											var stockData = that.getView().getModel('local').getProperty('/stockMaint')
-											stockData.Product = pid;
-											stockData.OrderItemId = id;
-											stockData.Date = date;
-											stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
-											stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
-											var myUrl = "/WSOrderItems('" + id + "')"
-											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-												"DELETE", {}, {}, that)
-												$.post("/StockDelete",{Stock: stockData})
-									      .then(function(result){
-
-									        var stockId = result.id;
-									        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-									                                  "/stockMaints('" + stockId + "')",
-									                                      "DELETE", {}, {}, that)
-									      });
-										} else {
-											that.setStatus("red");
-										};
-										var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-										oTableData.splice(selIdxs[i], 1);
-										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-										oTableData.push({
-											"OrderNo": "",
-											"itemNo": "",
-											"Material": "",
-											"MaterialCode": "",
-											"Description": "",
-											"Qty": 0,
-											"QtyD": 0,
-											"Weight": 0,
-											"WeightD": 0,
-											"Making": 0,
-											"MakingD": 0,
-											"Tunch": 0,
-											"Remarks": "",
-											"SubTotal": 0,
-											"SubTotalS": 0,
-											"SubTotalG": 0,
-											"Category": "",
-											"CreatedBy": "",
-											"CreatedOn": "",
-											"ChangedBy": "",
-											"ChangedOn": ""
-										});
-										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-										sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
-									} //sourcecallCheck
-									else if (oSourceCall === 'OrderReturn') {
-
-										that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
-									} //order return else part
-								} //for i loop
-								if (oSourceCall === 'WSItemFragment--orderItemBases') {
-									that.getView().byId('WSItemFragment--orderItemBases').clearSelection();
-								} else {
-									that.getView().byId('OrderReturn').clearSelection();
-								}
-							} //sButton
-							// sap.m.MessageToast.show("Selected lines are deleted");
-						} //onclose
+										that.getView().byId('WSItemFragment--orderItemBases').clearSelection();
+									} else {
+										that.getView().byId('OrderReturn').clearSelection();
+									}
+								} //sButton
+								// sap.m.MessageToast.show("Selected lines are deleted");
+							} //onclose
 					}); //Messagebox
 				} // if selindx length check
 				else { // if selindx length check
@@ -1191,31 +1195,31 @@ sap.ui.define(
 					MessageBox.confirm(that.resourceBundle.getText("Change11"), {
 						title: "Confirm", // default
 						onClose: function(sButton) {
-							if (sButton === MessageBox.Action.OK) {
+								if (sButton === MessageBox.Action.OK) {
 
-								var orderdate = that.getView().getModel('local').getProperty('/WSOrderHeader').Date;
-								var customerNo = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-								var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
-								var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
-								var order = that.getView().getModel('local').getProperty('/WSOrderHeader')
-								that.clearScreen(oEvent);
-								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
-								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
-								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
-								if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
-									var SummaryMode = "C";
-								} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
-									var SummaryMode = "G";
-								} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
-									var SummaryMode = "S";
-								} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
-									var SummaryMode = "O";
-								}
-								that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
-								// that.clearScreen(oEvent);
-								that.newOrderCreate();
-							} //Sbutton if condition
-						} //onClose
+									var orderdate = that.getView().getModel('local').getProperty('/WSOrderHeader').Date;
+									var customerNo = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+									var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
+									var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
+									var order = that.getView().getModel('local').getProperty('/WSOrderHeader')
+									that.clearScreen(oEvent);
+									that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
+									that.getView().byId("WSHeaderFragment--custName").setText(customerName);
+									that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
+									if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+										var SummaryMode = "C";
+									} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+										var SummaryMode = "G";
+									} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+										var SummaryMode = "S";
+									} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+										var SummaryMode = "O";
+									}
+									that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
+									// that.clearScreen(oEvent);
+									that.newOrderCreate();
+								} //Sbutton if condition
+							} //onClose
 					});
 				} else {
 					that.newOrderCreate();
@@ -1228,10 +1232,11 @@ sap.ui.define(
 
 				var orderData = this.getView().getModel('local').getProperty("/WSOrderHeader");
 				if (orderData.Customer === "") {
-					this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText("Please choose Customer before creating Order");
+					this.getView().byId("WSHeaderFragment--customerId").setValueState("Error").setValueStateText(
+						"Please choose Customer before creating Order");
 					that.getView().setBusy(false);
 				} else {
-						this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
+					this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
 					if (orderData) {
 						orderData.id = "";
 						orderData.CreatedBy = "";
@@ -1556,18 +1561,18 @@ sap.ui.define(
 
 			onSuggest: function(oEvent) {
 				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
-			const key = oEvent.key
-			var id1 = oEvent.getParameter("id").split("--")[2]
-			// if() alert('backspace');
+				var key = oEvent.key;
+				var id1 = oEvent.getParameter("id").split("--")[2]
+					// if() alert('backspace');
 				var searchStr = oEvent.getParameter("suggestValue");
-				if(searchStr === "" || key == 8 || key === "Backspace" || key === "Delete"){
-						this.getView().byId("customerId").setValue("");
+				if (searchStr === "" || key == 8 || key === "Backspace" || key === "Delete") {
+					this.getView().byId("customerId").setValue("");
 					return;
 				}
-				if(!searchStr) {
+				if (!searchStr) {
 					searchStr = oEvent.getParameter("newValue");
 				}
-				if(searchStr){
+				if (searchStr) {
 					var oFilter = new sap.ui.model.Filter({
 						filters: [
 							new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase()),
@@ -1580,18 +1585,16 @@ sap.ui.define(
 				oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
 				var oSorter = new sap.ui.model.Sorter({
 
-							path: "CustomerCode",
-							descending: false
+					path: "CustomerCode",
+					descending: false
 
-						});
-		oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
+				});
+				oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 				this.getView().byId("customerId").setValue(searchStr);
 
-								// this.getView().byId("idCash").focus();
-								// this.getView().byId("idCash").$().find("input").select();
+				// this.getView().byId("idCash").focus();
+				// this.getView().byId("idCash").$().find("input").select();
 			},
-
-
 
 			commitRecords: function(oEvent) {
 				if (this.getStatus() === 'red') {
@@ -1701,16 +1704,16 @@ sap.ui.define(
 										that.getView().setBusy(false);
 										var oPopover = that.getErrorMessage(oError);
 									});
-									that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-											"/Products('" + oOrderDetailsClone.Material + "')",
-											"PUT", {}, {
-												"CustomerTunch": oOrderDetailsClone.Tunch
-											}, that)
-										.then(function(oData) {})
-										.catch(function(oError) {
-											that.getView().setBusy(false);
-											var oPopover = that.getErrorMessage(oError);
-										});
+								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+										"/Products('" + oOrderDetailsClone.Material + "')",
+										"PUT", {}, {
+											"CustomerTunch": oOrderDetailsClone.Tunch
+										}, that)
+									.then(function(oData) {})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
 							}
 						}
 					}
@@ -1792,46 +1795,46 @@ sap.ui.define(
 				}
 
 				if ((category.Type === 'Gold' && category.Category === "gm") ||
-				(category.Type === 'GLD' && category.Category === "gm") ||
-				(category.Type === 'SLV' && category.Category === "gm") ||
+					(category.Type === 'GLD' && category.Category === "gm") ||
+					(category.Type === 'SLV' && category.Category === "gm") ||
 					(category.Type === 'Silver' && category.Category === "gm")) {
 
 					//get the final weight // X=Weight - WeightD
 					if (data.WeightD !== "" || data.WeightD !== 0) {
-						if (data.Tunch) {
-
-							// var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
-							var weightF = data.Weight
-						}else {
-							var weightF = data.Weight - data.WeightD;
-						}
+						// if (data.Tunch) {
+						//
+						// 	// var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
+						// 	var weightF = data.Weight
+						// } else {
+						var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
+						// }
 
 					} else {
 
-						if(data.Tunch) {
-							var weightF = (data.Weight)*(data.Tunch/100);
-						}else {
-							var weightF = data.Weight;
-						}
+						// if (data.Tunch) {
+						var weightF = (data.Weight) * (data.Tunch / 100);
+						// } else {
+						// 	var weightF = data.Weight;
+						// }
 
 					}
 					if (category.Type === 'Gold' || category.Type === 'GLD') {
 						//get the gold price
 						if (category.Karat === '22/22') {
-							if(data.Tunch){
-								weightF=weightF*(data.Tunch/100);
+							if (data.Tunch) {
+								weightF = weightF * (data.Tunch / 100);
 							}
 							priceF = weightF * goldBhav;
 						} else
 						if (category.Karat === '22/20') {
-							if(data.Tunch){
-								weightF=weightF*(data.Tunch/100);
+							if (data.Tunch) {
+								weightF = weightF * (data.Tunch / 100);
 							}
 							priceF = weightF * goldBhav;
 						}
 					} else if (category.Type === 'Silver' || category.Type === 'SLV') {
-						if(data.Tunch!==0){
-							weightF=weightF*(data.Tunch/100);
+						if (data.Tunch !== 0) {
+							weightF = weightF * (data.Tunch / 100);
 						}
 
 						priceF = weightF * silverBhav;
@@ -1841,7 +1844,6 @@ sap.ui.define(
 					// var makingCharges = data.Making * weightF;
 					var makingCharges = data.Making * category.Weight
 					var stonevalue = data.QtyD * data.MakingD;
-
 
 					// if ((makingCharges || stonevalue) ||
 					// 	(makingCharges === 0 || stonevalue === 0)) {
@@ -1857,9 +1859,15 @@ sap.ui.define(
 					// 		cells[cells.length - 1].setText(subTotF);
 					// 	}
 					// }
-					if ((priceF || makingCharges || stonevalue) ||
-						(priceF === 0 || makingCharges === 0 || stonevalue === 0)) {
-						var subTot = (priceF + makingCharges + stonevalue);
+					if ((makingCharges || stonevalue) ||
+						(makingCharges === 0 || stonevalue === 0)) {
+						if (data.Tunch === 0 || data.Tunch === undefined || data.Tunch === "" || data.Tunch === " " ||
+							data.tunch === "0") {
+							var subTot = (priceF + makingCharges + stonevalue);
+						} else {
+							var subTot = (makingCharges + stonevalue);
+						}
+
 						subTot = parseFloat(subTot.toFixed(2));
 
 						// if ((data.SubTotal) && (data.SubTotal != "")) {
@@ -1876,9 +1884,9 @@ sap.ui.define(
 						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', orderAmountF);
 						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', orderAmountF);
 						// this.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', orderAmountF);
-						if(subTot === 0){
+						if (subTot === 0) {
 							subTotF = "0"
-						}else{
+						} else {
 							var subTotF = this.getIndianCurr(subTot);
 						}
 
@@ -1900,21 +1908,20 @@ sap.ui.define(
 								cells[cells.length - 1].setText('0');
 							}
 						}
-					}else {
+					} else {
 						cells[cells.length - 1].setText(0);
 					};
 
-
 				} else if ((category.Type === 'Gold' && category.Category === "pcs") ||
-				(category.Type === 'GLD' && category.Category === "pcs") ||
-				(category.Type === 'SLV' && category.Category === "pcs") ||
+					(category.Type === 'GLD' && category.Category === "pcs") ||
+					(category.Type === 'SLV' && category.Category === "pcs") ||
 					(category.Type === 'Silver' && category.Category === "pcs")) {
 
 					//get the final weight // X=Weight - WeightD
 					if (data.WeightD !== "" ||
 						data.WeightD !== 0) {
 
-						var weightF = data.Weight - data.WeightD;
+						var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
 
 					} else {
 						var weightF = data.Weight;
@@ -1925,10 +1932,15 @@ sap.ui.define(
 
 					var stonevalue = data.QtyD * data.MakingD;
 
-
 					if ((makingCharges || stonevalue) ||
 						(makingCharges === 0 || stonevalue === 0)) {
-						var subTot = makingCharges + stonevalue;
+						if (data.Tunch === 0 || data.Tunch === undefined || data.Tunch === "" || data.Tunch === " " ||
+							data.tunch === "0") {
+							var subTot = (priceF + makingCharges + stonevalue);
+						} else {
+							var subTot = (makingCharges + stonevalue);
+						}
+						// var subTot = makingCharges + stonevalue;
 						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
@@ -1952,7 +1964,13 @@ sap.ui.define(
 					var chargesD = data.QtyD * data.MakingD;
 					//final charges on GS
 					if (charges) {
-						var subTot = charges + chargesD;
+						if (data.Tunch === 0 || data.Tunch === undefined || data.Tunch === "" || data.Tunch === " " ||
+							data.tunch === "0") {
+							var subTot = (priceF + charges + chargesD);
+						} else {
+							var subTot = (charges + chargesD);
+						}
+						// var subTot = charges + chargesD;
 						subTot = parseFloat(subTot).toFixed(0);
 						var subTotF = this.getIndianCurr(subTot);
 						if (tablePath) {
@@ -1977,38 +1995,37 @@ sap.ui.define(
 					SubTotalG = parseFloat(SubTotalG).toFixed(3);
 					// var FSubTotalS = this.getIndianCurr(SubTotalS);
 					if (tablePath) {
-						if(data.Weight && data.Tunch){
-								category.SubTotalS = SubTotalS;
-									category.SubTotalG = SubTotalG;
-									category.SubTotal = 0;
-							}
+						if (data.Weight && data.Tunch) {
+							category.SubTotalS = SubTotalS;
+							category.SubTotalG = SubTotalG;
+							category.SubTotal = subTotF;
+						}
 
-							if((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)){
-								category.SubTotal = subTotF;
-								category.SubTotalS = 0;
-								category.SubTotalG = 0;
-							}
+						if ((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)) {
+							category.SubTotal = subTotF;
+							category.SubTotalS = SubTotalS;
+							category.SubTotalG = SubTotalG;
+						}
 						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
-						if(data.Weight && data.Tunch){
+						if (data.Weight && data.Tunch) {
 
-						category.SubTotalS = SubTotalS;
+							category.SubTotalS = SubTotalS;
 							category.SubTotalG = SubTotalG;
-							category.SubTotal = 0;
-					}
+							category.SubTotal = subTotF;
+						}
 
-					if((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)){
-						category.SubTotal = subTotF;
-						category.SubTotalS = 0;
-						category.SubTotalG = 0;
-					}
+						if ((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)) {
+							category.SubTotal = subTotF;
+							category.SubTotalS = SubTotalS;
+							category.SubTotalG = SubTotalG;
+						}
 						cells[cells.length - 3].setText(category.SubTotalS);
 						cells[cells.length - 2].setText(category.SubTotalG);
 					}
 
 				} else if (category.Type === "Gold" || category.Type === 'GLD') {
-
 
 					// var SubTotalG = weightF * data.Tunch / 100;
 					var SubTotalG = weightF;
@@ -2018,32 +2035,32 @@ sap.ui.define(
 					// var FSubTotalG = this.getIndianCurr(SubTotalG);
 					if (tablePath) {
 
-						if(data.Weight && data.Tunch){
-						category.SubTotalS = SubTotalS;
-							category.SubTotalG = SubTotalG;
-							category.SubTotal = 0;
-					}
+						// if (data.Weight && data.Tunch) {
+						// 	category.SubTotalS = SubTotalS;
+						// 	category.SubTotalG = SubTotalG;
+						// 	category.SubTotal = 0;
+						// }
 
-					if((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)){
-						category.SubTotal = subTotF;
-						category.SubTotalS = 0;
-						category.SubTotalG = 0;
-					}
+						if ((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)) {
+							category.SubTotal = subTotF;
+							category.SubTotalS = SubTotalS;
+							category.SubTotalG = SubTotalG;
+						}
 						// this.setStatus('red');
 						this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").setProperty(tablePath, category);
 					} else {
 
-						if(data.Weight && data.Tunch){
-						category.SubTotalS = SubTotalS;
-							category.SubTotalG = SubTotalG;
-							category.SubTotal = 0;
-					}
+						// if (data.Weight && data.Tunch) {
+						// 	category.SubTotalS = SubTotalS;
+						// 	category.SubTotalG = SubTotalG;
+						// 	category.SubTotal = 0;
+						// }
 
-					if((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)){
-						category.SubTotal = subTotF;
-						category.SubTotalS = 0;
-						category.SubTotalG = 0;
-					}
+						if ((data.Weight && data.Tunch) && (data.QtyD || data.WeightD || data.Making || data.MakingD)) {
+							category.SubTotal = subTotF;
+							category.SubTotalS = SubTotalS;
+							category.SubTotalG = SubTotalG;
+						}
 						cells[cells.length - 2].setText(category.SubTotalG);
 						cells[cells.length - 3].setText(category.SubTotalS);
 					}
@@ -2143,10 +2160,10 @@ sap.ui.define(
 					data.Making = 0;
 					// making = 0;
 				} else {
-					if(data.Making){
+					if (data.Making) {
 						var making = data.Making.toString();
 						data.Making = oFloatFormat.parse(making);
-				 }
+					}
 				}
 
 				//MakindD
@@ -2209,10 +2226,10 @@ sap.ui.define(
 					data.Tunch = 0;
 					// var tunch = 0;
 				} else {
-					if(data.Tunch){
-					var tunch = data.Tunch.toString();
-					data.Tunch = oFloatFormat.parse(tunch);
-				}
+					if (data.Tunch) {
+						var tunch = data.Tunch.toString();
+						data.Tunch = oFloatFormat.parse(tunch);
+					}
 					// tunch = data.Tunch;
 				}
 			},
@@ -2228,7 +2245,8 @@ sap.ui.define(
 						var cells = this.getView().byId("WSItemFragment--orderItemBases")._getVisibleColumns();
 					}
 				} else {
-					var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent().getBindingContext("orderItems").getPath());
+					var category = this.getView().byId("WSItemFragment--orderItemBases").getModel("orderItems").getProperty(oEvent.getSource().getParent()
+						.getBindingContext("orderItems").getPath());
 					var path = this.getView().byId("WSItemFragment--orderItemBases").getBinding().getPath() + '/' + oEvent.getSource().getParent().getIndex();
 					var oCurrentRow = oEvent.getSource().getParent();
 					var cells = oCurrentRow.getCells();
@@ -2245,10 +2263,10 @@ sap.ui.define(
 				// var gold22pergm = orderHeader.GoldBhav22 / 10;
 				// var gold20pergm = orderHeader.GoldBhav20 / 10;
 				// var silverpergm = orderHeader.SilverBhav / 1000;
-				var goldBhav = orderHeader.Goldbhav/10;
-				var goldBhavK = orderHeader.GoldbhavK/10;
-				var silverBhav = orderHeader.SilverBhav/1000;
-				var silverBhavK = orderHeader.SilverBhavK/1000;
+				var goldBhav = orderHeader.Goldbhav / 10;
+				var goldBhavK = orderHeader.GoldbhavK / 10;
+				var silverBhav = orderHeader.SilverBhav / 1000;
+				var silverBhavK = orderHeader.SilverBhavK / 1000;
 				var quantityOfStone = data.QtyD;
 				var oLocale = new sap.ui.core.Locale("en-US");
 				var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
@@ -2262,12 +2280,12 @@ sap.ui.define(
 							.then(function(oData) {
 
 								category.Category = oData.Category;
-								if(!category.Making || category.Making === 0){
-				          category.Making = oData.Making;
-				        }
-								if(!category.Tunch || category.Tunch === 0){
-				          category.Tunch = oData.Tunch;
-				        }
+								if (!category.Making || category.Making === 0) {
+									category.Making = oData.Making;
+								}
+								if (!category.Tunch || category.Tunch === 0) {
+									category.Tunch = oData.Tunch;
+								}
 								category.Type = oData.Type;
 								// category.Karat = oData.Karat;
 								that.PreCalc(data, fieldId, newValue, oFloatFormat);
@@ -2283,7 +2301,7 @@ sap.ui.define(
 								var oPopover = that.getErrorMessage(oError);
 							});
 					}
-				}else{
+				} else {
 					that.PreCalc(data, fieldId, newValue, oFloatFormat);
 					that.finalCalculation(category, data, priceF, tablePath, cells,
 						quantityOfStone, goldBhav, goldBhavK, silverBhav, silverBhavK);
@@ -2595,103 +2613,370 @@ sap.ui.define(
 
 				var that = this;
 				var id = oEvent.getSource().getId().split('---')[1];
-				if(id !== undefined){
+				if (id !== undefined) {
 					if (id.split('--')[0] === 'idsalesws') {
 						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 					}
 				}
-				var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-				if(fragIndicator){
-						fragIndicator.setColor("red");
+				var fragIndicator = sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+				if (fragIndicator) {
+					fragIndicator.setColor("red");
 				}
-				var oModel= oEvent.getSource().getParent().getBindingContext("orderItems");
+				var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
 				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
 				var orderId = null;
-				if(!oModel){
+				if (!oModel) {
 
 					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
 					orderId = oHeader.id;
 					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
-					if(!orderId){
-						var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
+					if (!orderId) {
+						var oFilter = new sap.ui.model.Filter("OrderNo", "EQ", oHeader.OrderNo);
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-										"/WSOrderHeaders",
-										"GET", {filters: [oFilter]}, {}, that)
-										.then(function(oData) {
+								"/WSOrderHeaders",
+								"GET", {
+									filters: [oFilter]
+								}, {}, that)
+							.then(function(oData) {
 
-												orderId =  oData.results[oData.results.length - 1].id;
-												orderNoPath = orderNoPath + "/OrderNo";
-												that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
-										})
-						}
-					else{
+								orderId = oData.results[oData.results.length - 1].id;
+								orderNoPath = orderNoPath + "/OrderNo";
+								that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+							})
+					} else {
 						orderNoPath = orderNoPath + "/OrderNo";
 						that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
 					}
 				}
-				var oModelForRow= oModel.getModel('local');
+				var oModelForRow = oModel.getModel('local');
 				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
-				if(!sBinding){
-					 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				if (!sBinding) {
+					sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
 				}
-				var sRowPath =  sBinding.getPath();
-				var selData =  oModelForRow.getProperty(sRowPath + "/MaterialCode");
-			  var oFilter = new sap.ui.model.Filter("ProductCode","EQ", selData.toUpperCase());
+				var sRowPath = sBinding.getPath();
+				var selData = oModelForRow.getProperty(sRowPath + "/MaterialCode");
+				var oFilter = new sap.ui.model.Filter("ProductCode", "EQ", selData.toUpperCase());
 				var currentBoxId = oEvent.getSource().getId();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-				"/Products", "GET", {filters: [oFilter]}, {}, this)
-				 .then(function(oData) {
-					 console.log(oData.results[0]);
-					 if(oData.results[0]){
+						"/Products", "GET", {
+							filters: [oFilter]
+						}, {}, this)
+					.then(function(oData) {
+						console.log(oData.results[0]);
+						if (oData.results[0]) {
 
-						 	if(currentBoxId.includes("fr2")){
-								 that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
-						 }
-						 else{
-							 that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
-						 }
-					 }
+							if (currentBoxId.includes("fr2")) {
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
+							} else {
+								that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+							}
+						}
 
-					 var selectedMatData = oData.results[0];
-					 oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
-					 if(selectedMatData.HindiName){
-	 					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
-	 				}
-	 				else{
-	 						oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
-	 				}
-					 oModelForRow.setProperty(sRowPath + "/MaterialCode", selectedMatData.ProductCode);
-					 //Making
-					 if (selectedMatData.Making) {
-						 oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
-					 } else {
-						 oModelForRow.setProperty(sRowPath + "/Making", 0);
-					 }
+						var selectedMatData = oData.results[0];
+						oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
+						if (selectedMatData.HindiName) {
+							oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
+						} else {
+							oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+						}
+						oModelForRow.setProperty(sRowPath + "/MaterialCode", selectedMatData.ProductCode);
+						//Making
+						if (selectedMatData.Making) {
+							oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+						} else {
+							oModelForRow.setProperty(sRowPath + "/Making", 0);
+						}
 
-					if (selectedMatData.PricePerUnit) {
-	 					oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
-	 				} else {
-	 					oModelForRow.setProperty(sRowPath + "/MakingD", 0);
-	 				}
+						if (selectedMatData.PricePerUnit) {
+							oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+						} else {
+							oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+						}
 
-	 				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
-	 				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
-	 				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
+						oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
+						oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+						oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
 
-					if(id !== undefined){
-						if (id.split('--')[0] === 'idsalesws') {
-						var Customer = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+						if (id !== undefined) {
+							if (id.split('--')[0] === 'idsalesws') {
+								var Customer = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+								var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
+								var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
+								var oFilter = new sap.ui.model.Filter({
+									filters: [oFilter1, oFilter2],
+									and: true
+								})
+								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+										// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
+										"/WSTunchs", "GET", {
+											filters: [oFilter1, oFilter2]
+										}, null, that)
+									.then(function(oData) {
+
+										if (oData.results.length > 0) {
+											selectedMatData.Making = oData.results[0].Making;
+											selectedMatData.Tunch = oData.results[0].Tunch;
+										}
+
+										if (selectedMatData.Tunch) {
+											oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+										}
+										if (selectedMatData.Making) {
+											oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+										}
+									})
+									.catch(function(oError) {
+
+										if (selectedMatData.Tunch) {
+											oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+										} else {
+											oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+										}
+									});
+
+							}
+						}
+					}).catch(function(oError) {
+						// MessageToast.show("cannot fetch the data");
+					});
+
+			},
+			onDialogClose: function(oEvent) {
+				this.wsMaterialPopup.close();
+			},
+
+			onDialogSave: function(oEvent) {
+
+				var that = this;
+				var oTableDetails = sap.ui.core.Fragment.byId("fr2", "materialPopupTable");
+				var oBinding = oTableDetails.getBinding("rows");
+				var arr = [];
+				var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+
+				var flag = false;
+				var fragIndicator = sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+
+				for (let i = 0; i < oBinding.getLength(); i++) {
+					var that = this;
+					var data = oBinding.oList[i];
+					if (data.id === "") {
+						if (data.MaterialCode !== "") {
+							if (fragIndicator) {
+								fragIndicator.setColor("red");
+							}
+							if (data.Qty > 0) {
+
+							} else {
+								flag = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (flag === true) {
+					sap.m.MessageBox.error(that.resourceBundle.getText("Quantity11"));
+					oEvent.getSource().setEnabled(false);
+				} else {
+					for (let i = 0; i < oBinding.getLength(); i++) {
+						var that = this;
+						var data = oBinding.oList[i];
+						if (data.id === "") {
+							if (data.MaterialCode !== "") {
+								if (data.Qty > 0) {
+									var payload = {
+										data
+									};
+									payload.Qty = Math.abs(payload.Qty) * -1;
+									this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
+											"POST", {}, payload, this)
+										.then(function(oData) {
+											that.getView().setBusy(false);
+
+											allItems[i].id = oData.id;
+											sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
+											if (fragIndicator) {
+												fragIndicator.setColor("green");
+											}
+											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+										}).catch(function(oError) {
+											that.getView().setBusy(false);
+											var oPopover = that.getErrorMessage(oError);
+										});
+								}
+							}
+						}
+					}
+				}
+			},
+
+			wsMaterialPopup: null,
+			onFindMaterial: function() {
+
+				var that = this;
+				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				if (oHeader.OrderNo !== 0 &&
+					oHeader.OrderNo !== "") {
+					if (!this.wsMaterialPopup) {
+						this.wsMaterialPopup = new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog", this);
+						this.getView().addDependent(this.wsMaterialPopup);
+					}
+					that.clearPopupScreen();
+					var orderId = oHeader.id;;
+					var oFilter = null;
+					if (!orderId) {
+						var oFilter = new sap.ui.model.Filter("OrderNo", "EQ", oHeader.OrderNo);
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+								"/WSOrderHeaders",
+								"GET", {
+									filters: [oFilter]
+								}, {}, that)
+							.then(function(oData) {
+
+								orderId = oData.results[oData.results.length - 1].id;
+								orderId = "'" + orderId + "'";
+								oFilter = new sap.ui.model.Filter("OrderNo", "EQ", orderId);
+							});
+					} else {
+						orderId = "'" + orderId + "'";
+						oFilter = new sap.ui.model.Filter("OrderNo", "EQ", orderId);
+					}
+					setTimeout(
+						function() {
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/StockItems",
+									"GET", {
+										filters: [oFilter]
+									}, {}, that)
+								.then(function(oData) {
+
+									if (oData.results.length > 0) {
+										var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
+										for (var i = 0; i < oData.results.length; i++) {
+											var MaterialData = that.allMasterData.materials[oData.results[i].Material];
+											allItems[i].MaterialCode = MaterialData.ProductCode;
+											allItems[i].Qty = Math.abs(oData.results[i].Qty);
+											allItems[i].id = oData.results[i].id;
+											allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
+											allItems[i].OrderNo = oData.results[i].OrderNo;
+										}
+										that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
+									}
+
+									var fragIndicator = sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+									if (fragIndicator) {
+										fragIndicator.setColor("green");
+									}
+								})
+						}, 1000)
+					this.wsMaterialPopup.open();
+					setTimeout(function() {
+						$("input[type='Number']").focus(function() {
+							$(this).select();
+						});
+					}, 300);
+				} else {
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
+				}
+			},
+
+			onMaterialSelect: function(oEvent) {
+
+				var that = this;
+				var id = oEvent.getSource().getId().split('---')[1];
+				if (id !== undefined) {
+					if (id.split('--')[0] === 'idsales') {
+						this.byId("Sales--idSaveIcon").setColor('red');
+					}
+				}
+
+				var fragIndicator = sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
+				if (fragIndicator) {
+					fragIndicator.setColor("red");
+				}
+				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext()
+					.getPath());
+				// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
+				var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
+
+				var orderId = null;
+				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
+				if (!oModel) {
+
+					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+					orderId = oHeader.id;
+					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
+					if (!orderId) {
+						var oFilter = new sap.ui.model.Filter("OrderNo", "EQ", oHeader.OrderNo);
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+								"/WSOrderHeaders",
+								"GET", {
+									filters: [oFilter]
+								}, {}, that)
+							.then(function(oData) {
+
+								orderId = oData.results[oData.results.length - 1].id;
+								orderNoPath = orderNoPath + "/OrderNo";
+								that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+							})
+					} else {
+						orderNoPath = orderNoPath + "/OrderNo";
+						that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
+					}
+				}
+				var oModelForRow = oModel.getModel();
+				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
+				if (!sBinding) {
+					sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
+				}
+
+				var sRowPath = sBinding.getPath();
+
+				oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
+				if (selectedMatData.HindiName) {
+					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
+				}
+				//Making
+				if (selectedMatData.Making) {
+					oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/Making", 0);
+				}
+				//Makind D field
+				if (selectedMatData.PricePerUnit) {
+					oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
+				} else {
+					oModelForRow.setProperty(sRowPath + "/MakingD", 0);
+				}
+
+				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
+				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
+				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
+
+				if (id !== undefined) {
+					if (id.split('--')[0] === 'idsalesws') {
+						var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
 						var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
 						var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
 						var oFilter = new sap.ui.model.Filter({
 							filters: [oFilter1, oFilter2],
 							and: true
 						})
-						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 								// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
 								"/WSTunchs", "GET", {
 									filters: [oFilter1, oFilter2]
-								}, null, that)
+								}, null, this)
 							.then(function(oData) {
 
 								if (oData.results.length > 0) {
@@ -2715,270 +3000,8 @@ sap.ui.define(
 								}
 							});
 
-						}
-					}
-				 }).catch(function(oError) {
-						 // MessageToast.show("cannot fetch the data");
-				 });
-
-			},
-			onDialogClose: function(oEvent){
-				this.wsMaterialPopup.close();
-			 },
-
-			 onDialogSave: function(oEvent){
-
-						var that = this;
-						var oTableDetails = sap.ui.core.Fragment.byId("fr2", "materialPopupTable");
-						var oBinding = oTableDetails.getBinding("rows");
-						var arr = [];
-						var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
-
-						var flag =  false;
-						var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-
-						for (let i = 0; i < oBinding.getLength(); i++) {
-						 var that = this;
-						 var data = oBinding.oList[i];
-						 if (data.id === "") {
-								if (data.MaterialCode !== "") {
-									if(fragIndicator){
-											fragIndicator.setColor("red");
-									}
-									if(data.Qty > 0){
-
-									}
-									else{
-										flag = true;
-										break;
-									}
-								}
-							}
-						}
-
-						if(flag === true){
-							sap.m.MessageBox.error(that.resourceBundle.getText("Quantity11"));
-							oEvent.getSource().setEnabled(false);
-						}
-						else{
-							for (let i = 0; i < oBinding.getLength(); i++) {
-							 var that = this;
-							 var data = oBinding.oList[i];
-									if (data.id === "") {
-										if (data.MaterialCode !== "") {
-												if(data.Qty > 0){
-													var payload = {data};
-													payload.Qty =  Math.abs(payload.Qty) * -1;
-													this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/StockItems",
-																										"POST", {}, payload, this)
-													.then(function(oData) {
-														that.getView().setBusy(false);
-
-														allItems[i].id = oData.id;
-														sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
-														if(fragIndicator){
-																fragIndicator.setColor("green");
-														}
-														that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
-													}).catch(function(oError) {
-														that.getView().setBusy(false);
-														var oPopover = that.getErrorMessage(oError);
-													});
-												}
-										}
-									}
-								}
-						}
-				},
-
-			wsMaterialPopup :  null,
-			onFindMaterial: function(){
-
-				var that = this;
-				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
-				if(oHeader.OrderNo !== 0 &&
-					 oHeader.OrderNo !== ""){
-							if(!this.wsMaterialPopup){
-								this.wsMaterialPopup=new sap.ui.xmlfragment("fr2", "victoria.fragments.tableSelectDialog",this);
-								this.getView().addDependent(this.wsMaterialPopup);
-							}
-							that.clearPopupScreen();
-							var orderId = oHeader.id;;
-							var oFilter =  null;
-							if(!orderId){
-								var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
-								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-												"/WSOrderHeaders",
-												"GET", {filters: [oFilter]}, {}, that)
-												.then(function(oData) {
-
-														orderId =  oData.results[oData.results.length - 1].id;
-														orderId = "'" + orderId + "'";
-														oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
-										});
-							}
-							else{
-								orderId = "'" + orderId + "'";
-								oFilter = new sap.ui.model.Filter("OrderNo","EQ", orderId);
-							}
-							setTimeout(
-								function(){
-									that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-											"/StockItems",
-											"GET", {filters: [oFilter]}, {}, that)
-							.then(function(oData) {
-
-									if (oData.results.length > 0) {
-											var allItems = that.getView().getModel("materialPopupOrderItems").getProperty("/popupItemsData");
-											for (var i = 0; i < oData.results.length; i++) {
-												var MaterialData = that.allMasterData.materials[oData.results[i].Material];
-												allItems[i].MaterialCode = MaterialData.ProductCode;
-												allItems[i].Qty = Math.abs(oData.results[i].Qty);
-												allItems[i].id = oData.results[i].id;
-												allItems[i].Description = MaterialData.HindiName || MaterialData.ProductName;
-												allItems[i].OrderNo = oData.results[i].OrderNo;
-											}
-											that.getView().getModel("materialPopupOrderItems").setProperty("/popupItemsData", allItems);
-									}
-
-									var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-									if(fragIndicator){
-											fragIndicator.setColor("green");
-									}
-							})
-						}, 1000)
-							this.wsMaterialPopup.open();
-							setTimeout(function(){
-								$("input[type='Number']").focus(function () {
-									$(this).select();
-								});}, 300);
-						}
-						else{
-							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderValidation");
-							MessageBox.show(
-								oBundle, {
-									icon: MessageBox.Icon.ERROR,
-									title: "Error",
-									actions: [MessageBox.Action.OK],
-									onClose: function(oAction) { }
-								}
-							);
-						}
-				},
-
-			onMaterialSelect: function(oEvent) {
-
-				var that = this;
-				var id = oEvent.getSource().getId().split('---')[1];
-				if(id !== undefined){
-					if (id.split('--')[0] === 'idsales') {
-						this.byId("Sales--idSaveIcon").setColor('red');
 					}
 				}
-
-				var fragIndicator =	sap.ui.core.Fragment.byId("fr2", "idSaveIndicator");
-				if(fragIndicator){
-						fragIndicator.setColor("red");
-				}
-				var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				// var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
-				var oModel = oEvent.getSource().getParent().getBindingContext("orderItems");
-
-				var orderId = null;
-				var oHeader = this.getView().getModel('local').getProperty('/WSOrderHeader');
-				if(!oModel){
-
-					oModel = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-					orderId = oHeader.id;
-					var orderNoPath = oEvent.getSource().mBindingInfos.value.binding.oContext.sPath;
-					if(!orderId){
-						var oFilter = new sap.ui.model.Filter("OrderNo","EQ", oHeader.OrderNo);
-						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-										"/WSOrderHeaders",
-										"GET", {filters: [oFilter]}, {}, that)
-										.then(function(oData) {
-
-												orderId =  oData.results[oData.results.length - 1].id;
-												orderNoPath = orderNoPath + "/OrderNo";
-												that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
-										})
-						}
-					else{
-						orderNoPath = orderNoPath + "/OrderNo";
-						that.getView().getModel("materialPopupOrderItems").setProperty(orderNoPath, orderId);
-					}
-				}
-				var oModelForRow = oModel.getModel();
-				var sBinding = oEvent.getSource().getParent().getBindingContext("orderItems");
-				if(!sBinding){
-				 sBinding = oEvent.getSource().getParent().getBindingContext("materialPopupOrderItems");
-				}
-
-				var sRowPath = sBinding.getPath();
-
-				oModelForRow.setProperty(sRowPath + "/Material", selectedMatData.id);
-				if(selectedMatData.HindiName){
-					oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.HindiName);
-				}
-				else{
-						oModelForRow.setProperty(sRowPath + "/Description", selectedMatData.ProductName);
-				}
-				//Making
-				if (selectedMatData.Making) {
-					oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
-				} else {
-					oModelForRow.setProperty(sRowPath + "/Making", 0);
-				}
-				//Makind D field
-				if (selectedMatData.PricePerUnit) {
-					oModelForRow.setProperty(sRowPath + "/MakingD", selectedMatData.PricePerUnit);
-				} else {
-					oModelForRow.setProperty(sRowPath + "/MakingD", 0);
-				}
-
-				oModelForRow.setProperty(sRowPath + "/Category", selectedMatData.Category);
-				oModelForRow.setProperty(sRowPath + "/Type", selectedMatData.Type);
-				oModelForRow.setProperty(sRowPath + "/Karat", selectedMatData.Karat);
-
-				if(id !== undefined){
-					if (id.split('--')[0] === 'idsalesws') {
-					var Customer = this.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-					var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
-					var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + selectedMatData.id + "'");
-					var oFilter = new sap.ui.model.Filter({
-						filters: [oFilter1, oFilter2],
-						and: true
-					})
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
-							"/WSTunchs", "GET", {
-								filters: [oFilter1, oFilter2]
-							}, null, this)
-						.then(function(oData) {
-
-							if (oData.results.length > 0) {
-								selectedMatData.Making = oData.results[0].Making;
-								selectedMatData.Tunch = oData.results[0].Tunch;
-							}
-
-							if (selectedMatData.Tunch) {
-								oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-							}
-							if (selectedMatData.Making) {
-								oModelForRow.setProperty(sRowPath + "/Making", selectedMatData.Making);
-							}
-						})
-						.catch(function(oError) {
-
-							if (selectedMatData.Tunch) {
-								oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-							} else {
-								oModelForRow.setProperty(sRowPath + "/Tunch", 0);
-							}
-						});
-
-				}
-			  }
 
 				// if (selectedMatData.Tunch) {
 				// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
@@ -2986,18 +3009,17 @@ sap.ui.define(
 				// 	oModelForRow.setProperty(sRowPath + "/Tunch", 0);
 				// }
 
-				if(id !== undefined){
+				if (id !== undefined) {
 					if (id.split('--')[0] === 'idsalesws') {
 						this.byId("WSHeaderFragment--idSaveIcon").setColor('red');
 					}
 				}
 
 				var currentBoxId = oEvent.getSource().getId();
-				if(currentBoxId.includes("fr2")){
-						that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
-				}
-				else{
-						that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
+				if (currentBoxId.includes("fr2")) {
+					that.focusAndSelectNextInput(currentBoxId, "input[id*='fr2--id']");
+				} else {
+					that.focusAndSelectNextInput(currentBoxId, "input[id*='idsalesws--WSItemFragment']");
 				}
 			},
 			previousOrder: function(oEvent) {
@@ -3069,100 +3091,100 @@ sap.ui.define(
 				});
 				var that = this;
 				var myData = this.getView().getModel("local").getProperty("/WSOrderHeader");
-				var oFilter = new sap.ui.model.Filter("OrderNo","EQ", "251");
-			  if(!myData.OrderNo&&false){
-			    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                    "/WSOrderHeaders",
-                    "GET", {filters: [oFilter]}, {}, that)
-                    .then(function(oData) {
+				var oFilter = new sap.ui.model.Filter("OrderNo", "EQ", "251");
+				if (!myData.OrderNo && false) {
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							"/WSOrderHeaders",
+							"GET", {
+								filters: [oFilter]
+							}, {}, that)
+						.then(function(oData) {
 
-                      var n = oData.results.length;
-                      var lastRecord = oData.results[n-1];
-                      var lastRecordDate = lastRecord.Date;
-                      var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
-                      var currentDate = new Date();
-                      var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
-                      var orderId = lastRecord.id;
-                      that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
-                      oEvent.sId = "orderReload";
-                      if(formattedDate === formattedLastRecordDate){
-                        that.getOrderDetails(oEvent,orderId,oFilter);
-                      }
-                      else{
-                        sap.m.MessageToast.show(that.resourceBundle.getText("Orderno11"));
-                      }
-              })
-			  }
-			  else{
-					this.getView().setBusy(true);
-				$.post("/nextWSOrder", {
-						OrderDetails: myData
-					})
-					.then(function(result) {
-						console.log(result);
-						that.getView().setBusy(false);
-						// that.byId("idRetailTransfer").setEnabled(true);
-
-						if (result) {
-							var id = 'WSsales';
-
-							delete that.TotalOrderValueCash;
-							delete that.TotalOrderValueGold;
-							delete that.TotalOrderValueSilver;
-							delete that.DeductionCash;
-							delete that.DeductionGold;
-							delete that.DeductionSilver;
-							delete that.FinalBalanceCash;
-							delete that.FinalBalanceGold;
-							delete that.FinalBalanceSilver;
-
-							var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
-							oHeaderT.TotalOrderValueCash = "0";
-							oHeaderT.TotalOrderValueGold = "0";
-							oHeaderT.TotalOrderValueSilver = "0";
-							oHeaderT.DeductionCash = "0";
-							oHeaderT.DeductionGold = "0";
-							oHeaderT.DeductionSilver = "0";
-							oHeaderT.FinalBalanceCash = "0";
-							oHeaderT.FinalBalanceGold = "0";
-							oHeaderT.FinalBalanceSilver = "0";
-							oHeaderT.CombinedBalance = "";
-							oHeaderT.BalanceSuffix = "";
-							that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
-							//Clear Item table
-							that.orderItem(oEvent, id);
-							//return table
-							that.orderReturn(oEvent, id);
-							var orderId = result.id;
-							// that.byId("Sales--idSaveIcon").setColor('green');
-							if (result.Customer) {
-								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, result.Customer);
-							} else {
-								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
-							}
+							var n = oData.results.length;
+							var lastRecord = oData.results[n - 1];
+							var lastRecordDate = lastRecord.Date;
+							var formattedLastRecordDate = lastRecordDate.getDate() + '-' + lastRecordDate.getMonth() + 1 + '-' + lastRecordDate.getFullYear();
+							var currentDate = new Date();
+							var formattedDate = currentDate.getDate() - 1 + '-' + currentDate.getMonth() + 1 + '-' + currentDate.getFullYear();
+							var orderId = lastRecord.id;
+							that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderId);
 							oEvent.sId = "orderReload";
-							that.getOrderDetails(oEvent, orderId, oFilter);
-						}
-						if(!myData.OrderNo){
-							var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
-							that.getOrderDetails(oEvent, result.id, orFilter);
-							that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
-							that.getView().addDependent(that.orderSearchPopup);
-							that.orderSearchPopup.bindAggregation("items", {
-								path: '/OrderHeaders',
-								filters: orFilter,
-								template: new sap.m.DisplayListItem({
-									label: "{OrderNo}",
-									value: {
-										path: 'Customer',
-										formatter: that.getCustomerName.bind(that)
-									}
-								})
-							});
-						}
-					}).catch(function(){
-						that.getView().setBusy(false);
-					});
+							if (formattedDate === formattedLastRecordDate) {
+								that.getOrderDetails(oEvent, orderId, oFilter);
+							} else {
+								sap.m.MessageToast.show(that.resourceBundle.getText("Orderno11"));
+							}
+						})
+				} else {
+					this.getView().setBusy(true);
+					$.post("/nextWSOrder", {
+							OrderDetails: myData
+						})
+						.then(function(result) {
+							console.log(result);
+							that.getView().setBusy(false);
+							// that.byId("idRetailTransfer").setEnabled(true);
+
+							if (result) {
+								var id = 'WSsales';
+
+								delete that.TotalOrderValueCash;
+								delete that.TotalOrderValueGold;
+								delete that.TotalOrderValueSilver;
+								delete that.DeductionCash;
+								delete that.DeductionGold;
+								delete that.DeductionSilver;
+								delete that.FinalBalanceCash;
+								delete that.FinalBalanceGold;
+								delete that.FinalBalanceSilver;
+
+								var oHeaderT = that.getView().getModel('local').getProperty('/orderHeaderTemp');
+								oHeaderT.TotalOrderValueCash = "0";
+								oHeaderT.TotalOrderValueGold = "0";
+								oHeaderT.TotalOrderValueSilver = "0";
+								oHeaderT.DeductionCash = "0";
+								oHeaderT.DeductionGold = "0";
+								oHeaderT.DeductionSilver = "0";
+								oHeaderT.FinalBalanceCash = "0";
+								oHeaderT.FinalBalanceGold = "0";
+								oHeaderT.FinalBalanceSilver = "0";
+								oHeaderT.CombinedBalance = "";
+								oHeaderT.BalanceSuffix = "";
+								that.getView().getModel('local').setProperty('/orderHeaderTemp', oHeaderT);
+								//Clear Item table
+								that.orderItem(oEvent, id);
+								//return table
+								that.orderReturn(oEvent, id);
+								var orderId = result.id;
+								// that.byId("Sales--idSaveIcon").setColor('green');
+								if (result.Customer) {
+									var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, result.Customer);
+								} else {
+									var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+								}
+								oEvent.sId = "orderReload";
+								that.getOrderDetails(oEvent, orderId, oFilter);
+							}
+							if (!myData.OrderNo) {
+								var oFilter = new sap.ui.model.Filter("Customer", sap.ui.model.FilterOperator.EQ, "");
+								that.getOrderDetails(oEvent, result.id, orFilter);
+								that.orderSearchPopup = new sap.ui.xmlfragment("victoria.fragments.popup", that);
+								that.getView().addDependent(that.orderSearchPopup);
+								that.orderSearchPopup.bindAggregation("items", {
+									path: '/OrderHeaders',
+									filters: orFilter,
+									template: new sap.m.DisplayListItem({
+										label: "{OrderNo}",
+										value: {
+											path: 'Customer',
+											formatter: that.getCustomerName.bind(that)
+										}
+									})
+								});
+							}
+						}).catch(function() {
+							that.getView().setBusy(false);
+						});
 				}
 			},
 			onRadioButtonSelect: function() {
@@ -3298,11 +3320,10 @@ sap.ui.define(
 					var DeductionSilver = that.DeductionSilver;
 					var DeductionCash = 1000 * that.DeductionCash / WSHeader.SilverBhav;
 					var FinalBalanceGold = that.FinalBalanceGold * 100 * WSHeader.Goldbhav / (WSHeader.SilverBhav);
-					var FinalBalanceSilver =1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
+					var FinalBalanceSilver = 1000 * that.FinalBalanceCash / WSHeader.SilverBhav;
 					var FinalBalanceCash = that.FinalBalanceCash;
 					var CombinedBalance = FinalBalanceGold + FinalBalanceSilver + FinalBalanceCash;
 					var BalanceSuffix = "grams of Silver";
-
 
 					TotalOrderValueSilver = TotalOrderValueCash + TotalOrderValueSilver + TotalOrderValueGold;
 					TotalOrderValueGold = 0;
@@ -3312,7 +3333,7 @@ sap.ui.define(
 					DeductionGold = 0;
 					DeductionCash = 0;
 
-					FinalBalanceSilver =  FinalBalanceSilver;
+					FinalBalanceSilver = FinalBalanceSilver;
 					FinalBalanceGold = 0;
 					FinalBalanceCash = 0;
 
@@ -3412,7 +3433,6 @@ sap.ui.define(
 				var date = new Date(orderDetail.Date);
 				var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 
-
 				// if ((that.getStatus() === 'green') &&
 				// 	(finalAmount) && (finalAmount !== "" || finalAmount !== 0)) {
 				// 	that.getView().setBusy(true);
@@ -3469,34 +3489,32 @@ sap.ui.define(
 				//
 				// }
 
-
 				if (postedEntryData.Cash === finalAmount) {
-				  var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
-				      MessageBox.show(
-				      oBundle, {
-				      icon: MessageBox.Icon.ERROR,
-				      title: "Error",
-				      actions: [MessageBox.Action.OK],
-				      onClose: function(oAction) { }
-				          }
-				      );
-				}else if (((postedEntryData.Cash !== "")&&
-				          (postedEntryData.Cash !== "0")&&
-				          (postedEntryData.Cash !== 0))&&
-				          (finalAmount) &&
-				          (finalAmount !== "" || finalAmount !== 0)&&
-				          (that.getStatus() === 'green') &&
-				          (postedEntryData.Cash !== finalAmount))
-				{
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
+				} else if (((postedEntryData.Cash !== "") &&
+						(postedEntryData.Cash !== "0") &&
+						(postedEntryData.Cash !== 0)) &&
+					(finalAmount) &&
+					(finalAmount !== "" || finalAmount !== 0) &&
+					(that.getStatus() === 'green') &&
+					(postedEntryData.Cash !== finalAmount)) {
 
-				var entryData = this.getView().getModel("local").getProperty("/EntryData");
-				entryData.Date = new Date(orderDetail.Date);
-				entryData.OrderNo = orderHeaderT.OrderId;
-				entryData.OrderType = 'W';
-				var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
-				entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order"  + "" +
-				                  orderDetail.OrderNo+ " " + date;
-				var id = postedEntryData.id;
+					var entryData = this.getView().getModel("local").getProperty("/EntryData");
+					entryData.Date = new Date(orderDetail.Date);
+					entryData.OrderNo = orderHeaderT.OrderId;
+					entryData.OrderType = 'W';
+					var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+					entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + "" +
+						orderDetail.OrderNo + " " + date;
+					var id = postedEntryData.id;
 					if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
 						entryData.Cash = 0 - finalAmount;
 					} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
@@ -3508,36 +3526,35 @@ sap.ui.define(
 						entryData.Gold = 0 - finalGold;
 						entryData.Silver = 0 - finalSilver;
 					}
-				entryData.Customer = orderDetail.Customer;
-				entryData.ChangedBy = "";
-				entryData.ChangedOn = "";
-				entryData.CreatedBy = "";
-				entryData.CreatedOn = "";
-				//change in final amount
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-				                          "/Entrys('"+ id + "')",
-				                          "PUT", {}, entryData, this)
-				.then(function(oData) {
-				var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("TransferAmountUpdated");
-				 MessageToast.show(oBundle);
-				})
-				}else
-				  if ((postedEntryData.Cash === "" ||
-				       postedEntryData.Cash === "0" ||
-				       postedEntryData.Cash === 0)&&
-				      (that.getStatus() === 'green') &&
-				      (finalAmount) && (finalAmount !== "" || finalAmount !== 0))
-				  {
-				  that.getView().setBusy(true);
-				  var entryData = this.getView().getModel("local").getProperty("/EntryData");
-				  entryData.Date = orderDetail.Date;
-				  // entryData.OrderNo = orderDetail.OrderNo;
-				  entryData.OrderNo = orderHeaderT.OrderId;
-				  entryData.OrderType = 'W';
-				  var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
-				  entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + "" +
-				                      orderDetail.OrderNo+ " " + date;
-				  //orderDetail.Date;
+					entryData.Customer = orderDetail.Customer;
+					entryData.ChangedBy = "";
+					entryData.ChangedOn = "";
+					entryData.CreatedBy = "";
+					entryData.CreatedOn = "";
+					//change in final amount
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							"/Entrys('" + id + "')",
+							"PUT", {}, entryData, this)
+						.then(function(oData) {
+							var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("TransferAmountUpdated");
+							MessageToast.show(oBundle);
+						})
+				} else
+				if ((postedEntryData.Cash === "" ||
+						postedEntryData.Cash === "0" ||
+						postedEntryData.Cash === 0) &&
+					(that.getStatus() === 'green') &&
+					(finalAmount) && (finalAmount !== "" || finalAmount !== 0)) {
+					that.getView().setBusy(true);
+					var entryData = this.getView().getModel("local").getProperty("/EntryData");
+					entryData.Date = orderDetail.Date;
+					// entryData.OrderNo = orderDetail.OrderNo;
+					entryData.OrderNo = orderHeaderT.OrderId;
+					entryData.OrderType = 'W';
+					var date = this.getView().byId("WSHeaderFragment--DateId").getDateValue();
+					entryData.Remarks = "[Auto-Entry] Wholesale Transfer for Order" + "" +
+						orderDetail.OrderNo + " " + date;
+					//orderDetail.Date;
 					if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
 						entryData.Cash = 0 - finalAmount;
 					} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
@@ -3549,42 +3566,42 @@ sap.ui.define(
 						entryData.Gold = 0 - finalGold;
 						entryData.Silver = 0 - finalSilver;
 					}
-				  entryData.Customer = orderDetail.Customer;
-				  entryData.ChangedBy = "";
-				  entryData.ChangedOn = "";
-				  entryData.CreatedBy = "";
-				  entryData.CreatedOn = "";
-				  this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
-				                                  "POST", {}, entryData, this)
-				  .then(function(oData) {
-				    that.getView().setBusy(false);
-				    sap.m.MessageToast.show(that.resourceBundle.getText("Transferred"));
-				    }).catch(function(oError) {
-				    that.getView().setBusy(false);
-				    var oPopover = that.getErrorMessage(oError);
-				    });
+					entryData.Customer = orderDetail.Customer;
+					entryData.ChangedBy = "";
+					entryData.ChangedOn = "";
+					entryData.CreatedBy = "";
+					entryData.CreatedOn = "";
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys",
+							"POST", {}, entryData, this)
+						.then(function(oData) {
+							that.getView().setBusy(false);
+							sap.m.MessageToast.show(that.resourceBundle.getText("Transferred"));
+						}).catch(function(oError) {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+						});
 
-				  }else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
-				    var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
-				        MessageBox.show(
-				        oBundle, {
-				        icon: MessageBox.Icon.ERROR,
-				        title: "Error",
-				        actions: [MessageBox.Action.OK],
-				        onClose: function(oAction) { }
-				            }
-				        );
-				  }else {
-				var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
-				    MessageBox.show(
-				    oBundle, {
-				    icon: MessageBox.Icon.ERROR,
-				    title: "Error",
-				    actions: [MessageBox.Action.OK],
-				    onClose: function(oAction) { }
-				        }
-				    );
-				  }
+				} else if ((!finalAmount) && (finalAmount === "" || finalAmount === 0)) {
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("noAmountToTransfer");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
+				} else {
+					var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("saveBeforeTransfer");
+					MessageBox.show(
+						oBundle, {
+							icon: MessageBox.Icon.ERROR,
+							title: "Error",
+							actions: [MessageBox.Action.OK],
+							onClose: function(oAction) {}
+						}
+					);
+				}
 			},
 			getEntryData: function(oEvent, custId, orderNo, date, postedEntryData) {
 
@@ -3666,10 +3683,10 @@ sap.ui.define(
 				var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
 				if (orderDetails.Date) {
 					var orderLocDate = orderDetails.Date
-				}else{
+				} else {
 					orderLocDate = new Date();
 				}
-				if (typeof(orderLocDate) !== "string"){
+				if (typeof(orderLocDate) !== "string") {
 					var dd = orderLocDate.getDate();
 					var mm = orderLocDate.getMonth() + 1;
 					var yyyy = orderLocDate.getFullYear();
@@ -3679,7 +3696,7 @@ sap.ui.define(
 					if (mm < 10) {
 						mm = '0' + mm;
 					}
-				}else{
+				} else {
 					dd = parseInt(orderLocDate.split("-")[2]);
 					mm = parseInt(orderLocDate.split("-")[1]);
 					yyyy = parseInt(orderLocDate.split("-")[0]);
@@ -3693,10 +3710,8 @@ sap.ui.define(
 
 				var orderDate = dd + '.' + mm + '.' + yyyy;
 
-
-
-					// var orderDate = orderLocDate.replace(/\-/g, '.');
-					// formatter.getDateDDMMYYYYFormat(orderLocDate);
+				// var orderDate = orderLocDate.replace(/\-/g, '.');
+				// formatter.getDateDDMMYYYYFormat(orderLocDate);
 				if (orderDetails.Customer) {
 					var custId = orderDetails.Customer;
 					var cusData = this.allMasterData.customers[custId];
@@ -3839,7 +3854,7 @@ sap.ui.define(
 							if (oData.results[i].Value === "false") {
 								arrayRemoveFromPrint.push('idWReturnSubTotal');
 							}
-							default:
+						default:
 					}
 				}
 				var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
@@ -3897,7 +3912,8 @@ sap.ui.define(
 					'<hr />';
 
 				// Prepare Order table header
-				var table = "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
+				var table =
+					"<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
 					// '<tbody>'+
 					'<tr>' +
 					'<th style=" border: 1px solid black;"><h4 style="text-align: center;">&nbsp;Material</h4></th>' +
@@ -3963,7 +3979,8 @@ sap.ui.define(
 				// Return table
 				var oReturns = this.getView().getModel("returnModel").getProperty("/TransData");
 				if (oReturns[0].Type) {
-					table += "<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
+					table +=
+						"<table style='border-collapse: collapse;border:1px solid black;'width='95%'';'text-align:center';'border-spacing: 5px';>" +
 						'<tr>' +
 						'<th style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Product Type</h4></th>' +
 						'<th class="idWReturnQuantity" style="width: 80px;border:1px solid black"><h4 style="text-align: center;">&nbsp;Quantity</h4></th>' +
@@ -4023,7 +4040,7 @@ sap.ui.define(
 					'</tr>' +
 					'</tbody></table>';
 
-				var random = Math.floor(Math.random()*10000);
+				var random = Math.floor(Math.random() * 10000);
 				var myWindow = window.open("", "PrintWindow" + random, "width=1200,height=800");
 				myWindow.document.write(header + table + footer);
 				for (var i = 0; i < arrayRemoveFromPrint.length; i++) {

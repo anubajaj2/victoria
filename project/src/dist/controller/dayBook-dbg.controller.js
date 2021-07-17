@@ -120,7 +120,7 @@ sap.ui.define([
 		},
 
 		onValueHelpRequest: function(oEvent) {
-
+var that=this;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Customers", "GET", null, null, this)
 				.then(function(oData) {
 					for (var i = 0; i < oData.results.length; i++) {
@@ -197,6 +197,10 @@ sap.ui.define([
 			var city = null;
 			var name = null;
 			this.getView().getModel("local").getProperty("/EntryData", myData);
+			if(cust){
+				for(var x in this.allMasterData.customers){ if(this.allMasterData.customers[x].CustomerCode===cust){console.log(x);
+					myData.Customer=x;break;}}
+			}
 
 			if (minDate === null && maxDate === null) {
 				window.open("/entryDownload?id=" + myData.Customer + "&type=DayBook&name=" + name + "&city=" + city + "&min=" + minDate + "&max=" +
@@ -303,10 +307,10 @@ sap.ui.define([
 
 		onConfirm: function(oEvent) {
 
-			var selCust = oEvent.getParameter("selectedItem").getText();
+			var selCust = oEvent.getParameter("selectedItem").getLabel();
 			this.getView().byId("idCustDay").setValue(selCust);
-			// this.getView().getModel("local").setProperty("/EntryData/Customer",
-			// 	oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
+			this.getView().getModel("local").setProperty("/EntryData/Customer",
+			this.getView().getModel("local").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id);
 			// this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 		},
 
@@ -757,7 +761,7 @@ sap.ui.define([
 		},
 
 		onSubmit: function(evt) {
-			
+
 			var that = this;
 			var v11 = this.getView().byId("idCustDay").getValue();
 

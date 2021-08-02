@@ -306,11 +306,11 @@ var that=this;
 		},
 
 		onConfirm: function(oEvent) {
-
-			var selCust = oEvent.getParameter("selectedItem").getLabel();
+debugger;
+			var selCust = oEvent.getParameter("selectedItem").getText();
 			this.getView().byId("idCustDay").setValue(selCust);
-			this.getView().getModel("local").setProperty("/EntryData/Customer",
-			this.getView().getModel("local").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id);
+			// this.getView().getModel("local").setProperty("/EntryData/Customer",
+			// this.getView().getModel("local").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id);
 			// this.cusId= oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 		},
 

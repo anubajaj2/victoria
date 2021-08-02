@@ -8,10 +8,15 @@
     alternateRowColors="false" inset="false" includeItemInSelection="false" items="{
            path: '/Entrys',
              sorter: [
-						{
-						 path: 'ChangedOn',
-             descending: 'false'
-						 }
+             {
+              path: 'Date',
+               descending: 'false'
+              },
+              {
+               path: 'ChangedOn',
+                descending: 'false'
+               }
+
              ]
            }" mode="MultiSelect" growing="true" growingThreshold="20" updateFinished="onUpdateFinished"
     visible="{= ${local>/CustomCalculation/EntryLayout} === undefined ? true: ${local>/CustomCalculation/EntryLayout} === true ? false:true}">

@@ -2145,8 +2145,11 @@ sap.ui.define([
 		finalCalculation: function(category, data, priceF, tablePath, cells,
 			quantityOfStone, gold20pergm, gold22pergm,
 			silverpergm) {
+				debugger;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
+			var Qty1 = data.Weight * data.Qty;
+			var QtyD1 = data.WeightD * data.QtyD;
 			if ((category.Type === 'Gold' && category.Category === "gm") ||
 			(category.Type === 'GLD' && category.Category === "gm") ||
 			(category.Type === 'SLV' && category.Category === "gm") ||
@@ -2154,7 +2157,8 @@ sap.ui.define([
 				//get the final weight
 				if (data.WeightD !== "" ||
 					data.WeightD !== 0) {
-					var weightF = data.Weight - data.WeightD;
+
+					var weightF = Qty1 - QtyD1;
 				} else {
 					var weightF = data.Weight;
 				}
@@ -2170,8 +2174,10 @@ sap.ui.define([
 					priceF = weightF * silverpergm;
 				}
 				//Making charges
-				var makingCharges = data.Making * weightF;
-				var stonevalue = quantityOfStone * data.MakingD;
+				// var makingCharges = data.Making * weightF;
+				var makingCharges = data.Making * Qty1;
+				// var stonevalue = quantityOfStone * data.MakingD;
+				var stonevalue = QtyD1 * data.MakingD;
 				if ((priceF || makingCharges || stonevalue) ||
 					(priceF === 0 || makingCharges === 0 || stonevalue === 0)) {
 					var subTot = (priceF + makingCharges + stonevalue);
@@ -2214,8 +2220,10 @@ sap.ui.define([
 			if (category.Type === 'GS') {
 				//german silver//ignore Weight//Quantity Check
 				//charges of german silver
-				var charges = data.Qty * data.Making;
-				var chargesD = data.QtyD * data.MakingD;
+				// var charges = data.Qty * data.Making;
+				// var chargesD = data.QtyD * data.MakingD;
+				var charges = (data.Weight * data.Qty) * data.Making;
+				var chargesD = (data.WeightD * data.QtyD) * data.MakingD;
 				//final charges on GS
 				if (charges) {
 					var subTot = charges + chargesD;
@@ -2249,7 +2257,8 @@ sap.ui.define([
 				//get the final weight
 				if (data.WeightD !== "" ||
 					data.WeightD !== 0) {
-					var weightF = data.Weight - data.WeightD;
+							var weightF = Qty1 - QtyD1;
+					// var weightF = data.Weight - data.WeightD;
 				} else {
 					var weightF = data.Weight;
 				}
@@ -2269,12 +2278,14 @@ sap.ui.define([
 					var priceF = 0;
 				}
 				//Making of Product
-				var makingOfProduct = data.Qty * data.Making;
+				// var makingOfProduct = data.Qty * data.Making;
+				var makingOfProduct = Qty1 * data.Making;
 				if (!makingOfProduct) {
 					var makingOfProduct = 0;
 				}
 				//Stone value
-				var stonevalue = quantityOfStone * data.MakingD;
+				// var stonevalue = quantityOfStone * data.MakingD;
+					var stonevalue = QtyD1 * data.MakingD;
 				if (!stonevalue) {
 					var stonevalue = 0;
 				}

@@ -1806,7 +1806,8 @@ sap.ui.define(
 						// 	// var weightF = (data.Weight - data.WeightD)*(data.Tunch/100);
 						// 	var weightF = data.Weight
 						// } else {
-						var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
+						// var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
+						var weightF = (data.Weight) - (data.WeightD * data.Qty);
 						// }
 
 					} else {
@@ -1921,7 +1922,8 @@ sap.ui.define(
 					if (data.WeightD !== "" ||
 						data.WeightD !== 0) {
 
-						var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
+						// var weightF = (data.Weight * data.Qty) - (data.WeightD * data.QtyD);
+						var weightF = (data.Weight) - (data.WeightD * data.Qty);
 
 					} else {
 						var weightF = data.Weight;

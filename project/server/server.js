@@ -4182,7 +4182,7 @@ app.start = function() {
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('A').width = colMaxLengthA1 + 7;
+													sheet.getColumn('A').width = colMaxLengthA1 + 13;
 												}
 
 												if (sheet.getCell('B' + (j)).value !== null) {

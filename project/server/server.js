@@ -3805,7 +3805,7 @@ app.start = function() {
 										sheet.mergeCells('A1:F1');
 										sheet.getCell('F1').value = 'Fast Report';
 										sheet.getCell('A1').alignment = {
-											vertical: 'middle',
+											vertical: 'center',
 											horizontal: 'center'
 										};
 
@@ -3831,7 +3831,7 @@ app.start = function() {
 											currentdate.getSeconds();
 										sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
 										sheet.getCell('A2').alignment = {
-											vertical: 'middle',
+											vertical: 'center',
 											horizontal: 'center'
 										};
 
@@ -3968,6 +3968,8 @@ app.start = function() {
 											bold: true
 										};
 
+
+
 										//Coding for rows and column border
 										for (var j = 1; j <= totText; j++) {
 											////
@@ -4081,6 +4083,8 @@ app.start = function() {
 												};
 											}
 
+											// sheet.getCell('F').alignment = { wrapText: true };
+
 											////
 											sheet.getCell('A' + (j)).border = {
 												top: {
@@ -4182,7 +4186,7 @@ app.start = function() {
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('A').width = colMaxLengthA1 + 13;
+													sheet.getColumn('A').width = colMaxLengthA1 + 21;
 												}
 
 												if (sheet.getCell('B' + (j)).value !== null) {
@@ -4247,7 +4251,10 @@ app.start = function() {
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('F').width = colMaxLengthE + 2;
+													sheet.getColumn('F').width = 17;
+													sheet.getColumn('F').alignment = { vertical: 'middle',
+                    horizontal: 'center', wrapText: true };
+
 												}
 											}
 											// code added by surya for autocolumn width - ended
@@ -4280,6 +4287,7 @@ app.start = function() {
 											horizontal: 'right'
 										};
 
+
 										sheet.getCell('C' + totText).font = {
 											color: {
 												argb: '800000'
@@ -4290,6 +4298,8 @@ app.start = function() {
 												argb: '800000'
 											}
 										};
+
+
 
 										//Coding to download in a folder
 										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +

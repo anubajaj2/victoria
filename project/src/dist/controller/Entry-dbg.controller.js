@@ -411,7 +411,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CR);
@@ -422,7 +422,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(SR);
@@ -433,7 +433,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KR);
@@ -444,7 +444,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(KSR);
@@ -455,7 +455,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
@@ -466,7 +466,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
@@ -478,7 +478,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
@@ -489,7 +489,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
@@ -500,7 +500,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
@@ -511,7 +511,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
@@ -522,7 +522,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CT);
@@ -533,7 +533,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(ST);
@@ -544,7 +544,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KT);
@@ -555,7 +555,7 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(KST);

@@ -21,7 +21,7 @@ sap.ui.define(["victoria/controller/BaseController",
 			formatter: formatter,
 			clearOnSend: false,
 			onInit: function() {
-				debugger
+
 				var that = this;
 				this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				// that.getView().setBusy(true);
@@ -36,7 +36,6 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	}).catch(function (oError) {
 				// 		var oPopover = that.getErrorMessage(oError);
 				// 	});
-
 
 				this.getOwnerComponent().getModel("local").setProperty("/materialEnable", false);
 
@@ -78,7 +77,6 @@ sap.ui.define(["victoria/controller/BaseController",
 						oInput.setModel(oModel); // set the model that you want to use
 					});
 
-
 			},
 			_onRouteMatched: function() {
 
@@ -93,11 +91,11 @@ sap.ui.define(["victoria/controller/BaseController",
 				that.getView().setModel(oJson, "material");
 				var that = this;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomCalculations", "GET", null, null, this)
-					.then(function (oData) {
+					.then(function(oData) {
 
-						that.getView().getModel("local").setProperty("/EntryLayout",oData.results[0].EntryLayout)
-						// that.getView().setBusy(false);
-					}).catch(function (oError) {
+						that.getView().getModel("local").setProperty("/EntryLayout", oData.results[0].EntryLayout)
+							// that.getView().setBusy(false);
+					}).catch(function(oError) {
 
 						// var oPopover = that.getErrorMessage(oError);
 					});
@@ -115,7 +113,6 @@ sap.ui.define(["victoria/controller/BaseController",
 				});
 				this.setModel(odataModel, "dataModel");
 
-
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Customers", "GET", {}, {}, this)
 					.then(function(oData) {
@@ -126,7 +123,6 @@ sap.ui.define(["victoria/controller/BaseController",
 					}).catch(function(oError) {
 						MessageToast.show(that.resourceBundle.getText("ReqField"));
 					});
-
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Groups", "GET", {}, {}, this)
@@ -189,13 +185,10 @@ sap.ui.define(["victoria/controller/BaseController",
 
 			onPayDateChange: function(oEvent) {
 
-
 				var that = this;
 				var myData = that.getView().getModel("local").getProperty("/EntryData");
 				// var selCust = oEvent.getParameter("selectedItem").getLabel();
 				// var selCustName = oEvent.getParameter("selectedItem").getValue();
-
-
 
 				// myData.Customer=;
 				// this.getView().getModel("local").getProperty("/EntryData", myData);
@@ -212,14 +205,14 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	mm = '0' + mm;
 				// }
 				// minDate = yyyy + '-' + mm + '-' + dd;
-				minDate1.setHours(0,0,0,0);
+				minDate1.setHours(0, 0, 0, 0);
 				if (minDate1.getTimezoneOffset() > 0) {
-				minDate1.setMinutes(minDate1.getMinutes() + minDate1.getTimezoneOffset());
-			} else {
-				minDate1.setMinutes(minDate1.getMinutes() - minDate1.getTimezoneOffset());
-			}
-				var maxDate=new Date(minDate1);
-				maxDate.setHours(23,59,59,59);
+					minDate1.setMinutes(minDate1.getMinutes() + minDate1.getTimezoneOffset());
+				} else {
+					minDate1.setMinutes(minDate1.getMinutes() - minDate1.getTimezoneOffset());
+				}
+				var maxDate = new Date(minDate1);
+				maxDate.setHours(23, 59, 59, 59);
 				if (maxDate.getTimezoneOffset() > 0) {
 					maxDate.setMinutes(maxDate.getMinutes() + maxDate.getTimezoneOffset());
 				} else {
@@ -239,9 +232,9 @@ sap.ui.define(["victoria/controller/BaseController",
 				// this.Date = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).Date;
 				that.getView().byId("idCash").focus();
 				that.getView().byId("idCash").$().find("input").select();
-					minDate1.setHours(0,0,0,0);
-					maxDate=new Date(minDate1);
-					maxDate.setHours(23,59,59,59);
+				minDate1.setHours(0, 0, 0, 0);
+				maxDate = new Date(minDate1);
+				maxDate.setHours(23, 59, 59, 59);
 				$.post("/getTotalEntryCustomerBetween", {
 					Customer: "",
 					max: maxDate.toISOString(),
@@ -286,30 +279,27 @@ sap.ui.define(["victoria/controller/BaseController",
 				// that.getView().byId("idTable").getBinding("items").filter(oFilter1s);
 			},
 
-
 			onSearch1: function(oEvent) {
 				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
-			const key = oEvent.key
-			var id1 = oEvent.getParameter("id").split("--")[2]
-			// if() alert('backspace');
-			var oSorter = new sap.ui.model.Sorter({
+				const key = oEvent.key
+				var id1 = oEvent.getParameter("id").split("--")[2]
+					// if() alert('backspace');
+				var oSorter = new sap.ui.model.Sorter({
 
-						path: "CustomerCode",
-						descending: false
+					path: "CustomerCode",
+					descending: false
 
-					});
-
-
+				});
 
 				var searchStr = oEvent.getParameter("suggestValue");
-				if(searchStr === "" || key == 8 || key === "Backspace" || key === "Delete"){
-						this.getView().byId("idCust").setValue("");
+				if (searchStr === "" || key == 8 || key === "Backspace" || key === "Delete") {
+					this.getView().byId("idCust").setValue("");
 					return;
 				}
-				if(!searchStr) {
+				if (!searchStr) {
 					searchStr = oEvent.getParameter("newValue");
 				}
-				if(searchStr){
+				if (searchStr) {
 					var oFilter = new sap.ui.model.Filter({
 						filters: [
 							new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase()),
@@ -324,10 +314,9 @@ sap.ui.define(["victoria/controller/BaseController",
 				// var oList = this.byId("");
 
 				oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
-								// this.getView().byId("idCash").focus();
-								// this.getView().byId("idCash").$().find("input").select();
+				// this.getView().byId("idCash").focus();
+				// this.getView().byId("idCash").$().find("input").select();
 			},
-
 
 			onSuggest1: function(oEvent) {
 
@@ -345,8 +334,6 @@ sap.ui.define(["victoria/controller/BaseController",
 				}
 			},
 
-
-
 			handleSuggest: function(oEvent) {
 				var oInput = oEvent.getSource();
 				if (!oInput.getSuggestionItems().length) {
@@ -362,7 +349,6 @@ sap.ui.define(["victoria/controller/BaseController",
 				}
 
 			},
-
 
 			onCustomerSelect1: function(oEvent, custName, custId) {
 
@@ -409,172 +395,171 @@ sap.ui.define(["victoria/controller/BaseController",
 				var KT = "Kacchi Given @" + wtValue + 'x' + thValue;
 				var KSR = "Kaccha Sona Received @" + wtValue + 'x' + thValue;
 				var KST = "Kaccha Sona Given @" + wtValue + 'x' + thValue;
-				if(this.getView().byId("RB-4").getSelected() && !this.getView().byId("idMatText").getText()){
+				if (this.getView().byId("RB-4").getSelected() && !this.getView().byId("idMatText").getText()) {
 					MessageToast.show("Please Select the Material to Calculate");
 					return;
-				}else {
+				} else {
 					var splitText = this.getView().byId("idMatText").getText().split("-")[1]
 				}
 				var rem = this.getView().byId("idMatText").getText();
 				var posMat = rem + " " + "ke jama " + wtValue + 'x' + thValue;
 				var negMat = rem + " " + "ke naam " + wtValue + 'x' + thValue;
 				if (X > 0 && this.getView().byId("RB-1").getSelected()) {
-					if(this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+					if (this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
-					}else {
+					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CR);
 				} else if (X > 0 && this.getView().byId("RB-2").getSelected()) {
-					if(this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+					if (this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
-					}else {
+					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(SR);
 				} else if (X > 0 && this.getView().byId("RB-3").getSelected()) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KR);
 				} else if (X > 0 && this.getView().byId("RB-5").getSelected()) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(KSR);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && (splitText.includes("Gold") || splitText.includes("GLD"))) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && (splitText.includes("Silver") || splitText.includes("SLV"))) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X > 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("GS")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(posMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && (splitText.includes("Gold") || splitText.includes("GLD"))) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && (splitText.includes("Silver") || splitText.includes("SLV"))) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-4").getSelected() && splitText.includes("GS")) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(negMat);
 				} else if (X < 0 && this.getView().byId("RB-1").getSelected()) {
-					if(this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+					if (this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
-					}else {
+					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(CT);
 				} else if (X < 0 && this.getView().byId("RB-2").getSelected()) {
-					if(this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+					if (this.getView().byId("rsCalculationBox").getSelected()) {
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
-					}else {
+					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(ST);
 				} else if (X < 0 && this.getView().byId("RB-3").getSelected()) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/1000;
+						X = (wtValue * thValue) / 1000;
 						this.getView().byId("idSilver").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(2)));
 					} else {
 						this.getView().byId("idSilver").setValue(parseFloat(X.toFixed(2)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idGold").setValue(0);
 					this.getView().byId("idRemarks").setValue(KT);
 				} else if (X < 0 && this.getView().byId("RB-5").getSelected()) {
 					if (this.getView().byId("rsCalculationBox").getSelected()) {
-						X = (wtValue * thValue)/10;
+						X = (wtValue * thValue) / 10;
 						this.getView().byId("idGold").setValue(0);
 						this.getView().byId("idCash").setValue(parseFloat(X.toFixed(3)));
 					} else {
 						this.getView().byId("idGold").setValue(parseFloat(X.toFixed(3)));
-						this.getView().byId("idCash").setValue(0);
+						// this.getView().byId("idCash").setValue(0);
 					}
 					this.getView().byId("idSilver").setValue(0);
 					this.getView().byId("idRemarks").setValue(KST);
 				}
-
 
 			},
 			onPressGWiseDownload: function() {
@@ -707,7 +692,6 @@ sap.ui.define(["victoria/controller/BaseController",
 					var that = this;
 					var that1 = this.getView();
 
-
 					sap.m.MessageBox.confirm(that.resourceBundle.getText("Do11") + "(" + count + ")" + that.resourceBundle.getText("entries"), {
 						title: "Confirm",
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
@@ -715,7 +699,6 @@ sap.ui.define(["victoria/controller/BaseController",
 						onClose: function(sAction) {
 							var that2 = that;
 							if (sAction === "OK") {
-
 
 								$.post("/deleteRecords", {
 									customerId: that2.customerId,
@@ -928,7 +911,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 			},
 			onPressEntryDownload: function(oEvent) {
-
+debugger;
 				var sId = oEvent.getSource().getId();
 				// var test = this.getView().getModel("customerModel");
 				var that = this;
@@ -937,11 +920,11 @@ sap.ui.define(["victoria/controller/BaseController",
 				// var name = this.getView().getModel("local").getProperty("/EntryData/CustomerName");
 				// var name=this.getView().getModel("local").getProperty("/entryHeaderTemp/CustomerName")
 				var name = this.getView().byId("idCustText").getProperty("text").split("-")[0]
-				// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
+					// var city = this.getView().getModel("local").getProperty("/EntryData/CustomerCity");
 				var city = this.getView().byId("idCustText").getProperty("text").split("-")[1]
 				var custId1 = this.getView().byId("idCust").getValue();
 				var custId2 = this.getView().byId("idCustText").getText();
-				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined) {
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === "" || custId2 === undefined) {
 					sap.m.MessageBox.error(" Please Select a Customer ", {
 						title: "Error"
 					});
@@ -982,7 +965,6 @@ sap.ui.define(["victoria/controller/BaseController",
 			// 	oBinding.sort(aSorter);
 			// },
 			onRadioButtonSelect: function(oEvent) {
-
 
 				if (this.getView().byId("RB-1").getSelected() ||
 					this.getView().byId("RB-2").getSelected() ||
@@ -1029,7 +1011,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 				this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 				this.customerId = selectedCust.id
-				// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
+					// this.customerId = oEvent.getParameter("selectedItem").getModel("undefined").getProperty(oEvent.getParameter("selectedItem").getBindingContextPath()).id;
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 				$.post("/getTotalEntryCustomer", {
@@ -1082,7 +1064,6 @@ sap.ui.define(["victoria/controller/BaseController",
 					sap.m.MessageBox.show(that.resourceBundle.getText("Customer11"));
 				} else {
 
-
 					that.getView().setBusy(true);
 					var myData = this.getView().getModel("local").getProperty("/EntryData");
 					myData.Date = this.getView().byId("DateId").getDateValue();
@@ -1101,10 +1082,14 @@ sap.ui.define(["victoria/controller/BaseController",
 							sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 							that.clearOnSend = true;
 							that.onClear();
+							that.getView().byId("idCash").focus();
+							that.getView().byId("idCash").$().find("input").select();
+							that.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 						}).catch(function(oError) {
 							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
+							that.getView().byId("DateId").setDateValue(new Date(myData.Date));
+							// var oPopover = that.getErrorMessage(oError);
 						});
 					// this.getView().byId("DateId").setDateValue( new Date());
 					// this.byId("DueDateId").setDateValue( new Date());
@@ -1158,6 +1143,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					}
 					this.getView().byId("idMat").setValue("");
 				}
+				this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 			},
 
@@ -1168,7 +1154,7 @@ sap.ui.define(["victoria/controller/BaseController",
 
 				var custId1 = this.getView().byId("idCust").getValue();
 				var custId2 = this.getView().byId("idCustText").getText();
-				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined ) {
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined) {
 					sap.m.MessageBox.error("Please Select a Customer for Delete Data", {
 						title: "Error"
 					});
@@ -1176,7 +1162,7 @@ sap.ui.define(["victoria/controller/BaseController",
 				}
 
 				var tableId = oEvent.getSource().getParent().getParent().getId();
-				if(tableId.includes("idTable2")){
+				if (tableId.includes("idTable2")) {
 					var recCount = this.getView().byId("idTable2").getSelectedItems().length;
 				} else if (tableId.includes("idTable1")) {
 					recCount = this.getView().byId("idTable1").getSelectedItems().length;
@@ -1188,111 +1174,106 @@ sap.ui.define(["victoria/controller/BaseController",
 				// 	sap.m.MessageBox.alert(
 				// 		that.resourceBundle.getText("Selectoneentryonly"));
 				// }
-			 if(recCount === 0){
+				if (recCount === 0) {
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly1"));
-				}
-				 else {
+				} else {
 
+					sap.m.MessageBox.confirm(
+						"Deleting Selected Records", {
+							title: "Confirm",
+							actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+							styleClass: "",
+							onClose: function(sAction) {
 
+								if (sAction === "OK") {
 
-				sap.m.MessageBox.confirm(
-					"Deleting Selected Records", {
-						title: "Confirm",
-						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-						styleClass: "",
-						onClose: function(sAction) {
+									if (tableId.includes("idTable2")) {
+										var x = that.getView().byId("idTable2").getSelectedItems();
+									} else if (tableId.includes("idTable1")) {
+										x = that.getView().byId("idTable1").getSelectedItems();
+									} else {
+										x = that.getView().byId("idTable").getSelectedItems();
+									}
+									var nCash = 0;
+									var nGold = 0;
+									var nSilver = 0;
+									if (x.length) {
+										for (var i = 0; i < x.length; i++) {
 
-							if (sAction === "OK") {
+											var myUrl = x[i].getBindingContext().sPath;
+											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
+											sap.ui.getCore().byId(tableId).getModel().refresh(true);
+											var p = x[i].getBindingContext().getObject().Cash;
+											var q = x[i].getBindingContext().getObject().Gold;
+											var r = x[i].getBindingContext().getObject().Silver;
+											if (p) {
+												nCash += nCash + p - nCash;
+											}
+											if (q) {
+												nGold += nGold + q - nGold;
+											}
+											if (r) {
+												nSilver += nSilver + r - nSilver;
+											}
+										}
+										var CA = that.byId("idTC").getText();
+										var CA1 = parseFloat(CA);
+										var TCA = CA1 - nCash;
+										TCA.toFixed(2);
+										parseFloat(TCA.toFixed(2));
+										that.byId("idTC").setText(parseFloat(TCA.toFixed(2)));
+										// that.byId("idTC").setText(TCA);
+										that.byId("idTC").getText();
+										parseFloat(that.byId("idTC").getText());
+										if (parseFloat(that.byId("idTC").getText()) > 0) {
+											that.byId("idTC").setState('Success');
 
+										} else {
+											that.byId("idTC").setState('Warning');
+										}
 
-								if(tableId.includes("idTable2")) {
-									var x = that.getView().byId("idTable2").getSelectedItems();
-								} else if (tableId.includes("idTable1")) {
-									x = that.getView().byId("idTable1").getSelectedItems();
-								} else {
-									x = that.getView().byId("idTable").getSelectedItems();
+										var GA = that.byId("idG").getText();
+										var GA1 = parseFloat(GA);
+										var TGA = GA1 - nGold;
+										TGA.toFixed(3);
+										parseFloat(TGA.toFixed(3));
+										that.byId("idG").setText(parseFloat(TGA.toFixed(3)));
+										// that.byId("idG").setText(TGA);
+										that.byId("idG").getText();
+										parseFloat(that.byId("idG").getText());
+										if (parseFloat(that.byId("idG").getText()) > 0) {
+											that.byId("idG").setState('Success');
+
+										} else {
+											that.byId("idG").setState('Warning');
+										}
+
+										var SA = that.byId("idS").getText();
+										var SA1 = parseFloat(SA);
+										var TSA = SA1 - nSilver;
+										TSA.toFixed(2);
+										parseFloat(TSA.toFixed(2));
+										that.byId("idS").setText(parseFloat(TSA.toFixed(2)));
+										// that.byId("idS").setText(TSA);
+										that.byId("idS").getText();
+										parseFloat(that.byId("idS").getText());
+										if (parseFloat(that.byId("idS").getText()) > 0) {
+											that.byId("idS").setState('Success');
+
+										} else {
+											that.byId("idS").setState('Warning');
+										}
+										sap.m.MessageToast.show(that.resourceBundle.getText("SelectedData1"));
+									} else {
+										sap.m.MessageToast.show(that.resourceBundle.getText("NoRecordToDelete"));
+									}
+
 								}
-								var nCash = 0;
-								var nGold = 0;
-								var nSilver = 0;
-								if (x.length) {
-									for (var i = 0; i < x.length; i++) {
-
-										var myUrl = x[i].getBindingContext().sPath;
-										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl, "DELETE", {}, {}, that);
-										sap.ui.getCore().byId(tableId).getModel().refresh(true);
-										var p = x[i].getBindingContext().getObject().Cash;
-										var q = x[i].getBindingContext().getObject().Gold;
-										var r = x[i].getBindingContext().getObject().Silver;
-										if (p) {
-											nCash += nCash + p - nCash;
-										}
-										if (q) {
-											nGold += nGold + q - nGold;
-										}
-										if (r) {
-											nSilver += nSilver + r - nSilver;
-										}
-									}
-									var CA = that.byId("idTC").getText();
-									var CA1 = parseFloat(CA);
-									var TCA = CA1 - nCash;
-									TCA.toFixed(2);
-									parseFloat(TCA.toFixed(2));
-									that.byId("idTC").setText(parseFloat(TCA.toFixed(2)));
-									// that.byId("idTC").setText(TCA);
-									that.byId("idTC").getText();
-									parseFloat(that.byId("idTC").getText());
-									if (parseFloat(that.byId("idTC").getText()) > 0) {
-										that.byId("idTC").setState('Success');
-
-									} else {
-										that.byId("idTC").setState('Warning');
-									}
-
-									var GA = that.byId("idG").getText();
-									var GA1 = parseFloat(GA);
-									var TGA = GA1 - nGold;
-									TGA.toFixed(3);
-									parseFloat(TGA.toFixed(3));
-									that.byId("idG").setText(parseFloat(TGA.toFixed(3)));
-									// that.byId("idG").setText(TGA);
-									that.byId("idG").getText();
-									parseFloat(that.byId("idG").getText());
-									if (parseFloat(that.byId("idG").getText()) > 0) {
-										that.byId("idG").setState('Success');
-
-									} else {
-										that.byId("idG").setState('Warning');
-									}
-
-									var SA = that.byId("idS").getText();
-									var SA1 = parseFloat(SA);
-									var TSA = SA1 - nSilver;
-									TSA.toFixed(2);
-									parseFloat(TSA.toFixed(2));
-									that.byId("idS").setText(parseFloat(TSA.toFixed(2)));
-									// that.byId("idS").setText(TSA);
-									that.byId("idS").getText();
-									parseFloat(that.byId("idS").getText());
-									if (parseFloat(that.byId("idS").getText()) > 0) {
-										that.byId("idS").setState('Success');
-
-									} else {
-										that.byId("idS").setState('Warning');
-									}
-									sap.m.MessageToast.show(that.resourceBundle.getText("SelectedData1"));
-								} else {
-									sap.m.MessageToast.show(that.resourceBundle.getText("NoRecordToDelete"));
-								}
-
-
 							}
 						}
-					}
-				);
-			}
+					);
+				}
 			},
 			_getEditClear: function() {
 
@@ -1358,9 +1339,10 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idTable").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
+						return;
 					}
 					jQuery.sap.delayedCall(100, this, function() {
-						this.getView().byId("idCust").focus();
+						this.getView().byId("idCash").focus();
 					});
 
 					this.byId("idMat").setValue("");
@@ -1386,9 +1368,9 @@ sap.ui.define(["victoria/controller/BaseController",
 						this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 					}
 					jQuery.sap.delayedCall(100, this, function() {
-						this.getView().byId("idCust").focus();
+						this.getView().byId("idCash").focus();
 					});
-
+					// this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 					this.byId("idCust").setValue("");
 					this.byId("idCustText").setText("");
 					this.byId("idMat").setValue("");
@@ -1409,7 +1391,10 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().byId("idTable").getBinding("items").filter([]);
 					this.getView().byId("idTable1").getBinding("items").filter([]);
 					this.getView().byId("idTable2").getBinding("items").filter([]);
+					return;
+					// this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 				}
+				this.getView().byId("DateId").setDateValue(new Date(myData.Date));
 
 			},
 			_getDialog: function(oEvent) {
@@ -1418,7 +1403,7 @@ sap.ui.define(["victoria/controller/BaseController",
 					this.getView().addDependent(this.oDialog);
 				}
 				this.oDialog.open();
-				if(oEvent.includes("idTable2")) {
+				if (oEvent.includes("idTable2")) {
 					var title = this.getView().byId("idTable2").getSelectedItem().getCells()[1].getText();
 					sap.ui.getCore().byId("entryDialog--idDialog-title").setText(title);
 					var cell0 = this.getView().byId("idTable2").getSelectedItem().mAggregations.cells[0].mProperties.text;
@@ -1485,18 +1470,16 @@ sap.ui.define(["victoria/controller/BaseController",
 				myData.Silver = sap.ui.getCore().byId("entryDialog--idDialogSil").getValue();
 				myData.Remarks = sap.ui.getCore().byId("entryDialog--idDialogRem").getValue();
 
-				if(this.getView().byId("idTable2").getSelectedContextPaths().length){
+				if (this.getView().byId("idTable2").getSelectedContextPaths().length) {
 					var id = this.getView().byId("idTable2").getSelectedContextPaths()[0].split("'")[1];
 					var tableId = "idTable2";
-				} else if(this.getView().byId("idTable1").getSelectedContextPaths().length) {
+				} else if (this.getView().byId("idTable1").getSelectedContextPaths().length) {
 					id = this.getView().byId("idTable1").getSelectedContextPaths()[0].split("'")[1];
 					tableId = "idTable1";
 				} else {
 					id = this.getView().byId("idTable").getSelectedContextPaths()[0].split("'")[1];
 					tableId = "idTable";
 				}
-
-
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Entrys('" + id + "')",
 						"PUT", {}, myData, this)
@@ -1642,11 +1625,9 @@ sap.ui.define(["victoria/controller/BaseController",
 					that.byId("idS").setState('Warning');
 				}
 
-
 				this.getView().byId("idTable1").getModel().refresh();
 				this.getView().byId("idTable2").getModel().refresh();
 				this.getView().byId("idTable").getModel().refresh();
-
 
 			},
 			onPressHandleEntryCancelPopup: function() {
@@ -1672,10 +1653,9 @@ sap.ui.define(["victoria/controller/BaseController",
 
 			onEdit: function(oEvent) {
 
-
-				var that=this;
+				var that = this;
 				var tableId = oEvent.getSource().getParent().getParent().getId();
-				if(tableId.includes("idTable2")){
+				if (tableId.includes("idTable2")) {
 					var recCount = this.getView().byId("idTable2").getSelectedItems().length;
 				} else if (tableId.includes("idTable1")) {
 					recCount = this.getView().byId("idTable1").getSelectedItems().length;
@@ -1686,12 +1666,10 @@ sap.ui.define(["victoria/controller/BaseController",
 				if (recCount > 1) {
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly"));
-				}
-				else if(recCount === 0){
+				} else if (recCount === 0) {
 					sap.m.MessageBox.alert(
 						that.resourceBundle.getText("Selectoneentryonly1"));
-				}
-				 else {
+				} else {
 					this._getDialog(tableId);
 				}
 			},
@@ -1700,16 +1678,16 @@ sap.ui.define(["victoria/controller/BaseController",
 				// this.getView().byId("pwd1").setValue("");
 				var custId = this.getView().getModel("local").getProperty("/EntryData/Customer");
 				var custId1 = this.getView().byId("idCust").getValue();
-			// var password11 = this.getView().byId("pwd1").getValue();
-			// this.getView().byId("pwd1").setValue();
+				// var password11 = this.getView().byId("pwd1").getValue();
+				// this.getView().byId("pwd1").setValue();
 				var custId2 = this.getView().byId("idCustText").getText();
-				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === ""  || custId2 === undefined) {
+				if (custId === "" || custId === undefined || custId1 === "" || custId1 === undefined || custId2 === "" || custId2 === undefined) {
 					sap.m.MessageBox.error(" Please Select a Customer ", {
 						title: "Error"
 					});
 					return;
 				}
-				if(this.getView().byId("idTable").getItems().length===0){
+				if (this.getView().byId("idTable").getItems().length === 0) {
 					MessageBox.error("No Data Found to delete in the Table");
 					return;
 				}
@@ -1718,11 +1696,11 @@ sap.ui.define(["victoria/controller/BaseController",
 				if (!this.oDialog2) {
 					this.oDialog2 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroupMaster", this);
 					this.getView().addDependent(this.oDialog1);
-						$("#pwd1").val('');
+					$("#pwd1").val('');
 				}
 				$('input[type="password"]').val('');
 				$("#pwd1").val('');
-this.byId("pwd1").setValue("");
+				this.byId("pwd1").setValue("");
 				this.oDialog2.open();
 				this.byId("pwd1").setValue("");
 				$('input[type="password"]').val('');

@@ -1,198 +1,190 @@
-<mvc:View
-	controllerName="victoria.controller.dayBook"
-	xmlns:html="http://www.w3.org/1999/xhtml"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:t="sap.ui.table"
-	xmlns:u="sap.ui.unified"
-	displayBlock="true"
-	xmlns="sap.m"
-	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
-	xmlns:core="sap.ui.core"
-	xmlns:smartTable="sap.ui.comp.smarttable"
-	xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form"
-	xmlns:semantic="sap.m.semantic" >
-	<semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}" navButtonPress="handleNavButtonPress" showNavButton="{local>/IsPhone}" >
-		<semantic:customHeaderContent>
-			<!-- <Text id="idDB"> </Text> -->
-			<Text id="idUser"></Text>
-			<Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}" press="logOutApp"/>
-		</semantic:customHeaderContent>
-		<semantic:content>
-			<!-- <App> <pages> <Page> <content> -->
-			<smartFilterBar:SmartFilterBar filterContainerWidth="12rem"
- id="smartFilterBar" entitySet="Entrys" search="onFilterSearch" width="auto" useToolbar="false">
-				<smartFilterBar:controlConfiguration>
-					<smartFilterBar:ControlConfiguration key="Date" index="2" label="{i18n>Date}" groupId="_BASIC" visibleInAdvancedArea="true">
-						<smartFilterBar:customControl>
-							<DateRangeSelection id="dateRangeId" change="onPayDateChange"/>
-							<!-- <DatePicker id="DateId1" valueFormat="yyyy-MM-dd" required="false" change="onPayDateChange" displayFormat="dd.MM.yyyy" ></DatePicker> -->
-							<!-- <DatePicker id="DateId2" valueFormat="yyyy-MM-dd" required="false" change="onPayDateChange" displayFormat="dd.MM.yyyy" ></DatePicker> -->
-						</smartFilterBar:customControl>
-					</smartFilterBar:ControlConfiguration>
+<mvc:View controllerName="victoria.controller.dayBook" xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true"
+  xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core"
+  xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+  xmlns:semantic="sap.m.semantic">
+  <semantic:FullscreenPage busyIndicatorDelay="0" title="{i18n>Daybook}" navButtonPress="handleNavButtonPress"
+    showNavButton="{local>/IsPhone}">
+    <semantic:customHeaderContent>
+      <!-- <Text id="idDB"> </Text> -->
+      <Text id="idUser"></Text>
+      <Button icon="sap-icon://log" text="{i18n>Logout}" type="Emphasized" tooltip="{i18n>Logout}"
+        press="logOutApp" />
+    </semantic:customHeaderContent>
+    <semantic:content>
+      <!-- <App> <pages> <Page> <content> -->
+      <smartFilterBar:SmartFilterBar filterContainerWidth="12rem" id="smartFilterBar" entitySet="Entrys"
+        search="onFilterSearch" width="auto" useToolbar="false">
+        <smartFilterBar:controlConfiguration>
+          <smartFilterBar:ControlConfiguration key="Date" index="2" label="{i18n>Date}" groupId="_BASIC"
+            visibleInAdvancedArea="true">
+            <smartFilterBar:customControl>
+              <DateRangeSelection id="dateRangeId" change="onPayDateChange" />
+              <!-- <DatePicker id="DateId1" valueFormat="yyyy-MM-dd" required="false" change="onPayDateChange" displayFormat="dd.MM.yyyy" ></DatePicker> -->
+              <!-- <DatePicker id="DateId2" valueFormat="yyyy-MM-dd" required="false" change="onPayDateChange" displayFormat="dd.MM.yyyy" ></DatePicker> -->
+            </smartFilterBar:customControl>
+          </smartFilterBar:ControlConfiguration>
 
-					<!-- <smartFilterBar:ControlConfiguration key="Date1" index="3" label="End Date" groupId="_BASIC" width="300px" visibleInAdvancedArea="true"> <smartFilterBar:customControl> <DatePicker id="DateId2" valueFormat="yyyy-MM-dd" required="false"
+          <!-- <smartFilterBar:ControlConfiguration key="Date1" index="3" label="End Date" groupId="_BASIC" width="300px" visibleInAdvancedArea="true"> <smartFilterBar:customControl> <DatePicker id="DateId2" valueFormat="yyyy-MM-dd" required="false"
 					change="onPayDateChange" displayFormat="dd.MM.yyyy" ></DatePicker> </smartFilterBar:customControl> </smartFilterBar:ControlConfiguration> -->
 
-					<smartFilterBar:ControlConfiguration key="idCustDay" width="auto" index="1" label="{i18n>Customer}" groupId="_BASIC"  visibleInAdvancedArea="true">
-						<smartFilterBar:customControl>
-							<Input
-								id="idCustDay"
-								showValueHelp="true"
-								editable="true"
-								valueHelpRequest="onValueHelpRequest"
-								value=""  suggest="onSuggest"
-								suggestionItemSelected="onConfirm"
-								maxSuggestionWidth="auto"
-								autocomplete="false"
-								submit="onSubmit"
-								showSuggestion="true"
-								suggestionItems="{local>/finalCustomer}">
-								<suggestionItems>
-									<core:ListItem text="{local>CustomerCode}" key="{local>City}" additionalText="{parts: [{path: 'local>Name'}, {path: 'local>City'}],
-																																												 formatter: '.formatter.byNameCity'}"/>
-								</suggestionItems>
+          <smartFilterBar:ControlConfiguration key="idCustDay" width="auto" index="1" label="{i18n>Customer}"
+            groupId="_BASIC" visibleInAdvancedArea="true">
+            <smartFilterBar:customControl>
+              <Input id="idCustDay" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest"
+                value="" suggest="onSuggest" suggestionItemSelected="onConfirm" maxSuggestionWidth="auto"
+                autocomplete="false" submit="onSubmit" showSuggestion="true" suggestionItems="{local>/finalCustomer}">
+              <suggestionItems>
+                <core:ListItem text="{local>CustomerCode}" key="{local>City}" additionalText="{parts: [{path: 'local>Name'}, {path: 'local>City'}],
+																																												 formatter: '.formatter.byNameCity'}"
+                />
+              </suggestionItems>
 
-							</Input>
+              </Input>
 
-						</smartFilterBar:customControl>
-					</smartFilterBar:ControlConfiguration>
+            </smartFilterBar:customControl>
+          </smartFilterBar:ControlConfiguration>
 
-					<smartFilterBar:ControlConfiguration key="Validated" filterType="single"/>
-				</smartFilterBar:controlConfiguration>
-				<smartFilterBar:layoutData>
-					<FlexItemData shrinkFactor="0"/>
-				</smartFilterBar:layoutData>
-			</smartFilterBar:SmartFilterBar>
-			<!-- smartFilterId="smartFilterBar" -->
-			<!-- beforeExport="onBeforeExport" -->
-			<smartTable:SmartTable
-				id="idSmartTable"
-				entitySet="/"
-				useExportToExcel="false"
-				useVariantManagement="false"
-				useTablePersonalisation="true"
-				showRowCount="true"
-				persistencyKey="SmartTableRefApp_Explored"
-				enableAutoBinding="false"
-				class="sapUiResponsiveContentPadding"
-				tableType="ResponsiveTable"
-				demandPopin="false"
-				tableBindingPath="local>/EntryData">
+          <smartFilterBar:ControlConfiguration key="Validated" filterType="single" />
+        </smartFilterBar:controlConfiguration>
+        <smartFilterBar:layoutData>
+          <FlexItemData shrinkFactor="0" />
+        </smartFilterBar:layoutData>
+      </smartFilterBar:SmartFilterBar>
+      <!-- smartFilterId="smartFilterBar" -->
+      <!-- beforeExport="onBeforeExport" -->
+      <smartTable:SmartTable id="idSmartTable" entitySet="/Entrys" useExportToExcel="false"
+        useVariantManagement="false" useTablePersonalisation="true" showRowCount="true"
+        persistencyKey="SmartTableRefApp_Explored" enableAutoBinding="false" class="sapUiResponsiveContentPadding"
+        tableType="ResponsiveTable" demandPopin="false" tableBindingPath="local>/EntryData">
 
-				<smartTable:customToolbar>
-					<OverflowToolbar design="Transparent">
-						<Title id="idTitle" text="{i18n>allEntries}"></Title>
-						<ToolbarSpacer/>
-						<!-- enabled="true" -->
-						<Button id="idEntryDownload1" icon="sap-icon://download" press="onPressEntryDownload" tooltip="{i18n>download}"/>
-						<Button icon="sap-icon://clear-filter" press="onFilterClear" tooltip="clear filters"></Button>
-					</OverflowToolbar>
-				</smartTable:customToolbar>
-				<Table
-					id="idTable1"
-					class="myCustomText"
-					items="{
+        <smartTable:customToolbar>
+          <OverflowToolbar design="Transparent">
+            <Title id="idTitle" text="{i18n>allEntries}"></Title>
+
+                <Label text="Total Case:" design="Bold" visible="{= ${local>/IsPhone} === true ? false:true }"></Label>
+                <ObjectStatus id="idTC11" text="{i18n>TA}:" design="Bold" state="None" visible="true"
+                />
+
+                <Label text="Total Gold:" design="Bold" visible="{= ${local>/IsPhone} === true ? false:true }"></Label>
+                <ObjectStatus id="idG11" text="{i18n>TA}:" design="Bold" state="None" visible="true"
+                />
+
+                <Label text="Total Silver:" design="Bold" visible="{= ${local>/IsPhone} === true ? false:true }"></Label>
+                <ObjectStatus id="idS11" text="{i18n>TA}:" design="Bold" state="None" visible="true"
+                />
+
+
+
+            <ToolbarSpacer/>
+            <!-- enabled="true" -->
+            <Button id="idEntryDownload1" icon="sap-icon://download" press="onPressEntryDownload"
+              tooltip="{i18n>download}" />
+            <Button icon="sap-icon://clear-filter" press="onFilterClear" tooltip="clear filters"
+              visible="{= ${local>/Role} === 'Content' ? false:true }"></Button>
+          </OverflowToolbar>
+        </smartTable:customToolbar>
+        <Table id="idTable1" class="myCustomText" items="{
            path: '/Entrys',
              sorter: {
              path: 'Date',
              descending: 'true'
              }
-           }"
-					 showNoData="false"
-					mode="MultiSelect"
-					growing="true"
-					growingThreshold="20"
-
-					updateFinished="onUpdateFinished"
-					contextualWidth="Auto"
-					 autoPopinMode="true" inset="false">
-					<!-- <headerToolbar> -->
-					<!-- <Toolbar> -->
-					<!-- <Title id="idTitle" text="{i18n>allEntries}"></Title> -->
-					<!-- <ToolbarSpacer/> -->
-					<!-- <Button id = "idEntryDownload2" icon="sap-icon://download" press = "onExport" enabled="true"/> -->
-					<!-- <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button> -->
-					<!-- <Button icon="sap-icon://clear-filter" press="onFilterClear"></Button> -->
-					<!-- </Toolbar> -->
-					<!-- </headerToolbar> -->
-					<columns>
-						<Column demandPopin="true" minScreenWidth = "phone">
-							<Label text="{i18n>Date}" design="Bold" visible="true"></Label>
-						</Column>
-						<Column>
-							<Label text="{i18n>coCustName}" design="Bold"/>
-						</Column>
-						<Column visible="false" >
-							<Label text="{i18n>custcode}" design="Bold"></Label>
-						</Column>
-						<Column visible="true" demandPopin="true" minScreenWidth = "phone">
+           }" showNoData="false" mode="MultiSelect" growing="true" growingThreshold="20"
+          updateFinished="onUpdateFinished" contextualWidth="Auto" autoPopinMode="true"
+          inset="false">
+          <!-- <headerToolbar> -->
+          <!-- <Toolbar> -->
+          <!-- <Title id="idTitle" text="{i18n>allEntries}"></Title> -->
+          <!-- <ToolbarSpacer/> -->
+          <!-- <Button id = "idEntryDownload2" icon="sap-icon://download" press = "onExport" enabled="true"/> -->
+          <!-- <Button id="idtool" icon="sap-icon://edit" tooltip="edit entry" press="onEdit"></Button> -->
+          <!-- <Button icon="sap-icon://clear-filter" press="onFilterClear"></Button> -->
+          <!-- </Toolbar> -->
+          <!-- </headerToolbar> -->
+          <columns>
+            <Column demandPopin="true" minScreenWidth="phone">
+              <Label text="{i18n>Date}" design="Bold" visible="true"></Label>
+            </Column>
+            <Column>
+              <Label text="{i18n>coCustName}" design="Bold" />
+            </Column>
+            <Column visible="false">
+              <Label text="{i18n>custcode}" design="Bold"></Label>
+            </Column>
+            <!-- <Column visible="false" demandPopin="true" minScreenWidth = "phone">
 							<Label text="{i18n>coMaterial}" design="Bold"></Label>
-						</Column>
-						<Column demandPopin="false" minScreenWidth = "phone">
-							<Label id="cash" text="{i18n>amount}" design="Bold"></Label>
-							<footer visible="{local>/Footer}">
-								<ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" visible="{local>/Footer}"/>
-							</footer>
-							<!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
-						</Column>
-						<Column >
-							<Label text="{i18n>Gold}" design="Bold"></Label>
-							<footer visible="{local>/Footer}">
-								<ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" visible="{local>/Footer}"/>
-							</footer>
-						</Column>
-						<Column demandPopin="true" minScreenWidth = "phone">
-							<Label text="{i18n>Silver}" design="Bold"></Label>
-							<!-- visible="{local>/Footer}" -->
-							<footer visible="{local>/Footer}">
-								<ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None"  visible="{local>/Footer}"/>
-							</footer>
-						</Column>
-						<Column demandPopin="true" minScreenWidth = "phone">
-							<Label text="{i18n>Remarks}" design="Bold"></Label>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem>
-							<cells>
-								<Text id="id1" text="{
+						</Column> -->
+            <Column demandPopin="false" minScreenWidth="phone">
+              <Label id="cash" text="{i18n>amount}" design="Bold"></Label>
+              <footer visible="{local>/Footer}">
+                <ObjectStatus id="idTC1" text="{i18n>TA}:" design="Bold" state="None" visible="{local>/Footer}"
+                />
+              </footer>
+              <!-- <Label text=""{ path: '/ProductCollection', formatter: 'sap.m.sample.Table.Formatter.totalFormatter' }""> </Label> -->
+            </Column>
+            <Column>
+              <Label text="{i18n>Gold}" design="Bold"></Label>
+              <footer visible="{local>/Footer}">
+                <ObjectStatus text="{i18n>TotalGold}:" design="Bold" id="idG1" state="None" visible="{local>/Footer}"
+                />
+              </footer>
+            </Column>
+            <Column demandPopin="true" minScreenWidth="phone">
+              <Label text="{i18n>Silver}" design="Bold"></Label>
+              <!-- visible="{local>/Footer}" -->
+              <footer visible="{local>/Footer}">
+                <ObjectStatus text="{i18n>TotalSilver}:" id="idS1" design="Bold" state="None" visible="{local>/Footer}"
+                />
+              </footer>
+            </Column>
+            <Column demandPopin="true" minScreenWidth="phone">
+              <Label text="{i18n>Remarks}" design="Bold"></Label>
+            </Column>
+          </columns>
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text id="id1" text="{
                 path: 'Date',
                 type: 'sap.ui.model.type.Date',
                 formatOptions: {
                       style: 'medium',
                       pattern: 'dd.MM.yyyy'}}"></Text>
 
-								<Text id="id2" text="{CustomerCode}"/>
-								<Text id="id3" text="{Customer}"/>
+                <Text id="id2" text="{CustomerCode}" />
+                <Text id="id3" text="{Customer}" />
 
-								<Text id="id4" text="{Product}"/>
-								<!-- <Text text="" /> <Text text="{Material}" /> -->
-								<!-- <Text text="{Customer}"></Text> -->
-								<!-- <ObjectStatus text="{path:'Cash'}" design="Bold" id="cashid" state="None" /> -->
-								<!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
-								<!-- <Text id="cashid" text="{path: 'Cash', formatter: '.sumAmount'}" /> -->
-								<ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'None':'Warning'}"/>
-								<!-- <footer><Text text="{path: '/customers', formatter: '.sumAmount'}" /></footer> -->
-								<ObjectStatus text="{path:'Gold'}" id="id5" design="Bold" state="{=${Gold}>0?'None':'Warning'}"/>
-								<!-- <Text id="id5" text="{Gold}"></Text> -->
-								<!-- <Text id="id6" text="{Silver}"></Text> -->
-								<ObjectStatus text="{path:'Silver'}" id="id6" design="Bold" state="{=${Silver}>0?'None':'Warning'}"/>
-								<Text id="id7" text="{Remarks}"></Text>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-				<smartTable:layoutData>
-					<FlexItemData growFactor="1" baseSize="0%"/>
-				</smartTable:layoutData>
-			</smartTable:SmartTable>
-			<!--</VBox>-->
+                <!-- <Text id="id4" text="{Product}"/> -->
+                <!-- <Text text="" /> <Text text="{Material}" /> -->
+                <!-- <Text text="{Customer}"></Text> -->
+                <!-- <ObjectStatus text="{path:'Cash'}" design="Bold" id="cashid" state="None" /> -->
+                <!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
+                <!-- <Text id="cashid" text="{path: 'Cash', formatter: '.sumAmount'}" /> -->
+                <ObjectStatus text="{path:'Cash'}" id="cashid" design="Bold" state="{=${Cash}>0?'None':'Warning'}"
+                />
+                <!-- <footer><Text text="{path: '/customers', formatter: '.sumAmount'}" /></footer> -->
+                <ObjectStatus text="{path:'Gold'}" id="id5" design="Bold" state="{=${Gold}>0?'None':'Warning'}"
+                />
+                <!-- <Text id="id5" text="{Gold}"></Text> -->
+                <!-- <Text id="id6" text="{Silver}"></Text> -->
+                <ObjectStatus text="{path:'Silver'}" id="id6" design="Bold" state="{=${Silver}>0?'None':'Warning'}"
+                />
+                <Text id="id7" text="{Remarks}"></Text>
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+        <smartTable:layoutData>
+          <FlexItemData growFactor="1" baseSize="0%" />
+        </smartTable:layoutData>
+      </smartTable:SmartTable>
+      <!--</VBox>-->
 
-		</semantic:content>
-		<!-- </content> -->
-		<!-- <footer> <Toolbar> <ToolbarSpacer/> <Button text="Save" press="onSave"></Button> <Button text="Cancel" press="onCancel"></Button> </Toolbar> </footer> -->
-		<!-- </Page> </pages> </App> -->
-		<!-- <semantic:customFooterContent> <Button text="Clear" press="onClear"></Button> </semantic:customFooterContent> -->
-	</semantic:FullscreenPage>
+    </semantic:content>
+    <!-- </content> -->
+    <!-- <footer> <Toolbar> <ToolbarSpacer/> <Button text="Save" press="onSave"></Button> <Button text="Cancel" press="onCancel"></Button> </Toolbar> </footer> -->
+    <!-- </Page> </pages> </App> -->
+    <!-- <semantic:customFooterContent> <Button text="Clear" press="onClear"></Button> </semantic:customFooterContent> -->
+  </semantic:FullscreenPage>
 </mvc:View>

@@ -3743,6 +3743,7 @@ app.start = function() {
 			});
 		})
 		app.get('/entryDownload', function(req, res) {
+			debugger;
 
 			var reportType = req.query.type;
 
@@ -3801,10 +3802,10 @@ app.start = function() {
 										var heading = {
 											heading: "Fast Report"
 										};
-										sheet.mergeCells('A1:E1');
-										sheet.getCell('E1').value = 'Fast Report';
+										sheet.mergeCells('A1:F1');
+										sheet.getCell('F1').value = 'Fast Report';
 										sheet.getCell('A1').alignment = {
-											vertical: 'middle',
+											vertical: 'center',
 											horizontal: 'center'
 										};
 
@@ -3817,7 +3818,7 @@ app.start = function() {
 										};
 
 										//Merging second Row
-										sheet.mergeCells('A2:E2');
+										sheet.mergeCells('A2:F2');
 
 										//Code for getting current datetime
 										var currentdate = new Date();
@@ -3830,7 +3831,7 @@ app.start = function() {
 											currentdate.getSeconds();
 										sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
 										sheet.getCell('A2').alignment = {
-											vertical: 'middle',
+											vertical: 'center',
 											horizontal: 'center'
 										};
 
@@ -3839,7 +3840,7 @@ app.start = function() {
 										};
 
 
-										var header = ["Date", "Silver", "Cash", "Gold", "Remarks"];
+										var header = ["","Date", "Silver", "Cash", "Gold", "Remarks"];
 
 										sheet.addRow().values = header;
 
@@ -3879,6 +3880,13 @@ app.start = function() {
 												argb: 'A9A9A9'
 											}
 										};
+										sheet.getCell('F3').fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'A9A9A9'
+											}
+										};
 
 										var totCash = 0;
 										var totalB = 0;
@@ -3900,13 +3908,13 @@ app.start = function() {
 
 											return [day, month, year].join('.');
 										}
-										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
+										var colMaxLengthA1, colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
 										//code added by surya 10 nov - end
 										//Coding to remove unwanted items or Rows
 										for (var i = 0; i < Records["length"]; i++) {
 											var items = Records[i].__data;
 											items["Date"] = formatDateForEntry(items["Date"]);
-											var item = [items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
+											var item = [items[""],items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
 											totalB = totalB + items["Silver"];
 											totalC = totalC + items["Cash"];
 											totalD = totalD + items["Gold"];
@@ -3920,13 +3928,30 @@ app.start = function() {
 										// totalC = Math.round(totalC);
 										totalC = totalC.toFixed(2);
 										totalD = totalD.toFixed(2);
-										sheet.getCell('A' + totText).value = "TOTAL";
+										sheet.getCell('B' + totText).value = "TOTAL";
 
-										sheet.getCell('B' + totText).value = totalB;
-										sheet.getCell('C' + totText).value = totalC;
-										sheet.getCell('D' + totText).value = totalD;
+										sheet.getCell('C' + totText).value = totalB;
+										sheet.getCell('D' + totText).value = totalC;
+										sheet.getCell('E' + totText).value = totalD;
 
 										sheet.getCell('A' + totText).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											fgColor: {
+												argb: 'FFFFFF'
+											},
+											bgColor: {
+												argb: 'FFFFFF'
+											}
+										};
+										sheet.getCell('A' + totText).font = {
+											color: {
+												argb: 'FFFFFF'
+											},
+											bold: true
+										};
+
+										sheet.getCell('B' + totText).fill = {
 											type: 'pattern',
 											pattern: 'solid',
 											fgColor: {
@@ -3936,44 +3961,18 @@ app.start = function() {
 												argb: '00FFFF'
 											}
 										};
-										sheet.getCell('A' + totText).font = {
+										sheet.getCell('B' + totText).font = {
 											color: {
 												argb: '0000FF'
 											},
 											bold: true
 										};
 
+
+
 										//Coding for rows and column border
 										for (var j = 1; j <= totText; j++) {
 											////
-											if (sheet.getCell('B' + (j)).value == '') {
-												sheet.getCell('B' + (j)).fill = {
-													type: 'pattern',
-													pattern: 'solid',
-													bgColor: {
-														argb: '00FFFF'
-													},
-													fgColor: {
-														argb: '00FFFF'
-													}
-												};
-
-											} else if (sheet.getCell('B' + (j)).value < 0) {
-												sheet.getCell('B' + (j)).font = {
-													color: {
-														argb: 'FF0000'
-													},
-													bold: true
-												};
-											} else {
-												sheet.getCell('B' + (j)).font = {
-													color: {
-														argb: '000000'
-													},
-													bold: true
-												};
-											}
-
 											if (sheet.getCell('C' + (j)).value == '') {
 												sheet.getCell('C' + (j)).fill = {
 													type: 'pattern',
@@ -3985,14 +3984,6 @@ app.start = function() {
 														argb: '00FFFF'
 													}
 												};
-												if (j > 3 && j <= (totText - 2)) {
-													var valC = sheet.getCell('C' + (j)).value;
-													sheet.getCell('C' + (j)).value = valC + '/-';
-													sheet.getCell('C' + (j)).alignment = {
-														vertical: 'bottom',
-														horizontal: 'right'
-													};
-												}
 
 											} else if (sheet.getCell('C' + (j)).value < 0) {
 												sheet.getCell('C' + (j)).font = {
@@ -4001,15 +3992,6 @@ app.start = function() {
 													},
 													bold: true
 												};
-												if (j > 3 && j <= (totText - 2)) {
-													var valC = sheet.getCell('C' + (j)).value;
-													sheet.getCell('C' + (j)).value = valC + '/-';
-													sheet.getCell('C' + (j)).alignment = {
-														vertical: 'bottom',
-														horizontal: 'right'
-													};
-												}
-
 											} else {
 												sheet.getCell('C' + (j)).font = {
 													color: {
@@ -4017,15 +3999,6 @@ app.start = function() {
 													},
 													bold: true
 												};
-												if (j > 3 && j <= (totText - 2)) {
-													var valC = sheet.getCell('C' + (j)).value;
-													sheet.getCell('C' + (j)).value = valC + '/-';
-													sheet.getCell('C' + (j)).alignment = {
-														vertical: 'bottom',
-														horizontal: 'right'
-													};
-												}
-
 											}
 
 											if (sheet.getCell('D' + (j)).value == '') {
@@ -4039,6 +4012,14 @@ app.start = function() {
 														argb: '00FFFF'
 													}
 												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('D' + (j)).value;
+													sheet.getCell('D' + (j)).value = valC + '/-';
+													sheet.getCell('D' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
 
 											} else if (sheet.getCell('D' + (j)).value < 0) {
 												sheet.getCell('D' + (j)).font = {
@@ -4047,6 +4028,15 @@ app.start = function() {
 													},
 													bold: true
 												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('D' + (j)).value;
+													sheet.getCell('D' + (j)).value = valC + '/-';
+													sheet.getCell('D' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
 											} else {
 												sheet.getCell('D' + (j)).font = {
 													color: {
@@ -4054,7 +4044,46 @@ app.start = function() {
 													},
 													bold: true
 												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('D' + (j)).value;
+													sheet.getCell('D' + (j)).value = valC + '/-';
+													sheet.getCell('D' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
 											}
+
+											if (sheet.getCell('E' + (j)).value == '') {
+												sheet.getCell('E' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('E' + (j)).value < 0) {
+												sheet.getCell('E' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('E' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											// sheet.getCell('F').alignment = { wrapText: true };
 
 											////
 											sheet.getCell('A' + (j)).border = {
@@ -4128,72 +4157,104 @@ app.start = function() {
 												}
 											};
 
+											sheet.getCell('F' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+
 											// code added by surya for autocolumn width - started
 											//setting absolute length for column A
 											if (j > "2") {
+
 												if (sheet.getCell('A' + (j)).value !== null) {
 													if (j == "3") {
-														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														colMaxLengthA1 = sheet.getCell('A' + (j)).value.length;
 													} else {
-														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
-															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA1) {
+															colMaxLengthA1 = sheet.getCell('A' + (j)).value.length;
 														}
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('A').width = colMaxLengthA + 2;
+													sheet.getColumn('A').width = colMaxLengthA1 + 21;
 												}
-												//setting absolute length for column B
+
 												if (sheet.getCell('B' + (j)).value !== null) {
 													if (j == "3") {
-														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														colMaxLengthA = sheet.getCell('B' + (j)).value.length;
 													} else {
-														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
-															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthA) {
+															colMaxLengthA = sheet.getCell('B' + (j)).value.length;
 														}
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('B').width = colMaxLengthB + 2;
+													sheet.getColumn('B').width = colMaxLengthA + 1;
 												}
-												//setting absolute length for column C
+												//setting absolute length for column B
 												if (sheet.getCell('C' + (j)).value !== null) {
 													if (j == "3") {
-														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														colMaxLengthB = sheet.getCell('C' + (j)).value.length;
 													} else {
-														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
-															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthB) {
+															colMaxLengthB = sheet.getCell('C' + (j)).value.length;
 														}
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('C').width = colMaxLengthC + 2;
+													sheet.getColumn('C').width = colMaxLengthB + 3;
 												}
-												//setting absolute length for column D
+												//setting absolute length for column C
 												if (sheet.getCell('D' + (j)).value !== null) {
 													if (j == "3") {
-														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														colMaxLengthC = sheet.getCell('D' + (j)).value.length;
 													} else {
-														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
-															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthC) {
+															colMaxLengthC = sheet.getCell('D' + (j)).value.length;
 														}
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('D').width = colMaxLengthD + 3;
+													sheet.getColumn('D').width = colMaxLengthC + 2;
 												}
-												//setting absolute length for column E
+												//setting absolute length for column D
 												if (sheet.getCell('E' + (j)).value !== null) {
 													if (j == "3") {
-														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														colMaxLengthD = sheet.getCell('E' + (j)).value.length;
 													} else {
-														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
-															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthD) {
+															colMaxLengthD = sheet.getCell('E' + (j)).value.length;
 														}
 													}
 												}
 												if (j == totText) {
-													sheet.getColumn('E').width = colMaxLengthE + 2;
+													sheet.getColumn('E').width = colMaxLengthD + 3;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('F' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('F' + (j)).value.length;
+													} else {
+														if (sheet.getCell('F' + (j)).value.length > colMaxLengthE) {
+															colMaxLengthE = sheet.getCell('F' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('F').width = 17;
+													sheet.getColumn('F').alignment = { vertical: 'middle',
+                    horizontal: 'center', wrapText: true };
+
 												}
 											}
 											// code added by surya for autocolumn width - ended
@@ -4201,41 +4262,44 @@ app.start = function() {
 										}
 
 										if (totalB == 0) {
-											sheet.getCell('B' + totText).value = totalB + '.00 gm';
+											sheet.getCell('C' + totText).value = totalB + '.00 gm';
 										} else {
-											sheet.getCell('B' + totText).value = totalB + 'gm';
+											sheet.getCell('C' + totText).value = totalB + 'gm';
 										}
 
 										if (totalD == 0) {
-											sheet.getCell('D' + totText).value = totalD + '.00 gm';
+											sheet.getCell('E' + totText).value = totalD + '.00 gm';
 										} else {
-											sheet.getCell('D' + totText).value = totalD + 'gm';
+											sheet.getCell('E' + totText).value = totalD + 'gm';
 										}
 
-										sheet.getCell('B' + totText).alignment = {
-											vertical: 'bottom',
-											horizontal: 'right'
-										};
-										sheet.getCell('C' + totText).value = totalC + '/-';
 										sheet.getCell('C' + totText).alignment = {
 											vertical: 'bottom',
 											horizontal: 'right'
 										};
+										sheet.getCell('D' + totText).value = totalC + '/-';
 										sheet.getCell('D' + totText).alignment = {
 											vertical: 'bottom',
 											horizontal: 'right'
 										};
+										sheet.getCell('E' + totText).alignment = {
+											vertical: 'bottom',
+											horizontal: 'right'
+										};
 
-										sheet.getCell('B' + totText).font = {
+
+										sheet.getCell('C' + totText).font = {
 											color: {
 												argb: '800000'
 											}
 										};
-										sheet.getCell('D' + totText).font = {
+										sheet.getCell('E' + totText).font = {
 											color: {
 												argb: '800000'
 											}
 										};
+
+
 
 										//Coding to download in a folder
 										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +

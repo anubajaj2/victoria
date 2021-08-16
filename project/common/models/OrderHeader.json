@@ -40,6 +40,14 @@
       "required": false,
       "default":0.00
     },
+    "CustomerName": {
+        "type": "string",
+        "default": null
+    },
+    "City":{
+      "type": "string",
+      "default": null
+    },
     "CreatedOn": {
       "type": "date",
       "required": "null"

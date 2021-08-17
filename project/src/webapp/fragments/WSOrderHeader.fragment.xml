@@ -39,6 +39,18 @@
 										<Text id="custName" text="{path: 'local>/WSOrderHeader/Customer', formatter:'.formatter.byNameCityGroup'}" editable="false"/>
 											</f:fields>
 										</f:FormElement>
+										<f:FormElement id="idCustomerNameForSale" label="{i18n>Name}" visible="false">
+											<f:fields>
+												<Input value="{local>/WSOrderHeader/CustomerName}" width="60%">
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="idCustomerCityForSale" label="{i18n>City}"  visible="false">
+											<f:fields>
+												<Input value="{local>/WSOrderHeader/City}" width="60%">
+												</Input>
+											</f:fields>
+										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">
 											<f:fields>
 												<Input id="idOrderNo" value="{local>/WSOrderHeader/OrderNo}" showValueHelp="true" valueHelpRequest="valueHelpOrder" valueHelpOnly="true"/>

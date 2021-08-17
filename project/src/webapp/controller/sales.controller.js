@@ -741,6 +741,8 @@ sap.ui.define([
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 					selCust);
+					this.getView().byId("__component0---idsales--Sales--idCustomerNameForSale").setVisible(selCust === "SALE");
+					this.getView().byId("__component0---idsales--Sales--idCustomerCityForSale").setVisible(selCust === "SALE");
 			}
 		},
 		onPayDateChange: function(oEvent) {

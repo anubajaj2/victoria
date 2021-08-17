@@ -33,14 +33,26 @@
 														<core:ListItem text="{CustomerCode}" key="{City}" additionalText="{parts: [{path: 'Name'}, {path: 'City'}],
 																																															 formatter: '.formatter.byNameCity'}"/>
 													</suggestionItems>
-													<layoutData>
+													<!-- <layoutData>
 														<l:GridData span="XL3 L3"/>
-													</layoutData>
+													</layoutData> -->
 												</Input>
 												<!--  valueHelpOnly="true"-->
 												<!-- <Input id ="custName" value="{local>/orderHeaderTemp/CustomerName}"
     editable="false"/> -->
 												<Text id="custName" text="{path: 'local>/orderHeader/Customer', formatter: '.formatter.byNameCityGroup'}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="idCustomerNameForSale" label="{i18n>Name}" visible="false">
+											<f:fields>
+												<Input value="{local>/orderHeader/CustomerName}" width="60%">
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="idCustomerCityForSale" label="{i18n>City}"  visible="false">
+											<f:fields>
+												<Input value="{local>/orderHeader/City}" width="60%">
+												</Input>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement label="{i18n>OrderNo}">

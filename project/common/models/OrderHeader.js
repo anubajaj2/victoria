@@ -40,6 +40,7 @@ module.exports = function(OrderHeader) {
         }
       })
       .then(function(orders) {
+        // debugger;
         //sort the orders in descending order created today
         if(orders.length > 0){
           //if there are/is order created today sort and get next order no
@@ -49,12 +50,13 @@ module.exports = function(OrderHeader) {
 
           //i am gonna create a new order only when the last order has at least one item inside
           var oItem = ctx.Model.app.models.OrderItem;
-          oItem.findOne({where : {
+          oItem.find({where : {
           				"OrderNo": orders[0].id.toString()
           			}})
           .then(function(record){
-                  if(record){
+                  if(record.length>0){
                     //incrementing order no here --comes here when order has item
+                    debugger;
                     ctx.instance.OrderNo = orders[0].OrderNo + 1;
                     //telling system to go ahead and create new order with new no.
                     //next() --> it will go to framework and create a new data record

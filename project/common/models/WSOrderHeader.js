@@ -45,11 +45,11 @@ module.exports = function(WSOrderHeader) {
 
           //i am gonna create a new order only when the last order has at least one item inside
           var oItem = ctx.Model.app.models.WSOrderItem;
-          oItem.findOne({where : {
+          oItem.find({where : {
           				"OrderNo": orders[0].id.toString()
           			}})
           .then(function(record){
-                  if(record){
+                  if(record.length>0){
                     //incrementing order no here --comes here when order has item
                     ctx.instance.OrderNo = orders[0].OrderNo + 1;
                     //telling system to go ahead and create new order with new no.

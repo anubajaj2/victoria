@@ -4046,7 +4046,7 @@ sap.ui.define(
 
 				var random = Math.floor(Math.random() * 10000);
 				var myWindow = window.open("", "PrintWindow" + random, "width=1200,height=800");
-				myWindow.document.write(header + table + footer);
+				myWindow.document.write(header + table);
 				for (var i = 0; i < arrayRemoveFromPrint.length; i++) {
 					var coll = myWindow.document.getElementsByClassName(arrayRemoveFromPrint[i]);
 					for (var j = 0; j < coll.length; j++) {

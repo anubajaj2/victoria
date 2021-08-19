@@ -51,7 +51,7 @@
         "type": "string",
         "default": null
     },
-    "City":{
+    "ContactNo":{
       "type": "string",
       "default": null
     },

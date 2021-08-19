@@ -179,6 +179,8 @@ sap.ui.define(
 					this.getView().byId("WSHeaderFragment--custName").setText(selCustName);
 					// Removing error notif. if value is entered
 					this.getView().byId("WSHeaderFragment--customerId").setValueState("None");
+					this.getView().byId("WSHeaderFragment--idCustomerNameForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
+					this.getView().byId("WSHeaderFragment--idCustomerCityForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
 				}
 			},
 			orderItem: function(oEvent, id) {
@@ -943,6 +945,8 @@ sap.ui.define(
 				oHeaderT.CustomerId = "";
 				oHeader.OrderNo = "";
 				oHeader.Customer = "";
+				oHeader.CustomerName = null;
+				oHeader.ContactNo = null;
 				oHeaderT.TotalOrderValueCash = "0";
 				oHeaderT.TotalOrderValueGold = "0";
 				oHeaderT.TotalOrderValueSilver = "0";

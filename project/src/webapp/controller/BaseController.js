@@ -1733,6 +1733,8 @@ sap.ui.define([
 				this.getView().byId("idCash").focus();
 				this.getView().byId("idCash").$().find("input").select();
 			});
+			this.getView().byId(oEvent.getSource().getId().replace("customerId","idCustomerNameForSale")).setVisible(oEvent.getParameter("selectedItem").getText() === "SALE").getFields()[0].setValue();
+			this.getView().byId(oEvent.getSource().getId().replace("customerId","idCustomerCityForSale")).setVisible(oEvent.getParameter("selectedItem").getText() === "SALE").getFields()[0].setValue();
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {

@@ -45,9 +45,9 @@
 												</Input>
 											</f:fields>
 										</f:FormElement>
-										<f:FormElement id="idCustomerCityForSale" label="{i18n>City}"  visible="false">
+										<f:FormElement id="idCustomerCityForSale" label="{i18n>ContactNo}"  visible="false">
 											<f:fields>
-												<Input value="{local>/WSOrderHeader/City}" width="60%">
+												<Input value="{local>/WSOrderHeader/ContactNo}" width="60%">
 												</Input>
 											</f:fields>
 										</f:FormElement>

@@ -741,8 +741,8 @@ sap.ui.define([
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 					selCust);
-					this.getView().byId("__component0---idsales--Sales--idCustomerNameForSale").setVisible(selCust === "SALE");
-					this.getView().byId("__component0---idsales--Sales--idCustomerCityForSale").setVisible(selCust === "SALE");
+					this.getView().byId("__component0---idsales--Sales--idCustomerNameForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
+					this.getView().byId("__component0---idsales--Sales--idCustomerCityForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
 			}
 		},
 		onPayDateChange: function(oEvent) {
@@ -1581,6 +1581,8 @@ sap.ui.define([
 			oHeaderT.Deduction = "0";
 			oHeaderT.TotalOrderValue = "0";
 			oHeader.OrderNo = "";
+			oHeader.CustomerName = null;
+			oHeader.ContactNo = null;
 			oHeader.Customer = "";
 			oHeader.GoldBhav22 = 0;
 			oHeader.GoldBhav20 = 0;

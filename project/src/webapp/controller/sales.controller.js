@@ -239,14 +239,14 @@ sap.ui.define([
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/prints", "GET", {}, {}, this)
 				.then(function(oData) {
-
+					debugger;
 					that.retailPrint(oData);
 					// that.getView().getModel("local").setProperty("/printCustomizingData",oData);
 
 				}).catch(function(oError) {});
 		},
 		retailPrint: function(oData) {
-
+			debugger;
 			var arrayRemoveFromPrint = [];
 			var hideHeaderContents = [];
 			var orderHeader = this.getView().getModel("local").getProperty("/orderHeaderTemp"); // Cust Id/Name
@@ -287,8 +287,12 @@ sap.ui.define([
 				// cusData.City = this.allMasterData.cities[custId].cityName;
 				// console.log(cusData);
 			}
+			if(orderHeader.CustomerId==="SALE"){
+				cusData.MobilePhone=orderDetails.ContactNo;
+				orderHeader.CustomerName = orderDetails.CustomerName;
+			}
 			var printDate = formatter.getFormattedDate(0);
-			var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
+			var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title = "Estimate", rTnC, rMarking;
 			for (var i = 0; i < oData.results.length; i++) {
 				switch (oData.results[i].Name) {
 					case "__component0---idPrint--idRCompName":
@@ -421,34 +425,34 @@ sap.ui.define([
 			var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
 				'<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
 				'<tbody>' +
-				'<tr>' +
-				'<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
-				'<td class="idRCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +
-				'</tr>' +
-				'<tr>' +
-				'<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>' +
-				'<td class="idRAddress" style="width: 300px; height: 13px;">' + rAddress + '</td>' +
-				'</tr>' +
-				'<tr>' +
-				'<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>' +
-				'<td class="idRPhoneNumber" style="width: 300px; height: 13px;">' + rContNumber + '</td>' +
-				'</tr>' +
-				'<tr>' +
-				'<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>' +
-				'<td class="idRGSTN" style="width: 300px; height: 13px;">' + rGSTNumber + '</td>' +
-				'</tr>' +
-				'</tbody>' +
-				'</table>' +
+				// '<tr>' +
+				// '<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
+				// '<td class="idRCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +
+				// '</tr>' +
+				// '<tr>' +
+				// '<td class="idRAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>' +
+				// '<td class="idRAddress" style="width: 300px; height: 13px;">' + rAddress + '</td>' +
+				// '</tr>' +
+				// '<tr>' +
+				// '<td class="idRPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>' +
+				// '<td class="idRPhoneNumber" style="width: 300px; height: 13px;">' + rContNumber + '</td>' +
+				// '</tr>' +
+				// '<tr>' +
+				// '<td class="idRGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>' +
+				// '<td class="idRGSTN" style="width: 300px; height: 13px;">' + rGSTNumber + '</td>' +
+				// '</tr>' +
+				// '</tbody>' +
+				// '</table>' +
 				'<table style="display: inline-block; width: 500px; height: 100px;">' +
 				'<tbody>' +
 				'<tr>' +
 				'<td style="width: 150px;"><strong>Customer Name</strong></td>' +
 				'<td style="width: 350px;">' + orderHeader.CustomerName + '</td>' +
 				'</tr>' +
-				'<tr>' +
-				'<td style="width: 150px;"><strong>City</strong></td>' +
-				'<td style="width: 350px;">' + this.allMasterData.cities[cusData.City].cityName + '</td>' +
-				'</tr>' +
+				// '<tr>' +
+				// '<td style="width: 150px;"><strong>City</strong></td>' +
+				// '<td style="width: 350px;">' + this.allMasterData.cities[cusData.City].cityName + '</td>' +
+				// '</tr>' +
 				'<tr>' +
 				'<td style="width: 150px;"><strong>Customer Contact</strong></td>' +
 				'<td style="width: 350px;">' + cusData.MobilePhone + '</td>' +

@@ -10712,7 +10712,75 @@ app.start = function() {
 		});
 
 
+		app.get('/getOrderNoForSale', function(req, res, next) {
+			var start = new Date(req.query.Date);
+			start.setHours(0,0,0,0);
 
+			var end = new Date(req.query.Date);
+			end.setHours(23,59,59,999);
+			var OrderHeader = app.models.OrderHeader;
+			OrderHeader.find({
+				where: {
+					and: [{
+						Date: {
+							gt: start
+						}
+					}, {
+						Date: {
+							lt: end
+						}
+					}]
+				},
+				fields:{
+					"OrderNo": true,
+					"id": true
+				}
+			})
+			.then(function(orders) {
+				// debugger;
+				//sort the orders in descending order created today
+				if(orders.length > 0){
+					//if there are/is order created today sort and get next order no
+					orders.sort(function (a, b) {
+						return b.OrderNo - a.OrderNo;
+					});
+
+					//i am gonna create a new order only when the last order has at least one item inside
+					var oItem = app.models.OrderItem;
+					oItem.find({where : {
+									"OrderNo": orders[0].id.toString()
+								}})
+					.then(function(record){
+									if(record.length>0){
+										//incrementing order no here --comes here when order has item
+										// debugger;
+										// ctx.instance.OrderNo = orders[0].OrderNo + 1;
+										res.send({OrderNo:orders[0].OrderNo + 1});
+										//telling system to go ahead and create new order with new no.
+										//next() --> it will go to framework and create a new data record
+										// next();
+									}else{
+										//do not do anything
+										// debugger;
+										// return next();
+										//ctx.res(ctx.instance.__data);
+										//return ctx.instance.__data;
+										// ctx.instance.OrderNo = orders[0].OrderNo;
+										// ctx.instance.__data.id = orders[0].id.toString();
+										res.statusCode = 401;
+										res.send("last order already empty use same:" + orders[0].id);
+										// next(new Error("last order already empty use same:" + orders[0].id));
+									}
+								});
+				}else{
+					//assign a fresh order no
+					//for wholesale, this becomes 251
+						// orderNo = 1;
+						res.send({OrderNo:1});
+				}
+
+			});
+		});
 
 
 

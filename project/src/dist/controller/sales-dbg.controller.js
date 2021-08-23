@@ -254,10 +254,10 @@ sap.ui.define([
 			var printCustHeadVal = this.getView().getModel("local").getProperty("/printCustomizing"); //print cust view header details
 			if (orderDetails.Date) {
 				var orderLocDate = orderDetails.Date
-			}else{
+			} else {
 				orderLocDate = new Date();
 			}
-			if(typeof(orderLocDate) === "string"){
+			if (typeof(orderLocDate) === "string") {
 				var dd = parseInt(orderLocDate.split("-")[2]);
 				var mm = parseInt(orderLocDate.split("-")[1]);
 				var yyyy = parseInt(orderLocDate.split("-")[0]);
@@ -268,7 +268,7 @@ sap.ui.define([
 					mm = '0' + mm;
 				}
 				var orderDate = dd + '.' + mm + '.' + yyyy;
-			}else{
+			} else {
 				var dd = orderLocDate.getDate();
 				var mm = orderLocDate.getMonth() + 1;
 				var yyyy = orderLocDate.getFullYear();
@@ -287,12 +287,13 @@ sap.ui.define([
 				// cusData.City = this.allMasterData.cities[custId].cityName;
 				// console.log(cusData);
 			}
-			if(orderHeader.CustomerId==="SALE"){
-				cusData.MobilePhone=orderDetails.ContactNo;
+			if (orderHeader.CustomerId === "SALE") {
+				cusData.MobilePhone = orderDetails.ContactNo;
 				orderHeader.CustomerName = orderDetails.CustomerName;
 			}
 			var printDate = formatter.getFormattedDate(0);
-			var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title = "Estimate", rTnC, rMarking;
+			var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title = "Estimate",
+				rTnC, rMarking;
 			for (var i = 0; i < oData.results.length; i++) {
 				switch (oData.results[i].Name) {
 					case "__component0---idPrint--idRCompName":
@@ -504,7 +505,7 @@ sap.ui.define([
 					totalQuantity = totalQuantity + oBinding.oList[i].Qty;
 					totalWeight = totalWeight + oBinding.oList[i].Weight;
 					var matDesc = oBinding.oList[i].MaterialCode.concat('-', oBinding.oList[i].Description);
-					if(oBinding.oList[i].Remarks === undefined){
+					if (oBinding.oList[i].Remarks === undefined) {
 						oBinding.oList[i].Remarks = "  ";
 					}
 					table += '<tr>';
@@ -553,7 +554,7 @@ sap.ui.define([
 					if (oReturns[i].Type) {
 						var retTotQuant = retTotQuant + oReturns[i].Qty;
 						var retTotWeight = retTotWeight + oReturns[i].Weight;
-						var remark=oReturns[i].Remarks ? oReturns[i].Remarks : '';
+						var remark = oReturns[i].Remarks ? oReturns[i].Remarks : '';
 						table += '<tr>';
 						table += '<td  style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Type + '</td>' +
 							'<td  class="idRReturnQuantity" style="width: 80px;border:1px solid black">&nbsp;' + oReturns[i].Qty + '</td>' +
@@ -745,8 +746,8 @@ sap.ui.define([
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 				this.getView().getModel("local").setProperty("/orderHeaderTemp/CustomerId",
 					selCust);
-					this.getView().byId("__component0---idsales--Sales--idCustomerNameForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
-					this.getView().byId("__component0---idsales--Sales--idCustomerCityForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
+				this.getView().byId("__component0---idsales--Sales--idCustomerNameForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
+				this.getView().byId("__component0---idsales--Sales--idCustomerCityForSale").setVisible(selCust === "SALE").getFields()[0].setValue();
 			}
 		},
 		onPayDateChange: function(oEvent) {
@@ -887,7 +888,7 @@ sap.ui.define([
 		//on order create Button
 		orderCreate: function(oEvent) {
 			var that = this;
-
+			var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
 			if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo) {
 				var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("deleteUnsaveData");
@@ -900,7 +901,6 @@ sap.ui.define([
 					onClose: function(sButton) {
 						if (sButton === MessageBox.Action.OK) {
 							var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
-							var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
 							var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
 							var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
 							var order = that.getView().getModel('local').getProperty('/orderHeader')
@@ -922,10 +922,55 @@ sap.ui.define([
 					} //onClose
 				});
 			} else {
-				that.orderCheck();
+				var date = this.getView().byId("Sales--DateId").getValue();
+				$.get("/getOrderNoForSale?Date=" + date, {}).then(function(oData) {
+					that.orderCheck(oData.OrderNo);
+				}).catch(function(oError) {
+					if (customerNo === "") {
+						that.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
+						that.getView().setBusy(false);
+					}else if (oError.responseText.includes("last order already empty use same")) {
+						var id = oError.responseText.split(':')[1];
+						if (id) {
+							var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/OrderHeaders(" + id + ")",
+									"GET", {}, {}, that)
+								.then(function(oData) {
+									that.getView().setBusy(false);
+									//create the new json model and get the order id no generated
+									var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+									var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+									oOrderHeader.OrderNo = oData.OrderNo;
+									oOrderHeader.Customer = customer;
+									oOrderId.OrderId = oData.id;
+									oOrderId.OrderNo = oData.OrderNo;
+									that.headerNoChange = true;
+									that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+									that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
+									that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+									var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
+									sap.m.MessageToast.show(oBundle, {
+										duration: 3000, // default
+										width: "15em", // default
+									});
+								})
+								.catch(function(oError) {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								});
+						} else {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
+						}
+					} else {
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
+					}
+				});
 			}
 		},
-		orderCheck: function() {
+		orderCheck: function(orderNo) {
 			var that = this;
 			that.getView().setBusy(true);
 			that.byId("Sales--idSaveIcon").setColor('red');
@@ -949,6 +994,7 @@ sap.ui.define([
 				this.getView().byId("Sales--customerId").setValueState("None");
 				//call the odata promise method to post the data
 				orderData.Date = this.getView().byId("Sales--DateId").getValue();
+				orderData.OrderNo = orderNo;
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
 						"POST", {}, orderData, this)
 					.then(function(oData) {
@@ -963,44 +1009,7 @@ sap.ui.define([
 						that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
 					})
 					.catch(function(oError) {
-						if (oError.responseText.includes("last order already empty use same")) {
-							var id = oError.responseText.split(':')[2];
-							if (id) {
-								var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
-								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-										"/OrderHeaders(" + id + ")",
-										"GET", {}, {}, that)
-									.then(function(oData) {
-										that.getView().setBusy(false);
-										//create the new json model and get the order id no generated
-										var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
-										var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-										oOrderHeader.OrderNo = oData.OrderNo;
-										oOrderHeader.Customer = customer;
-										oOrderId.OrderId = oData.id;
-										oOrderId.OrderNo = oData.OrderNo;
-										that.headerNoChange = true;
-										that.getView().getModel('local').setProperty('/OrderId', oOrderId);
-										that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
-										that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
-										var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
-										sap.m.MessageToast.show(oBundle, {
-											duration: 3000, // default
-											width: "15em", // default
-										});
-									})
-									.catch(function(oError) {
-										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
-									});
-							} else {
-								that.getView().setBusy(false);
-								var oPopover = that.getErrorMessage(oError);
-							}
-						} else {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-						}
+						MessageBox.error("Error in creating order");
 					});
 			} //Else
 		},
@@ -1342,14 +1351,16 @@ sap.ui.define([
 					var oHeaderClone = JSON.parse(JSON.stringify(oHeader));
 					// order header put
 
-					$.post("/updateRetailOrderHdr",{OrderDetails: oHeaderClone})
-					.done(function(data, status) {
-					  sap.m.MessageToast.show("Order Header updated");
+					$.post("/updateRetailOrderHdr", {
+							OrderDetails: oHeaderClone
+						})
+						.done(function(data, status) {
+							sap.m.MessageToast.show("Order Header updated");
 
-					})
-					.fail(function(xhr, status, error) {
-					  sap.m.MessageBox.error("Failed to update Header");
-					});
+						})
+						.fail(function(xhr, status, error) {
+							sap.m.MessageBox.error("Failed to update Header");
+						});
 
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/OrderHeaders('" + oId + "')",
@@ -1795,7 +1806,7 @@ sap.ui.define([
 			this.setWidths(false);
 
 			var myData = this.getView().getModel("local").getProperty("/orderHeader");
-		// that.getView().setBusy(true);
+			// that.getView().setBusy(true);
 			$.post("/previousOrder", {
 					OrderDetails: myData
 				})
@@ -2153,21 +2164,21 @@ sap.ui.define([
 		finalCalculation: function(category, data, priceF, tablePath, cells,
 			quantityOfStone, gold20pergm, gold22pergm,
 			silverpergm) {
-				debugger;
+			debugger;
 			var oLocale = new sap.ui.core.Locale("en-US");
 			var oFloatFormat = sap.ui.core.format.NumberFormat.getFloatInstance(oLocale);
 			var Qty1 = data.Weight * data.Qty;
 			var QtyD1 = data.WeightD * data.QtyD;
 			if ((category.Type === 'Gold' && category.Category === "gm") ||
-			(category.Type === 'GLD' && category.Category === "gm") ||
-			(category.Type === 'SLV' && category.Category === "gm") ||
+				(category.Type === 'GLD' && category.Category === "gm") ||
+				(category.Type === 'SLV' && category.Category === "gm") ||
 				(category.Type === 'Silver' && category.Category === "gm")) {
 				//get the final weight
 				if (data.WeightD !== "" ||
 					data.WeightD !== 0) {
 
 					// var weightF = Qty1 - QtyD1;
-					var weightF=data.Weight - data.WeightD
+					var weightF = data.Weight - data.WeightD
 				} else {
 					var weightF = data.Weight;
 				}
@@ -2179,7 +2190,7 @@ sap.ui.define([
 					if (category.Karat === '22/20') {
 						priceF = weightF * gold20pergm;
 					}
-				} else if (category.Type === 'Silver'|| category.Type === 'SLV') {
+				} else if (category.Type === 'Silver' || category.Type === 'SLV') {
 					priceF = weightF * silverpergm;
 				}
 				//Making charges
@@ -2260,13 +2271,13 @@ sap.ui.define([
 					cells[cells.length - 1].setText(0);
 				}
 			} else if ((category.Type === "Gold" && category.Category === "pcs") ||
-			(category.Type === "GLD" && category.Category === "pcs") ||
-			(category.Type === "SLV" && category.Category === "pcs") ||
+				(category.Type === "GLD" && category.Category === "pcs") ||
+				(category.Type === "SLV" && category.Category === "pcs") ||
 				(category.Type === 'Silver' && category.Category === "pcs")) {
 				//get the final weight
 				if (data.WeightD !== "" ||
 					data.WeightD !== 0) {
-							// var weightF = Qty1 - QtyD1;
+					// var weightF = Qty1 - QtyD1;
 					var weightF = data.Weight - data.WeightD;
 				} else {
 					var weightF = data.Weight;
@@ -2294,7 +2305,7 @@ sap.ui.define([
 				}
 				//Stone value
 				var stonevalue = quantityOfStone * data.MakingD;
-					// var stonevalue = QtyD1 * data.MakingD;
+				// var stonevalue = QtyD1 * data.MakingD;
 				if (!stonevalue) {
 					var stonevalue = 0;
 				}
@@ -2331,18 +2342,18 @@ sap.ui.define([
 
 		onSuggest: function(oEvent) {
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
-		const key = oEvent.key
-		var id1 = oEvent.getParameter("id").split("--")[2]
-		// if() alert('backspace');
+			const key = oEvent.key
+			var id1 = oEvent.getParameter("id").split("--")[2]
+			// if() alert('backspace');
 			var searchStr = oEvent.getParameter("suggestValue");
-			if(searchStr === "" || key == 8 || key === "Backspace" || key === "Delete"){
-					this.getView().byId("customerId").setValue("");
+			if (searchStr === "" || key == 8 || key === "Backspace" || key === "Delete") {
+				this.getView().byId("customerId").setValue("");
 				return;
 			}
-			if(!searchStr) {
+			if (!searchStr) {
 				searchStr = oEvent.getParameter("newValue");
 			}
-			if(searchStr){
+			if (searchStr) {
 				var oFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter("CustomerCode", sap.ui.model.FilterOperator.Contains, searchStr.toUpperCase()),
@@ -2355,15 +2366,15 @@ sap.ui.define([
 			oEvent.getSource().getBinding("suggestionItems").filter(oFilter);
 			var oSorter = new sap.ui.model.Sorter({
 
-						path: "CustomerCode",
-						descending: false
+				path: "CustomerCode",
+				descending: false
 
-					});
-	oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
+			});
+			oEvent.getSource().getBinding("suggestionItems").sort(oSorter);
 			this.getView().byId("customerId").setValue(searchStr);
 
-							// this.getView().byId("idCash").focus();
-							// this.getView().byId("idCash").$().find("input").select();
+			// this.getView().byId("idCash").focus();
+			// this.getView().byId("idCash").$().find("input").select();
 		},
 
 

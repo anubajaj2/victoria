@@ -10,14 +10,14 @@ var xlsx = require('node-xlsx');
 var express = require('express');
 // var fs = require('fs');
 var redis = require('redis');
-var JWTR =  require('jwt-redis').default;
+var JWTR = require('jwt-redis').default;
 const crypto = require('crypto');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 var app = express();
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 
 app = module.exports = loopback();
 
@@ -64,27 +64,27 @@ app.start = function() {
 
 
 
-// app.get('/logout',function(req,res){
-// 	debugger
-// 	var redis = require('redis');
-//
-// var JWTR =  require('jwt-redis').default;
-// var redisClient = redis.createClient();
-// var jwtr = new JWTR(redisClient);
-//
-// jwtr.sign(payload, secret)
-//     .then((token)=>{
-//             // your code
-//     })
-//     .catch((error)=>{
-//             // error handling
-//     });
-// 		jwtr.verify(token, secret);
-// 		jwtr.destroy(token);
-// 		res.clearCookie("jwt");
-//
-// });
-//
+		// app.get('/logout',function(req,res){
+		// 	debugger
+		// 	var redis = require('redis');
+		//
+		// var JWTR =  require('jwt-redis').default;
+		// var redisClient = redis.createClient();
+		// var jwtr = new JWTR(redisClient);
+		//
+		// jwtr.sign(payload, secret)
+		//     .then((token)=>{
+		//             // your code
+		//     })
+		//     .catch((error)=>{
+		//             // error handling
+		//     });
+		// 		jwtr.verify(token, secret);
+		// 		jwtr.destroy(token);
+		// 		res.clearCookie("jwt");
+		//
+		// });
+		//
 
 
 		app.post('/updatePhotoFlag1', function(req, res) {
@@ -681,9 +681,9 @@ app.start = function() {
 										var excel = require('exceljs');
 										var workbook = new excel.Workbook(); //creating workbook
 										var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
-										sheet.columns = [
-										    { width: 11 }
-										  ];
+										sheet.columns = [{
+											width: 11
+										}];
 
 										//Heading for excel
 										var heading = {
@@ -717,13 +717,13 @@ app.start = function() {
 										// };
 										//Merging second Row
 										sheet.mergeCells('A2:E2');
-										sheet.getCell('E2').value = name + ' - ' + city + ' - ' + Ggroup +' - '+ datetime;
+										sheet.getCell('E2').value = name + ' - ' + city + ' - ' + Ggroup + ' - ' + datetime;
 										sheet.getCell('A2').alignment = {
 											vertical: 'middle',
 											horizontal: 'center'
 										};
 										sheet.getCell('A3').alignment = {
-										width:"10"
+											width: "10"
 										};
 
 
@@ -1202,7 +1202,7 @@ app.start = function() {
 			var reportType = req.query.type;
 			var custId = req.query.id;
 			var custName = req.query.name;
-			var type= req.query.type1;
+			var type = req.query.type1;
 
 
 			var responseData = [];
@@ -1226,14 +1226,14 @@ app.start = function() {
 						B_Detail.find({
 							where: {
 								"Customer": custId,
-								"Type":type
+								"Type": type
 							},
 							fields: {
 								"BookingDate": true,
 								"Quantity": true,
 								"Bhav": true,
 								"Advance": true,
-								"Type":true
+								"Type": true
 							}
 						}).then(function(b_Record, err) {
 							callback(err, cRecord, b_Record);
@@ -1243,14 +1243,14 @@ app.start = function() {
 						B_Dlv_Detail.find({
 							where: {
 								"Customer": custId,
-								"Type":type
+								"Type": type
 							},
 							fields: {
 								"BookingDate": true,
 								"Quantity": true,
 								"Bhav": true,
 								"Advance": true,
-								"Type":true
+								"Type": true
 							}
 						}).then(function(b_d_Record, err) {
 							callback(err, cRecord, b_Record, b_d_Record);
@@ -1261,7 +1261,7 @@ app.start = function() {
 					try {
 
 						var excel = require('exceljs');
-							// var type = b_Record[0].Type;
+						// var type = b_Record[0].Type;
 						var workbook = new excel.Workbook(); //creating workbook
 						var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
 
@@ -1735,7 +1735,7 @@ app.start = function() {
 						};
 
 						//Coding to download in a folder
-						var tempFilePath = type + '_' + custName + '_'+'Booking-' + currentdate.getDate() + (currentdate.getMonth() + 1) +
+						var tempFilePath = type + '_' + custName + '_' + 'Booking-' + currentdate.getDate() + (currentdate.getMonth() + 1) +
 							currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() +
 							currentdate.getSeconds() + '.xlsx';
 						// console.log("tempFilePath : ", tempFilePath);
@@ -1779,1246 +1779,1244 @@ app.start = function() {
 		})
 
 
-            app.get('/customerOrderReport', function(req, res) {
-
-                var custId = req.query.id;
-                var custCode = req.query.custCode;
-
-                //read customer name by id, group by group id, city by
-                //read kacchi and print report with all coloring, formatting, totaling
-                var responseData = [];
-                var oSubCounter = {};
-                var Customer = app.models.Customer;
-
-    						var productData = [];
-    						var Product = app.models.Product;
-    						Product.find({}, function(err, product) {
-    								product.map((data) => {
-    										productData[data.__data.id] = data.__data;
-    								});
-    						});
-
-                const that = this;
-
-                var async = require('async');
-                async.waterfall([
-                        function(callback) {
-                            Customer.findById(custId, {
-                                fields: {
-                                    "CustomerCode": true,
-                                    "Name": true,
-                                    "Group": true,
-                                    "City": true
-                                }
-                            }).then(function(customerRecord, err) {
-                                callback(err, customerRecord);
-                            });
-                        }
-                    ], function(err, customerRecord) {
-                        // result now equals 'done'
-                        //set all values to local variables which we need inside next promise
-                        name = customerRecord.Name;
-                        try {
-                            //read the kacchi Records
-                            var CustomerOrder = app.models.CustomerOrder;
-                            CustomerOrder.find({
-                                    where: {
-                                        "Customer": custId
-                                    }
-                                })
-                                .then(function(Records, err) {
-                                        if (Records) {
-                                            var excel = require('exceljs');
-                                            var workbook = new excel.Workbook(); //creating workbook
-                                            var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
-
-                                            //Heading for excel
-                                            var heading = {
-                                                heading: "Fast Report"
-                                            };
-                                            sheet.mergeCells('A1:I1');
-                                            sheet.getCell('I1').value = 'Customer Order Report';
-                                            sheet.getCell('I1').alignment = {
-                                                vertical: 'middle',
-                                                horizontal: 'center'
-                                            };
-                                            sheet.getCell('I1').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: '808080'
-                                                }
-                                            };
-
-                                            //Merging second Row
-                                            sheet.mergeCells('A2:I2');
-
-                                            //Code for getting current datetime
-                                            var currentdate = new Date();
-                                            var num = Records.length;
-                                            var datetime = currentdate.getDate() + "." +
-                                                (currentdate.getMonth() + 1) + "." +
-                                                currentdate.getFullYear() + " / " +
-                                                currentdate.getHours() + ":" +
-                                                currentdate.getMinutes() + ":" +
-                                                currentdate.getSeconds();
-                                            sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
-                                            sheet.getCell('A2').alignment = {
-                                                vertical: 'middle',
-                                                horizontal: 'center'
-                                            };
-                                            sheet.getRow(2).font === {
-                                                bold: true
-                                            };
-
-                                            var header = ["Date", "Delivery Date", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
-
-                                            sheet.addRow().values = header;
-
-                                            //Coding for cell color and bold character
-                                            sheet.getCell('A3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('B3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('C3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('D3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('E3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('F3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('G3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('H3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('I3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-
-                                            var totCash = 0;
-                                            var totalB = 0;
-                                            var totalC = 0;
-                                            var totalD = 0;
-                                            //code added by surya 10 nov - start
-
-                                            // define function to change date format to dd.mm.yyyy using date Object
-                                            function formatDateForEntry(date) {
-                                                var d = new Date(date),
-                                                    month = '' + (d.getMonth() + 1),
-                                                    day = '' + d.getDate(),
-                                                    year = d.getFullYear();
-
-                                                if (month.length < 2)
-                                                    month = '0' + month;
-                                                if (day.length < 2)
-                                                    day = '0' + day;
-
-                                                return [day, month, year].join('.');
-                                            }
-
-                                            var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI;
-                                            //code added by surya 10 nov - end
-
-    																				setTimeout(function () {
-    																					//Coding to remove unwanted items or Rows
-    	                                        for (var i = 0; i < Records["length"]; i++) {
-    	                                            var items = Records[i].__data;
-    	                                            items["Date"] = formatDateForEntry(items["Date"]);
-    	                                            items["DelDate"] = formatDateForEntry(items["DelDate"]);
-    	                                            var item = [items["Date"], items["DelDate"], productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
-    	                                            sheet.addRow().values = item;
-    	                                        }
-
-    	                                        //Coding for formula and concatenation in the last line
-    	                                        var totText = Records["length"] + 4;
-    	                                        var totCol = totText - 1;
-
-    	                                        //Coding for rows and column border
-    	                                        for (var j = 1; j <= totText; j++) {
-    	                                            ////
-    	                                            if (sheet.getCell('B' + (j)).value == '') {
-    	                                                sheet.getCell('B' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-
-    	                                            } else if (sheet.getCell('B' + (j)).value < 0) {
-    	                                                sheet.getCell('B' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            } else {
-    	                                                sheet.getCell('B' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            }
-
-    	                                            if (sheet.getCell('C' + (j)).value == '') {
-    	                                                sheet.getCell('C' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            } else if (sheet.getCell('C' + (j)).value < 0) {
-    	                                                sheet.getCell('C' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            } else {
-    	                                                sheet.getCell('C' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            }
-
-    	                                            if (sheet.getCell('D' + (j)).value == '') {
-    	                                                sheet.getCell('D' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-
-    	                                            } else if (sheet.getCell('D' + (j)).value < 0) {
-    	                                                sheet.getCell('D' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            } else {
-    	                                                sheet.getCell('D' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            }
-
-    	                                            ////
-    	                                            sheet.getCell('A' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('B' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('C' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('D' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('E' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('F' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('G' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('H' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('I' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-
-    	                                            // code added by surya for autocolumn width - started
-
-    	                                            if (j > "2") {
-    	                                                //setting absolute length for column A
-    	                                                if (sheet.getCell('A' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
-    	                                                            colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('A').width = colMaxLengthA + 2;
-    	                                                }
-    	                                                //setting absolute length for column B
-    	                                                if (sheet.getCell('B' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
-    	                                                            colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('B').width = colMaxLengthB + 2;
-    	                                                }
-    	                                                //setting absolute length for column C
-    	                                                if (sheet.getCell('C' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
-    	                                                            colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('C').width = colMaxLengthC + 2;
-    	                                                }
-    	                                                //setting absolute length for column D
-    	                                                if (sheet.getCell('D' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
-    	                                                            colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('D').width = colMaxLengthD + 2;
-    	                                                }
-    	                                                //setting absolute length for column E
-    	                                                if (sheet.getCell('E' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
-    	                                                            colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('E').width = colMaxLengthE + 2;
-    	                                                }
-    	                                                //setting absolute length for column F
-    	                                                if (sheet.getCell('F' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
-    	                                                            colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('F').width = colMaxLengthF + 2;
-    	                                                }
-    	                                                //setting absolute length for column G
-    	                                                if (sheet.getCell('G' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
-    	                                                            colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('G').width = colMaxLengthG + 2;
-    	                                                }
-    	                                                //setting absolute length for column H
-    	                                                if (sheet.getCell('H' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthH = sheet.getCell('H' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
-    	                                                            colMaxLengthH = sheet.getCell('H' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('H').width = colMaxLengthH + 2;
-    	                                                }
-    	                                                //setting absolute length for column I
-    	                                                if (sheet.getCell('I' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthI = sheet.getCell('I' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
-    	                                                            colMaxLengthI = sheet.getCell('I' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('I').width = colMaxLengthI + 2;
-    	                                                }
-    	                                            }
-    	                                            // code added by surya for autocolumn width - ended
-
-    	                                        }
-
-    	                                        const tempFileName = name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-
-    	                                        //anurag
-    	                                        res.setHeader(
-    	                                            "Content-Type",
-    	                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    	                                        );
-    	                                        res.setHeader(
-    	                                            "Content-Disposition",
-    	                                            "attachment; filename=" + tempFileName
-    	                                        );
-
-    	                                        return workbook.xlsx.write(res).then(function(data) {
-    	                                            console.log(data);
-    	                                            res.status(200).end();
-    	                                        });
-    																				}, 3000);
-                                        }
-                                    }
-
-                                ).catch(function(oError) {
-    																console.log(oError);
-                                });
-                        } catch (e) {
-
-                        } finally {
-
-                        }
-                    }
-                );
-            })
-
-    				app.get('/allCustomerOrderReport', function(req, res) {
-
-                var custId = req.query.id;
-                var custCode = req.query.custCode;
-
-                //read customer name by id, group by group id, city by
-                //read kacchi and print report with all coloring, formatting, totaling
-                var responseData = [];
-                var oSubCounter = {};
-                var Customer = app.models.Customer;
-
-    						var productData = [];
-    						var customerData = [];
-    						var Product = app.models.Product;
-    						Product.find({}, function(err, product) {
-    								product.map((data) => {
-    										productData[data.__data.id] = data.__data;
-    								});
-    						});
-    						Customer.find({}, function(err, customer) {
-    								customer.map((data) => {
-    										customerData[data.__data.id] = data.__data;
-    								});
-    						});
-
-
-                const that = this;
-
-                var async = require('async');
-                async.waterfall([
-                        function(callback) {
-                            Customer.findById(custId, {
-                                fields: {
-                                    "CustomerCode": true,
-                                    "Name": true,
-                                    "Group": true,
-                                    "City": true
-                                }
-                            }).then(function(customerRecord, err) {
-                                callback(err, customerRecord);
-                            });
-                        }
-                    ], function(err, customerRecord) {
-                        // result now equals 'done'
-                        //set all values to local variables which we need inside next promise
-                        name = customerRecord.Name;
-                        try {
-                            //read the kacchi Records
-                            var CustomerOrder = app.models.CustomerOrder;
-                            CustomerOrder.find({
-                                    // where: {
-                                    //     "Customer": custId
-                                    // }
-                                })
-                                .then(function(Records, err) {
-                                        if (Records) {
-                                            var excel = require('exceljs');
-                                            var workbook = new excel.Workbook(); //creating workbook
-                                            var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
-
-                                            //Heading for excel
-                                            var heading = {
-                                                heading: "Fast Report"
-                                            };
-                                            sheet.mergeCells('A1:I1');
-                                            sheet.getCell('I1').value = 'Customer Order Report';
-                                            sheet.getCell('I1').alignment = {
-                                                vertical: 'middle',
-                                                horizontal: 'center'
-                                            };
-                                            sheet.getCell('I1').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: '808080'
-                                                }
-                                            };
-
-                                            //Merging second Row
-                                            sheet.mergeCells('A2:I2');
-
-                                            //Code for getting current datetime
-                                            var currentdate = new Date();
-                                            var num = Records.length;
-                                            var datetime = currentdate.getDate() + "." +
-                                                (currentdate.getMonth() + 1) + "." +
-                                                currentdate.getFullYear() + " / " +
-                                                currentdate.getHours() + ":" +
-                                                currentdate.getMinutes() + ":" +
-                                                currentdate.getSeconds();
-                                            sheet.getCell('A2').value = '(' + num + ')    ' + '\t' + '\n' + datetime;
-                                            sheet.getCell('A2').alignment = {
-                                                vertical: 'middle',
-                                                horizontal: 'center'
-                                            };
-                                            sheet.getRow(2).font === {
-                                                bold: true
-                                            };
-
-                                            var header = ["Date", "Delivery Date", "Customer Name", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
-
-                                            sheet.addRow().values = header;
-
-                                            //Coding for cell color and bold character
-                                            sheet.getCell('A3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('B3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('C3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('D3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('E3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('F3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('G3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('H3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-                                            sheet.getCell('I3').fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: {
-                                                    argb: 'A9A9A9'
-                                                }
-                                            };
-    																				sheet.getCell('J3').fill = {
-    																						type: 'pattern',
-    																						pattern: 'solid',
-    																						fgColor: {
-    																								argb: 'A9A9A9'
-    																						}
-    																				};
-
-                                            var totCash = 0;
-                                            var totalB = 0;
-                                            var totalC = 0;
-                                            var totalD = 0;
-                                            //code added by surya 10 nov - start
-
-                                            // define function to change date format to dd.mm.yyyy using date Object
-                                            function formatDateForEntry(date) {
-                                                var d = new Date(date),
-                                                    month = '' + (d.getMonth() + 1),
-                                                    day = '' + d.getDate(),
-                                                    year = d.getFullYear();
-
-                                                if (month.length < 2)
-                                                    month = '0' + month;
-                                                if (day.length < 2)
-                                                    day = '0' + day;
-
-                                                return [day, month, year].join('.');
-                                            }
-
-                                            var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI, colMaxLengthJ;
-                                            //code added by surya 10 nov - end
-
-    																				setTimeout(function () {
-    																					//Coding to remove unwanted items or Rows
-    	                                        for (var i = 0; i < Records["length"]; i++) {
-    	                                            var items = Records[i].__data;
-    	                                            items["Date"] = formatDateForEntry(items["Date"]);
-    	                                            items["DelDate"] = formatDateForEntry(items["DelDate"]);
-    	                                            var item = [items["Date"], items["DelDate"], customerData[items["Customer"]].CustomerCode + " - " + customerData[items["Customer"]].Name, productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
-    	                                            sheet.addRow().values = item;
-    																							// console.log(customerData[items["Customer"]], items["Customer"])
-    	                                        }
-
-    	                                        //Coding for formula and concatenation in the last line
-    	                                        var totText = Records["length"] + 4;
-    	                                        var totCol = totText - 1;
-
-    	                                        //Coding for rows and column border
-    	                                        for (var j = 1; j <= totText; j++) {
-    	                                            ////
-    	                                            if (sheet.getCell('B' + (j)).value == '') {
-    	                                                sheet.getCell('B' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-
-    	                                            } else if (sheet.getCell('B' + (j)).value < 0) {
-    	                                                sheet.getCell('B' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            } else {
-    	                                                sheet.getCell('B' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            }
-
-    	                                            if (sheet.getCell('C' + (j)).value == '') {
-    	                                                sheet.getCell('C' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            } else if (sheet.getCell('C' + (j)).value < 0) {
-    	                                                sheet.getCell('C' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            } else {
-    	                                                sheet.getCell('C' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                                if (j > 3 && j <= (totText - 2)) {
-    	                                                    var valC = sheet.getCell('C' + (j)).value;
-    	                                                    sheet.getCell('C' + (j)).value = valC + '/-';
-    	                                                    sheet.getCell('C' + (j)).alignment = {
-    	                                                        vertical: 'bottom',
-    	                                                        horizontal: 'right'
-    	                                                    };
-    	                                                }
-
-    	                                            }
-
-    	                                            if (sheet.getCell('D' + (j)).value == '') {
-    	                                                sheet.getCell('D' + (j)).fill = {
-    	                                                    type: 'pattern',
-    	                                                    pattern: 'solid',
-    	                                                    bgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    },
-    	                                                    fgColor: {
-    	                                                        argb: '00FFFF'
-    	                                                    }
-    	                                                };
-
-    	                                            } else if (sheet.getCell('D' + (j)).value < 0) {
-    	                                                sheet.getCell('D' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: 'FF0000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            } else {
-    	                                                sheet.getCell('D' + (j)).font = {
-    	                                                    color: {
-    	                                                        argb: '000000'
-    	                                                    },
-    	                                                    bold: true
-    	                                                };
-    	                                            }
-
-    	                                            ////
-    	                                            sheet.getCell('A' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('B' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('C' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('D' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('E' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('F' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('G' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('H' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    	                                            sheet.getCell('I' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-    																							sheet.getCell('J' + (j)).border = {
-    	                                                top: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                left: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                bottom: {
-    	                                                    style: 'thin'
-    	                                                },
-    	                                                right: {
-    	                                                    style: 'thin'
-    	                                                }
-    	                                            };
-
-    	                                            // code added by surya for autocolumn width - started
-
-    	                                            if (j > "2") {
-    	                                                //setting absolute length for column A
-    	                                                if (sheet.getCell('A' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
-    	                                                            colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('A').width = colMaxLengthA + 2;
-    	                                                }
-    	                                                //setting absolute length for column B
-    	                                                if (sheet.getCell('B' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
-    	                                                            colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('B').width = colMaxLengthB + 2;
-    	                                                }
-    	                                                //setting absolute length for column C
-    	                                                if (sheet.getCell('C' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
-    	                                                            colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('C').width = colMaxLengthC + 2;
-    	                                                }
-    	                                                //setting absolute length for column D
-    	                                                if (sheet.getCell('D' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
-    	                                                            colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('D').width = colMaxLengthD + 2;
-    	                                                }
-    	                                                //setting absolute length for column E
-    	                                                if (sheet.getCell('E' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
-    	                                                            colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('E').width = colMaxLengthE + 2;
-    	                                                }
-    	                                                //setting absolute length for column F
-    	                                                if (sheet.getCell('F' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
-    	                                                            colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('F').width = colMaxLengthF + 2;
-    	                                                }
-    	                                                //setting absolute length for column G
-    	                                                if (sheet.getCell('G' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
-    	                                                            colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('G').width = colMaxLengthG + 2;
-    	                                                }
-    	                                                //setting absolute length for column H
-    	                                                if (sheet.getCell('H' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthH = sheet.getCell('H' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
-    	                                                            colMaxLengthH = sheet.getCell('H' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('H').width = colMaxLengthH + 2;
-    	                                                }
-    	                                                //setting absolute length for column I
-    	                                                if (sheet.getCell('I' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthI = sheet.getCell('I' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
-    	                                                            colMaxLengthI = sheet.getCell('I' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('I').width = colMaxLengthI + 2;
-    	                                                }
-    																									//setting absolute length for column J
-    	                                                if (sheet.getCell('J' + (j)).value !== null) {
-    	                                                    if (j == "3") {
-    	                                                        colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
-    	                                                    } else {
-    	                                                        if (sheet.getCell('J' + (j)).value.length > colMaxLengthJ) {
-    	                                                            colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
-    	                                                        }
-    	                                                    }
-    	                                                }
-    	                                                if (j == totText) {
-    	                                                    sheet.getColumn('J').width = colMaxLengthJ + 2;
-    	                                                }
-    	                                            }
-    	                                            // code added by surya for autocolumn width - ended
-
-    	                                        }
-
-    	                                        const tempFileName = currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-
-    	                                        //anurag
-    	                                        res.setHeader(
-    	                                            "Content-Type",
-    	                                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    	                                        );
-    	                                        res.setHeader(
-    	                                            "Content-Disposition",
-    	                                            "attachment; filename=" + tempFileName
-    	                                        );
-
-    	                                        return workbook.xlsx.write(res).then(function(data) {
-    	                                            console.log(data);
-    	                                            res.status(200).end();
-    	                                        });
-    																				}, 10000);
-                                        }
-    																		// console.log(Records)
-                                    }
-
-                                ).catch(function(oError) {
-    																console.log(oError);
-                                });
-                        } catch (e) {
-
-                        } finally {
-
-                        }
-                    }
-                );
-            })
-
-
-
-	app.get('/GroupHide',function(req,res){
+		app.get('/customerOrderReport', function(req, res) {
+
+			var custId = req.query.id;
+			var custCode = req.query.custCode;
+
+			//read customer name by id, group by group id, city by
+			//read kacchi and print report with all coloring, formatting, totaling
+			var responseData = [];
+			var oSubCounter = {};
+			var Customer = app.models.Customer;
+
+			var productData = [];
+			var Product = app.models.Product;
+			Product.find({}, function(err, product) {
+				product.map((data) => {
+					productData[data.__data.id] = data.__data;
+				});
+			});
+
+			const that = this;
+
+			var async = require('async');
+			async.waterfall([
+				function(callback) {
+					Customer.findById(custId, {
+						fields: {
+							"CustomerCode": true,
+							"Name": true,
+							"Group": true,
+							"City": true
+						}
+					}).then(function(customerRecord, err) {
+						callback(err, customerRecord);
+					});
+				}
+			], function(err, customerRecord) {
+				// result now equals 'done'
+				//set all values to local variables which we need inside next promise
+				name = customerRecord.Name;
+				try {
+					//read the kacchi Records
+					var CustomerOrder = app.models.CustomerOrder;
+					CustomerOrder.find({
+							where: {
+								"Customer": custId
+							}
+						})
+						.then(function(Records, err) {
+								if (Records) {
+									var excel = require('exceljs');
+									var workbook = new excel.Workbook(); //creating workbook
+									var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+									//Heading for excel
+									var heading = {
+										heading: "Fast Report"
+									};
+									sheet.mergeCells('A1:I1');
+									sheet.getCell('I1').value = 'Customer Order Report';
+									sheet.getCell('I1').alignment = {
+										vertical: 'middle',
+										horizontal: 'center'
+									};
+									sheet.getCell('I1').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: '808080'
+										}
+									};
+
+									//Merging second Row
+									sheet.mergeCells('A2:I2');
+
+									//Code for getting current datetime
+									var currentdate = new Date();
+									var num = Records.length;
+									var datetime = currentdate.getDate() + "." +
+										(currentdate.getMonth() + 1) + "." +
+										currentdate.getFullYear() + " / " +
+										currentdate.getHours() + ":" +
+										currentdate.getMinutes() + ":" +
+										currentdate.getSeconds();
+									sheet.getCell('A2').value = 'Customer Name : ' + name + '(' + num + ')    ' + '\t' + '\n' + datetime;
+									sheet.getCell('A2').alignment = {
+										vertical: 'middle',
+										horizontal: 'center'
+									};
+									sheet.getRow(2).font === {
+										bold: true
+									};
+
+									var header = ["Date", "Delivery Date", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
+
+									sheet.addRow().values = header;
+
+									//Coding for cell color and bold character
+									sheet.getCell('A3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('B3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('C3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('D3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('E3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('F3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('G3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('H3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('I3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+
+									var totCash = 0;
+									var totalB = 0;
+									var totalC = 0;
+									var totalD = 0;
+									//code added by surya 10 nov - start
+
+									// define function to change date format to dd.mm.yyyy using date Object
+									function formatDateForEntry(date) {
+										var d = new Date(date),
+											month = '' + (d.getMonth() + 1),
+											day = '' + d.getDate(),
+											year = d.getFullYear();
+
+										if (month.length < 2)
+											month = '0' + month;
+										if (day.length < 2)
+											day = '0' + day;
+
+										return [day, month, year].join('.');
+									}
+
+									var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI;
+									//code added by surya 10 nov - end
+
+									setTimeout(function() {
+										//Coding to remove unwanted items or Rows
+										for (var i = 0; i < Records["length"]; i++) {
+											var items = Records[i].__data;
+											items["Date"] = formatDateForEntry(items["Date"]);
+											items["DelDate"] = formatDateForEntry(items["DelDate"]);
+											var item = [items["Date"], items["DelDate"], productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
+											sheet.addRow().values = item;
+										}
+
+										//Coding for formula and concatenation in the last line
+										var totText = Records["length"] + 4;
+										var totCol = totText - 1;
+
+										//Coding for rows and column border
+										for (var j = 1; j <= totText; j++) {
+											////
+											if (sheet.getCell('B' + (j)).value == '') {
+												sheet.getCell('B' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('B' + (j)).value < 0) {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											if (sheet.getCell('C' + (j)).value == '') {
+												sheet.getCell('C' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											} else if (sheet.getCell('C' + (j)).value < 0) {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											} else {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											}
+
+											if (sheet.getCell('D' + (j)).value == '') {
+												sheet.getCell('D' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('D' + (j)).value < 0) {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											////
+											sheet.getCell('A' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('B' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('C' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('D' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('E' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('F' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('G' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('H' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('I' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+
+											// code added by surya for autocolumn width - started
+
+											if (j > "2") {
+												//setting absolute length for column A
+												if (sheet.getCell('A' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+													} else {
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('A').width = colMaxLengthA + 2;
+												}
+												//setting absolute length for column B
+												if (sheet.getCell('B' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+													} else {
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('B').width = colMaxLengthB + 2;
+												}
+												//setting absolute length for column C
+												if (sheet.getCell('C' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+													} else {
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('C').width = colMaxLengthC + 2;
+												}
+												//setting absolute length for column D
+												if (sheet.getCell('D' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+													} else {
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('D').width = colMaxLengthD + 2;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('E' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+													} else {
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('E').width = colMaxLengthE + 2;
+												}
+												//setting absolute length for column F
+												if (sheet.getCell('F' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+													} else {
+														if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
+															colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('F').width = colMaxLengthF + 2;
+												}
+												//setting absolute length for column G
+												if (sheet.getCell('G' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+													} else {
+														if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
+															colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('G').width = colMaxLengthG + 2;
+												}
+												//setting absolute length for column H
+												if (sheet.getCell('H' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+													} else {
+														if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
+															colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('H').width = colMaxLengthH + 2;
+												}
+												//setting absolute length for column I
+												if (sheet.getCell('I' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+													} else {
+														if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
+															colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('I').width = colMaxLengthI + 2;
+												}
+											}
+											// code added by surya for autocolumn width - ended
+
+										}
+
+										const tempFileName = name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+
+										//anurag
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFileName
+										);
+
+										return workbook.xlsx.write(res).then(function(data) {
+											console.log(data);
+											res.status(200).end();
+										});
+									}, 3000);
+								}
+							}
+
+						).catch(function(oError) {
+							console.log(oError);
+						});
+				} catch (e) {
+
+				} finally {
+
+				}
+			});
+		})
+
+		app.get('/allCustomerOrderReport', function(req, res) {
+
+			var custId = req.query.id;
+			var custCode = req.query.custCode;
+
+			//read customer name by id, group by group id, city by
+			//read kacchi and print report with all coloring, formatting, totaling
+			var responseData = [];
+			var oSubCounter = {};
+			var Customer = app.models.Customer;
+
+			var productData = [];
+			var customerData = [];
+			var Product = app.models.Product;
+			Product.find({}, function(err, product) {
+				product.map((data) => {
+					productData[data.__data.id] = data.__data;
+				});
+			});
+			Customer.find({}, function(err, customer) {
+				customer.map((data) => {
+					customerData[data.__data.id] = data.__data;
+				});
+			});
+
+
+			const that = this;
+
+			var async = require('async');
+			async.waterfall([
+				function(callback) {
+					Customer.findById(custId, {
+						fields: {
+							"CustomerCode": true,
+							"Name": true,
+							"Group": true,
+							"City": true
+						}
+					}).then(function(customerRecord, err) {
+						callback(err, customerRecord);
+					});
+				}
+			], function(err, customerRecord) {
+				// result now equals 'done'
+				//set all values to local variables which we need inside next promise
+				name = customerRecord.Name;
+				try {
+					//read the kacchi Records
+					var CustomerOrder = app.models.CustomerOrder;
+					CustomerOrder.find({
+							// where: {
+							//     "Customer": custId
+							// }
+						})
+						.then(function(Records, err) {
+								if (Records) {
+									var excel = require('exceljs');
+									var workbook = new excel.Workbook(); //creating workbook
+									var sheet = workbook.addWorksheet('MySheet'); //creating worksheet
+
+									//Heading for excel
+									var heading = {
+										heading: "Fast Report"
+									};
+									sheet.mergeCells('A1:I1');
+									sheet.getCell('I1').value = 'Customer Order Report';
+									sheet.getCell('I1').alignment = {
+										vertical: 'middle',
+										horizontal: 'center'
+									};
+									sheet.getCell('I1').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: '808080'
+										}
+									};
+
+									//Merging second Row
+									sheet.mergeCells('A2:I2');
+
+									//Code for getting current datetime
+									var currentdate = new Date();
+									var num = Records.length;
+									var datetime = currentdate.getDate() + "." +
+										(currentdate.getMonth() + 1) + "." +
+										currentdate.getFullYear() + " / " +
+										currentdate.getHours() + ":" +
+										currentdate.getMinutes() + ":" +
+										currentdate.getSeconds();
+									sheet.getCell('A2').value = '(' + num + ')    ' + '\t' + '\n' + datetime;
+									sheet.getCell('A2').alignment = {
+										vertical: 'middle',
+										horizontal: 'center'
+									};
+									sheet.getRow(2).font === {
+										bold: true
+									};
+
+									var header = ["Date", "Delivery Date", "Customer Name", "Item Name", "Qty", "Weight", "Making", "Remarks", "Status", "Karigar"];
+
+									sheet.addRow().values = header;
+
+									//Coding for cell color and bold character
+									sheet.getCell('A3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('B3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('C3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('D3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('E3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('F3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('G3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('H3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('I3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+									sheet.getCell('J3').fill = {
+										type: 'pattern',
+										pattern: 'solid',
+										fgColor: {
+											argb: 'A9A9A9'
+										}
+									};
+
+									var totCash = 0;
+									var totalB = 0;
+									var totalC = 0;
+									var totalD = 0;
+									//code added by surya 10 nov - start
+
+									// define function to change date format to dd.mm.yyyy using date Object
+									function formatDateForEntry(date) {
+										var d = new Date(date),
+											month = '' + (d.getMonth() + 1),
+											day = '' + d.getDate(),
+											year = d.getFullYear();
+
+										if (month.length < 2)
+											month = '0' + month;
+										if (day.length < 2)
+											day = '0' + day;
+
+										return [day, month, year].join('.');
+									}
+
+									var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI, colMaxLengthJ;
+									//code added by surya 10 nov - end
+
+									setTimeout(function() {
+										//Coding to remove unwanted items or Rows
+										for (var i = 0; i < Records["length"]; i++) {
+											var items = Records[i].__data;
+											items["Date"] = formatDateForEntry(items["Date"]);
+											items["DelDate"] = formatDateForEntry(items["DelDate"]);
+											var item = [items["Date"], items["DelDate"], customerData[items["Customer"]].CustomerCode + " - " + customerData[items["Customer"]].Name, productData[items["Material"]].ProductCode + " - " + productData[items["Material"]].ProductName, items["Qty"], items["Weight"], items["Making"], items["Remarks"], items["Status"], items["Karigar"]];
+											sheet.addRow().values = item;
+											// console.log(customerData[items["Customer"]], items["Customer"])
+										}
+
+										//Coding for formula and concatenation in the last line
+										var totText = Records["length"] + 4;
+										var totCol = totText - 1;
+
+										//Coding for rows and column border
+										for (var j = 1; j <= totText; j++) {
+											////
+											if (sheet.getCell('B' + (j)).value == '') {
+												sheet.getCell('B' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('B' + (j)).value < 0) {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('B' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											if (sheet.getCell('C' + (j)).value == '') {
+												sheet.getCell('C' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											} else if (sheet.getCell('C' + (j)).value < 0) {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											} else {
+												sheet.getCell('C' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+												if (j > 3 && j <= (totText - 2)) {
+													var valC = sheet.getCell('C' + (j)).value;
+													sheet.getCell('C' + (j)).value = valC + '/-';
+													sheet.getCell('C' + (j)).alignment = {
+														vertical: 'bottom',
+														horizontal: 'right'
+													};
+												}
+
+											}
+
+											if (sheet.getCell('D' + (j)).value == '') {
+												sheet.getCell('D' + (j)).fill = {
+													type: 'pattern',
+													pattern: 'solid',
+													bgColor: {
+														argb: '00FFFF'
+													},
+													fgColor: {
+														argb: '00FFFF'
+													}
+												};
+
+											} else if (sheet.getCell('D' + (j)).value < 0) {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: 'FF0000'
+													},
+													bold: true
+												};
+											} else {
+												sheet.getCell('D' + (j)).font = {
+													color: {
+														argb: '000000'
+													},
+													bold: true
+												};
+											}
+
+											////
+											sheet.getCell('A' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('B' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('C' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('D' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('E' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('F' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('G' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('H' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('I' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+											sheet.getCell('J' + (j)).border = {
+												top: {
+													style: 'thin'
+												},
+												left: {
+													style: 'thin'
+												},
+												bottom: {
+													style: 'thin'
+												},
+												right: {
+													style: 'thin'
+												}
+											};
+
+											// code added by surya for autocolumn width - started
+
+											if (j > "2") {
+												//setting absolute length for column A
+												if (sheet.getCell('A' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+													} else {
+														if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+															colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('A').width = colMaxLengthA + 2;
+												}
+												//setting absolute length for column B
+												if (sheet.getCell('B' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+													} else {
+														if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+															colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('B').width = colMaxLengthB + 2;
+												}
+												//setting absolute length for column C
+												if (sheet.getCell('C' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+													} else {
+														if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+															colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('C').width = colMaxLengthC + 2;
+												}
+												//setting absolute length for column D
+												if (sheet.getCell('D' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+													} else {
+														if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+															colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('D').width = colMaxLengthD + 2;
+												}
+												//setting absolute length for column E
+												if (sheet.getCell('E' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+													} else {
+														if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+															colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('E').width = colMaxLengthE + 2;
+												}
+												//setting absolute length for column F
+												if (sheet.getCell('F' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+													} else {
+														if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
+															colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('F').width = colMaxLengthF + 2;
+												}
+												//setting absolute length for column G
+												if (sheet.getCell('G' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+													} else {
+														if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
+															colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('G').width = colMaxLengthG + 2;
+												}
+												//setting absolute length for column H
+												if (sheet.getCell('H' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+													} else {
+														if (sheet.getCell('H' + (j)).value.length > colMaxLengthH) {
+															colMaxLengthH = sheet.getCell('H' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('H').width = colMaxLengthH + 2;
+												}
+												//setting absolute length for column I
+												if (sheet.getCell('I' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+													} else {
+														if (sheet.getCell('I' + (j)).value.length > colMaxLengthI) {
+															colMaxLengthI = sheet.getCell('I' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('I').width = colMaxLengthI + 2;
+												}
+												//setting absolute length for column J
+												if (sheet.getCell('J' + (j)).value !== null) {
+													if (j == "3") {
+														colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
+													} else {
+														if (sheet.getCell('J' + (j)).value.length > colMaxLengthJ) {
+															colMaxLengthJ = sheet.getCell('J' + (j)).value.length;
+														}
+													}
+												}
+												if (j == totText) {
+													sheet.getColumn('J').width = colMaxLengthJ + 2;
+												}
+											}
+											// code added by surya for autocolumn width - ended
+
+										}
+
+										const tempFileName = currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() + currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+
+										//anurag
+										res.setHeader(
+											"Content-Type",
+											"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+										);
+										res.setHeader(
+											"Content-Disposition",
+											"attachment; filename=" + tempFileName
+										);
+
+										return workbook.xlsx.write(res).then(function(data) {
+											console.log(data);
+											res.status(200).end();
+										});
+									}, 10000);
+								}
+								// console.log(Records)
+							}
+
+						).catch(function(oError) {
+							console.log(oError);
+						});
+				} catch (e) {
+
+				} finally {
+
+				}
+			});
+		})
+
+
+
+		app.get('/GroupHide', function(req, res) {
 
 
 			var responseData = [];
@@ -3026,7 +3024,7 @@ app.start = function() {
 			var CustomerOrder = app.models.CustomerOrder;
 			var Customer = app.models.Customer;
 			var Entry = app.models.Entry;
-		  var Group=app.models.Group;
+			var Group = app.models.Group;
 			var async = require('async');
 
 			async.waterfall([
@@ -3090,8 +3088,8 @@ app.start = function() {
 							fields: {
 								"id": true,
 								"groupCode": true,
-								"groupName":true,
-								"hide":true
+								"groupName": true,
+								"hide": true
 							}
 						})
 						.then(function(CityRecords, err) {
@@ -3118,8 +3116,8 @@ app.start = function() {
 							fields: {
 								"id": true,
 								"Customer": true,
-								"Product":true,
-								"City":true
+								"Product": true,
+								"City": true
 
 							}
 						})
@@ -3130,7 +3128,7 @@ app.start = function() {
 			])
 
 
-	})
+		})
 
 		///// Coding for Entry Download/////
 		app.get('/pOrderDownload', function(req, res) {
@@ -3767,7 +3765,7 @@ app.start = function() {
 								"Name": true,
 								"Group": true,
 								"City": true,
-								"Interest":true
+								"Interest": true
 							}
 						}).then(function(customerRecord, err) {
 							callback(err, customerRecord);
@@ -3840,7 +3838,7 @@ app.start = function() {
 										};
 
 
-										var header = ["","Date", "Silver", "Cash", "Gold", "Remarks"];
+										var header = ["", "Date", "Silver", "Cash", "Gold", "Remarks"];
 
 										sheet.addRow().values = header;
 
@@ -3914,7 +3912,7 @@ app.start = function() {
 										for (var i = 0; i < Records["length"]; i++) {
 											var items = Records[i].__data;
 											items["Date"] = formatDateForEntry(items["Date"]);
-											var item = [items[""],items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
+											var item = [items[""], items["Date"], items["Silver"], items["Cash"], items["Gold"], items["Remarks"]];
 											totalB = totalB + items["Silver"];
 											totalC = totalC + items["Cash"];
 											totalD = totalD + items["Gold"];
@@ -4252,8 +4250,11 @@ app.start = function() {
 												}
 												if (j == totText) {
 													sheet.getColumn('F').width = 17;
-													sheet.getColumn('F').alignment = { vertical: 'middle',
-                    horizontal: 'center', wrapText: true };
+													sheet.getColumn('F').alignment = {
+														vertical: 'middle',
+														horizontal: 'center',
+														wrapText: true
+													};
 
 												}
 											}
@@ -4402,7 +4403,7 @@ app.start = function() {
 								"Name": true,
 								"Group": true,
 								"City": true,
-								"Interest":true
+								"Interest": true
 							}
 						}).then(function(customerRecord, err) {
 							callback(err, customerRecord);
@@ -4414,7 +4415,7 @@ app.start = function() {
 					// name = customerRecord.Name;
 					// city = cityRecord.cityName;
 					name = customerRecord.Name;
-					var CInterest=customerRecord.Interest;
+					var CInterest = customerRecord.Interest;
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
@@ -4517,7 +4518,7 @@ app.start = function() {
 											bold: true
 										};
 
-										var header = ["Date", "Silver", "Cash", "Gold","Interest", "Remarks"," ","Date", "Silver", "Cash", "Gold","Interest", "Remarks"];
+										var header = ["Date", "Silver", "Cash", "Gold", "Interest", "Remarks", " ", "Date", "Silver", "Cash", "Gold", "Interest", "Remarks"];
 
 										sheet.addRow().values = header;
 
@@ -4639,10 +4640,11 @@ app.start = function() {
 
 											return [day, month, year].join('.');
 										}
-										function getInterestAmount(Amount,date,interest) {
 
-											if(interest===undefined){
-												interest=0;
+										function getInterestAmount(Amount, date, interest) {
+
+											if (interest === undefined) {
+												interest = 0;
 											}
 											// var oCustomer = this.allMasterData.customers[customerId];
 											// var interest  = oCustomer.Interest;
@@ -4652,15 +4654,15 @@ app.start = function() {
 											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 											var days = parseInt(Difference_In_Days);
 
-											var totalAmt = ((Amount*interest*days)/3000);
+											var totalAmt = ((Amount * interest * days) / 3000);
 											return totalAmt;
 
 										}
 										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
 										//code added by surya 10 nov - end
 										//Coding to remove unwanted items or Rows
-										var pEntry=[];
-										var nEntry=[];
+										var pEntry = [];
+										var nEntry = [];
 										for (var i = 0; i < Records["length"]; i++) {
 											var items = Records[i].__data;
 											// var interest=getInterestAmount(items["Cash"],items["Date"],items["Interest"]);
@@ -4670,7 +4672,7 @@ app.start = function() {
 											// totalC = totalC + items["Cash"];
 											// totalD = totalD + items["Gold"];
 											// sheet.addRow().values = item;
-											if(items["Cash"]>0){
+											if (items["Cash"] > 0) {
 												pEntry.push(items);
 												// sheet.getCell("A"+(i+5)).value=items["Date"];
 												// sheet.getCell("B"+(i+5)).value=items["Silver"];
@@ -4678,8 +4680,7 @@ app.start = function() {
 												// sheet.getCell("D"+(i+5)).value=interest;
 												// sheet.getCell("E"+(i+5)).value=items["Gold"];
 												// sheet.getCell("F"+(i+5)).value=items["Remarks"];
-											}
-											else{
+											} else {
 												nEntry.push(items);
 												// sheet.getCell("H"+(i+5)).value=items["Date"];
 												// sheet.getCell("I"+(i+5)).value=items["Silver"];
@@ -4689,42 +4690,41 @@ app.start = function() {
 												// sheet.getCell("M"+(i+5)).value=items["Remarks"];
 											}
 										}
-										for(i=0;i<pEntry.length;i++){
+										for (i = 0; i < pEntry.length; i++) {
 											var items = pEntry[i];
-											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											var interest = getInterestAmount(items["Cash"], items["Date"], CInterest);
 											totalB = totalB + items["Silver"];
 											totalC = totalC + items["Cash"];
 											totalD = totalD + items["Gold"];
-											totalE=totalE+interest;
+											totalE = totalE + interest;
 											items["Date"] = formatDateForEntry(items["Date"]);
-												sheet.getCell("A"+(i+5)).value=items["Date"];
-												sheet.getCell("B"+(i+5)).value=items["Silver"];
-												sheet.getCell("C"+(i+5)).value=items["Cash"];
-												sheet.getCell("D"+(i+5)).value=items["Gold"];
-												sheet.getCell("E"+(i+5)).value=interest;
-												sheet.getCell("F"+(i+5)).value=items["Remarks"];
+											sheet.getCell("A" + (i + 5)).value = items["Date"];
+											sheet.getCell("B" + (i + 5)).value = items["Silver"];
+											sheet.getCell("C" + (i + 5)).value = items["Cash"];
+											sheet.getCell("D" + (i + 5)).value = items["Gold"];
+											sheet.getCell("E" + (i + 5)).value = interest;
+											sheet.getCell("F" + (i + 5)).value = items["Remarks"];
 										}
-										for(i=0;i<nEntry.length;i++){
+										for (i = 0; i < nEntry.length; i++) {
 											var items = nEntry[i];
-											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											var interest = getInterestAmount(items["Cash"], items["Date"], CInterest);
 											totalI = totalI + items["Silver"];
 											totalJ = totalJ + items["Cash"];
 											totalK = totalK + items["Gold"];
-											totalL=totalL+interest;
+											totalL = totalL + interest;
 											items["Date"] = formatDateForEntry(items["Date"]);
-												sheet.getCell("H"+(i+5)).value=items["Date"];
-												sheet.getCell("I"+(i+5)).value=items["Silver"];
-												sheet.getCell("J"+(i+5)).value=items["Cash"];
-												sheet.getCell("K"+(i+5)).value=items["Gold"];
-												sheet.getCell("L"+(i+5)).value=interest;
-												sheet.getCell("M"+(i+5)).value=items["Remarks"];
+											sheet.getCell("H" + (i + 5)).value = items["Date"];
+											sheet.getCell("I" + (i + 5)).value = items["Silver"];
+											sheet.getCell("J" + (i + 5)).value = items["Cash"];
+											sheet.getCell("K" + (i + 5)).value = items["Gold"];
+											sheet.getCell("L" + (i + 5)).value = interest;
+											sheet.getCell("M" + (i + 5)).value = items["Remarks"];
 										}
 
 										//Coding for formula and concatenation in the last line
-										if(pEntry.length>=nEntry.length){
+										if (pEntry.length >= nEntry.length) {
 											var totText = pEntry.length + 5;
-										}
-										else{
+										} else {
 											var totText = nEntry.length + 5;
 										}
 										// var totText = Records["length"] + 5;
@@ -4732,11 +4732,11 @@ app.start = function() {
 										totalB = totalB.toFixed(3);
 										totalC = totalC.toFixed(2);
 										totalD = totalD.toFixed(2);
-										totalE=totalE.toFixed(2);
+										totalE = totalE.toFixed(2);
 										totalI = totalI.toFixed(3);
 										totalJ = totalJ.toFixed(2);
 										totalK = totalK.toFixed(2);
-										totalL=totalL.toFixed(2);
+										totalL = totalL.toFixed(2);
 										sheet.getCell('A' + totText).value = "TOTAL";
 
 										sheet.getCell('B' + totText).value = totalB;
@@ -5340,7 +5340,7 @@ app.start = function() {
 										// 		argb: '800000'
 										// 	}
 										// };
-										sheet.getColumn('G').width =1;
+										sheet.getColumn('G').width = 1;
 
 										//Coding to download in a folder
 										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
@@ -5445,7 +5445,7 @@ app.start = function() {
 								"Name": true,
 								"Group": true,
 								"City": true,
-								"Interest":true
+								"Interest": true
 							}
 						}).then(function(customerRecord, err) {
 							callback(err, customerRecord);
@@ -5457,7 +5457,7 @@ app.start = function() {
 					// name = customerRecord.Name;
 					// city = cityRecord.cityName;
 					name = customerRecord.Name;
-					var CInterest=customerRecord.Interest;
+					var CInterest = customerRecord.Interest;
 					try {
 						//read the kacchi Records
 						var Entry = app.models.Entry;
@@ -5517,23 +5517,22 @@ app.start = function() {
 										sheet.getRow(2).font === {
 											bold: true
 										};
-										var pEntry=[];
-										var nEntry=[];
+										var pEntry = [];
+										var nEntry = [];
 										for (var i = 0; i < Records["length"]; i++) {
 											var items = Records[i].__data;
 
-											if(items["Cash"]>0){
+											if (items["Cash"] > 0) {
 												pEntry.push(items);
 
-											}
-											else{
+											} else {
 												nEntry.push(items);
 
 											}
 										}
 
 										sheet.mergeCells('A3:D3');
-										sheet.getCell('A3').value = 'जमा - '+pEntry.length;
+										sheet.getCell('A3').value = 'जमा - ' + pEntry.length;
 										sheet.getCell('A3').alignment = {
 											vertical: 'middle',
 											horizontal: 'left'
@@ -5554,7 +5553,7 @@ app.start = function() {
 										// 	currentdate.getHours() + ":" +
 										// 	currentdate.getMinutes() + ":" +
 										// 	currentdate.getSeconds();
-										sheet.getCell('F3').value = 'नाम - '+nEntry.length;
+										sheet.getCell('F3').value = 'नाम - ' + nEntry.length;
 										sheet.getCell('F3').alignment = {
 											vertical: 'middle',
 											horizontal: 'left'
@@ -5564,7 +5563,7 @@ app.start = function() {
 											bold: true
 										};
 
-										var header = ["तारीख", "दिन", "रुपया", "ब्याज"," ","तारीख", "दिन", "रुपया", "ब्याज"];
+										var header = ["तारीख", "दिन", "रुपया", "ब्याज", " ", "तारीख", "दिन", "रुपया", "ब्याज"];
 
 										sheet.addRow().values = header;
 
@@ -5686,10 +5685,11 @@ app.start = function() {
 
 											return [day, month, year].join('.');
 										}
-										function getInterestAmount(Amount,date,interest) {
 
-											if(interest===undefined){
-												interest=0;
+										function getInterestAmount(Amount, date, interest) {
+
+											if (interest === undefined) {
+												interest = 0;
 											}
 											// var oCustomer = this.allMasterData.customers[customerId];
 											// var interest  = oCustomer.Interest;
@@ -5699,50 +5699,49 @@ app.start = function() {
 											var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 											var days = parseInt(Difference_In_Days);
 
-											var totalAmt = ((Amount*interest*days)/3000);
-											return [totalAmt,days];
+											var totalAmt = ((Amount * interest * days) / 3000);
+											return [totalAmt, days];
 
 										}
 										var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE;
 
 										//Coding to remove unwanted items or Rows
 
-										for(i=0;i<pEntry.length;i++){
+										for (i = 0; i < pEntry.length; i++) {
 											var items = pEntry[i];
-											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											var interest = getInterestAmount(items["Cash"], items["Date"], CInterest);
 											// totalB = totalB + items["Silver"];
 											totalC = totalC + items["Cash"];
 											// totalD = totalD + items["Gold"];
-											totalD=totalD+interest[0];
+											totalD = totalD + interest[0];
 											items["Date"] = formatDateForEntry(items["Date"]);
-												sheet.getCell("A"+(i+5)).value=items["Date"];
-												sheet.getCell("B"+(i+5)).value=interest[1];
-												sheet.getCell("C"+(i+5)).value=items["Cash"];
-												// sheet.getCell("D"+(i+5)).value=items["Gold"];
-												sheet.getCell("D"+(i+5)).value=interest[0];
-												// sheet.getCell("F"+(i+5)).value=items["Remarks"];
+											sheet.getCell("A" + (i + 5)).value = items["Date"];
+											sheet.getCell("B" + (i + 5)).value = interest[1];
+											sheet.getCell("C" + (i + 5)).value = items["Cash"];
+											// sheet.getCell("D"+(i+5)).value=items["Gold"];
+											sheet.getCell("D" + (i + 5)).value = interest[0];
+											// sheet.getCell("F"+(i+5)).value=items["Remarks"];
 										}
-										for(i=0;i<nEntry.length;i++){
+										for (i = 0; i < nEntry.length; i++) {
 											var items = nEntry[i];
-											var interest=getInterestAmount(items["Cash"],items["Date"],CInterest);
+											var interest = getInterestAmount(items["Cash"], items["Date"], CInterest);
 											// totalI = totalI + items["Silver"];
 											totalH = totalH + items["Cash"];
 											// totalK = totalK + items["Gold"];
-											totalI=totalI+interest[0];
+											totalI = totalI + interest[0];
 											items["Date"] = formatDateForEntry(items["Date"]);
-												sheet.getCell("F"+(i+5)).value=items["Date"];
-												sheet.getCell("G"+(i+5)).value=interest[1];
-												sheet.getCell("H"+(i+5)).value=items["Cash"];
-												// sheet.getCell("K"+(i+5)).value=items["Gold"];
-												sheet.getCell("I"+(i+5)).value=interest[0];
-												// sheet.getCell("M"+(i+5)).value=items["Remarks"];
+											sheet.getCell("F" + (i + 5)).value = items["Date"];
+											sheet.getCell("G" + (i + 5)).value = interest[1];
+											sheet.getCell("H" + (i + 5)).value = items["Cash"];
+											// sheet.getCell("K"+(i+5)).value=items["Gold"];
+											sheet.getCell("I" + (i + 5)).value = interest[0];
+											// sheet.getCell("M"+(i+5)).value=items["Remarks"];
 										}
 
 										//Coding for formula and concatenation in the last line
-										if(pEntry.length>=nEntry.length){
+										if (pEntry.length >= nEntry.length) {
 											var totText = pEntry.length + 5;
-										}
-										else{
+										} else {
 											var totText = nEntry.length + 5;
 										}
 										// var totText = Records["length"] + 5;
@@ -5750,7 +5749,7 @@ app.start = function() {
 										// totalB = totalB.toFixed(3);
 										// totalC = totalC.toFixed(2);
 										totalD = totalD.toFixed(2);
-										totalC=totalC.toFixed(2);
+										totalC = totalC.toFixed(2);
 										// totalI = totalI.toFixed(3);
 										totalH = totalH.toFixed(2);
 										totalI = totalI.toFixed(2);
@@ -5833,9 +5832,9 @@ app.start = function() {
 											// 	};
 											// }
 											sheet.getRow(j).font = {
-											bold: true,
-											size:14
-										};
+												bold: true,
+												size: 14
+											};
 
 											if (j > 2) {
 												sheet.getCell('E' + (j)).fill = {
@@ -6287,127 +6286,127 @@ app.start = function() {
 										// 		argb: '800000'
 										// 	}
 										// };
-										sheet.getColumn('E').width =1;
-										sheet.mergeCells('A'+(totText+2)+':D'+(totText+2));
-										sheet.mergeCells('A'+(totText+3)+':B'+(totText+3));
-										sheet.mergeCells('C'+(totText+3)+':D'+(totText+3));
-										sheet.getCell('A' + (totText+2)).border = {
-												top: {
-													style: 'thin'
-												},
-												left: {
-													style: 'thin'
-												},
-												bottom: {
-													style: 'thin'
-												},
-												right: {
-													style: 'thin'
-												}
-										};
-										sheet.getCell('A' + (totText+3)).border = {
-												top: {
-													style: 'thin'
-												},
-												left: {
-													style: 'thin'
-												},
-												bottom: {
-													style: 'thin'
-												},
-												right: {
-													style: 'thin'
-												}
-										};
-										sheet.getCell('C' + (totText+3)).border = {
-												top: {
-													style: 'thin'
-												},
-												left: {
-													style: 'thin'
-												},
-												bottom: {
-													style: 'thin'
-												},
-												right: {
-													style: 'thin'
-												}
-										};
-										var ctotal=(parseFloat(totalC)+parseFloat(totalD))+(parseFloat(totalH)+parseFloat(totalI));
-										sheet.getCell("A"+(totText+2)).value="कुल हिसाब";
-										sheet.getCell("A"+(totText+3)).value="कुल रुपए";
-										sheet.getCell("C"+(totText+3)).value=ctotal;
-										sheet.getRow((totText+2)).font={
-											bold:true,
-											size:14
-										};
-										sheet.getRow((totText+3)).font={
-											bold:true,
-											size:14
-										};
-										if (sheet.getCell('C' + ((totText+3))).value == '') {
-												sheet.getCell('C' + ((totText+3))).fill = {
-													type: 'pattern',
-													pattern: 'solid',
-													bgColor: {
-														argb: '00FFFF'
-													},
-													fgColor: {
-														argb: '00FFFF'
-													}
-												};
-
-
-											} else if (sheet.getCell('C' + ((totText+3))).value < 0) {
-												sheet.getCell('C' + ((totText+3))).font = {
-													color: {
-														argb: 'FF0000'
-													},
-													bold: true
-												};
-
-											} else {
-												sheet.getCell('C' + ((totText+3))).font = {
-													color: {
-														argb: '000000'
-													},
-													bold: true
-												};
-
-
+										sheet.getColumn('E').width = 1;
+										sheet.mergeCells('A' + (totText + 2) + ':D' + (totText + 2));
+										sheet.mergeCells('A' + (totText + 3) + ':B' + (totText + 3));
+										sheet.mergeCells('C' + (totText + 3) + ':D' + (totText + 3));
+										sheet.getCell('A' + (totText + 2)).border = {
+											top: {
+												style: 'thin'
+											},
+											left: {
+												style: 'thin'
+											},
+											bottom: {
+												style: 'thin'
+											},
+											right: {
+												style: 'thin'
 											}
-											// sheet.getCell('A' + (totText+3)).fill = {
-											// type: 'pattern',
-											// pattern: 'solid',
-											// fgColor: {
-											// 	argb: '00FFFF'
-											// },
-											// bgColor: {
-											// 	argb: '00FFFF'
-											// }
-											// };
-											// sheet.getCell('A' + (totText+3)).font = {
-											// 	color: {
-											// 		argb: '0000FF'
-											// 	},
-											// 	bold: true
-											// };
-											// sheet.getCell('A' + (totText+2)).fill = {
-											// type: 'pattern',
-											// pattern: 'solid',
-											// fgColor: {
-											// 	argb: '00FFFF'
-											// },
-											// bgColor: {
-											// 	argb: '00FFFF'
-											// }
-											// };
-											// sheet.getCell('A' + (totText+2)).font = {
-											// 	color: {
-											// 		argb: '0000FF'
-											// 	},
-											// 	bold: true
-											// };
+										};
+										sheet.getCell('A' + (totText + 3)).border = {
+											top: {
+												style: 'thin'
+											},
+											left: {
+												style: 'thin'
+											},
+											bottom: {
+												style: 'thin'
+											},
+											right: {
+												style: 'thin'
+											}
+										};
+										sheet.getCell('C' + (totText + 3)).border = {
+											top: {
+												style: 'thin'
+											},
+											left: {
+												style: 'thin'
+											},
+											bottom: {
+												style: 'thin'
+											},
+											right: {
+												style: 'thin'
+											}
+										};
+										var ctotal = (parseFloat(totalC) + parseFloat(totalD)) + (parseFloat(totalH) + parseFloat(totalI));
+										sheet.getCell("A" + (totText + 2)).value = "कुल हिसाब";
+										sheet.getCell("A" + (totText + 3)).value = "कुल रुपए";
+										sheet.getCell("C" + (totText + 3)).value = ctotal;
+										sheet.getRow((totText + 2)).font = {
+											bold: true,
+											size: 14
+										};
+										sheet.getRow((totText + 3)).font = {
+											bold: true,
+											size: 14
+										};
+										if (sheet.getCell('C' + ((totText + 3))).value == '') {
+											sheet.getCell('C' + ((totText + 3))).fill = {
+												type: 'pattern',
+												pattern: 'solid',
+												bgColor: {
+													argb: '00FFFF'
+												},
+												fgColor: {
+													argb: '00FFFF'
+												}
+											};
+
+
+										} else if (sheet.getCell('C' + ((totText + 3))).value < 0) {
+											sheet.getCell('C' + ((totText + 3))).font = {
+												color: {
+													argb: 'FF0000'
+												},
+												bold: true
+											};
+
+										} else {
+											sheet.getCell('C' + ((totText + 3))).font = {
+												color: {
+													argb: '000000'
+												},
+												bold: true
+											};
+
+
+										}
+										// sheet.getCell('A' + (totText+3)).fill = {
+										// type: 'pattern',
+										// pattern: 'solid',
+										// fgColor: {
+										// 	argb: '00FFFF'
+										// },
+										// bgColor: {
+										// 	argb: '00FFFF'
+										// }
+										// };
+										// sheet.getCell('A' + (totText+3)).font = {
+										// 	color: {
+										// 		argb: '0000FF'
+										// 	},
+										// 	bold: true
+										// };
+										// sheet.getCell('A' + (totText+2)).fill = {
+										// type: 'pattern',
+										// pattern: 'solid',
+										// fgColor: {
+										// 	argb: '00FFFF'
+										// },
+										// bgColor: {
+										// 	argb: '00FFFF'
+										// }
+										// };
+										// sheet.getCell('A' + (totText+2)).font = {
+										// 	color: {
+										// 		argb: '0000FF'
+										// 	},
+										// 	bold: true
+										// };
 
 										//Coding to download in a folder
 										// var tempFilePath = 'C:\\dex\\' + reportType + '_' + name + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) +
@@ -7064,8 +7063,8 @@ app.start = function() {
 			var items = [];
 			var items2 = [];
 
-			var d =new Date(req.query.date);
-			d.setUTCHours(0,0,0,0,0);
+			var d = new Date(req.query.date);
+			d.setUTCHours(0, 0, 0, 0, 0);
 			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
 			await collection.aggregate([{
 				$match: {
@@ -7194,8 +7193,8 @@ app.start = function() {
 			var items = [];
 			var items2 = [];
 
-			var d =new Date(req.query.date);
-			d.setUTCHours(0,0,0,0,0);
+			var d = new Date(req.query.date);
+			d.setUTCHours(0, 0, 0, 0, 0);
 			//TODAY'S TOTAL STOCK PER PRODUCT AGGREGATE SUM OF QUANTITY
 			await collection.aggregate([{
 				$group: {
@@ -7235,18 +7234,17 @@ app.start = function() {
 						// combining data product,stockItems
 						//console.log(JSON.stringify(aItemsToday));
 						var itemsReportCollection = [];
-						itemsReportCollection.push(["Code","Name","Amount","Silver","Gold","Last Entry Date"
-						]);
+						itemsReportCollection.push(["Code", "Name", "Amount", "Silver", "Gold", "Last Entry Date"]);
 						for (item of allCustomers) {
 							var customerTotal = aItemsToday[item.id.toString()];
 							customerTotal.Code = item.CustomerCode;
 							customerTotal.Name = item.Name;
 							itemsReportCollection.push([item.CustomerCode,
-																					item.Name,
-																					customerTotal.Cash,
-																					customerTotal.Silver,
-																					customerTotal.Gold,
-																					customerTotal.Date
+								item.Name,
+								customerTotal.Cash,
+								customerTotal.Silver,
+								customerTotal.Gold,
+								customerTotal.Date
 							]);
 						}
 						var buffer = xlsx.build([{
@@ -7262,13 +7260,13 @@ app.start = function() {
 
 		app.get('/StockReport', function(req, res) {
 
-			var d =new Date(req.query.date);
-			d.setUTCHours(0,0,0,0,0);
+			var d = new Date(req.query.date);
+			d.setUTCHours(0, 0, 0, 0, 0);
 			var stockItemsSet = new Set();
 			var productsMap = new Map();
 			app.models.StockItem.find({
 				where: {
-					Date:d
+					Date: d
 				}
 				// where: {
 				// 	Date: {
@@ -7549,12 +7547,12 @@ app.start = function() {
 
 						for (var i = 0; i < customerRecord["length"]; i++) {
 							// try {
-							if(customerRecord[i].City!==undefined)	{
+							if (customerRecord[i].City !== undefined) {
 								if (!(arrCities.includes(customerRecord[i].City.toString()))) {
 									arrCities.push(customerRecord[i].City.toString());
 								}
 							}
-							if(customerRecord[i].Group!==undefined){
+							if (customerRecord[i].Group !== undefined) {
 								if (!(arrGroups.includes(customerRecord[i].Group.toString()))) {
 									arrGroups.push(customerRecord[i].Group.toString());
 								}
@@ -7617,21 +7615,21 @@ app.start = function() {
 								custFinal.Interest = customerRecord[i].Interest;
 								//loop through city records to get city name
 								for (var m = 0; m < cityRecord.length; m++) {
-									if(customerRecord[i].City!==undefined){
-									if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
-										custFinal.City = cityRecord[m].cityName.toString();
-										break;
-									}
+									if (customerRecord[i].City !== undefined) {
+										if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
+											custFinal.City = cityRecord[m].cityName.toString();
+											break;
+										}
 									}
 								}
 
 								//loop through Group records to get group name
 								for (var k = 0; k < groupRecord.length; k++) {
-									if(customerRecord[i].Group!==undefined){
-									if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
-										custFinal.Group = groupRecord[k].groupName.toString();
-										break;
-									}
+									if (customerRecord[i].Group !== undefined) {
+										if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+											custFinal.Group = groupRecord[k].groupName.toString();
+											break;
+										}
 									}
 								}
 								//Now push prepared record object to the array of Final Customer
@@ -7754,7 +7752,7 @@ app.start = function() {
 
 								//Coding for rows and column border
 								var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE,
-									colMaxLengthF, colMaxLengthG, colMaxLengthH,colMaxLengthI;
+									colMaxLengthF, colMaxLengthG, colMaxLengthH, colMaxLengthI;
 								for (var j = 1; j <= totText; j++) {
 									sheet.getCell('A' + (j)).border = {
 										top: {
@@ -9209,11 +9207,11 @@ app.start = function() {
 			);
 		});
 
-		app.get('/groupWiseEntryDownload',async function(req, res) {
+		app.get('/groupWiseEntryDownload', async function(req, res) {
 
 			var reportType = req.query.type;
-			var grp=req.query.group;
-			var gname=req.query.name;
+			var grp = req.query.group;
+			var gname = req.query.name;
 
 
 			var async = require('async');
@@ -9222,12 +9220,12 @@ app.start = function() {
 			var items2 = [];
 			var Entry = app.models.Entry;
 			var collection = Entry.getDataSource().connector.collection(Entry.modelName);
-				var entryRecord = new Set();
+			var entryRecord = new Set();
 
 			async.waterfall([
-					 function(callback) {
+					function(callback) {
 
-						 collection.aggregate([{
+						collection.aggregate([{
 							$group: {
 								_id: '$Customer',
 								Cash: {
@@ -9245,7 +9243,7 @@ app.start = function() {
 							}
 						}], function(err, data) {
 							if (err) return callback(err);
-							data.on('data',async function(data) {
+							data.on('data', async function(data) {
 								items.push(data);
 								entryRecord.add(data._id.toString());
 							});
@@ -9261,7 +9259,7 @@ app.start = function() {
 											inq: Array.from(entryRecord)
 										}
 									}
-								},function(err ,customerRecord) {
+								}, function(err, customerRecord) {
 
 									// return entryRecord;
 									callback(err, customerRecord, items);
@@ -9271,7 +9269,7 @@ app.start = function() {
 						});
 					},
 
-					function (customerRecord,entryRecord,callback) {
+					function(customerRecord, entryRecord, callback) {
 						// var customerRecord=entryRecord;
 						//Loop customer data and put all the city and Group codes in different arrays
 
@@ -9305,10 +9303,10 @@ app.start = function() {
 						}).then(function(cityRecord, err) {
 
 							// call second function of the waterfall
-							callback(err,customerRecord, entryRecord, cityRecord, arrGroups);
+							callback(err, customerRecord, entryRecord, cityRecord, arrGroups);
 						});
 					}
-				], function(err,customerRecord, entryRecord, cityRecord, arrGroups) {
+				], function(err, customerRecord, entryRecord, cityRecord, arrGroups) {
 
 					try {
 						//Fetch Groups data on the basis of group codes array
@@ -9329,7 +9327,7 @@ app.start = function() {
 							//
 							var entryFinals = [];
 							var noGroupEntries = [];
-							var gro=[];
+							var gro = [];
 							for (var a = 0; a < entryRecord.length; a++) {
 								var entryFinal = {};
 								//Get fields from customer table
@@ -9352,39 +9350,39 @@ app.start = function() {
 											}
 										}
 										//
-										if(customerRecord[i].Group.toString() == grp ){
-										//loop through Group records to get group name
-										for (var k = 0; k < groupRecord.length; k++) {
-											if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
-												entryFinal.Group = groupRecord[k].groupName;
-												break;
+										if (customerRecord[i].Group.toString() == grp) {
+											//loop through Group records to get group name
+											for (var k = 0; k < groupRecord.length; k++) {
+												if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+													entryFinal.Group = groupRecord[k].groupName;
+													break;
+												}
 											}
 										}
-									}
-									if(grp == "00" || grp =="01" ){
-									//loop through Group records to get group name
-									for (var k = 0; k < groupRecord.length; k++) {
-										if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
-											entryFinal.Group = groupRecord[k].groupName;
-											break;
+										if (grp == "00" || grp == "01") {
+											//loop through Group records to get group name
+											for (var k = 0; k < groupRecord.length; k++) {
+												if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+													entryFinal.Group = groupRecord[k].groupName;
+													break;
+												}
+											}
 										}
-									}
-								}
-								// if(grp == "01"){
-								// 	for (var k = 0; k < groupRecord.length; k++) {
-								// 		if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
-								// 			gro.Group = groupRecord[k].groupName;
-								// 			break;
-								// 		}
-								// 	}
-								// 	if(gro.Group == null){
-								// 		noGroupEntries.push(entryFinal);
-								// 	}
-								// }
+										// if(grp == "01"){
+										// 	for (var k = 0; k < groupRecord.length; k++) {
+										// 		if (customerRecord[i].Group.toString() == groupRecord[k].id.toString()) {
+										// 			gro.Group = groupRecord[k].groupName;
+										// 			break;
+										// 		}
+										// 	}
+										// 	if(gro.Group == null){
+										// 		noGroupEntries.push(entryFinal);
+										// 	}
+										// }
 										if (!(entryFinal.Group == null)) {
 											// if(grp !="01"){
 											entryFinals.push(entryFinal);
-										// }
+											// }
 										} else {
 											//
 											noGroupEntries.push(entryFinal);
@@ -9395,7 +9393,7 @@ app.start = function() {
 
 								//Now push prepared record object to the array of Final Entries
 							}
-//
+							//
 							if (entryFinals) {
 
 								//sort customer arrays on the basis of Group
@@ -9409,7 +9407,7 @@ app.start = function() {
 
 								//declare function for making one complete tab groupwise
 								function createTabForGroup(group, groupRecords) {
-										//
+									//
 									//create a tab sheet with the Group name
 									var sheet = workbook.addWorksheet(group); //creating worksheet
 									//Heading for excel
@@ -9499,18 +9497,19 @@ app.start = function() {
 											argb: 'A9A9A9'
 										}
 									};
+
 									function formatDateForEntry(date) {
-											var d = new Date(date),
-													month = '' + (d.getMonth() + 1),
-													day = '' + d.getDate(),
-													year = d.getFullYear();
+										var d = new Date(date),
+											month = '' + (d.getMonth() + 1),
+											day = '' + d.getDate(),
+											year = d.getFullYear();
 
-											if (month.length < 2)
-													month = '0' + month;
-											if (day.length < 2)
-													day = '0' + day;
+										if (month.length < 2)
+											month = '0' + month;
+										if (day.length < 2)
+											day = '0' + day;
 
-											return [day, month, year].join('.');
+										return [day, month, year].join('.');
 									}
 									//variables for total aggregation
 									var totalSilver = 0;
@@ -9621,7 +9620,7 @@ app.start = function() {
 										colMaxLengthF, colMaxLengthG;
 									for (var j = 1; j <= totText; j++) {
 
-									//Column color code
+										//Column color code
 
 										if (sheet.getCell('D' + (j)).value == '') {
 											sheet.getCell('D' + (j)).fill = {
@@ -9733,7 +9732,7 @@ app.start = function() {
 											};
 										}
 
-//Column color code end
+										//Column color code end
 
 
 										sheet.getCell('A' + (j)).border = {
@@ -9943,63 +9942,62 @@ app.start = function() {
 
 
 								function GetSortOrder(prop) {
-										    return function(a, b) {
-										        if (a[prop] > b[prop]) {
-										            return 1;
-										        } else if (a[prop] < b[prop]) {
-										            return -1;
-										        }
-										        return 0;
-										    }
+									return function(a, b) {
+										if (a[prop] > b[prop]) {
+											return 1;
+										} else if (a[prop] < b[prop]) {
+											return -1;
 										}
-
-										// entryFinals.sort(GetSortOrder("CustomerName"));
-
-
-								if(grp != "01"){
-								for (var n = 0; n < entryFinals.length; n++) {
-
-									if (n !== 0) {
-										// check if the group is going to change from the next record
-										if (entryFinals[n].Group !== entryFinals[n - "1"].Group) {
-											sameGroupEntries.sort(GetSortOrder("CustomerName"));
-
-											//call function to create new tab and prepare complete tab data
-											createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
-											//clear sameGroup entry as group is changed now
-											sameGroupEntries = [];
-										}
+										return 0;
 									}
+								}
 
-									//push the entry in the collecting array
-									sameGroupEntries.push(entryFinals[n]);
+								// entryFinals.sort(GetSortOrder("CustomerName"));
+
+
+								if (grp != "01") {
+									for (var n = 0; n < entryFinals.length; n++) {
+
+										if (n !== 0) {
+											// check if the group is going to change from the next record
+											if (entryFinals[n].Group !== entryFinals[n - "1"].Group) {
+												sameGroupEntries.sort(GetSortOrder("CustomerName"));
+
+												//call function to create new tab and prepare complete tab data
+												createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
+												//clear sameGroup entry as group is changed now
+												sameGroupEntries = [];
+											}
+										}
+
+										//push the entry in the collecting array
+										sameGroupEntries.push(entryFinals[n]);
+									}
+									if (sameGroupEntries) {
+										sameGroupEntries.sort(GetSortOrder("CustomerName"));
+										//call function to create new tab and prepare complete tab data
+										createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
+									}
 								}
-								if (sameGroupEntries) {
-									sameGroupEntries.sort(GetSortOrder("CustomerName"));
-									//call function to create new tab and prepare complete tab data
-									createTabForGroup(entryFinals[n - "1"].Group, sameGroupEntries);
-								}
-							}
 								if (noGroupEntries) {
-									if(grp=="00"||grp=="01"){
-									//call function to create new tab and prepare complete tab data
+									if (grp == "00" || grp == "01") {
+										//call function to create new tab and prepare complete tab data
 
-									noGroupEntries.sort(GetSortOrder("CustomerName"));
-									createTabForGroup("No_Group_Customers", noGroupEntries);
-								}
-								// if(grp=="01"){entryFinal=noGroupEntries;}
+										noGroupEntries.sort(GetSortOrder("CustomerName"));
+										createTabForGroup("No_Group_Customers", noGroupEntries);
+									}
+									// if(grp=="01"){entryFinal=noGroupEntries;}
 								}
 
 								//Coding to download in a folder
-								if(grp=="00"){
-								var tempFilePath =  reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
-									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-								}
-								else if(grp=="01"){
-									var tempFilePath =  'Group-No Group Customers _' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								if (grp == "00") {
+									var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 										currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-								}else{
-									var tempFilePath =  'Group-'+ gname +'_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								} else if (grp == "01") {
+									var tempFilePath = 'Group-No Group Customers _' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+										currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+								} else {
+									var tempFilePath = 'Group-' + gname + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
 										currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
 								}
 								// console.log("tempFilePath : ", tempFilePath);
@@ -10058,729 +10056,734 @@ app.start = function() {
 			// fetch all the entries
 			var Entry = app.models.Entry;
 			async.waterfall([
-					function(callback) {
-						//Find all Customers
-						Entry.find({
-								order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
-								where: {
-									"Date": {
-										between: [new Date(min), new Date(max)]
-									}
-								}
-							})
-							.then(function(entryRecord, err) {
-								// call second function of the waterfall
-								callback(err, entryRecord);
-							});
-					},
-					function(entryRecord, callback) {
-						//Loop customer data and put all the city and Group codes in different arrays
-
-						var arrCustomers = [];
-
-						for (var p = 0; p < entryRecord["length"]; p++) {
-							if (!(arrCustomers.includes(entryRecord[p].Customer.toString()))) {
-								arrCustomers.push(entryRecord[p].Customer.toString());
-							}
-						}
-
-						//Fetch city data on the basis of city codes array
-						var Customer = app.models.Customer;
-						Customer.find({
+				function(callback) {
+					//Find all Customers
+					Entry.find({
+							order: ['Date ASC', 'ChangedOn DESC', 'CreatedOn DESC'],
 							where: {
-								id: {
-									inq: arrCustomers
+								"Date": {
+									between: [new Date(min), new Date(max)]
 								}
-							},
-							fields: {
-								"id": true,
-								"City": true,
-								"CustomerCode": true,
-								"Name": true,
-								"Group": true
 							}
-						}).then(function(customerRecord, err) {
-
-							callback(err, customerRecord, entryRecord);
-						});
-					},
-					function(customerRecord, entryRecord, callback) {
-						//Loop customer data and put all the city and Group codes in different arrays
-
-						var arrCities = [];
-						// var arrGroups = [];
-
-						for (var i = 0; i < customerRecord["length"]; i++) {
-							if (!(arrCities.includes(customerRecord[i].City.toString()))) {
-								arrCities.push(customerRecord[i].City.toString());
-							}
-
-						}
-
-					 	//Fetch city data on the basis of city codes array
-						var City = app.models.City;
-						City.find({
-							where: {
-								id: {
-									inq: arrCities
-								}
-							},
-							fields: {
-								"id": true,
-								"cityCode": true,
-								"cityName": true
-							}
-						}).then(function(cityRecord, err) {
+						})
+						.then(function(entryRecord, err) {
 							// call second function of the waterfall
-							callback(err, customerRecord, entryRecord, cityRecord);
+							callback(err, entryRecord);
 						});
+				},
+				function(entryRecord, callback) {
+					//Loop customer data and put all the city and Group codes in different arrays
+
+					var arrCustomers = [];
+
+					for (var p = 0; p < entryRecord["length"]; p++) {
+						if (!(arrCustomers.includes(entryRecord[p].Customer.toString()))) {
+							arrCustomers.push(entryRecord[p].Customer.toString());
+						}
 					}
-				], function(err, customerRecord, entryRecord, cityRecord, arrGroups) {
 
-					try {
-						 {
-							var entryFinals = [];
-							var noGroupEntries = [];
-							var gro=[];
-							for (var a = 0; a < entryRecord.length; a++) {
-								var entryFinal = {};
-								//Get fields from customer table
-								entryFinal.Date = entryRecord[a].Date;
-								entryFinal.Cash = entryRecord[a].Cash;
-								entryFinal.Gold = entryRecord[a].Gold;
-								entryFinal.Silver = entryRecord[a].Silver;
+					//Fetch city data on the basis of city codes array
+					var Customer = app.models.Customer;
+					Customer.find({
+						where: {
+							id: {
+								inq: arrCustomers
+							}
+						},
+						fields: {
+							"id": true,
+							"City": true,
+							"CustomerCode": true,
+							"Name": true,
+							"Group": true
+						}
+					}).then(function(customerRecord, err) {
+
+						callback(err, customerRecord, entryRecord);
+					});
+				},
+				function(customerRecord, entryRecord, callback) {
+					//Loop customer data and put all the city and Group codes in different arrays
+
+					var arrCities = [];
+					// var arrGroups = [];
+
+					for (var i = 0; i < customerRecord["length"]; i++) {
+						if (!(arrCities.includes(customerRecord[i].City.toString()))) {
+							arrCities.push(customerRecord[i].City.toString());
+						}
+
+					}
+
+					//Fetch city data on the basis of city codes array
+					var City = app.models.City;
+					City.find({
+						where: {
+							id: {
+								inq: arrCities
+							}
+						},
+						fields: {
+							"id": true,
+							"cityCode": true,
+							"cityName": true
+						}
+					}).then(function(cityRecord, err) {
+						// call second function of the waterfall
+						callback(err, customerRecord, entryRecord, cityRecord);
+					});
+				}
+			], function(err, customerRecord, entryRecord, cityRecord, arrGroups) {
+
+				try {
+					{
+						var entryFinals = [];
+						var noGroupEntries = [];
+						var gro = [];
+						for (var a = 0; a < entryRecord.length; a++) {
+							var entryFinal = {};
+							//Get fields from customer table
+							entryFinal.Date = entryRecord[a].Date;
+							entryFinal.Cash = entryRecord[a].Cash;
+							entryFinal.Gold = entryRecord[a].Gold;
+							entryFinal.Silver = entryRecord[a].Silver;
 
 
-								//loop through customer records to get customer details
-								for (var i = 0; i < customerRecord.length; i++) {
-									if (entryRecord[a].Customer.toString() == customerRecord[i].id.toString()) {
-										//loop through city records to get city name
-										for (var m = 0; m < cityRecord.length; m++) {
-											if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
-												entryFinal.City = cityRecord[m].cityName;
-												entryFinal.CustomerCode = customerRecord[i].CustomerCode;
-												entryFinal.CustomerName = customerRecord[i].Name;
-												entryFinals.push(entryFinal);
-												break;
-											}
+							//loop through customer records to get customer details
+							for (var i = 0; i < customerRecord.length; i++) {
+								if (entryRecord[a].Customer.toString() == customerRecord[i].id.toString()) {
+									//loop through city records to get city name
+									for (var m = 0; m < cityRecord.length; m++) {
+										if (customerRecord[i].City.toString() == cityRecord[m].id.toString()) {
+											entryFinal.City = cityRecord[m].cityName;
+											entryFinal.CustomerCode = customerRecord[i].CustomerCode;
+											entryFinal.CustomerName = customerRecord[i].Name;
+											entryFinals.push(entryFinal);
+											break;
 										}
 									}
 								}
-
-								//Now push prepared record object to the array of Final Entries
 							}
 
-							if (entryFinals) {
+							//Now push prepared record object to the array of Final Entries
+						}
+
+						if (entryFinals) {
+							var currentdate = new Date();
+							var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " +
+								currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+							//declare function for making one complete tab groupwise
+							function createTabForGroup(group, groupRecords) {
+
+
+								//create a tab sheet with the Group name
+								var sheet = workbook.addWorksheet(group); //creating worksheet
+								function formatDateForEntry(date) {
+									var d = new Date(date),
+										month = '' + (d.getMonth() + 1),
+										day = '' + d.getDate(),
+										year = d.getFullYear();
+
+									if (month.length < 2)
+										month = '0' + month;
+									if (day.length < 2)
+										day = '0' + day;
+
+									return [day, month, year].join('.');
+								}
+								//Heading for excel
+
+								sheet.mergeCells('A1:G1');
+								sheet.getCell('G1').value = 'Customer DayBook Report';
+								sheet.getCell('A1').alignment = {
+									vertical: 'middle',
+									horizontal: 'center'
+								};
+								sheet.getCell('A1').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: '808080'
+									}
+								};
+
+								//Merging second Row
+								sheet.mergeCells('A2:G2');
+
+								//Code for getting current datetime
 								var currentdate = new Date();
 								var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " +
 									currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+								sheet.getRow(2).font === {
+									bold: true
+								};
 
-								//declare function for making one complete tab groupwise
-								function createTabForGroup(group, groupRecords) {
+								// Header creation
+								var header = ["Customer Code", "Customer Name", "City Name", "Total Amount", "Total Gold", "Total Silver", "Date"];
+								sheet.addRow().values = header;
 
+								//Code for getting current datetime
+								sheet.getCell('A2').value = datetime;
+								sheet.getRow(2).font === {
+									bold: true
+								};
 
-									//create a tab sheet with the Group name
-									var sheet = workbook.addWorksheet(group); //creating worksheet
-									function formatDateForEntry(date) {
-											var d = new Date(date),
-													month = '' + (d.getMonth() + 1),
-													day = '' + d.getDate(),
-													year = d.getFullYear();
-
-											if (month.length < 2)
-													month = '0' + month;
-											if (day.length < 2)
-													day = '0' + day;
-
-											return [day, month, year].join('.');
+								//Coding for cell color and bold character
+								sheet.getCell('A2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
 									}
-									//Heading for excel
-
-									sheet.mergeCells('A1:G1');
-									sheet.getCell('G1').value = 'Customer DayBook Report';
-									sheet.getCell('A1').alignment = {
-										vertical: 'middle',
-										horizontal: 'center'
-									};
-									sheet.getCell('A1').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: '808080'
-										}
-									};
-
-									//Merging second Row
-									sheet.mergeCells('A2:G2');
-
-									//Code for getting current datetime
-									var currentdate = new Date();
-									var datetime = currentdate.getDate() + "." + (currentdate.getMonth() + 1) + "." + currentdate.getFullYear() + " / " +
-										currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-									sheet.getRow(2).font === {
-										bold: true
-									};
-
-									// Header creation
-									var header = ["Customer Code", "Customer Name", "City Name", "Total Amount", "Total Gold", "Total Silver", "Date"];
-									sheet.addRow().values = header;
-
-									//Code for getting current datetime
-									sheet.getCell('A2').value = datetime;
-									sheet.getRow(2).font === {
-										bold: true
-									};
-
-									//Coding for cell color and bold character
-									sheet.getCell('A2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('B2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('C2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('D2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('E2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('F2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('G2').fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-
-									//variables for total aggregation
-									var totalSilver = 0;
-									var totalCash = 0;
-									var totalGold = 0;
-									// Looping through the records
-									for (var j = 0; j < groupRecords["length"]; j++) {
-										var items = groupRecords[j];
-										var datet = formatDateForEntry(items.Date);
-										var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, datet];
-										totalSilver = totalSilver + items["Silver"];
-										totalCash = totalCash + items["Cash"];
-										totalGold = totalGold + items["Gold"];
-										sheet.addRow().values = item;
+								};
+								sheet.getCell('B2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
 									}
-									//For Footer aggregation line
-									var totText = groupRecords["length"] + 4;
-									sheet.getCell('A' + totText).value = "TOTAL";
-
-									sheet.getCell('D' + totText).value = totalCash;
-
-									if (totalGold === 0) {
-										sheet.getCell('E' + totText).value = totalGold + '.00 gm';
-									} else {
-										sheet.getCell('E' + totText).value = totalGold + 'gm';
+								};
+								sheet.getCell('C2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
 									}
-
-									if (totalSilver === 0) {
-										sheet.getCell('F' + totText).value = totalSilver + '.00 gm';
-									} else {
-										sheet.getCell('F' + totText).value = totalSilver + 'gm';
+								};
+								sheet.getCell('D2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
 									}
+								};
+								sheet.getCell('E2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('F2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('G2').fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
 
-									sheet.getCell('E' + totText).value = totalGold;
-									sheet.getCell('F' + totText).value = totalSilver;
+								//variables for total aggregation
+								var totalSilver = 0;
+								var totalCash = 0;
+								var totalGold = 0;
+								// Looping through the records
+								for (var j = 0; j < groupRecords["length"]; j++) {
+									var items = groupRecords[j];
+									var datet = formatDateForEntry(items.Date);
+									var item = [items.CustomerCode, items.CustomerName, items.City, items.Cash, items.Gold, items.Silver, datet];
+									totalSilver = totalSilver + items["Silver"];
+									totalCash = totalCash + items["Cash"];
+									totalGold = totalGold + items["Gold"];
+									sheet.addRow().values = item;
+								}
+								//For Footer aggregation line
+								var totText = groupRecords["length"] + 4;
+								sheet.getCell('A' + totText).value = "TOTAL";
 
-									sheet.getCell('A' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: '000000'
-										},
-										bgColor: {
-											argb: '000000'
-										}
-									};
-									sheet.getCell('A' + totText).font = {
-										color: {
-											argb: '000000'
-										},
-										bold: true
-									};
+								sheet.getCell('D' + totText).value = totalCash;
 
-									sheet.getCell('A' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('B' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('C' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('D' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('E' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('F' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
-									sheet.getCell('G' + totText).fill = {
-										type: 'pattern',
-										pattern: 'solid',
-										fgColor: {
-											argb: 'A9A9A9'
-										}
-									};
+								if (totalGold === 0) {
+									sheet.getCell('E' + totText).value = totalGold + '.00 gm';
+								} else {
+									sheet.getCell('E' + totText).value = totalGold + 'gm';
+								}
 
-									//Coding for rows and column border
-									var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE,
-										colMaxLengthF, colMaxLengthG;
-									for (var j = 1; j <= totText; j++) {
+								if (totalSilver === 0) {
+									sheet.getCell('F' + totText).value = totalSilver + '.00 gm';
+								} else {
+									sheet.getCell('F' + totText).value = totalSilver + 'gm';
+								}
+
+								sheet.getCell('E' + totText).value = totalGold;
+								sheet.getCell('F' + totText).value = totalSilver;
+
+								sheet.getCell('A' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: '000000'
+									},
+									bgColor: {
+										argb: '000000'
+									}
+								};
+								sheet.getCell('A' + totText).font = {
+									color: {
+										argb: '000000'
+									},
+									bold: true
+								};
+
+								sheet.getCell('A' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('B' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('C' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('D' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('E' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('F' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+								sheet.getCell('G' + totText).fill = {
+									type: 'pattern',
+									pattern: 'solid',
+									fgColor: {
+										argb: 'A9A9A9'
+									}
+								};
+
+								//Coding for rows and column border
+								var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE,
+									colMaxLengthF, colMaxLengthG;
+								for (var j = 1; j <= totText; j++) {
 
 									//Column color code
 
-										if (sheet.getCell('D' + (j)).value == '') {
-											sheet.getCell('D' + (j)).fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												bgColor: {
-													argb: '00FFFF'
-												},
-												fgColor: {
-													argb: '00FFFF'
-												}
-											};
-
-										} else if (sheet.getCell('D' + (j)).value < 0) {
-											sheet.getCell('D' + (j)).font = {
-												color: {
-													argb: 'FF0000'
-												},
-												bold: true
-											};
-										} else {
-											sheet.getCell('D' + (j)).font = {
-												color: {
-													argb: '000000'
-												},
-												bold: true
-											};
-										}
-
-										if (sheet.getCell('E' + (j)).value == '') {
-											sheet.getCell('E' + (j)).fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												bgColor: {
-													argb: '00FFFF'
-												},
-												fgColor: {
-													argb: '00FFFF'
-												}
-											};
-										} else if (sheet.getCell('E' + (j)).value < 0) {
-											sheet.getCell('E' + (j)).font = {
-												color: {
-													argb: 'FF0000'
-												},
-												bold: true
-											};
-										} else {
-											sheet.getCell('E' + (j)).font = {
-												color: {
-													argb: '000000'
-												},
-												bold: true
-											};
-										}
-
-										if (sheet.getCell('F' + (j)).value == '') {
-											sheet.getCell('F' + (j)).fill = {
-												type: 'pattern',
-												pattern: 'solid',
-												bgColor: {
-													argb: '00FFFF'
-												},
-												fgColor: {
-													argb: '00FFFF'
-												}
-											};
-
-										} else if (sheet.getCell('F' + (j)).value < 0) {
-											sheet.getCell('F' + (j)).font = {
-												color: {
-													argb: 'FF0000'
-												},
-												bold: true
-											};
-										} else {
-											sheet.getCell('F' + (j)).font = {
-												color: {
-													argb: '000000'
-												},
-												bold: true
-											};
-										}
-
-//Column color code end
-
-
-										sheet.getCell('A' + (j)).border = {
-											top: {
-												style: 'thin'
+									if (sheet.getCell('D' + (j)).value == '') {
+										sheet.getCell('D' + (j)).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											bgColor: {
+												argb: '00FFFF'
 											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('B' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('C' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('D' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('E' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('F' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
-											}
-										};
-										sheet.getCell('G' + (j)).border = {
-											top: {
-												style: 'thin'
-											},
-											left: {
-												style: 'thin'
-											},
-											bottom: {
-												style: 'thin'
-											},
-											right: {
-												style: 'thin'
+											fgColor: {
+												argb: '00FFFF'
 											}
 										};
 
-										// code added by surya for autocolumn width - started
-										//setting absolute length for column A
-										if (j > "2") {
-											if (sheet.getCell('A' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-												} else {
-													if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
-														colMaxLengthA = sheet.getCell('A' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('A').width = colMaxLengthA + 2;
-											}
-											//setting absolute length for column B
-											if (sheet.getCell('B' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-												} else {
-													if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
-														colMaxLengthB = sheet.getCell('B' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('B').width = colMaxLengthB + 2;
-											}
-											//setting absolute length for column C
-											if (sheet.getCell('C' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-												} else {
-													if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
-														colMaxLengthC = sheet.getCell('C' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('C').width = colMaxLengthC + 2;
-											}
-											//setting absolute length for column D
-											if (sheet.getCell('D' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-												} else {
-													if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
-														colMaxLengthD = sheet.getCell('D' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('D').width = colMaxLengthD + 2;
-											}
-											//setting absolute length for column E
-											if (sheet.getCell('E' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-												} else {
-													if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
-														colMaxLengthE = sheet.getCell('E' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('E').width = colMaxLengthE + 3;
-											}
-											//setting absolute length for column F
-											if (sheet.getCell('F' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-												} else {
-													if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
-														colMaxLengthF = sheet.getCell('F' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('F').width = colMaxLengthG + 6;
-											}
-											//setting absolute length for column G
-											if (sheet.getCell('G' + (j)).value !== null) {
-												if (j == "3") {
-													colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-												} else {
-													if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
-														colMaxLengthG = sheet.getCell('G' + (j)).value.length;
-													}
-												}
-											}
-											if (j == totText) {
-												sheet.getColumn('G').width = colMaxLengthG + 8;
-											}
-										}
-										// code added by surya for autocolumn width - ended
-
+									} else if (sheet.getCell('D' + (j)).value < 0) {
+										sheet.getCell('D' + (j)).font = {
+											color: {
+												argb: 'FF0000'
+											},
+											bold: true
+										};
+									} else {
+										sheet.getCell('D' + (j)).font = {
+											color: {
+												argb: '000000'
+											},
+											bold: true
+										};
 									}
+
+									if (sheet.getCell('E' + (j)).value == '') {
+										sheet.getCell('E' + (j)).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											bgColor: {
+												argb: '00FFFF'
+											},
+											fgColor: {
+												argb: '00FFFF'
+											}
+										};
+									} else if (sheet.getCell('E' + (j)).value < 0) {
+										sheet.getCell('E' + (j)).font = {
+											color: {
+												argb: 'FF0000'
+											},
+											bold: true
+										};
+									} else {
+										sheet.getCell('E' + (j)).font = {
+											color: {
+												argb: '000000'
+											},
+											bold: true
+										};
+									}
+
+									if (sheet.getCell('F' + (j)).value == '') {
+										sheet.getCell('F' + (j)).fill = {
+											type: 'pattern',
+											pattern: 'solid',
+											bgColor: {
+												argb: '00FFFF'
+											},
+											fgColor: {
+												argb: '00FFFF'
+											}
+										};
+
+									} else if (sheet.getCell('F' + (j)).value < 0) {
+										sheet.getCell('F' + (j)).font = {
+											color: {
+												argb: 'FF0000'
+											},
+											bold: true
+										};
+									} else {
+										sheet.getCell('F' + (j)).font = {
+											color: {
+												argb: '000000'
+											},
+											bold: true
+										};
+									}
+
+									//Column color code end
+
+
+									sheet.getCell('A' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('B' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('C' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('D' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('E' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('F' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+									sheet.getCell('G' + (j)).border = {
+										top: {
+											style: 'thin'
+										},
+										left: {
+											style: 'thin'
+										},
+										bottom: {
+											style: 'thin'
+										},
+										right: {
+											style: 'thin'
+										}
+									};
+
+									// code added by surya for autocolumn width - started
+									//setting absolute length for column A
+									if (j > "2") {
+										if (sheet.getCell('A' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+											} else {
+												if (sheet.getCell('A' + (j)).value.length > colMaxLengthA) {
+													colMaxLengthA = sheet.getCell('A' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('A').width = colMaxLengthA + 2;
+										}
+										//setting absolute length for column B
+										if (sheet.getCell('B' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+											} else {
+												if (sheet.getCell('B' + (j)).value.length > colMaxLengthB) {
+													colMaxLengthB = sheet.getCell('B' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('B').width = colMaxLengthB + 2;
+										}
+										//setting absolute length for column C
+										if (sheet.getCell('C' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+											} else {
+												if (sheet.getCell('C' + (j)).value.length > colMaxLengthC) {
+													colMaxLengthC = sheet.getCell('C' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('C').width = colMaxLengthC + 2;
+										}
+										//setting absolute length for column D
+										if (sheet.getCell('D' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+											} else {
+												if (sheet.getCell('D' + (j)).value.length > colMaxLengthD) {
+													colMaxLengthD = sheet.getCell('D' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('D').width = colMaxLengthD + 2;
+										}
+										//setting absolute length for column E
+										if (sheet.getCell('E' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+											} else {
+												if (sheet.getCell('E' + (j)).value.length > colMaxLengthE) {
+													colMaxLengthE = sheet.getCell('E' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('E').width = colMaxLengthE + 3;
+										}
+										//setting absolute length for column F
+										if (sheet.getCell('F' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+											} else {
+												if (sheet.getCell('F' + (j)).value.length > colMaxLengthF) {
+													colMaxLengthF = sheet.getCell('F' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('F').width = colMaxLengthG + 6;
+										}
+										//setting absolute length for column G
+										if (sheet.getCell('G' + (j)).value !== null) {
+											if (j == "3") {
+												colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+											} else {
+												if (sheet.getCell('G' + (j)).value.length > colMaxLengthG) {
+													colMaxLengthG = sheet.getCell('G' + (j)).value.length;
+												}
+											}
+										}
+										if (j == totText) {
+											sheet.getColumn('G').width = colMaxLengthG + 8;
+										}
+									}
+									// code added by surya for autocolumn width - ended
 
 								}
-								// Start the excel instance
-								var excel = require('exceljs');
-								var workbook = new excel.Workbook();
-									createTabForGroup("DayBook_Customers", entryFinals);
-								var tempFilePath =  reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
-									currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
-
-								res.setHeader(
-									"Content-Type",
-									"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-								);
-								res.setHeader(
-									"Content-Disposition",
-									"attachment; filename=" + tempFilePath
-								);
-								// console.log("came");
-								return workbook.xlsx.write(res).then(function(data) {
-									console.log(data);
-									//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
-									//res.end(new Buffer(data, 'base64'));
-									res.status(200).end();
-								});
-
 
 							}
+							// Start the excel instance
+							var excel = require('exceljs');
+							var workbook = new excel.Workbook();
+							createTabForGroup("DayBook_Customers", entryFinals);
+							var tempFilePath = reportType + '_' + currentdate.getDate() + (currentdate.getMonth() + 1) + currentdate.getFullYear() +
+								currentdate.getHours() + currentdate.getMinutes() + currentdate.getSeconds() + '.xlsx';
+
+							res.setHeader(
+								"Content-Type",
+								"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+							);
+							res.setHeader(
+								"Content-Disposition",
+								"attachment; filename=" + tempFilePath
+							);
+							// console.log("came");
+							return workbook.xlsx.write(res).then(function(data) {
+								console.log(data);
+								//res.writeHead(200, [['Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']]);
+								//res.end(new Buffer(data, 'base64'));
+								res.status(200).end();
+							});
+
+
 						}
-
-					} catch (e) {
-
-					} finally {
-
 					}
+
+				} catch (e) {
+
+				} finally {
+
 				}
-			);
-		});
-
-
-		app.get('/getOrderNoForSale', function(req, res, next) {
-			var start = new Date(req.query.Date);
-			start.setHours(0,0,0,0);
-
-			var end = new Date(req.query.Date);
-			end.setHours(23,59,59,999);
-			var OrderHeader = app.models.OrderHeader;
-			OrderHeader.find({
-				where: {
-					and: [{
-						Date: {
-							gt: start
-						}
-					}, {
-						Date: {
-							lt: end
-						}
-					}]
-				},
-				fields:{
-					"OrderNo": true,
-					"id": true
-				}
-			})
-			.then(function(orders) {
-				// debugger;
-				//sort the orders in descending order created today
-				if(orders.length > 0){
-					//if there are/is order created today sort and get next order no
-					orders.sort(function (a, b) {
-						return b.OrderNo - a.OrderNo;
-					});
-
-					//i am gonna create a new order only when the last order has at least one item inside
-					var oItem = app.models.OrderItem;
-					oItem.find({where : {
-									"OrderNo": orders[0].id.toString()
-								}})
-					.then(function(record){
-									if(record.length>0){
-										//incrementing order no here --comes here when order has item
-										// debugger;
-										// ctx.instance.OrderNo = orders[0].OrderNo + 1;
-										res.send({OrderNo:orders[0].OrderNo + 1});
-										//telling system to go ahead and create new order with new no.
-										//next() --> it will go to framework and create a new data record
-										// next();
-									}else{
-										//do not do anything
-										// debugger;
-										// return next();
-										//ctx.res(ctx.instance.__data);
-										//return ctx.instance.__data;
-										// ctx.instance.OrderNo = orders[0].OrderNo;
-										// ctx.instance.__data.id = orders[0].id.toString();
-										res.statusCode = 401;
-										res.send("last order already empty use same:" + orders[0].id);
-										// next(new Error("last order already empty use same:" + orders[0].id));
-									}
-								});
-				}else{
-					//assign a fresh order no
-					//for wholesale, this becomes 251
-						// orderNo = 1;
-						res.send({OrderNo:1});
-				}
-
 			});
 		});
+
+
+		// app.get('/getOrderNoForSale', function(req, res) {
+		// 	var start = new Date(req.query.Date);
+		// 	start.setHours(0, 0, 0, 0);
+		//
+		// 	var end = new Date(req.query.Date);
+		// 	end.setHours(23, 59, 59, 999);
+		// 	var OrderHeader = app.models.OrderHeader;
+		// 	OrderHeader.find({
+		// 			where: {
+		// 				and: [{
+		// 					Date: {
+		// 						gt: start
+		// 					}
+		// 				}, {
+		// 					Date: {
+		// 						lt: end
+		// 					}
+		// 				}]
+		// 			},
+		// 			fields: {
+		// 				"OrderNo": true,
+		// 				"id": true
+		// 			}
+		// 		})
+		// 		.then(function(orders) {
+		// 			// debugger;
+		// 			//sort the orders in descending order created today
+		// 			if (orders.length > 0) {
+		// 				//if there are/is order created today sort and get next order no
+		// 				orders.sort(function(a, b) {
+		// 					return b.OrderNo - a.OrderNo;
+		// 				});
+		//
+		// 				//i am gonna create a new order only when the last order has at least one item inside
+		// 				var oItem = app.models.OrderItem;
+		// 				oItem.find({
+		// 						where: {
+		// 							"OrderNo": orders[0].id.toString()
+		// 						}
+		// 					})
+		// 					.then(function(record) {
+		// 						if (record.length > 0) {
+		// 							//incrementing order no here --comes here when order has item
+		// 							// debugger;
+		// 							// ctx.instance.OrderNo = orders[0].OrderNo + 1;
+		// 							res.send({
+		// 								OrderNo: orders[0].OrderNo + 1
+		// 							});
+		// 							//telling system to go ahead and create new order with new no.
+		// 							//next() --> it will go to framework and create a new data record
+		// 							// next();
+		// 						} else {
+		// 							//do not do anything
+		// 							// debugger;
+		// 							// return next();
+		// 							//ctx.res(ctx.instance.__data);
+		// 							//return ctx.instance.__data;
+		// 							// ctx.instance.OrderNo = orders[0].OrderNo;
+		// 							// ctx.instance.__data.id = orders[0].id.toString();
+		// 							res.statusCode = 401;
+		// 							res.send("last order already empty use same:" + orders[0].id);
+		// 							// next(new Error("last order already empty use same:" + orders[0].id));
+		// 						}
+		// 					});
+		// 			} else {
+		// 				//assign a fresh order no
+		// 				//for wholesale, this becomes 251
+		// 				// orderNo = 1;
+		// 				res.send({
+		// 					OrderNo: 1
+		// 				});
+		// 			}
+		//
+		// 		});
+		// });
 
 
 
@@ -11044,54 +11047,53 @@ app.start = function() {
 			// var Date = req.body.Date;
 			var min = req.body.min;
 
-if(customerId != ""){
-			var Entry = app.models.Entry;
-			Entry.find({
-				where: {
-					"Customer": customerId
-					// "Date": min
-				}
-			}).then(function(records) {
-				var tSilver = 0,
-					tGold = 0,
-					tCash = 0;
-				for (var i = 0; i < records.length; i++) {
-					tSilver = tSilver + records[i].Silver;
-					tGold = tGold + records[i].Gold;
-					tCash = tCash + records[i].Cash;
-				}
+			if (customerId != "") {
+				var Entry = app.models.Entry;
+				Entry.find({
+					where: {
+						"Customer": customerId
+						// "Date": min
+					}
+				}).then(function(records) {
+					var tSilver = 0,
+						tGold = 0,
+						tCash = 0;
+					for (var i = 0; i < records.length; i++) {
+						tSilver = tSilver + records[i].Silver;
+						tGold = tGold + records[i].Gold;
+						tCash = tCash + records[i].Cash;
+					}
 
-				res.send({
-					"SilverTotal": tSilver,
-					"GoldTotal": tGold,
-					"CashTotal": tCash
+					res.send({
+						"SilverTotal": tSilver,
+						"GoldTotal": tGold,
+						"CashTotal": tCash
+					});
 				});
-			});
-		}
-		else {
-			var Entry = app.models.Entry;
-			Entry.find({
-				where: {
-					// "Customer": customerId,
-					"Date": new Date(min)
-				}
-			}).then(function(records) {
-				var tSilver = 0,
-					tGold = 0,
-					tCash = 0;
-				for (var i = 0; i < records.length; i++) {
-					tSilver = tSilver + records[i].Silver;
-					tGold = tGold + records[i].Gold;
-					tCash = tCash + records[i].Cash;
-				}
+			} else {
+				var Entry = app.models.Entry;
+				Entry.find({
+					where: {
+						// "Customer": customerId,
+						"Date": new Date(min)
+					}
+				}).then(function(records) {
+					var tSilver = 0,
+						tGold = 0,
+						tCash = 0;
+					for (var i = 0; i < records.length; i++) {
+						tSilver = tSilver + records[i].Silver;
+						tGold = tGold + records[i].Gold;
+						tCash = tCash + records[i].Cash;
+					}
 
-				res.send({
-					"SilverTotal": tSilver,
-					"GoldTotal": tGold,
-					"CashTotal": tCash
+					res.send({
+						"SilverTotal": tSilver,
+						"GoldTotal": tGold,
+						"CashTotal": tCash
+					});
 				});
-			});
-		}
+			}
 
 		});
 
@@ -11103,57 +11105,56 @@ if(customerId != ""){
 			var Entry = app.models.Entry;
 			var min = req.body.min;
 			var max = req.body.max;
-			if(customerId !=""){
-			Entry.find({
-				where: {
-					"Customer": customerId,
-					"Date": {
-						between: [new Date(min), new Date(max)]
+			if (customerId != "") {
+				Entry.find({
+					where: {
+						"Customer": customerId,
+						"Date": {
+							between: [new Date(min), new Date(max)]
+						}
 					}
-				}
-			}).then(function(records) {
-				var tSilver = 0,
-					tGold = 0,
-					tCash = 0;
-				for (var i = 0; i < records.length; i++) {
-					tSilver = tSilver + records[i].Silver;
-					tGold = tGold + records[i].Gold;
-					tCash = tCash + records[i].Cash;
-				}
+				}).then(function(records) {
+					var tSilver = 0,
+						tGold = 0,
+						tCash = 0;
+					for (var i = 0; i < records.length; i++) {
+						tSilver = tSilver + records[i].Silver;
+						tGold = tGold + records[i].Gold;
+						tCash = tCash + records[i].Cash;
+					}
 
-				res.send({
-					"SilverTotal": tSilver,
-					"GoldTotal": tGold,
-					"CashTotal": tCash
+					res.send({
+						"SilverTotal": tSilver,
+						"GoldTotal": tGold,
+						"CashTotal": tCash
+					});
 				});
-			});
-}
-else{
-	Entry.find({
-		where: {
-			// "Customer": customerId,
-			"Date": {
-				between: [new Date(min), new Date(max)]
+			} else {
+				Entry.find({
+					where: {
+						// "Customer": customerId,
+						"Date": {
+							between: [new Date(min), new Date(max)]
+						}
+					}
+				}).then(function(records) {
+					var tSilver = 0,
+						tGold = 0,
+						tCash = 0;
+					for (var i = 0; i < records.length; i++) {
+						tSilver = tSilver + records[i].Silver;
+						tGold = tGold + records[i].Gold;
+						tCash = tCash + records[i].Cash;
+					}
+
+					res.send({
+						"SilverTotal": tSilver,
+						"GoldTotal": tGold,
+						"CashTotal": tCash
+					});
+				});
+
 			}
-		}
-	}).then(function(records) {
-		var tSilver = 0,
-			tGold = 0,
-			tCash = 0;
-		for (var i = 0; i < records.length; i++) {
-			tSilver = tSilver + records[i].Silver;
-			tGold = tGold + records[i].Gold;
-			tCash = tCash + records[i].Cash;
-		}
-
-		res.send({
-			"SilverTotal": tSilver,
-			"GoldTotal": tGold,
-			"CashTotal": tCash
-		});
-	});
-
-}
 		});
 
 
@@ -11501,90 +11502,90 @@ else{
 
 
 
-		app.get('/VictoriaBackup',function(req,res){
+		app.get('/VictoriaBackup', function(req, res) {
 
-				// const zipfile = archiver('zip');
-				var backup = require('mongodb-backup');
-				var path11 = require('path');
-				var exec = require('child_process').exec;
-				const zipFolder = require("zip-folder");
-				const config = require('./config.json');
-				const path = __dirname;
-				const download = require('downloadjs');
-				const path1 = path.split("project")[0];
-				const path2 = path1 + "\project\\dump\\test";
-				var options = {
-        root: path11.join(__dirname + "\\zip")
-    };
+			// const zipfile = archiver('zip');
+			var backup = require('mongodb-backup');
+			var path11 = require('path');
+			var exec = require('child_process').exec;
+			const zipFolder = require("zip-folder");
+			const config = require('./config.json');
+			const path = __dirname;
+			const download = require('downloadjs');
+			const path1 = path.split("project")[0];
+			const path2 = path1 + "\project\\dump\\test";
+			var options = {
+				root: path11.join(__dirname + "\\zip")
+			};
 
-				try{
+			try {
 				// function takeMongoBackup() {
 
 
-										var nrc = require('node-run-cmd');
-										nrc.run('mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"');
-				  //remove directory
-				  // rimraf.sync(config.DB_OPTIONS.database);
+				var nrc = require('node-run-cmd');
+				nrc.run('mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"');
+				//remove directory
+				// rimraf.sync(config.DB_OPTIONS.database);
 
-				  //backup mongo
-				const uri1='mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true';
+				//backup mongo
+				const uri1 = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true';
 				const cmd = 'mongodump --uri' + '=' + '"mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0-shard-00-00-gnqvx.mongodb.net:27017,cluster0-shard-00-01-gnqvx.mongodb.net:27017,cluster0-shard-00-02-gnqvx.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"';
-				 // Command for mongodb dump process
+				// Command for mongodb dump process
 
-				  console.log("DB backup started ... ");
-				  console.log(cmd);
-				  exec(cmd, function(error, stdout, stderr) {
-				    if ((res)) {
-				      console.log("DB backup generated ... ");
-							function formatDateForEntry(date) {
-									var d = new Date(date),
-											month = '' + (d.getMonth() + 1),
-											day = '' + d.getDate(),
-											year = d.getFullYear();
+				console.log("DB backup started ... ");
+				console.log(cmd);
+				exec(cmd, function(error, stdout, stderr) {
+					if ((res)) {
+						console.log("DB backup generated ... ");
 
-									if (month.length < 2)
-											month = '0' + month;
-									if (day.length < 2)
-											day = '0' + day;
+						function formatDateForEntry(date) {
+							var d = new Date(date),
+								month = '' + (d.getMonth() + 1),
+								day = '' + d.getDate(),
+								year = d.getFullYear();
 
-									return [day, month, year].join('.');
+							if (month.length < 2)
+								month = '0' + month;
+							if (day.length < 2)
+								day = '0' + day;
+
+							return [day, month, year].join('.');
+						}
+						var date1 = new Date();
+						var date = formatDateForEntry(date1);
+						var tempFilePath = "victoria-" + date + ".zip";
+						var v1 = __dirname + "//zip" + "/" + tempFilePath
+
+						zipFolder(
+
+							path2,
+							// __dirname + "test" + ".zip",
+							__dirname + "//zip" + "/" + tempFilePath,
+							function(err) {
+								if (err) {
+									console.log("Zip error ... ");
+									console.log("oh no!", err);
+								} else {
+
+									res.setHeader('Content-Type', 'application/zip');
+									res.setHeader(
+										"Content-Disposition",
+										"attachment; filename=" + tempFilePath
+									);
+
+
+									res.sendFile(tempFilePath, options);
+									// res.end();
+									console.log("Backup zipped successful");
+
+								}
 							}
-							var date1=new Date();
-							var date=formatDateForEntry(date1);
-							var tempFilePath="victoria-"+date+".zip";
-							var v1 = __dirname + "//zip" +"/"  + tempFilePath
-
-				      zipFolder(
-
-					path2,
-				          // __dirname + "test" + ".zip",
-									__dirname + "//zip" +"/"  + tempFilePath,
-				        function(err) {
-				          if (err) {
-				            console.log("Zip error ... ");
-				            console.log("oh no!", err);
-				          } else {
-
-										res.setHeader('Content-Type', 'application/zip');
-										res.setHeader(
-											"Content-Disposition",
-											"attachment; filename=" + tempFilePath
-										);
-
-
-										res.sendFile(tempFilePath,options);
-										// res.end();
-				            console.log("Backup zipped successful");
-
-				          }
-				        }
-				      );
-				    }
-				  });
-				}
-				catch(res){
-				//
+						);
 					}
+				});
+			} catch (res) {
+				//
+			}
 
 		})
 
@@ -11594,76 +11595,76 @@ else{
 
 
 
-				// var mongo = require('mongodb');
-				// var mongoose = require('mongoose');
-				//
-				// var Grid = require('gridfs-stream');
-				// const mongoURI = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0.gnqvx.mongodb.net/design?retryWrites=true&w=majority';
-				// const conn = mongoose.createConnection(mongoURI);
-				// let gfs
-				// conn.once('open',()=>{
-				// 	gfs = Grid(conn.db,mongoose.mongo);
-				// 	gfs.collecion('uploads');
-				// })
-				//
-				// const storage = new GridFsStorage({
-				// 	url:mongoURI,
-				// 	file:(req,res)=>{
-				// 		return new Promise((resolve,reject)=>{
-				// 			crypto.randomBytes(16,(err,buf)=>{
-				// 				if(err){
-				// 					return reject(err);
-				// 				}
-				// 				const filename = buf.toString('hex') + path.extname(file.originalname);
-				// 				const fileInfo = {
-				// 					filename : filename,
-				// 					bucketName  :'uploads'
-				// 				};
-				// 				resolve(fileInfo);
-				// 			});
-				// 		});
-				// 	}
-				// });
+		// var mongo = require('mongodb');
+		// var mongoose = require('mongoose');
+		//
+		// var Grid = require('gridfs-stream');
+		// const mongoURI = 'mongodb://anurag:6oLWjE9MUhHKzbwP@cluster0.gnqvx.mongodb.net/design?retryWrites=true&w=majority';
+		// const conn = mongoose.createConnection(mongoURI);
+		// let gfs
+		// conn.once('open',()=>{
+		// 	gfs = Grid(conn.db,mongoose.mongo);
+		// 	gfs.collecion('uploads');
+		// })
+		//
+		// const storage = new GridFsStorage({
+		// 	url:mongoURI,
+		// 	file:(req,res)=>{
+		// 		return new Promise((resolve,reject)=>{
+		// 			crypto.randomBytes(16,(err,buf)=>{
+		// 				if(err){
+		// 					return reject(err);
+		// 				}
+		// 				const filename = buf.toString('hex') + path.extname(file.originalname);
+		// 				const fileInfo = {
+		// 					filename : filename,
+		// 					bucketName  :'uploads'
+		// 				};
+		// 				resolve(fileInfo);
+		// 			});
+		// 		});
+		// 	}
+		// });
 
-				// const upload = multer({storage});
+		// const upload = multer({storage});
 
-// app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
-//
-//
-// res.setHeader('Content-Type', 'application/zip');
-// res.setHeader(
-// 	"Content-Disposition",
-// 	"attachment; filename=" + req.files.file.name
-// );
-
-
-
-// res.json({file:req.files.file});
-// res.json({file:req.files.file.data});
-// res.redirect('/');
-//
-//
-//
-// })
+		// app.post('/VictoriaGFS',upload.single('file'),(req,res)=>{
+		//
+		//
+		// res.setHeader('Content-Type', 'application/zip');
+		// res.setHeader(
+		// 	"Content-Disposition",
+		// 	"attachment; filename=" + req.files.file.name
+		// );
 
 
 
+		// res.json({file:req.files.file});
+		// res.json({file:req.files.file.data});
+		// res.redirect('/');
+		//
+		//
+		//
+		// })
 
-app.get('/files',(req,res)=>{
 
-	gfs.files.find().toArray((err,files)=>{
-		if(!files || files.length ===0){
-			return res.status(404).json({
-				err:'No files exist'
+
+
+		app.get('/files', (req, res) => {
+
+			gfs.files.find().toArray((err, files) => {
+				if (!files || files.length === 0) {
+					return res.status(404).json({
+						err: 'No files exist'
+					});
+				}
+				return res.json(files);
 			});
-		}
-			return res.json(files);
-	});
-});
+		});
 
-// const port =5000;
+		// const port =5000;
 
-		 //previous order
+		//previous order
 		//function to get next order
 		app.post('/nextWSOrder', function(req, res) {
 

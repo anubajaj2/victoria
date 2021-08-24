@@ -888,7 +888,7 @@ sap.ui.define([
 		//on order create Button
 		orderCreate: function(oEvent) {
 			var that = this;
-			var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
+
 			if (this.getView().getModel('local').getProperty('/orderHeader').OrderNo) {
 				var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
 				var oBundle = this.getView().getModel("i18n").getResourceBundle().getText("deleteUnsaveData");
@@ -901,6 +901,7 @@ sap.ui.define([
 					onClose: function(sButton) {
 						if (sButton === MessageBox.Action.OK) {
 							var orderdate = that.getView().getModel('local').getProperty('/orderHeader').Date;
+							var customerNo = that.getView().getModel('local').getProperty('/orderHeader').Customer;
 							var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
 							var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
 							var order = that.getView().getModel('local').getProperty('/orderHeader')
@@ -922,55 +923,10 @@ sap.ui.define([
 					} //onClose
 				});
 			} else {
-				var date = this.getView().byId("Sales--DateId").getValue();
-				$.get("/getOrderNoForSale?Date=" + date, {}).then(function(oData) {
-					that.orderCheck(oData.OrderNo);
-				}).catch(function(oError) {
-					if (customerNo === "") {
-						that.getView().byId("Sales--customerId").setValueState("Error").setValueStateText("Mandatory Input");
-						that.getView().setBusy(false);
-					}else if (oError.responseText.includes("last order already empty use same")) {
-						var id = oError.responseText.split(':')[1];
-						if (id) {
-							var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
-							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-									"/OrderHeaders(" + id + ")",
-									"GET", {}, {}, that)
-								.then(function(oData) {
-									that.getView().setBusy(false);
-									//create the new json model and get the order id no generated
-									var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
-									var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-									oOrderHeader.OrderNo = oData.OrderNo;
-									oOrderHeader.Customer = customer;
-									oOrderId.OrderId = oData.id;
-									oOrderId.OrderNo = oData.OrderNo;
-									that.headerNoChange = true;
-									that.getView().getModel('local').setProperty('/OrderId', oOrderId);
-									that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
-									that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
-									var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
-									sap.m.MessageToast.show(oBundle, {
-										duration: 3000, // default
-										width: "15em", // default
-									});
-								})
-								.catch(function(oError) {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								});
-						} else {
-							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
-						}
-					} else {
-						that.getView().setBusy(false);
-						var oPopover = that.getErrorMessage(oError);
-					}
-				});
+				that.orderCheck();
 			}
 		},
-		orderCheck: function(orderNo) {
+		orderCheck: function() {
 			var that = this;
 			that.getView().setBusy(true);
 			that.byId("Sales--idSaveIcon").setColor('red');
@@ -992,25 +948,177 @@ sap.ui.define([
 					that.orderCustomCalculations();
 				}
 				this.getView().byId("Sales--customerId").setValueState("None");
-				//call the odata promise method to post the data
 				orderData.Date = this.getView().byId("Sales--DateId").getValue();
-				orderData.OrderNo = orderNo;
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
-						"POST", {}, orderData, this)
-					.then(function(oData) {
+				var start = new Date(orderData.Date.toString());
+				start.setHours(0, 0, 0, 0);
+
+				var end = new Date(orderData.Date.toString());
+				end.setHours(23, 59, 59, 999);
+				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, start);
+				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, end);
+				var orFilter = new sap.ui.model.Filter({
+					filters: [oFilter1, oFilter2],
+					and: true
+				});
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+						"/OrderHeaders",
+						"GET", {
+							filters: [orFilter]
+						}, {}, that)
+					.then(function(orderHeaders) {
 						that.getView().setBusy(false);
+						debugger;
+						if (orderHeaders.results.length > 0) {
+							orderHeaders.results.sort(function(a, b) {
+								return b.OrderNo - a.OrderNo;
+							});
+							var oFilter = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, "'" + orderHeaders.results[0].id + "'");
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/OrderItems",
+									"GET", {
+										filters: [oFilter]
+									}, {}, that)
+								.then(function(orderItems) {
+									if (orderItems.results.length > 0) {
+										// call the odata promise method to post the data
+										orderData.OrderNo = orderHeaders.results[0].OrderNo + 1;
+										that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderHeaders",
+												"POST", {}, orderData, that)
+											.then(function(oData) {
+												that.getView().setBusy(false);
+												//create the new json model and get the order id no generated
+												var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+												oOrderId.OrderId = oData.id;
+												oOrderId.OrderNo = oData.OrderNo;
+												that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+												that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+												//assign the no on ui
+												that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+											})
+											.catch(function(oError) {
+												that.getView().setBusy(false);
+												var oPopover = that.getErrorMessage(oError);
+											});
+									} else {
+										//create the new json model and get the order id no generated
+										var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
+										var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+										var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+										oOrderHeader.OrderNo = orderHeaders.results[0].OrderNo;
+										oOrderHeader.Customer = customer;
+										oOrderId.OrderId = orderHeaders.results[0].id;
+										oOrderId.OrderNo = orderHeaders.results[0].OrderNo;
+										that.headerNoChange = true;
+										that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+										that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', orderHeaders.results[0].id);
+										var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
+										sap.m.MessageToast.show(oBundle, {
+											duration: 3000, // default
+											width: "15em", // default
+										});
+									}
+								})
+								.catch(function(oError) {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								});
+						} else {
+							// call the odata promise method to post the data
+							orderData.OrderNo = 1;
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/OrderHeaders",
+									"POST", {}, orderData, that)
+								.then(function(oData) {
+									that.getView().setBusy(false);
+									//create the new json model and get the order id no generated
+									var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+									oOrderId.OrderId = oData.id;
+									oOrderId.OrderNo = oData.OrderNo;
+									that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+									that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+									//assign the no on ui
+									that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+								})
+								.catch(function(oError) {
+									that.getView().setBusy(false);
+									var oPopover = that.getErrorMessage(oError);
+								});
+						}
 						//create the new json model and get the order id no generated
-						var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-						oOrderId.OrderId = oData.id;
-						oOrderId.OrderNo = oData.OrderNo;
-						that.getView().getModel('local').setProperty('/OrderId', oOrderId);
-						that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
-						//assign the no on ui
-						that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+						// var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+						// var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+						// oOrderHeader.OrderNo = oData.OrderNo;
+						// oOrderHeader.Customer = customer;
+						// oOrderId.OrderId = oData.id;
+						// oOrderId.OrderNo = oData.OrderNo;
+						// that.headerNoChange = true;
+						// that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+						// that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
+						// that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+						// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
+						// sap.m.MessageToast.show(oBundle, {
+						// 	duration: 3000, // default
+						// 	width: "15em", // default
+						// });
 					})
 					.catch(function(oError) {
-						MessageBox.error("Error in creating order");
+						that.getView().setBusy(false);
+						var oPopover = that.getErrorMessage(oError);
 					});
+				//call the odata promise method to post the data
+				// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/OrderHeaders",
+				// 		"POST", {}, orderData, this)
+				// 	.then(function(oData) {
+				// 		that.getView().setBusy(false);
+				// 		//create the new json model and get the order id no generated
+				// 		var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+				// 		oOrderId.OrderId = oData.id;
+				// 		oOrderId.OrderNo = oData.OrderNo;
+				// 		that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+				// 		that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+				// 		//assign the no on ui
+				// 		that.getView().getModel("local").setProperty("/orderHeader/OrderNo", oData.OrderNo);
+				// 	})
+				// 	.catch(function(oError) {
+				// 		if (oError.responseText.includes("last order already empty use same")) {
+				// 			var id = oError.responseText.split(':')[2];
+				// 			if (id) {
+				// 				var customer = that.getView().getModel('local').getProperty('/orderHeader/Customer');
+				// 				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+				// 						"/OrderHeaders(" + id + ")",
+				// 						"GET", {}, {}, that)
+				// 					.then(function(oData) {
+				// 						that.getView().setBusy(false);
+				// 						//create the new json model and get the order id no generated
+				// 						var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+				// 						var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+				// 						oOrderHeader.OrderNo = oData.OrderNo;
+				// 						oOrderHeader.Customer = customer;
+				// 						oOrderId.OrderId = oData.id;
+				// 						oOrderId.OrderNo = oData.OrderNo;
+				// 						that.headerNoChange = true;
+				// 						that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+				// 						that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
+				// 						that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+				// 						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
+				// 						sap.m.MessageToast.show(oBundle, {
+				// 							duration: 3000, // default
+				// 							width: "15em", // default
+				// 						});
+				// 					})
+				// 					.catch(function(oError) {
+				// 						that.getView().setBusy(false);
+				// 						var oPopover = that.getErrorMessage(oError);
+				// 					});
+				// 			} else {
+				// 				that.getView().setBusy(false);
+				// 				var oPopover = that.getErrorMessage(oError);
+				// 			}
+				// 		} else {
+				// 			that.getView().setBusy(false);
+				// 			var oPopover = that.getErrorMessage(oError);
+				// 		}
+				// 	});
 			} //Else
 		},
 		onValidation: function() {

@@ -297,9 +297,9 @@ sap.ui.define(
 						that.getView().byId("WSHeaderFragment--custName").setText(customerData.Name + " - " + that.allMasterData.cities[customerCity].cityName);
 						var postedEntryData = that.getView().getModel('local').getProperty('/EntryData');
 						that.getEntryData(oEvent, custId, orderNo, date, postedEntryData)
-							// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
-							// assign the details on ui
-							//   var that2 = this;
+						// var oFilter = new sap.ui.model.Filter("Customer","EQ", "'" + myData.Customer + "'");
+						// assign the details on ui
+						//   var that2 = this;
 						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 								"/WSOrderHeaders('" + orderId + "')/ToWSOrderItem",
 								"GET", {}, {}, that)
@@ -400,9 +400,9 @@ sap.ui.define(
 				dateFrom.setHours(0, 0, 0, 1)
 				var dateTo = new Date(orderDate);
 				dateTo.setHours(23, 59, 59, 59)
-					//Now you have to have 2 date Object
-					//firstDate object set the time to 000000 second object 240000
-					//now create 2 filter one ge low and two le High
+				//Now you have to have 2 date Object
+				//firstDate object set the time to 000000 second object 240000
+				//now create 2 filter one ge low and two le High
 
 				var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, dateFrom);
 				var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, dateTo);
@@ -1057,127 +1057,127 @@ sap.ui.define(
 						actions: ["Delete selected entries", sap.m.MessageBox.Action.CLOSE],
 						onClose: function(sButton) {
 
-								if (sButton === "Delete selected entries") {
-									// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
-									for (var i = selIdxs.length - 1; i >= 0; --i) {
-										if (oSourceCall === 'WSItemFragment--orderItemBases') {
-											var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
-											var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
-											var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
-											var date = that.getView().byId("WSHeaderFragment--DateId").getDateValue();
-											// TotalOrderValueCash: 0,
-											// TotalOrderValueGold: 0,
-											// TotalOrderValueSilver: 0,
-											var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
-											var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
-											if (subtotalItem) {
-												that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
-												var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
-												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
-											}
-											var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
-											if (subtotalItemS) {
-												that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
-												var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
-												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
-											}
-
-											var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
-											if (subtotalItemG) {
-												that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
-												var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
-												that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
-											}
-											that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
-											that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
-											that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
-											if (that.FinalBalanceCash === 0) {
-												var FinalBalanceCash = 0;
-											} else {
-												var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
-											}
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
-
-											if (that.FinalBalanceGold === 0) {
-												var FinalBalanceGold = 0;
-											} else {
-												var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
-											}
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
-
-											if (that.FinalBalanceSilver === 0) {
-												var FinalBalanceSilver = 0;
-											} else {
-												var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
-											}
-											that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
-											// If row contains id(which means it has been saved in DB)
-											if (id) {
-
-												var stockData = that.getView().getModel('local').getProperty('/stockMaint')
-												stockData.Product = pid;
-												stockData.OrderItemId = id;
-												stockData.Date = date;
-												stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
-												stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
-												var myUrl = "/WSOrderItems('" + id + "')"
-												that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
-													"DELETE", {}, {}, that)
-												$.post("/StockDelete", {
-														Stock: stockData
-													})
-													.then(function(result) {
-
-														var stockId = result.id;
-														that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-															"/stockMaints('" + stockId + "')",
-															"DELETE", {}, {}, that)
-													});
-											} else {
-												that.setStatus("red");
-											};
-											var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
-											oTableData.splice(selIdxs[i], 1);
-											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-											oTableData.push({
-												"OrderNo": "",
-												"itemNo": "",
-												"Material": "",
-												"MaterialCode": "",
-												"Description": "",
-												"Qty": 0,
-												"QtyD": 0,
-												"Weight": 0,
-												"WeightD": 0,
-												"Making": 0,
-												"MakingD": 0,
-												"Tunch": 0,
-												"Remarks": "",
-												"SubTotal": 0,
-												"SubTotalS": 0,
-												"SubTotalG": 0,
-												"Category": "",
-												"CreatedBy": "",
-												"CreatedOn": "",
-												"ChangedBy": "",
-												"ChangedOn": ""
-											});
-											that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
-											sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
-										} //sourcecallCheck
-										else if (oSourceCall === 'OrderReturn') {
-
-											that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
-										} //order return else part
-									} //for i loop
+							if (sButton === "Delete selected entries") {
+								// var selIdxs = that.getView().byId("WSItemFragment--orderItemBases").getSelectedIndices();
+								for (var i = selIdxs.length - 1; i >= 0; --i) {
 									if (oSourceCall === 'WSItemFragment--orderItemBases') {
-										that.getView().byId('WSItemFragment--orderItemBases').clearSelection();
-									} else {
-										that.getView().byId('OrderReturn').clearSelection();
-									}
-								} //sButton
-								// sap.m.MessageToast.show("Selected lines are deleted");
-							} //onclose
+										var id = that.getView().getModel("orderItems").getProperty("/itemData")[i].itemNo;
+										var pid = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Material;
+										var orderId = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].OrderNo;
+										var date = that.getView().byId("WSHeaderFragment--DateId").getDateValue();
+										// TotalOrderValueCash: 0,
+										// TotalOrderValueGold: 0,
+										// TotalOrderValueSilver: 0,
+										var itemDetail = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs];
+										var subtotalItem = oFloatFormat.parse(itemDetail.SubTotal);
+										if (subtotalItem) {
+											that.TotalOrderValueCash = that.TotalOrderValueCash - subtotalItem;
+											var TotalOrderValueCash = that.getIndianCurr(that.TotalOrderValueCash);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueCash', TotalOrderValueCash);
+										}
+										var subtotalItemS = oFloatFormat.parse(itemDetail.SubTotalS);
+										if (subtotalItemS) {
+											that.TotalOrderValueSilver = that.TotalOrderValueSilver - subtotalItemS;
+											var TotalOrderValueSilver = that.getIndianCurr(that.TotalOrderValueSilver);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueSilver', TotalOrderValueSilver);
+										}
+
+										var subtotalItemG = oFloatFormat.parse(itemDetail.SubTotalG);
+										if (subtotalItemG) {
+											that.TotalOrderValueGold = that.TotalOrderValueGold - subtotalItemG;
+											var TotalOrderValueGold = that.getIndianCurr(that.TotalOrderValueGold);
+											that.getView().getModel('local').setProperty('/orderHeaderTemp/TotalOrderValueGold', TotalOrderValueGold);
+										}
+										that.FinalBalanceCash = that.TotalOrderValueCash - that.DeductionCash;
+										that.FinalBalanceGold = that.TotalOrderValueGold - that.DeductionGold;
+										that.FinalBalanceSilver = that.TotalOrderValueSilver - that.DeductionSilver;
+										if (that.FinalBalanceCash === 0) {
+											var FinalBalanceCash = 0;
+										} else {
+											var FinalBalanceCash = that.getIndianCurr(that.FinalBalanceCash);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceCash', FinalBalanceCash);
+
+										if (that.FinalBalanceGold === 0) {
+											var FinalBalanceGold = 0;
+										} else {
+											var FinalBalanceGold = that.getIndianCurr(that.FinalBalanceGold);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceGold', FinalBalanceGold);
+
+										if (that.FinalBalanceSilver === 0) {
+											var FinalBalanceSilver = 0;
+										} else {
+											var FinalBalanceSilver = that.getIndianCurr(that.FinalBalanceSilver);
+										}
+										that.getView().getModel('local').setProperty('/orderHeaderTemp/FinalBalanceSilver', FinalBalanceSilver);
+										// If row contains id(which means it has been saved in DB)
+										if (id) {
+
+											var stockData = that.getView().getModel('local').getProperty('/stockMaint')
+											stockData.Product = pid;
+											stockData.OrderItemId = id;
+											stockData.Date = date;
+											stockData.Weight = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Weight;
+											stockData.Quantity = that.getView().getModel("orderItems").getProperty("/itemData")[selIdxs].Qty;
+											var myUrl = "/WSOrderItems('" + id + "')"
+											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), myUrl,
+												"DELETE", {}, {}, that)
+											$.post("/StockDelete", {
+													Stock: stockData
+												})
+												.then(function(result) {
+
+													var stockId = result.id;
+													that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+														"/stockMaints('" + stockId + "')",
+														"DELETE", {}, {}, that)
+												});
+										} else {
+											that.setStatus("red");
+										};
+										var oTableData = that.getView().getModel("orderItems").getProperty("/itemData");
+										oTableData.splice(selIdxs[i], 1);
+										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+										oTableData.push({
+											"OrderNo": "",
+											"itemNo": "",
+											"Material": "",
+											"MaterialCode": "",
+											"Description": "",
+											"Qty": 0,
+											"QtyD": 0,
+											"Weight": 0,
+											"WeightD": 0,
+											"Making": 0,
+											"MakingD": 0,
+											"Tunch": 0,
+											"Remarks": "",
+											"SubTotal": 0,
+											"SubTotalS": 0,
+											"SubTotalG": 0,
+											"Category": "",
+											"CreatedBy": "",
+											"CreatedOn": "",
+											"ChangedBy": "",
+											"ChangedOn": ""
+										});
+										that.getView().getModel("orderItems").setProperty("/itemData", oTableData);
+										sap.m.MessageToast.show(that.resourceBundle.getText("Selected12"));
+									} //sourcecallCheck
+									else if (oSourceCall === 'OrderReturn') {
+
+										that.deleteReturnValues(oEvent, i, selIdxs[i], viewId, oTableData);
+									} //order return else part
+								} //for i loop
+								if (oSourceCall === 'WSItemFragment--orderItemBases') {
+									that.getView().byId('WSItemFragment--orderItemBases').clearSelection();
+								} else {
+									that.getView().byId('OrderReturn').clearSelection();
+								}
+							} //sButton
+							// sap.m.MessageToast.show("Selected lines are deleted");
+						} //onclose
 					}); //Messagebox
 				} // if selindx length check
 				else { // if selindx length check
@@ -1195,35 +1195,35 @@ sap.ui.define(
 
 				var that = this;
 				if (this.getView().getModel('local').getProperty('/WSOrderHeader').OrderNo) {
-					var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
+					// var id = oEvent.getSource().getParent().getParent().getParent().getId().split('---')[1].split('--')[0];
 					MessageBox.confirm(that.resourceBundle.getText("Change11"), {
 						title: "Confirm", // default
 						onClose: function(sButton) {
-								if (sButton === MessageBox.Action.OK) {
+							if (sButton === MessageBox.Action.OK) {
 
-									var orderdate = that.getView().getModel('local').getProperty('/WSOrderHeader').Date;
-									var customerNo = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
-									var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
-									var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
-									var order = that.getView().getModel('local').getProperty('/WSOrderHeader')
-									that.clearScreen(oEvent);
-									that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
-									that.getView().byId("WSHeaderFragment--custName").setText(customerName);
-									that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
-									if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
-										var SummaryMode = "C";
-									} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
-										var SummaryMode = "G";
-									} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
-										var SummaryMode = "S";
-									} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
-										var SummaryMode = "O";
-									}
-									that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
-									// that.clearScreen(oEvent);
-									that.newOrderCreate();
-								} //Sbutton if condition
-							} //onClose
+								var orderdate = that.getView().getModel('local').getProperty('/WSOrderHeader').Date;
+								var customerNo = that.getView().getModel('local').getProperty('/WSOrderHeader').Customer;
+								var customerId = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerId;
+								var customerName = that.getView().getModel('local').getProperty('/orderHeaderTemp').CustomerName;
+								var order = that.getView().getModel('local').getProperty('/WSOrderHeader')
+								that.clearScreen(oEvent);
+								that.getView().getModel('local').setProperty('/orderHeaderTemp/CustomerId', customerId);
+								that.getView().byId("WSHeaderFragment--custName").setText(customerName);
+								that.getView().getModel('local').setProperty('/WSOrderHeader/Customer', customerNo);
+								if (that.getView().byId("WSHeaderFragment--RB-1").getSelected()) {
+									var SummaryMode = "C";
+								} else if (that.getView().byId("WSHeaderFragment--RB-2").getSelected()) {
+									var SummaryMode = "G";
+								} else if (that.getView().byId("WSHeaderFragment--RB-3").getSelected()) {
+									var SummaryMode = "S";
+								} else if (that.getView().byId("WSHeaderFragment--RB-4").getSelected()) {
+									var SummaryMode = "O";
+								}
+								that.getView().getModel('local').setProperty('/WSOrderHeader/SummaryMode', SummaryMode);
+								// that.clearScreen(oEvent);
+								that.newOrderCreate();
+							} //Sbutton if condition
+						} //onClose
 					});
 				} else {
 					that.newOrderCreate();
@@ -1254,34 +1254,60 @@ sap.ui.define(
 					}
 					//call the odata promise method to post the data
 					orderData.Date = this.getView().byId("WSHeaderFragment--DateId").getValue();
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
-							"POST", {}, orderData, this)
-						.then(function(oData) {
+					var start = new Date(orderData.Date.toString());
+					start.setHours(0, 0, 0, 0);
+
+					var end = new Date(orderData.Date.toString());
+					end.setHours(23, 59, 59, 999);
+					var oFilter1 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.GE, start);
+					var oFilter2 = new sap.ui.model.Filter("Date", sap.ui.model.FilterOperator.LE, end);
+					var orFilter = new sap.ui.model.Filter({
+						filters: [oFilter1, oFilter2],
+						and: true
+					});
+					that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							"/WSOrderHeaders",
+							"GET", {
+								filters: [orFilter]
+							}, {}, that)
+						.then(function(orderHeaders) {
 							that.getView().setBusy(false);
-
-							//create the new json model and get the order id no generated
-							var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
-							oOrderId.OrderId = oData.id;
-							oOrderId.OrderNo = oData.OrderNo;
-							that.getView().getModel('local').setProperty('/OrderId', oOrderId);
-							//assign the no on ui
-							that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
-						})
-						.catch(function(oError) {
-
-							if (oError.responseText.includes("last order already empty use same")) {
-								var id = oError.responseText.split(':')[2];
-								if (id) {
-									that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-											"/WSOrderHeaders(" + id + ")",
-											"GET", {}, {}, that)
-										.then(function(oData) {
-
-											that.getView().setBusy(false);
+							debugger;
+							if (orderHeaders.results.length > 0) {
+								orderHeaders.results.sort(function(a, b) {
+									return b.OrderNo - a.OrderNo;
+								});
+								var oFilter = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, "'" + orderHeaders.results[0].id + "'");
+								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+										"/WSOrderItems",
+										"GET", {
+											filters: [oFilter]
+										}, {}, that)
+									.then(function(orderItems) {
+										if (orderItems.results.length > 0) {
+											// call the odata promise method to post the data
+											orderData.OrderNo = orderHeaders.results[0].OrderNo + 1;
+											that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderHeaders",
+													"POST", {}, orderData, that)
+												.then(function(oData) {
+													that.getView().setBusy(false);
+													//create the new json model and get the order id no generated
+													var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+													oOrderId.OrderId = oData.id;
+													oOrderId.OrderNo = oData.OrderNo;
+													that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+													//assign the no on ui
+													that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
+												})
+												.catch(function(oError) {
+													that.getView().setBusy(false);
+													var oPopover = that.getErrorMessage(oError);
+												});
+										} else {
 											//create the new json model and get the order id no generated
 											var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
-											oOrderHeader.OrderId = oData.id;
-											oOrderHeader.OrderNo = oData.OrderNo;
+											oOrderHeader.OrderId = orderHeaders.results[0].id;
+											oOrderHeader.OrderNo = orderHeaders.results[0].OrderNo;
 
 											var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
 											that.getView().getModel('local').setProperty('/WSOrderHeader', oOrderHeader);
@@ -1289,20 +1315,102 @@ sap.ui.define(
 												duration: 3000, // default
 												width: "15em", // default
 											});
-										})
-										.catch(function(oError) {
-											that.getView().setBusy(false);
-											var oPopover = that.getErrorMessage(oError);
-										});
-								} else {
-									that.getView().setBusy(false);
-									var oPopover = that.getErrorMessage(oError);
-								}
+										}
+									})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
 							} else {
-								that.getView().setBusy(false);
-								var oPopover = that.getErrorMessage(oError);
+								// call the odata promise method to post the data
+								orderData.OrderNo = 251;
+								that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/WSOrderHeaders",
+										"POST", {}, orderData, that)
+									.then(function(oData) {
+										that.getView().setBusy(false);
+										//create the new json model and get the order id no generated
+										var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+										oOrderId.OrderId = oData.id;
+										oOrderId.OrderNo = oData.OrderNo;
+										that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+										//assign the no on ui
+										that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
+									})
+									.catch(function(oError) {
+										that.getView().setBusy(false);
+										var oPopover = that.getErrorMessage(oError);
+									});
 							}
+						})
+						.catch(function(oError) {
+							that.getView().setBusy(false);
+							var oPopover = that.getErrorMessage(oError);
 						});
+					//create the new json model and get the order id no generated
+					// var oOrderHeader = that.getView().getModel('local').getProperty('/orderHeader');
+					// var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+					// oOrderHeader.OrderNo = oData.OrderNo;
+					// oOrderHeader.Customer = customer;
+					// oOrderId.OrderId = oData.id;
+					// oOrderId.OrderNo = oData.OrderNo;
+					// that.headerNoChange = true;
+					// that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+					// that.getView().getModel('local').setProperty('/orderHeader', oOrderHeader);
+					// that.getView().getModel('local').setProperty('/orderHeaderTemp/OrderId', oData.id);
+					// var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("orderReloadMessage");
+					// sap.m.MessageToast.show(oBundle, {
+					// 	duration: 3000, // default
+					// 	width: "15em", // default
+					// });
+					// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/WSOrderHeaders",
+					// 		"POST", {}, orderData, this)
+					// 	.then(function(oData) {
+					// 		that.getView().setBusy(false);
+					//
+					// 		//create the new json model and get the order id no generated
+					// 		var oOrderId = that.getView().getModel('local').getProperty('/OrderId');
+					// 		oOrderId.OrderId = oData.id;
+					// 		oOrderId.OrderNo = oData.OrderNo;
+					// 		that.getView().getModel('local').setProperty('/OrderId', oOrderId);
+					// 		//assign the no on ui
+					// 		that.getView().getModel("local").setProperty("/WSOrderHeader/OrderNo", oData.OrderNo);
+					// 	})
+					// 	.catch(function(oError) {
+					//
+					// 		if (oError.responseText.includes("last order already empty use same")) {
+					// 			var id = oError.responseText.split(':')[2];
+					// 			if (id) {
+					// 				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+					// 						"/WSOrderHeaders(" + id + ")",
+					// 						"GET", {}, {}, that)
+					// 					.then(function(oData) {
+					//
+					// 						that.getView().setBusy(false);
+					// 						//create the new json model and get the order id no generated
+					// 						var oOrderHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
+					// 						oOrderHeader.OrderId = oData.id;
+					// 						oOrderHeader.OrderNo = oData.OrderNo;
+					//
+					// 						var oBundle = that.getView().getModel("i18n").getResourceBundle().getText("WSOrderCheckMsg");
+					// 						that.getView().getModel('local').setProperty('/WSOrderHeader', oOrderHeader);
+					// 						sap.m.MessageToast.show(oBundle, {
+					// 							duration: 3000, // default
+					// 							width: "15em", // default
+					// 						});
+					// 					})
+					// 					.catch(function(oError) {
+					// 						that.getView().setBusy(false);
+					// 						var oPopover = that.getErrorMessage(oError);
+					// 					});
+					// 			} else {
+					// 				that.getView().setBusy(false);
+					// 				var oPopover = that.getErrorMessage(oError);
+					// 			}
+					// 		} else {
+					// 			that.getView().setBusy(false);
+					// 			var oPopover = that.getErrorMessage(oError);
+					// 		}
+					// 	});
 				}
 			},
 			onValidation: function() {
@@ -1567,7 +1675,7 @@ sap.ui.define(
 				// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 				var key = oEvent.key;
 				var id1 = oEvent.getParameter("id").split("--")[2]
-					// if() alert('backspace');
+				// if() alert('backspace');
 				var searchStr = oEvent.getParameter("suggestValue");
 				if (searchStr === "" || key == 8 || key === "Backspace" || key === "Delete") {
 					this.getView().byId("customerId").setValue("");
@@ -3715,7 +3823,6 @@ sap.ui.define(
 						mm = '0' + mm;
 					}
 				}
-
 				var orderDate = dd + '.' + mm + '.' + yyyy;
 
 				// var orderDate = orderLocDate.replace(/\-/g, '.');
@@ -3723,6 +3830,10 @@ sap.ui.define(
 				if (orderDetails.Customer) {
 					var custId = orderDetails.Customer;
 					var cusData = this.allMasterData.customers[custId];
+				}
+				if (orderHeader.CustomerId === "SALE") {
+					cusData.MobilePhone = orderDetails.ContactNo;
+					orderHeader.CustomerName = orderDetails.CustomerName;
 				}
 				var printDate = formatter.getFormattedDate(0);
 				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
@@ -3862,30 +3973,30 @@ sap.ui.define(
 							if (oData.results[i].Value === "false") {
 								arrayRemoveFromPrint.push('idWReturnSubTotal');
 							}
-						default:
+							default:
 					}
 				}
 				var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
-					'<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
-					'<tbody>' +
-					'<tr>' +
-					'<td class="idWCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
-					'<td class="idWCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +
-					'</tr>' +
-					'<tr>' +
-					'<td class="idWAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>' +
-					'<td class="idWAddress" style="width: 300px; height: 13px;">' + rAddress + '</td>' +
-					'</tr>' +
-					'<tr>' +
-					'<td class="idWPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>' +
-					'<td class="idWPhoneNumber" style="width: 300px; height: 13px;">' + rContNumber + '</td>' +
-					'</tr>' +
-					'<tr>' +
-					'<td class="idWGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>' +
-					'<td class="idWGSTN" style="width: 300px; height: 13px;">' + rGSTNumber + '</td>' +
-					'</tr>' +
-					'</tbody>' +
-					'</table>' +
+					// '<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
+					// '<tbody>' +
+					// '<tr>' +
+					// '<td class="idWCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
+					// '<td class="idWCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +
+					// '</tr>' +
+					// '<tr>' +
+					// '<td class="idWAddress" style="width: 150px; height: 13px;"><strong>Address</strong></td>' +
+					// '<td class="idWAddress" style="width: 300px; height: 13px;">' + rAddress + '</td>' +
+					// '</tr>' +
+					// '<tr>' +
+					// '<td class="idWPhoneNumber" style="width: 150px; height: 13px;"><strong>Ph No</strong></td>' +
+					// '<td class="idWPhoneNumber" style="width: 300px; height: 13px;">' + rContNumber + '</td>' +
+					// '</tr>' +
+					// '<tr>' +
+					// '<td class="idWGSTN" style="width: 150px; height: 13px;"><strong>GSTN</strong></td>' +
+					// '<td class="idWGSTN" style="width: 300px; height: 13px;">' + rGSTNumber + '</td>' +
+					// '</tr>' +
+					// '</tbody>' +
+					// '</table>' +
 					'<table style="display: inline-block; width: 450px; height: 100px;">' +
 					'<tbody>' +
 					'<tr>' +

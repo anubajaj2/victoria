@@ -424,8 +424,8 @@ sap.ui.define([
 				}
 			}
 			var header = '<h2 style="text-align: center;"><strong>' + title + '</strong></h2><hr />' +
-				'<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
-				'<tbody>' +
+				// '<table style="display: inline-block; float: left; width: 450px; height: 100px;">' +
+				// '<tbody>' +
 				// '<tr>' +
 				// '<td class="idRCompName" style="width: 150px; height: 13.5px;"><strong>Company Name</strong></td>' +
 				// '<td class="idRCompName" style="width: 300px; height: 13.5px;">' + rCompName + '</td>' +

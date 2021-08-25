@@ -1950,6 +1950,8 @@ sap.ui.define([
 					} else {
 						that.byId("idS").setState('Warning');
 					}
+					that.getView().byId("idCust").setVisible(true);
+					alert("chal gaya");
 				});
 			}
 			else if(kachhiId){

@@ -35,11 +35,11 @@
                                 </CheckBox>
                             </f:fields>
                         </f:FormElement>
-                        <f:FormElement label="{i18n>Customer}">
+                        <f:FormElement label="{i18n>Customer}" visible="true">
                             <f:fields>
                               <!-- suggest="onSuggest" -->
                                 <Input id="idCust" showValueHelp="true" editable="true" valueHelpRequest="onValueHelpRequest" value="{path: 'local>/entryHeaderTemp/CustomerId'}"
-                                  suggestionItemSelected="onCustomerSelect" maxSuggestionWidth="auto" autocomplete="false"
+                                  suggestionItemSelected="onCustomerSelect" visible="true" maxSuggestionWidth="auto" autocomplete="false"
                                   submit="onEnter" showSuggestion="true" suggest="onSearch1"
                                   suggestionItems="{path: '/Customers', sorter: [{path: 'CustomerCode', ascending: 'false'}]}">
                                     <suggestionItems>

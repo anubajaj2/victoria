@@ -21,15 +21,18 @@
     },
     "Cash": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Gold": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Silver": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Remarks": {
       "type": "string",
@@ -37,11 +40,13 @@
     },
     "Weight": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "Tunch": {
       "type": "number",
-      "required": false
+      "required": false,
+      "default": 0
     },
     "OrderType": {
       "type": "string",

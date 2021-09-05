@@ -1709,8 +1709,8 @@ sap.ui.define(
 			},
 
 			commitRecords: function(oEvent) {
+				var that = this;
 				if (this.getStatus() === 'red') {
-					var that = this;
 					var oHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
 					var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 					//order header put
@@ -1816,16 +1816,47 @@ sap.ui.define(
 										that.getView().setBusy(false);
 										var oPopover = that.getErrorMessage(oError);
 									});
-								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-										"/Products('" + oOrderDetailsClone.Material + "')",
-										"PUT", {}, {
-											"CustomerTunch": oOrderDetailsClone.Tunch
-										}, that)
-									.then(function(oData) {})
-									.catch(function(oError) {
-										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
-									});
+									// debugger;
+									var Customer = oHeader.Customer;
+									var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
+									var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + oOrderDetailsClone.Material + "'");
+									var oFilter = new sap.ui.model.Filter({
+										filters: [oFilter1, oFilter2],
+										and: true
+									})
+									this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+											// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
+											"/WSTunchs", "GET", {
+												filters: [oFilter1, oFilter2]
+											}, null, this)
+										.then(function(oData) {
+
+											// if (oData.results.length > 0) {
+											// 	selectedMatData.Making = oData.results[0].Making;
+											// 	selectedMatData.Tunch = oData.results[0].Tunch;
+											// }
+											that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+													"/WSTunchs('" + oData.results[0].id + "')",
+													"PUT", {}, {
+														"Making": oOrderDetailsClone.Making,
+														"Tunch": oOrderDetailsClone.Tunch
+													}, that)
+												.then(function(oData) {
+													debugger;
+												})
+												.catch(function(oError) {
+													that.getView().setBusy(false);
+													var oPopover = that.getErrorMessage(oError);
+												});
+										})
+										.catch(function(oError) {
+
+											if (selectedMatData.Tunch) {
+												oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+											} else {
+												oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+											}
+										});
 							}
 						}
 					}

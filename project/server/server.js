@@ -11061,7 +11061,7 @@ app.start = function() {
 					for (var i = 0; i < records.length; i++) {
 						tSilver = tSilver + records[i].Silver;
 						tGold = tGold + records[i].Gold;
-						tCash = tCash + records[i].Cash;
+						tCash = tCash + parseFloat(records[i].Cash);
 					}
 
 					res.send({
@@ -11084,7 +11084,7 @@ app.start = function() {
 					for (var i = 0; i < records.length; i++) {
 						tSilver = tSilver + records[i].Silver;
 						tGold = tGold + records[i].Gold;
-						tCash = tCash + records[i].Cash;
+						tCash = tCash + parseFloat(records[i].Cash);
 					}
 
 					res.send({

@@ -1910,11 +1910,12 @@ sap.ui.define([
 				this.getView().byId("idTable1").getBinding("items").filter(oFilter);
 				this.getView().byId("idTable2").getBinding("items").filter(oFilter);
 				this.customerId = selectedCustomer.id;
+				that.getView().byId("idCust").setVisible(true);
 				$.post("/getTotalEntryCustomer", {
 					Customer: myData.Customer
 				}).then(function(result) {
 					console.log(result);
-
+					that.getView().byId("idCust").setVisible(true);
 					if (result.CashTotal === null) {
 						that.byId("idTC").setText('0');
 					} else {
@@ -1951,7 +1952,7 @@ sap.ui.define([
 						that.byId("idS").setState('Warning');
 					}
 					that.getView().byId("idCust").setVisible(true);
-					alert("chal gaya");
+					//alert("chal gaya");
 				});
 			}
 			else if(kachhiId){

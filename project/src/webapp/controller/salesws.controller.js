@@ -1831,31 +1831,43 @@ sap.ui.define(
 											}, null, this)
 										.then(function(oData) {
 
-											// if (oData.results.length > 0) {
-											// 	selectedMatData.Making = oData.results[0].Making;
-											// 	selectedMatData.Tunch = oData.results[0].Tunch;
-											// }
-											that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-													"/WSTunchs('" + oData.results[0].id + "')",
-													"PUT", {}, {
-														"Making": oOrderDetailsClone.Making,
-														"Tunch": oOrderDetailsClone.Tunch
-													}, that)
-												.then(function(oData) {
-													debugger;
-												})
-												.catch(function(oError) {
-													that.getView().setBusy(false);
-													var oPopover = that.getErrorMessage(oError);
-												});
+											if (oData.results.length > 0) {
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+														"/WSTunchs('" + oData.results[0].id + "')",
+														"PUT", {}, {
+															"Making": oOrderDetailsClone.Making,
+															"Tunch": oOrderDetailsClone.Tunch
+														}, that)
+													.then(function(oData) {
+														// debugger;
+													})
+													.catch(function(oError) {
+														that.getView().setBusy(false);
+														var oPopover = that.getErrorMessage(oError);
+													});
+											}else{
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+														"/WSTunchs",
+														"POST", {}, {
+															"Making": oOrderDetailsClone.Making,
+															"Tunch": oOrderDetailsClone.Tunch
+														}, that)
+													.then(function(oData) {
+														// debugger;
+													})
+													.catch(function(oError) {
+														that.getView().setBusy(false);
+														var oPopover = that.getErrorMessage(oError);
+													});
+											}
 										})
 										.catch(function(oError) {
 
-											if (selectedMatData.Tunch) {
-												oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
-											} else {
-												oModelForRow.setProperty(sRowPath + "/Tunch", 0);
-											}
+											// if (selectedMatData.Tunch) {
+											// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+											// } else {
+											// 	oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+											// }
 										});
 							}
 						}

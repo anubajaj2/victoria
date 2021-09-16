@@ -1579,11 +1579,12 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("returnModel").setProperty("/TransData", allItems)
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
+										// sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
+										debugger;
+										// var oPopover = that.getErrorMessage(oError);
 									});
 							}
 						} //type check
@@ -1650,7 +1651,7 @@ sap.ui.define(
 					if (returnCheck === true && itemError === false) {
 						this.commitRecords(oEvent);
 						this.setStatus("green");
-						MessageToast.show(that.resourceBundle.getText("dataSave"));
+						// MessageToast.show(that.resourceBundle.getText("dataSave"));
 					}
 
 					//error if no valid entry
@@ -1709,22 +1710,22 @@ sap.ui.define(
 			},
 
 			commitRecords: function(oEvent) {
+				var that = this;
 				if (this.getStatus() === 'red') {
-					var that = this;
 					var oHeader = that.getView().getModel('local').getProperty('/WSOrderHeader');
 					var oId = that.getView().getModel('local').getProperty('/OrderId').OrderId;
 					//order header put
 					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/WSOrderHeaders('" + oId + "')", "PUT", {}, oHeader, this)
 						.then(function(oData) {
-
-							message.show(that.resourceBundle.getText("Order11"));
+							debugger;
+							// message.show(that.resourceBundle.getText("Order11"));
 							that.getView().setBusy(false);
 						})
 						.catch(function(oError) {
-
+							debugger;
 							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
+							// var oPopover = that.getErrorMessage(oError);
 						});
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
@@ -1810,22 +1811,67 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("orderItems").setProperty("/itemData", allItems);
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
+										// sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
 										var oPopover = that.getErrorMessage(oError);
 									});
-								that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-										"/Products('" + oOrderDetailsClone.Material + "')",
-										"PUT", {}, {
-											"CustomerTunch": oOrderDetailsClone.Tunch
-										}, that)
-									.then(function(oData) {})
-									.catch(function(oError) {
-										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
-									});
+									// debugger;
+									var Customer = oHeader.Customer;
+									var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
+									var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + oOrderDetailsClone.Material + "'");
+									var oFilter = new sap.ui.model.Filter({
+										filters: [oFilter1, oFilter2],
+										and: true
+									})
+									this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+											// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
+											"/WSTunchs", "GET", {
+												filters: [oFilter1, oFilter2]
+											}, null, this)
+										.then(function(oData) {
+
+											if (oData.results.length > 0) {
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+														"/WSTunchs('" + oData.results[0].id + "')",
+														"PUT", {}, {
+															"Making": oOrderDetailsClone.Making,
+															"Tunch": oOrderDetailsClone.Tunch
+														}, that)
+													.then(function(oData) {
+														debugger;
+													})
+													.catch(function(oError) {
+														that.getView().setBusy(false);
+														debugger;
+														// var oPopover = that.getErrorMessage(oError);
+													});
+											}else{
+												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+														"/WSTunchs",
+														"POST", {}, {
+															"Making": oOrderDetailsClone.Making,
+															"Tunch": oOrderDetailsClone.Tunch
+														}, that)
+													.then(function(oData) {
+														debugger;
+													})
+													.catch(function(oError) {
+														that.getView().setBusy(false);
+														debugger;
+														// var oPopover = that.getErrorMessage(oError);
+													});
+											}
+										})
+										.catch(function(oError) {
+											debugger;
+											// if (selectedMatData.Tunch) {
+											// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
+											// } else {
+											// 	oModelForRow.setProperty(sRowPath + "/Tunch", 0);
+											// }
+										});
 							}
 						}
 					}
@@ -3836,7 +3882,8 @@ sap.ui.define(
 					orderHeader.CustomerName = orderDetails.CustomerName;
 				}
 				var printDate = formatter.getFormattedDate(0);
-				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
+				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title = "Estimate",
+	rTnC, rMarking;
 				for (var i = 0; i < oData.results.length; i++) {
 					switch (oData.results[i].Name) {
 						case "__component0---idPrint--idWCompName":

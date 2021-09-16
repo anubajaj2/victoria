@@ -1579,11 +1579,12 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("returnModel").setProperty("/TransData", allItems)
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
+										// sap.m.MessageToast.show(that.resourceBundle.getText("dataSave"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
-										var oPopover = that.getErrorMessage(oError);
+										debugger;
+										// var oPopover = that.getErrorMessage(oError);
 									});
 							}
 						} //type check
@@ -1650,7 +1651,7 @@ sap.ui.define(
 					if (returnCheck === true && itemError === false) {
 						this.commitRecords(oEvent);
 						this.setStatus("green");
-						MessageToast.show(that.resourceBundle.getText("dataSave"));
+						// MessageToast.show(that.resourceBundle.getText("dataSave"));
 					}
 
 					//error if no valid entry
@@ -1717,14 +1718,14 @@ sap.ui.define(
 					that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/WSOrderHeaders('" + oId + "')", "PUT", {}, oHeader, this)
 						.then(function(oData) {
-
-							message.show(that.resourceBundle.getText("Order11"));
+							debugger;
+							// message.show(that.resourceBundle.getText("Order11"));
 							that.getView().setBusy(false);
 						})
 						.catch(function(oError) {
-
+							debugger;
 							that.getView().setBusy(false);
-							var oPopover = that.getErrorMessage(oError);
+							// var oPopover = that.getErrorMessage(oError);
 						});
 
 					var oOrderDetail = this.getView().getModel('local').getProperty('/WSOrderItem')
@@ -1810,7 +1811,7 @@ sap.ui.define(
 										} //for loop
 										that.getView().getModel("orderItems").setProperty("/itemData", allItems);
 										that.getView().setBusy(false);
-										sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
+										// sap.m.MessageToast.show(that.resourceBundle.getText("Data"));
 									})
 									.catch(function(oError) {
 										that.getView().setBusy(false);
@@ -1839,11 +1840,12 @@ sap.ui.define(
 															"Tunch": oOrderDetailsClone.Tunch
 														}, that)
 													.then(function(oData) {
-														// debugger;
+														debugger;
 													})
 													.catch(function(oError) {
 														that.getView().setBusy(false);
-														var oPopover = that.getErrorMessage(oError);
+														debugger;
+														// var oPopover = that.getErrorMessage(oError);
 													});
 											}else{
 												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
@@ -1853,16 +1855,17 @@ sap.ui.define(
 															"Tunch": oOrderDetailsClone.Tunch
 														}, that)
 													.then(function(oData) {
-														// debugger;
+														debugger;
 													})
 													.catch(function(oError) {
 														that.getView().setBusy(false);
-														var oPopover = that.getErrorMessage(oError);
+														debugger;
+														// var oPopover = that.getErrorMessage(oError);
 													});
 											}
 										})
 										.catch(function(oError) {
-
+											debugger;
 											// if (selectedMatData.Tunch) {
 											// 	oModelForRow.setProperty(sRowPath + "/Tunch", selectedMatData.Tunch);
 											// } else {
@@ -3879,7 +3882,8 @@ sap.ui.define(
 					orderHeader.CustomerName = orderDetails.CustomerName;
 				}
 				var printDate = formatter.getFormattedDate(0);
-				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title, rTnC, rMarking;
+				var rCompName, rAddress, rContNumber, rGSTNumber, rEstimate, rWeight, rBhav, rSubtotal, title = "Estimate",
+	rTnC, rMarking;
 				for (var i = 0; i < oData.results.length; i++) {
 					switch (oData.results[i].Name) {
 						case "__component0---idPrint--idWCompName":

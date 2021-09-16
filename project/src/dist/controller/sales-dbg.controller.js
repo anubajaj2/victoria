@@ -1583,12 +1583,15 @@ sap.ui.define([
 									that.getView().setBusy(false);
 									var oPopover = that.getErrorMessage(oError);
 								});
+							// debugger;
 							that.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 									"/Products('" + oOrderDetailsClone.Material + "')",
 									"PUT", {}, {
 										"CustomerMaking": oOrderDetailsClone.Making
 									}, that)
-								.then(function(oData) {})
+								.then(function(oData) {
+									// debugger;
+								})
 								.catch(function(oError) {
 									that.getView().setBusy(false);
 									var oPopover = that.getErrorMessage(oError);

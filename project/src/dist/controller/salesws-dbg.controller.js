@@ -1817,7 +1817,6 @@ sap.ui.define(
 										that.getView().setBusy(false);
 										var oPopover = that.getErrorMessage(oError);
 									});
-									// debugger;
 									var Customer = oHeader.Customer;
 									var oFilter1 = new sap.ui.model.Filter('Customer', sap.ui.model.FilterOperator.EQ, "'" + Customer + "'");
 									var oFilter2 = new sap.ui.model.Filter('Product', sap.ui.model.FilterOperator.EQ, "'" + oOrderDetailsClone.Material + "'");
@@ -1828,10 +1827,9 @@ sap.ui.define(
 									this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 											// "/WSTunchs('" + '5d4b195896718d126c49f7f1' + "')" , "GET",
 											"/WSTunchs", "GET", {
-												filters: [oFilter1, oFilter2]
+												filters: [oFilter]//[oFilter1, oFilter2]
 											}, null, this)
 										.then(function(oData) {
-
 											if (oData.results.length > 0) {
 												that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 														"/WSTunchs('" + oData.results[0].id + "')",

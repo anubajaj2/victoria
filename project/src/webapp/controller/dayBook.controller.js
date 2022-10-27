@@ -47,6 +47,7 @@ sap.ui.define([
 			// 			// this.getView().byId("idTable1").setVisible();
 			// 			}
 		},
+		oDialog1: null,
 		onPressGWiseDownload: function() {
 
 			var reportType = "Group_Wise_Report";

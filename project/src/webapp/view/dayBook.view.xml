@@ -147,7 +147,7 @@
           <items>
             <ColumnListItem>
               <cells>
-                <Text id="id1" text="{
+                <Text id="col1" text="{
                 path: 'Date',
                 type: 'sap.ui.model.type.Date',
                 formatOptions: {

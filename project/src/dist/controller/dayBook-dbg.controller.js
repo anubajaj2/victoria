@@ -47,9 +47,46 @@ sap.ui.define([
 			// 			// this.getView().byId("idTable1").setVisible();
 			// 			}
 		},
+		onPressGWiseDownload: function() {
+
+			var reportType = "Group_Wise_Report";
+			if (!this.oDialog1) {
+				this.oDialog1 = new sap.ui.xmlfragment(this.getView().getId(), "victoria.fragments.entryGroup", this);
+				this.getView().addDependent(this.oDialog1);
+			}
+			this.oDialog1.open();
+			// window.open("/groupWiseEntryDownload?type=Group_Wise_Report");
+		},
 		getRouter: function() {
 
 			return sap.ui.core.UIComponent.getRouterFor(this);
+		},
+		onPressHandleEntryCancelPopup1: function() {
+			this.getView().byId("idGroup1").setEditable(false);
+
+			this.oDialog1.close();
+			if (this.getView().byId("id1").getSelected()) {
+				this.getView().byId("idGroup1").setEditable(true);
+			}
+		},
+		onPressHandleEntrySavePopup1: function() {
+
+			// var id11= this.getView().byId("idAll").getSelected();
+			if (this.getView().byId("idAll").getSelected()) {
+				// var id=this.getView().byId("idGroup1").getSelectedKey();
+
+				window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=00");
+			} else if (this.getView().byId("id1").getSelected()) {
+				var id = this.getView().byId("idGroup1").getSelectedKey();
+				var name = this.getView().byId("idGroup1").getSelectedItem().getText();
+				window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=" + id + "&name=" + name);
+			} else if (this.getView().byId("idNo").getSelected()) {
+				window.open("/groupWiseEntryDownload?type=Group_Wise_Report&group=01");
+			} else {
+				MessageToast.show("Please Select A Option");
+				return;
+			}
+			this.oDialog1.close();
 		},
 		_onRouteMatched: function(oEvent) {
 

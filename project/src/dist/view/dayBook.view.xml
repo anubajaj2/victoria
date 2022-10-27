@@ -78,6 +78,8 @@
 
             <ToolbarSpacer/>
             <!-- enabled="true" -->
+            <Button icon="sap-icon://download" text="{i18n>GroupReport}" press="onPressGWiseDownload"
+            />
             <Button id="idEntryDownload1" icon="sap-icon://download" press="onPressEntryDownload"
               tooltip="{i18n>download}" />
             <Button icon="sap-icon://clear-filter" press="onFilterClear" tooltip="clear filters"

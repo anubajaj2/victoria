@@ -28,7 +28,7 @@
     "file-saver": "^2.0.5",
     "googleapis": "latest",
     "gridfs-stream": "^1.1.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-redis": "^6.0.0",
     "log4js": "^0.6.38",
     "loopback": "^2.22.0",

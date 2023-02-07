@@ -99,8 +99,7 @@
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
-				"viewPath": "victoria.view",
-        "async": true
+				"viewPath": "victoria.view"
 			},
 			"routes": [
 					  {
@@ -116,7 +115,6 @@
 							{
 								"pattern": "adminPanel",
 								"name": "adminPanel",
-
 								"target": ["donald", "adminPanel"]
 							},
 							{

@@ -79,7 +79,7 @@ sap.ui.define([
 			this.getCustomerPopup(oEvent);
 		},
 
-		onValueHelpMat: function() {
+		onMaterialValueHelp: function() {
 			this.getMaterialPopup();
 		},
 
@@ -177,6 +177,8 @@ sap.ui.define([
 				var matId = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 				this.getView().getModel("local").setProperty("/customerOrder/Material", matId);
 				this.getView().getModel("local").setProperty("/coTemp/MaterialCode", selMat);
+				this.getView().byId("idCoMaterial").setValueState("None");
+				this.getView().byId("idCoMaterial").setValueStateText("");
 				var materialData = this.allMasterData.materials[matId];
 				// fill Material Type, Karat, Making and Category based on the material code selected
 				this.getView().byId("idCoMatType").setValue(materialData.Type);
@@ -200,6 +202,9 @@ sap.ui.define([
 					oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1]);
 				this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
 					selCust);
+				this.getView().byId("idCoCustomer").setValueState("None");
+				this.getView().byId("idCoCustomer").setValueStateText("");
+				
 				myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
@@ -689,26 +694,43 @@ sap.ui.define([
 
 		onSave: function(oEvent) {
 			var that = this;
-			that.getView().setBusy(true);
+			
 			var myData = this.getView().getModel('local').getProperty("/customerOrder");
-			if (myData.Qty === "0") {
-				var Qty = this.getView().byId("idCoQty");
-				Qty.setValueState(sap.ui.core.ValueState.Error).setValueStateText("Qty can't be 0")
-				that.getView().setBusy(false);
-				return;
-			} else {
-				var Qty = this.getView().byId("idCoQty");
-				Qty.setValueState(sap.ui.core.ValueState.None);
-			}
 			myData.Date = this.getView().byId("idCoDate").getDateValue();
 			myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-			if (myData.Date > myData.DelDate) {
-				sap.m.MessageBox.error(that.resourceBundle.getText("DeliveryDate"));
-				that.getView().setBusy(false);
+			
+			// Validate the data of customer order
+			var oValidate = this.isCustOrderDataValid(myData);
+			if (!oValidate.isValid) {
+				oValidate.errMessages.forEach(oErrMsg => {
+					let oField = this.getView().byId(oErrMsg.sFieldId);
+					oField.setValueState("Error");
+					oField.setValueStateText(oErrMsg.sMessage);
+				});
+				this.getView().byId(oValidate.errMessages[0].sFieldId).focus();
 				return;
 			}
 			this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
 			this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
+			this.getView().setBusy(true);
+			// if (myData.Qty === "0") {
+			// 	var Qty = this.getView().byId("idCoQty");
+			// 	Qty.setValueState(sap.ui.core.ValueState.Error).setValueStateText("Qty can't be 0")
+			// 	that.getView().setBusy(false);
+			// 	return;
+			// } else {
+			// 	var Qty = this.getView().byId("idCoQty");
+			// 	Qty.setValueState(sap.ui.core.ValueState.None);
+			// }
+			// myData.Date = this.getView().byId("idCoDate").getDateValue();
+			// myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
+			// if (myData.Date > myData.DelDate) {
+			// 	sap.m.MessageBox.error(that.resourceBundle.getText("DeliveryDate"));
+			// 	that.getView().setBusy(false);
+			// 	return;
+			// }
+			// this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
+			// this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
 					"POST", {}, myData, this)
 				.then(function(oData) {
@@ -723,6 +745,91 @@ sap.ui.define([
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});;
+		},
+		isCustOrderDataValid: function(oCustOrderData) {
+			// Fields which must be entered for creating the customer order
+			/*
+				Field Name		Rule
+				Customer		Customer cannot be blank
+				Qty				Quantity must be greated than 0
+				Material		Material cannot be blank
+				Date			Date cannot be blank
+				DelDate			Delivery date must be greater than date 
+				Weight			Weight must be greater than 0
+
+				
+			*/
+			let oValidations = {
+				isValid: true,
+				errMessages: []
+			}
+			let oResourceBundle = this.resourceBundle;
+			if (!oCustOrderData.Date) {
+				// Date is not entered
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("DATE_CANNOT_BE_BLANK_VS"),
+					sFieldId: "idCoDate"
+				});
+			}else {
+				this.getView().byId("idCoDate").setValueState("None");
+				this.getView().byId("idCoDate").setValueStateText("");
+			}
+			if (!oCustOrderData.DelDate) {
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("DATE_CANNOT_BE_BLANK_VS"),
+					sFieldId: "idCoDelDate"
+				});
+			}else {
+				if (oCustOrderData.Date > oCustOrderData.DelDate) {
+					oValidations.errMessages.push({
+						sMessage: oResourceBundle.getText("DATE_GREATER_THAN_DELV"),
+						sFieldId: "idCoDelDate"
+					});
+				}else {
+					this.getView().byId("idCoDelDate").setValueState("None");
+					this.getView().byId("idCoDelDate").setValueStateText("");
+				}
+			}
+			if (!oCustOrderData.Customer) {
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("CUSTOMER_BLANK_VS"),
+					sFieldId: "idCoCustomer"
+				});
+			}else {
+				this.getView().byId("idCoCustomer").setValueState("None");
+				this.getView().byId("idCoCustomer").setValueStateText("");
+			}
+			if (!oCustOrderData.Material) {
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("MATERIAL_BLANK"),
+					sFieldId: "idCoMaterial"
+				});
+			}else {
+				this.getView().byId("idCoMaterial").setValueState("None");
+				this.getView().byId("idCoMaterial").setValueStateText("");
+			}
+			if (!oCustOrderData.Qty || parseFloat(oCustOrderData.Qty) <= 0) {
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("QTY_GREATER_THAN_VS"),
+					sFieldId: "idCoQty"
+				});
+			}else {
+				this.getView().byId("idCoQty").setValueState("None");
+				this.getView().byId("idCoQty").setValueStateText("");
+			}
+			if (!oCustOrderData.Weight || parseFloat(oCustOrderData.Weight) <= 0) {
+				oValidations.errMessages.push({
+					sMessage: oResourceBundle.getText("WEIGHT_GREATER_THAN_VS"),
+					sFieldId: "idCoWeight"
+				});
+			}else {
+				this.getView().byId("idCoWeight").setValueState("None");
+				this.getView().byId("idCoWeight").setValueStateText("");
+			}
+			if (oValidations.errMessages.length) {
+				oValidations.isValid = false;
+			}
+			return oValidations;
 		},
 
 		onDelete: function() {

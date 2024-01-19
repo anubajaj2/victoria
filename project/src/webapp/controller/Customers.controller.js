@@ -121,7 +121,12 @@ sap.ui.define([
 			//
 			var sId = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath())
 				.id;
-			this.getView().getModel("customerModel").setProperty("/City", sId);
+
+			if (sId) {
+				this.getView().byId("idCityField").setValueState("None");
+				this.getView().byId("idCityField").setValueStateText("");
+				this.getView().getModel("customerModel").setProperty("/City", sId);
+			}
 		},
 		onPressCustCodeDownload: function() {
 
@@ -391,12 +396,16 @@ sap.ui.define([
 		},
 
 		additionalInfoValidation: function() {
-
+			let oResourceBundle = this.resourceBundle;
 			var customerModel = this.getView().getModel("customerModel");
 			var oDataModel = this.getView().getModel("dataModel");
 			if (customerModel.getData().CustomerCode === "") {
+				this.getView().byId("idCustomerCode")?.setValueState("Error");
+				this.getView().byId("idCustomerCode")?.setValueStateText(oResourceBundle.getText("CUSTOMER_CODE_BLANK_VS_TXT"));
 				oDataModel.setProperty("/CustomerCodeState", "Error");
 			} else {
+				this.getView().byId("idCustomerCode")?.setValueState("None");
+				this.getView().byId("idCustomerCode")?.setValueStateText("");
 				oDataModel.setProperty("/CustomerCodeState", "None");
 			}
 			if (customerModel.getData().Name === "") {
@@ -538,6 +547,8 @@ sap.ui.define([
 			this.getView().byId("idGroup").focus();
 		},
 		customerCitySubmit: function() {
+			this.getView().byId("idCityField").setValueState("None");
+			this.getView().byId("idCityField").setValueStateText("");
 			this.getView().byId("idMobilePhone").focus();
 			this.getView().byId("idMobilePhone").$().find("input").select();
 		},
@@ -623,6 +634,7 @@ sap.ui.define([
 			customerModel.getData().CustomerCode = "";
 			customerModel.getData().SecondaryPhone = "0";
 			customerModel.getData().Interest = "0";
+			customerModel.getData().Group = "";
 			// customerModel.getData().Group = "";
 			viewModel.setProperty("/codeEnabled", true);
 			viewModel.setProperty("/buttonText", "Save");
@@ -663,9 +675,30 @@ sap.ui.define([
 			var oret = true;
 			if (customerModel.getData().Name === "" || customerModel.getData().CustomerCode === "") {
 				that.additionalInfoValidation();
-				MessageToast.show(that.resourceBundle.getText("Fields"));
 				oret = false;
 			}
+			let oResourceBundle = that.resourceBundle;
+
+			// Validate if group and city
+			let oCustomerData = customerModel.getData();
+			if (!oCustomerData.City) {
+				this.getView().byId("idCityField").setValueState("Error");
+				this.getView().byId("idCityField").setValueStateText(oResourceBundle.getText("ENTER_CITY_VS_TXT"));
+				oret = false;
+			}else {
+				this.getView().byId("idCityField").setValueState("None");
+				this.getView().byId("idCityField").setValueStateText("");
+			}
+
+			if (!oCustomerData.Group) {
+				this.getView().byId("idGroup").setValueState("Error");
+				this.getView().byId("idGroup").setValueStateText(oResourceBundle.getText("ENTER_GROUP_VS_TXT"));
+				oret = false;
+			}else {
+				this.getView().byId("idGroup").setValueState("None");
+				this.getView().byId("idGroup").setValueStateText("");
+			}
+			debugger;
 
 			if (oret === true) {
 
@@ -710,6 +743,8 @@ sap.ui.define([
 						});
 
 				}
+			}else {
+				MessageToast.show(that.resourceBundle.getText("Fields"));
 			}
 			customerModel.refresh();
 

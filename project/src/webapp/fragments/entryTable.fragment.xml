@@ -1,106 +1,200 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
 		<content> -->
-  <!-- { -->
-  <!-- path: 'Date', -->
-  <!-- descending: 'false'}, -->
-  <Table id="idTable" class="myCustomText" contextualWidth="Auto" autoPopinMode="true"
-    alternateRowColors="false" inset="false" includeItemInSelection="false" items="{
+    <!-- { -->
+    <!-- path: 'Date', -->
+    <!-- descending: 'false'}, -->
+    <Table
+        id="idTable"
+        class="myCustomText"
+        contextualWidth="Auto"
+        autoPopinMode="true"
+        alternateRowColors="false"
+        inset="false"
+        includeItemInSelection="false"
+        items="{
            path: '/Entrys',
              sorter: [
              {
               path: 'Date',
-               descending: 'false'
+               descending: false
               },
               {
                path: 'ChangedOn',
-                descending: 'false'
+                descending: false
                }
 
              ]
-           }" mode="MultiSelect" growing="true" growingThreshold="20" updateFinished="onUpdateFinished"
-    visible="{= ${local>/CustomCalculation/EntryLayout} === undefined ? true: ${local>/CustomCalculation/EntryLayout} === true ? false:true}">
-    <headerToolbar>
-      <Toolbar>
-        <Title id="idTitle" text="{i18n>allEntries}"></Title>
-        <ToolbarSpacer/>
+           }"
+        mode="MultiSelect"
+        growing="true"
+        growingThreshold="20"
+        updateFinished="onUpdateFinished"
+        visible="{= ${local>/CustomCalculation/EntryLayout} === undefined ? true: ${local>/CustomCalculation/EntryLayout} === true ? false:true}"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title
+                    id="idTitle"
+                    text="{i18n>allEntries}"
+                />
+                <ToolbarSpacer />
 
-        <Button id="idEntryDownload" icon="sap-icon://download" text="{i18n>EntryDownload}"
-          press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true"
-        />
-        <Button icon="sap-icon://download" text="{i18n>GroupReport}" press="onPressGWiseDownload"
-        />
-        <Button id="idtool" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
-        <Button icon="sap-icon://delete" press="onDelete" tooltip="{i18n>Delete}"></Button>
-      </Toolbar>
-    </headerToolbar>
-    <columns>
-      <Column>
-        <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-        <Label text="{i18n>Date}" design="Bold"></Label>
-      </Column>
-      <Column>
-        <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-        <Label text="{i18n>coCustName}" design="Bold" />
-      </Column>
-      <Column visible="false" minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-        <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
-      </Column>
-      <Column visible="true" minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-        <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
-      </Column>
-      <Column minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-        <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
+                <Button
+                    id="idEntryDownload"
+                    icon="sap-icon://download"
+                    text="{i18n>EntryDownload}"
+                    press="onPressEntryDownload"
+                    tooltip="{i18n>EntryDownload}"
+                    enabled="true"
+                />
+                <Button
+                    icon="sap-icon://download"
+                    text="{i18n>GroupReport}"
+                    press="onPressGWiseDownload"
+                />
+                <Button
+                    id="idtool"
+                    icon="sap-icon://edit"
+                    tooltip="{i18n>editentry}"
+                    press="onEdit"
+                />
+                <Button
+                    icon="sap-icon://delete"
+                    press="onDelete"
+                    tooltip="{i18n>Delete}"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column>
+                <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>Date}"
+                    design="Bold"
+                />
+            </Column>
+            <Column>
+                <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>coCustName}"
+                    design="Bold"
+                />
+            </Column>
+            <Column
+                visible="false"
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>custcode}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+            <Column
+                visible="true"
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>coMaterial}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+            <Column
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>amount}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+            <Column
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>Gold}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+            <Column
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>Silver}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+            <Column
+                minScreenWidth="phone"
+                demandPopin="true"
+            >
+                <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                <Label
+                    text="{i18n>Remarks}"
+                    design="Bold"
+                    wrapping="true"
+                />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="{
+                          path: 'Date',
+                          type: 'sap.ui.model.type.Date',
+                          formatOptions: {
+                            style: 'medium',
+                            pattern: 'dd.MM.yyyy'}}"
+                    />
 
-      </Column>
-      <Column minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-        <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
-      </Column>
-      <Column minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-        <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
-      </Column>
-      <Column minScreenWidth="phone" demandPopin="true">
-        <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-        <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
-      </Column>
-    </columns>
-    <items>
-      <ColumnListItem>
-        <cells>
+                    <Text text="" />
+                    <Text text="{Customer}" />
 
-          <Text text="{
-                path: 'Date',
-                type: 'sap.ui.model.type.Date',
-                formatOptions: {
-                      style: 'medium',
-                      pattern: 'dd.MM.yyyy'}}"></Text>
-
-          <Text text="" />
-          <Text text="{Customer}" />
-
-          <Text text="{Product}" />
-          <!-- <Text text="" />
+                    <Text text="{Product}" />
+                    <!-- <Text text="" />
             <Text text="{Material}" /> -->
-          <!-- <Text text="{Customer}"></Text> -->
-          <!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
-          <ObjectStatus text="{path:'Cash'}" id="cashid" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"
-          />
-          <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id44" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}"
-          />
-          <!-- <Text text="{Gold}"></Text> -->
-          <ObjectStatus text="{path:'Silver'}" id="id55" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}"
-          />
-          <!-- <Text text="{Silver}"></Text> -->
-          <Text text="{Remarks}"></Text>
-        </cells>
-      </ColumnListItem>
-    </items>
-  </Table>
-  <!-- </content>
+                    <!-- <Text text="{Customer}"></Text> -->
+                    <!-- <Text id="cashid" text="{path:'Cash'}"></Text> -->
+                    <ObjectStatus
+                        text="{path:'Cash'}"
+                        id="cashid"
+                        state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"
+                    />
+                    <ObjectStatus
+                        text="{path:'Gold', formatter: '.formatter.textBold'}"
+                        id="id44"
+                        state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}"
+                    />
+                    <!-- <Text text="{Gold}"></Text> -->
+                    <ObjectStatus
+                        text="{path:'Silver'}"
+                        id="id55"
+                        state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}"
+                    />
+                    <!-- <Text text="{Silver}"></Text> -->
+                    <Text text="{Remarks}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+    <!-- </content>
 	</Page> -->
 </core:FragmentDefinition>

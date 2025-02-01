@@ -41,7 +41,18 @@
 			<Column>
 				<Label text="{i18n>coRemarks}"/>
 			</Column>
+
 			<Column>
+				<Label text="{i18n>Cash}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>Gold}"/>
+			</Column>
+			<Column>
+				<Label text="{i18n>Silver}"/>
+			</Column>
+
+			<Column width="9%" hAlign="Center">
 				<Label text="{i18n>Status}"/>
 			</Column>
 			<Column>
@@ -67,7 +78,12 @@
 					<Text text="{Weight}"/>
 					<Text text="{Making}"/>
 					<Text text="{Remarks}"/>
-					<Button id="changeStatus" type="Accept" text="{Status}" tooltip="{i18n>Status}" press="handlePopoverPress"/>
+
+					<Text text="{Cash}"/>
+					<Text text="{Gold}"/>
+					<Text text="{Silver}"/>
+					
+					<Button id="changeStatus" type="Accept" text="{Status}" tooltip="{i18n>Status}" press="handlePopoverPress" />
 					<Text text=""/>
 					<Text text="{Karigar}"/>
 					<Button icon="sap-icon://picture" type="{ path: 'Picture', formatter: '.formatter.checkPhotoStat' }" press="onSelectPhoto" tooltip="{i18n>coPhoto}"/>

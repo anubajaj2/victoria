@@ -6,14 +6,14 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"sap/m/Dialog",
 	"sap/ui/core/Fragment"
-], function(BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog, Fragment) {
+], function (BaseController, JSONModel, formatter, MessageToast, MessageBox, Dialog, Fragment) {
 	"use strict";
 	var coId;
 	var selRow;
 	return BaseController.extend("victoria.controller.CustomerOrders", {
 		formatter: formatter,
-		buttonState: "12",
-		onInit: function() {
+		// buttonState: "12",
+		onInit: function () {
 			BaseController.prototype.onInit.apply(this);
 			this.resourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oRouter = this.getRouter();
@@ -25,7 +25,7 @@ sap.ui.define([
 			this.getView().byId("idUser").setText(loginUser);
 		},
 
-		_onRouteMatched: function() {
+		_onRouteMatched: function () {
 			var that = this;
 			that.getView().byId("idCoDate").setDateValue(new Date());
 			var date = new Date();
@@ -35,11 +35,11 @@ sap.ui.define([
 			that.getView().byId("idCoDelDate").setDateValue(new Date(yyyy, mm, dd));
 		},
 
-		handlePopoverPress: function(oEvent) {
+		handlePopoverPress: function (oEvent) {
 			var that = this;
 			var oCurrentControl = oEvent.getSource();
 			var oRow = oCurrentControl.getParent();
-			this.buttonState = oRow.getCells()[10];
+			// this.buttonState = oRow.getCells()[10];
 
 			var oButton = oEvent.getSource(),
 				oView = this.getView();
@@ -57,37 +57,37 @@ sap.ui.define([
 				this._oPopover.openBy(oEvent.getSource());
 			}
 		},
-		onReady: function(oEvent) {
-			this.buttonState.setText("Ready");
-			this.buttonState.setType("Critical");
+		onReady: function (oEvent) {
+			// this.buttonState.setText("Ready");
+			// this.buttonState.setType("Critical");
 			this._oPopover.close();
 		},
-		onCancel: function(oEvent) {
-			this.buttonState.setEnabled(false);
-			this.buttonState.setText("Cancelled");
-			this.buttonState.setType("Reject");
-			this._oPopover.close();
+		onCancel: function (oEvent) {
+			// this.buttonState.setEnabled(false);
+			// this.buttonState.setText("Cancelled");
+			// this.buttonState.setType("Reject");
+			// this._oPopover.close();
 		},
-		onBlocked: function(oEvent) {
-			this.buttonState.setEnabled(false);
-			this.buttonState.setText("Blocked");
-			this.buttonState.setType("Reject");
+		onBlocked: function (oEvent) {
+			// this.buttonState.setEnabled(false);
+			// this.buttonState.setText("Blocked");
+			// this.buttonState.setType("Reject");
 			this._oPopover.close();
 		},
 
-		onValueHelp: function(oEvent) {
+		onValueHelp: function (oEvent) {
 			this.getCustomerPopup(oEvent);
 		},
 
-		onMaterialValueHelp: function() {
+		onMaterialValueHelp: function () {
 			this.getMaterialPopup();
 		},
 
-		onValueHelpKarigar: function(oEvent) {
+		onValueHelpKarigar: function (oEvent) {
 			this.getKarigarPopup(oEvent);
 		},
 
-		onKarigarSelect: function(oEvent, custName, custId) {
+		onKarigarSelect: function (oEvent, custName, custId) {
 
 			var that = this;
 			if (oEvent.getParameter("selectedItem")) {
@@ -96,7 +96,7 @@ sap.ui.define([
 			}
 		},
 
-		setKarigar: function(selectedCustomer) {
+		setKarigar: function (selectedCustomer) {
 
 			// this.getView().getModel("local").setProperty("/selectedCustomer", selectedCustomer)
 			var that = this;
@@ -112,29 +112,29 @@ sap.ui.define([
 			}
 		},
 
-		onEnter: function(oEvent) {
-
-			this.getView().byId("idCoMaterial").focus();
-			this.getView().byId("idCoMaterial").$().find("input").select();
+		onEnter: function (oEvent) {
+			let custCode = oEvent.getSource().getValue();
+			if(!custCode) return;
+			this.setCustomerFilter(custCode);
 		},
 
-		onMaterialEnter: function(oEvent) {
+		onMaterialEnter: function (oEvent) {
 
 			this.getView().byId("idCoQty").focus();
 			this.getView().byId("idCoQty").$().find("input").select();
 		},
 
-		onKarigarEnter: function(oEvent) {
+		onKarigarEnter: function (oEvent) {
 
 			this.getView().byId("idCoRemarks").focus();
 			this.getView().byId("idCoRemarks").$().find("input").select();
 		},
-		onRemarksSubmit: function(oEvent) {
+		onRemarksSubmit: function (oEvent) {
 
 			this.getView().byId("acceptButton").focus();
 		},
 
-		onMaterialSelect: function(oEvent) {
+		onMaterialSelect: function (oEvent) {
 			var selectedMatData = oEvent.getParameter("selectedItem").getModel().getProperty(oEvent.getParameter("selectedItem").getBindingContext().getPath());
 			var selMat = oEvent.getParameter("selectedItem").getText();
 			var selMatName = oEvent.getParameter("selectedItem").getAdditionalText();
@@ -150,7 +150,7 @@ sap.ui.define([
 			this.getView().byId("idCoMatMaking").setValue(this.allMasterData.materialsId[selMat].Making + "/" + this.allMasterData.materialsId[selMat].Category);
 		},
 
-		onPressReportDownload: function(oEvent) {
+		onPressReportDownload: function (oEvent) {
 			const customerCode = this.getView().byId("idCoCustomer").getValue();
 			const that = this;
 			if (customerCode !== "") {
@@ -167,7 +167,7 @@ sap.ui.define([
 			}
 		},
 
-		onConfirm: function(oEvent) {
+		onConfirm: function (oEvent) {
 			//whatever customer id selected push that in local model
 			var myData = this.getView().getModel("local").getProperty("/customerOrder");
 			if (oEvent.getSource().getTitle() === "Material Search") {
@@ -204,14 +204,14 @@ sap.ui.define([
 					selCust);
 				this.getView().byId("idCoCustomer").setValueState("None");
 				this.getView().byId("idCoCustomer").setValueStateText("");
-				
+
 				myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
 				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
 				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
 			}
 		},
 		// Search in dialog for material and customer f4 help
-		onSearch: function(oEvent) {
+		onSearch: function (oEvent) {
 			var sValue = oEvent.getParameter("query");
 			if (!sValue) {
 				sValue = oEvent.getParameter("value");
@@ -259,7 +259,7 @@ sap.ui.define([
 		},
 		// check if date and delivery date are valid and when date changed set delivery
 		// date to +1 month
-		onDateChange: function(oEvent) {
+		onDateChange: function (oEvent) {
 			var oDP = oEvent.getSource();
 			var bValid = oEvent.getParameter("valid");
 			if (bValid) {
@@ -283,7 +283,7 @@ sap.ui.define([
 			}
 		},
 
-		onSubmit: function(evt) {
+		onSubmit: function (evt) {
 
 			// $(function() {
 			//         $('input:text:first').focus();
@@ -303,31 +303,31 @@ sap.ui.define([
 			this.getView().byId("idCoWeight").focus();
 			this.getView().byId("idCoWeight").$().find("input").select();
 		},
-		onSubmitWeight: function(evt) {
+		onSubmitWeight: function (evt) {
 			this.getView().byId("idCoMaking").focus();
 			this.getView().byId("idCoMaking").$().find("input").select();
 		},
-		onSubmitMaking: function(evt) {
+		onSubmitMaking: function (evt) {
 			this.getView().byId("idSize").focus();
 			this.getView().byId("idSize").$().find("input").select();
 		},
-		onSizeSubmit: function(evt) {
+		onSizeSubmit: function (evt) {
 			this.getView().byId("idCoKarigar").focus();
 			this.getView().byId("idCoKarigar").$().find("input").select();
 		},
-		onCoCashSubmit: function(evt) {
+		onCoCashSubmit: function (evt) {
 			this.getView().byId("idCoGold").focus();
 			this.getView().byId("idCoGold").$().find("input").select();
 		},
-		onCoGoldSubmit: function(evt) {
+		onCoGoldSubmit: function (evt) {
 			this.getView().byId("idCoSilver").focus();
 			this.getView().byId("idCoSilver").$().find("input").select();
 		},
-		onCoSilverSubmit: function(evt) {
+		onCoSilverSubmit: function (evt) {
 			this.getView().byId("acceptButton").focus();
 		},
 
-		onSelectPhoto: function(oEvent) {
+		onSelectPhoto: function (oEvent) {
 			var that = this;
 			if (oEvent.getSource().getId().includes("idOrderPictureUpload")) {
 				if (!that.photoPopup) {
@@ -343,8 +343,8 @@ sap.ui.define([
 				var relPath = oEvent.getSource().getBindingContext().getPath() + ("/ToPhotos");
 				console.log(oEvent.getSource().getBindingContext().getPath(), relPath)
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-						relPath, "GET", {}, {}, this)
-					.then(function(oData) {
+					relPath, "GET", {}, {}, this)
+					.then(function (oData) {
 						if (!that.photoPopup) {
 							that.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", that);
 							that.getView().addDependent(that.photoPopup);
@@ -353,7 +353,7 @@ sap.ui.define([
 						oModelPhoto.setData(oData.results[0]);
 						that.getView().setModel(oModelPhoto, "photo");
 						that.photoPopup.open();
-					}).catch(function(oError) {
+					}).catch(function (oError) {
 						that.getView().setBusy(false);
 						// var oPopover = that.getErrorMessage(oError);
 					});
@@ -361,7 +361,7 @@ sap.ui.define([
 			// move selected row data to global variable
 		},
 
-		onSelectPhoto2: function(oEvent) {
+		onSelectPhoto2: function (oEvent) {
 			var that = this;
 			if (!that.photoPopup2) {
 				that.photoPopup2 = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog2", that);
@@ -369,18 +369,18 @@ sap.ui.define([
 			}
 			that.photoPopup2.open();
 		},
-		handleOkPress: function() {
-      sap.ui.getCore().byId("idCoUploader2").setValue();
+		handleOkPress: function () {
+			sap.ui.getCore().byId("idCoUploader2").setValue();
 			this.photoPopup2.close();
 		},
-		handleCancelPress: function() {
-      sap.ui.getCore().byId("idCoUploader2").setValue();
+		handleCancelPress: function () {
+			sap.ui.getCore().byId("idCoUploader2").setValue();
 			var oModelPhoto = new JSONModel();
 			oModelPhoto.setData();
 			this.getView().setModel(oModelPhoto, "photo2");
 			this.photoPopup2.close();
 		},
-		onFileUploaderChange2: function() {
+		onFileUploaderChange2: function () {
 			var that = this;
 			var oFileUploader = sap.ui.getCore().byId("idCoUploader2");
 			if (oFileUploader.getValue()) {
@@ -389,22 +389,22 @@ sap.ui.define([
 				var fileName = file.name;
 				var fileType = file.type;
 				var reader = new FileReader();
-				reader.onload = function(e) {
+				reader.onload = function (e) {
 					var oFile = {};
 					oFile.imgContent = e.currentTarget.result;
 					var picture = oFile.imgContent;
-          var oModelPhoto = new JSONModel();
-          oModelPhoto.setData({
-            Content: picture,
-            Filename: fileName,
-            Filetype: fileType
-          });
-          that.getView().setModel(oModelPhoto, "photo2");
+					var oModelPhoto = new JSONModel();
+					oModelPhoto.setData({
+						Content: picture,
+						Filename: fileName,
+						Filetype: fileType
+					});
+					that.getView().setModel(oModelPhoto, "photo2");
 				}
 				reader.readAsDataURL(file);
 			}
 		},
-		handleUploadPress: function(oEvent) {
+		handleUploadPress: function (oEvent) {
 
 			var oFileUploader = sap.ui.getCore().byId("idCoUploader");
 			// if (!oFileUploader.getValue()) {
@@ -418,7 +418,7 @@ sap.ui.define([
 				this.fileName = file.name;
 				this.fileType = file.type;
 				var reader = new FileReader();
-				reader.onload = function(e) {
+				reader.onload = function (e) {
 					var oFile = {};
 					oFile.imgContent = e.currentTarget.result;
 					var picture = oFile.imgContent;
@@ -496,7 +496,7 @@ sap.ui.define([
 			}
 		},
 
-		handleCapturePress: function() {
+		handleCapturePress: function () {
 			//This code was generated by the layout editor.
 			var that = this;
 			this.flag = 'C';
@@ -505,7 +505,7 @@ sap.ui.define([
 				title: "Click on Capture to take photo",
 				beginButton: new sap.m.Button({
 					text: "Capture Photo",
-					press: function(oEvent) {
+					press: function (oEvent) {
 
 						// TO DO: get the object of our video player which live camera stream is running
 						//take the image object out of it and set to main page using global variable
@@ -526,7 +526,7 @@ sap.ui.define([
 				],
 				endButton: new sap.m.Button({
 					text: "Cancel",
-					press: function() {
+					press: function () {
 
 						that.fixedDialog.close();
 					}
@@ -539,7 +539,7 @@ sap.ui.define([
 
 			this.fixedDialog.attachBeforeClose(this.setImage, this);
 
-			var handleSuccess = function(stream) {
+			var handleSuccess = function (stream) {
 				player.srcObject = stream;
 			}
 
@@ -549,7 +549,7 @@ sap.ui.define([
 
 		},
 
-		setImage: function() {
+		setImage: function () {
 			//Take the running image from the video stream of camera
 
 			var oVBox = this.getView().getDependents()[0].getContent()[0].getContent()[0];
@@ -568,7 +568,7 @@ sap.ui.define([
 			});
 			oVBox.addItem(oCanvas);
 			oCanvas.addEventDelegate({
-				onAfterRendering: function() {
+				onAfterRendering: function () {
 					var snapShotCanvas = document.getElementById(snapId);
 					var oContext = snapShotCanvas.getContext('2d');
 					oContext.drawImage(imageVal, 0, 0, snapShotCanvas.width, snapShotCanvas.height);
@@ -576,7 +576,7 @@ sap.ui.define([
 			});
 		},
 
-		savePicToDb: function(fileName, fileType, picture) {
+		savePicToDb: function (fileName, fileType, picture) {
 
 			var that = this;
 			if (this.selRow && this.selRow.Picture === "X") {
@@ -588,14 +588,14 @@ sap.ui.define([
 					type: this.fileType
 				};
 				$.post('/updatePhoto', payload)
-					.done(function(data, status) {
+					.done(function (data, status) {
 						sap.m.MessageToast.show(that.resourceBundle.getText("Pic2"));
 
 						var oModelPhoto = new JSONModel();
 						oModelPhoto.setData(payload);
 						that.getView().setModel(oModelPhoto, "photo");
 					})
-					.fail(function(xhr, status, error) {
+					.fail(function (xhr, status, error) {
 						sap.m.MessageBox.error(that.resourceBundle.getText("Pic3") + ", " + error);
 					});
 			} else {
@@ -608,8 +608,8 @@ sap.ui.define([
 					Filetype: this.fileType
 				}
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Photos",
-						"POST", {}, payload, this)
-					.then(function(oData) {
+					"POST", {}, payload, this)
+					.then(function (oData) {
 						sap.m.MessageToast.show(that.resourceBundle.getText("Pic4"));
 						// update picture flag in customer orders
 
@@ -624,22 +624,22 @@ sap.ui.define([
 							PhotoValue: that.selRow.Picture
 						};
 						$.post('/updatePhotoFlag', payload)
-							.done(function(data, status) {
+							.done(function (data, status) {
 								sap.m.MessageToast.show(that.resourceBundle.getText("Data12"));
 							})
-							.fail(function(xhr, status, error) {
+							.fail(function (xhr, status, error) {
 								sap.m.MessageBox.error(that.resourceBundle.getText("Update12"));
 							});
 						// call clear to update the color of the image
 						that.onClear();
 						that.getView().setBusy(false);
-					}).catch(function(oError) {
+					}).catch(function (oError) {
 						that.getView().setBusy(false);
 						var oPopover = that.getErrorMessage(oError);
 					});;
 			}
 		},
-		savePicToDb2: function(fileName, fileType, picture, customerOrderId) {
+		savePicToDb2: function (fileName, fileType, picture, customerOrderId) {
 			// if picture doesn't exist then create new record
 			var that = this;
 			var payload = {
@@ -649,8 +649,8 @@ sap.ui.define([
 				Filetype: fileType
 			}
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Photos",
-					"POST", {}, payload, this)
-				.then(function(oData) {
+				"POST", {}, payload, this)
+				.then(function (oData) {
 					sap.m.MessageToast.show(that.resourceBundle.getText("Pic4"));
 					var oModelPhoto = new JSONModel();
 					oModelPhoto.setData();
@@ -661,16 +661,16 @@ sap.ui.define([
 						PhotoValue: "X"
 					};
 					$.post('/updatePhotoFlag', payload)
-						.done(function(data, status) {
+						.done(function (data, status) {
 							sap.m.MessageToast.show(that.resourceBundle.getText("Data12"));
 						})
-						.fail(function(xhr, status, error) {
+						.fail(function (xhr, status, error) {
 							sap.m.MessageBox.error(that.resourceBundle.getText("Update12"));
 						});
 					// call clear to update the color of the image
 					that.onClear();
 					that.getView().setBusy(false);
-				}).catch(function(oError) {
+				}).catch(function (oError) {
 					that.getView().setBusy(false);
 					var oModelPhoto = new JSONModel();
 					oModelPhoto.setData();
@@ -679,7 +679,7 @@ sap.ui.define([
 				});;
 		},
 		// close photo upload popup
-		handleClosePress: function(oEvent) {
+		handleClosePress: function (oEvent) {
 
 			// if (!this.photoPopup) {
 			//     this.photoPopup = new sap.ui.xmlfragment("victoria.fragments.PhotoUploadDialog", this);
@@ -692,20 +692,25 @@ sap.ui.define([
 			this.photoPopup.close();
 		},
 
-		onSave: function(oEvent) {
+		onSave: function (oEvent) {
 			var that = this;
-			
+			let oResourceBundle = this.resourceBundle;
 			var myData = this.getView().getModel('local').getProperty("/customerOrder");
 			myData.Date = this.getView().byId("idCoDate").getDateValue();
 			myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-			
+
+			if(myData.Cash == 0 && myData.Gold == 0  && myData.Silver == 0 && myData.Qty == 0 && myData.Weight == 0){
+				MessageBox.show(oResourceBundle.getText('ATLEASTONE'));
+				return;
+			}
+
 			// Validate the data of customer order
 			var oValidate = this.isCustOrderDataValid(myData);
 			if (!oValidate.isValid) {
 				oValidate.errMessages.forEach(oErrMsg => {
-					let oField = this.getView().byId(oErrMsg.sFieldId);
-					oField.setValueState("Error");
-					oField.setValueStateText(oErrMsg.sMessage);
+						let oField = this.getView().byId(oErrMsg.sFieldId);
+						oField.setValueState("Error");
+						oField.setValueStateText(oErrMsg.sMessage);
 				});
 				this.getView().byId(oValidate.errMessages[0].sFieldId).focus();
 				return;
@@ -732,8 +737,8 @@ sap.ui.define([
 			// this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
 			// this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
-					"POST", {}, myData, this)
-				.then(function(oData) {
+				"POST", {}, myData, this)
+				.then(function (oData) {
 					that.getView().setBusy(false);
 					if (that.getView().getModel("photo2") && that.getView().getModel("photo2").getData().Content) {
 						var pPayload = that.getView().getModel("photo2").getData();
@@ -741,12 +746,12 @@ sap.ui.define([
 					}
 					sap.m.MessageToast.show(that.resourceBundle.getText("dataSucess"));
 					that.onClear();
-				}).catch(function(oError) {
+				}).catch(function (oError) {
 					that.getView().setBusy(false);
 					var oPopover = that.getErrorMessage(oError);
 				});;
 		},
-		isCustOrderDataValid: function(oCustOrderData) {
+		isCustOrderDataValid: function (oCustOrderData) {
 			// Fields which must be entered for creating the customer order
 			/*
 				Field Name		Rule
@@ -770,7 +775,7 @@ sap.ui.define([
 					sMessage: oResourceBundle.getText("DATE_CANNOT_BE_BLANK_VS"),
 					sFieldId: "idCoDate"
 				});
-			}else {
+			} else {
 				this.getView().byId("idCoDate").setValueState("None");
 				this.getView().byId("idCoDate").setValueStateText("");
 			}
@@ -779,13 +784,13 @@ sap.ui.define([
 					sMessage: oResourceBundle.getText("DATE_CANNOT_BE_BLANK_VS"),
 					sFieldId: "idCoDelDate"
 				});
-			}else {
+			} else {
 				if (oCustOrderData.Date > oCustOrderData.DelDate) {
 					oValidations.errMessages.push({
 						sMessage: oResourceBundle.getText("DATE_GREATER_THAN_DELV"),
 						sFieldId: "idCoDelDate"
 					});
-				}else {
+				} else {
 					this.getView().byId("idCoDelDate").setValueState("None");
 					this.getView().byId("idCoDelDate").setValueStateText("");
 				}
@@ -795,7 +800,7 @@ sap.ui.define([
 					sMessage: oResourceBundle.getText("CUSTOMER_BLANK_VS"),
 					sFieldId: "idCoCustomer"
 				});
-			}else {
+			} else {
 				this.getView().byId("idCoCustomer").setValueState("None");
 				this.getView().byId("idCoCustomer").setValueStateText("");
 			}
@@ -804,42 +809,43 @@ sap.ui.define([
 					sMessage: oResourceBundle.getText("MATERIAL_BLANK"),
 					sFieldId: "idCoMaterial"
 				});
-			}else {
+			} else {
 				this.getView().byId("idCoMaterial").setValueState("None");
 				this.getView().byId("idCoMaterial").setValueStateText("");
 			}
-			if (!oCustOrderData.Qty || parseFloat(oCustOrderData.Qty) <= 0) {
-				oValidations.errMessages.push({
-					sMessage: oResourceBundle.getText("QTY_GREATER_THAN_VS"),
-					sFieldId: "idCoQty"
-				});
-			}else {
-				this.getView().byId("idCoQty").setValueState("None");
-				this.getView().byId("idCoQty").setValueStateText("");
-			}
-			if (!oCustOrderData.Weight || parseFloat(oCustOrderData.Weight) <= 0) {
-				oValidations.errMessages.push({
-					sMessage: oResourceBundle.getText("WEIGHT_GREATER_THAN_VS"),
-					sFieldId: "idCoWeight"
-				});
-			}else {
-				this.getView().byId("idCoWeight").setValueState("None");
-				this.getView().byId("idCoWeight").setValueStateText("");
-			}
+			// if (!oCustOrderData.Qty || parseFloat(oCustOrderData.Qty) <= 0) {
+			// 	oValidations.errMessages.push({
+			// 		sMessage: oResourceBundle.getText("QTY_GREATER_THAN_VS"),
+			// 		sFieldId: "idCoQty"
+			// 	});
+			// }else {
+			// 	this.getView().byId("idCoQty").setValueState("None");
+			// 	this.getView().byId("idCoQty").setValueStateText("");
+			// }
+			// if (!oCustOrderData.Weight || parseFloat(oCustOrderData.Weight) <= 0) {
+			// 	oValidations.errMessages.push({
+			// 		sMessage: oResourceBundle.getText("WEIGHT_GREATER_THAN_VS"),
+			// 		sFieldId: "idCoWeight"
+			// 	});
+			// }else {
+			// 	this.getView().byId("idCoWeight").setValueState("None");
+			// 	this.getView().byId("idCoWeight").setValueStateText("");
+			// }
+
 			if (oValidations.errMessages.length) {
 				oValidations.isValid = false;
 			}
 			return oValidations;
 		},
 
-		onDelete: function() {
+		onDelete: function () {
 			var that = this;
 			sap.m.MessageBox.confirm(that.resourceBundle.getText("Do1"), {
 				title: "Confirm", // default
 				styleClass: "", // default
 				initialFocus: null, // default
 				textDirection: sap.ui.core.TextDirection.Inherit, // default
-				onClose: function(sButton) {
+				onClose: function (sButton) {
 					if (sButton === MessageBox.Action.OK) {
 						var aSelectedLines = that.byId("idCoTable").getSelectedItems();
 						if (aSelectedLines.length) {
@@ -854,7 +860,7 @@ sap.ui.define([
 				}
 			});
 		},
-		onClear: function() {
+		onClear: function () {
 
 			var that = this;
 			this.getView().byId("idCoDate").setDateValue(new Date());
@@ -891,12 +897,12 @@ sap.ui.define([
 			that.getView().setModel(oModelPhoto, "photo2");
 		},
 
-		onRefresh: function() {
+		onRefresh: function () {
 			this.onClear();
 		},
 
 
-		onSuggest: function(oEvent) {
+		onSuggest: function (oEvent) {
 
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key
@@ -935,7 +941,7 @@ sap.ui.define([
 		},
 
 
-		onSuggest1: function(oEvent) {
+		onSuggest1: function (oEvent) {
 
 			// var key = oEvent.which || oEvent.keyCode || oEvent.charCode;
 			const key = oEvent.key
@@ -975,7 +981,7 @@ sap.ui.define([
 
 
 
-		onUpdateFinished: function(oEvent) {
+		onUpdateFinished: function (oEvent) {
 			var oTable = oEvent.getSource();
 			var itemList = oTable.getItems();
 			var noOfItems = itemList.length;
@@ -995,18 +1001,22 @@ sap.ui.define([
 				var materialData = this.allMasterData.materials[materialId];
 				oTable.getItems()[i].getCells()[4].setText(materialData.ProductCode + ' - ' + materialData.ProductName);
 
-				var karigarId = oTable.getItems()[i].getCells()[11].getText();
+				var karigarId = oTable.getItems()[i].getCells()[15].getText();
 				if (karigarId !== "null" && karigarId !== "") {
 
 					var customerData = this.allMasterData.customers[karigarId];
-					oTable.getItems()[i].getCells()[10].setText(customerData.CustomerCode + ' - ' + customerData.Name);
+					oTable.getItems()[i].getCells()[14].setText(customerData.CustomerCode + ' - ' + customerData.Name);
 				}
 				var remarks = oTable.getItems()[i].getCells()[9].getText();
 				if (remarks === "null") {
 					oTable.getItems()[i].getCells()[9].setText(" ");
 				}
 			}
-		}
+		},
+
+
+		
+
 
 	});
 });

@@ -661,7 +661,7 @@ sap.ui.define([
 			custid.setValue("");
 		},
 
-		SaveCustomer: function() {
+		SaveCustomer: async function() {
 
 			var that = this;
 			var customerModel = this.getView().getModel("customerModel");
@@ -700,23 +700,31 @@ sap.ui.define([
 			}
 			debugger;
 
+			// Check if the customer code exists or not
+			// let bIsExisting = await this.CheckIfCustomerExist(customerModel.getData());
+			debugger;
+			let oView = this.getView();
+			oView.setBusyIndicatorDelay(0);
 			if (oret === true) {
-
+				
 				if (custId.length > 0) {
-
+					oView.setBusy(true);
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers('" + custId + "')", "PUT", {}, customerModel.getData(), this)
 						.then(function(oData) {
+							oView.setBusy(false);
 							MessageToast.show(that.resourceBundle.getText("Data"));
 							// that._onRouteMatched();
 							that.clearCustomer();
 						}).catch(function(oError) {
+							oView.setBusy(false);
 							MessageToast.show(that.resourceBundle.getText("Data1"));
 						});
 
 				} else {
 					var that = this;
 					var oFilter = new sap.ui.model.Filter("CustomerCode", "EQ", oCuscode);
+					oView.setBusy(true);
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers", "GET", {
 								filters: [oFilter]
@@ -724,22 +732,29 @@ sap.ui.define([
 						.then(function(oData) {
 
 							if (oData.results.length > 0) {
-								MessageToast.show(that.resourceBundle.getText("Data2"));
+								oView.setBusy(false);
+								MessageToast.show(that.resourceBundle.getText("CUST_CODE_EXISTING_MSG"), {
+									duration: 5000,
+									closeOnBrowserNavigation: false
+								});
 							} else {
 								that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 										"/Customer", "POST", {}, customerModel.getData(), that)
 									.then(function(oData) {
+										oView.setBusy(false);
 										MessageToast.show(that.resourceBundle.getText("Data"));
 										// that.clearCustomer();
 										// that._onRouteMatched();
 										that.clearCustomer();
 									}).catch(function(oError) {
+										oView.setBusy(false);
 										MessageToast.show(that.resourceBundle.getText("Data1"));
 									});
 							}
 
 						}).catch(function(oError) {
 							// MessageToast.show("cannot fetch the data");
+							oView.setBusy(false);
 						});
 
 				}
@@ -749,6 +764,31 @@ sap.ui.define([
 			customerModel.refresh();
 
 		},
+		// CheckIfCustomerExist: function(oCustomerData) {
+		// 	return new Promise((resolve, reject) => {
+		// 		debugger;
+		// 		let oDataModel = this.getOwnerComponent().getModel();
+		// 		let oFilter = new Filter("CustomerCode", "EQ", oCustomerData.CustomerCode);
+		// 		this.ODataHelper.callOData(
+		// 			oDataModel, "/Customers", "GET", 
+		// 			{
+		// 				filters: [oFilter]
+		// 			}, {}, this
+		// 		).then(
+		// 			function(oData) {
+		// 				debugger;
+		// 				if (oData.results.length) {
+		// 					resolve(true);
+		// 				}
+		// 			}
+		// 		).catch(
+		// 			function() {
+		// 				// MessageToast.show("Cannot check the customer");
+		// 				resolve(false);
+		// 			}
+		// 		)
+		// 	})
+		// },
 
 		deleteCustomer: async function() {
 

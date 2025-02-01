@@ -179,7 +179,7 @@
                                     id="idCoCash"
                                     submit="onCoCashSubmit"
                                     type="Number"
-                                    value="{ path:'local>/customerOrder/Cash', formatter:'.formatter.getIndianCurr' }"
+                                    value="{local>/customerOrder/Cash}"
                                 />
                             </f:fields>
                         </f:FormElement>

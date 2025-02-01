@@ -1,16 +1,27 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" >
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
     <!-- <Page>
         <content> -->
-            <HBox visible="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}">
-                <!-- table 1 -->
-                <Table id="idTable1" inset="false" class="myCustomText" alternateRowColors="false" includeItemInSelection="false" items="{
+    <HBox
+        visible="{= ${local>/CustomCalculation/EntryLayout} === undefined? false: ${local>/CustomCalculation/EntryLayout}}"
+    >
+        <!-- table 1 -->
+        <Table
+            id="idTable1"
+            inset="false"
+            class="myCustomText"
+            alternateRowColors="false"
+            includeItemInSelection="false"
+            items="{
                     path: '/Entrys',
                       sorter: [{
                                     path: 'Date',
-                                    descending: 'true'
+                                    descending: true
                                 },{
                                     path: 'ChangedOn',
-                                    descending: 'true'
+                                    descending: true
                                 }
                       ],
                       filters: [
@@ -20,183 +31,370 @@
                           value1: 0
                         }
                           ]
-                    }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished1" >
-                    <headerToolbar>
-                        <Toolbar>
-                            <Title id="idTitle1" text="{i18n>jamaEntries}"></Title>
-                            <Text id="idCount1" />
-                            <ToolbarSpacer />
+                    }"
+            mode="MultiSelect"
+            showSeparators="All"
+            growing="true"
+            growingThreshold="20"
+            updateFinished="onUpdateFinished1"
+        >
+            <headerToolbar>
+                <Toolbar>
+                    <Title
+                        id="idTitle1"
+                        text="{i18n>jamaEntries}"
+                    />
+                    <Text id="idCount1" />
+                    <ToolbarSpacer />
 
-                            <Button id="idEntryDownload1" visible="false" icon="sap-icon://download" text="{i18n>EntryDownload}" press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true" />
-                            <Button icon="sap-icon://download" visible="false" text="{i18n>GroupReport}" press="onPressGWiseDownload" />
-                            <Button id="idtool1" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
-                            <Button icon="sap-icon://delete" press="onDelete" tooltip="{i18n>Delete}"></Button>
-                        </Toolbar>
-                    </headerToolbar>
-                    <columns>
-                        <Column minScreenWidth="phone" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>Date}" design="Bold"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>coCustName}" design="Bold" />
-                        </Column>
-                        <Column visible="false" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column visible="true" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
-
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <Label text="{i18n>Interest}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem>
-                            <cells>
-
-                                <Text text="{
+                    <Button
+                        id="idEntryDownload1"
+                        visible="false"
+                        icon="sap-icon://download"
+                        text="{i18n>EntryDownload}"
+                        press="onPressEntryDownload"
+                        tooltip="{i18n>EntryDownload}"
+                        enabled="true"
+                    />
+                    <Button
+                        icon="sap-icon://download"
+                        visible="false"
+                        text="{i18n>GroupReport}"
+                        press="onPressGWiseDownload"
+                    />
+                    <Button
+                        id="idtool1"
+                        icon="sap-icon://edit"
+                        tooltip="{i18n>editentry}"
+                        press="onEdit"
+                    />
+                    <Button
+                        icon="sap-icon://delete"
+                        press="onDelete"
+                        tooltip="{i18n>Delete}"
+                    />
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column
+                    minScreenWidth="phone"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Date}"
+                        design="Bold"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>coCustName}"
+                        design="Bold"
+                    />
+                </Column>
+                <Column
+                    visible="false"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>custcode}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column
+                    visible="true"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>coMaterial}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>amount}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Gold}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Silver}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <Label
+                        text="{i18n>Interest}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Remarks}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text
+                            text="{
                          path: 'Date',
                          type: 'sap.ui.model.type.Date',
                          formatOptions: {
                                style: 'medium',
-                               pattern: 'dd.MM.yyyy'}}"></Text>
+                               pattern: 'dd.MM.yyyy'}}"
+                        />
 
-                                <Text text="" />
-                                <Text text="{Customer}" />
+                        <Text text="" />
+                        <Text text="{Customer}" />
 
-                                <Text text="{Product}" />
-                                <ObjectStatus text="{path:'Cash'}" id="cashid1" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id441" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{path:'Silver'}" id="id551" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
-                                             formatter: '.formatter.getInterestAmount'}" />
-                                <Text text="{Remarks}"></Text>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
+                        <Text text="{Product}" />
+                        <ObjectStatus
+                            text="{path:'Cash'}"
+                            id="cashid1"
+                            state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{path:'Gold', formatter: '.formatter.textBold'}"
+                            id="id441"
+                            state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{path:'Silver'}"
+                            id="id551"
+                            state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
+                                             formatter: '.formatter.getInterestAmount'}"
+                        />
+                        <Text text="{Remarks}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
 
-                <VBox>
-                    <Text text="" class="sapUiSmallMarginEnd" />
-                </VBox>
+        <VBox>
+            <Text
+                text=""
+                class="sapUiSmallMarginEnd"
+            />
+        </VBox>
 
-                <!-- table 2 -->
+        <!-- table 2 -->
 
-                <Table id="idTable2" inset="false" class="myCustomText" alternateRowColors="false" includeItemInSelection="false" items="{
-           path: '/Entrys',
-             sorter: [{
-             path: 'Date',
-             descending: 'true'},
-						{
-						 path: 'ChangedOn',
-             descending: 'true'
-						 }
-             ],
-             filters: [
-               {
-                 path: 'Cash',
-                 operator: 'LE',
-                 value1: 0
-               }
-                 ]
-           }" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" updateFinished="onUpdateFinished2">
-                    <headerToolbar>
-                        <Toolbar>
-                            <Title id="idTitle2" text="{i18n>naamEntries}"></Title>
-                            <Text id="idCount2" />
-                            <ToolbarSpacer />
+        <Table
+            id="idTable2"
+            inset="false"
+            class="myCustomText"
+            alternateRowColors="false"
+            includeItemInSelection="false"
+            items="{
+                path: '/Entrys',
+                sorter: [
+                    {
+                        path: 'Date',
+                        descending: true
+                    },
+                    {
+                        path: 'ChangedOn',
+                        descending: true
+                    }
+                ],
+                filters: [
+                    {
+                        path: 'Cash',
+                        operator: 'LE',
+                        value1: 0
+                    }
+                ]
+            }"
+            mode="MultiSelect"
+            showSeparators="All"
+            growing="true"
+            growingThreshold="20"
+            updateFinished="onUpdateFinished2"
+        >
+            <headerToolbar>
+                <Toolbar>
+                    <Title
+                        id="idTitle2"
+                        text="{i18n>naamEntries}"
+                    />
+                    <Text id="idCount2" />
+                    <ToolbarSpacer />
 
-                            <Button id="idEntryDownload2" icon="sap-icon://download" text="{i18n>EntryDownload}" press="onPressEntryDownload" tooltip="{i18n>EntryDownload}" enabled="true" />
-                            <Button icon="sap-icon://download" text="{i18n>GroupReport}" press="onPressGWiseDownload" />
-                            <Button id="idtool2" icon="sap-icon://edit" tooltip="{i18n>editentry}" press="onEdit"></Button>
-                            <Button icon="sap-icon://delete" press="onDelete" tooltip="{i18n>Delete}"></Button>
-                        </Toolbar>
-                    </headerToolbar>
-                    <columns>
-                        <Column minScreenWidth="phone" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>Date}" design="Bold"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>coCustName}" design="Bold" />
-                        </Column>
-                        <Column visible="false" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>custcode}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column visible="true" demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>coMaterial}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
-                            <Label text="{i18n>amount}" design="Bold" wrapping="true"></Label>
+                    <Button
+                        id="idEntryDownload2"
+                        icon="sap-icon://download"
+                        text="{i18n>EntryDownload}"
+                        press="onPressEntryDownload"
+                        tooltip="{i18n>EntryDownload}"
+                        enabled="true"
+                    />
+                    <Button
+                        icon="sap-icon://download"
+                        text="{i18n>GroupReport}"
+                        press="onPressGWiseDownload"
+                    />
+                    <Button
+                        id="idtool2"
+                        icon="sap-icon://edit"
+                        tooltip="{i18n>editentry}"
+                        press="onEdit"
+                    />
+                    <Button
+                        icon="sap-icon://delete"
+                        press="onDelete"
+                        tooltip="{i18n>Delete}"
+                    />
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column
+                    minScreenWidth="phone"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Date}"
+                        design="Bold"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>coCustName}"
+                        design="Bold"
+                    />
+                </Column>
+                <Column
+                    visible="false"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>custcode}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column
+                    visible="true"
+                    demandPopin="true"
+                >
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>coMaterial}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>{i18n>coCustName}&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>amount}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Gold}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Silver}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <Label
+                        text="{i18n>Interest}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+                <Column demandPopin="true">
+                    <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
+                    <Label
+                        text="{i18n>Remarks}"
+                        design="Bold"
+                        wrapping="true"
+                    />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text
+                            text="{
+                                path: 'Date',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium',
+                                    pattern: 'dd.MM.yyyy'
+                                }
+                            }"
+                        />
 
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Gold}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Silver}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <Label text="{i18n>Interest}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                        <Column demandPopin="true">
-                            <!-- <FormattedText htmlText="&lt;strong>My Column&lt;/strong>" /> -->
-                            <Label text="{i18n>Remarks}" design="Bold" wrapping="true"></Label>
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem>
-                            <cells>
+                        <Text text="" />
+                        <Text text="{Customer}" />
 
-                                <Text text="{
-                path: 'Date',
-                type: 'sap.ui.model.type.Date',
-                formatOptions: {
-                      style: 'medium',
-                      pattern: 'dd.MM.yyyy'}}"></Text>
-
-                                <Text text="" />
-                                <Text text="{Customer}" />
-
-                                <Text text="{Product}" />
-                                <ObjectStatus text="{path:'Cash'}" id="cashid2" state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{path:'Gold', formatter: '.formatter.textBold'}" id="id442" state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{path:'Silver'}" id="id552" state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}" />
-                                <ObjectStatus text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
-                                            formatter: '.formatter.getInterestAmount'}" />
-                                <Text text="{Remarks}"></Text>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </HBox>
-        <!-- </content>
+                        <Text text="{Product}" />
+                        <ObjectStatus
+                            text="{path:'Cash'}"
+                            id="cashid2"
+                            state="{=${Cash}>0?'None': ${Cash}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{path:'Gold', formatter: '.formatter.textBold'}"
+                            id="id442"
+                            state="{=${Gold}>0?'None': ${Gold}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{path:'Silver'}"
+                            id="id552"
+                            state="{=${Silver}>0?'None': ${Silver}===0?'None':'Warning'}"
+                        />
+                        <ObjectStatus
+                            text="{parts: [{path: 'Customer'}, {path: 'Cash'}, {path: 'Date'}],
+                                            formatter: '.formatter.getInterestAmount'}"
+                        />
+                        <Text text="{Remarks}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </HBox>
+    <!-- </content>
     </Page> -->
 </core:FragmentDefinition>

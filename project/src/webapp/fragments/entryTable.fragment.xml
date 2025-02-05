@@ -20,11 +20,11 @@
              sorter: [
              {
               path: 'Date',
-               descending: false
+               descending: true
               },
               {
                path: 'ChangedOn',
-                descending: false
+                descending: true
                }
 
              ]

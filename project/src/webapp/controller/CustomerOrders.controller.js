@@ -131,7 +131,7 @@ sap.ui.define([
 		},
 		onRemarksSubmit: function (oEvent) {
 
-			this.getView().byId("acceptButton").focus();
+			// this.getView().byId("acceptButton").focus();
 		},
 
 		onMaterialSelect: function (oEvent) {
@@ -204,10 +204,10 @@ sap.ui.define([
 					selCust);
 				this.getView().byId("idCoCustomer").setValueState("None");
 				this.getView().byId("idCoCustomer").setValueStateText("");
-
-				myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
-				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
-				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
+				this.onCustomerOrderSearch(null,selCust);
+				// myData.Customer = oEvent.getParameter("selectedItem").getBindingContextPath().split("'")[1];
+				// var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + myData.Customer + "'");
+				// this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
 			}
 		},
 		// Search in dialog for material and customer f4 help
@@ -324,7 +324,7 @@ sap.ui.define([
 			this.getView().byId("idCoSilver").$().find("input").select();
 		},
 		onCoSilverSubmit: function (evt) {
-			this.getView().byId("acceptButton").focus();
+			// this.getView().byId("acceptButton").focus();
 		},
 
 		onSelectPhoto: function (oEvent) {
@@ -718,28 +718,23 @@ sap.ui.define([
 			this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
 			this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
 			this.getView().setBusy(true);
-			// if (myData.Qty === "0") {
-			// 	var Qty = this.getView().byId("idCoQty");
-			// 	Qty.setValueState(sap.ui.core.ValueState.Error).setValueStateText("Qty can't be 0")
-			// 	that.getView().setBusy(false);
-			// 	return;
-			// } else {
-			// 	var Qty = this.getView().byId("idCoQty");
-			// 	Qty.setValueState(sap.ui.core.ValueState.None);
-			// }
-			// myData.Date = this.getView().byId("idCoDate").getDateValue();
-			// myData.DelDate = this.getView().byId("idCoDelDate").getDateValue();
-			// if (myData.Date > myData.DelDate) {
-			// 	sap.m.MessageBox.error(that.resourceBundle.getText("DeliveryDate"));
-			// 	that.getView().setBusy(false);
-			// 	return;
-			// }
-			// this.getView().getModel("local").setProperty("/customerOrder/Date", myData.Date);
-			// this.getView().getModel("local").setProperty("/customerOrder/DelDate", myData.DelDate);
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/CustomerOrders",
-				"POST", {}, myData, this)
+			let method,endPoint;
+			if(myData.id){
+				delete myData.__metadata
+				delete myData.ToCustomers
+				delete myData.ToPhotos
+				endPoint = `/CustomerOrders('${myData.id}')`;
+				method = "PUT"
+			}else{
+				endPoint = `/CustomerOrders`;
+				method = "POST"
+			}
+			
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), endPoint,
+				method, {}, myData, this)
 				.then(function (oData) {
 					that.getView().setBusy(false);
+					that.onClear();
 					if (that.getView().getModel("photo2") && that.getView().getModel("photo2").getData().Content) {
 						var pPayload = that.getView().getModel("photo2").getData();
 						that.savePicToDb2(pPayload.Filename, pPayload.Filetype, pPayload.Content, oData.id);
@@ -747,7 +742,9 @@ sap.ui.define([
 					sap.m.MessageToast.show(that.resourceBundle.getText("dataSucess"));
 					that.onClear();
 				}).catch(function (oError) {
-					that.getView().setBusy(false);
+					that.getView().setBusy(false);					
+					that.onClear();
+					this.getView().getModel('local').setProperty("/customerOrder",{});
 					var oPopover = that.getErrorMessage(oError);
 				});;
 		},
@@ -862,6 +859,7 @@ sap.ui.define([
 		},
 		onClear: function () {
 
+			
 			var that = this;
 			this.getView().byId("idCoDate").setDateValue(new Date());
 			var date = new Date();
@@ -887,14 +885,19 @@ sap.ui.define([
 			this.getView().getModel("local").setProperty("/coTemp/MaterialCode", "");
 			this.getView().getModel("local").setProperty("/coTemp/CustomerCode", "");
 			this.getView().getModel("local").setProperty("/coTemp/KarigarCode", "");
-			this.getView().getModel("local").setProperty("/customerOrder/Karigar", "");
-			this.getView().getModel("local").setProperty("/customerOrder/Material", "");
-			this.getView().getModel("local").setProperty("/customerOrder/Customer", "");
-			this.getView().getModel("local").setProperty("/customerOrder/Picture", "");
+
+			this.getView().getModel('local').setProperty("/customerOrder",{});
+			// this.getView().getModel("local").setProperty("/customerOrder/Karigar", "");
+			// this.getView().getModel("local").setProperty("/customerOrder/Material", "");
+			// this.getView().getModel("local").setProperty("/customerOrder/Customer", "");
+			// this.getView().getModel("local").setProperty("/customerOrder/Picture", "");
 			this.getView().byId("idCoTable").getBinding("items").filter([]);
 			var oModelPhoto = new JSONModel();
 			oModelPhoto.setData();
 			that.getView().setModel(oModelPhoto, "photo2");
+			
+			let oResourceBundle = this.resourceBundle;
+			this.byId('updateButton').setText(oResourceBundle.getText('Save'));
 		},
 
 		onRefresh: function () {
@@ -1013,6 +1016,89 @@ sap.ui.define([
 				}
 			}
 		},
+
+		onCustomerSelectionChange : function(oEvent){
+			debugger;			
+			let oResourceBundle = this.resourceBundle;
+			this.byId('updateButton').setText(oResourceBundle.getText('Update'));
+
+			this.byId('idCoTable').removeSelections();
+			var oSelectedItem = oEvent.getParameter("listItem"); // Get selected row
+			var oContext = oSelectedItem.getBindingContext(); // Get binding context
+			var oRowData = oContext.getObject(); // Get row object data
+			// delete oRowData.id;
+			this.getModel('local').setProperty('/customerOrder',oRowData);
+			this.getModel('local').setProperty('/coTemp/CustomerCode',this.allMasterData.customers[oRowData.Customer].CustomerCode);
+			// For Material
+			let materialData = this.allMasterData.materials[oRowData.Material];
+			this.getView().byId("idCoMatName").setValue(materialData.ProductName);		//Matrial-Name
+			this.getModel('local').setProperty('/coTemp/MaterialCode',materialData.ProductCode);		//Material-code
+			this.getView().byId("idCoMatType").setValue(materialData.Type);
+			this.getView().byId("idCoMatKarat").setValue(materialData.Karat);
+			this.getView().byId("idCoMatMaking").setValue(materialData.Making + "/" + materialData.Category);
+
+			// For Karigar
+			if(!oRowData.Karigar || oRowData.Karigar=='null'){
+				this.getView().byId("idCoKarigarName").setValue('');
+				this.getView().getModel("local").setProperty("/coTemp/KarigarCode",'');
+				return;
+			}else{
+				let karigarData = this.allMasterData.customers[oRowData.Karigar];
+				this.getView().byId("idCoKarigarName").setValue(karigarData.CustomerCode);
+				this.getView().getModel("local").setProperty("/coTemp/KarigarCode",karigarData.Name);
+			}
+		},
+
+		onCustomerOrderSearch : function(oEvent,value){
+			debugger;
+			let oValue;
+
+			oValue = oEvent ? oEvent.getSource().getValue() : value ;
+			let oTable = this.byId('idCoTable');
+			let oBinding = oTable.getBinding('items');
+
+			// // var sColumnName = "Qty";
+			// var sColumnName = "Customer"; 
+			// var sFilterValue = oValue; // The value to filter
+
+			// // Create a filter where the value should match the column name
+			// var oFilter = new sap.ui.model.Filter({
+			// 	path: sColumnName, // The column name
+			// 	operator: sap.ui.model.FilterOperator.Contains, // Contains operator
+			// 	value1: sFilterValue // The value to match
+			// });
+
+			// // Apply filter
+			// oBinding.filter([oFilter]);
+
+
+
+
+			// Get all rows (items) of the table
+			var aItems = oTable.getItems();
+			let that = this;
+			var bMatch = false;
+			aItems.forEach(function(oItem) {
+				bMatch = false; // Flag to check if any column has the value
+		
+				// Get all cells of the current row
+				var aCells = oItem.getCells();
+				
+				let itemMatch = aCells[4].getText().includes(oValue);		//Item Name
+				let customerMatch = that.allMasterData.customers[aCells[3].getText()].CustomerCode.includes(oValue);		//Customer Name 
+
+				bMatch = itemMatch || customerMatch;	//Check if any one is true return true
+		
+				// Show or hide the row based on the match
+				oItem.setVisible(bMatch);
+			});
+
+
+
+
+
+
+		}
 
 
 		

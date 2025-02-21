@@ -76,6 +76,7 @@
                                     suggest="onSuggest"
                                     suggestionItems="{/Customers}"
                                     maxSuggestionWidth="auto"
+                                    liveChange="onCustomerOrderSearch"
                                 >
                                     <suggestionItems>
                                         <core:ListItem

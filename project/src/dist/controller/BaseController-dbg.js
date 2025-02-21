@@ -285,6 +285,7 @@ sap.ui.define([
 			// 	var title = this.getView().getModel("i18n").getProperty("customer");
 			// 	this.searchPopup.setTitle(title);
 			// }
+			this.searchPopup.getBinding("items").filter([]);
 			this.searchPopup.open();
 		},
 
@@ -1730,12 +1731,6 @@ sap.ui.define([
 				var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
 				this.setCustomerIdAndCustomerName(selectedData);
 			}
-			// jQuery.sap.delayedCall(100, this, function() {
-			// 	this.getView().byId("idCash").focus();
-			// 	this.getView().byId("idCash").$().find("input").select();
-			// });
-			// this.getView().byId(oEvent.getSource().getId().replace("customerId", "idCustomerNameForSale")).setVisible(oEvent.getParameter("selectedItem").getText() === "SALE").getFields()[0].setValue();
-			// this.getView().byId(oEvent.getSource().getId().replace("customerId", "idCustomerCityForSale")).setVisible(oEvent.getParameter("selectedItem").getText() === "SALE").getFields()[0].setValue();
 		},
 
 		onBookingCustomerSelect: function(oEvent, custName, custId) {
@@ -1800,8 +1795,6 @@ sap.ui.define([
 				this.getView().getModel("local").setProperty("/coTemp/CustomerCode",
 					customerCode);
 
-				var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + this.allMasterData.customersId[customerCode].id + "'");
-				this.getView().byId("idCoTable").getBinding("items").filter(oFilter);
 			} else if (wsId) {
 				// this.getView().byId()
 				this.getView().byId("WSHeaderFragment--customerId").setValue(customerCode);
@@ -2197,7 +2190,7 @@ sap.ui.define([
 					let matchingObject = oData.results[0]; // Assuming unique CustomerCode
 					if (matchingObject) {
 						that.getModel('local').setProperty('/customerOrder/Customer', matchingObject.id);
-						that.customerInputValue(matchingObject.id);
+						// that.customerInputValue(matchingObject.id);
 
 					}
 				},
@@ -2209,47 +2202,47 @@ sap.ui.define([
 
 
 		customerInputValue: function (customerOrderIdsArray) {
-			if(!customerOrderIdsArray){
-				return;
-			}
-			// Get the sap.m.Table instance
-			var oTable = this.byId("idCoTable");
-			let idObj = {
-				id: customerOrderIdsArray
-			}
-			$.post('/CustomerOrderFilter', idObj)
-				.done(function (data, status) {	
-					// Validate and convert date fields
-					data.forEach(item => {
-						if (item.Date) {
-							item.Date = parseValidDate(item.Date);
-						}
-						if (item.DelDate) {
-							item.DelDate = parseValidDate(item.DelDate);
-						}
-					});
+			// if(!customerOrderIdsArray){
+			// 	return;
+			// }
+			// // Get the sap.m.Table instance
+			// var oTable = this.byId("idCoTable");
+			// let idObj = {
+			// 	id: customerOrderIdsArray
+			// }
+			// $.post('/CustomerOrderFilter', idObj)
+			// 	.done(function (data, status) {	
+			// 		// Validate and convert date fields
+			// 		data.forEach(item => {
+			// 			if (item.Date) {
+			// 				item.Date = parseValidDate(item.Date);
+			// 			}
+			// 			if (item.DelDate) {
+			// 				item.DelDate = parseValidDate(item.DelDate);
+			// 			}
+			// 		});
 
-					var oJSONModel = new sap.ui.model.json.JSONModel();
-					oJSONModel.setData({ results: data }); // Ensure the structure matches your table's expected format
-					oTable.setModel(oJSONModel);
-					oTable.bindItems({
-						path: "/results",
-						template: oTable.getBindingInfo("items").template // Reuse the existing column template
-					});
+			// 		var oJSONModel = new sap.ui.model.json.JSONModel();
+			// 		oJSONModel.setData({ results: data }); // Ensure the structure matches your table's expected format
+			// 		oTable.setModel(oJSONModel);
+			// 		oTable.bindItems({
+			// 			path: "/results",
+			// 			template: oTable.getBindingInfo("items").template // Reuse the existing column template
+			// 		});
 
-					function parseValidDate(dateString) {
-						var parsedDate = new Date(dateString);
-						if (isNaN(parsedDate.getTime())) {
-							console.warn("Invalid date format: " + dateString);
-							return null; // Or handle with a default date
-						}
-						return parsedDate;
-					}
-				})
-				.fail(function (xhr, status, error) {
-					// sap.m.MessageBox.error("Error");
-					return;
-				});
+			// 		function parseValidDate(dateString) {
+			// 			var parsedDate = new Date(dateString);
+			// 			if (isNaN(parsedDate.getTime())) {
+			// 				console.warn("Invalid date format: " + dateString);
+			// 				return null; // Or handle with a default date
+			// 			}
+			// 			return parsedDate;
+			// 		}
+			// 	})
+			// 	.fail(function (xhr, status, error) {
+			// 		// sap.m.MessageBox.error("Error");
+			// 		return;
+			// 	});
 
 		}
 	});

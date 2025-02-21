@@ -45,7 +45,7 @@
         <semantic:customFooterContent>
             <Button
                 text="{i18n>Save}"
-                id="acceptButton"
+                id="updateButton"
                 type="Accept"
                 press="onSave"
             />

@@ -5,20 +5,78 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"victoria/models/formatter",
 	"sap/m/MessageToast",
-	"sap/ui/model/Filter"
+	"sap/ui/model/Filter",
+	"sap/ui/export/library",
+	"sap/ui/export/Spreadsheet"
 ], function(
 	BaseController,
 	JSONModel,
 	History,
 	formatter,
 	MessageToast,
-	Filter
+	Filter,
+	exportLibrary,
+	Spreadsheet
 ) {
 	"use strict";
+
+	var EdmType = exportLibrary.EdmType;
 
 	return BaseController.extend("victoria.controller.Customers", {
 
 		formatter: formatter,
+
+		/**
+		 * Download of the customer list as xlsx:
+		 * Code | Customer Name | City Name | Group | Number of Entries.
+		 * Rows are prepared and sorted by code on the server (/customerListData, server.js);
+		 * once received, the xlsx is built on the client.
+		 */
+		onDownloadCustomerList: async function() {
+			var that = this;
+			var oView = this.getView();
+			oView.setBusy(true);
+
+			var aRows;
+			try {
+				aRows = await jQuery.ajax({
+					url: "/customerListData",
+					type: "GET",
+					dataType: "json",
+					headers: {
+						Authorization: this.getOwnerComponent().getModel().getHeaders().Authorization
+					}
+				});
+			} catch (oError) {
+				oView.setBusy(false);
+				this.getErrorMessage(oError);
+				return;
+			}
+
+			try {
+				var oBundle = that.getView().getModel("i18n").getResourceBundle();
+				var oSheet = new Spreadsheet({
+					workbook: {
+						columns: [
+							{ label: oBundle.getText("CustListCode"), property: "CustomerCode", type: EdmType.String, width: 12 },
+							{ label: oBundle.getText("CustListName"), property: "Name", type: EdmType.String, width: 35 },
+							{ label: oBundle.getText("CustListCity"), property: "CityName", type: EdmType.String, width: 20 },
+							{ label: oBundle.getText("CustListGroup"), property: "GroupName", type: EdmType.String, width: 20 },
+							{ label: oBundle.getText("CustListEntries"), property: "EntryCount", type: EdmType.Number, scale: 0, width: 18 }
+						]
+					},
+					dataSource: aRows,
+					fileName: "Customers_" + new Date().toISOString().slice(0, 10) + ".xlsx",
+					worker: false
+				});
+				await oSheet.build();
+				oSheet.destroy();
+			} catch (oError) {
+				MessageToast.show(oError && oError.message ? oError.message : String(oError));
+			} finally {
+				oView.setBusy(false);
+			}
+		},
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */
@@ -815,47 +873,33 @@ sap.ui.define([
 			var found = getCustomerCode(customerCode);
 			var typeModel = this.getView().getModel("typec");
 
-			var flg = true;
-			// await this.validateCustomer(customerCode,flg);
-
-			var that = this;
+			// Customer may be deleted only if it is not used in any of these tables (Entry is also enforced on the server)
 			var tables = ["/Entrys", "/OrderHeaders", "/WSOrderHeaders", "/CustomerOrders", "/BookingDetails", "/BookingDlvDetails", "/Kacchis"];
 			var oFilter = new sap.ui.model.Filter("Customer", "EQ", "'" + customerCode + "'");
+			var blocked = false;
 			for (var i = 0; i < tables.length; i++) {
-
-
-				await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
+				try {
+					var oData = await this.ODataHelper.callOData(this.getOwnerComponent().getModel(), tables[i],
 						"GET", {
 							filters: [oFilter]
-						}, {}, this)
-					.then(function(oData) {
-
-						if (oData.results.length > 0) {
-							that.Errmsg();
-							flg = true;
-							// break;
-						} else {
-							flg = false;
-						}
-
-					}).catch(function(oError) {
-						var oPopover = that.getErrorMessage(oError);
-					});
-
-				if (flg === true) {
-					// this.deleteCnfCustomer();
+						}, {}, this);
+					if (oData.results.length > 0) {
+						blocked = true;
+						this.Errmsg();
+						break;
+					}
+				} catch (oError) {
+					// could not verify usage -> do not delete
+					blocked = true;
+					this.getErrorMessage(oError);
 					break;
-					that.getView().setBusy(false);
 				}
 			}
+			this.getView().setBusy(false);
 
-			if (flg === false) {
+			if (!blocked) {
 				this.deleteCnfCustomer(customerCode, customerModel);
-				this.getView().setBusy(false);
 			}
-
-
-
 		},
 
 		// validateCustomer:async function(customerCode,flg){
@@ -891,7 +935,7 @@ sap.ui.define([
 		// },
 
 		Errmsg: function() {
-			MessageToast.show(that.resourceBundle.getText("Customer1"));
+			MessageToast.show(this.resourceBundle.getText("Customer1"));
 			this.getView().setBusy(false);
 		},
 		deleteCnfCustomer: function(customerCode, customerModel) {
@@ -926,7 +970,10 @@ sap.ui.define([
 									// // that._onRouteMatched();
 									that.clearCustomer();
 								}).catch(function(oError) {
-									MessageToast.show(that.resourceBundle.getText("Delete2"));
+									// server rejects deletion when the customer has entries
+									var sText = (oError && oError.responseText) || "";
+									MessageToast.show(that.resourceBundle.getText(
+										sText.indexOf("CUSTOMER_HAS_ENTRIES") !== -1 ? "Customer1" : "Delete2"));
 								});
 
 							// sap.m.MessageToast.show("Selected records are deleted");

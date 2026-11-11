@@ -236,47 +236,28 @@ this.getView().byId("acceptButton").focus();
 
 			var found = getGroupCode(groupCode);
 			if (found.length > 0) {
-				if (!this.customerGroupInfo(found[0].groupName)) {
-					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							"/Groups('" + found[0].id + "')", "DELETE", {}, {}, this)
-						.then(function(oData) {
-							MessageToast.show(that.resourceBundle.getText("Delete1"));
-							groupModel.getData().groupCode = "";
-							groupModel.getData().groupName = "";
-							groupModel.getData().description = "";
-							groupModel.refresh();
-							that._onRouteMatched();
-						}).catch(function(oError) {
-							MessageToast.show(that.resourceBundle.getText("Delete2"));
-						});
-				} else {
-					MessageToast.show(that.resourceBundle.getText("Groups1"));
-				}
-
+				// The server rejects the delete if any customer of the group has an Entry (GROUP_HAS_ENTRIES)
+				that.getView().setBusy(true);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/Groups('" + found[0].id + "')", "DELETE", {}, {}, this)
+					.then(function(oData) {
+						that.getView().setBusy(false);
+						MessageToast.show(that.resourceBundle.getText("Delete1"));
+						groupModel.getData().groupCode = "";
+						groupModel.getData().groupName = "";
+						groupModel.getData().description = "";
+						groupModel.refresh();
+						that._onRouteMatched();
+					}).catch(function(oError) {
+						that.getView().setBusy(false);
+						var sText = (oError && oError.responseText) || "";
+						MessageToast.show(that.resourceBundle.getText(
+							sText.indexOf("GROUP_HAS_ENTRIES") !== -1 ? "GroupHasEntries" : "Delete2"));
+					});
 			} else {
 				MessageToast.show(that.resourceBundle.getText("available11"));
 			}
 
-		},
-
-		customerGroupInfo: function(groupName) {
-			var customerModel = this.getView().getModel("customerModelInfo");
-			var oDataCustomer = customerModel.getData().results;
-
-			function getCustomerGroup(cityName) {
-				return oDataCustomer.filter(
-					function(data) {
-						return data.Group === groupName;
-					}
-				);
-			}
-
-			var found = getCustomerGroup(groupName);
-			if (found.length > 0) {
-				return true;
-			} else {
-				return false;
-			}
 		},
 
 		saveGroup: function() {

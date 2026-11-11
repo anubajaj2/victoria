@@ -11770,6 +11770,48 @@ app.start = function() {
 
 		})
 
+		// Customer list for the client side xlsx download (Customers screen):
+		// [{CustomerCode, Name, CityName, GroupName, EntryCount}] sorted by CustomerCode
+		app.get('/customerListData', async function (req, res) {
+			if (!req.accessToken) {
+				return res.status(401).send({ message: "Unauthorized" });
+			}
+			try {
+				var Customer = app.models.Customer;
+				// entry count per customer, aggregated in MongoDB instead of loading all entries
+				var entryCollection = app.models.Entry.getDataSource().connector.collection(app.models.Entry.modelName);
+
+				var results = await Promise.all([
+					Customer.find({ fields: { id: true, CustomerCode: true, Name: true, City: true, Group: true } }),
+					app.models.City.find({ fields: { id: true, cityName: true } }),
+					app.models.Group.find({ fields: { id: true, groupName: true } }),
+					entryCollection.aggregate([{ $group: { _id: "$Customer", n: { $sum: 1 } } }]).toArray()
+				]);
+
+				var mCity = {}, mGroup = {}, mEntries = {};
+				results[1].forEach(function (c) { mCity[String(c.id)] = c.cityName; });
+				results[2].forEach(function (g) { mGroup[String(g.id)] = g.groupName; });
+				results[3].forEach(function (e) { mEntries[String(e._id)] = e.n; });
+
+				var rows = results[0].map(function (cust) {
+					return {
+						CustomerCode: cust.CustomerCode || "",
+						Name: cust.Name || "",
+						CityName: mCity[String(cust.City)] || "",
+						GroupName: mGroup[String(cust.Group)] || "",
+						EntryCount: mEntries[String(cust.id)] || 0
+					};
+				}).sort(function (a, b) {
+					return a.CustomerCode.localeCompare(b.CustomerCode, undefined, { numeric: true, sensitivity: "base" });
+				});
+
+				res.send(rows);
+			} catch (err) {
+				console.error("customerListData failed:", err);
+				res.status(500).send({ message: "Could not build customer list" });
+			}
+		});
+
 
 	});
 };

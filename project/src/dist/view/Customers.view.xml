@@ -27,6 +27,12 @@
                 type="Ghost"
             />
             <Button
+                tooltip="{i18n>CustListDownload}"
+                icon="sap-icon://excel-attachment"
+                press="onDownloadCustomerList"
+                type="Ghost"
+            />
+            <Button
                 icon="sap-icon://full-screen"
                 id="idFullScreenBtn"
                 tooltip="{i18n>fullscreen}"
